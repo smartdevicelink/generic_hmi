@@ -1,0 +1,26 @@
+@import 'vendor/bourbon/bourbon';
+
+#app {
+    width: 960px;
+    height: 675px;
+    border: 1px solid red;
+}
+
+.app__header {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(space-between);
+
+    padding: 0 25px;
+}
+
+.media-player-body {
+    height: 325px;
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+}
+
+.progress-bar {
+    height: 100px;
+    border-bottom: 1px solid red;
+}
