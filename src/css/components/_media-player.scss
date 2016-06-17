@@ -9,7 +9,13 @@
 
 .media-track {
     margin-top: 50px;
+    padding-top: 10px;
     width: 500px;
     height: 275px;
-    border: 1px solid color(white);
+
+    text-align: center;
+
+    &__time {
+        margin-top: 35px;
+    }
 }

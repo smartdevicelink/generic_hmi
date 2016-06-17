@@ -8,7 +8,11 @@ export default class ProgressBar extends React.Component {
     render() {
         return (
             <div className="control-bar">
-                <p>control</p>
+                <div className="control-bar__control"></div>
+                <div className="control-bar__control"></div>
+                <div className="control-bar__control"></div>
+                <div className="control-bar__control"></div>
+                <div className="control-bar__control"></div>
             </div>
         )
     }

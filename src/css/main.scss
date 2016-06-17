@@ -11,6 +11,7 @@
 @import 'base/fonts';
 @import 'base/colors';
 @import 'base/base';
+@import 'base/typography';
 
 // components
 @import 'components/app-header';
@@ -18,3 +19,4 @@
 @import 'components/progress-bar';
 @import 'components/control-bar';
 @import 'components/album-art';
+@import 'components/app-icon';

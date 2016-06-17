@@ -13,7 +13,7 @@ export default class MediaPlayer extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader appName="Spotify" />
+                <AppHeader appName="App Name" />
                 <MediaPlayerBody />
                 <ProgressBar />
                 <ControlBar />

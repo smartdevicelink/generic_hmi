@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AppIcon from './AppIcon';
+
 export default class AppHeader extends React.Component {
     constructor(props) {
         super(props);
@@ -9,14 +11,12 @@ export default class AppHeader extends React.Component {
         return (
             <div className="app__header">
                 <div>
-                    <a href="">Menu Link</a>
+                    <a href="" className="t-small t-medium fc-white t-ls1">MENU</a>
                 </div>
                 <div>
-                    <p>{this.props.appName}</p>
+                    <p className="t-small t-light fc-white">{this.props.appName}</p>
                 </div>
-                <div>
-                    <p>app</p>
-                </div>
+                <AppIcon />
             </div>
         )
     }
