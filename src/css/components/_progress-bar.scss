@@ -8,7 +8,6 @@
     &__progress {
         position: absolute;
         @include calc('height', '100% + 2px');
-        width: 75%;
         background: color(bright-blue);
     }
 }
