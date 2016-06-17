@@ -14,9 +14,9 @@ export default class MediaPlayerBody extends React.Component {
                 <div className="media-track">
                     <p className="t-small t-medium fc-white">mainField3</p>
                     <p className="t-large t-light fc-white">mainField1</p>
-                    <p className="t-large t-light fc-asphalt">mainField1</p>
+                    <p className="t-large t-light fc-slate">mainField1</p>
                     <div className="media-track__time">
-                        <span className="t-small t-medium fc-bright-blue">startTime </span><span className="t-small t-medium fc-asphalt">/ endTime</span>
+                        <span className="t-small t-medium fc-bright-blue">startTime </span><span className="t-small t-medium fc-slate">/ endTime</span>
                     </div>
                 </div>
             </div>
