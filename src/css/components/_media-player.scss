@@ -1,0 +1,15 @@
+.media-player-body {
+    @include display(flex);
+    @include justify-content(space-between);
+    height: 325px;
+    padding: 0 55px;
+    position: relative;
+    z-index: 100;
+}
+
+.media-track {
+    margin-top: 50px;
+    width: 500px;
+    height: 275px;
+    border: 1px solid color(white);
+}

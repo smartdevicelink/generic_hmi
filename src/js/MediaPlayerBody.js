@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AlbumArt from './AlbumArt';
+
 export default class MediaPlayerBody extends React.Component {
     constructor(props) {
         super(props);
@@ -8,7 +10,10 @@ export default class MediaPlayerBody extends React.Component {
     render() {
         return (
             <div className="media-player-body">
-                <p>media body here</p>
+                <AlbumArt />
+                <div className="media-track">
+
+                </div>
             </div>
         )
     }

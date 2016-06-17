@@ -1,26 +1,20 @@
+// vendor
 @import 'vendor/bourbon/bourbon';
 
-#app {
-    width: 960px;
-    height: 675px;
-    border: 1px solid red;
-}
+// utils
+@import 'utils/variables';
+@import 'utils/mixins';
+@import 'utils/functions';
 
-.app__header {
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(space-between);
+// base
+@import 'base/reset';
+@import 'base/fonts';
+@import 'base/colors';
+@import 'base/base';
 
-    padding: 0 25px;
-}
-
-.media-player-body {
-    height: 325px;
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
-}
-
-.progress-bar {
-    height: 100px;
-    border-bottom: 1px solid red;
-}
+// components
+@import 'components/app-header';
+@import 'components/media-player';
+@import 'components/progress-bar';
+@import 'components/control-bar';
+@import 'components/album-art';

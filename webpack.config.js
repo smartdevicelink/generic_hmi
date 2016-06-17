@@ -38,6 +38,10 @@ module.exports = {
                     'react-hot',
                     'babel?presets[]=stage-0,presets[]=react,presets[]=es2015'
                 ]
+            },
+            {
+                test: /\.(svg|eot|ttf|woff|woff2)$/,
+                loaders: ['file?name=/fonts/[hash].[ext]']
             }
         ]
     }

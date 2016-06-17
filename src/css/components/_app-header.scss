@@ -1,0 +1,13 @@
+.app__header {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(space-between);
+
+    position: relative;
+    z-index: 1000;
+
+    height: 75px;
+    padding: 0 25px;
+
+    background-image: linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0.0));
+}

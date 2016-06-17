@@ -1,0 +1,7 @@
+.album-art {
+    @include size(325px);
+    @include transform(translateY(50px));
+    background: color(aluminum);
+    box-shadow: 0 20px 40px 0 rgba(color(black),0.75);
+    border-radius: 4px;
+}

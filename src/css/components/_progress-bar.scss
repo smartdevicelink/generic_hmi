@@ -1,0 +1,14 @@
+.progress-bar {
+    position: relative;
+    height: 100px;
+
+    background: color(black);
+    border-bottom: 2px solid color(asphalt);
+
+    &__progress {
+        position: absolute;
+        @include calc('height', '100% + 2px');
+        width: 75%;
+        background: color(bright-blue);
+    }
+}

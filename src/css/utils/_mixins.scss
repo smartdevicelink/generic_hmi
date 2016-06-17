@@ -1,0 +1,21 @@
+@mixin color-helper($namespace, $property, $colors) {
+    @each $item, $color in $colors {
+        @if type-of($color) == "map" {
+            @each $map-item, $map-color in $color {
+                @if $map-item == "base" {
+                    .#{$namespace}-#{$item} {
+                        #{$property}: #{$map-color};
+                    }
+                } @else {
+                    .#{$namespace}-#{$item}--#{$map-item} {
+                        #{$property}: #{$map-color};
+                    }
+                }
+            }
+        } @else {
+            .#{$namespace}-#{$item} {
+                #{$property}: #{$color};
+            }
+        }
+    }
+}
