@@ -1,16 +1,23 @@
 .launcher-item {
+    display: block;
     width: 325px;
     height: 250px;
-    float: left;
     margin: 0 25px 25px 0;
 
     text-align: center;
+    text-decoration: none;
+    color: color(white);
     border: 2px solid color(black);
 
     &__image {
         @include size(150px);
         margin: 25px auto 12px;
-        
+
         box-shadow: $base-box-shadow;
+        border-radius: 4px;
+
+        img {
+            max-width: 100%;
+        }
     }
 }

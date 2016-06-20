@@ -12,5 +12,6 @@ import { Router, Route, hashHistory } from 'react-router'
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path="/" component={HMIMenu} />
+        <Route path="/media" component={MediaPlayer} />
     </Router>
 ), document.getElementById('app'));
