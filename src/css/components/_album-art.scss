@@ -1,7 +1,7 @@
 .album-art {
     @include size(325px);
     @include transform(translateY(50px));
-    box-shadow: 0 20px 40px 0 rgba(color(black),0.75);
+    box-shadow: $base-box-shadow;
     border-radius: 4px;
 
     img {
