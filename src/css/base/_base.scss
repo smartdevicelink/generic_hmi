@@ -3,6 +3,7 @@ body {
     font-weight: normal;
     font-size: 15px;
     margin: 25px;
+    overflow: hidden;
 }
 
 #app {
@@ -13,3 +14,5 @@ body {
 
     background: color(tire);
 }
+
+$base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
