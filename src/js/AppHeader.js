@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import iconMenu from '../img/icons/icon-menu.svg';
-
 import AppIcon from './AppIcon';
 
 export default class AppHeader extends React.Component {
@@ -18,7 +16,6 @@ export default class AppHeader extends React.Component {
                 </div>
                 <div>
                     <p className="t-small t-light th-f-color">
-                        <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconMenu}} />
                         {this.props.appName}
                     </p>
                 </div>

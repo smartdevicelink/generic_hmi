@@ -9,6 +9,27 @@
     height: 75px;
     padding: 0 25px;
 
+    div {
+        @include flex(1);
+        &:nth-of-type(2) {
+            text-align: center;
+        }
+
+        &:nth-of-type(3) {
+            text-align: right;
+        }
+
+        span svg {
+            width: 14px;
+            margin-left: 16px;
+        }
+    }
+
+    span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
     a {
         text-decoration: none;
         text-transform: uppercase;
