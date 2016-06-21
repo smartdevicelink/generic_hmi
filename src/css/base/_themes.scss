@@ -1,5 +1,3 @@
-
-
 .dark-theme {
     .app-body {
         background: color(tire);
@@ -37,6 +35,10 @@
 
     .th-bg-color {
         background-color: color(black);
+    }
+
+    .svg-wrap svg path {
+        fill: color(white);
     }
 }
 
@@ -77,5 +79,9 @@
 
     .th-bg-color {
         background-color: color(white);
+    }
+
+    .svg-wrap svg path {
+        fill: color(black);
     }
 }

@@ -30,6 +30,7 @@
     "sass-loader": "^3.1.2",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.0",
+    "svg-inline-loader": "^0.4.1",
     "svgo": "^0.6.1",
     "svgo-loader": "^1.1.0",
     "url-loader": "^0.5.6",
