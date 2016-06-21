@@ -12,7 +12,7 @@ export default class AppHeader extends React.Component {
         return (
             <div className="app__header">
                 <div>
-                    <Link to="/" href="" className="t-small t-medium th-f-color t-ls1">MENU</Link>
+                    <Link to="/" href="" className="t-small t-medium th-f-color t-ls1">{this.props.menuName}</Link>
                 </div>
                 <div>
                     <p className="t-small t-light th-f-color">{this.props.appName}</p>
