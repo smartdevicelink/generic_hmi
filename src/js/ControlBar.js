@@ -7,12 +7,12 @@ export default class ProgressBar extends React.Component {
 
     render() {
         return (
-            <div className="control-bar">
-                <div className="control-bar__control"></div>
-                <div className="control-bar__control"></div>
-                <div className="control-bar__control"></div>
-                <div className="control-bar__control"></div>
-                <div className="control-bar__control"></div>
+            <div className="control-bar th-bg-color">
+                <div className="control-bar__control th-b-color-secondary"></div>
+                <div className="control-bar__control th-b-color-secondary"></div>
+                <div className="control-bar__control th-b-color-secondary"></div>
+                <div className="control-bar__control th-b-color-secondary"></div>
+                <div className="control-bar__control th-b-color-secondary"></div>
             </div>
         )
     }

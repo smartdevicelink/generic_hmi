@@ -7,13 +7,13 @@
     text-align: center;
     text-decoration: none;
     color: color(white);
-    border: 2px solid color(black);
+    border: 2px solid;
 
     &__image {
         @include size(150px);
         margin: 25px auto 12px;
 
-        box-shadow: $base-box-shadow;
+        
         border-radius: 4px;
 
         img {

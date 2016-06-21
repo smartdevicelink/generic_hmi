@@ -15,7 +15,7 @@ export default class ProgressBar extends React.Component {
         }
 
         return (
-            <div className="progress-bar">
+            <div className="progress-bar th-bg-color th-bb-color">
                 <div className="progress-bar__progress" style={ progress }></div>
             </div>
         )
