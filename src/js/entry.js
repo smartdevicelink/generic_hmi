@@ -28,7 +28,7 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div className="toggle-button" onClick={this.handleClick}>Click to toggle theme.</div>
+                <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
             </div>
         )
     }
