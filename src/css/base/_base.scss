@@ -11,4 +11,19 @@ body {
     height: 675px;
 }
 
+.toggle-button {
+    margin-top: 20px;
+    width: 200px;
+    border: 1px solid color(black);
+    border-radius: 2px;
+    text-align: center;
+    padding: 20px 0;
+
+    &:hover {
+        cursor: pointer;
+        background: color(black);
+        color: color(white);
+    }
+}
+
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
