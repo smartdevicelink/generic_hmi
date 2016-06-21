@@ -1,7 +1,6 @@
 .album-art {
     @include size(325px);
     @include transform(translateY(50px));
-    box-shadow: $base-box-shadow;
     border-radius: 4px;
 
     img {

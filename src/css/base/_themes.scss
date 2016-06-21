@@ -1,0 +1,81 @@
+
+
+.dark-theme {
+    .app-body {
+        background: color(tire);
+    }
+
+    .app__header {
+        background-image: -webkit-linear-gradient(#000000, rgba(0, 0, 0, 0.0));
+        background-image: -o-linear-gradient(#000000, rgba(0, 0, 0, 0.0));
+        background-image: linear-gradient(#000000, rgba(0, 0, 0, 0.0));
+    }
+
+    .th-f-color {
+        color: color(white);
+    }
+
+    .th-f-color-secondary {
+        color: color(slate);
+    }
+
+    .th-b-color {
+        border-color: color(black);
+    }
+
+    .th-b-color-secondary {
+        border-color: color(white);
+    }
+
+    .th-box-shadow {
+        box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
+    }
+
+    .th-bb-color {
+        border-bottom-color: color(asphalt);
+    }
+
+    .th-bg-color {
+        background-color: color(black);
+    }
+}
+
+.light-theme {
+    .app-body {
+        background: color(glass);
+    }
+
+    .app__header {
+        background-image: -webkit-linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.0));
+        background-image: -o-linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.0));
+        background-image: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.0));
+    }
+
+    .th-f-color {
+        color: color(tire);
+    }
+
+    .th-f-color-secondary {
+        color: color(steel);
+    }
+
+    .th-b-color {
+        border-color: color(white);
+    }
+
+    .th-b-color-secondary {
+        border-color: color(black);
+    }
+
+    .th-box-shadow {
+        box-shadow: 0 20px 40px 0 rgba(color(black), 0.25);
+    }
+
+    .th-bb-color {
+        border-bottom-color: color(aluminum);
+    }
+
+    .th-bg-color {
+        background-color: color(white);
+    }
+}

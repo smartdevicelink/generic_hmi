@@ -4,11 +4,11 @@
     @include align-items(center);
     height: 175px;
     padding: 0 125px;
-    
+
     background: color(black);
 
     &__control {
         @include size(75px);
-        border: 1px solid color(white);
+        border: 1px solid;
     }
 }

@@ -8,7 +8,7 @@ export default class AlbumArt extends React.Component {
     render() {
         return (
             <div className="album-art">
-                <img src={this.props.image} />
+                <img className="th-box-shadow" src={this.props.image} />
             </div>
         )
     }

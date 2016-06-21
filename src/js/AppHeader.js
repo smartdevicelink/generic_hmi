@@ -12,10 +12,10 @@ export default class AppHeader extends React.Component {
         return (
             <div className="app__header">
                 <div>
-                    <Link to="/" href="" className="t-small t-medium fc-white t-ls1">MENU</Link>
+                    <Link to="/" href="" className="t-small t-medium th-f-color t-ls1">MENU</Link>
                 </div>
                 <div>
-                    <p className="t-small t-light fc-white">{this.props.appName}</p>
+                    <p className="t-small t-light th-f-color">{this.props.appName}</p>
                 </div>
                 <AppIcon />
             </div>
