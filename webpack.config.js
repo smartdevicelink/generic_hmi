@@ -25,9 +25,8 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(jpe?g|png|gif|svg)$/i,
+                test: /\.(jpe?g|png|gif)$/i,
                 loaders: [
-                    'url?limit=8192',
                     'img'
                 ]
             },
@@ -40,8 +39,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(svg|eot|ttf|woff|woff2)$/,
+                test: /\.(eot|ttf|woff|woff2)$/,
                 loaders: ['file?name=/fonts/[hash].[ext]']
+            },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline'
             }
         ]
     }
