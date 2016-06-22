@@ -1,13 +1,21 @@
-.t-large {
+@mixin t-large() {
     -webkit-font-smoothing: antialiased;
     font-size: 40px;
     line-height: 1.2;
 }
 
-.t-small {
+.t-large {
+    @include t-large();
+}
+
+@mixin t-small() {
     -webkit-font-smoothing: antialiased;
     font-size: 25px;
     line-height: 2;
+}
+
+.t-small {
+    @include t-small();
 }
 
 .t-light {

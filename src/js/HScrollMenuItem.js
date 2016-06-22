@@ -6,13 +6,17 @@ export default class HScrollMenuItem extends React.Component {
         super(props);
     }
     render() {
+        const { menuItem } = this.props;
+        const graphic = this.props.menuItem.class == 'with-icon' ?
+        (<span className="svg-wrap" dangerouslySetInnerHTML={{__html: `${menuItem.image}`}} />)
+        : <img className="th-box-shadow" src={menuItem.image} /> ;
         return (
-            <Link to={this.props.menuItem.link} className="hscrollmenu-item th-b-color">
+            <Link to={menuItem.link} className={`hscrollmenu-item th-b-color ${menuItem.class}`}>
                 <div className="hscrollmenu-item__image">
-                    <img className="th-box-shadow" src={this.props.menuItem.image} />
+                    { graphic }
                 </div>
                 <div className="hscrollmenu-item__name">
-                    <p className="t-small t-light th-f-color">{this.props.menuItem.name}</p>
+                    <p className="t-small t-light th-f-color">{menuItem.name}</p>
                 </div>
             </Link>
         )
