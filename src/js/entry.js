@@ -4,6 +4,7 @@ import '../css/main.scss';
 // import react and js
 import MediaPlayer from './MediaPlayer';
 import HMIMenu from './HMIMenu';
+import InAppMenu from './InAppMenu';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
@@ -40,6 +41,7 @@ ReactDOM.render((
         <Router history={hashHistory}>
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
+            <Route path="/inappmenu" component={InAppMenu} />
         </Router>
     </HMIApp>
 ), document.getElementById('app'));
