@@ -7,11 +7,11 @@ export default class HScrollMenuItem extends React.Component {
     }
     render() {
         return (
-            <Link to={this.props.menuItem.link} className="launcher-item th-b-color">
-                <div className="launcher-item__image">
+            <Link to={this.props.menuItem.link} className="hscrollmenu-item th-b-color">
+                <div className="hscrollmenu-item__image">
                     <img className="th-box-shadow" src={this.props.menuItem.image} />
                 </div>
-                <div className="launcher-item__name">
+                <div className="hscrollmenu-item__name">
                     <p className="t-small t-light th-f-color">{this.props.menuItem.name}</p>
                 </div>
             </Link>

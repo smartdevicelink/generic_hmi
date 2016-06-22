@@ -12,7 +12,7 @@ export default class HScrollMenu extends React.Component {
             return <div key={menuItem.id + menuItem.name}><HScrollMenuItem menuItem={menuItem} /></div>;
         })
         return (
-            <div className="app-launcher">
+            <div className="hscrollmenu">
                 { menuItems }
             </div>
         )

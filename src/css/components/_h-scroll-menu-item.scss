@@ -1,4 +1,4 @@
-.launcher-item {
+.hscrollmenu-item {
     display: block;
     width: 325px;
     height: 250px;
@@ -13,7 +13,7 @@
         @include size(150px);
         margin: 25px auto 12px;
 
-        
+
         border-radius: 4px;
 
         img {

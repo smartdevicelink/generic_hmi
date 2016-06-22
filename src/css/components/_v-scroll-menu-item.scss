@@ -1,0 +1,29 @@
+.vscrollmenu-item {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+    padding: 50px 55px;
+
+    text-decoration: none;
+    color: color(white);
+
+    border-bottom: 2px solid;
+
+    &__image {
+        @include size(150px);
+        margin: 25px auto 12px;
+
+
+        border-radius: 4px;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .svg-wrap {
+        display: block;
+        width: 26px;
+        height: 44px;
+    }
+}

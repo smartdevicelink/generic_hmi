@@ -5,6 +5,7 @@ import '../css/main.scss';
 import MediaPlayer from './MediaPlayer';
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
+import InAppList from './InAppList';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
@@ -42,6 +43,7 @@ ReactDOM.render((
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/inappmenu" component={InAppMenu} />
+            <Route path="/inapplist" component={InAppList} />
         </Router>
     </HMIApp>
 ), document.getElementById('app'));
