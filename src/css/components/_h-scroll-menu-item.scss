@@ -1,4 +1,4 @@
-.launcher-item {
+.hscrollmenu-item {
     display: block;
     width: 325px;
     height: 250px;
@@ -13,11 +13,23 @@
         @include size(150px);
         margin: 25px auto 12px;
 
-        
         border-radius: 4px;
 
         img {
             max-width: 100%;
+        }
+    }
+
+    &.with-icon {
+        .hscrollmenu-item__image {
+            @include size(50px);
+            margin: 50px auto;
+        }
+        .svg-wrap {
+            @include size(50px);
+        }
+        .t-small {
+            @include t-large();
         }
     }
 }

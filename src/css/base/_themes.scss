@@ -37,7 +37,8 @@
         background-color: color(black);
     }
 
-    .svg-wrap svg path {
+    .svg-wrap svg path,
+    .svg-wrap svg polygon {
         fill: color(white);
     }
 }
@@ -81,7 +82,8 @@
         background-color: color(white);
     }
 
-    .svg-wrap svg path {
+    .svg-wrap svg path,
+    .svg-wrap svg polygon {
         fill: color(black);
     }
 }
