@@ -1,0 +1,15 @@
+.tiles-only-list {
+    height: 600px;
+    overflow-x: scroll;
+    padding: 100px 55px 0;
+
+    @include display(flex);
+    @include flex-direction(column);
+    @include flex-wrap(wrap);
+
+    &:after {
+        content: '';
+        display: inline-block;
+        width: 100px;
+    }
+}
