@@ -11,11 +11,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
 
-import { createStore } from 'redux'
-import { hmi } from './reducers'
-let store = createStore(hmi)
-
 import { Provider } from 'react-redux'
+import store from './store'
 
 class HMIApp extends React.Component {
     constructor(props) {
