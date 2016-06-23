@@ -9,7 +9,9 @@ export default class AppHeader extends React.Component {
     }
 
     render() {
+        const icon = this.props.appIcon == 'false' ? (<div />) : <AppIcon /> ;
         return (
+
             <div className="app__header">
                 <div>
                     <Link to={this.props.backLink} href="" className="t-small t-medium th-f-color t-ls1">{this.props.menuName}</Link>
@@ -19,7 +21,7 @@ export default class AppHeader extends React.Component {
                         {this.props.appName}
                     </p>
                 </div>
-                <AppIcon />
+                { icon }
             </div>
         )
     }

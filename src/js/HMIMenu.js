@@ -20,7 +20,7 @@ export default class HMIMenu extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader backLink="" appName="Menu" />
+                <AppHeader appIcon="false" backLink="" appName="Menu" />
                 <HScrollMenu data={data} />
             </div>
         )

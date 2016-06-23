@@ -22,7 +22,7 @@ export default class TilesOnly extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader backLink="" appName="Menu" />
+                <AppHeader backLink="/" menuName="Apps" appName="Menu" />
                 <TilesOnlyList data={data} />
             </div>
         )
