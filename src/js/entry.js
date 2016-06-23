@@ -11,6 +11,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
 
+import { createStore } from 'redux'
+import { hmi } from './reducers'
+let store = createStore(hmi)
+
+import { Provider } from 'react-redux'
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -39,6 +45,7 @@ class HMIApp extends React.Component {
 
 // render
 ReactDOM.render((
+    <Provider store={store}>
     <HMIApp>
         <Router history={hashHistory}>
             <Route path="/" component={HMIMenu} />
@@ -48,4 +55,5 @@ ReactDOM.render((
             <Route path="/tilesonly" component={TilesOnly} />
         </Router>
     </HMIApp>
+    </Provider>
 ), document.getElementById('app'));
