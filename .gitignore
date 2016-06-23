@@ -1,2 +1,7 @@
 # Node Modules
 node_modules/
+
+# webpack output
+index.js
+fonts/
+build/

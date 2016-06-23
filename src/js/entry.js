@@ -14,12 +14,15 @@ import { Router, Route, hashHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import store from './store'
 
+import Controller from './Controllers/Controller'
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dark: true
         }
+        this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
@@ -37,6 +40,12 @@ class HMIApp extends React.Component {
                 <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
             </div>
         )
+    }
+    componentDidMount() {
+        this.sdl.connectToSDL()
+    }
+    componentWillUnmount() {
+        this.sdl.disconnectFromSDL()
     }
 }
 

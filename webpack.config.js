@@ -1,7 +1,9 @@
+var path = require('path')
 module.exports = {
-    entry: getEntrySources(['./src/js/entry.js']),
+    entry: './src/js/entry.js',
     output: {
-        publicPath: 'http://localhost:8080/',
+        path: './',
+        publicPath: path.join('file://', __dirname, './'),
         filename: 'build/bundle.js'
     },
     devtool: 'eval',
