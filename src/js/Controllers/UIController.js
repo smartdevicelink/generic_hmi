@@ -22,6 +22,8 @@ class UIController {
                     rpc.params.softButtons
                 ))
                 return true
+            case "ChangeRegistration":
+                return true
         }
     }
 }

@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList } from '../actions'
+import { updateAppList, activateApp } from '../actions'
 
 class BCController {
     constructor () {
@@ -18,8 +18,7 @@ class BCController {
                 store.dispatch(updateAppList(rpc.params.applications))
                 return true
             case "ActivateApp":
-                // TODO: store.dispatch
-                console.log('app activate')
+                store.dispatch(activateApp(rpc.params.appID))
                 return true
         }
     }
