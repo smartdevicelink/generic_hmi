@@ -1,10 +1,10 @@
 let url = "ws://localhost:8087"
-import BCController from './BCController';
+import bcController from './BCController';
 
 export default class Controller {
     constructor () {
         this.socket = null
-        this.bcController = new BCController;
+        bcController.addListener(this)
         // this.uiController = new UIController;
         // this.vrController = new VRController;
         // this.ttsController = new TTSController;
@@ -126,7 +126,7 @@ export default class Controller {
         }
         switch (componentName) {
             case "BasicCommunication":
-                response = this.bcController.handleRPC(rpc);
+                response = bcController.handleRPC(rpc);
                 break;
             // case "UI":
             // case "Buttons":

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
-import { activateApp } from '../actions'
+import bcController from '../Controllers/BCController'
 
 const mapStateToProps = (state) => {
     console.log(state)
     var data = state.appList.map ((app, index) => {
         return {
-            id: index,
+            id: app.appID,
             class: 'with-image',
             name: app.appName,
             image: '/src/img/app-spotify.png',
@@ -17,11 +17,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        activate: (appID) => {
-            dispatch(activateApp(appID))
-        }
-    }
+    return {}
 }
 
 const AppList = connect(
