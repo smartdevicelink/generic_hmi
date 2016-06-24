@@ -1,6 +1,7 @@
 export const Actions = {
     UPDATE_APP_LIST: "UPDATE_APP_LIST",
-    ACTIVATE_APP: "ACTIVATE_APP"
+    ACTIVATE_APP: "ACTIVATE_APP",
+    SHOW: "SHOW"
 }
 
 export const updateAppList = (applications) => {
@@ -14,5 +15,15 @@ export const activateApp = (appID) => {
     return {
         type: Actions.ACTIVATE_APP,
         activeApp: appID
+    }
+}
+
+export const show = (appID, showStrings, graphic, softButtons) => {
+    return {
+        type: Actions.SHOW,
+        appID: appID,
+        showStrings: showStrings,
+        graphic: graphic,
+        softButtons: softButtons
     }
 }

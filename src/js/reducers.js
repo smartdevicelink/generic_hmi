@@ -11,11 +11,33 @@ function appList(state = [], action) {
             return state
     }
 }
-
-function activeApp(state = null, action) {
+        // type: Actions.SHOW,
+        // appID: appID,
+        // showStrings: showStrings,
+        // graphic: graphic,
+        // softButtons: softButtons
+function ui(state = {activeApp: null}, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
             return { ...state, activeApp: action.activeApp }
+        case Actions.SHOW:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : {
+                showStrings: null,
+                graphic: null,
+                softButtons: null
+            }
+            newState[action.appID] = app
+            if (action.showStrings) {
+                app.showStrings = action.showStrings
+            }
+            if (action.graphic) {
+                app.graphic = action.graphic
+            }
+            if (action.softButtons) {
+                app.softButtons = action.softButtons
+            }
+            return newState
         default:
             return state
     }
@@ -23,5 +45,5 @@ function activeApp(state = null, action) {
 
 export const hmi = combineReducers({
     appList,
-    activeApp
+    ui
 })

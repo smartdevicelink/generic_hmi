@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AppHeader from './AppHeader';
-import MediaPlayerBody from './MediaPlayerBody';
+import { MediaMetadata } from './containers/Metadata';
 import ProgressBar from './ProgressBar';
 import ControlBar from './ControlBar';
 
@@ -14,7 +14,7 @@ export default class MediaPlayer extends React.Component {
         return (
             <div>
                 <AppHeader backLink="/" menuName="Apps" appName="Spotify" />
-                <MediaPlayerBody />
+                <MediaMetadata />
                 <ProgressBar />
                 <ControlBar />
             </div>

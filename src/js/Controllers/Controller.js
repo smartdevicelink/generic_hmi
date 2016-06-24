@@ -1,5 +1,6 @@
 let url = "ws://localhost:8087"
 import bcController from './BCController';
+import uiController from './UIController';
 
 export default class Controller {
     constructor () {
@@ -128,10 +129,10 @@ export default class Controller {
             case "BasicCommunication":
                 response = bcController.handleRPC(rpc);
                 break;
-            // case "UI":
-            // case "Buttons":
-            //     response = this.uiController.handleRPC(rpc);
-            //     break;
+            case "UI":
+            case "Buttons":
+                response = uiController.handleRPC(rpc);
+                break;
             // case "VR":
             //     response = this.vrController.handleRPC(rpc);
             //     break;
