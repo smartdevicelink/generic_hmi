@@ -1,12 +1,44 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
 
+function newAppState () {
+    return {
+        showStrings: null,
+        graphic: null,
+        softButtons: null,
+        icon: {
+            imageType: null,
+            value: null
+        }
+    }
+}
+
 // expected format of appList:
+    // var data = state.appList.map ((app, index) => {
+    //     console.log(app.icon.value)
+    //     return {
+    //         id: app.appID,
+    //         class: 'with-image',
+    //         name: app.appName,
+    //         image: app.icon.value,
+    //         link: '/media'
+    //     }
+    // })
+
 
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
             return action.appList
+        case Actions.SET_APP_ICON:
+            var newState = state.map((app, index) => {
+                if (app.appID === action.appID) {
+                    return { ...app, icon: action.icon }
+                } else {
+                    return { ...app }
+                }
+            })
+            return newState
         default:
             return state
     }
@@ -22,11 +54,7 @@ function ui(state = {activeApp: null}, action) {
             return { ...state, activeApp: action.activeApp }
         case Actions.SHOW:
             var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : {
-                showStrings: null,
-                graphic: null,
-                softButtons: null
-            }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             if (action.showStrings) {
                 app.showStrings = action.showStrings

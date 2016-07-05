@@ -5,11 +5,12 @@ import bcController from '../Controllers/BCController'
 const mapStateToProps = (state) => {
     console.log(state)
     var data = state.appList.map ((app, index) => {
+        console.log(app.icon.value)
         return {
             id: app.appID,
             class: 'with-image',
             name: app.appName,
-            image: '/src/img/app-spotify.png',
+            image: app.icon.value,
             link: '/media'
         }
     })

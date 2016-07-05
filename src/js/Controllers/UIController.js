@@ -1,5 +1,5 @@
 import RpcFactory from './RpcFactory'
-import { show } from '../actions'
+import { show, setAppIcon } from '../actions'
 import store from '../store'
 
 class UIController {
@@ -21,6 +21,9 @@ class UIController {
                     rpc.params.graphic,
                     rpc.params.softButtons
                 ))
+                return true
+            case "SetAppIcon":
+                store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
                 return true
             case "ChangeRegistration":
                 return true
