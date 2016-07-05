@@ -3,17 +3,16 @@ import HScrollMenu from '../HScrollMenu'
 import bcController from '../Controllers/BCController'
 
 const mapStateToProps = (state) => {
-    console.log(state)
     var data = state.appList.map ((app, index) => {
-        console.log(app.icon.value)
         return {
             id: app.appID,
             class: 'with-image',
             name: app.appName,
-            image: app.icon.value,
+            image: app.icon,
             link: '/media'
         }
     })
+    console.log('applist', data)
     return {data: data}
 }
 

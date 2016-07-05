@@ -3,37 +3,32 @@ import { Actions } from './actions';
 
 function newAppState () {
     return {
-        showStrings: null,
+        showStrings: [],
         graphic: null,
-        softButtons: null,
-        icon: {
-            imageType: null,
-            value: null
-        }
+        softButtons: [],
+        icon: null
     }
 }
-
-// expected format of appList:
-    // var data = state.appList.map ((app, index) => {
-    //     console.log(app.icon.value)
-    //     return {
-    //         id: app.appID,
-    //         class: 'with-image',
-    //         name: app.appName,
-    //         image: app.icon.value,
-    //         link: '/media'
-    //     }
-    // })
-
 
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
-            return action.appList
+            var newState = action.appList.map((app, index) => {
+                // If there is on icon on the app in the current list, transfer it over
+                var match = state.find((test) => {
+                    return app.appID === test.appID
+                })
+                if (match) {
+                    app.icon = match.icon
+                }
+                return app
+            })
+            console.log("after update app list", newState)
+            return newState
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
-                    return { ...app, icon: action.icon }
+                    return { ...app, icon: action.icon.value }
                 } else {
                     return { ...app }
                 }
@@ -43,11 +38,6 @@ function appList(state = [], action) {
             return state
     }
 }
-        // type: Actions.SHOW,
-        // appID: appID,
-        // showStrings: showStrings,
-        // graphic: graphic,
-        // softButtons: softButtons
 function ui(state = {activeApp: null}, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
@@ -65,6 +55,12 @@ function ui(state = {activeApp: null}, action) {
             if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
+            return newState
+        case Actions.SET_APP_ICON:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            app.icon = action.icon
             return newState
         default:
             return state
