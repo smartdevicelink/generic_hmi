@@ -27,7 +27,7 @@ cmdIcon: cmdIcon
 
 */
 const mapStateToProps = (state) => {
-    var activeApp = state.ui.activeApp
+    var activeApp = state.activeApp
     var menu = state.ui[activeApp].menu
     var data = menu.map((command) => {
         var dataClass = null
@@ -39,10 +39,11 @@ const mapStateToProps = (state) => {
             link = '/inapplist'
         }
         return {
-            id: command.cmdID,
+            cmdID: command.cmdID,
             class: dataClass,
             name: command.menuName,
             image: command.cmdIcon,
+            appID: activeApp,
             link: link
         }
     })
@@ -50,7 +51,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        onSelection: (appID, cmdID) => {
+            console.log('selected menu item', appID, cmdID)
+        }
+    }
 }
 
 const Menu = connect(

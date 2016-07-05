@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import MediaPlayerBody from '../MediaPlayerBody'
 
 const mapStateToProps = (state) => {
-    var activeApp = state.ui.activeApp
+    var activeApp = state.activeApp
     var metadata = state.ui[activeApp]
     if (metadata === undefined) return {}
     var props = {
@@ -24,7 +24,6 @@ const mapStateToProps = (state) => {
         }
     })
     props.graphic = metadata.graphic ? metadata.graphic.value : "http://www.unrecorded.mu/wp-content/uploads/2014/02/St.-Vincent-St.-Vincent1.jpg"
-    console.log("media player body props", props)
     return props
 }
 

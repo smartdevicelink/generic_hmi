@@ -38,10 +38,16 @@ function appList(state = [], action) {
             return state
     }
 }
-function ui(state = {activeApp: null}, action) {
+function activeApp(state = null, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
-            return { ...state, activeApp: action.activeApp }
+            return action.activeApp
+        default:
+            return state
+    }
+}
+function ui(state = {}, action) {
+    switch (action.type) {
         case Actions.SHOW:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
@@ -104,5 +110,6 @@ function ui(state = {activeApp: null}, action) {
 
 export const hmi = combineReducers({
     appList,
+    activeApp,
     ui
 })
