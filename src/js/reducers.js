@@ -6,7 +6,8 @@ function newAppState () {
         showStrings: [],
         graphic: null,
         softButtons: [],
-        icon: null
+        icon: null,
+        menu: []
     }
 }
 
@@ -23,7 +24,6 @@ function appList(state = [], action) {
                 }
                 return app
             })
-            console.log("after update app list", newState)
             return newState
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
@@ -61,6 +61,41 @@ function ui(state = {activeApp: null}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             app.icon = action.icon
+            return newState
+        case Actions.ADD_COMMAND:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            var menu = app.menu
+            var menuParams = action.menuParams
+            var cmdID = action.cmdID
+            var cmdIcon = action.cmdIcon
+            if (menuParams.parentID) {
+                var subMenu = menu.find((command) => {
+                    return command.menuID === menuParams.parentID
+                })
+                subMenu.subMenu.push({
+                    cmdID: cmdID,
+                    parentID: menuParams.parentID,
+                    position: menuParams.position,
+                    menuName: menuParams.menuName,
+                    cmdIcon: cmdIcon
+                })
+                subMenu.subMenu.sort((a, b) => {
+                    return a.position - b.position
+                })
+            } else {
+                menu.push({
+                    cmdID: cmdID,
+                    parentID: menuParams.parentID,
+                    position: menuParams.position,
+                    menuName: menuParams.menuName,
+                    cmdIcon: cmdIcon
+                })
+                menu.sort((a, b) => {
+                    return a.position - b.position
+                })
+            }
             return newState
         default:
             return state

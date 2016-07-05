@@ -1,6 +1,7 @@
 let url = "ws://localhost:8087"
 import bcController from './BCController';
 import uiController from './UIController';
+import vrController from './VRController';
 
 export default class Controller {
     constructor () {
@@ -133,17 +134,17 @@ export default class Controller {
             case "Buttons":
                 response = uiController.handleRPC(rpc);
                 break;
-            // case "VR":
-            //     response = this.vrController.handleRPC(rpc);
-            //     break;
+            case "VR":
+                response = vrController.handleRPC(rpc);
+                break;
             // case "TTS":
-            //     response = this.ttsController.handleRPC(rpc);
+            //     response = ttsController.handleRPC(rpc);
             //     break;
             // case "Navigation":
-            //     response = this.navController.handleRPC(rpc);
+            //     response = navController.handleRPC(rpc);
             //     break;
             // case "VehicleInfo":
-            //     response = this.vehicleInfoController.handleRPC(rpc);
+            //     response = vehicleInfoController.handleRPC(rpc);
             //     break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail

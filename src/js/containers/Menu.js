@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
 import bcController from '../Controllers/BCController'
 
-///////////////////// TEMP ////////////////////////////////////////////////////
+/*
 
 import iconPlaylists from '../../img/icons/icon-playlists.svg';
 import iconAlbums from '../../img/icons/icon-albums.svg';
@@ -19,10 +19,33 @@ let data = [
     { id: 5, class: 'with-icon', name: 'Songs', image: iconSongs, link: '/inapplist'},
     { id: 6, class: 'with-icon', name: 'Artists', image: iconArtists, link: '/inapplist'},
 ]
+cmdID: cmdID,
+parentID: menuParams.parentID,
+position: menuParams.position,
+menuName: menuParams.menuName,
+cmdIcon: cmdIcon
 
-//////////////////////////////////////////////////////////////////////
-
+*/
 const mapStateToProps = (state) => {
+    var activeApp = state.ui.activeApp
+    var menu = state.ui[activeApp].menu
+    var data = menu.map((command) => {
+        var dataClass = null
+        if (command.cmdIcn) {
+            dataClass = 'with-icon'
+        }
+        var link = '/media' // TODO: only supports media right now
+        if (command.subMenu) {
+            link = '/inapplist'
+        }
+        return {
+            id: command.cmdID,
+            class: dataClass,
+            name: command.menuName,
+            image: command.cmdIcon,
+            link: link
+        }
+    })
     return {data: data}
 }
 

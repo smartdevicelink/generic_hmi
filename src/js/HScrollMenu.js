@@ -7,7 +7,6 @@ export default class HScrollMenu extends React.Component {
     }
 
     render() {
-        console.log(this.props.data)
         let menuItems = this.props.data.map((menuItem) => {
             return <div key={menuItem.id + menuItem.name}><App appID={menuItem.id} menuItem={menuItem} /></div>;
         })

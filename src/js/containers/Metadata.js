@@ -5,10 +5,11 @@ const mapStateToProps = (state) => {
     var activeApp = state.ui.activeApp
     var metadata = state.ui[activeApp]
     if (metadata === undefined) return {}
-    var props = {}
-    props.mainField1 = null
-    props.mainField2 = null
-    props.mainField3 = null
+    var props = {
+        mainField1: null,
+        mainField2: null,
+        mainField3: null
+    }
     metadata.showStrings.map ((textField) => {
         switch (textField.fieldName) {
             case "mainField1":
@@ -23,7 +24,7 @@ const mapStateToProps = (state) => {
         }
     })
     props.graphic = metadata.graphic ? metadata.graphic.value : "http://www.unrecorded.mu/wp-content/uploads/2014/02/St.-Vincent-St.-Vincent1.jpg"
-    console.log('props', props)
+    console.log("media player body props", props)
     return props
 }
 

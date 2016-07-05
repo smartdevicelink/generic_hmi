@@ -8,7 +8,6 @@ export default class MediaPlayerBody extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className="media-player-body">
                 <AlbumArt image={this.props.graphic} />

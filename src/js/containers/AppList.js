@@ -12,7 +12,6 @@ const mapStateToProps = (state) => {
             link: '/media'
         }
     })
-    console.log('applist', data)
     return {data: data}
 }
 
