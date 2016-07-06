@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
-import bcController from '../Controllers/BCController'
+import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 
 const mapStateToProps = (state) => {
@@ -35,10 +35,9 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(activateSubMenu(appID, menuID))
             }
             else if (cmdID) {
-                // TODO: call onCommand
-                // TODO: onContext switch to full
+                uiController.onSystemContext("MAIN", appID)
+                uiController.onCommand(cmdID, appID)
             }
-            
         }
     }
 }

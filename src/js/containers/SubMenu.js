@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
+import uiController from '../Controllers/UIController'
+import { deactivateSubMenu } from '../actions'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -23,8 +25,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, cmdID) => {
-            // TODO: switch app to full
-            // TODO: send onCommand for cmdID
+            uiController.onSystemContext("MAIN", appID)
+            uiController.onCommand(cmdID, appID)
+            dispatch(deactivateSubMenu(appID))
         }
     }
 }

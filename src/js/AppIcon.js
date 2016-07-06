@@ -11,7 +11,7 @@ export default class AppIcon extends React.Component {
     render() {
         return (
             <div>
-                <Link to="/inappmenu">
+                <Link to="/inappmenu" onClick={() => this.props.onSelection(this.props.appID)}>
                     <span className="app-icon"></span>
                     <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconMenu}} />
                 </Link>

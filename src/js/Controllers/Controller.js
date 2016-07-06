@@ -7,7 +7,7 @@ export default class Controller {
     constructor () {
         this.socket = null
         bcController.addListener(this)
-        // this.uiController = new UIController;
+        uiController.addListener(this)
         // this.vrController = new VRController;
         // this.ttsController = new TTSController;
         // this.navController = new NavigationController;

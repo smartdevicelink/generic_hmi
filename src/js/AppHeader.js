@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import AppIcon from './AppIcon';
+import MenuIcon from './containers/MenuIcon';
 
 export default class AppHeader extends React.Component {
     constructor(props) {
@@ -9,7 +9,7 @@ export default class AppHeader extends React.Component {
     }
 
     render() {
-        const icon = this.props.appIcon == 'false' ? (<div />) : <AppIcon /> ;
+        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon /> ;
         return (
 
             <div className="app__header">

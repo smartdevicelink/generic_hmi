@@ -5,7 +5,8 @@ export const Actions = {
     SET_APP_ICON: "SET_APP_ICON",
     ADD_COMMAND: "ADD_COMMAND",
     ADD_SUB_MENU: "ADD_SUB_MENU",
-    ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU"
+    ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
+    DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU"
 }
 
 export const updateAppList = (applications) => {
@@ -63,6 +64,13 @@ export const activateSubMenu = (appID, menuID) => {
     return {
         type: Actions.ACTIVATE_SUB_MENU,
         menuID: menuID,
+        appID: appID
+    }
+}
+
+export const deactivateSubMenu = (appID) => {
+    return {
+        type: Actions.DEACTIVATE_SUB_MENU,
         appID: appID
     }
 }

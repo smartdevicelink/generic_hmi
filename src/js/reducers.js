@@ -126,6 +126,12 @@ function ui(state = {}, action) {
             newState[action.appID] = app
             app.activeSubMenu = action.menuID
             return newState
+        case Actions.DEACTIVATE_SUB_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            app.activeSubMenu = null
+            return newState
         default:
             return state
     }

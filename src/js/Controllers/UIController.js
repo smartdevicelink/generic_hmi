@@ -44,6 +44,12 @@ class UIController {
                 return true
         }
     }
+    onSystemContext(context, appID) {
+        this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
+    }
+    onCommand(cmdID, appID) {
+        this.listener.send(RpcFactory.OnCommandNotification(cmdID, appID))
+    }
 }
 
 let controller = new UIController ()
