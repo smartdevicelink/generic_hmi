@@ -8,7 +8,24 @@
     background: color(black);
 
     &__control {
-        @include size(75px);
-        border: 1px solid;
+        &--primary {
+            height: 75px;
+            width: 60px;
+        }
+        &--secondary {
+            height: 54px;
+            width: 75px;
+        }
+        &--tertiary {
+            @include size(50px);
+        }
+    }
+
+    .svg-wrap {
+        height: 100%;
+        position: relative;
+        svg {
+            max-height: 100%
+        }
     }
 }

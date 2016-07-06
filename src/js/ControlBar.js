@@ -15,11 +15,11 @@ export default class ControlBar extends React.Component {
     render() {
         return (
             <div className="control-bar th-bg-color">
-                <ControlBarItem icon={iconRepeat}/>
-                <ControlBarItem icon={iconSeekLeft}/>
-                <ControlBarItem icon={iconPlay}/>
-                <ControlBarItem icon={iconSeekRight}/>
-                <ControlBarItem icon={iconPlaylists}/>
+                <ControlBarItem class="tertiary" icon={iconRepeat}/>
+                <ControlBarItem class="secondary" icon={iconSeekLeft}/>
+                <ControlBarItem class="primary" icon={iconPlay}/>
+                <ControlBarItem class="secondary"icon={iconSeekRight}/>
+                <ControlBarItem class="tertiary" icon={iconPlaylists}/>
             </div>
         )
     }

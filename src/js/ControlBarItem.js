@@ -7,7 +7,7 @@ export default class ControlBar extends React.Component {
 
     render() {
         return (
-            <div className="control-bar__control th-b-color-secondary">
+            <div className={`control-bar__control th-b-color-secondary control-bar__control--${ this.props.class }`}>
                 <span className="svg-wrap" dangerouslySetInnerHTML={{__html: this.props.icon}} />
             </div>
         )
