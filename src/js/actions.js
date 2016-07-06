@@ -4,6 +4,7 @@ export const Actions = {
     SHOW: "SHOW",
     SET_APP_ICON: "SET_APP_ICON",
     ADD_COMMAND: "ADD_COMMAND",
+    DELETE_COMMAND: "DELETE_COMMAND",
     ADD_SUB_MENU: "ADD_SUB_MENU",
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU"
@@ -48,6 +49,14 @@ export const addCommand = (appID, cmdID, menuParams, cmdIcon) => {
         cmdID: cmdID,
         menuParams: menuParams,
         cmdIcon: cmdIcon
+    }
+}
+
+export const deleteCommand = (appID, cmdID) => {
+    return {
+        type: Actions.DELETE_COMMAND,
+        appID: appID,
+        cmdID: cmdID
     }
 }
 

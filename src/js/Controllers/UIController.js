@@ -1,5 +1,5 @@
 import RpcFactory from './RpcFactory'
-import { show, setAppIcon, addCommand, addSubMenu } from '../actions'
+import { show, setAppIcon, addCommand, addSubMenu, deleteCommand } from '../actions'
 import store from '../store'
 
 class UIController {
@@ -40,6 +40,12 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.menuID,
                     rpc.params.menuParams
+                ))
+                return true
+            case "DeleteCommand":
+                store.dispatch(deleteCommand(
+                    rpc.params.appID,
+                    rpc.params.cmdID
                 ))
                 return true
         }

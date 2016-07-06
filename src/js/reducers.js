@@ -47,6 +47,18 @@ function activeApp(state = null, action) {
             return state
     }
 }
+function deleteCommand(commands, cmdID) {
+    for (var i = 0; i < commands.length; i++) {
+        if (commands[i].cmdID === cmdID) {
+            commands.splice(i, 1)
+            return commands
+        }
+        else if (commands[i].subMenu) {
+            commands[i].subMenu = deleteCommand(commands[i].subMenu, cmdID)
+        }
+    }
+    return commands
+}
 function ui(state = {}, action) {
     switch (action.type) {
         case Actions.SHOW:
@@ -103,6 +115,12 @@ function ui(state = {}, action) {
                     return a.position - b.position
                 })
             }
+            return newState
+        case Actions.DELETE_COMMAND:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            app.menu = deleteCommand(app.menu, action.cmdID)
             return newState
         case Actions.ADD_SUB_MENU:
             var newState = { ...state }
