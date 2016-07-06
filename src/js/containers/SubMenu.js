@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
             appID: activeApp,
             cmdID: command.cmdID,
             name: command.menuName,
-            image: command.cmdIcon,
+            image: command.cmdIcon ? command.cmdIcon.value : undefined,
             link: link
         }
     })

@@ -15,11 +15,12 @@ const mapStateToProps = (state) => {
         if (command.subMenu) {
             link = '/inapplist'
         }
+        console.log(command)
         return {
             cmdID: command.cmdID,
             class: dataClass,
             name: command.menuName,
-            image: command.cmdIcon,
+            image: command.cmdIcon ? command.cmdIcon.value : undefined,
             appID: activeApp,
             link: link,
             menuID: command.menuID
