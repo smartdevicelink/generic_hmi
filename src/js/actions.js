@@ -6,6 +6,7 @@ export const Actions = {
     ADD_COMMAND: "ADD_COMMAND",
     DELETE_COMMAND: "DELETE_COMMAND",
     ADD_SUB_MENU: "ADD_SUB_MENU",
+    DELETE_SUB_MENU: "DELETE_SUB_MENU",
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU"
 }
@@ -66,6 +67,14 @@ export const addSubMenu = (appID, menuID, menuParams) => {
         appID: appID,
         menuID: menuID,
         menuParams: menuParams
+    }
+}
+
+export const deleteSubMenu = (appID, menuID) => {
+    return {
+        type: Actions.DELETE_SUB_MENU,
+        appID: appID,
+        menuID: menuID
     }
 }
 

@@ -138,6 +138,16 @@ function ui(state = {}, action) {
                 return a.position - b.position
             })
             return newState
+        case Actions.DELETE_SUB_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            var menu = app.menu
+            var i = menu.findIndex((command) => {
+                return command.menuID === action.menuID
+            })
+            menu.splice(i, 1)
+            return newState
         case Actions.ACTIVATE_SUB_MENU:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
