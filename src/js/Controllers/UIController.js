@@ -1,5 +1,5 @@
 import RpcFactory from './RpcFactory'
-import { show, setAppIcon, addCommand, addSubMenu, deleteCommand, deleteSubMenu } from '../actions'
+import { show, setAppIcon, addCommand, addSubMenu, deleteCommand, deleteSubMenu, subscribeButton } from '../actions'
 import store from '../store'
 
 class UIController {
@@ -52,6 +52,13 @@ class UIController {
                 store.dispatch(deleteSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID
+                ))
+                return true
+            case "OnButtonSubscription":
+                store.dispatch(subscribeButton(
+                    rpc.params.appID,
+                    rpc.params.name,
+                    rpc.params.isSubscribed
                 ))
                 return true
         }

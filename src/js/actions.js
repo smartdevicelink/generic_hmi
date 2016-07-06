@@ -7,6 +7,7 @@ export const Actions = {
     DELETE_COMMAND: "DELETE_COMMAND",
     ADD_SUB_MENU: "ADD_SUB_MENU",
     DELETE_SUB_MENU: "DELETE_SUB_MENU",
+    SUBSCRIBE_BUTTON: "SUBSCRIBE_BUTTON",
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU"
 }
@@ -75,6 +76,15 @@ export const deleteSubMenu = (appID, menuID) => {
         type: Actions.DELETE_SUB_MENU,
         appID: appID,
         menuID: menuID
+    }
+}
+
+export const subscribeButton = (appID, buttonName, isSubscribed) => {
+    return {
+        type: Actions.SUBSCRIBE_BUTTON,
+        appID: appID,
+        buttonName: buttonName,
+        isSubscribed: isSubscribed
     }
 }
 

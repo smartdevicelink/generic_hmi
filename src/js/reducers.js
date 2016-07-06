@@ -8,7 +8,8 @@ function newAppState () {
         softButtons: [],
         icon: null,
         menu: [],
-        activeSubMenu: null
+        activeSubMenu: null,
+        subscribedButtons: {}
     }
 }
 
@@ -147,6 +148,13 @@ function ui(state = {}, action) {
                 return command.menuID === action.menuID
             })
             menu.splice(i, 1)
+            return newState
+        case Actions.SUBSCRIBE_BUTTON:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            var buttons = app.subscribedButtons
+            buttons[action.buttonName] = action.isSubscribed
             return newState
         case Actions.ACTIVATE_SUB_MENU:
             var newState = { ...state }
