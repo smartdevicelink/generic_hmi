@@ -3,7 +3,9 @@ export const Actions = {
     ACTIVATE_APP: "ACTIVATE_APP",
     SHOW: "SHOW",
     SET_APP_ICON: "SET_APP_ICON",
-    ADD_COMMAND: "ADD_COMMAND"
+    ADD_COMMAND: "ADD_COMMAND",
+    ADD_SUB_MENU: "ADD_SUB_MENU",
+    ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU"
 }
 
 export const updateAppList = (applications) => {
@@ -45,5 +47,22 @@ export const addCommand = (appID, cmdID, menuParams, cmdIcon) => {
         cmdID: cmdID,
         menuParams: menuParams,
         cmdIcon: cmdIcon
+    }
+}
+
+export const addSubMenu = (appID, menuID, menuParams) => {
+    return {
+        type: Actions.ADD_SUB_MENU,
+        appID: appID,
+        menuID: menuID,
+        menuParams: menuParams
+    }
+}
+
+export const activateSubMenu = (appID, menuID) => {
+    return {
+        type: Actions.ACTIVATE_SUB_MENU,
+        menuID: menuID,
+        appID: appID
     }
 }

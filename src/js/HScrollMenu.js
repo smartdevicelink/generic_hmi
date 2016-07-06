@@ -12,6 +12,7 @@ export default class HScrollMenu extends React.Component {
                     <HScrollMenuItem
                         appID={menuItem.appID}
                         cmdID={menuItem.cmdID}
+                        menuID={menuItem.menuID}
                         menuItem={menuItem} 
                         onSelection={this.props.onSelection}/>
                 </div>)

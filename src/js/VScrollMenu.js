@@ -8,8 +8,15 @@ export default class VScrollMenu extends React.Component {
     }
 
     render() {
+        console.log('VScrollMenu props', this.props)
         let menuItems = this.props.data.map((menuItem) => {
-            return <div key={menuItem.id + menuItem.name}><VScrollMenuItem menuItem={menuItem} /></div>;
+            return (<div key={menuItem.cmdID + menuItem.name}>
+                        <VScrollMenuItem
+                            appID={menuItem.appID}
+                            cmdID={menuItem.cmdID}
+                            menuItem={menuItem} 
+                            onSelection={this.props.onSelection}/>
+                    </div>)
         })
         return (
             <div className="vscrollmenu">

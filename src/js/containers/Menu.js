@@ -1,31 +1,8 @@
 import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
 import bcController from '../Controllers/BCController'
+import { activateSubMenu } from '../actions'
 
-/*
-
-import iconPlaylists from '../../img/icons/icon-playlists.svg';
-import iconAlbums from '../../img/icons/icon-albums.svg';
-import iconStations from '../../img/icons/icon-stations.svg';
-import iconSongs from '../../img/icons/icon-songs.svg';
-import iconArtists from '../../img/icons/icon-artists.svg';
-import iconPodcasts from '../../img/icons/icon-podcasts.svg';
-
-let data = [
-    { id: 1, class: 'with-icon', name: 'Playlists', image: iconPlaylists, link: '/media' },
-    { id: 2, class: 'with-icon', name: 'Albums', image: iconAlbums, link: '/inapplist' },
-    { id: 3, class: 'with-icon', name: 'Stations', image: iconStations, link: '/inapplist' },
-    { id: 4, class: 'with-icon', name: 'Podcasts', image: iconPodcasts, link: '/inapplist' },
-    { id: 5, class: 'with-icon', name: 'Songs', image: iconSongs, link: '/inapplist'},
-    { id: 6, class: 'with-icon', name: 'Artists', image: iconArtists, link: '/inapplist'},
-]
-cmdID: cmdID,
-parentID: menuParams.parentID,
-position: menuParams.position,
-menuName: menuParams.menuName,
-cmdIcon: cmdIcon
-
-*/
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var menu = state.ui[activeApp].menu
@@ -44,7 +21,8 @@ const mapStateToProps = (state) => {
             name: command.menuName,
             image: command.cmdIcon,
             appID: activeApp,
-            link: link
+            link: link,
+            menuID: command.menuID
         }
     })
     return {data: data}
@@ -52,8 +30,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID, cmdID) => {
-            console.log('selected menu item', appID, cmdID)
+        onSelection: (appID, cmdID, menuID) => {
+            if (menuID) {
+                dispatch(activateSubMenu(appID, menuID))
+            }
+            else if (cmdID) {
+                // TODO: call onCommand
+                // TODO: onContext switch to full
+            }
+            
         }
     }
 }

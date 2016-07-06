@@ -7,7 +7,8 @@ function newAppState () {
         graphic: null,
         softButtons: [],
         icon: null,
-        menu: []
+        menu: [],
+        activeSubMenu: null
     }
 }
 
@@ -102,6 +103,28 @@ function ui(state = {}, action) {
                     return a.position - b.position
                 })
             }
+            return newState
+        case Actions.ADD_SUB_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            var menu = app.menu
+            menu.push({
+                menuID: action.menuID,
+                parentID: action.menuParams.parentID,
+                position: action.menuParams.position,
+                menuName: action.menuParams.menuName,
+                subMenu: []
+            })
+            menu.sort((a, b) => {
+                return a.position - b.position
+            })
+            return newState
+        case Actions.ACTIVATE_SUB_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            newState[action.appID] = app
+            app.activeSubMenu = action.menuID
             return newState
         default:
             return state

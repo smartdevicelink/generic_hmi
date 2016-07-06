@@ -1,5 +1,5 @@
 import RpcFactory from './RpcFactory'
-import { show, setAppIcon, addCommand } from '../actions'
+import { show, setAppIcon, addCommand, addSubMenu } from '../actions'
 import store from '../store'
 
 class UIController {
@@ -33,6 +33,13 @@ class UIController {
                     rpc.params.cmdID,
                     rpc.params.menuParams,
                     rpc.params.cmdIcon
+                ))
+                return true
+            case "AddSubMenu":
+                store.dispatch(addSubMenu(
+                    rpc.params.appID,
+                    rpc.params.menuID,
+                    rpc.params.menuParams
                 ))
                 return true
         }
