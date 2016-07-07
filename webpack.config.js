@@ -3,7 +3,7 @@ module.exports = {
     entry: './src/js/entry.js',
     output: {
         path: './',
-        publicPath: path.join('file://', __dirname, './'),
+        publicPath: './',
         filename: 'build/bundle.js'
     },
     devtool: 'eval',
