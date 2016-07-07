@@ -69,6 +69,14 @@ class UIController {
     onCommand(cmdID, appID) {
         this.listener.send(RpcFactory.OnCommandNotification(cmdID, appID))
     }
+    onButtonPress(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "SHORT",
+            customButtonID: buttonID
+        }
+        this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
+    }
 }
 
 let controller = new UIController ()
