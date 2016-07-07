@@ -16,9 +16,10 @@ function newAppState () {
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
+            var prevState = state
             var newState = action.appList.map((app, index) => {
                 // If there is on icon on the app in the current list, transfer it over
-                var match = state.find((test) => {
+                var match = prevState.find((test) => {
                     return app.appID === test.appID
                 })
                 if (match) {
