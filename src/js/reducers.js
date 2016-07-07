@@ -16,17 +16,6 @@ function newAppState () {
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
-            // var prevState = state
-            // var newState = action.appList.map((app, index) => {
-            //     // If there is on icon on the app in the current list, transfer it over
-            //     var match = prevState.find((test) => {
-            //         return app.appID === test.appID
-            //     })
-            //     if (match) {
-            //         app.icon = match.icon
-            //     }
-            //     return app
-            // })
             return action.appList
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
@@ -67,13 +56,13 @@ function ui(state = {}, action) {
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
-            if (action.showStrings) {
+            if (action.showStrings && action.showStrings.length > 0) {
                 app.showStrings = action.showStrings
             }
             if (action.graphic) {
                 app.graphic = action.graphic
             }
-            if (action.softButtons) {
+            if (action.softButtons && action.softButtons.length > 0) {
                 app.softButtons = action.softButtons
             }
             return newState
