@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import AppIcon from './AppIcon';
+import AppName from './AppName';
 
 export default class AppHeader extends React.Component {
     constructor(props) {
@@ -16,11 +17,7 @@ export default class AppHeader extends React.Component {
                 <div>
                     <Link to={this.props.backLink} href="" className="t-small t-medium th-f-color t-ls1">{this.props.menuName}</Link>
                 </div>
-                <div>
-                    <p className="t-small t-light th-f-color">
-                        {this.props.appName}
-                    </p>
-                </div>
+                <AppName name={this.props.appName}/>
                 { icon }
             </div>
         )
