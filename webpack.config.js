@@ -1,3 +1,5 @@
+var webpack = require('webpack')
+
 module.exports = {
     entry: getEntrySources(['./src/js/entry.js']),
     output: {
@@ -47,9 +49,17 @@ module.exports = {
                 loader: 'svg-inline'
             }
         ]
-    }
+    },
+    plugins: [
+        getEnvironmentVariablesPlugin()
+    ]
 };
 
+function getEnvironmentVariablesPlugin () {
+    var value = process.env.NODE_ENV !== 'production' ? true : false
+    const env = {__dev__: JSON.stringify(value)}
+    return new webpack.DefinePlugin(env)
+}
 function getEntrySources(sources) {
     if (process.env.NODE_ENV !== 'production') {
         sources.push('webpack-dev-server/client?http://localhost:8080');
