@@ -11,7 +11,7 @@ export default class InAppMenu extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader backLink="/" menuName="APPS" appName="Spotify" />
+                <AppHeader backLink="/" menuName="APPS"/>
                 <Menu />
             </div>
         )
