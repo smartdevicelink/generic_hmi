@@ -151,6 +151,16 @@ class RpcFactory {
             }
         })
     }
+    static OnAppDeactivatedNotification(reason, appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnAppDeactivated",
+            "params": {
+                "appID": appID,
+                "reason": reason
+            }
+        })
+    }
     static OnButtonPressNotification(appID, button) {
         return ({
             "jsonrpc": "2.0",

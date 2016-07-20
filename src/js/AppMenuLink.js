@@ -9,7 +9,13 @@ export default class AppMenuLink extends React.Component {
     render() {
         return (
             <div>
-                <Link to={this.props.backLink} href="" className="t-small t-medium th-f-color t-ls1">{this.props.menuName}</Link>
+                <Link
+                    to={this.props.backLink}
+                    href=""
+                    className="t-small t-medium th-f-color t-ls1"
+                    onClick={() => this.props.onSelection(this.props.appID)}>
+                    {this.props.menuName}
+                </Link>
             </div>
         )
     }

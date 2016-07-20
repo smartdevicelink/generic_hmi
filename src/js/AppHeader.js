@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
-import MenuLink from './AppMenuLink'
+import MenuLink from './containers/AppsButton'
 
 export default class AppHeader extends React.Component {
     constructor(props) {

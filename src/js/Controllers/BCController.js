@@ -25,6 +25,9 @@ class BCController {
     onAppActivated(appID) {
         this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
     }
+    onAppDeactivated(reason, appID) {
+        this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
+    }
 }
 
 let controller = new BCController()
