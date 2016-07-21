@@ -7,12 +7,16 @@ import {
     deleteCommand, 
     deleteSubMenu, 
     subscribeButton, 
-    performInteraction } from '../actions'
+    performInteraction,
+    timeoutPerformInteraction
+} from '../actions'
 import store from '../store'
 
 class UIController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
+        this.timers = {}
     }
     addListener(listener) {
         this.listener = listener
@@ -77,12 +81,20 @@ class UIController {
                     rpc.params.interactionLayout,
                     rpc.id
                 ))
-                // this doesn't return right away, it has to wait for user input
-                // TODO: start a timeout to return using rpc.params.timeout
+                var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
+                this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 break
         }
     }
+    onPerformInteractionTimeout(msgID, appID) {
+        this.listener.send(RpcFactory.PerformInteractionFailure(msgID))
+        store.dispatch(timeoutPerformInteraction(
+            msgID,
+            appID
+        ))
+    }
     onChoiceSelection(choiceID, appID, msgID) {
+        clearTimeout(this.timers[msgID])
         this.listener.send(RpcFactory.PerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {

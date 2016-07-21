@@ -151,6 +151,19 @@ class RpcFactory {
             }
         })
     }
+    static PerformInteractionFailure (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 10,
+                "message": "Timeout reached",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
     static OnAppDeactivatedNotification(reason, appID) {
         return ({
             "jsonrpc": "2.0",

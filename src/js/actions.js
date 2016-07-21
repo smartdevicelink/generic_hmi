@@ -11,7 +11,8 @@ export const Actions = {
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU",
     PERFORM_INTERACTION: "PERFORM_INTERACTION",
-    DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION"
+    DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
+    TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION"
 }
 
 export const updateAppList = (applications) => {
@@ -112,13 +113,21 @@ export const deactivateInteraction = (appID) => {
     }
 }
 
-export const performInteraction = (appID, text, choices, layout, msgId) => {
+export const performInteraction = (appID, text, choices, layout, msgID) => {
     return {
         type: Actions.PERFORM_INTERACTION,
         appID: appID,
         text: text,
         choices: choices,
         layout: layout,
-        msgId: msgId
+        msgID: msgID
+    }
+}
+
+export const timeoutPerformInteraction = (msgID, appID) => {
+    return {
+        type: Actions.TIMEOUT_PERFORM_INTERACTION,
+        msgID: msgID,
+        appID: appID
     }
 }

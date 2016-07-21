@@ -167,9 +167,10 @@ function ui(state = {}, action) {
             app.isPerformingInteraction = true
             app.interactionText = action.text
             app.choices = action.choices
-            app.interactionId = action.msgId
+            app.interactionId = action.msgID
             return newState
         case Actions.DEACTIVATE_INTERACTION:
+        case Actions.TIMEOUT_PERFORM_INTERACTION:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isPerformingInteraction = false
