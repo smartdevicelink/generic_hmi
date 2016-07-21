@@ -27,6 +27,8 @@ class AppHeader extends React.Component {
             && nextProps.isPerformingInteraction) {
                 this.props.router.push("/inapplist")
         }
+        // We are in the app list and previously performing interaction but not anymore. This means time to switch out
+        // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
         else if (nextProps.router.isActive("/inapplist")
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
