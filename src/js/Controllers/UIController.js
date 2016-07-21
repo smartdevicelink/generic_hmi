@@ -1,5 +1,13 @@
 import RpcFactory from './RpcFactory'
-import { show, setAppIcon, addCommand, addSubMenu, deleteCommand, deleteSubMenu, subscribeButton } from '../actions'
+import {
+    show,
+    setAppIcon, 
+    addCommand, 
+    addSubMenu, 
+    deleteCommand, 
+    deleteSubMenu, 
+    subscribeButton, 
+    performInteraction } from '../actions'
 import store from '../store'
 
 class UIController {
@@ -61,7 +69,21 @@ class UIController {
                     rpc.params.isSubscribed
                 ))
                 return true
+            case "PerformInteraction":
+                store.dispatch(performInteraction(
+                    rpc.params.appID,
+                    rpc.params.initialText,
+                    rpc.params.choiceSet,
+                    rpc.params.interactionLayout,
+                    rpc.id
+                ))
+                // this doesn't return right away, it has to wait for user input
+                // TODO: start a timeout to return using rpc.params.timeout
+                break
         }
+    }
+    onChoiceSelection(choiceID, appID, msgID) {
+        this.listener.send(RpcFactory.PerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))

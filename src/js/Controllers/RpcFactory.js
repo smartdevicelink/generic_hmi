@@ -25,6 +25,17 @@ class RpcFactory {
             }
         })
     }
+    static PerformInteractionResponse(choiceID, appID, msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "result": {
+                "method": "UI.PerformInteraction",
+                "code": 0,
+                "choiceID": choiceID
+            }
+        })
+    }
     static ButtonsGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -127,17 +138,6 @@ class RpcFactory {
             "params": {
                 "appID": appID,
                 "cmdID": cmdID
-            }
-        })
-    }
-    static PerformInteractionResponse(msgID, choiceID) {
-        return ({
-            "jsonrpc": "2.0",
-            "id": msgID,
-            "result": {
-                "choiceID": choiceID,
-                "code": 0,
-                "method": "UI.PerformInteraction"
             }
         })
     }

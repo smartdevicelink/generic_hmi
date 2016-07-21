@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppHeader from './AppHeader';
+import AppHeader from './containers/Header';
 import { MediaMetadata } from './containers/Metadata';
 import ProgressBar from './ProgressBar';
 import Buttons from './containers/Buttons';

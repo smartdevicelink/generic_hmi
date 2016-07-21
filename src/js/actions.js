@@ -9,7 +9,9 @@ export const Actions = {
     DELETE_SUB_MENU: "DELETE_SUB_MENU",
     SUBSCRIBE_BUTTON: "SUBSCRIBE_BUTTON",
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
-    DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU"
+    DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU",
+    PERFORM_INTERACTION: "PERFORM_INTERACTION",
+    DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION"
 }
 
 export const updateAppList = (applications) => {
@@ -100,5 +102,23 @@ export const deactivateSubMenu = (appID) => {
     return {
         type: Actions.DEACTIVATE_SUB_MENU,
         appID: appID
+    }
+}
+
+export const deactivateInteraction = (appID) => {
+    return {
+        type: Actions.DEACTIVATE_INTERACTION,
+        appID: appID
+    }
+}
+
+export const performInteraction = (appID, text, choices, layout, msgId) => {
+    return {
+        type: Actions.PERFORM_INTERACTION,
+        appID: appID,
+        text: text,
+        choices: choices,
+        layout: layout,
+        msgId: msgId
     }
 }

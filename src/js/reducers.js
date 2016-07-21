@@ -9,7 +9,10 @@ function newAppState () {
         icon: null,
         menu: [],
         activeSubMenu: null,
-        subscribedButtons: {}
+        subscribedButtons: {},
+        isPerformingInteraction: false,
+        interactionText: "",
+        choices: []
     }
 }
 
@@ -157,6 +160,21 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             app.activeSubMenu = null
+            return newState
+        case Actions.PERFORM_INTERACTION:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.isPerformingInteraction = true
+            app.interactionText = action.text
+            app.choices = action.choices
+            app.interactionId = action.msgId
+            return newState
+        case Actions.DEACTIVATE_INTERACTION:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.isPerformingInteraction = false
+            app.interactionText = ""
+            app.choices = []
             return newState
         default:
             return state

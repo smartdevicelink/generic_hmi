@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppHeader from './AppHeader';
+import AppHeader from './containers/Header';
 import AppList from './containers/AppList';
 
 export default class HMIMenu extends React.Component {

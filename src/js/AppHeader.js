@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 
-export default class AppHeader extends React.Component {
+class AppHeader extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -13,7 +13,6 @@ export default class AppHeader extends React.Component {
     render() {
         const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon /> ;
         return (
-
             <div className="app__header">
                 <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
                 <Name />
@@ -21,4 +20,14 @@ export default class AppHeader extends React.Component {
             </div>
         )
     }
+    componentWillReceiveProps (nextProps) {
+        // TODO: this will not allow performInteraction while browsing a submenu
+        // not sure if that's okay
+        if (!nextProps.router.isActive("/inapplist")
+            && nextProps.isPerformingInteraction) {
+            this.props.router.push("/inapplist")
+        }
+    }
 }
+
+export default withRouter(AppHeader)

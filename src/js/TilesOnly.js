@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppHeader from './AppHeader';
+import AppHeader from './containers/Header';
 import TilesOnlyList from './TilesOnlyList';
 
 let data = [

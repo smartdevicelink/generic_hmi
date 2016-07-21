@@ -1,12 +1,24 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
 import uiController from '../Controllers/UIController'
-import { deactivateSubMenu } from '../actions'
+import { deactivateSubMenu, deactivateInteraction } from '../actions'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-    var menu = state.ui[activeApp].menu
-    var activeSubMenu = state.ui[activeApp].activeSubMenu
+    var app = state.ui[activeApp]
+    if (app.isPerformingInteraction) {
+        // TODO: use the actual choices provided in the state
+        return {data: [{
+            appID: activeApp,
+            cmdID: 2,
+            name: "Performing!",
+            image: undefined,
+            link: '/media'
+        }],
+        isPerformingInteraction: true, interactionId: app.interactionId}
+    }
+    var menu = app.menu
+    var activeSubMenu = app.activeSubMenu
     var data = menu.find((test) => {
         return test.menuID === activeSubMenu
     }).subMenu.map((command) => {
@@ -19,15 +31,20 @@ const mapStateToProps = (state) => {
             link: link
         }
     })
-    return {data: data}
+    return {data: data, isPerformingInteraction: false}
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID, cmdID) => {
+        onSelection: (appID, cmdID, isPerformingInteraction, interactionID) => {
             uiController.onSystemContext("MAIN", appID)
-            uiController.onCommand(cmdID, appID)
-            dispatch(deactivateSubMenu(appID))
+            if (isPerformingInteraction) {
+                uiController.onChoiceSelection(cmdID, appID, interactionID)
+                dispatch(deactivateInteraction(appID))
+            } else {
+                uiController.onCommand(cmdID, appID)
+                dispatch(deactivateSubMenu(appID))
+            }
         }
     }
 }

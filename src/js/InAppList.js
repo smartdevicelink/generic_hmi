@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppHeader from './AppHeader';
+import AppHeader from './containers/Header';
 import SubMenu from './containers/SubMenu';
 
 export default class InAppMenu extends React.Component {
