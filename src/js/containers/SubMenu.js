@@ -7,16 +7,22 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
     if (app.isPerformingInteraction) {
-        // TODO: use the actual choices provided in the state
-        return {data: [{
-            appID: activeApp,
-            cmdID: 2,
-            name: "Performing!",
-            image: undefined,
-            link: '/media'
-        }],
-        isPerformingInteraction: true, interactionId: app.interactionId}
+        var data = app.choices.map((choice) => {
+            return {
+                appID: activeApp,
+                cmdID: choice.choiceID,
+                name: choice.menuName,
+                image: undefined,
+                link: '/media'
+            }
+        })
+        return {
+            data:data,
+            isPerformingInteraction: true,
+            interactionId: app.interactionId
+        }
     }
+    // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
     var data = menu.find((test) => {
