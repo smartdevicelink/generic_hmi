@@ -8,7 +8,8 @@ import {
     deleteSubMenu, 
     subscribeButton, 
     performInteraction,
-    timeoutPerformInteraction
+    timeoutPerformInteraction,
+    setMediaClockTimer
 } from '../actions'
 import store from '../store'
 
@@ -84,6 +85,14 @@ class UIController {
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 break
+            case "SetMediaClockTimer":
+                store.dispatch(setMediaClockTimer(
+                    rpc.params.appID,
+                    rpc.params.startTime,
+                    rpc.params.endTime,
+                    rpc.params.updateMode
+                ))
+                return true
         }
     }
     onPerformInteractionTimeout(msgID, appID) {

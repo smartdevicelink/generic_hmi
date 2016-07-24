@@ -12,7 +12,8 @@ export const Actions = {
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU",
     PERFORM_INTERACTION: "PERFORM_INTERACTION",
     DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
-    TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION"
+    TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
+    SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER"
 }
 
 export const updateAppList = (applications) => {
@@ -129,5 +130,15 @@ export const timeoutPerformInteraction = (msgID, appID) => {
         type: Actions.TIMEOUT_PERFORM_INTERACTION,
         msgID: msgID,
         appID: appID
+    }
+}
+
+export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
+    return {
+        type: Actions.SET_MEDIA_CLOCK_TIMER,
+        appID: appID,
+        startTime: startTime,
+        endTime: endTime,
+        updateMode: updateMode
     }
 }

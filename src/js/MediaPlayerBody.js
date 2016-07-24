@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AlbumArt from './AlbumArt';
+import MediaTrackInfo from './containers/MediaTrackInfo_c'
 
 export default class MediaPlayerBody extends React.Component {
     constructor(props) {
@@ -15,9 +16,7 @@ export default class MediaPlayerBody extends React.Component {
                     <p className="t-small t-medium th-f-color">{this.props.mainField3}</p>
                     <p className="t-large t-light th-f-color">{this.props.mainField1}</p>
                     <p className="t-large t-light th-f-color-secondary">{this.props.mainField2}</p>
-                    <div className="media-track__time">
-                        <span className="t-small t-medium fc-bright-blue">startTime </span><span className="t-small t-medium fc-slate">/ endTime</span>
-                    </div>
+                    <MediaTrackInfo />
                 </div>
             </div>
         )

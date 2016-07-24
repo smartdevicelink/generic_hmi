@@ -12,7 +12,19 @@ function newAppState () {
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
-        choices: []
+        choices: [],
+        startTime: {
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        },
+        endTime: {
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        },
+        updateMode: "COUNTUP",
+        updateTime: new Date().getTime()
     }
 }
 
@@ -176,6 +188,14 @@ function ui(state = {}, action) {
             app.isPerformingInteraction = false
             app.interactionText = ""
             app.choices = []
+            return newState
+        case Actions.SET_MEDIA_CLOCK_TIMER:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.startTime = action.startTime ? action.startTime : null
+            app.endTime = action.endTime ? action.endTime : null
+            app.updateTime = new Date().getTime()
+            app.updateMode = action.updateMode
             return newState
         default:
             return state
