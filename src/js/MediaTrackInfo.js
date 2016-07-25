@@ -14,13 +14,17 @@ export default class MediaTrackInfo extends React.Component {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
         var now = new Date().getTime()
-        var timeSince = null
         // TODO: support more than just COUNTUP, move intervals and what not over here
         switch (this.props.updateMode) {
-            case "COUNTUP":
-            default:
-                timeSince = new Date(startDate.getTime() + now - this.props.now)
+            case "PAUSE":
+                clearInterval(this.interval)
+                break        
+            case "RESUME":
+                clearInterval(this.interval)
+                this.interval = setInterval(this.forceUpdate.bind(this), 1000)
+                break
         }
+        var timeSince = new Date(startDate.getTime() + now - this.props.now)
         // If the numbers are less than 10 put a 0 in front of them
         var startHours = timeSince.getHours() < 10 ? "0" + timeSince.getHours() : timeSince.getHours()
         var startMins = timeSince.getMinutes() < 10 ? "0" + timeSince.getMinutes() : timeSince.getMinutes()
