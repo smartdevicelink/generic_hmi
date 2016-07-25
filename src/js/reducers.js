@@ -24,7 +24,8 @@ function newAppState () {
             seconds: 0
         },
         updateMode: "COUNTUP",
-        updateTime: new Date().getTime()
+        updateTime: new Date().getTime(),
+        pauseTime: new Date().getTime()
     }
 }
 
@@ -192,15 +193,19 @@ function ui(state = {}, action) {
         case Actions.SET_MEDIA_CLOCK_TIMER:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            app.startTime = action.startTime ? action.startTime : null
-            app.endTime = action.endTime ? action.endTime : null
+            if (action.startTime) {
+                app.startTime = action.startTime
+            }
+            if (action.endTime) {
+                app.endTime = action.endTime
+            }
             if (action.updateMode === "COUNTUP") {
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "PAUSE") {
                 app.pauseTime = new Date().getTime()
             }
-            else if (app.updateMode === "PAUSE" && action.updateMode === "RESUME") {
+            else if (action.updateMode === "RESUME") {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
             }
