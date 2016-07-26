@@ -1,4 +1,5 @@
 let url = "ws://localhost:8087"
+let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -121,6 +122,7 @@ export default class Controller {
     handleRPC(rpc) {
         var response = undefined
         let componentName = undefined
+        rpc = this.sanitizeRPC(rpc)
         if (rpc.method) {
             componentName = rpc.method.split(".")[0];
         } else {
@@ -165,5 +167,31 @@ export default class Controller {
         else {
             console.log('got invalid response from controller', response)
         }
+    }
+    sanitizeRPC(rpc) {
+        var sanitized = { ...rpc }
+        sanitized.params = this.sanitizeRPCHelper(sanitized.params)
+        return sanitized
+    }
+    sanitizeRPCHelper(obj) {
+        for (var prop in obj) {
+            if (this.isArray(obj[prop]) || this.isObject(obj[prop])) {
+                obj[prop] = this.sanitizeRPCHelper(obj[prop])
+            } else {
+                switch (prop) {
+                    case "icon":
+                    case "value":
+                        obj[prop] = file_access_base_url + obj[prop]
+                        break;
+                }
+            }
+        }
+        return obj
+    }
+    isArray (a) {
+        return (!!a) && (a.constructor === Array)
+    }
+    isObject(a) {
+        return (!!a) && (typeof a === 'object' && a !== null)
     }
 }
