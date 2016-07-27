@@ -30,12 +30,12 @@ The Docker instance of Core exposes multiple ports for different types of commun
 
 ## Start the HMI
 
+Clone this repository
+
 Install webpack:
 ```
 $ npm install -g webpack
 ```
-
-Clone this repository
 
 Install dependencies (you might need to clean the `node_modules` folder):
 ```
