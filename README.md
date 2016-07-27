@@ -47,8 +47,19 @@ Start the web HMI
 $ webpack && npm start
 ```
 
-## Connecting
+## Usage
 
-Download and Install SyncProxyTest
+Core should be running, you should be able to see the container named `core` running:
+```
+$ docker ps
+```
 
-Panic
+Connect **SyncProxyTester** to the instance of core running on your machine. The IP should be your machine's IP address and the port is `12345`
+
+Open (or refresh) the running HMI in a chrominium based browser (chrome). By default it is running at [http://localhost:3000/](http://localhost:3000/)
+
+**IMPORTANT** If you need to restart the HMI core must also be restarted! Just restart the Docker container:
+```
+$ docker restart core
+```
+
