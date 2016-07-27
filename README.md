@@ -49,7 +49,7 @@ $ webpack && npm start
 
 ## Usage
 
-Core should be running, you should be able to see the container named `core` running:
+Core should already be running. To verify, use the following command and you should see a container with the name `core`:
 ```
 $ docker ps
 ```
