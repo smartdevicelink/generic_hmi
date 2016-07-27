@@ -11,7 +11,7 @@ Start a Docker container containing the latest version of core:
 $ docker run -d -p 12345:12345 -p 8087:8087 -p 3001:3001 --name core smartdevicelink/core:latest
 ```
 
-*This [run](https://docs.docker.com/engine/reference/run/) command is starting a docker container in detached mode `-d` (so it won't take over your terminal). It then maps the ports `-p` 3001, 8080, 8087, 12345 of your machine to the same ports in the container.*
+*This [run](https://docs.docker.com/engine/reference/run/) command is starting a docker container in detached mode `-d` (so it won't take over your terminal). It then maps the ports `-p` 3001, 8080, 8087, 12345 of your machine to the same ports in the container. So the container can be easily referenced it is given the name `--name` core.*
 
 Core is now running and exposing ports for communication. Core logs can be viewed using:
 ```
