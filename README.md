@@ -58,7 +58,7 @@ Connect **SyncProxyTester** to the instance of core running on your machine. The
 
 Open (or refresh) the running HMI in a chrominium based browser (chrome). By default it is running at [http://localhost:3000/](http://localhost:3000/)
 
-**IMPORTANT** If you need to restart the HMI core must also be restarted! Just restart the Docker container:
+**IMPORTANT** If you need to restart the HMI then Core must also be restarted! Just restart the Docker container using:
 ```
 $ docker restart core
 ```
