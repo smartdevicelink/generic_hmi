@@ -62,4 +62,5 @@ Open (or refresh) the running HMI in a chrominium based browser (chrome). By def
 ```
 $ docker restart core
 ```
+then go through the usage instructions again.
 
