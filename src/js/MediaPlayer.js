@@ -2,7 +2,7 @@ import React from 'react';
 
 import AppHeader from './containers/Header';
 import { MediaMetadata } from './containers/Metadata';
-import ProgressBar from './ProgressBar';
+import ProgressBar from './containers/ProgressBar_c';
 import Buttons from './containers/Buttons';
 
 export default class MediaPlayer extends React.Component {
