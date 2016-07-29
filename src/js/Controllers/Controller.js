@@ -150,9 +150,11 @@ export default class Controller {
             //     break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
-        if (response === undefined) {
-            // TODO: should we respond fail for undefined responses?
-            // this.respondFail(rpc.method, rpc.id)
+        if (response === null) {
+            // don't do anything, it was a notification
+        }
+        else if (response === undefined) {
+            // Just haven't implemented these rpcs see declaration of response
         }
         else if (response === true) {
             this.respondSuccess(rpc.method, rpc.id)

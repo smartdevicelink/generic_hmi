@@ -23,7 +23,10 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
-        if (!nextProps.router.isActive("/inapplist")
+        if (nextProps.isDisconnected) {
+            this.props.router.push("/")
+        }
+        else if (!nextProps.router.isActive("/inapplist")
             && nextProps.isPerformingInteraction) {
                 this.props.router.push("/inapplist")
         }

@@ -5,7 +5,7 @@ export default class ProgressBar extends React.Component {
         super(props);
     }
     componentDidMount() {
-        this.interval = setInterval(this.forceUpdate.bind(this), 32)
+        this.interval = setInterval(this.forceUpdate.bind(this), 50)
     }
     componentWillUnmount() {
         clearInterval(this.interval)
@@ -21,7 +21,7 @@ export default class ProgressBar extends React.Component {
                 break        
             case "RESUME":
                 clearInterval(this.interval)
-                this.interval = setInterval(this.forceUpdate.bind(this), 32)
+                this.interval = setInterval(this.forceUpdate.bind(this), 50)
                 break
         }
         var timeSince = new Date(startDate.getTime() + now - this.props.now)

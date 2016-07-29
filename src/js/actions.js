@@ -13,7 +13,8 @@ export const Actions = {
     PERFORM_INTERACTION: "PERFORM_INTERACTION",
     DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
-    SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER"
+    SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
+    UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION"
 }
 
 export const updateAppList = (applications) => {
@@ -140,5 +141,13 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
         startTime: startTime,
         endTime: endTime,
         updateMode: updateMode
+    }
+}
+
+export const unregisterApplication = (appID, isUnexpected) => {
+    return {
+        type: Actions.UNREGISTER_APPLICATION,
+        appID: appID,
+        isUnexpected: isUnexpected
     }
 }

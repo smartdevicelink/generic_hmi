@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp } from '../actions'
+import { updateAppList, activateApp, unregisterApplication } from '../actions'
 
 class BCController {
     constructor () {
@@ -20,6 +20,9 @@ class BCController {
             case "ActivateApp":
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
+            case "OnAppUnregistered":
+                store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))
+                return null
         }
     }
     onAppActivated(appID) {

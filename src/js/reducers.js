@@ -25,7 +25,8 @@ function newAppState () {
         },
         updateMode: "COUNTUP",
         updateTime: new Date().getTime(),
-        pauseTime: new Date().getTime()
+        pauseTime: new Date().getTime(),
+        isDisconnected: false
     }
 }
 
@@ -213,6 +214,11 @@ function ui(state = {}, action) {
                 app.updateTime = new Date().getTime()
             }
             app.updateMode = action.updateMode
+            return newState
+        case Actions.UNREGISTER_APPLICATION:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.isDisconnected = true
             return newState
         default:
             return state
