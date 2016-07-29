@@ -68,97 +68,97 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/3f7cc407b9d904c8ba485132ec66032c.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.eot\n ** module id = 4\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.eot?");
+	eval("module.exports = __webpack_require__.p + \"fonts/3f7cc407b9d904c8ba485132ec66032c.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.eot\n ** module id = 4\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.eot?");
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/cc56dd09ba0c52a6824aa936024ac810.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.woff2\n ** module id = 5\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.woff2?");
+	eval("module.exports = __webpack_require__.p + \"fonts/cc56dd09ba0c52a6824aa936024ac810.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.woff2\n ** module id = 5\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.woff2?");
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/d9f44a669b0ce892cee443367d04adec.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.woff\n ** module id = 6\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.woff?");
+	eval("module.exports = __webpack_require__.p + \"fonts/d9f44a669b0ce892cee443367d04adec.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.woff\n ** module id = 6\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.woff?");
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/6a71db76f03b9617eb75b242c1dff7f8.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.ttf\n ** module id = 7\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.ttf?");
+	eval("module.exports = __webpack_require__.p + \"fonts/6a71db76f03b9617eb75b242c1dff7f8.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Light-WebS.ttf\n ** module id = 7\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Light-WebS.ttf?");
 
 /***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/4ae8b36389202aa761fc9481ec276683.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.eot\n ** module id = 8\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.eot?");
+	eval("module.exports = __webpack_require__.p + \"fonts/4ae8b36389202aa761fc9481ec276683.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.eot\n ** module id = 8\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.eot?");
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/4e8caa33f4fef80561b267d0b8cd2126.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.woff2\n ** module id = 9\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.woff2?");
+	eval("module.exports = __webpack_require__.p + \"fonts/4e8caa33f4fef80561b267d0b8cd2126.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.woff2\n ** module id = 9\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.woff2?");
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/d612704147ab38b14c13feaa994a2220.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.woff\n ** module id = 10\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.woff?");
+	eval("module.exports = __webpack_require__.p + \"fonts/d612704147ab38b14c13feaa994a2220.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.woff\n ** module id = 10\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.woff?");
 
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/319176146796ad56be0d437b5a2fec9a.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.ttf\n ** module id = 11\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.ttf?");
+	eval("module.exports = __webpack_require__.p + \"fonts/319176146796ad56be0d437b5a2fec9a.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Regular-WebS.ttf\n ** module id = 11\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Regular-WebS.ttf?");
 
 /***/ },
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/2a068464f2fbf9bc7fc270b5a4bb3694.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.eot\n ** module id = 12\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.eot?");
+	eval("module.exports = __webpack_require__.p + \"fonts/2a068464f2fbf9bc7fc270b5a4bb3694.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.eot\n ** module id = 12\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.eot?");
 
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/9e06a516bafae247b569ad0c32cd3a57.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.woff2\n ** module id = 13\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.woff2?");
+	eval("module.exports = __webpack_require__.p + \"fonts/9e06a516bafae247b569ad0c32cd3a57.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.woff2\n ** module id = 13\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.woff2?");
 
 /***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/9b81f8c40379b3fe831234c9895f55d7.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.woff\n ** module id = 14\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.woff?");
+	eval("module.exports = __webpack_require__.p + \"fonts/9b81f8c40379b3fe831234c9895f55d7.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.woff\n ** module id = 14\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.woff?");
 
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/ca02b4f643c5d0048e625782628508ff.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.ttf\n ** module id = 15\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.ttf?");
+	eval("module.exports = __webpack_require__.p + \"fonts/ca02b4f643c5d0048e625782628508ff.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Medium-WebS.ttf\n ** module id = 15\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Medium-WebS.ttf?");
 
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/cacc1f5197889282f434468890e6d48d.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.eot\n ** module id = 16\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.eot?");
+	eval("module.exports = __webpack_require__.p + \"fonts/cacc1f5197889282f434468890e6d48d.eot\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.eot\n ** module id = 16\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.eot?");
 
 /***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/371e035efdd256faae87d608a453950f.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.woff2\n ** module id = 17\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.woff2?");
+	eval("module.exports = __webpack_require__.p + \"fonts/371e035efdd256faae87d608a453950f.woff2\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.woff2\n ** module id = 17\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.woff2?");
 
 /***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/3cfc78fd8af6300e56c9332bfc910703.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.woff\n ** module id = 18\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.woff?");
+	eval("module.exports = __webpack_require__.p + \"fonts/3cfc78fd8af6300e56c9332bfc910703.woff\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.woff\n ** module id = 18\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.woff?");
 
 /***/ },
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("module.exports = __webpack_require__.p + \"/fonts/3f326d85b99c6b6db77fa3c02a160ec7.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.ttf\n ** module id = 19\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.ttf?");
+	eval("module.exports = __webpack_require__.p + \"fonts/3f326d85b99c6b6db77fa3c02a160ec7.ttf\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/fonts/LivioNorm-Bold-WebS.ttf\n ** module id = 19\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/fonts/LivioNorm-Bold-WebS.ttf?");
 
 /***/ },
 /* 20 */
@@ -896,7 +896,7 @@
 /* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require(\"/home/justin/hmi_comps/node_modules/react-hot-api/modules/index.js\"), RootInstanceProvider = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/RootInstanceProvider.js\"), ReactMount = require(\"react/lib/ReactMount\"), React = require(\"react\"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {\n\n'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.MenuIcon = undefined;\n\nvar _reactRedux = __webpack_require__(60);\n\nvar _UIController = __webpack_require__(143);\n\nvar _UIController2 = _interopRequireDefault(_UIController);\n\nvar _AppIcon = __webpack_require__(150);\n\nvar _AppIcon2 = _interopRequireDefault(_AppIcon);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar mapStateToProps = function mapStateToProps(state) {\n    return {\n        appID: state.activeApp\n    };\n};\n\nvar mapDispatchToProps = function mapDispatchToProps(dispatch) {\n    return {\n        onSelection: function onSelection(appID) {\n            _UIController2.default.onSystemContext(\"MENU\", appID);\n        }\n    };\n};\n\nvar MenuIcon = exports.MenuIcon = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_AppIcon2.default);\n\nexports.default = MenuIcon;\n\n/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/makeExportsHot.js\"); if (makeExportsHot(module, require(\"react\"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error(\"Cannot not apply hot update to \" + \"MenuIcon.js\" + \": \" + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/js/containers/MenuIcon.js\n ** module id = 142\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/js/containers/MenuIcon.js?");
+	eval("/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require(\"/home/justin/hmi_comps/node_modules/react-hot-api/modules/index.js\"), RootInstanceProvider = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/RootInstanceProvider.js\"), ReactMount = require(\"react/lib/ReactMount\"), React = require(\"react\"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {\n\n'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.MenuIcon = undefined;\n\nvar _reactRedux = __webpack_require__(60);\n\nvar _UIController = __webpack_require__(143);\n\nvar _UIController2 = _interopRequireDefault(_UIController);\n\nvar _AppIcon = __webpack_require__(150);\n\nvar _AppIcon2 = _interopRequireDefault(_AppIcon);\n\n__webpack_require__(149);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar mapStateToProps = function mapStateToProps(state) {\n    var activeApp = state.activeApp;\n    var app = state.appList.find(function (app) {\n        return app.appID === activeApp;\n    });\n    app = app ? app : {};\n    return {\n        icon: app.icon,\n        appID: activeApp\n    };\n};\n\nvar mapDispatchToProps = function mapDispatchToProps(dispatch) {\n    return {\n        onSelection: function onSelection(appID) {\n            _UIController2.default.onSystemContext(\"MENU\", appID);\n        }\n    };\n};\n\nvar MenuIcon = exports.MenuIcon = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_AppIcon2.default);\n\nexports.default = MenuIcon;\n\n/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/makeExportsHot.js\"); if (makeExportsHot(module, require(\"react\"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error(\"Cannot not apply hot update to \" + \"MenuIcon.js\" + \": \" + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/js/containers/MenuIcon.js\n ** module id = 142\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/js/containers/MenuIcon.js?");
 
 /***/ },
 /* 143 */
@@ -944,7 +944,7 @@
 /* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require(\"/home/justin/hmi_comps/node_modules/react-hot-api/modules/index.js\"), RootInstanceProvider = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/RootInstanceProvider.js\"), ReactMount = require(\"react/lib/ReactMount\"), React = require(\"react\"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {\n\n'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _react = __webpack_require__(22);\n\nvar _react2 = _interopRequireDefault(_react);\n\nvar _reactRouter = __webpack_require__(83);\n\nvar _iconMenu = __webpack_require__(151);\n\nvar _iconMenu2 = _interopRequireDefault(_iconMenu);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar AppIcon = function (_React$Component) {\n    _inherits(AppIcon, _React$Component);\n\n    function AppIcon(props) {\n        _classCallCheck(this, AppIcon);\n\n        return _possibleConstructorReturn(this, Object.getPrototypeOf(AppIcon).call(this, props));\n    }\n\n    _createClass(AppIcon, [{\n        key: 'render',\n        value: function render() {\n            var _this2 = this;\n\n            return _react2.default.createElement(\n                'div',\n                null,\n                _react2.default.createElement(\n                    _reactRouter.Link,\n                    { to: '/inappmenu', onClick: function onClick() {\n                            return _this2.props.onSelection(_this2.props.appID);\n                        } },\n                    _react2.default.createElement('span', { className: 'app-icon' }),\n                    _react2.default.createElement('span', { className: 'svg-wrap', dangerouslySetInnerHTML: { __html: _iconMenu2.default } })\n                )\n            );\n        }\n    }]);\n\n    return AppIcon;\n}(_react2.default.Component);\n\nexports.default = AppIcon;\n\n/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/makeExportsHot.js\"); if (makeExportsHot(module, require(\"react\"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error(\"Cannot not apply hot update to \" + \"AppIcon.js\" + \": \" + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/js/AppIcon.js\n ** module id = 150\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/js/AppIcon.js?");
+	eval("/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require(\"/home/justin/hmi_comps/node_modules/react-hot-api/modules/index.js\"), RootInstanceProvider = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/RootInstanceProvider.js\"), ReactMount = require(\"react/lib/ReactMount\"), React = require(\"react\"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {\n\n'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _react = __webpack_require__(22);\n\nvar _react2 = _interopRequireDefault(_react);\n\nvar _reactRouter = __webpack_require__(83);\n\nvar _iconMenu = __webpack_require__(151);\n\nvar _iconMenu2 = _interopRequireDefault(_iconMenu);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\nvar AppIcon = function (_React$Component) {\n    _inherits(AppIcon, _React$Component);\n\n    function AppIcon(props) {\n        _classCallCheck(this, AppIcon);\n\n        return _possibleConstructorReturn(this, Object.getPrototypeOf(AppIcon).call(this, props));\n    }\n\n    _createClass(AppIcon, [{\n        key: 'render',\n        value: function render() {\n            var _this2 = this;\n\n            var icon = this.props.icon ? _react2.default.createElement('img', { className: 'app-icon', src: this.props.icon }) : _react2.default.createElement('span', { className: 'app-icon' });\n            return _react2.default.createElement(\n                'div',\n                null,\n                _react2.default.createElement(\n                    _reactRouter.Link,\n                    { to: '/inappmenu', onClick: function onClick() {\n                            return _this2.props.onSelection(_this2.props.appID);\n                        } },\n                    icon,\n                    _react2.default.createElement('span', { className: 'svg-wrap', dangerouslySetInnerHTML: { __html: _iconMenu2.default } })\n                )\n            );\n        }\n    }]);\n\n    return AppIcon;\n}(_react2.default.Component);\n\nexports.default = AppIcon;\n\n/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require(\"/home/justin/hmi_comps/node_modules/react-hot-loader/makeExportsHot.js\"); if (makeExportsHot(module, require(\"react\"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error(\"Cannot not apply hot update to \" + \"AppIcon.js\" + \": \" + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/js/AppIcon.js\n ** module id = 150\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/js/AppIcon.js?");
 
 /***/ },
 /* 151 */
