@@ -1,9 +1,11 @@
-var webpack = require('webpack')
+var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
-    entry: getEntrySources(['./src/js/entry.js']),
+    entry: './src/js/entry.js',
     output: {
-        publicPath: 'http://localhost:8080/',
+        path: './',
+        publicPath: './',
         filename: 'build/bundle.js'
     },
     devtool: 'eval',
@@ -42,7 +44,7 @@ module.exports = {
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
-                loaders: ['file?name=/fonts/[hash].[ext]']
+                loaders: ['file?name=fonts/[hash].[ext]']
             },
             {
                 test: /\.svg$/,

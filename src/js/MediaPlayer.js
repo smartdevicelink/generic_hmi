@@ -1,9 +1,9 @@
 import React from 'react';
 
-import AppHeader from './AppHeader';
-import MediaPlayerBody from './MediaPlayerBody';
-import ProgressBar from './ProgressBar';
-import ControlBar from './ControlBar';
+import AppHeader from './containers/Header';
+import { MediaMetadata } from './containers/Metadata';
+import ProgressBar from './containers/ProgressBar_c';
+import Buttons from './containers/Buttons';
 
 export default class MediaPlayer extends React.Component {
     constructor() {
@@ -13,10 +13,10 @@ export default class MediaPlayer extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader backLink="/" menuName="Apps" appName="Spotify" />
-                <MediaPlayerBody />
+                <AppHeader backLink="/" menuName="Apps"/>
+                <MediaMetadata />
                 <ProgressBar />
-                <ControlBar />
+                <Buttons />
             </div>
         )
     }
