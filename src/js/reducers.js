@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
+import './polyfill_find'
+
 
 function newAppState () {
     return {

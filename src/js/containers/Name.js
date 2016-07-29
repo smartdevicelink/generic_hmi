@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import AppName from '../AppName'
+import '../polyfill_find'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp

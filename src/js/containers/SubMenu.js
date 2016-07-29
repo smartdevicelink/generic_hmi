@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
 import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction } from '../actions'
+import '../polyfill_find'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
