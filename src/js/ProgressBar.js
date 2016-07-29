@@ -20,6 +20,7 @@ export default class ProgressBar extends React.Component {
                 clearInterval(this.interval)
                 break        
             case "RESUME":
+            case "COUNTUP":
                 clearInterval(this.interval)
                 this.interval = setInterval(this.forceUpdate.bind(this), 50)
                 break
