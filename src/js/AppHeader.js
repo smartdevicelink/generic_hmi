@@ -1,25 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
-import AppIcon from './AppIcon';
-import AppName from './AppName';
+import MenuIcon from './containers/MenuIcon';
+import Name from './containers/Name';
+import MenuLink from './containers/AppsButton'
 
-export default class AppHeader extends React.Component {
+class AppHeader extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const icon = this.props.appIcon == 'false' ? (<div />) : <AppIcon /> ;
+        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon /> ;
         return (
-
             <div className="app__header">
-                <div>
-                    <Link to={this.props.backLink} href="" className="t-small t-medium th-f-color t-ls1">{this.props.menuName}</Link>
-                </div>
-                <AppName name={this.props.appName}/>
+                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
+                <Name />
                 { icon }
             </div>
         )
     }
+    componentWillReceiveProps (nextProps) {
+        // TODO: this will not allow performInteraction while browsing a submenu
+        // not sure if that's okay
+        if (nextProps.isDisconnected) {
+            this.props.router.push("/")
+        }
+        else if (!nextProps.router.isActive("/inapplist")
+            && nextProps.isPerformingInteraction) {
+                this.props.router.push("/inapplist")
+        }
+        // We are in the app list and previously performing interaction but not anymore. This means time to switch out
+        // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
+        else if (nextProps.router.isActive("/inapplist")
+            && this.props.isPerformingInteraction
+            && !nextProps.isPerformingInteraction) {
+                // TODO: probably go back instead of pushing media - needs investigation
+                this.props.router.push("/media")
+            }
+    }
 }
+
+export default withRouter(AppHeader)

@@ -11,7 +11,10 @@ export default class HScrollMenuItem extends React.Component {
         (<span className="svg-wrap" dangerouslySetInnerHTML={{__html: `${menuItem.image}`}} />)
         : <img className="th-box-shadow" src={menuItem.image} /> ;
         return (
-            <Link to={menuItem.link} className={`hscrollmenu-item th-b-color ${menuItem.class}`}>
+            <Link
+                to={menuItem.link}
+                className={`hscrollmenu-item th-b-color ${menuItem.class}`}
+                onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
                 <div className="hscrollmenu-item__image">
                     { graphic }
                 </div>
