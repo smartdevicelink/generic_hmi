@@ -40,7 +40,7 @@ module.exports = {
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
-                loaders: ['file?name=/fonts/[hash].[ext]']
+                loaders: ['file?name=fonts/[hash].[ext]']
             },
             {
                 test: /\.svg$/,
