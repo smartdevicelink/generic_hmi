@@ -1,0 +1,19 @@
+import RpcFactory from './RpcFactory'
+class TTSController {
+    handleRPC(rpc) {
+        let methodName = rpc.method.split(".")[1]
+        switch(methodName) {
+            case "IsReady":
+                return {rpc: RpcFactory.IsReadyResponse(rpc, true)}
+            case "ChangeRegistration":
+                return true
+            case "AddCommand":
+                return true
+            case "SetGlobalProperties":
+                return true
+        }
+    }
+}
+
+let controller = new TTSController ()
+export default controller
