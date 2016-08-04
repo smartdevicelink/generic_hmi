@@ -3,6 +3,7 @@ let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
+import ttsController from './TTSController';
 
 export default class Controller {
     constructor () {
@@ -139,9 +140,9 @@ export default class Controller {
             case "VR":
                 response = vrController.handleRPC(rpc);
                 break;
-            // case "TTS":
-            //     response = ttsController.handleRPC(rpc);
-            //     break;
+            case "TTS":
+                response = ttsController.handleRPC(rpc);
+                break;
             // case "Navigation":
             //     response = navController.handleRPC(rpc);
             //     break;
