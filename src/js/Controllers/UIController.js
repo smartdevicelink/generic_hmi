@@ -73,7 +73,7 @@ class UIController {
                     rpc.params.name,
                     rpc.params.isSubscribed
                 ))
-                return true
+                return null
             case "PerformInteraction":
                 store.dispatch(performInteraction(
                     rpc.params.appID,
