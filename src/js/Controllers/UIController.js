@@ -93,6 +93,9 @@ class UIController {
                     rpc.params.updateMode
                 ))
                 return true
+            case "SetGlobalProperties":
+                // TODO: implement this RPC
+                return true
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
