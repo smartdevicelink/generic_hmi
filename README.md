@@ -91,13 +91,13 @@ First, add a case statement to the appropriate Sub-Controller. If the RPC is nam
 ```js
 // UIController.js
 import {
-    show
+    show // Importing the new action for use with store.dispatch
 } from '../actions'
 ...
 handleRPC(rpc) {
     ...
         case "Show":
-            store.dispatch(show(
+            store.dispatch(show( // dispatching the action with the needed info
                 rpc.params.appID,
                 rpc.params.showStrings,
                 rpc.params.graphic,
@@ -108,12 +108,12 @@ handleRPC(rpc) {
 
 // actions.js
 export const Actions = {
-    SHOW: "SHOW"
+    SHOW: "SHOW" // Defining the new type
 }
 ...
-export const show = (appID, showStrings, graphic, softButtons) => {
+export const show = (appID, showStrings, graphic, softButtons) => { // exporting the show action
     return {
-        type: Actions.SHOW,
+        type: Actions.SHOW, // Specifying the new type
         appID: appID,
         showStrings: showStrings,
         graphic: graphic,
@@ -124,20 +124,20 @@ export const show = (appID, showStrings, graphic, softButtons) => {
 // reducers.js
 function ui(state = {}, action) {
     switch (action.type) {
-        case Actions.SHOW:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
+        case Actions.SHOW: // implementing the reducer, you can do this in any of the functions that are to be reduced into state
+            var newState = { ...state } // Copy over the old state
+            var app = newState[action.appID] ? newState[action.appID] : newAppState() // Find the app specified by the action that we're changing state for or create a new one
+            newState[action.appID] = app // set it back in case we created a new one
             if (action.showStrings && action.showStrings.length > 0) {
-                app.showStrings = action.showStrings
+                app.showStrings = action.showStrings // Change show strings if they changed
             }
-            if (action.graphic) {
+            if (action.graphic) { // Add the graphic to the state if it exists
                 app.graphic = action.graphic
             }
-            if (action.softButtons && action.softButtons.length > 0) {
+            if (action.softButtons && action.softButtons.length > 0) { // Change soft buttons if they changed
                 app.softButtons = action.softButtons
             }
-            return newState
+            return newState // self explanatory
 ...
 
 ```
