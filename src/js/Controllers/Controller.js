@@ -128,6 +128,8 @@ export default class Controller {
         if (rpc.method) {
             componentName = rpc.method.split(".")[0];
         } else {
+            // It's a response
+            bcController.handleRPCResponse(rpc)
             return
         }
         switch (componentName) {
@@ -147,10 +149,6 @@ export default class Controller {
             case "VehicleInfo":
                 response = viController.handleRPC(rpc)
                 break;
-            case undefined:
-                //It's a response
-                bcController.handleRPCResponse(rpc)
-                return;
             // case "Navigation":
             //     response = navController.handleRPC(rpc);
             //     break;
