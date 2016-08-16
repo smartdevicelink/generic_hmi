@@ -120,9 +120,13 @@ class UIController {
     onButtonPress(appID, buttonID, buttonName) {
         var button = {
             name: buttonName,
-            mode: "SHORT",
+            mode: "BUTTONDOWN",
             customButtonID: buttonID
         }
+        this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
+        button.mode = "BUTTONUP"
+        this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
+        button.mode = "SHORT"
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
 }
