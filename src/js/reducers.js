@@ -205,6 +205,10 @@ function ui(state = {}, action) {
             if (action.updateMode === "COUNTUP") {
                 app.updateTime = new Date().getTime()
             }
+            else if (action.updateMode === "PAUSE" && action.startTime) {
+                app.pauseTime = new Date().getTime()
+                app.updateTime = app.pauseTime
+            }
             else if (action.updateMode === "PAUSE") {
                 app.pauseTime = new Date().getTime()
             }
