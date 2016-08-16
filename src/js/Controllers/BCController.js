@@ -29,8 +29,17 @@ class BCController {
                 return {"rpc": RpcFactory.MixingAudioResponse(rpc)}
         }
     }
+    handleRPCResponse(rpc) {
+        let methodName = rpc.result.method.split(".")[1]
+        switch (methodName) {
+            case "ActivateApp":
+                store.dispatch(activateApp(rpc.params.appID))
+                return;
+        }
+    }
     onAppActivated(appID) {
-        this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
+        // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
+        this.listenter.send(RpcFactory.SDLActivateApp(appID))
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))

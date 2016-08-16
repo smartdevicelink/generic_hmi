@@ -1,4 +1,5 @@
 import capabilities from './DisplayCapabilities.js'
+var rpcFactory_msgId = 5012
 class RpcFactory {
     static AlertResponse(rpcID) {
         return ({
@@ -22,6 +23,20 @@ class RpcFactory {
                 "hmiZoneCapabilities": capabilities.hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities.softButtonCapabilities,
                 "hmiCapabilities": capabilities.hmiCapabilities
+            }
+        })
+    }
+    static activateAppResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code":0,
+                "isAppPermissionsRevoked": false,
+                "isAppRevoked": false,
+                "isPermissionsConsentNeeded": false,
+                "isSDLAllowed": true
             }
         })
     }
@@ -116,6 +131,16 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnAppActivated",
+            "params": {
+                "appID": appID
+            }
+        })
+    }
+    static SDLActivateApp(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.ActivateApp",
             "params": {
                 "appID": appID
             }
