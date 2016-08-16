@@ -1,7 +1,7 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
 import { updateAppList, activateApp, unregisterApplication } from '../actions'
-
+var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -35,15 +35,14 @@ class BCController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "ActivateApp":
-                store.dispatch(activateApp(this.rpcAppIdMap[rpc.id]))
+                store.dispatch(activateApp(activatingApplication))
                 return;
         }
     }
     onAppActivated(appID) {
         // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
-        var rpcId = this.incrementedRpcId++
-        this.rpcAppIdMap[rpcId] = appID
-        this.listener.send(RpcFactory.SDLActivateApp(appID, rpcId))
+        activatingApplication = appID
+        this.listener.send(RpcFactory.SDLActivateApp(appID))
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
