@@ -93,6 +93,8 @@ class UIController {
                     rpc.params.updateMode
                 ))
                 return true
+            case "GetCapabilities":
+                return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
