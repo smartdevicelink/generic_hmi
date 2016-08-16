@@ -147,6 +147,10 @@ export default class Controller {
             case "VehicleInfo":
                 response = viController.handleRPC(rpc)
                 break;
+            case undefined:
+                //It's a response
+                bcController.handleRPCResponse(rpc)
+                return;
             // case "Navigation":
             //     response = navController.handleRPC(rpc);
             //     break;
