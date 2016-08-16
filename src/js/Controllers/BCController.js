@@ -26,7 +26,7 @@ class BCController {
             case "UpdateDeviceList":
                 return true
             case "MixingAudioSupported":
-                return true
+                return {"rpc": RpcFactory.MixingAudioResponse(rpc)}
         }
     }
     onAppActivated(appID) {
