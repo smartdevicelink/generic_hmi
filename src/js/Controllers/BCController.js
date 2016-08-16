@@ -23,6 +23,8 @@ class BCController {
             case "OnAppUnregistered":
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))
                 return null
+            case "UpdateDeviceList":
+                return true
         }
     }
     onAppActivated(appID) {
