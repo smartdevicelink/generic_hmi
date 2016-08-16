@@ -5,6 +5,7 @@ export default class MediaTrackInfo extends React.Component {
         super(props);
     }
     componentDidMount() {
+        clearInterval(this.interval)
         this.interval = setInterval(this.forceUpdate.bind(this), 1000)
     }
     componentWillUnmount() {
