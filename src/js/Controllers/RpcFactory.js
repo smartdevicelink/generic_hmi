@@ -186,6 +186,18 @@ class RpcFactory {
             }
         })
     }
+    static OnButtonEventNotification(appID, button) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "Buttons.OnButtonEvent",
+            "params": {
+                "name": button.name,
+                "mode": button.mode,
+                "appID": appID,
+                "customButtonID": button.softButtonID
+            }
+        })
+    }
     static GetVehicleDataResponse(rpc, data) {
         var obj = {
             "jsonrpc": "2.0",
