@@ -94,7 +94,11 @@ class UIController {
                 ))
                 return true
             case "GetCapabilities":
-                return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
+                if (rpc.method.split(".")[0] === "Buttons") {
+                    return {rpc: RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
+                } else {
+                    return {rpc: RpcFactory.UIGetCapabilitiesResponse(rpc)}
+                }
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
