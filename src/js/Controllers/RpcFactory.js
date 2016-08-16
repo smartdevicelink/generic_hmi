@@ -198,6 +198,17 @@ class RpcFactory {
             }
         })
     }
+    static MixingAudioResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": "BasicCommunication.MixingAudioSupported",
+                "code": 0,
+                "attenuatedSupported": true
+            }
+        })
+    }
     static GetVehicleDataResponse(rpc, data) {
         var obj = {
             "jsonrpc": "2.0",
