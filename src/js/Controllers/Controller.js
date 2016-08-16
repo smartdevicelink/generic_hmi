@@ -4,6 +4,7 @@ import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
+import viController from './VehicleInfoController';
 
 export default class Controller {
     constructor () {
@@ -143,11 +144,11 @@ export default class Controller {
             case "TTS":
                 response = ttsController.handleRPC(rpc);
                 break;
+            case "VehicleInfo":
+                response = viController.handleRPC(rpc)
+                break;
             // case "Navigation":
             //     response = navController.handleRPC(rpc);
-            //     break;
-            // case "VehicleInfo":
-            //     response = vehicleInfoController.handleRPC(rpc);
             //     break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail

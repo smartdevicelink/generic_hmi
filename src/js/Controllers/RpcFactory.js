@@ -151,6 +151,22 @@ class RpcFactory {
             }
         })
     }
+    static GetVehicleType(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "code": 0,
+                "method": "VehicleInfo.GetVehicleType",
+                "vehicleType": {
+                    "make": "Ford",
+                    "model": "Fiesta",
+                    "modelYear": "2013",
+                    "trim": "SE"
+                }
+            }
+        })
+    }
     static PerformInteractionFailure (msgID) {
         return ({
             "jsonrpc": "2.0",
