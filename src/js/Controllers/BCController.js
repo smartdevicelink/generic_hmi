@@ -39,7 +39,7 @@ class BCController {
     }
     onAppActivated(appID) {
         // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
-        this.listenter.send(RpcFactory.SDLActivateApp(appID))
+        this.listener.send(RpcFactory.SDLActivateApp(appID))
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
