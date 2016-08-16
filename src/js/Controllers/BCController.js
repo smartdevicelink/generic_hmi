@@ -25,6 +25,8 @@ class BCController {
                 return null
             case "UpdateDeviceList":
                 return true
+            case "MixingAudioSupported":
+                return true
         }
     }
     onAppActivated(appID) {
