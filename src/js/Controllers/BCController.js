@@ -5,6 +5,8 @@ import { updateAppList, activateApp, unregisterApplication } from '../actions'
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        var incrementedRpcId = 5012
+        var rpcAppIdMap = {}
     }
     addListener(listener) {
         this.listener = listener
@@ -33,13 +35,15 @@ class BCController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "ActivateApp":
-                store.dispatch(activateApp(rpc.params.appID))
+                store.dispatch(activateApp(this.rpcAppIdMap[rpc.id]))
                 return;
         }
     }
     onAppActivated(appID) {
         // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
-        this.listener.send(RpcFactory.SDLActivateApp(appID))
+        var rpcId = this.incrementedRpcId++
+        this.rpcAppIdMap[rpcId] = appID
+        this.listener.send(RpcFactory.SDLActivateApp(appID, rpcId))
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))

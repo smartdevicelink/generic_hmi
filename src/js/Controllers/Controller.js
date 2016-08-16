@@ -127,9 +127,11 @@ export default class Controller {
         rpc = this.sanitizeRPC(rpc)
         if (rpc.method) {
             componentName = rpc.method.split(".")[0];
-        } else {
+        } else if (rpc.result.method) {
             // It's a response
             bcController.handleRPCResponse(rpc)
+            return
+        } else {
             return
         }
         switch (componentName) {
