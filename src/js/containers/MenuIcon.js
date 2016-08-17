@@ -20,6 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
             uiController.onSystemContext("MENU", appID)
+            uiController.failInteractions()
         }
     }
 }

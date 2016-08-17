@@ -16,8 +16,10 @@ import store from '../store'
 class UIController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
         this.timers = {}
+        this.appsWithTimers = {}
     }
     addListener(listener) {
         this.listener = listener
@@ -84,6 +86,7 @@ class UIController {
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
+                this.appsWithTimers[rpc.id] = rpc.params.appID
                 break
             case "SetMediaClockTimer":
                 store.dispatch(setMediaClockTimer(
@@ -99,6 +102,7 @@ class UIController {
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
+        delete this.timers[msgID]
         this.listener.send(RpcFactory.PerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
@@ -107,6 +111,7 @@ class UIController {
     }
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
+        delete this.timers[msgID]
         this.listener.send(RpcFactory.PerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {
@@ -126,6 +131,17 @@ class UIController {
         this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
         button.mode = "SHORT"
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
+    }
+    failInteractions() {
+        for (var msgID in this.timers) {
+            clearTimeout(this.timers[msgID])
+            delete this.timers[msgID]
+            this.listener.send(RpcFactory.PerformInteractionFailure(parseInt(msgID)))
+            store.dispatch(timeoutPerformInteraction(
+                parseInt(msgID),
+                this.appsWithTimers[msgID]
+            ))
+        }
     }
 }
 
