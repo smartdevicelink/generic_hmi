@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import bcController from '../Controllers/BCController'
+import uiController from '../Controllers/UIController'
 import AppMenuLink from '../AppMenuLink'
 
 const mapStateToProps = (state) => {
@@ -12,6 +13,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
             bcController.onAppDeactivated("GENERAL", appID)
+            uiController.failInteractions()
         }
     }
 }
