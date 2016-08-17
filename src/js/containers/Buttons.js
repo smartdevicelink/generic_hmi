@@ -5,14 +5,17 @@ import uiController from '../Controllers/UIController'
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
 import iconSeekRight from '../../img/icons/icon-seek-right.svg';
 import iconPlay from '../../img/icons/icon-play.svg';
+import iconPause from '../../img/icons/icon-pause.svg';
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var subscribedButtons = {}
     var softButtons = []
+    var app = {}
     if (activeApp) {
         subscribedButtons = state.ui[activeApp].subscribedButtons
         softButtons = state.ui[activeApp].softButtons
+        app = state.ui[activeApp]
     }
     // TODO: differentiate between types of softButtons and softButtons that use static images
     var buttons = []
@@ -31,11 +34,18 @@ const mapStateToProps = (state) => {
             icon: iconSeekLeft
         })
     }
-    if (subscribedButtons.OK === true) {
+    if (subscribedButtons.OK === true && app.updateMode === "PAUSE") {
         buttons.push({
             class: "primary",
             name: "OK",
             icon: iconPlay
+        })
+    }
+    else if (subscribedButtons.OK === true) {
+        buttons.push({
+            class: "primary",
+            name: "OK",
+            icon: iconPause
         })
     }
     if (subscribedButtons.SEEKRIGHT === true) {
