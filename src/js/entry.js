@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import Controller from './Controllers/Controller'
+import bcController from './Controllers/BCController'
 
 class HMIApp extends React.Component {
     constructor(props) {
@@ -28,6 +29,10 @@ class HMIApp extends React.Component {
     handleClick() {
         this.setState({ dark: !this.state.dark })
     }
+    handleShutdown(){
+        bcController.onIgnitionCycleOver()
+        bcController.onExitAllApplications("IGNITION_OFF")
+    }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
         return(
@@ -37,7 +42,10 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
+                <div> 
+                    <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
+                    <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
+                </div>
             </div>
         )
     }
