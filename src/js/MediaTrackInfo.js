@@ -35,10 +35,13 @@ export default class MediaTrackInfo extends React.Component {
         var endMins = endDate.getMinutes() < 10 ? "0" + endDate.getMinutes() : endDate.getMinutes()
         var endSecs = endDate.getSeconds() < 10 ? "0" + endDate.getSeconds() : endDate.getSeconds()
         var startTime = startHours + ":" + startMins + ":" + startSecs
-        var endTime = endHours + ":" + endMins + ":" + endSecs
+        var endTime = "/ " + endHours + ":" + endMins + ":" + endSecs
+        if(endHours == "00" && endMins == "00" && endSecs == "00") {
+            endTime = ""
+        }
         return (
             <div className="media-track__time">
-                <span className="t-small t-medium fc-bright-blue">{startTime} </span><span className="t-small t-medium fc-slate">/ {endTime}</span>
+                <span className="t-small t-medium fc-bright-blue">{startTime} </span><span className="t-small t-medium fc-slate">{endTime}</span>
             </div>
         )
     }
