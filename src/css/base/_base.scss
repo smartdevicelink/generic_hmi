@@ -9,7 +9,7 @@ body {
 #app {
     width: 960px;
     .app-body {
-        height: 675px;
+        height: 540px;
     }
 }
 
@@ -42,7 +42,7 @@ body {
         cursor: pointer;
         background: color(black);
         color: color(white);
-    }    
+    }
 }
 
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
