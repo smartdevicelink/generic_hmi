@@ -9,7 +9,7 @@ body {
 #app {
     width: 960px;
     .app-body {
-        height: 675px;
+        height: 540px;
     }
 }
 
@@ -20,7 +20,24 @@ body {
     border-radius: 2px;
     text-align: center;
     padding: 10px 0;
+    float: left;
 
+    &:hover {
+        cursor: pointer;
+        background: color(black);
+        color: color(white);
+    }
+}
+
+.shutdown-button {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 140px;
+    border: 1px solid color(black);
+    border-radius: 2px;
+    text-align: center;
+    padding: 10px 0;
+    float: left;
     &:hover {
         cursor: pointer;
         background: color(black);

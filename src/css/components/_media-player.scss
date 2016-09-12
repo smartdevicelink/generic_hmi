@@ -1,7 +1,7 @@
 .media-player-body {
     @include display(flex);
     @include justify-content(space-between);
-    height: 325px;
+    height: 275px;
     padding: 0 55px;
     position: relative;
     z-index: 100;
@@ -11,7 +11,7 @@
     margin-top: 50px;
     padding-top: 10px;
     width: 500px;
-    height: 275px;
+    height: 225px;
 
     text-align: center;
 

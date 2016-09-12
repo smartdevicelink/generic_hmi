@@ -1,9 +1,9 @@
 .album-art {
     @include size(325px);
-    @include transform(translateY(50px));
-    border-radius: 4px;
+
 
     img {
         width: 100%;
+        border-radius: 4px;
     }
 }

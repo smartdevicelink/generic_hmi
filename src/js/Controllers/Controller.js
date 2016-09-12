@@ -42,7 +42,7 @@ export default class Controller {
     }
     onclose (evt) {
         if (!this.retry) {
-            this.retry = setInterval(this.connectToSDL(this.listener), 4000)
+            this.retry = setInterval(this.connectToSDL.bind(this), 4000)
         }
     }
     onmessage(evt) {

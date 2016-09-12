@@ -282,6 +282,22 @@ class RpcFactory {
             }
         })
     }
+    static OnIgnitionCycleOverNotification(){
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnIgnitionCycleOver'
+        })
+    }
+    static OnExitAllApplicationsNotification(reason){
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnExitAllApplications',
+            'params': {
+                'reason': reason
+            }
+        })
+    }
+
 }
 
 export default RpcFactory
