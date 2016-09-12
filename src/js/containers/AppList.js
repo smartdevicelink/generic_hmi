@@ -4,10 +4,7 @@ import bcController from '../Controllers/BCController'
 
 const mapStateToProps = (state) => {
     var data = state.appList.map ((app, index) => {
-        var icon = ""
-        if (app.icon) {
-            icon = app.icon.replace("local:", "file:")
-        }
+        var icon = app.icon
         return {
             appID: app.appID,
             class: 'with-image',

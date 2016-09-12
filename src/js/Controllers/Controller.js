@@ -1,5 +1,5 @@
 let url = "ws://localhost:8087"
-let file_access_base_url = "";
+let file_access_base_url = "local:///";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -189,7 +189,11 @@ export default class Controller {
                 switch (prop) {
                     case "icon":
                     case "value":
-                        obj[prop] = file_access_base_url + obj[prop]
+                        // for QNX:
+                        // remove everything after local:///  and before SmartDeviceLinkCore/storage/
+                        var start = obj[prop].indexOf('SmartDeviceLinkCore/storage/')
+                        var dir = obj[prop].substring(start >= 0 ? start : 0)
+                        obj[prop] = file_access_base_url + dir
                         break;
                 }
             }
