@@ -1,10 +1,7 @@
 import RpcFactory from './RpcFactory'
-import configureStore from '../store'
+import store from '../store'
 import { updateAppList, activateApp, unregisterApplication } from '../actions'
 var activatingApplication = 0
-
-const store = configureStore();
-
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)

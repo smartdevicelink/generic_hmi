@@ -3,7 +3,6 @@ import HScrollMenu from '../HScrollMenu'
 import bcController from '../Controllers/BCController'
 
 const mapStateToProps = (state) => {
-    console.log(state);
     var data = state.appList.map ((app, index) => {
         var icon = ""
         if (app.icon) {

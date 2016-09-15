@@ -12,13 +12,10 @@ import { render } from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
 
 import { Provider } from 'react-redux'
-import configureStore from './store'
+import store from './store'
 
 import Controller from './Controllers/Controller'
 import bcController from './Controllers/BCController'
-
-import storage from './utils/storage';
-import { SDL_HMI_STORAGE } from './constants';
 
 class HMIApp extends React.Component {
     constructor(props) {
@@ -77,20 +74,6 @@ class HMIApp extends React.Component {
         this.sdl.disconnectFromSDL()
     }
 }
-
-const TEN_MINUTES = 10 * 60 * 1000;
-// Get any stored state if available
-let initialState = storage.get(SDL_HMI_STORAGE);
-// Make sure it's not older than ten minutes
-const valid = initialState ? (Date.now() - initialState.ts) < TEN_MINUTES : false;
-if (!initialState || !valid) {
-    initialState = undefined;
-} else {
-    // Reset the timestamp on the storage key
-    delete initialState.ts;
-}
-
-const store = configureStore(initialState);
 
 // render
 const entrypoint = document.getElementById('app');

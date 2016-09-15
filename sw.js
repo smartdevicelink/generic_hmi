@@ -1,11 +1,28 @@
+const url = "ws://localhost:8087"
+let socket;
+
+function handleSocketMessage(e) {
+    console.log(e);
+}
+
+function handleSocketOpen(e) {
+    console.log(e, 'open');
+}
+
 function handleInstall(event) {
-    console.log('installed');
-    // not caching anything yet
+    console.log('installed', socket);
+    // not caching anything
     self.skipWaiting();
 }
 
 function handleActivate(event) {
     event.waitUntil(self.clients.claim());
+    if(!socket) {
+        socket = new WebSocket(url);
+    }
+    console.log('activated', socket);
+    socket.onopen = handleSocketOpen;
+    socket.onmessage = handleSocketMessage;
 }
 
 // Getting a bunch of this from this SW cookbook:

@@ -11,9 +11,7 @@ import {
     timeoutPerformInteraction,
     setMediaClockTimer
 } from '../actions'
-import configureStore from '../store'
-
-const store = configureStore();
+import store from '../store'
 
 class UIController {
     constructor () {
