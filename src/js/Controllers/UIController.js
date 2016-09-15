@@ -1,17 +1,19 @@
 import RpcFactory from './RpcFactory'
 import {
     show,
-    setAppIcon, 
-    addCommand, 
-    addSubMenu, 
-    deleteCommand, 
-    deleteSubMenu, 
-    subscribeButton, 
+    setAppIcon,
+    addCommand,
+    addSubMenu,
+    deleteCommand,
+    deleteSubMenu,
+    subscribeButton,
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer
 } from '../actions'
-import store from '../store'
+import configureStore from '../store'
+
+const store = configureStore();
 
 class UIController {
     constructor () {
