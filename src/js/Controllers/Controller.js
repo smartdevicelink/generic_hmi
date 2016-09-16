@@ -17,10 +17,10 @@ export default class Controller {
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
-        this.socket = new WebSocket(url)
-        this.socket.onopen = this.onopen.bind(this)
-        this.socket.onclose = this.onclose.bind(this)
-        this.socket.onmessage = this.onmessage.bind(this)
+        navigator.serviceWorker.controller.postMessage({ type: 'connectToWS' });
+    }
+    addSWListener() {
+        navigator.serviceWorker.onmessage = this.onmessage.bind(this);
     }
     disconnectFromSDL() {
         if (this.retry) {
@@ -34,21 +34,15 @@ export default class Controller {
             }
         }
     }
-    onopen (evt) {
-        if (this.retry) {
-            clearInterval(this.retry)
-        }
-        this.registerComponents()
-    }
     onclose (evt) {
         if (!this.retry) {
             this.retry = setInterval(this.connectToSDL.bind(this), 4000)
         }
     }
     onmessage(evt) {
-        var rpc = JSON.parse(evt.data)
-        console.log("incoming rpc", rpc)
-        this.handleRPC(rpc)
+        // var rpc = JSON.parse(evt.data)
+        console.log("incoming rpc", evt.data)
+        this.handleRPC(evt.data)
     }
     respondSuccess (method, id) {
         var obj = {
@@ -59,7 +53,7 @@ export default class Controller {
                 "method": method
             }
         }
-        this.send(obj)
+        this.send(obj);
     }
     respondFail (method, id) {
         var obj = {
@@ -72,54 +66,10 @@ export default class Controller {
         }
         this.send(obj)
     }
-    subscribeToNotification (notification) {
-        var obj = {
-            "jsonrpc": "2.0",
-            "id": -1,
-            "method": "MB.subscribeTo",
-            "params": {
-                "propertyName": notification
-            }
-        }
-        this.send(obj)
-    }
     send(rpc) {
         console.log("outgoing rpc", rpc)
         var jsonString = JSON.stringify(rpc);
-        this.socket.send(jsonString);
-    }
-    registerComponents() {
-        var JSONMessage = {
-            "jsonrpc": "2.0",
-            "id": -1,
-            "method": "MB.registerComponent",
-            "params": {
-                "componentName": "UI"
-            }
-        };
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "BasicCommunication";
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "Buttons";
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "VR";
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "TTS";
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "Navigation";
-        this.send(JSONMessage);
-        JSONMessage.params.componentName = "VehicleInfo";
-        this.send(JSONMessage);
-        var ready = {
-            "jsonrpc": "2.0",
-            "method": "BasicCommunication.OnReady"
-        }
-        this.send(ready);
-        // register for all notifications
-        this.subscribeToNotification("Buttons.OnButtonSubscription")
-        this.subscribeToNotification("BasicCommunication.OnAppRegistered")
-        this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
-        this.subscribeToNotification("Navigation.OnVideoDataStreaming")
+        navigator.serviceWorker.controller.postMessage({ type: 'sendToWS', data: jsonString });
     }
     handleRPC(rpc) {
         var response = undefined

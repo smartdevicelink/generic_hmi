@@ -19,14 +19,8 @@ if (!initialState || !valid) {
 function configureStore(initialState) {
     const store = createStore(
         hmi,
-        initialState,
-        applyMiddleware(swBroadcast)
+        initialState
     );
-
-    // Add an event listener to dispatch data passed from service worker
-    navigator.serviceWorker.addEventListener('message', (event) => {
-        store.dispatch(event.data.message);
-    });
 
     // Put that stuff in localstorage
     store.subscribe(() => {

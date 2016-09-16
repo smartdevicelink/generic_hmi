@@ -25,19 +25,6 @@ class HMIApp extends React.Component {
         }
         this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
-        this.initServiceWorker();
-    }
-
-    initServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js', {
-                scope: '/'
-            }).then(registration => {
-                console.log('Registration was successful', registration.scope);
-            }).catch(err => {
-                console.log('Service worker registration failed', err);
-            });
-        }
     }
 
     handleClick() {
@@ -67,7 +54,17 @@ class HMIApp extends React.Component {
     }
 
     componentDidMount() {
-        this.sdl.connectToSDL()
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', {
+                scope: '/'
+            }).then(registration => {
+                console.log('Registration was successful', registration.scope);
+                this.sdl.connectToSDL();
+                this.sdl.addSWListener();
+            }).catch(err => {
+                console.log('Service worker registration failed', err);
+            });
+        }
     }
 
     componentWillUnmount() {
