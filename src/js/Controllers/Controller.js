@@ -23,21 +23,6 @@ export default class Controller {
             resolve();
         })
     }
-    // connectToSDL() {
-    //     // Make this async so that we can bind the SW listener only if the socket opens
-    //     return new Promise((resolve, reject) => {
-    //         // Open new message channel to receive reply from SW
-    //         const messageChannel = new MessageChannel();
-    //         messageChannel.port1.onmessage = (evt) => {
-    //             if (evt.data.error) {
-    //                 reject(evt.data.error);
-    //             } else {
-    //                 resolve(evt.data);
-    //             }
-    //         }
-    //         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
-    //     });
-    // }
     disconnectFromSDL() {
         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }
