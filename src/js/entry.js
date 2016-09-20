@@ -54,13 +54,19 @@ class HMIApp extends React.Component {
     }
 
     componentDidMount() {
+        // Install service worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js', {
                 scope: '/'
             }).then(registration => {
                 console.log('Registration was successful', registration.scope);
-                this.sdl.connectToSDL();
-                this.sdl.addSWListener();
+                this.sdl.connectToSDL()
+                .then(data => {
+                    this.sdl.addSWListener();
+                })
+                .then(res => {
+                    this.sdl.registerComponents();
+                })
             }).catch(err => {
                 console.log('Service worker registration failed', err);
             });

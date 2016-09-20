@@ -5,10 +5,10 @@ import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
+import * as swTypes from '../constants/serviceWorker';
 
 export default class Controller {
     constructor () {
-        this.socket = null
         bcController.addListener(this)
         uiController.addListener(this)
         // this.vrController = new VRController;
@@ -16,23 +16,32 @@ export default class Controller {
         // this.navController = new NavigationController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
-    connectToSDL() {
-        navigator.serviceWorker.controller.postMessage({ type: 'connectToWS' });
-    }
     addSWListener() {
-        navigator.serviceWorker.onmessage = this.onmessage.bind(this);
+        return new Promise(resolve => {
+            navigator.serviceWorker.onmessage = this.onmessage.bind(this);
+            resolve();
+        });
     }
-    disconnectFromSDL() {
-        if (this.retry) {
-            clearInterval(this.retry);
-        }
-        if (this.socket) {
-            if(this.socket.readyState === this.socket.OPEN) {
-                this.socket.onclose = function () {
-                    this.socket.close()
+    connectToSDL() {
+        // Make this async so that we can bind the SW listener only if the socket opens
+        return new Promise((resolve, reject) => {
+            // Open new message channel to receive reply from SW
+            const messageChannel = new MessageChannel();
+            messageChannel.port1.onmessage = (evt) => {
+                if (evt.data.error) {
+                    reject(evt.data.error);
+                } else {
+                    resolve(evt.data);
                 }
             }
-        }
+            navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
+        });
+    }
+    registerComponents() {
+        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_REGISTER_COMPONENTS });
+    }
+    disconnectFromSDL() {
+        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }
     onclose (evt) {
         if (!this.retry) {
@@ -66,10 +75,53 @@ export default class Controller {
         }
         this.send(obj)
     }
+    subscribeToNotification (notification) {
+        var obj = {
+            "jsonrpc": "2.0",
+            "id": -1,
+            "method": "MB.subscribeTo",
+            "params": {
+                "propertyName": notification
+            }
+        }
+        this.send(obj)
+    }
     send(rpc) {
-        console.log("outgoing rpc", rpc)
         var jsonString = JSON.stringify(rpc);
-        navigator.serviceWorker.controller.postMessage({ type: 'sendToWS', data: jsonString });
+        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_SEND_TO_SDL, data: jsonString });
+    }
+    registerComponents() {
+        var JSONMessage = {
+            "jsonrpc": "2.0",
+            "id": -1,
+            "method": "MB.registerComponent",
+            "params": {
+                "componentName": "UI"
+            }
+        };
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "BasicCommunication";
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "Buttons";
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "VR";
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "TTS";
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "Navigation";
+        this.send(JSONMessage);
+        JSONMessage.params.componentName = "VehicleInfo";
+        this.send(JSONMessage);
+        var ready = {
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnReady"
+        }
+        this.send(ready);
+        // register for all notifications
+        this.subscribeToNotification("Buttons.OnButtonSubscription")
+        this.subscribeToNotification("BasicCommunication.OnAppRegistered")
+        this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
+        this.subscribeToNotification("Navigation.OnVideoDataStreaming")
     }
     handleRPC(rpc) {
         var response = undefined

@@ -1,93 +1,65 @@
+// Getting a bunch of this from this SW cookbook:
+// https://serviceworke.rs/message-relay_service-worker_doc.html
+
 const url = "ws://localhost:8087"
 let socket;
 
-function handleSocketMessage(e) {
-    console.log(e);
-}
-
-function send(rpc) {
-    console.log("outgoing rpc", rpc)
-    var jsonString = JSON.stringify(rpc);
-    socket.send(jsonString);
-}
-
-function subscribeToNotification (notification) {
-    var obj = {
-        "jsonrpc": "2.0",
-        "id": -1,
-        "method": "MB.subscribeTo",
-        "params": {
-            "propertyName": notification
-        }
-    }
-    send(obj)
-}
-
-function registerComponents() {
-    var JSONMessage = {
-        "jsonrpc": "2.0",
-        "id": -1,
-        "method": "MB.registerComponent",
-        "params": {
-            "componentName": "UI"
-        }
-    };
-    send(JSONMessage);
-    JSONMessage.params.componentName = "BasicCommunication";
-    send(JSONMessage);
-    JSONMessage.params.componentName = "Buttons";
-    send(JSONMessage);
-    JSONMessage.params.componentName = "VR";
-    send(JSONMessage);
-    JSONMessage.params.componentName = "TTS";
-    send(JSONMessage);
-    JSONMessage.params.componentName = "Navigation";
-    send(JSONMessage);
-    JSONMessage.params.componentName = "VehicleInfo";
-    send(JSONMessage);
-    var ready = {
-        "jsonrpc": "2.0",
-        "method": "BasicCommunication.OnReady"
-    }
-    send(ready);
-    // register for all notifications
-    subscribeToNotification("Buttons.OnButtonSubscription")
-    subscribeToNotification("BasicCommunication.OnAppRegistered")
-    subscribeToNotification("BasicCommunication.OnAppUnregistered")
-    subscribeToNotification("Navigation.OnVideoDataStreaming")
-}
-
-function handleSocketOpen(e) {
-    registerComponents()
-}
-
+// Service Worker install event
 function handleInstall(event) {
-    console.log('installed', socket);
     // not caching anything
-    self.skipWaiting();
+    event.waitUntil(self.skipWaiting());
 }
 
+// Service Worker Activate event
 function handleActivate(event) {
+    // Claim all clients currently in scope
     event.waitUntil(self.clients.claim());
 }
 
-function connectToSDL() {
-    if(!socket) {
-        socket = new WebSocket(url);
-    }
-    socket.onopen = handleSocketOpen;
-    socket.onmessage = onmessage;
+// Send message to socket connection
+function sendToSocket(rpc) {
+    socket.send(rpc);
 }
 
+// Open socket connection to SDL
+function connectToSocket() {
+    return new Promise(resolve => {
+        if(!socket || socket.readyState === socket.CLOSED) {
+            socket = new WebSocket(url);
+            socket.onopen = () => {
+                resolve('Connected to SDL socket');
+            }
+            socket.onmessage = onSocketMessage;
+        } else {
+            resolve('Existing socket connection');
+        }
+    });
+}
+
+function disconnectFromSocket() {
+    if (socket) {
+        if(socket.readyState === socket.OPEN) {
+            socket.onclose = function () {
+                socket.close();
+            }
+        }
+    }
+}
+
+function checkClientsAndCloseSocket() {
+    self.clients.matchAll().then(clientList => {
+        if (clientList.length === 1) {
+            disconnectFromSDL();
+        }
+    });
+}
+
+// Post message to all connected clients
 function broadcast(data) {
     // Get all connected clients and forward the message along
-    const promise = self.clients.matchAll().then(clientList => {
+    self.clients.matchAll().then(clientList => {
         // event.source.id contains the ID of the sender of the message
         const senderId = data.source ? data.source.id : 'unknown';
-
-        if (!data.source) {
-            console.log('event source is null; we don\'t know the sender of the message');
-        }
 
         clientList.forEach(client => {
             // If this is a Redux action skip sending the message to the client that sent it.
@@ -105,32 +77,31 @@ function broadcast(data) {
             client.postMessage(data);
         });
     });
-
-
-    // If event.waitUntil is defined (not yet in Chrome because of the same issue detailed before),
-    // use it to extend the lifetime of the Service Worker.
-    if (data.waitUntil) {
-        event.waitUntil(promise);
-    }
 }
 
-function onmessage(evt) {
+// Handle messages from the socket connection
+function onSocketMessage(evt) {
     const rpc = JSON.parse(evt.data)
-    console.log("incoming rpc to serviceWorker", rpc);
     broadcast(rpc);
 }
 
-// Getting a bunch of this from this SW cookbook:
-// https://serviceworke.rs/message-relay_service-worker_doc.html
-
-// Pass on the action creator to all listening clients
-function handleMessage({ data: event }) {
-    switch (event.type) {
-        case 'connectToWS':
-            connectToSDL();
+// Handle messages to the serviceWorker
+function handleClientMessage(event) {
+    switch (event.data.type) {
+        case 'SW_CONNECT_SDL':
+            connectToSocket().then(res => {
+                // Send a success reply to the connect request which passed a message port
+                event.ports[0].postMessage(res);
+            });
             break;
-        case 'sendToWS':
-            socket.send(event.data);
+        case 'SW_REGISTER_COMPONENTS':
+            registerComponents();
+            break;
+        case 'SW_SEND_TO_SDL':
+            sendToSocket(event.data.data);
+            break;
+        case 'SW_CLOSE_SDL_CONNECTION':
+            checkClientsAndCloseWS();
             break;
         default:
             return;
@@ -143,5 +114,5 @@ function handleFetch(evt) {
 
 self.addEventListener('install', handleInstall);
 self.addEventListener('activate', handleActivate);
-self.addEventListener('message', handleMessage);
+self.addEventListener('message', handleClientMessage);
 self.addEventListener('fetch', handleFetch);
