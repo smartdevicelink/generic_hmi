@@ -1,9 +1,10 @@
 const swBroadcast = store => next => action => {
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        console.log('relaying action to service worker', action);
-        const result = next(action);
+        const newAction = Object.assign({}, action, { isReduxAction: true });
+        console.log('relaying action to service worker', newAction);
+        const result = next(newAction);
         if (!action.swClient) {
-            navigator.serviceWorker.controller.postMessage(action);
+            navigator.serviceWorker.controller.postMessage(newAction);
         }
         return result;
     }

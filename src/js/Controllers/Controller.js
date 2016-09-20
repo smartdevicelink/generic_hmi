@@ -37,9 +37,6 @@ export default class Controller {
             navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
         });
     }
-    registerComponents() {
-        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_REGISTER_COMPONENTS });
-    }
     disconnectFromSDL() {
         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }
@@ -87,6 +84,7 @@ export default class Controller {
         this.send(obj)
     }
     send(rpc) {
+        // RPC is sent through the service worker, which is handling socket connections
         var jsonString = JSON.stringify(rpc);
         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_SEND_TO_SDL, data: jsonString });
     }

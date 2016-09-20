@@ -16,11 +16,6 @@ function handleActivate(event) {
     event.waitUntil(self.clients.claim());
 }
 
-// Send message to socket connection
-function sendToSocket(rpc) {
-    socket.send(rpc);
-}
-
 // Open socket connection to SDL
 function connectToSocket() {
     return new Promise(resolve => {
@@ -34,6 +29,11 @@ function connectToSocket() {
             resolve('Existing socket connection');
         }
     });
+}
+
+// Send message to socket connection
+function sendToSocket(rpc) {
+    socket.send(rpc);
 }
 
 function disconnectFromSocket() {

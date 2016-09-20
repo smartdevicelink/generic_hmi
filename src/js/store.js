@@ -19,7 +19,8 @@ if (!initialState || !valid) {
 function configureStore(initialState) {
     const store = createStore(
         hmi,
-        initialState
+        initialState,
+        applyMiddleware(swBroadcast)
     );
 
     // Put that stuff in localstorage
