@@ -48,8 +48,10 @@ export default class Controller {
     }
     onmessage(evt) {
         // var rpc = JSON.parse(evt.data)
-        console.log("incoming rpc", evt.data)
-        this.handleRPC(evt.data)
+        if (!evt.data.isReduxAction) {
+            console.log("incoming rpc", evt.data)
+            this.handleRPC(evt.data)
+        }
     }
     respondSuccess (method, id) {
         var obj = {

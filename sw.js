@@ -85,6 +85,10 @@ function onSocketMessage(evt) {
 
 // Handle messages to the serviceWorker
 function handleClientMessage(event) {
+    if (event.data.isReduxAction) {
+        broadcast(event.data);
+    }
+
     switch (event.data.type) {
         case 'SW_CONNECT_SDL':
             connectToSocket().then(res => {

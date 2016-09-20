@@ -9,7 +9,8 @@ import InAppList from './InAppList';
 import TilesOnly from './TilesOnly';
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, hashHistory } from 'react-router'
+import { Router, Route, hashHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -76,11 +77,13 @@ class HMIApp extends React.Component {
 
 // render
 const entrypoint = document.getElementById('app');
+const history = syncHistoryWithStore(hashHistory, store);
+
 if (entrypoint) {
     render(
         <Provider store={store}>
             <HMIApp>
-                <Router history={hashHistory}>
+                <Router history={history}>
                     <Route path="/" component={HMIMenu} />
                     <Route path="/media" component={MediaPlayer} />
                     <Route path="/inappmenu" component={InAppMenu} />

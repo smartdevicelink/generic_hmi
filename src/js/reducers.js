@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import { Actions } from './actions';
 import './polyfill_find'
 
@@ -234,5 +235,6 @@ function ui(state = {}, action) {
 export const hmi = combineReducers({
     appList,
     activeApp,
-    ui
+    ui,
+    routing: routerReducer
 })

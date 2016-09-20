@@ -1,8 +1,9 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { hmi } from './reducers'
 import { swBroadcast } from './middlewares';
 import storage, { cleanState } from './utils/storage';
 import { SDL_HMI_STORAGE } from './constants';
+import { routerReducer } from 'react-router-redux';
 
 const TEN_MINUTES = 10 * 60 * 1000;
 // Get any stored state if available
@@ -22,6 +23,13 @@ function configureStore(initialState) {
         initialState,
         applyMiddleware(swBroadcast)
     );
+
+    // Add an event listener to dispatch data passed from service worker
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data.isReduxAction) {
+            store.dispatch(event.data);
+        }
+    });
 
     // Put that stuff in localstorage
     store.subscribe(() => {
