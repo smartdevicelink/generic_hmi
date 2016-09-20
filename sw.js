@@ -46,7 +46,7 @@ function disconnectFromSocket() {
 function checkClientsAndCloseSocket() {
     self.clients.matchAll().then(clientList => {
         if (clientList.length === 1) {
-            disconnectFromSDL();
+            disconnectFromSocket();
         }
     });
 }
