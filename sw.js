@@ -1,6 +1,3 @@
-// Getting a bunch of this from this SW cookbook:
-// https://serviceworke.rs/message-relay_service-worker_doc.html
-
 const url = "ws://localhost:8087"
 let socket;
 
@@ -55,6 +52,7 @@ function checkClientsAndCloseSocket() {
 }
 
 // Post message to all connected clients
+// https://serviceworke.rs/message-relay_service-worker_doc.html
 function broadcast(data) {
     // Get all connected clients and forward the message along
     self.clients.matchAll().then(clientList => {
