@@ -1,18 +1,6 @@
 const url = "ws://localhost:8087"
 let socket;
 
-// Service Worker install event
-function handleInstall(event) {
-    // not caching anything
-    event.waitUntil(self.skipWaiting());
-}
-
-// Service Worker Activate event
-function handleActivate(event) {
-    // Claim all clients currently in scope
-    event.waitUntil(self.clients.claim());
-}
-
 // Open socket connection to SDL
 function connectToSocket() {
     return new Promise(resolve => {
@@ -26,6 +14,18 @@ function connectToSocket() {
             resolve('Existing socket connection');
         }
     });
+}
+
+// Service Worker install event
+function handleInstall(event) {
+    // not caching anything
+    event.waitUntil(connectToSocket());
+}
+
+// Service Worker Activate event
+function handleActivate(event) {
+    // Claim all clients currently in scope
+    event.waitUntil(self.clients.claim());
 }
 
 // Send message to socket connection

@@ -16,27 +16,28 @@ export default class Controller {
         // this.navController = new NavigationController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
-    addSWListener() {
+    addSW(sw) {
         return new Promise(resolve => {
+            this.sw = sw;
             navigator.serviceWorker.onmessage = this.onmessage.bind(this);
             resolve();
-        });
+        })
     }
-    connectToSDL() {
-        // Make this async so that we can bind the SW listener only if the socket opens
-        return new Promise((resolve, reject) => {
-            // Open new message channel to receive reply from SW
-            const messageChannel = new MessageChannel();
-            messageChannel.port1.onmessage = (evt) => {
-                if (evt.data.error) {
-                    reject(evt.data.error);
-                } else {
-                    resolve(evt.data);
-                }
-            }
-            navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
-        });
-    }
+    // connectToSDL() {
+    //     // Make this async so that we can bind the SW listener only if the socket opens
+    //     return new Promise((resolve, reject) => {
+    //         // Open new message channel to receive reply from SW
+    //         const messageChannel = new MessageChannel();
+    //         messageChannel.port1.onmessage = (evt) => {
+    //             if (evt.data.error) {
+    //                 reject(evt.data.error);
+    //             } else {
+    //                 resolve(evt.data);
+    //             }
+    //         }
+    //         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
+    //     });
+    // }
     disconnectFromSDL() {
         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }
@@ -86,7 +87,7 @@ export default class Controller {
     send(rpc) {
         // RPC is sent through the service worker, which is handling socket connections
         var jsonString = JSON.stringify(rpc);
-        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_SEND_TO_SDL, data: jsonString });
+        this.sw.postMessage({ type: swTypes.SW_SEND_TO_SDL, data: jsonString });
     }
     registerComponents() {
         var JSONMessage = {
