@@ -19,7 +19,7 @@ function connectToSocket() {
 // Service Worker install event
 function handleInstall(event) {
     // not caching anything
-    event.waitUntil(connectToSocket());
+    event.waitUntil(self.skipWaiting());
 }
 
 // Service Worker Activate event

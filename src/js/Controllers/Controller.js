@@ -23,6 +23,15 @@ export default class Controller {
             resolve();
         })
     }
+    connectToSDL() {
+        return new Promise(resolve => {
+            const messageChannel = new MessageChannel();
+            this.sw.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
+            messageChannel.port1.onmessage = (evt) => {
+                resolve();
+            };
+        });
+    }
     disconnectFromSDL() {
         navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }

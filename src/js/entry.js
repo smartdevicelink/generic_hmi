@@ -62,6 +62,9 @@ class HMIApp extends React.Component {
             .then(registration => {
                 this.sdl.addSW(registration.active)
                 .then(res => {
+                    return this.sdl.connectToSDL();
+                })
+                .then(res => {
                     this.sdl.registerComponents();
                 })
             }).catch(err => {
