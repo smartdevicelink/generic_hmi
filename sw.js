@@ -96,9 +96,6 @@ function handleClientMessage(event) {
                 event.ports[0].postMessage(res);
             });
             break;
-        case 'SW_REGISTER_COMPONENTS':
-            registerComponents();
-            break;
         case 'SW_SEND_TO_SDL':
             sendToSocket(event.data.data);
             break;
