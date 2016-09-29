@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, unregisterApplication } from '../actions'
+import { updateAppList, activateApp, deactivateApp, unregisterApplication } from '../actions'
 var activatingApplication = 0
 class BCController {
     constructor () {
@@ -46,6 +46,7 @@ class BCController {
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
+        store.dispatch(deactivateApp(appID))
     }
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())

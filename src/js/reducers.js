@@ -53,6 +53,8 @@ function activeApp(state = null, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
+        case Actions.DEACTIVATE_APP:
+            return null;
         default:
             return state
     }
