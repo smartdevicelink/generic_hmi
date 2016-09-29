@@ -50,6 +50,8 @@ class HMIApp extends React.Component {
         )
     }
     componentDidMount() {
+        console.log("Component did mount")
+        window.addEventListener('beforeunload', this.handleShutdown);
         this.sdl.connectToSDL()
     }
     componentWillUnmount() {
