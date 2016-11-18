@@ -53,6 +53,11 @@ function activeApp(state = null, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
+        case Actions.DEACTIVATE_APP:
+            if(state == action.activeApp)
+                return null;
+            else   
+                return state;
         default:
             return state
     }
@@ -226,6 +231,12 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = true
             return newState
+        case Actions.DELETE_APP:
+            var newState = { ...state }
+            if (newState[action.appID]) {
+                delete newState[action.appID];
+            }
+            return newState;
         default:
             return state
     }
