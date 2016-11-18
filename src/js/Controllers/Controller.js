@@ -1,5 +1,5 @@
 let url = "ws://localhost:8087"
-let file_access_base_url = "local:///";
+let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
