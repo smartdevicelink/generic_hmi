@@ -2,19 +2,19 @@
     @include display(flex);
     @include justify-content(space-between);
     @include align-items(center);
-    height: 115px;
+    height: 90px;
     padding: 0 125px;
 
     background: color(black);
 
     &__control {
         &--primary {
-            height: 75px;
-            width: 60px;
+            height: 60px;
+            width: 48px;
         }
         &--secondary {
-            height: 54px;
-            width: 75px;
+            height: 43px;
+            width: 60px;
         }
         &--tertiary {
             @include size(50px);

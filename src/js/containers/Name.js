@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
     var app = state.appList.find((app) => {
         return app.appID === activeApp
     })
+    console.log(activeApp);
     var name = (activeApp && app) ? app.appName : "Apps"
     return {name: name}
 }

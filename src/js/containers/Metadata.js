@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
                 break
         }
     })
-    props.graphic = metadata.graphic ? metadata.graphic.value : "http://www.unrecorded.mu/wp-content/uploads/2014/02/St.-Vincent-St.-Vincent1.jpg"
+    props.graphic = metadata.graphic ? metadata.graphic.value : "./src/img/missing_album_art.png"
     return props
 }
 

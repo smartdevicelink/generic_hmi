@@ -2,14 +2,13 @@ body {
     font-family: 'LivioNorm', Helvetica, sans-serif;
     font-weight: normal;
     font-size: 15px;
-    margin: 25px;
     overflow: hidden;
 }
 
 #app {
-    width: 960px;
+    width: 800px;
     .app-body {
-        height: 540px;
+        height: 435px;
     }
 }
 
