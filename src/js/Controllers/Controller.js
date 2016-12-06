@@ -5,12 +5,14 @@ import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
+import navController from './NavController'
 
 export default class Controller {
     constructor () {
         this.socket = null
         bcController.addListener(this)
         uiController.addListener(this)
+        navController.addListener(this)
         // this.vrController = new VRController;
         // this.ttsController = new TTSController;
         // this.navController = new NavigationController;
@@ -151,9 +153,9 @@ export default class Controller {
             case "VehicleInfo":
                 response = viController.handleRPC(rpc)
                 break;
-            // case "Navigation":
-            //     response = navController.handleRPC(rpc);
-            //     break;
+            case "Navigation":
+                response = navController.handleRPC(rpc);
+                break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
         if (response === null) {

@@ -99,6 +99,9 @@ class UIController {
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
+            case "SetDisplayLayout":
+                // TODO: Implement this RPC
+                return true
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
