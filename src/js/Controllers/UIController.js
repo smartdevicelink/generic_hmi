@@ -115,7 +115,9 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.PerformInteractionResponse(choiceID, appID, msgID))
+        this.listener.send(RpcFactory.VRPerformInteractionResponse(choiceID, appID, msgID-1))
+        this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
+        
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))

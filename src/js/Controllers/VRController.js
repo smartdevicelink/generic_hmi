@@ -9,6 +9,10 @@ class VRController {
                 return true
             case "AddCommand":
                 return true
+            case "PerformInteraction":
+                if(!rpc.params.grammarID) {                       
+                    return {"rpc": RpcFactory.VRPerformInteractionSuccessResponse(rpc.id, 0)}
+                }
         }
     }
 }

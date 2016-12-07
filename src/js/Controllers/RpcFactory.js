@@ -40,12 +40,23 @@ class RpcFactory {
             }
         })
     }
-    static PerformInteractionResponse(choiceID, appID, msgID) {
+    static UIPerformInteractionResponse(choiceID, appID, msgID) {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
             "result": {
                 "method": "UI.PerformInteraction",
+                "code": 0,
+                "choiceID": choiceID
+            }
+        })
+    }
+    static VRPerformInteractionResponse(choiceID, appID, msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "result": {
+                "method": "VR.PerformInteraction",
                 "code": 0,
                 "choiceID": choiceID
             }
@@ -294,6 +305,29 @@ class RpcFactory {
                 'reason': reason
             }
         })
+    }
+    static VRPerformInteractionUnsupportedResourceResponse(id, code){
+         return ({
+             "jsonrpc":"2.0",
+             "id":id,
+             "error":{
+                 "code":code,
+                 "message":"Perform Interaction error response.",
+                 "data":{
+                     "method":"VR.PerformInteraction"
+                }
+            }
+        })       
+    }
+    static VRPerformInteractionSuccessResponse(id, code){
+        return ({
+            "jsonrpc":"2.0",
+            "id":id,
+            "result":{
+                "code":code,
+                "method":"VR.PerformInteraction"
+            }
+        })       
     }
 
 }
