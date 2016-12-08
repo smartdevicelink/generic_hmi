@@ -2,6 +2,7 @@ export const Actions = {
     UPDATE_APP_LIST: "UPDATE_APP_LIST",
     ACTIVATE_APP: "ACTIVATE_APP",
     DEACTIVATE_APP: "DEACTIVATE_APP",
+    DELETE_APP: "DELETE_APP",
     SHOW: "SHOW",
     SET_APP_ICON: "SET_APP_ICON",
     ADD_COMMAND: "ADD_COMMAND",
@@ -34,7 +35,15 @@ export const activateApp = (appID) => {
 
 export const deactivateApp = (appID) => {
     return {
-        type: Actions.DEACTIVATE_APP
+        type: Actions.DEACTIVATE_APP,
+        activeApp: appID
+    }
+}
+
+export const deleteApp = (appID) => {
+    return {
+        type: Actions.DELETE_APP,
+        appID: appID
     }
 }
 

@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: './src/js/entry.js',
@@ -24,7 +25,6 @@ module.exports = {
                 loaders: [
                     'style',
                     'css',
-                    'autoprefixer?browsers=last 3 versions',
                     'sass?outputStyle=expanded'
                 ]
             },
@@ -52,6 +52,7 @@ module.exports = {
             }
         ]
     },
+    postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
     plugins: [
         getEnvironmentVariablesPlugin()
     ]
