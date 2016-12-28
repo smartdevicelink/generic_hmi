@@ -2,7 +2,6 @@ body {
     font-family: 'LivioNorm', Helvetica, sans-serif;
     font-weight: normal;
     font-size: 15px;
-    margin: 25px;
     overflow: hidden;
 }
 
@@ -42,7 +41,7 @@ body {
         cursor: pointer;
         background: color(black);
         color: color(white);
-    }    
+    }
 }
 
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
