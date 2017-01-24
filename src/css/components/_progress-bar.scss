@@ -1,6 +1,6 @@
 .progress-bar {
     position: relative;
-    height: 100px;
+    height: calc((#{$master-height} - 75px) / 6) ;
 
     border-bottom: 2px solid;
 

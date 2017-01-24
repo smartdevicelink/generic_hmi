@@ -1,10 +1,8 @@
 .control-bar {
     @include display(flex);
-    @include justify-content(space-between);
+    @include justify-content(space-around);
     @include align-items(center);
-    height: 175px;
-    padding: 0 125px;
-
+    @include flex(1);
     background: color(black);
 
     &__control {
