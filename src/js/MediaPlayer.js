@@ -12,7 +12,7 @@ export default class MediaPlayer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="media-template">
                 <AppHeader backLink="/" menuName="Apps"/>
                 <MediaMetadata />
                 <ProgressBar />
