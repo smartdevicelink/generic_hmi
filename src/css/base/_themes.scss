@@ -1,24 +1,24 @@
 .dark-theme {
     .app-body {
-        background: color(tire);
+        background: color($primary-color);
     }
 
     .app__header {
-        background-image: -webkit-linear-gradient(#000000, rgba(0, 0, 0, 0.0));
-        background-image: -o-linear-gradient(#000000, rgba(0, 0, 0, 0.0));
-        background-image: linear-gradient(#000000, rgba(0, 0, 0, 0.0));
+        background-image: -webkit-linear-gradient(color($secondary-color), color($primary-color));
+        background-image: -o-linear-gradient(color($secondary-color), color($primary-color));
+        background-image: linear-gradient(color($secondary-color), color($primary-color));
     }
 
     .th-f-color {
-        color: color(white);
+        color: color($font-primary-color);
     }
 
     .th-f-color-secondary {
-        color: color(slate);
+        color: color($font-secondary-color);
     }
 
     .th-b-color {
-        border-color: color(black);
+        border-color: color($secondary-color);
     }
 
     .th-b-color-secondary {
@@ -34,12 +34,15 @@
     }
 
     .th-bg-color {
-        background-color: color(black);
+        background-color: color($secondary-color);
+    }
+    .th-f-accent-color {
+        color: color($secondary-accent-color);
     }
 
     .svg-wrap svg path,
     .svg-wrap svg polygon {
-        fill: color(white);
+        fill: color($accent-color);
     }
 }
 
