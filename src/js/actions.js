@@ -15,7 +15,8 @@ export const Actions = {
     DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
-    UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION"
+    UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
+    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT"
 }
 
 export const updateAppList = (applications) => {
@@ -148,6 +149,14 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
         startTime: startTime,
         endTime: endTime,
         updateMode: updateMode
+    }
+}
+
+export const setDisplayLayout = (displayLayout, appID) => {
+    return {
+        type: Actions.SET_DISPLAY_LAYOUT,
+        displayLayout: displayLayout,
+        appID: appID
     }
 }
 

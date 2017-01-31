@@ -9,7 +9,8 @@ import {
     subscribeButton, 
     performInteraction,
     timeoutPerformInteraction,
-    setMediaClockTimer
+    setMediaClockTimer,
+    setDisplayLayout
 } from '../actions'
 import store from '../store'
 
@@ -96,6 +97,9 @@ class UIController {
                     rpc.params.updateMode
                 ))
                 return true
+            case "SetDisplayLayout":
+                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID));
+                return true;
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
