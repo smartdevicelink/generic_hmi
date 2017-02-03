@@ -3,6 +3,8 @@ var compress = require('./compressor');
 var translate = require('./utils/translate');
 var translateWithSourceMap = require('./utils/translateWithSourceMap');
 var walkers = require('./utils/walk');
+var clone = require('./utils/clone');
+var List = require('./utils/list');
 
 function debugOutput(name, options, startTime, data) {
     if (options.debug) {
@@ -58,6 +60,16 @@ function buildCompressOptions(options) {
     return options;
 }
 
+function runHandler(ast, options, handlers) {
+    if (!Array.isArray(handlers)) {
+        handlers = [handlers];
+    }
+
+    handlers.forEach(function(fn) {
+        fn(ast, options);
+    });
+}
+
 function minify(context, source, options) {
     options = options || {};
 
@@ -73,10 +85,24 @@ function minify(context, source, options) {
         })
     );
 
+    // before compress handlers
+    if (options.beforeCompress) {
+        debugOutput('beforeCompress', options, Date.now(),
+            runHandler(ast, options, options.beforeCompress)
+        );
+    }
+
     // compress
     var compressResult = debugOutput('compress', options, Date.now(),
         compress(ast, buildCompressOptions(options))
     );
+
+    // after compress handlers
+    if (options.afterCompress) {
+        debugOutput('afterCompress', options, Date.now(),
+            runHandler(compressResult, options, options.afterCompress)
+        );
+    }
 
     // translate
     if (options.sourceMap) {
@@ -107,6 +133,9 @@ function minifyBlock(source, options) {
 module.exports = {
     version: require('../package.json').version,
 
+    // classes
+    List: List,
+
     // main methods
     minify: minifyStylesheet,
     minifyBlock: minifyBlock,
@@ -120,5 +149,8 @@ module.exports = {
     // walkers
     walk: walkers.all,
     walkRules: walkers.rules,
-    walkRulesRight: walkers.rulesRight
+    walkRulesRight: walkers.rulesRight,
+
+    // utils
+    clone: clone
 };
