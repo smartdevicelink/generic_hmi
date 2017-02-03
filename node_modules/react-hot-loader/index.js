@@ -23,13 +23,21 @@ module.exports = function (source, map) {
       node,
       result;
 
+  var reactMountImport;
+  try {
+    require('react-dom/lib/ReactMount');
+    reactMountImport = 'ReactMount = require("react-dom/lib/ReactMount"),';
+} catch(e) {
+    reactMountImport = 'ReactMount = require("react/lib/ReactMount"),';
+  }
+
   prependText = [
     '/* REACT HOT LOADER */',
     'if (module.hot) {',
       '(function () {',
         'var ReactHotAPI = require(' + JSON.stringify(require.resolve('react-hot-api')) + '),',
             'RootInstanceProvider = require(' + JSON.stringify(require.resolve('./RootInstanceProvider')) + '),',
-            'ReactMount = require("react/lib/ReactMount"),',
+            reactMountImport,
             'React = require("react");',
 
         'module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () {',
@@ -57,7 +65,7 @@ module.exports = function (source, map) {
             'if (shouldAcceptModule) {',
               'module.hot.accept(function (err) {',
                 'if (err) {',
-                  'console.error("Cannot not apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
+                  'console.error("Cannot apply hot update to " + ' + JSON.stringify(filename) + ' + ": " + err.message);',
                 '}',
               '});',
             '}',

@@ -1,25 +1,38 @@
 ### Starter Kits
 
+Don't be shy, add your own.
+
+#### React-Hot-Loader v3
+* [react-hot-boilerplate/next](https://github.com/gaearon/react-hot-boilerplate/tree/next) (Bare minimum)
+* [webpack-react-redux](https://github.com/jpsierens/webpack-react-redux) (redux, react-router, hmr)
+* [react-lego](https://github.com/peter-mouland/react-lego) (universal, react-router, other optional techs)
+* [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
+* [react-cool-starter](https://github.com/wellyshen/react-cool-starter) (universal, redux, react-router, webpack 2, Babel, PostCSS, and more...)
+* [react-redux-saga-boilerplate](https://github.com/gilbarbara/react-redux-saga-boilerplate) (react-router, redux, saga, webpack 2, jest w/ coverage, enzyme)
+* [react-universal-boiler](https://github.com/strues/react-universal-boiler) (webpack 2, universal, react-router, redux, happypack)
+* [apollo-fullstack-starter-kit](https://github.com/sysgears/apollo-fullstack-starter-kit) (universal, apollo, graphql, react, react-router, knex)
+* [react-universally](https://github.com/ctrlplusb/react-universally) (universal, react, react router, express, seo, full stack webpack 2, babel)
+* [meatier](https://github.com/mattkrick/meatier) (webpack 2 + hmr, universal, redux, graphql, react, react-router-redux, ssr)
+* [react-hot-ts](https://github.com/Glavin001/react-hot-ts) (React, Webpack, TypeScript)
+* [react-boilerplate-app](https://github.com/vebjorni/react-boilerplate-app) (react (duh), router, webpack with dev server, babel, hot reloading)
+
+#### React-Hot-Loader v1
+
 * [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate) (Bare minimum)
 * [react-starter](https://github.com/webpack/react-starter) (react-router, includes production configs)
+* [react-webpack-babel](https://github.com/alicoding/react-webpack-babel) (react+babel+webpack, simple and clean, production config)
+* [react-tape](https://github.com/fc-io/react-tape) (Babel, blue-tape, css-loader, html-webpack-plugin, production config)
 * [isomorphic-hot-loader](https://github.com/irvinebroque/isomorphic-hot-loader) (react-router, isomorphic)
 * [isomorphic-react-template](https://github.com/gpbl/isomorphic-react-template/) (react-router, isomorphic)
 * [coffee-react-quickstart](https://github.com/KyleAMathews/coffee-react-quickstart) (react-router, CoffeeScript, Gulp)
-* [react-static-boilerplate](https://github.com/koistya/react-static-boilerplate) (static site generator; React, PostCSS, Webpack, BrowserSync)
 * [boilerplate-webpack-react](https://github.com/tcoopman/boilerplate-webpack-react) (react-router, isomorphic)
-* [este](http://github.com/steida/este) (react-router, isomorphic, Flux, Babel)
-* [react-isomorphic-starterkit](https://github.com/RickWong/react-isomorphic-starterkit) (react-router, react-async, isomorphic)
-* [yarsk](https://github.com/bradleyboy/yarsk) (Babel, Karma + Mocha, automated publishing to GitHub pages)
 * [react-web](https://github.com/darul75/web-react) (Babel, react-router, Alt flux)
-* [esnext-quickstart](https://github.com/nkbt/esnext-quickstart) (compile-time ESLint, ES6, Babel, Karma + Jasmine + Coverage)
 * [react-webpack-boilerplate](https://github.com/srn/react-webpack-boilerplate) (One-click Heroku deployable, Node.js server)
-* [flask-react-boilerplate](https://github.com/alexkuz/flask-react-boilerplate) (One-click Heroku deployable, Flask server + PostgreSQL, Babel, Flummox)
-* [react-kickstart](https://github.com/vesparny/react-kickstart) (react-router, mocha + chai + istanbul)
-* [react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example) (isomorphic, redux, client and server async data fetching, babel, react-router)
-* [go-starter-kit](https://github.com/olebedev/go-starter-kit) (hot reloadable golang/react/flummox/css-module isomorphic starter kit)
 * [react-fullstack-skeleton](https://github.com/fortruce/react-fullstack-skeleton) (react w/ backend api server)
+* [react-hot-boilerplate-ts](https://github.com/wmaurer/react-hot-boilerplate-ts) (hot reloadable typescript starter kit)
+* [Megatome](https://github.com/Levelmoney/generator-megatome) (Yeoman generator w/ dynamic switchable rendering on Node/browser, react-router, babel, isomophic, an easy config building environments, bring-your-own-data-model and docker)
+* [react-webpack-template](https://github.com/weblogixx/react-webpack-template) (Babel, Karma + Mocha + Istanbul Coverage, prepared for usage of Less/Sass/Stylus/PostCSS and CSSModules)
 
-Don't be shy, add your own.
 
 ### Migrating to 1.0
 

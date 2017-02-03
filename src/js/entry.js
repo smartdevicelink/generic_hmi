@@ -10,6 +10,7 @@ import TilesOnly from './TilesOnly';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -51,15 +52,17 @@ class HMIApp extends React.Component {
         this.sdl.connectToSDL()
     }
     componentWillUnmount() {
-        this.sdl.disconnectFromSDL()
+        // this.sdl.disconnectFromSDL()
     }
 }
+
+const history = syncHistoryWithStore(hashHistory, store);
 
 // render
 ReactDOM.render((
     <Provider store={store}>
     <HMIApp>
-        <Router history={hashHistory}>
+        <Router history={history}>
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/inappmenu" component={InAppMenu} />

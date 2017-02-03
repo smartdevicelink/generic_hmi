@@ -77,15 +77,16 @@ function TRBL(name) {
 
 TRBL.prototype.getValueSequence = function(value, count) {
     var values = [];
-    var iehack = false;
+    var iehack = '';
     var hasBadValues = value.sequence.some(function(child) {
         var special = false;
 
         switch (child.type) {
             case 'Identifier':
                 switch (child.name) {
+                    case '\\0':
                     case '\\9':
-                        iehack = true;
+                        iehack = child.name;
                         return;
 
                     case 'inherit':
@@ -114,8 +115,13 @@ TRBL.prototype.getValueSequence = function(value, count) {
                 }
                 break;
 
+            case 'Hash': // color
             case 'Number':
             case 'Percentage':
+                break;
+
+            case 'Function':
+                special = child.name;
                 break;
 
             case 'Space':
@@ -136,7 +142,7 @@ TRBL.prototype.getValueSequence = function(value, count) {
         return false;
     }
 
-    if (typeof this.iehack === 'boolean' && this.iehack !== iehack) {
+    if (typeof this.iehack === 'string' && this.iehack !== iehack) {
         return false;
     }
 
@@ -157,27 +163,29 @@ TRBL.prototype.add = function(name, value, info) {
         var side = SIDE[name];
 
         if (side) {
-            if (side in sides) {
-                var values = this.getValueSequence(value, 1);
+            if (side in sides === false) {
+                return false;
+            }
 
-                if (!values || !values.length) {
+            var values = this.getValueSequence(value, 1);
+
+            if (!values || !values.length) {
+                return false;
+            }
+
+            // can mix only if specials are equal
+            for (var key in sides) {
+                if (sides[key] !== null && sides[key].special !== values[0].special) {
                     return false;
                 }
+            }
 
-                // can mix only if specials are equal
-                for (var key in sides) {
-                    if (sides[key] !== null && sides[key].special !== values[0].special) {
-                        return false;
-                    }
-                }
-
-                if (!this.canOverride(side, values[0])) {
-                    return true;
-                }
-
-                sides[side] = values[0];
+            if (!this.canOverride(side, values[0])) {
                 return true;
             }
+
+            sides[side] = values[0];
+            return true;
         } else if (name === this.name) {
             var values = this.getValueSequence(value, 4);
 
@@ -294,7 +302,7 @@ TRBL.prototype.getValue = function() {
         result.push({ type: 'Space' }, {
             type: 'Identifier',
             info: {},
-            name: '\\9'
+            name: this.iehack
         });
     }
 
@@ -339,7 +347,12 @@ function processRuleset(ruleset, shorts, shortDeclarations, lastShortSelector) {
         if (!shorthand || !shorthand.add(property, declaration.value, declaration.info)) {
             operation = REPLACE;
             shorthand = new TRBL(key);
-            shorthand.add(property, declaration.value, declaration.info);
+
+            // if can't parse value ignore it and break shorthand sequence
+            if (!shorthand.add(property, declaration.value, declaration.info)) {
+                lastShortSelector = null;
+                return;
+            }
         }
 
         shorts[key] = shorthand;

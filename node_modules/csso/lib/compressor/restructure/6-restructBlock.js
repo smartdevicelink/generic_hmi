@@ -13,6 +13,14 @@ var DONT_MIX_VALUE = {
     'text-align': /^(start|end|match-parent|justify-all)$/i
 };
 
+var CURSOR_SAFE_VALUE = [
+    'auto', 'crosshair', 'default', 'move', 'text', 'wait', 'help',
+    'n-resize', 'e-resize', 's-resize', 'w-resize',
+    'ne-resize', 'nw-resize', 'se-resize', 'sw-resize',
+    'pointer', 'progress', 'not-allowed', 'no-drop', 'vertical-text', 'all-scroll',
+    'col-resize', 'row-resize'
+];
+
 var NEEDLESS_TABLE = {
     'border-width': ['border'],
     'border-style': ['border'],
@@ -64,7 +72,7 @@ function getPropertyFingerprint(propertyName, declaration, fingerprints) {
 
     if (!fingerprint) {
         var vendorId = '';
-        var hack9 = '';
+        var iehack = '';
         var special = {};
 
         declaration.value.sequence.each(function walk(node) {
@@ -82,13 +90,18 @@ function getPropertyFingerprint(propertyName, declaration, fingerprints) {
                         vendorId = resolveKeyword(name).vendor;
                     }
 
-                    if (name === '\\9') {
-                        hack9 = name;
+                    if (/\\[09]/.test(name)) {
+                        iehack = RegExp.lastMatch;
                     }
 
-                    if (DONT_MIX_VALUE.hasOwnProperty(realName) &&
-                        DONT_MIX_VALUE[realName].test(name)) {
-                        special[name] = true;
+                    if (realName === 'cursor') {
+                        if (CURSOR_SAFE_VALUE.indexOf(name) === -1) {
+                            special[name] = true;
+                        }
+                    } else if (DONT_MIX_VALUE.hasOwnProperty(realName)) {
+                        if (DONT_MIX_VALUE[realName].test(name)) {
+                            special[name] = true;
+                        }
                     }
 
                     break;
@@ -138,7 +151,7 @@ function getPropertyFingerprint(propertyName, declaration, fingerprints) {
             }
         });
 
-        fingerprint = '|' + Object.keys(special).sort() + '|' + hack9 + vendorId;
+        fingerprint = '|' + Object.keys(special).sort() + '|' + iehack + vendorId;
 
         fingerprints[declarationId] = fingerprint;
     }
