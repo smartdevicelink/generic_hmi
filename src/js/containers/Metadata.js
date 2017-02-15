@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import MediaPlayerBody from '../MediaPlayerBody'
+import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -35,5 +36,10 @@ export const MediaMetadata = connect(
     mapStateToProps,
     mapDispatchToProps
 )(MediaPlayerBody)
+
+export const NonMediaMetadata = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NonMediaBody)
 
 export default MediaMetadata

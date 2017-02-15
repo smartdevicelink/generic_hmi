@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import ControlBar from '../ControlBar'
+import SoftButtons from '../SoftButtons'
 import uiController from '../Controllers/UIController'
 
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
@@ -63,7 +64,7 @@ const mapStateToProps = (state) => {
             id: softButtons[0].softButtonID
         })
     }
-    return {buttons: buttons, appID: activeApp}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -78,5 +79,10 @@ export const Buttons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(ControlBar)
+
+export const NonMediaSoftButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SoftButtons)
 
 export default Buttons
