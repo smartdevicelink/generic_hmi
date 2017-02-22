@@ -9,7 +9,9 @@ const mapStateToProps = (state) => {
     var props = {
         mainField1: null,
         mainField2: null,
-        mainField3: null
+        mainField3: null,
+        mainField4: null
+
     }
     metadata.showStrings.map ((textField) => {
         switch (textField.fieldName) {
@@ -21,6 +23,9 @@ const mapStateToProps = (state) => {
                 break
             case "mainField3":
                 props.mainField3 = textField.fieldText
+                break
+            case "mainField4":
+                props.mainField4 = textField.fieldText
                 break
         }
     })

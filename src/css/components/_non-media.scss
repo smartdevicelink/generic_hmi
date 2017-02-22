@@ -1,0 +1,111 @@
+.non-media-template {
+    height: 100%;
+        @include display(flex);
+    @include flex-direction(column);
+}
+
+.non-media-meta-data {
+    @include display(flex);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    width: 100%;
+    margin-left: 50px;
+    margin-bottom: 42px;
+}
+
+.non-media-body {
+    @include display(flex);
+    @include flex-direction(row-reverse);
+    @include flex-wrap(wrap);
+}
+
+.non-media-text-2 { 
+    width: 100%;
+    text-align: center;
+    margin-right: 50px;
+}
+.non-media-text-4 { 
+    width: 50%;
+    text-align: left;
+}
+
+.non-media-graphic {
+    @include display(flex);
+    @include align-items(center);
+    margin: auto 50px; 
+    @include size(410px);
+    img {
+        width: 100%;
+    }
+}
+
+.non-media-soft-buttons {
+    width: 50%;
+    @include display(flex);
+    @include justify-content(space-between);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(center);
+    padding-left: 50px;
+    padding-right: 10px;
+}
+
+.non-media-soft-buttons-with-graphic {
+    @include transform(translateY(-410px));
+}
+
+.soft-button-tile-large {
+    height: 410px;
+    width: 420px;
+    text-align: center;
+    line-height: 410px;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+.soft-button-tile {
+    height: 195px;
+    width: 200px;
+    text-align: center;
+    line-height: 195px;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+}
+
+.soft-button-tile-small {
+    height: 123.33333334px;
+    width: 200px;
+    text-align: center;
+    line-height: 123.333333334px;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+}
+
+.soft-button-tile-wide-large {
+    height: 195px;
+    width: 100%;
+    text-align: center;
+    line-height: 195px;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+}
+
+.soft-button-tile-wide {
+    height: 123.333333334px;
+    width: 100%;
+    text-align: center;
+    line-height: 123.33333334px;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+}

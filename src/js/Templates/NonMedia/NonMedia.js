@@ -10,8 +10,10 @@ export default class NonMedia extends React.Component {
     }
 
     render() {
+        //console.log(this.props);
+        console.log(NonMediaMetadata);
         return (
-            <div>
+            <div className="non-media-template">
                 <AppHeader backLink="/" menuName="Apps"/>
                 <NonMediaMetadata />
                 <NonMediaSoftButtons />

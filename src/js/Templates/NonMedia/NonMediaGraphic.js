@@ -8,7 +8,7 @@ export default class NonMediaGraphic extends React.Component {
     render() {
         if(this.props.image) {
             return (
-                <div>
+                <div className="non-media-graphic">
                     <img className="th-box-shadow" src={this.props.image} />
                 </div>
             )

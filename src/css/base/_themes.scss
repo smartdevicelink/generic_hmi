@@ -37,6 +37,13 @@
         background-color: color(black);
     }
 
+    .th-soft-buttons {
+        border-color: color(slate);
+    }
+
+    .th-soft-buttons:active {
+        background-color: color(tire);
+    }
     .svg-wrap svg path,
     .svg-wrap svg polygon {
         fill: color(white);
@@ -82,6 +89,13 @@
         background-color: color(white);
     }
 
+    .th-soft-buttons {
+        border-color: #919191;
+    }
+
+    .th-soft-buttons:active {
+        background-color: color(glass);
+    }
     .svg-wrap svg path,
     .svg-wrap svg polygon {
         fill: color(black);

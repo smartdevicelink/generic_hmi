@@ -13,10 +13,12 @@ const mapStateToProps = (state) => {
     var subscribedButtons = {}
     var softButtons = []
     var app = {}
+    var graphicPresent
     if (activeApp) {
         subscribedButtons = state.ui[activeApp].subscribedButtons
         softButtons = state.ui[activeApp].softButtons
         app = state.ui[activeApp]
+        graphicPresent = state.ui[activeApp].graphic ? true : false
     }
     // TODO: differentiate between types of softButtons and softButtons that use static images
     var buttons = []
@@ -64,7 +66,7 @@ const mapStateToProps = (state) => {
             id: softButtons[0].softButtonID
         })
     }
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent}
 }
 
 const mapDispatchToProps = (dispatch) => {
