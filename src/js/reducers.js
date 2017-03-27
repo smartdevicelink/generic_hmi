@@ -28,7 +28,8 @@ function newAppState () {
         updateMode: "COUNTUP",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
-        isDisconnected: false
+        isDisconnected: false,
+        displayLayout: null
     }
 }
 
@@ -222,6 +223,23 @@ function ui(state = {}, action) {
                 app.updateTime = new Date().getTime()
             }
             app.updateMode = action.updateMode
+            return newState
+        case Actions.SET_DISPLAY_LAYOUT:
+            var newState = {...state}
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            switch(action.displayLayout) {
+                case "DEFUALT":
+                    app.displayLayout = "media"
+                    break
+                case "MEDIA":
+                    app.displayLayout = "media"
+                    break
+                case "NON-MEDIA":
+                    app.displayLayout = "nonmedia"
+                    break
+                default: 
+                    app.displayLayout = "unsupported"
+            }
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }

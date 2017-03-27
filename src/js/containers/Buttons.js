@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import ControlBar from '../ControlBar'
+import SoftButtons from '../SoftButtons'
 import uiController from '../Controllers/UIController'
 
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
@@ -12,10 +13,12 @@ const mapStateToProps = (state) => {
     var subscribedButtons = {}
     var softButtons = []
     var app = {}
+    var graphicPresent
     if (activeApp) {
         subscribedButtons = state.ui[activeApp].subscribedButtons
         softButtons = state.ui[activeApp].softButtons
         app = state.ui[activeApp]
+        graphicPresent = state.ui[activeApp].graphic ? true : false
     }
     // TODO: differentiate between types of softButtons and softButtons that use static images
     var buttons = []
@@ -63,7 +66,7 @@ const mapStateToProps = (state) => {
             id: softButtons[0].softButtonID
         })
     }
-    return {buttons: buttons, appID: activeApp}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -78,5 +81,10 @@ export const Buttons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(ControlBar)
+
+export const NonMediaSoftButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SoftButtons)
 
 export default Buttons

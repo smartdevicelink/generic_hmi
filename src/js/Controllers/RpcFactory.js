@@ -223,7 +223,7 @@ class RpcFactory {
                 "name": button.name,
                 "mode": button.mode,
                 "appID": appID,
-                "customButtonID": button.softButtonID
+                "customButtonID": button.customButtonID
             }
         })
     }
@@ -235,7 +235,7 @@ class RpcFactory {
                 "name": button.name,
                 "mode": button.mode,
                 "appID": appID,
-                "customButtonID": button.softButtonID
+                "customButtonID": button.customButtonID
             }
         })
     }

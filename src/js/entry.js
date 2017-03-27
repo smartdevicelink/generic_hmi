@@ -3,6 +3,7 @@ import '../css/main.scss';
 
 // import react and js
 import MediaPlayer from './MediaPlayer';
+import NonMedia from './Templates/NonMedia/NonMedia'
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
@@ -64,6 +65,7 @@ ReactDOM.render((
         <Router history={hashHistory}>
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
+            <Route path="/nonmedia" component={NonMedia} />
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/tilesonly" component={TilesOnly} />
