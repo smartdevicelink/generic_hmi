@@ -7,6 +7,6 @@
     &__progress {
         position: absolute;
         @include calc('height', '100% + 2px');
-        background: color(bright-blue);
+        background: color($secondary-accent-color);
     }
 }
