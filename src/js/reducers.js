@@ -237,6 +237,9 @@ function ui(state = {}, action) {
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break
+                case "LARGE_GRAPHIC_ONLY":
+                    app.displayLayout = "large-graphic-only"
+                    break
                 default: 
                     app.displayLayout = "unsupported"
             }
