@@ -228,7 +228,7 @@ function ui(state = {}, action) {
             var newState = {...state}
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             switch(action.displayLayout) {
-                case "DEFUALT":
+                case "DEFAULT":
                     app.displayLayout = "media"
                     break
                 case "MEDIA":
