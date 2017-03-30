@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
     }
     return {
         isPerformingInteraction: app.isPerformingInteraction,
-        isDisconnected: app.isDisconnected
+        isDisconnected: app.isDisconnected,
+        displayLayout: app.displayLayout
     }
 }
 

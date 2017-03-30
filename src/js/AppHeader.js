@@ -37,7 +37,10 @@ class AppHeader extends React.Component {
             && !nextProps.isPerformingInteraction) {
                 // TODO: probably go back instead of pushing media - needs investigation
                 this.props.router.push("/media")
-            }
+        }
+        else if (this.props.displayLayout != nextProps.displayLayout) {
+            this.props.router.push("/" + nextProps.displayLayout)
+        }
     }
 }
 
