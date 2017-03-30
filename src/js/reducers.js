@@ -241,7 +241,7 @@ function ui(state = {}, action) {
                     app.displayLayout = "large-graphic-only"
                     break
                 default: 
-                    app.displayLayout = "unsupported"
+                    break
             }
             return newState
         case Actions.UNREGISTER_APPLICATION:
