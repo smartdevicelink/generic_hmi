@@ -240,6 +240,8 @@ function ui(state = {}, action) {
                 case "LARGE_GRAPHIC_ONLY":
                     app.displayLayout = "large-graphic-only"
                     break
+                case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
+                    app.displayLayout = "large-graphic-with-softbuttons"
                 default: 
                     break
             }

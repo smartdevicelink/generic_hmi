@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import ControlBar from '../ControlBar'
-import SoftButtons from '../SoftButtons'
+//import SoftButtons from '../SoftButtons'
+import SoftButtonsBody from '../Templates/Shared/SoftButtons'
 import uiController from '../Controllers/UIController'
 
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
@@ -82,9 +83,9 @@ export const Buttons = connect(
     mapDispatchToProps
 )(ControlBar)
 
-export const NonMediaSoftButtons = connect(
+export const SoftButtons = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SoftButtons)
+)(SoftButtonsBody)
 
 export default Buttons

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import MediaPlayerBody from '../MediaPlayerBody'
 import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
-import LargeGraphicBody from '../Templates/LargeGraphicOnly/LargeGraphicBody'
+import LargeGraphicBody from '../Templates/Shared/LargeGraphicBody'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp

@@ -5,6 +5,7 @@ import '../css/main.scss';
 import MediaPlayer from './MediaPlayer';
 import NonMedia from './Templates/NonMedia/NonMedia'
 import LargeGraphicOnly from './Templates/LargeGraphicOnly/LargeGraphicOnly'
+import LargeGraphicWithSoftbuttons from './Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
@@ -68,6 +69,7 @@ ReactDOM.render((
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
+            <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/tilesonly" component={TilesOnly} />
