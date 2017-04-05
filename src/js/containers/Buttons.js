@@ -88,9 +88,4 @@ export const SoftButtons = connect(
     mapDispatchToProps
 )(SoftButtonsBody)
 
-/*export const NonMediaSoftButtons = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SoftButtons)*/
-
 export default Buttons
