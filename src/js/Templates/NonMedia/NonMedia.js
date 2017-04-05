@@ -2,7 +2,7 @@ import React from 'react';
 
 import AppHeader from '../../containers/Header';
 import { NonMediaMetadata } from '../../containers/Metadata';
-import { NonMediaSoftButtons } from '../../containers/Buttons';
+import { SoftButtons } from '../../containers/Buttons';
 
 export default class NonMedia extends React.Component {
     constructor() {
@@ -14,7 +14,7 @@ export default class NonMedia extends React.Component {
             <div className="non-media-template">
                 <AppHeader backLink="/" menuName="Apps"/>
                 <NonMediaMetadata />
-                <NonMediaSoftButtons />
+                <SoftButtons class="non-media"/>
             </div>
         )
     }

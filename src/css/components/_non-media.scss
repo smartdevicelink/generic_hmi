@@ -41,7 +41,7 @@
     }
 }
 
-.non-media-soft-buttons {
+.non-media .soft-buttons {
     width: 50%;
     height: calc(((#{$master-height} - 173px) / 1.22439 ) + 20px);
     @include display(flex);
@@ -54,7 +54,7 @@
     flex-shrink: 0;
 }
 
-.non-media-soft-buttons-with-graphic {
+.non-media .soft-buttons-with-graphic {
     @include transform(translateY(calc(-1 * (#{$master-height} - 173px) / 1.22439 )));
 }
 
