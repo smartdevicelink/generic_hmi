@@ -1,6 +1,6 @@
 .non-media-template {
     height: 100%;
-        @include display(flex);
+    @include display(flex);
     @include flex-direction(column);
 }
 
