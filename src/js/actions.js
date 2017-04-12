@@ -16,7 +16,9 @@ export const Actions = {
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
-    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT"
+    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
+    ALERT: "ALERT",
+    TIMEOUT_ALERT: "TIMEOUT_ALERT"
 }
 
 export const updateAppList = (applications) => {
@@ -165,5 +167,25 @@ export const unregisterApplication = (appID, isUnexpected) => {
         type: Actions.UNREGISTER_APPLICATION,
         appID: appID,
         isUnexpected: isUnexpected
+    }
+}
+
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator) => {
+    return {
+        type: Actions.ALERT,
+        appID: appID,
+        alertStrings: alertStrings,
+        duration: duration,
+        softButtons: softButtons,
+        alertType: alertType,
+        showProgressIndicator: progressIndicator
+    }
+}
+
+export const timeoutAlert = (msgID, appID) => {
+    return {
+        type: Actions.TIMEOUT_ALERT,
+        msgID: msgID,
+        appID: appID
     }
 }

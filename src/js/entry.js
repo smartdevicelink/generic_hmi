@@ -10,6 +10,7 @@ import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
 import TilesOnly from './TilesOnly';
+import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
@@ -73,6 +74,7 @@ ReactDOM.render((
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/tilesonly" component={TilesOnly} />
+            <Route path="/alert" component={Alert} />
         </Router>
     </HMIApp>
     </Provider>

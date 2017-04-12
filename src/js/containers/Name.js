@@ -7,7 +7,23 @@ const mapStateToProps = (state) => {
     var app = state.appList.find((app) => {
         return app.appID === activeApp
     })
-    var name = activeApp ? app.appName : "Apps"
+
+    var name = ""
+    var showAlert = false
+
+    for(var prop in state.ui) {
+        if(state.ui[prop].alert.showAlert) {
+            showAlert = true
+        }
+    }
+
+    if(showAlert){
+        name = "Alert"
+    } else if(activeApp) {
+        name = app.appName
+    } else { 
+        name = "Apps"
+    }
     return {name: name}
 }
 

@@ -7,10 +7,22 @@ const mapStateToProps = (state) => {
         isPerformingInteraction: false,
         isDisconnected: false
     }
+
+    var showAlert = false
+    
+    for(var prop in state.ui){
+        if(state.ui[prop].alert.showAlert){
+            showAlert = true
+            break
+        }
+    }
+
     return {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
-        displayLayout: app.displayLayout
+        displayLayout: app.displayLayout,
+        showAlert: showAlert
+        
     }
 }
 

@@ -10,7 +10,9 @@ import {
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer,
-    setDisplayLayout
+    setDisplayLayout,
+    alert,
+    timeoutAlert
 } from '../actions'
 import store from '../store'
 
@@ -103,12 +105,32 @@ class UIController {
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
+            case "Alert":
+                store.dispatch(alert(
+                    rpc.params.appID,
+                    rpc.params.alertStrings,
+                    rpc.params.duration,
+                    rpc.params.softButtons,
+                    rpc.params.alertType,
+                    rpc.params.progressIndicator
+                ))
+                var timeout = rpc.params.duration ? rpc.params.duration : 10000
+                setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
+                this.appsWithTimers[rpc.id] = rpc.params.appID
+
+                return true
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
         this.listener.send(RpcFactory.PerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
+            msgID,
+            appID
+        ))
+    }
+    onAlertTimeout(msgID, appID) {
+        store.dispatch(timeoutAlert(
             msgID,
             appID
         ))

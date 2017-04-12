@@ -23,6 +23,7 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
+        //console.log(this.props)
         if (nextProps.isDisconnected) {
             this.props.router.push("/")
         }
@@ -40,6 +41,14 @@ class AppHeader extends React.Component {
         }
         else if (this.props.displayLayout != nextProps.displayLayout) {
             this.props.router.push("/" + nextProps.displayLayout)
+        }
+
+        if(nextProps.showAlert) {
+            this.props.router.push("/alert")
+        }
+        else if (this.props.showAlert && !nextProps.showAlert) {
+            this.props.router.goBack()
+
         }
     }
 }

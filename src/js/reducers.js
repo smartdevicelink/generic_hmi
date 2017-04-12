@@ -29,7 +29,15 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: null
+        displayLayout: null,
+        alert: {
+            showAlert: false,
+            alertStrings: [],
+            duration: null,
+            softButtons: [],
+            alertType: null,
+            showProgressIndicator: null
+        }
     }
 }
 
@@ -250,6 +258,28 @@ function ui(state = {}, action) {
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = true
+            return newState
+        case Actions.ALERT:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.alert.showAlert = true
+            app.alert.alertStrings = action.alertStrings
+            app.alert.duration = action.duration
+            app.alert.softButtons = action.softButtons
+            app.alert.alertType = action.alertType
+            app.alert.showProgressIndicator = action.showProgressIndicator
+            return newState
+        case Actions.TIMEOUT_ALERT:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.alert =  {
+                showAlert: false,
+                alertStrings: [],
+                duration: null,
+                softButtons: [],
+                alertType: null,
+                showProgressIndicator: null
+            }
             return newState
         default:
             return state
