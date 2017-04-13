@@ -4,9 +4,9 @@ var path = require('path');
 module.exports = {
     entry: './src/js/entry.js',
     output: {
-        path: './',
-        publicPath: './',
-        filename: 'build/bundle.js'
+        path: './build',
+        publicPath: '/',
+        filename: 'bundle.js'
     },
     devtool: 'eval',
     module: {
@@ -53,7 +53,8 @@ module.exports = {
         ]
     },
     plugins: [
-        getEnvironmentVariablesPlugin()
+        getEnvironmentVariablesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ]
 };
 

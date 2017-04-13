@@ -1,12 +1,12 @@
 import RpcFactory from './RpcFactory'
 import {
     show,
-    setAppIcon, 
-    addCommand, 
-    addSubMenu, 
-    deleteCommand, 
-    deleteSubMenu, 
-    subscribeButton, 
+    setAppIcon,
+    addCommand,
+    addSubMenu,
+    deleteCommand,
+    deleteSubMenu,
+    subscribeButton,
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer

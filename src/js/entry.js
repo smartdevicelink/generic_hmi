@@ -8,8 +8,9 @@ import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
 import TilesOnly from './TilesOnly';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory } from 'react-router'
+import { render } from 'react-dom';
+import { Router, Route, hashHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -26,13 +27,16 @@ class HMIApp extends React.Component {
         this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
     }
+
     handleClick() {
         this.setState({ dark: !this.state.dark })
     }
+
     handleShutdown(){
         bcController.onIgnitionCycleOver()
         bcController.onExitAllApplications("IGNITION_OFF")
     }
+
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
         return(
@@ -42,32 +46,55 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div> 
+                <div>
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
                 </div>
             </div>
         )
     }
+
     componentDidMount() {
-        this.sdl.connectToSDL()
+        // Install service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            navigator.serviceWorker.ready
+            .then(registration => {
+                this.sdl.addSW(registration.active)
+                .then(res => {
+                    return this.sdl.connectToSDL();
+                })
+                .then(res => {
+                    this.sdl.registerComponents();
+                })
+            }).catch(err => {
+                console.log('Service worker registration failed', err);
+            });
+        }
     }
+
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
     }
 }
 
 // render
-ReactDOM.render((
-    <Provider store={store}>
-    <HMIApp>
-        <Router history={hashHistory}>
-            <Route path="/" component={HMIMenu} />
-            <Route path="/media" component={MediaPlayer} />
-            <Route path="/inappmenu" component={InAppMenu} />
-            <Route path="/inapplist" component={InAppList} />
-            <Route path="/tilesonly" component={TilesOnly} />
-        </Router>
-    </HMIApp>
-    </Provider>
-), document.getElementById('app'));
+const entrypoint = document.getElementById('app');
+const history = syncHistoryWithStore(hashHistory, store);
+
+if (entrypoint) {
+    render(
+        <Provider store={store}>
+            <HMIApp>
+                <Router history={history}>
+                    <Route path="/" component={HMIMenu} />
+                    <Route path="/media" component={MediaPlayer} />
+                    <Route path="/inappmenu" component={InAppMenu} />
+                    <Route path="/inapplist" component={InAppList} />
+                    <Route path="/tilesonly" component={TilesOnly} />
+                </Router>
+            </HMIApp>
+        </Provider>,
+        entrypoint
+    );
+}

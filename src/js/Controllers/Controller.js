@@ -5,10 +5,10 @@ import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
+import * as swTypes from '../constants/serviceWorker';
 
 export default class Controller {
     constructor () {
-        this.socket = null
         bcController.addListener(this)
         uiController.addListener(this)
         // this.vrController = new VRController;
@@ -16,29 +16,24 @@ export default class Controller {
         // this.navController = new NavigationController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
+    addSW(sw) {
+        return new Promise(resolve => {
+            this.sw = sw;
+            navigator.serviceWorker.onmessage = this.onmessage.bind(this);
+            resolve();
+        })
+    }
     connectToSDL() {
-        this.socket = new WebSocket(url)
-        this.socket.onopen = this.onopen.bind(this)
-        this.socket.onclose = this.onclose.bind(this)
-        this.socket.onmessage = this.onmessage.bind(this)
+        return new Promise(resolve => {
+            const messageChannel = new MessageChannel();
+            this.sw.postMessage({ type: swTypes.SW_CONNECT_SDL }, [messageChannel.port2]);
+            messageChannel.port1.onmessage = (evt) => {
+                resolve();
+            };
+        });
     }
     disconnectFromSDL() {
-        if (this.retry) {
-            clearInterval(this.retry);
-        }
-        if (this.socket) {
-            if(this.socket.readyState === this.socket.OPEN) {
-                this.socket.onclose = function () {
-                    this.socket.close()
-                }
-            }
-        }
-    }
-    onopen (evt) {
-        if (this.retry) {
-            clearInterval(this.retry)
-        }
-        this.registerComponents()
+        navigator.serviceWorker.controller.postMessage({ type: swTypes.SW_CLOSE_SDL_CONNECTION });
     }
     onclose (evt) {
         if (!this.retry) {
@@ -46,9 +41,11 @@ export default class Controller {
         }
     }
     onmessage(evt) {
-        var rpc = JSON.parse(evt.data)
-        console.log("incoming rpc", rpc)
-        this.handleRPC(rpc)
+        // var rpc = JSON.parse(evt.data)
+        if (!evt.data.isReduxAction) {
+            console.log("incoming rpc", evt.data)
+            this.handleRPC(evt.data)
+        }
     }
     respondSuccess (method, id) {
         var obj = {
@@ -59,7 +56,7 @@ export default class Controller {
                 "method": method
             }
         }
-        this.send(obj)
+        this.send(obj);
     }
     respondFail (method, id) {
         var obj = {
@@ -84,9 +81,9 @@ export default class Controller {
         this.send(obj)
     }
     send(rpc) {
-        console.log("outgoing rpc", rpc)
+        // RPC is sent through the service worker, which is handling socket connections
         var jsonString = JSON.stringify(rpc);
-        this.socket.send(jsonString);
+        this.sw.postMessage({ type: swTypes.SW_SEND_TO_SDL, data: jsonString });
     }
     registerComponents() {
         var JSONMessage = {

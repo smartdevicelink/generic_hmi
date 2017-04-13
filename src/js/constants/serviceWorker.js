@@ -1,0 +1,3 @@
+export const SW_CONNECT_SDL = 'SW_CONNECT_SDL';
+export const SW_CLOSE_SDL_CONNECTION = 'SW_CLOSE_SDL_CONNECTION';
+export const SW_SEND_TO_SDL = 'SW_SEND_TO_SDL';
