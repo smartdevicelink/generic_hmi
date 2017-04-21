@@ -2,7 +2,9 @@ import React from 'react';
 
 import AppHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
-import {SoftButtons} from './containers/Buttons';
+import {AlertButtons} from './containers/Buttons';
+
+import alertIcon from '../img/icons/icon-alert.svg'
 
 export default class MediaPlayer extends React.Component {
     constructor() {
@@ -10,10 +12,17 @@ export default class MediaPlayer extends React.Component {
     }
 
     render() {
+
         return (
-            <div>
-                <AppHeader backLink="/" menuName="Apps"/>
-                <AlertStrings/>
+            <div className="alert">
+                <AppHeader appIcon="false" backLink=""/>
+                <div className="alert-top">
+                    <AlertStrings/>
+                    <div className="alert-icon">
+                        <span key="icon" className="svg-wrap" dangerouslySetInnerHTML={{__html: alertIcon}} />
+                    </div>
+                </div>
+                <AlertButtons class="alert-softbuttons-container"/>
             </div>
         )
     }

@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ControlBar from '../ControlBar'
 //import SoftButtons from '../SoftButtons'
 import SoftButtonsBody from '../Templates/Shared/SoftButtons'
+import AlertButtonsBody from '../AlertButtons'
 import uiController from '../Controllers/UIController'
 
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var subscribedButtons = {}
     var softButtons = []
+    var alertButtons = []
     var app = {}
     var graphicPresent
     if (activeApp) {
@@ -67,7 +69,15 @@ const mapStateToProps = (state) => {
             id: softButtons[0].softButtonID
         })
     }
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent}
+
+    for(var app in state.ui) {
+        if(state.ui[app].alert.showAlert) {
+            alertButtons = state.ui[app].alert.softButtons
+            console.log(state.ui[app].alert)
+        }
+    }
+
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -87,5 +97,10 @@ export const SoftButtons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(SoftButtonsBody)
+
+export const AlertButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AlertButtonsBody)
 
 export default Buttons

@@ -40,7 +40,6 @@ const mapStateToProps = (state) => {
     }
 
     for(var app in state.ui) {
-
         if(state.ui[app].alert.showAlert) {
             state.ui[app].alert.alertStrings.map((textField) => {
                 switch (textField.fieldName) {
