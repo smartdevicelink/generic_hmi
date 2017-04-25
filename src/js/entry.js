@@ -20,7 +20,7 @@ import store from './store'
 
 import Controller from './Controllers/Controller'
 import bcController from './Controllers/BCController'
-
+import {setTheme} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +31,9 @@ class HMIApp extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.setState({ dark: !this.state.dark })
+        var theme = !this.state.dark
+        this.setState({ dark: theme})
+        store.dispatch(setTheme(theme))
     }
     handleShutdown(){
         bcController.onIgnitionCycleOver()
@@ -74,7 +76,6 @@ ReactDOM.render((
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/tilesonly" component={TilesOnly} />
-            <Route path="/alert" component={Alert} />
         </Router>
     </HMIApp>
     </Provider>

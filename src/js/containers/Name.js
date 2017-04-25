@@ -9,17 +9,8 @@ const mapStateToProps = (state) => {
     })
 
     var name = ""
-    var showAlert = false
 
-    for(var prop in state.ui) {
-        if(state.ui[prop].alert.showAlert) {
-            showAlert = true
-        }
-    }
-
-    if(showAlert){
-        name = "Alert"
-    } else if(activeApp) {
+    if(activeApp) {
         name = app.appName
     } else { 
         name = "Apps"

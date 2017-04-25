@@ -114,9 +114,9 @@ class UIController {
                     rpc.params.alertType,
                     rpc.params.progressIndicator
                 ))
-                var timeout = rpc.params.duration ? rpc.params.duration : 10000
-                setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
-                this.appsWithTimers[rpc.id] = rpc.params.appID
+                //var timeout = rpc.params.duration ? rpc.params.duration : 10000
+                //setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
+                //this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 return true
         }

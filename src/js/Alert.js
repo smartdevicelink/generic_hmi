@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppHeader from './containers/Header';
+import AlertHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
 
@@ -15,7 +15,11 @@ export default class MediaPlayer extends React.Component {
 
         return (
             <div className="alert">
-                <AppHeader appIcon="false" backLink=""/>
+                <div className="alert-title">
+                    <p className="t-small t-light th-f-color">
+                        {this.props.alertName}
+                    </p>
+                </div>
                 <div className="alert-top">
                     <AlertStrings/>
                     <div className="alert-icon">

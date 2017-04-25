@@ -18,7 +18,8 @@ export const Actions = {
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
     ALERT: "ALERT",
-    TIMEOUT_ALERT: "TIMEOUT_ALERT"
+    TIMEOUT_ALERT: "TIMEOUT_ALERT",
+    SET_THEME: "SET_THEME"
 }
 
 export const updateAppList = (applications) => {
@@ -187,5 +188,12 @@ export const timeoutAlert = (msgID, appID) => {
         type: Actions.TIMEOUT_ALERT,
         msgID: msgID,
         appID: appID
+    }
+}
+
+export const setTheme = (theme) => {
+    return {
+        type: Actions.SET_THEME,
+        theme: theme
     }
 }

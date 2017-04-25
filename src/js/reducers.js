@@ -41,6 +41,15 @@ function newAppState () {
     }
 }
 
+function theme(state =true, action) {
+    switch (action.type) {
+        case Actions.SET_THEME:
+            return action.theme
+        default:
+            return true
+    }
+}
+
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
@@ -287,6 +296,7 @@ function ui(state = {}, action) {
 }
 
 export const hmi = combineReducers({
+    theme,
     appList,
     activeApp,
     ui

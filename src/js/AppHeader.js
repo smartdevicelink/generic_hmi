@@ -1,23 +1,39 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
-
+import Modal from 'react-modal'
+import Alert from './Alert';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 
+
+
+
 class AppHeader extends React.Component {
     constructor(props) {
         super(props);
+
     }
 
     render() {
+        const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
+        var modalClass = themeClass + " alertOverlay"
         const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon /> ;
         return (
             <div className="app__header">
                 <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
                 <Name />
                 { icon }
+                <Modal
+                isOpen={this.props.showAlert}
+                className="alertModal app-body"
+                overlayClassName={modalClass}
+                contentLabel="Example Modal"
+                >
+                    <Alert alertName={this.props.alertName}/>
+                </Modal>
             </div>
+            
         )
     }
     componentWillReceiveProps (nextProps) {
@@ -44,10 +60,10 @@ class AppHeader extends React.Component {
         }
 
         if(nextProps.showAlert) {
-            this.props.router.push("/alert")
+            //this.props.router.push("/alert")
         }
         else if (this.props.showAlert && !nextProps.showAlert) {
-            this.props.router.goBack()
+            //this.props.router.goBack()
 
         }
     }
