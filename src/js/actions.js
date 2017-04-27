@@ -18,7 +18,7 @@ export const Actions = {
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
     ALERT: "ALERT",
-    TIMEOUT_ALERT: "TIMEOUT_ALERT",
+    CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME"
 }
 
@@ -171,7 +171,7 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
-export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator) => {
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID) => {
     return {
         type: Actions.ALERT,
         appID: appID,
@@ -179,13 +179,14 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         duration: duration,
         softButtons: softButtons,
         alertType: alertType,
-        showProgressIndicator: progressIndicator
+        showProgressIndicator: progressIndicator,
+        msgID: msgID
     }
 }
 
-export const timeoutAlert = (msgID, appID) => {
+export const closeAlert = (msgID, appID) => {
     return {
-        type: Actions.TIMEOUT_ALERT,
+        type: Actions.CLOSE_ALERT,
         msgID: msgID,
         appID: appID
     }

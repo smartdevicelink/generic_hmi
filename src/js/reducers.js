@@ -36,7 +36,8 @@ function newAppState () {
             duration: null,
             softButtons: [],
             alertType: null,
-            showProgressIndicator: null
+            showProgressIndicator: null,
+            msgID: null
         }
     }
 }
@@ -277,8 +278,9 @@ function ui(state = {}, action) {
             app.alert.softButtons = action.softButtons
             app.alert.alertType = action.alertType
             app.alert.showProgressIndicator = action.showProgressIndicator
+            app.alert.msgID = action.msgID
             return newState
-        case Actions.TIMEOUT_ALERT:
+        case Actions.CLOSE_ALERT:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.alert =  {
@@ -287,7 +289,8 @@ function ui(state = {}, action) {
                 duration: null,
                 softButtons: [],
                 alertType: null,
-                showProgressIndicator: null
+                showProgressIndicator: null,
+                msgID: null
             }
             return newState
         default:

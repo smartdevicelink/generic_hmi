@@ -12,7 +12,7 @@ import {
     setMediaClockTimer,
     setDisplayLayout,
     alert,
-    timeoutAlert
+    closeAlert
 } from '../actions'
 import store from '../store'
 
@@ -21,6 +21,10 @@ class UIController {
         this.addListener = this.addListener.bind(this)
         this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
+        this.onAlertTimeout = this.onAlertTimeout.bind(this)
+        this.onDefaultAction = this.onDefaultAction.bind(this)
+        this.onKeepContext = this.onKeepContext.bind(this)
+        this.onStealFocus = this.onStealFocus.bind(this)
         this.timers = {}
         this.appsWithTimers = {}
     }
@@ -112,13 +116,16 @@ class UIController {
                     rpc.params.duration,
                     rpc.params.softButtons,
                     rpc.params.alertType,
-                    rpc.params.progressIndicator
+                    rpc.params.progressIndicator,
+                    rpc.id
                 ))
-                //var timeout = rpc.params.duration ? rpc.params.duration : 10000
-                //setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
-                //this.appsWithTimers[rpc.id] = rpc.params.appID
+                var timeout = rpc.params.duration ? rpc.params.duration : 10000
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
+                this.appsWithTimers[rpc.id] = rpc.params.appID
 
-                return true
+                this.onSystemContext("ALERT", rpc.params.appID)
+
+                return null
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
@@ -129,11 +136,49 @@ class UIController {
             appID
         ))
     }
-    onAlertTimeout(msgID, appID) {
-        store.dispatch(timeoutAlert(
+    onAlertTimeout(msgID, appID, context) {
+        delete this.timers[msgID]
+        store.dispatch(closeAlert(
             msgID,
             appID
         ))
+        this.listener.send(RpcFactory.AlertResponse(msgID, appID))
+        this.onSystemContext("MAIN", context)
+    }
+    onStealFocus(alert, context) {        
+        console.log("onStealFocus")
+        clearTimeout(this.timers[alert.msgID])
+        delete this.timers[alert.msgID]
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        store.dispatch(closeAlert(
+            alert.msgID,
+            alert.appID
+        ))        
+        this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
+        //TODO: Need to add logic to switch app screens      
+        // Rework active app
+        //send systemcontext for last appid and new app id  
+        this.onSystemContext("MAIN", context)
+        this.onSystemContext("MAIN", alert.appID)
+    }
+    onKeepContext(alert) {
+        clearTimeout(this.timers[alert.msgID])
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        var timeout = alert.duration ? alert.duration : 10000
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID)
+        this.onResetTimeout(alert.appID, "UI.Alert")   
+
+    }
+    onDefaultAction(alert, context) {
+        clearTimeout(this.timers[alert.msgID])
+        delete this.timers[alert.msgID]
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        store.dispatch(closeAlert(
+            alert.msgID,
+            alert.appID
+        ))
+        this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
+        this.onSystemContext("MAIN", context)
     }
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
@@ -168,6 +213,9 @@ class UIController {
                 this.appsWithTimers[msgID]
             ))
         }
+    }
+    onResetTimeout(appID, methodName) {
+        this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
     }
 }
 

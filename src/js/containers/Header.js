@@ -16,9 +16,7 @@ const mapStateToProps = (state) => {
             var alertApp = state.appList.find((key) => {
                 return key.appID == prop
             })
-            console.log(alertApp)
             if(alertApp.appName) {
-                console.log(alertApp.appName)
                 alertAppName = alertApp.appName
             }
             break
