@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
         }
         var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
         var link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
+        console.log("APPLIST")
         return {
             appID: app.appID,
             class: 'with-image',

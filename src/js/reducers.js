@@ -29,7 +29,7 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: null,
+        displayLayout: 'media',
         alert: {
             showAlert: false,
             alertStrings: [],

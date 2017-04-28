@@ -73,11 +73,11 @@ const mapStateToProps = (state) => {
     for(var key in state.ui) {
         if(state.ui[key].alert.showAlert) {
             alertButtons = state.ui[key].alert.softButtons
-            if(alertButtons.length > 0) {
+            if(alertButtons) {
                 for (var i in alertButtons) {
                     alertButtons[i].msgID = state.ui[key].alert.msgID
-                    //Set appID for app calling alert, not for the active app
-                    alertButtons[i].appID = key.toString() 
+                    //Set appID for app calling alert, not for the active 
+                    alertButtons[i].appID = parseInt(key) 
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
             }   
@@ -93,13 +93,13 @@ const mapDispatchToProps = (dispatch) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
         onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp.toString())
+            uiController.onStealFocus(alert, activeApp ? activeApp : null)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert)
         },
         onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp.toString())
+            uiController.onDefaultAction(alert, activeApp ? activeApp : null)
         }
     }
 }

@@ -9,6 +9,7 @@ import MenuLink from './containers/AppsButton'
 
 
 
+
 class AppHeader extends React.Component {
     constructor(props) {
         super(props);
@@ -39,7 +40,6 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
-        //console.log(this.props)
         if (nextProps.isDisconnected) {
             this.props.router.push("/")
         }
@@ -56,16 +56,19 @@ class AppHeader extends React.Component {
                 this.props.router.push("/media")
         }
         else if (this.props.displayLayout != nextProps.displayLayout) {
-            this.props.router.push("/" + nextProps.displayLayout)
+            if(nextProps.activeApp) {
+                this.props.router.push("/" + nextProps.displayLayout)
+            }
+        }
+   
+        else if(this.props.activeApp != nextProps.activeApp) {
+            
+            if(!this.props.activeApp && nextProps.activeApp) {
+                console.log("MENU to APP VIEW!!")
+                this.props.router.push("/" + nextProps.displayLayout)
+            }
         }
 
-        if(nextProps.showAlert) {
-            //this.props.router.push("/alert")
-        }
-        else if (this.props.showAlert && !nextProps.showAlert) {
-            //this.props.router.goBack()
-
-        }
     }
 }
 

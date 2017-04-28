@@ -12,7 +12,8 @@ import {
     setMediaClockTimer,
     setDisplayLayout,
     alert,
-    closeAlert
+    closeAlert,
+    activateApp
 } from '../actions'
 import store from '../store'
 
@@ -158,7 +159,12 @@ class UIController {
         //TODO: Need to add logic to switch app screens      
         // Rework active app
         //send systemcontext for last appid and new app id  
-        this.onSystemContext("MAIN", context)
+        if(context){
+            this.onSystemContext("MAIN", context)
+        } else {
+            this.onSystemContext("MENU")//Viewing App List
+        }
+        store.dispatch(activateApp(alert.appID))
         this.onSystemContext("MAIN", alert.appID)
     }
     onKeepContext(alert) {
@@ -178,7 +184,11 @@ class UIController {
             alert.appID
         ))
         this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
-        this.onSystemContext("MAIN", context)
+        if(context){
+            this.onSystemContext("MAIN", context)
+        } else {
+            this.onSystemContext("MENU")//Viewing App List
+        }
     }
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
