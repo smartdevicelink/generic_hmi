@@ -1,0 +1,151 @@
+.alertOverlay {
+    position          : fixed;
+    top               : 0;
+    left              : 0;
+    right             : 0;
+    bottom            : 0;
+    background-color   : rgba(255, 255, 255, 0.75);
+    width: $master-width;
+    height: $master-height;
+    margin: 25px;
+    z-index:1001;
+}
+
+.alertModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    @include transform(translate(-50%, -50%));
+    border: 1px solid #ccc;
+    overflow: auto;
+    -webkit-overflow-scrolling: 'touch';
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    width: 85%;
+
+  }
+
+
+.alert{
+    height: 100%;
+    @include display(flex);
+    @include flex-direction(column);
+}
+
+.alert-title {
+    text-align: center;
+}
+
+.alert-top {
+    display: flex;
+    padding: 30px;
+}
+
+.alert-icon{
+    width: 50%;
+    height: calc((#{$master-height} - 75px) / 2);
+    @include display(flex);
+    @include justify-content(center);
+    @include align-items(center);
+    .svg-wrap{
+        height:75%;
+
+        svg{
+            height: 100%;
+        }
+    }
+
+}
+
+.alert-text-fields{
+    @include display(flex);
+    @include flex-direction(column);
+    @include justify-content(center);
+    @include align-items(center);
+    height: calc((#{$master-height} - 75px) / 2);
+    width: 50%;
+    text-align: center;
+}
+
+.alert-buttons{
+    @include display(flex);
+    @include justify-content(space-between);
+    @include flex(1);
+    padding: 15px;
+}
+
+.alert-button-tile-large {
+    //height: 100%;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+    //align-self: flex-start;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+.alert-button-tile {
+    //height: 45.5%;
+    width: 47.63%; //calculate
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+
+.alert-button-tile-small {
+    //height: 123.33333334px;
+    width: 47.63%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+.alert-button-tile-wide-large {
+    //height: 195px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+.alert-button-tile-wide {
+    //height: 123.333333334px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}

@@ -16,7 +16,10 @@ export const Actions = {
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
-    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT"
+    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
+    ALERT: "ALERT",
+    CLOSE_ALERT: "CLOSE_ALERT",
+    SET_THEME: "SET_THEME"
 }
 
 export const updateAppList = (applications) => {
@@ -165,5 +168,33 @@ export const unregisterApplication = (appID, isUnexpected) => {
         type: Actions.UNREGISTER_APPLICATION,
         appID: appID,
         isUnexpected: isUnexpected
+    }
+}
+
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID) => {
+    return {
+        type: Actions.ALERT,
+        appID: appID,
+        alertStrings: alertStrings,
+        duration: duration,
+        softButtons: softButtons,
+        alertType: alertType,
+        showProgressIndicator: progressIndicator,
+        msgID: msgID
+    }
+}
+
+export const closeAlert = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_ALERT,
+        msgID: msgID,
+        appID: appID
+    }
+}
+
+export const setTheme = (theme) => {
+    return {
+        type: Actions.SET_THEME,
+        theme: theme
     }
 }

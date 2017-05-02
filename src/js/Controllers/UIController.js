@@ -10,7 +10,10 @@ import {
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer,
-    setDisplayLayout
+    setDisplayLayout,
+    alert,
+    closeAlert,
+    activateApp
 } from '../actions'
 import store from '../store'
 
@@ -19,6 +22,10 @@ class UIController {
         this.addListener = this.addListener.bind(this)
         this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
+        this.onAlertTimeout = this.onAlertTimeout.bind(this)
+        this.onDefaultAction = this.onDefaultAction.bind(this)
+        this.onKeepContext = this.onKeepContext.bind(this)
+        this.onStealFocus = this.onStealFocus.bind(this)
         this.timers = {}
         this.appsWithTimers = {}
     }
@@ -103,6 +110,23 @@ class UIController {
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true
+            case "Alert":
+                store.dispatch(alert(
+                    rpc.params.appID,
+                    rpc.params.alertStrings,
+                    rpc.params.duration,
+                    rpc.params.softButtons,
+                    rpc.params.alertType,
+                    rpc.params.progressIndicator,
+                    rpc.id
+                ))
+                var timeout = rpc.params.duration ? rpc.params.duration : 10000
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
+                this.appsWithTimers[rpc.id] = rpc.params.appID
+
+                this.onSystemContext("ALERT", rpc.params.appID)
+
+                return null
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
@@ -112,6 +136,58 @@ class UIController {
             msgID,
             appID
         ))
+    }
+    onAlertTimeout(msgID, appID, context) {
+        delete this.timers[msgID]
+        store.dispatch(closeAlert(
+            msgID,
+            appID
+        ))
+        this.listener.send(RpcFactory.AlertResponse(msgID, appID))
+        this.onSystemContext("MAIN", context)
+    }
+    onStealFocus(alert, context) {        
+        clearTimeout(this.timers[alert.msgID])
+        delete this.timers[alert.msgID]
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        store.dispatch(closeAlert(
+            alert.msgID,
+            alert.appID
+        ))        
+        this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
+        //TODO: Need to add logic to switch app screens      
+        // Rework active app
+        //send systemcontext for last appid and new app id  
+        if(context){
+            this.onSystemContext("MAIN", context)
+        } else {
+            this.onSystemContext("MENU")//Viewing App List
+        }
+        store.dispatch(activateApp(alert.appID))
+        this.onSystemContext("MAIN", alert.appID)
+    }
+    onKeepContext(alert) {
+        clearTimeout(this.timers[alert.msgID])
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        var timeout = alert.duration ? alert.duration : 10000
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID)
+        this.onResetTimeout(alert.appID, "UI.Alert")   
+
+    }
+    onDefaultAction(alert, context) {
+        clearTimeout(this.timers[alert.msgID])
+        delete this.timers[alert.msgID]
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
+        store.dispatch(closeAlert(
+            alert.msgID,
+            alert.appID
+        ))
+        this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
+        if(context){
+            this.onSystemContext("MAIN", context)
+        } else {
+            this.onSystemContext("MENU")//Viewing App List
+        }
     }
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
@@ -146,6 +222,9 @@ class UIController {
                 this.appsWithTimers[msgID]
             ))
         }
+    }
+    onResetTimeout(appID, methodName) {
+        this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
     }
 }
 

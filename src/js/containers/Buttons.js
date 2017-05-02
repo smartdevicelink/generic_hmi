@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ControlBar from '../ControlBar'
 //import SoftButtons from '../SoftButtons'
 import SoftButtonsBody from '../Templates/Shared/SoftButtons'
+import AlertButtonsBody from '../AlertButtons'
 import uiController from '../Controllers/UIController'
 
 import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var subscribedButtons = {}
     var softButtons = []
+    var alertButtons = []
     var app = {}
     var graphicPresent
     if (activeApp) {
@@ -67,13 +69,37 @@ const mapStateToProps = (state) => {
             id: softButtons[0].softButtonID
         })
     }
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent}
+
+    for(var key in state.ui) {
+        if(state.ui[key].alert.showAlert) {
+            alertButtons = state.ui[key].alert.softButtons
+            if(alertButtons) {
+                for (var i in alertButtons) {
+                    alertButtons[i].msgID = state.ui[key].alert.msgID
+                    //Set appID for app calling alert, not for the active 
+                    alertButtons[i].appID = parseInt(key) 
+                    alertButtons[i].duration = state.ui[key].alert.duration
+                }
+            }   
+        }
+    }
+
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons}
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
+        },
+        onStealFocus:(alert, activeApp) =>{
+            uiController.onStealFocus(alert, activeApp ? activeApp : null)
+        },
+        onKeepContext:(alert) =>{
+            uiController.onKeepContext(alert)
+        },
+        onDefaultAction:(alert, activeApp) =>{
+            uiController.onDefaultAction(alert, activeApp ? activeApp : null)
         }
     }
 }
@@ -87,5 +113,10 @@ export const SoftButtons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(SoftButtonsBody)
+
+export const AlertButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AlertButtonsBody)
 
 export default Buttons
