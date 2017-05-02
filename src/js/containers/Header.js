@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
             var alertApp = state.appList.find((key) => {
                 return key.appID == prop
             })
-            console.log("HEADER")
+
             if(alertApp.appName) {
                 alertAppName = alertApp.appName
             }

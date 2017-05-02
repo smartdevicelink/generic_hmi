@@ -147,7 +147,6 @@ class UIController {
         this.onSystemContext("MAIN", context)
     }
     onStealFocus(alert, context) {        
-        console.log("onStealFocus")
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)

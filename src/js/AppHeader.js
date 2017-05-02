@@ -61,10 +61,8 @@ class AppHeader extends React.Component {
             }
         }
    
-        else if(this.props.activeApp != nextProps.activeApp) {
-            
+        else if(this.props.activeApp != nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
-                console.log("MENU to APP VIEW!!")
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
