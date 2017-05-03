@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
-import bcController from '../Controllers/BCController'
+import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
     var data = state.appList.map ((app, index) => {
@@ -25,7 +25,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
-            bcController.onAppActivated(appID)
+            sdlController.onAppActivated(appID)
         }
     }
 }

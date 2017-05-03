@@ -42,7 +42,7 @@ function newAppState () {
     }
 }
 
-function theme(state =true, action) {
+function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
@@ -298,9 +298,28 @@ function ui(state = {}, action) {
     }
 }
 
+function system(state = {}, action) {
+    switch(action.type) {
+        case Actions.POLICY_UPDATE:
+            var newState = { ...state }
+            newState.policyFile = action.file
+            newState.policyRetry = action.retry
+            newState.policyTimeout = action.timeout
+            return newState
+        case Actions.GET_URLS:
+            var newState = { ...state }
+            newState.urls = action.urls
+            return newState
+        default:
+            return state
+
+    }
+}
+
 export const hmi = combineReducers({
     theme,
     appList,
     activeApp,
-    ui
+    ui,
+    system
 })
