@@ -1,6 +1,7 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
 import { activateApp, getURLS  } from '../actions'
+import bcController from './BCController'
 var activatingApplication = 0
 class SDLController {
     constructor () {
@@ -26,6 +27,9 @@ class SDLController {
                 return;
             case "GetURLS":
                 store.dispatch(getURLS(rpc.result.urls))
+                const state = store.getState() 
+                bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                return;
         }
     }
     onAppActivated(appID) {

@@ -315,6 +315,18 @@ class RpcFactory {
             }           
         })       
     }
+    static OnSystemRequestNotification(policyFile, url, appID) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnSystemRequest',
+            'params': {
+                'requestType': 'PROPRIETARY',
+                'url': url,
+                'fileName': policyFile,
+                'appID': appID
+            }
+        })        
+    }
 
 }
 

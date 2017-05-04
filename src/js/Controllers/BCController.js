@@ -59,6 +59,14 @@ class BCController {
     onExitAllApplications(reason) {
         this.listener.send(RpcFactory.OnExitAllApplicationsNotification(reason))
     }
+    onSystemRequest(policyFile, urls) {
+        for (var i in urls) {
+            var appID = urls[i].appID
+            var url = urls[i].url
+            this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
+        }
+        
+    }
 }
 
 let controller = new BCController()
