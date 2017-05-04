@@ -327,6 +327,15 @@ class RpcFactory {
             }
         })        
     }
+    static OnReceivedPolicyUpdate(policyFile) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'SDL.OnReceivedPolicyUpdate',
+            'params': {
+                'policyfile': policyFile
+            }
+        })          
+    }
 
 }
 

@@ -40,6 +40,9 @@ class SDLController {
     getURLS(serviceType) {
         this.listener.send(RpcFactory.GetURLS(serviceType))
     }
+    onReceivedPolicyUpdate(policyFile) {
+        this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
+    }
 }
 
 let controller = new SDLController()

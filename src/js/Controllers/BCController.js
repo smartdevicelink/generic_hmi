@@ -34,6 +34,9 @@ class BCController {
                 store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
                 sdlController.getURLS(7)
                 return true;
+            case "SystemRequest":
+                sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                return true
         }
     }
     handleRPCResponse(rpc) {
