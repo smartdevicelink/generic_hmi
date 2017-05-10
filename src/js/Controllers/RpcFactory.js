@@ -305,6 +305,37 @@ class RpcFactory {
             }           
         })
     }
+    static GetURLS(serviceType) {
+         return ({
+            'jsonrpc': '2.0',
+            "id": rpcFactory_msgId++,
+            'method': 'SDL.GetURLS',
+            'params': {
+                'service' : serviceType
+            }           
+        })       
+    }
+    static OnSystemRequestNotification(policyFile, url, appID) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnSystemRequest',
+            'params': {
+                'requestType': 'PROPRIETARY',
+                'url': url,
+                'fileName': policyFile,
+                'appID': appID
+            }
+        })        
+    }
+    static OnReceivedPolicyUpdate(policyFile) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'SDL.OnReceivedPolicyUpdate',
+            'params': {
+                'policyfile': policyFile
+            }
+        })          
+    }
 
 }
 

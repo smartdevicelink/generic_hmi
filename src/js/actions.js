@@ -19,7 +19,9 @@ export const Actions = {
     SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
-    SET_THEME: "SET_THEME"
+    SET_THEME: "SET_THEME",
+    POLICY_UPDATE: "POLICY_UPDATE",
+    GET_URLS: "GET_URLS"
 }
 
 export const updateAppList = (applications) => {
@@ -196,5 +198,21 @@ export const setTheme = (theme) => {
     return {
         type: Actions.SET_THEME,
         theme: theme
+    }
+}
+
+export const policyUpdate = (file, retry, timeout) => {
+    return {
+        type: Actions.POLICY_UPDATE,
+        file: file,
+        retry: retry,
+        timeout: timeout
+    }
+}
+
+export const getURLS = (urls) => {
+    return {
+        type: Actions.GET_URLS,
+        urls: urls
     }
 }
