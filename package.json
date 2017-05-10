@@ -38,6 +38,7 @@
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
+    "react-modal": "^1.7.7",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux": "^3.5.2"

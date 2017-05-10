@@ -7,9 +7,9 @@ body {
 }
 
 #app {
-    width: 960px;
+    width: $master-width;
     .app-body {
-        height: 675px;
+        height: $master-height;
     }
 }
 
