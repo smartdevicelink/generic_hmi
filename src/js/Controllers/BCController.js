@@ -8,6 +8,7 @@ class BCController {
         this.addListener = this.addListener.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
+        var getUserFriendlyMessageCallback={}
     }
     addListener(listener) {
         this.listener = listener
@@ -69,6 +70,9 @@ class BCController {
             this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
         }
         
+    }
+    onAllowSDLFunctionality(allowed, source) {
+        this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
     }
 }
 
