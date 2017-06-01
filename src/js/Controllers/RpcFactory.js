@@ -369,7 +369,6 @@ class RpcFactory {
         if(consentedFunctions) {
             msg.params.consentedFunctions = consentedFunctions
         }
-        console.log(externalConsentStatus)
         if(externalConsentStatus) {
             msg.params.externalConsentStatus = externalConsentStatus
         }

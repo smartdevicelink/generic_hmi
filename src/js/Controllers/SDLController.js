@@ -56,7 +56,6 @@ class SDLController {
                         allowedFunctions[index].allowed = true
                     }
                 }
-                console.log(this.externalConsentStatus)
                 this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
                 return;
         }
@@ -76,7 +75,6 @@ class SDLController {
          this.listener.send(RpcFactory.GetListOfPermissions(appID))
     }
     onAppPermissionConsent(allowedFunctions, externalConsentStatus) {
-        console.log(externalConsentStatus)
         this.listener.send(RpcFactory.OnAppPermissionConsent(allowedFunctions, externalConsentStatus))
     }
 }
