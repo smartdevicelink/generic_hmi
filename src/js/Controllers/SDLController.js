@@ -8,6 +8,16 @@ class SDLController {
         this.addListener = this.addListener.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
+        
+        //ToDo: Add ExternalConsentStatus View
+        //Sample struct used below
+        /*this.externalConsentStatus = [{
+            entityType: 1, entityID: 1, status: "ON"
+        }, 
+        {
+            entityType: 1, entityID: 2, status: "OFF"
+        }];*/
+        this.externalConsentStatus = [];
     }
     addListener(listener) {
         this.listener = listener
@@ -46,7 +56,8 @@ class SDLController {
                         allowedFunctions[index].allowed = true
                     }
                 }
-                this.onAppPermissionConsent(allowedFunctions)
+                console.log(this.externalConsentStatus)
+                this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
                 return;
         }
     }
@@ -64,8 +75,9 @@ class SDLController {
     getListOfPermissions(appID) {
          this.listener.send(RpcFactory.GetListOfPermissions(appID))
     }
-    onAppPermissionConsent(allowedFunctions) {
-        this.listener.send(RpcFactory.OnAppPermissionConsent(allowedFunctions))
+    onAppPermissionConsent(allowedFunctions, externalConsentStatus) {
+        console.log(externalConsentStatus)
+        this.listener.send(RpcFactory.OnAppPermissionConsent(allowedFunctions, externalConsentStatus))
     }
 }
 
