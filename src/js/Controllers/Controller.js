@@ -7,7 +7,7 @@ import ttsController from './TTSController';
 import viController from './VehicleInfoController';
 import sdlController from './SDLController';
 import externalPolicyManager from './ExternalPoliciesController';
-import flags from '../Flags';
+import {flags} from '../Flags';
 
 export default class Controller {
     constructor () {
@@ -43,7 +43,7 @@ export default class Controller {
             clearInterval(this.retry)
         }
         if(flags.ExternalPolicies) {
-            externalPolicyManager.connectPolicyManager(Flags.ExternalPoliciesPackUrl, Flags.ExternalPoliciesUnpackUrl)
+            externalPolicyManager.connectPolicyManager(flags.ExternalPoliciesPackUrl, flags.ExternalPoliciesUnpackUrl)
         }
         this.registerComponents()
     }

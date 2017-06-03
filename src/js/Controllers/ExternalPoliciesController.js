@@ -1,7 +1,7 @@
 import sdlController from './SDLController';
 import bcController from './BCController';
 
-export default class ExternalPoliciesController {
+class ExternalPoliciesController {
     constructor() {
         this.packClient = null
         this.unpackClient = null
@@ -12,15 +12,20 @@ export default class ExternalPoliciesController {
     }
     connectPolicyManager(packUrl, unpackUrl) {
         console.log("connect policy manager")
-        this.packUrl = packUrl
-        this.unpackUrl = unpackUrl
-        this.packClient = new WebSocket(packUrl)
-        this.unpackClient = new Websocket(unpackUrl)
-
+        if(packUrl) {
+            this.packUrl = packUrl
+        }
+        if(unpackUrl){
+            this.unpackUrl = unpackUrl
+        }
+                
+        this.packClient = new WebSocket(this.packUrl)
         this.packClient.onopen = this.onopen.bind(this)
         this.packClient.onclose = this.onclose.bind(this)
         this.packClient.onmessage = this.onPackMessage.bind(this)
 
+
+        this.unpackClient = new WebSocket(this.unpackUrl)
         this.unpackClient.onopen = this.onopen.bind(this)
         this.unpackClient.onclose = this.onclose.bind(this)
         this.unpackClient.onmessage = this.onUnpackMessage.bind(this)
@@ -46,7 +51,9 @@ export default class ExternalPoliciesController {
     }
     onopen (evt) {
         console.log("on open")
-        if (this.retry) {
+        console.log(this.packClient)
+        console.log(this.unpackClient)
+        if (this.retry && this.packClient == 1 && this.unpackClient == 1) {
             clearInterval(this.retry)
         }
 
@@ -73,3 +80,6 @@ export default class ExternalPoliciesController {
         this.packClient.send(this.sysReqParams.policyUpdateFile);
     }
 }
+
+let controller = new ExternalPoliciesController()
+export default controller
