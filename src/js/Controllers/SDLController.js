@@ -3,7 +3,7 @@ import store from '../store'
 import { activateApp, getURLS  } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
-import flags from '../Flags'
+import {flags} from '../Flags'
 var activatingApplication = 0
 class SDLController {
     constructor () {

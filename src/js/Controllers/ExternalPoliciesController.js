@@ -79,6 +79,10 @@ class ExternalPoliciesController {
         this.sysReqParams = params
         this.packClient.send(this.sysReqParams.policyUpdateFile);
     }
+    unpack(file) {
+        console.log("unpack " + file)
+        this.unpackClient.send(file)
+    }
 }
 
 let controller = new ExternalPoliciesController()
