@@ -2,6 +2,8 @@ import RpcFactory from './RpcFactory'
 import store from '../store'
 import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate } from '../actions'
 import sdlController from './SDLController'
+import externalPolicies from './ExternalPoliciesController'
+import flags from '../Flags'
 var activatingApplication = 0
 class BCController {
     constructor () {
@@ -36,7 +38,12 @@ class BCController {
                 sdlController.getURLS(7)
                 return true;
             case "SystemRequest":
-                sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                if(flags.ExternalPolicies) {
+                    externalPolicies.unpack(rpc.params.fileName)
+                } else {
+                    sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                }
+ 
                 return true
         }
     }

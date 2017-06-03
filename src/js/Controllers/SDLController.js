@@ -2,6 +2,8 @@ import RpcFactory from './RpcFactory'
 import store from '../store'
 import { activateApp, getURLS  } from '../actions'
 import bcController from './BCController'
+import externalPolicies from './ExternalPoliciesController'
+import flags from '../Flags'
 var activatingApplication = 0
 class SDLController {
     constructor () {
@@ -45,8 +47,16 @@ class SDLController {
                 return;
             case "GetURLS":
                 store.dispatch(getURLS(rpc.result.urls))
-                const state = store.getState() 
-                bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                const state = store.getState()
+                if(flags.ExternalPolicies) {
+                    externalPolicies.pack({            
+                        type: 'PROPRIETARY',
+                        policyUpdateFile: state.system.policyFile,
+                        urls: state.system.urls
+                    })
+                } else {
+                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                }
                 return;
             case "GetListOfPermissions":         
                 //To Do: Implement permission view. For now all permissions are consented

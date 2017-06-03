@@ -5,7 +5,9 @@ import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
-import sdlController from './SDLController'
+import sdlController from './SDLController';
+import externalPolicyManager from './ExternalPoliciesController';
+import flags from '../Flags';
 
 export default class Controller {
     constructor () {
@@ -39,6 +41,9 @@ export default class Controller {
     onopen (evt) {
         if (this.retry) {
             clearInterval(this.retry)
+        }
+        if(flags.ExternalPolicies) {
+            externalPolicyManager.connectPolicyManager(Flags.ExternalPoliciesPackUrl, Flags.ExternalPoliciesUnpackUrl)
         }
         this.registerComponents()
     }
