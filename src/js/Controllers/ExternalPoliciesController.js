@@ -11,7 +11,6 @@ class ExternalPoliciesController {
 
     }
     connectPolicyManager(packUrl, unpackUrl) {
-        console.log("connect policy manager")
         if(packUrl) {
             this.packUrl = packUrl
         }
@@ -50,37 +49,28 @@ class ExternalPoliciesController {
         }
     }
     onopen (evt) {
-        console.log("on open")
-        console.log(this.packClient)
-        console.log(this.unpackClient)
         if (this.retry && this.packClient == 1 && this.unpackClient == 1) {
             clearInterval(this.retry)
         }
 
     }
     onclose (evt) {
-        console.log("on close")
         if (!this.retry) {
             this.retry = setInterval(this.connectPolicyManager.bind(this), 4000)
         }
     }
     onPackMessage(evt) {
-        console.log("onPackMessage")
         bcController.onSystemRequest(this.sysReqParams.policyUpdateFile, this.sysReqParams.urls)
         this.sysReqParams = {}
     }
     onUnpackMessage(evt) {
-        console.log("onUnpackMessage " + evt)
         sdlController.onReceivedPolicyUpdate(evt.data)
     }
     pack(params) {
-        console.log("pack")
-        console.log(params)
         this.sysReqParams = params
         this.packClient.send(this.sysReqParams.policyUpdateFile);
     }
     unpack(file) {
-        console.log("unpack " + file)
         this.unpackClient.send(file)
     }
 }
