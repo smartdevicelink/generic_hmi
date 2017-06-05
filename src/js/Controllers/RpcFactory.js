@@ -336,6 +336,44 @@ class RpcFactory {
             }
         })          
     }
+    static OnAllowSDLFunctionality(allowed, source) {
+        return({
+            'jsonrpc': '2.0',
+            'method': 'SDL.OnAllowSDLFunctionality',
+            'params': {
+                'allowed': allowed,
+                'source': source
+            }           
+        })
+    }
+    static GetListOfPermissions(appID) {
+        var msg = {
+            'jsonrpc': '2.0',
+            'id': rpcFactory_msgId++,
+            'method': 'SDL.GetListOfPermissions',
+            'params': {}           
+        }
+        if(appID) {
+            msg.params.appID = appID
+        }
+        return (msg)         
+    }
+    static OnAppPermissionConsent(consentedFunctions, externalConsentStatus) {
+        var msg = {
+          'jsonrpc': '2.0',
+          'method': 'SDL.OnAppPermissionConsent',
+          'params': {
+            'source': 'GUI'
+          }
+        }
+        if(consentedFunctions) {
+            msg.params.consentedFunctions = consentedFunctions
+        }
+        if(externalConsentStatus) {
+            msg.params.externalConsentStatus = externalConsentStatus
+        }
+        return (msg)
+    }
 
 }
 

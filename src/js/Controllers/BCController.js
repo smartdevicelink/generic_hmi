@@ -2,12 +2,15 @@ import RpcFactory from './RpcFactory'
 import store from '../store'
 import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate } from '../actions'
 import sdlController from './SDLController'
+import externalPolicies from './ExternalPoliciesController'
+import {flags} from '../Flags'
 var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
+        var getUserFriendlyMessageCallback={}
     }
     addListener(listener) {
         this.listener = listener
@@ -35,7 +38,12 @@ class BCController {
                 sdlController.getURLS(7)
                 return true;
             case "SystemRequest":
-                sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                if(flags.ExternalPolicies) {
+                    externalPolicies.unpack(rpc.params.fileName)
+                } else {
+                    sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                }
+ 
                 return true
         }
     }
@@ -47,11 +55,6 @@ class BCController {
                 return;
         }*/
     }
-    /*onAppActivated(appID) {
-        // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
-        activatingApplication = appID
-        this.listener.send(RpcFactory.SDLActivateApp(appID))
-    }*/
     onAppDeactivated(reason, appID) {
         //this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
         store.dispatch(deactivateApp(appID))
@@ -69,6 +72,9 @@ class BCController {
             this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
         }
         
+    }
+    onAllowSDLFunctionality(allowed, source) {
+        this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
     }
 }
 
