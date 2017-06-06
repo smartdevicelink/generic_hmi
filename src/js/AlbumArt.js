@@ -6,10 +6,14 @@ export default class AlbumArt extends React.Component {
     }
 
     render() {
-        return (
-            <div className="album-art">
-                <img className="th-box-shadow" src={this.props.image} />
-            </div>
-        )
+        if(this.props.image) {
+            return (
+                <div className="album-art">
+                    <img className="th-box-shadow" src={this.props.image} />
+                </div>
+            )
+        } else {
+            return(null)
+        }
     }
 }

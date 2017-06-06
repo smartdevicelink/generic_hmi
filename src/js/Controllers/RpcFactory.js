@@ -223,7 +223,7 @@ class RpcFactory {
                 "name": button.name,
                 "mode": button.mode,
                 "appID": appID,
-                "customButtonID": button.softButtonID
+                "customButtonID": button.customButtonID
             }
         })
     }
@@ -235,7 +235,7 @@ class RpcFactory {
                 "name": button.name,
                 "mode": button.mode,
                 "appID": appID,
-                "customButtonID": button.softButtonID
+                "customButtonID": button.customButtonID
             }
         })
     }
@@ -294,6 +294,85 @@ class RpcFactory {
                 'reason': reason
             }
         })
+    }
+    static OnResetTimeout(appID, methodName) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnResetTimeout',
+            'params': {
+                'appID': appID,
+                'methodName': methodName
+            }           
+        })
+    }
+    static GetURLS(serviceType) {
+         return ({
+            'jsonrpc': '2.0',
+            "id": rpcFactory_msgId++,
+            'method': 'SDL.GetURLS',
+            'params': {
+                'service' : serviceType
+            }           
+        })       
+    }
+    static OnSystemRequestNotification(policyFile, url, appID) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnSystemRequest',
+            'params': {
+                'requestType': 'PROPRIETARY',
+                'url': url,
+                'fileName': policyFile,
+                'appID': appID
+            }
+        })        
+    }
+    static OnReceivedPolicyUpdate(policyFile) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'SDL.OnReceivedPolicyUpdate',
+            'params': {
+                'policyfile': policyFile
+            }
+        })          
+    }
+    static OnAllowSDLFunctionality(allowed, source) {
+        return({
+            'jsonrpc': '2.0',
+            'method': 'SDL.OnAllowSDLFunctionality',
+            'params': {
+                'allowed': allowed,
+                'source': source
+            }           
+        })
+    }
+    static GetListOfPermissions(appID) {
+        var msg = {
+            'jsonrpc': '2.0',
+            'id': rpcFactory_msgId++,
+            'method': 'SDL.GetListOfPermissions',
+            'params': {}           
+        }
+        if(appID) {
+            msg.params.appID = appID
+        }
+        return (msg)         
+    }
+    static OnAppPermissionConsent(consentedFunctions, externalConsentStatus) {
+        var msg = {
+          'jsonrpc': '2.0',
+          'method': 'SDL.OnAppPermissionConsent',
+          'params': {
+            'source': 'GUI'
+          }
+        }
+        if(consentedFunctions) {
+            msg.params.consentedFunctions = consentedFunctions
+        }
+        if(externalConsentStatus) {
+            msg.params.externalConsentStatus = externalConsentStatus
+        }
+        return (msg)
     }
 
 }

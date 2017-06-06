@@ -1,10 +1,44 @@
 .hscrollmenu {
     width: 100%;
-    height: 575px;
-    overflow-x: scroll;
-    padding: 25px 55px 0 55px;
+    height: calc(#{$master-height} - 75px);
+    overflow-y: auto;
+    padding: calc(#{$master-height} / 21.6) 0px 0 0px;
 
     @include display(flex);
-    @include flex-direction(column);
+    @include flex-direction(row);
     @include flex-wrap(wrap);
+    @include align-content(flex-start);
+}
+@mixin h-scroll-item-per-line() {
+    @if $master-width >=800 {
+        width: var(--calc-width-3);
+        margin-left: var( --margin-size-3);
+        margin-bottom: var(--margin-size-3);
+        height: calc((var(--calc-width-3)) * 0.78);
+    } @else if $master-width >=480 {
+        width: var(--calc-width-2);
+        margin-left: var( --margin-size-2);
+        margin-bottom: var(--margin-size-2);
+        height: calc((var(--calc-width-2)) * 0.78);
+    } @else {
+        width: var(--calc-width-1);
+        margin-left: var( --margin-size-1);
+        margin-bottom: var(--margin-size-1);
+        height: calc((var(--calc-width-1)) * 0.78);
+    }
+}
+.hscrollmenu .hscrollmenu-block {    
+    --menu-width: $master-width;
+    --box-width-3: calc(var(--menu-width) * 0.3);
+    --margin-size-3: calc((var(--menu-width) - (var(--box-width-3) * 3)) / 3);
+    --calc-width-3: calc(var(--box-width-3) - (var(--margin-size-3) / 3));
+
+    --box-width-2: calc(var(--menu-width) * 0.45);
+    --margin-size-2: calc((var(--menu-width) - (var(--box-width-2) * 2)) / 2);
+    --calc-width-2: calc(var(--box-width-2) - (var(--margin-size-2) / 2));
+
+    --box-width-1: calc(var(--menu-width) * 0.9);
+    --margin-size-1: calc((var(--menu-width) - (var(--box-width-1) * 1)) / 1);
+    --calc-width-1: calc(var(--box-width-1) - (var(--margin-size-1) / 1));
+    @include h-scroll-item-per-line();    
 }

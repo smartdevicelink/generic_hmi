@@ -29,7 +29,26 @@ function newAppState () {
         updateMode: "COUNTUP",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
-        isDisconnected: false
+        isDisconnected: false,
+        displayLayout: 'media',
+        alert: {
+            showAlert: false,
+            alertStrings: [],
+            duration: null,
+            softButtons: [],
+            alertType: null,
+            showProgressIndicator: null,
+            msgID: null
+        }
+    }
+}
+
+function theme(state = true, action) {
+    switch (action.type) {
+        case Actions.SET_THEME:
+            return action.theme
+        default:
+            return true
     }
 }
 
@@ -224,19 +243,89 @@ function ui(state = {}, action) {
             }
             app.updateMode = action.updateMode
             return newState
+        case Actions.SET_DISPLAY_LAYOUT:
+            var newState = {...state}
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            switch(action.displayLayout) {
+                case "DEFAULT":
+                    app.displayLayout = "media"
+                    break
+                case "MEDIA":
+                    app.displayLayout = "media"
+                    break
+                case "NON-MEDIA":
+                    app.displayLayout = "nonmedia"
+                    break
+                case "LARGE_GRAPHIC_ONLY":
+                    app.displayLayout = "large-graphic-only"
+                    break
+                case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
+                    app.displayLayout = "large-graphic-with-softbuttons"
+                default: 
+                    break
+            }
+            return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = true
+            return newState
+        case Actions.ALERT:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.alert.showAlert = true
+            app.alert.alertStrings = action.alertStrings
+            app.alert.duration = action.duration
+            app.alert.softButtons = action.softButtons
+            app.alert.alertType = action.alertType
+            app.alert.showProgressIndicator = action.showProgressIndicator
+            app.alert.msgID = action.msgID
+            return newState
+        case Actions.CLOSE_ALERT:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.alert =  {
+                showAlert: false,
+                alertStrings: [],
+                duration: null,
+                softButtons: [],
+                alertType: null,
+                showProgressIndicator: null,
+                msgID: null
+            }
             return newState
         default:
             return state
     }
 }
 
+function system(state = {}, action) {
+    switch(action.type) {
+        case Actions.POLICY_UPDATE:
+            var newState = { ...state }
+            newState.policyFile = action.file
+            newState.policyRetry = action.retry
+            newState.policyTimeout = action.timeout
+            return newState
+        case Actions.GET_URLS:
+            var newState = { ...state }
+            newState.urls = action.urls
+            return newState
+        default:
+            return state
+
+    }
+}
+
 export const hmi = combineReducers({
+    theme,
     appList,
     activeApp,
     ui,
+<<<<<<< HEAD
     routing: routerReducer
 })
+=======
+    system
+})
+>>>>>>> ebdc0d0f74ac2ff772086d9834c6005ff03b0337

@@ -7,9 +7,34 @@ const mapStateToProps = (state) => {
         isPerformingInteraction: false,
         isDisconnected: false
     }
+
+    var showAlert = false
+    var alertAppName = ""
+    for(var prop in state.ui){
+        if(state.ui[prop].alert.showAlert){
+            showAlert = true
+            var alertApp = state.appList.find((key) => {
+                return key.appID == prop
+            })
+
+            if(alertApp.appName) {
+                alertAppName = alertApp.appName
+            }
+            break
+        }
+    }
+
+    var theme = state.theme
+
     return {
         isPerformingInteraction: app.isPerformingInteraction,
-        isDisconnected: app.isDisconnected
+        isDisconnected: app.isDisconnected,
+        displayLayout: app.displayLayout,
+        showAlert: showAlert,
+        alertName: alertAppName,
+        theme: theme,
+        activeApp: activeApp
+        
     }
 }
 

@@ -1,12 +1,16 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, unregisterApplication } from '../actions'
+import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate } from '../actions'
+import sdlController from './SDLController'
+import externalPolicies from './ExternalPoliciesController'
+import {flags} from '../Flags'
 var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
+        var getUserFriendlyMessageCallback={}
     }
     addListener(listener) {
         this.listener = listener
@@ -29,23 +33,30 @@ class BCController {
                 return true
             case "MixingAudioSupported":
                 return {"rpc": RpcFactory.MixingAudioResponse(rpc)}
+            case "PolicyUpdate":
+                store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
+                sdlController.getURLS(7)
+                return true;
+            case "SystemRequest":
+                if(flags.ExternalPolicies) {
+                    externalPolicies.unpack(rpc.params.fileName)
+                } else {
+                    sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
+                }
+ 
+                return true
         }
     }
     handleRPCResponse(rpc) {
         let methodName = rpc.result.method.split(".")[1]
-        switch (methodName) {
+        /*switch (methodName) {
             case "ActivateApp":
                 store.dispatch(activateApp(activatingApplication))
                 return;
-        }
-    }
-    onAppActivated(appID) {
-        // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
-        activatingApplication = appID
-        this.listener.send(RpcFactory.SDLActivateApp(appID))
+        }*/
     }
     onAppDeactivated(reason, appID) {
-        this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
+        //this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
         store.dispatch(deactivateApp(appID))
     }
     onIgnitionCycleOver() {
@@ -53,6 +64,17 @@ class BCController {
     }
     onExitAllApplications(reason) {
         this.listener.send(RpcFactory.OnExitAllApplicationsNotification(reason))
+    }
+    onSystemRequest(policyFile, urls) {
+        for (var i in urls) {
+            var appID = urls[i].appID
+            var url = urls[i].url
+            this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
+        }
+        
+    }
+    onAllowSDLFunctionality(allowed, source) {
+        this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
     }
 }
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import HScrollMenu from '../HScrollMenu'
+import VScrollMenu from '../VScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 
@@ -45,6 +45,6 @@ const mapDispatchToProps = (dispatch) => {
 const Menu = connect(
     mapStateToProps,
     mapDispatchToProps
-)(HScrollMenu)
+)(VScrollMenu)
 
 export default Menu
