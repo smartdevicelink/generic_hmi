@@ -261,7 +261,7 @@ function ui(state = {}, action) {
                     break
                 case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "large-graphic-with-softbuttons"
-                default: 
+                default:
                     break
             }
             return newState
@@ -322,10 +322,6 @@ export const hmi = combineReducers({
     appList,
     activeApp,
     ui,
-<<<<<<< HEAD
-    routing: routerReducer
-})
-=======
+    routing: routerReducer,
     system
 })
->>>>>>> ebdc0d0f74ac2ff772086d9834c6005ff03b0337
