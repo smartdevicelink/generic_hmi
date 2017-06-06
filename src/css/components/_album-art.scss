@@ -1,6 +1,22 @@
+@mixin album-art-size() {
+    $calc-width: $master-width / 2.954;
+    $calc-height: ($master-height - 75px)  / 1.8461;
+    @if $calc-width <= $calc-height {
+        $size: $calc-width + ($calc-width / 6.5);
+        @include size($size);
+        @include transform(translateY(1%));
+    } @else {
+        $size: $calc-height + ($calc-height / 6.5);
+        @include size($size);
+        @include transform(translateY(1%));
+    }
+}
+
 .album-art {
-    @include size(325px);
-    @include transform(translateY(50px));
+    @include display(flex);
+    @include align-items(center);
+    margin: auto 0px;
+    @include album-art-size();
     border-radius: 4px;
 
     img {

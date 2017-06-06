@@ -5,12 +5,16 @@ import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
+import sdlController from './SDLController';
+import externalPolicyManager from './ExternalPoliciesController';
+import {flags} from '../Flags';
 
 export default class Controller {
     constructor () {
         this.socket = null
         bcController.addListener(this)
         uiController.addListener(this)
+        sdlController.addListener(this)
         // this.vrController = new VRController;
         // this.ttsController = new TTSController;
         // this.navController = new NavigationController;
@@ -37,6 +41,9 @@ export default class Controller {
     onopen (evt) {
         if (this.retry) {
             clearInterval(this.retry)
+        }
+        if(flags.ExternalPolicies) {
+            externalPolicyManager.connectPolicyManager(flags.ExternalPoliciesPackUrl, flags.ExternalPoliciesUnpackUrl)
         }
         this.registerComponents()
     }
@@ -129,7 +136,16 @@ export default class Controller {
             componentName = rpc.method.split(".")[0];
         } else if (rpc.result.method) {
             // It's a response
-            bcController.handleRPCResponse(rpc)
+            componentName = rpc.result.method.split(".")[0];
+            switch (componentName) {
+                case "BasicCommunication":
+                    bcController.handleRPCResponse(rpc);
+                    break;
+                case "SDL":
+                    sdlController.handleRPCResponse(rpc);
+                    break;
+            }
+            
             return
         } else {
             return
@@ -149,8 +165,10 @@ export default class Controller {
                 response = ttsController.handleRPC(rpc);
                 break;
             case "VehicleInfo":
-                response = viController.handleRPC(rpc)
+                response = viController.handleRPC(rpc);
                 break;
+            case "SDL":
+                response = sdlController.handleRPC(rpc);
             // case "Navigation":
             //     response = navController.handleRPC(rpc);
             //     break;

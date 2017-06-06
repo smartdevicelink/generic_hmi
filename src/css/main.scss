@@ -1,3 +1,6 @@
+// config
+@import 'config';
+
 // vendor
 @import 'vendor/bourbon/bourbon';
 
@@ -27,3 +30,8 @@
 @import 'components/v-scroll-menu-item';
 @import 'components/tiles-only-list';
 @import 'components/tile';
+@import 'components/non-media';
+@import 'components/large-graphic-only';
+@import 'components/large-graphic-with-softbuttons';
+@import 'components/alert';
+

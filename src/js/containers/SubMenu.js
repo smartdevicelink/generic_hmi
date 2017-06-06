@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID, cmdID, isPerformingInteraction, interactionID) => {
+        onSelection: (appID, cmdID, menuID, isPerformingInteraction, interactionID) => {
             uiController.onSystemContext("MAIN", appID)
             if (isPerformingInteraction) {
                 uiController.onChoiceSelection(cmdID, appID, interactionID)

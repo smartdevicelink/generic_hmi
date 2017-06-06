@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import HScrollMenu from '../HScrollMenu'
-import bcController from '../Controllers/BCController'
+import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
     var data = state.appList.map ((app, index) => {
@@ -8,12 +8,14 @@ const mapStateToProps = (state) => {
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
         }
+        var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
+        var link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
         return {
             appID: app.appID,
             class: 'with-image',
             name: app.appName,
             image: icon,
-            link: '/media',
+            link: '/' + link,
             cmdID: 0
         }
     })
@@ -23,7 +25,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
-            bcController.onAppActivated(appID)
+            sdlController.onAppActivated(appID)
         }
     }
 }

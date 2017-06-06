@@ -2,6 +2,11 @@
     @if ($color-variant != null) {
         @return map-get(map-get($colors, $color), $color-variant);
     } @else {
-        @return map-get($colors, $color);
+        $color-key: map-get($colors, $color);
+        @if ($color-key != null) {
+            @return $color-key;
+        } @else {
+            @return $color;
+        }
     }
 }
