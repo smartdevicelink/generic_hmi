@@ -10,8 +10,8 @@ const mapStateToProps = (state) => {
 
     var name = ""
 
-    if(activeApp) {
-        name = app.appName
+    if(activeApp && app) {
+        name = app.appName ? app.appName : "Apps"
     } else { 
         name = "Apps"
     }
