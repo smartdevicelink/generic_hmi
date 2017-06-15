@@ -40,12 +40,23 @@ class RpcFactory {
             }
         })
     }
-    static PerformInteractionResponse(choiceID, appID, msgID) {
+    static UIPerformInteractionResponse(choiceID, appID, msgID) {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
             "result": {
                 "method": "UI.PerformInteraction",
+                "code": 0,
+                "choiceID": choiceID
+            }
+        })
+    }
+    static VRPerformInteractionResponse(choiceID, appID, msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "result": {
+                "method": "VR.PerformInteraction",
                 "code": 0,
                 "choiceID": choiceID
             }
