@@ -1,5 +1,11 @@
 import RpcFactory from './RpcFactory'
 class TTSController {
+    constructor () {
+        this.addListener = this.addListener.bind(this)
+    }
+    addListener(listener) {
+        this.listener = listener
+    }
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch(methodName) {
@@ -11,6 +17,8 @@ class TTSController {
                 return true
             case "SetGlobalProperties":
                 return true
+            case "Speak":
+                return true;
         }
     }
 }
