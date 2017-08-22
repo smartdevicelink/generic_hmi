@@ -22,7 +22,8 @@ class RpcFactory {
                 "audioPassThruCapabilities": capabilities.audioPassThruCapabilities,
                 "hmiZoneCapabilities": capabilities.hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities.softButtonCapabilities,
-                "hmiCapabilities": capabilities.hmiCapabilities
+                "hmiCapabilities": capabilities.hmiCapabilities,
+                "systemCapabilities": capabilities.systemCapabilities
             }
         })
     }
