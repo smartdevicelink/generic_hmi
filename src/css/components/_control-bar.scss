@@ -15,7 +15,10 @@
             width: 75px;
         }
         &--tertiary {
-            @include size(50px);
+            width: 50px;
+            img {
+                max-width: 100%;
+            }
         }
     }
 
