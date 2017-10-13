@@ -71,6 +71,8 @@ Once SDL Core is setup, follow these steps to clone, build, and run the SDL Gene
 
 Clone this repository
 
+Note: If you are not making any changes to the generic hmi, you may skip straight to the last step and launch the Generic HMi in a web browser.
+
 Install webpack:
 ```
 $ npm install -g webpack
