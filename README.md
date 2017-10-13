@@ -2,6 +2,42 @@
 
 ## Get an instance of SDL Core running
 
+There are two options for running SDL Core. You can either clone and compile the code yourself on an Ubuntu virtual machine, or you may use a Docker instance of SDL Core.
+
+### Option 1: Build & Run SDL Core Locally
+
+Note: This option requires you to use Ubuntu 14.04. If you do not have an Ubuntu environment available, please use setup option 2. 
+
+#### Compile Core
+
+  1. [Clone the SDL Core repository](https://github.com/smartdevicelink/sdl_core)
+  2. Create a folder for your build and run `cmake ../sdl_core`
+  3. If there are any dependency issues, install missing dependencies:
+  
+  
+```
+sudo apt-get install git cmake build-essential libavahi-client-dev libsqlite3-dev chromium-browser libssl-dev libudev-dev libgtest-dev libbluetooth3 libbluetooth-dev bluez-tools gstreamer1.0* libpulse-dev
+```
+    
+  4. Run the following commands to compile and install smartdevicelink core
+
+
+
+```
+%make
+%make install
+```
+
+#### Start SDL Core
+Once SDL Core is compiled and installed you can start it from the executable in the bin folder
+
+```
+%cd bin/
+%./start.sh
+```
+
+### Option 2: Use Docker Instance
+
 [Install Docker](https://docs.docker.com/engine/installation/)
 
 *Docker version greater than 1.8 is required for OS X*
@@ -19,7 +55,7 @@ $ docker logs -f core
 ```
 *The `-f` flag allows the Docker [logs](https://docs.docker.com/engine/reference/commandline/logs/) output to be followed in terminal*
 
-### Core communication ports
+#### Core communication ports
 The Docker instance of Core exposes multiple ports for different types of communication:
 
 | TCP port       | description                                                 	        |
@@ -28,7 +64,10 @@ The Docker instance of Core exposes multiple ports for different types of commun
 | 8087           | Websocket used by the HMI to communicate with SDL Core               |
 | 12345          | SDL Core's port used to communicate with mobile application over TCP |
 
+
 ## Start the HMI
+
+Once SDL Core is setup, follow these steps to clone, build, and run the SDL Generic HMI.
 
 Clone this repository
 
@@ -42,9 +81,16 @@ Install dependencies (you might need to clean the `node_modules` folder):
 $ npm install
 ```
 
-Start the web HMI
+Run webpack
+
 ```
-$ webpack && npm start
+$ webpack
+```
+
+Launch the Generic HMI in a web browser
+
+```
+$ chromium index.html
 ```
 
 ## Usage
@@ -67,6 +113,14 @@ then go through the usage instructions again.
 ## Developing the HMI
 
 The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. Implement an SDL HMI is an exercise in receiving, processing, and responding to RPCs which are coming from a connected SDL Core instance.
+
+
+Note: After making any changes to the generic hmi, you must run 
+```
+$ webpack
+```
+before relaunching the hmi in the browser to see any changes made.
+
 
 ### entry.js
 
