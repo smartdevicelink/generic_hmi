@@ -19,7 +19,7 @@ Note: This option requires you to use Ubuntu 14.04. If you do not have an Ubuntu
 sudo apt-get install git cmake build-essential libavahi-client-dev libsqlite3-dev chromium-browser libssl-dev libudev-dev libgtest-dev libbluetooth3 libbluetooth-dev bluez-tools gstreamer1.0* libpulse-dev
 ```
     
-  4. Run the following commands to compile and install smartdevicelink core
+  4. Run the following commands to compile and install SDL Core
 
 
 
@@ -71,7 +71,7 @@ Once SDL Core is setup, follow these steps to clone, build, and run the SDL Gene
 
 Clone this repository
 
-Note: If you are not making any changes to the generic hmi, you may skip straight to the last step and launch the Generic HMi in a web browser.
+Note: If you are not making any changes to the Generic HMI, you may skip straight to the last step and launch the Generic HMI in a web browser.
 
 Install webpack:
 ```
@@ -117,11 +117,11 @@ then go through the usage instructions again.
 The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. Implement an SDL HMI is an exercise in receiving, processing, and responding to RPCs which are coming from a connected SDL Core instance.
 
 
-Note: After making any changes to the generic hmi, you must run 
+Note: After making any changes to the Generic HMI, you must run 
 ```
 $ webpack
 ```
-before relaunching the hmi in the browser to see any changes made.
+before relaunching the HMI in the browser to see any changes made.
 
 
 ### entry.js
