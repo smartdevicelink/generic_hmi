@@ -24,16 +24,16 @@ sudo apt-get install git cmake build-essential libavahi-client-dev libsqlite3-de
 
 
 ```
-%make
-%make install
+$ make
+$ make install
 ```
 
 #### Start SDL Core
 Once SDL Core is compiled and installed you can start it from the executable in the bin folder
 
 ```
-%cd bin/
-%./start.sh
+$ cd bin/
+$ ./start.sh
 ```
 
 ### Option 2: Use Docker Instance
@@ -92,7 +92,7 @@ $ webpack
 Launch the Generic HMI in a web browser
 
 ```
-$ chromium index.html
+$ chromium-browser index.html
 ```
 
 ## Usage
