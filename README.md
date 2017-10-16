@@ -24,16 +24,16 @@ sudo apt-get install git cmake build-essential libavahi-client-dev libsqlite3-de
 
 
 ```
-$ make
-$ make install
+make
+make install
 ```
 
 #### Start SDL Core
 Once SDL Core is compiled and installed you can start it from the executable in the bin folder
 
 ```
-$ cd bin/
-$ ./start.sh
+cd bin/
+./start.sh
 ```
 
 ### Option 2: Use Docker Instance
@@ -75,31 +75,31 @@ Note: If you are not making any changes to the Generic HMI, you may skip straigh
 
 Install webpack:
 ```
-$ npm install -g webpack
+npm install -g webpack
 ```
 
 Install dependencies (you might need to clean the `node_modules` folder):
 ```
-$ npm install
+npm install
 ```
 
 Run webpack
 
 ```
-$ webpack
+webpack
 ```
 
 Launch the Generic HMI in a web browser
 
 ```
-$ chromium-browser index.html
+chromium-browser index.html
 ```
 
 ## Usage
 
 Core should already be running. To verify, use the following command and you should see a container with the name `core`:
 ```
-$ docker ps
+docker ps
 ```
 
 Connect **SyncProxyTester** to the instance of core running on your machine. The IP should be your machine's IP address and the port is `12345`
@@ -108,7 +108,7 @@ Open (or refresh) the running HMI in a chrominium based browser (chrome). By def
 
 **IMPORTANT** If you need to restart the HMI then Core must also be restarted! Just restart the Docker container using:
 ```
-$ docker restart core
+docker restart core
 ```
 then go through the usage instructions again.
 
@@ -119,7 +119,7 @@ The main third-party technologies we use to develop this HMI are React, React-Re
 
 Note: After making any changes to the Generic HMI, you must run 
 ```
-$ webpack
+webpack
 ```
 before relaunching the HMI in the browser to see any changes made.
 
