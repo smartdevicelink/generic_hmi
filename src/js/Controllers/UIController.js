@@ -140,7 +140,8 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.PerformInteractionFailure(msgID))
+        this.listener.send(RpcFactory.VRPerformInteractionFailure(msgID-1))
+        this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
             appID
@@ -229,7 +230,8 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.PerformInteractionFailure(parseInt(msgID)))
+            this.listener.send(RpcFactory.VRPerformInteractionFailure(parseInt(msgID)-1))
+            this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
                 this.appsWithTimers[msgID]

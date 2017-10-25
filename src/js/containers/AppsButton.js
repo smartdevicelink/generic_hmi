@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
             uiController.onSystemContext("MAIN", appID)
-            bcController.onAppDeactivated("GENERAL", appID)
             uiController.failInteractions()
+            bcController.onAppDeactivated("GENERAL", appID)
         }
     }
 }
