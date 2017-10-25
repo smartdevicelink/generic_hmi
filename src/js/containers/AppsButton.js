@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID) => {
+            uiController.onSystemContext("MAIN", appID)
             bcController.onAppDeactivated("GENERAL", appID)
             uiController.failInteractions()
         }

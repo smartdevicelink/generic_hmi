@@ -56,7 +56,7 @@ class BCController {
         }*/
     }
     onAppDeactivated(reason, appID) {
-        //this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
+        this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
         store.dispatch(deactivateApp(appID))
     }
     onIgnitionCycleOver() {
