@@ -16,6 +16,7 @@ import {
     activateApp
 } from '../actions'
 import store from '../store'
+import sdlController from './SDLController'
 
 class UIController {
     constructor () {
@@ -95,6 +96,7 @@ class UIController {
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
+                this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
                 break
             case "SetMediaClockTimer":
                 store.dispatch(setMediaClockTimer(
@@ -121,21 +123,30 @@ class UIController {
                     rpc.id
                 ))
                 var timeout = rpc.params.duration ? rpc.params.duration : 10000
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID)
+                const state = store.getState()
+                const context = state.activeApp
+
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 this.onSystemContext("ALERT", rpc.params.appID)
+
+                if ((context != rpc.params.appID) && context) {
+                    this.onSystemContext("HMI_OBSCURED", context)
+                }
 
                 return null
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.PerformInteractionFailure(msgID))
+        this.listener.send(RpcFactory.VRPerformInteractionFailure(msgID-1))
+        this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
             appID
         ))
+        this.onSystemContext("MAIN", appID)
     }
     onAlertTimeout(msgID, appID, context) {
         delete this.timers[msgID]
@@ -144,6 +155,10 @@ class UIController {
             appID
         ))
         this.listener.send(RpcFactory.AlertResponse(msgID, appID))
+
+        if (appID != context) {
+            this.onSystemContext("MAIN", appID)
+        }
         this.onSystemContext("MAIN", context)
     }
     onStealFocus(alert, context) {        
@@ -155,16 +170,14 @@ class UIController {
             alert.appID
         ))        
         this.listener.send(RpcFactory.AlertResponse(alert.msgID, alert.appID))
-        //TODO: Need to add logic to switch app screens      
-        // Rework active app
-        //send systemcontext for last appid and new app id  
         if(context){
             this.onSystemContext("MAIN", context)
         } else {
             this.onSystemContext("MENU")//Viewing App List
         }
-        store.dispatch(activateApp(alert.appID))
         this.onSystemContext("MAIN", alert.appID)
+        sdlController.onAppActivated(alert.appID)
+        
     }
     onKeepContext(alert) {
         clearTimeout(this.timers[alert.msgID])
@@ -217,7 +230,8 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.PerformInteractionFailure(parseInt(msgID)))
+            this.listener.send(RpcFactory.VRPerformInteractionFailure(parseInt(msgID)-1))
+            this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
                 this.appsWithTimers[msgID]
