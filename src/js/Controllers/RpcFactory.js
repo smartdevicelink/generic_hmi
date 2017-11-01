@@ -204,15 +204,26 @@ class RpcFactory {
             }
         })
     }
-    static PerformInteractionFailure (msgID) {
+    static UIPerformInteractionFailure (msgID) {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
             "error": {
-                "code": 10,
-                "message": "Timeout reached",
+                "code": 22,
                 "data": {
                     "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
+    static VRPerformInteractionFailure (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 22,
+                "data": {
+                    "method": "VR.PerformInteraction"
                 }
             }
         })
