@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
             class: "tertiary",
             name: "CUSTOM_BUTTON",
             image: softButtons[1].image ? softButtons[1].image.value : undefined,
-            id: softButtons[0].softButtonID
+            id: softButtons[1].softButtonID
         })
     }
 
