@@ -9,17 +9,23 @@ const mapStateToProps = (state) => {
     var app = state.appList.find((app) => {
         return app.appID === activeApp
     })
+    var link =  state.ui[activeApp].displayLayout
     app = app ? app : {}
     return {
         icon: app.icon,
-        appID: activeApp
+        appID: activeApp,
+        backLink: link
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID) => {
-            uiController.onSystemContext("MENU", appID)
+        onSelection: (appID, path) => {
+            if (path == "/inappmenu") {
+                uiController.onSystemContext("MENU", appID)
+            } else { //user exited menu
+                uiController.onSystemContext("MAIN", appID)
+            }
             uiController.failInteractions()
         }
     }

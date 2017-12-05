@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
         if (command.cmdIcn) {
             dataClass = 'with-icon'
         }
-        var link = '/media' // TODO: only supports media right now
+        var link =  state.ui[activeApp].displayLayout
         if (command.subMenu) {
             link = '/inapplist'
         }
