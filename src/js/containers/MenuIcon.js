@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
     var app = state.appList.find((app) => {
         return app.appID === activeApp
     })
-    var link =  state.ui[activeApp].displayLayout
+    var link =  activeApp ? state.ui[activeApp].displayLayout : "/"
     app = app ? app : {}
     return {
         icon: app.icon,
