@@ -15,11 +15,7 @@ function newAppState () {
         isPerformingInteraction: false,
         interactionText: "",
         choices: [],
-        startTime: {
-            hours: 0,
-            minutes: 0,
-            seconds: 0
-        },
+        startTime: null,
         endTime: {
             hours: 0,
             minutes: 0,

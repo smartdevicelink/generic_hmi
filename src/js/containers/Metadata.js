@@ -23,20 +23,32 @@ const mapStateToProps = (state) => {
         metadata.showStrings.map ((textField) => {
             switch (textField.fieldName) {
                 case "mainField1":
-                    props.mainField1 = textField.fieldText
+                    if(textField.fieldText.length > 18)
+                        props.mainField1 = textField.fieldText.substring(0,18) + '...';
+                    else
+                        props.mainField1 = textField.fieldText
                     break
                 case "mainField2":
-                    props.mainField2 = textField.fieldText
+                    if(textField.fieldText.length > 18)
+                        props.mainField2 = textField.fieldText.substring(0,18) + '...';
+                    else
+                        props.mainField2 = textField.fieldText
                     break
                 case "mainField3":
-                    props.mainField3 = textField.fieldText
+                    if(textField.fieldText.length > 26)
+                        props.mainField3 = textField.fieldText.substring(0,26) + '...';
+                    else
+                        props.mainField3 = textField.fieldText
                     break
                 case "mainField4":
-                    props.mainField4 = textField.fieldText
+                    if(textField.fieldText.length > 26)
+                        props.mainField4 = textField.fieldText.substring(0,26) + '...';
+                    else
+                        props.mainField4 = textField.fieldText
                     break
             }
         })
-        props.graphic = metadata.graphic ? metadata.graphic.value : null
+        props.graphic = metadata.graphic ? metadata.graphic.value : "./src/img/missing_album_art.png"
     }
 
     for(var app in state.ui) {
