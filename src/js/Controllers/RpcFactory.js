@@ -397,7 +397,12 @@ class RpcFactory {
         }
         return (msg)
     }
-
+    static OnStartDeviceDiscoveryNotification() { 
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnStartDeviceDiscovery'
+        })        
+    }
 }
 
 export default RpcFactory

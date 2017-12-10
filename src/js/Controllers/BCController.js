@@ -76,6 +76,9 @@ class BCController {
     onAllowSDLFunctionality(allowed, source) {
         this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
     }
+    onStartDeviceDiscovery() { 
+        this.listener.send(RpcFactory.OnStartDeviceDiscoveryNotification())
+    }
 }
 
 let controller = new BCController()

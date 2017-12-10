@@ -41,11 +41,14 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
+        console.log("Components will receive props");
         if (nextProps.isDisconnected) {
+            console.log("pushing /")
             this.props.router.push("/")
         }
         else if (!nextProps.router.isActive("/inapplist")
             && nextProps.isPerformingInteraction) {
+                console.log("pushing /inapplist")
                 this.props.router.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
@@ -53,17 +56,20 @@ class AppHeader extends React.Component {
         else if (nextProps.router.isActive("/inapplist")
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
+                console.log("pushing /media")
                 // TODO: probably go back instead of pushing media - needs investigation
                 this.props.router.push("/media")
         }
         else if (this.props.displayLayout != nextProps.displayLayout) {
             if(nextProps.activeApp) {
+                console.log("pushing newlayout /" + nextProps.displayLayout)
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
-   
+        
         else if(this.props.activeApp != nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
+                console.log("active app! push /" +nextProps.displayLayout)
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
