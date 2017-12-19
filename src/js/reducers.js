@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
 import './polyfill_find'
+import VehicleDataArray from './VehicleData'
 
 
 function newAppState () {
@@ -316,10 +317,22 @@ function system(state = {}, action) {
     }
 }
 
+function vehicleData(state = [], action) {
+    switch(action.type) {
+        case Actions.INIT_VEHICLE_DATA:
+            var newState = VehicleDataArray
+            return newState
+        default:
+            return state
+    }
+
+}
+
 export const hmi = combineReducers({
     theme,
     appList,
     activeApp,
     ui,
-    system
+    system, 
+    vehicleData
 })

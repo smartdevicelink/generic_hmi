@@ -397,7 +397,56 @@ class RpcFactory {
         }
         return (msg)
     }
-
+    static OnVehicleData(params) {
+        return({
+            'jsonrpc': '2.0',
+            'method': 'VehicleInfo.OnVehicleData',
+            'params': params // Populated in vehicleinfo controller
+        })
+        
+    }
+    static SubscribeVehicleDataResponse(rpc) {
+        return ({
+            'jsonrpc': '2.0',
+            "id": rpc.id,
+            'result':{
+                'method': rpc.method,
+                "code" : 0,
+                "gps": {
+                    "dataType": "VEHICLEDATA_GPS",
+                    "resultCode": "SUCCESS"
+                },        
+                "speed": {
+                    "dataType": "VEHICLEDATA_SPEED",
+                    "resultCode": "SUCCESS"
+                },
+                "rpm": {
+                    "dataType": "VEHICLEDATA_RPM",
+                    "resultCode": "SUCCESS"
+                },
+                "fuelLevel": {
+                    "dataType": "VEHICLEDATA_FUELLEVEL",
+                    "resultCode": "SUCCESS"
+                },              
+                "prndl": {
+                    "dataType": "VEHICLEDATA_PRNDL",
+                    "resultCode": "SUCCESS"
+                },        
+                "tirePressure": {
+                    "dataType": "VEHICLEDATA_TIREPRESSURE",
+                    "resultCode": "SUCCESS"
+                },        
+                "odometer": {
+                    "dataType": "VEHICLEDATA_ODOMETER",
+                    "resultCode": "SUCCESS"
+                },        
+                "driverBraking": {
+                    "dataType": "VEHICLEDATA_BRAKING",
+                    "resultCode": "SUCCESS"
+                }
+            }
+        })
+    }
 }
 
 export default RpcFactory

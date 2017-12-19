@@ -1,0 +1,14 @@
+.vehicledatascrollmenu {
+    width: 100%;
+    height: $master-height;
+    overflow-y: scroll;
+}
+
+.vdscrollmenu-item__name {
+    width: 100%
+}
+.vehicle-data-slider {
+    height: 10px;
+    background: color($secondary-accent-color);
+    max-width: 100%
+}

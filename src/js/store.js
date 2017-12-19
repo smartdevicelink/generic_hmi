@@ -1,4 +1,7 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { hmi } from './reducers'
-let store = createStore(hmi)
+import thunk from 'redux-thunk';
+let store = createStore(
+    hmi,
+    applyMiddleware(thunk))
 export default store
