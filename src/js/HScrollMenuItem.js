@@ -10,6 +10,9 @@ export default class HScrollMenuItem extends React.Component {
         const graphic = this.props.menuItem.class == 'with-icon' ?
         (<span className="svg-wrap" dangerouslySetInnerHTML={{__html: `${menuItem.image}`}} />)
         : (menuItem.image ? <img className="" src={menuItem.image} /> : <img className="" src="./src/img/missing_album_art.png" /> );
+
+        if(menuItem.name.length > 12)
+            menuItem.name = menuItem.name.substring(0,12) + '...';
         return (
             <Link
                 to={menuItem.link}

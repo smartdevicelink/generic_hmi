@@ -5,10 +5,14 @@ export default class AppName extends React.Component {
         super(props)
     }
     render () {
+        var name = this.props.name
+        if (name.length > 12) {
+            name = name.substring(0,12) + '...';
+        }
         return (
             <div onClick={() => bcController.onStartDeviceDiscovery()}>
                 <p className="t-small t-light th-f-color">
-                    {this.props.name}
+                    {name}
                 </p>
             </div>
         )

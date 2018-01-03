@@ -1,10 +1,10 @@
-let url = "ws://localhost:8087"
+let url = "ws://localhost:8086"
 let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
 import ttsController from './TTSController';
-import viController from './VehicleInfoController';
+//import viController from './VehicleInfoController';
 import sdlController from './SDLController';
 import externalPolicyManager from './ExternalPoliciesController';
 import {flags} from '../Flags';
@@ -22,7 +22,7 @@ export default class Controller {
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
-        this.socket = new WebSocket(url)
+        this.socket = new WebSocket(url, 'echo-protocol')
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)
@@ -116,8 +116,8 @@ export default class Controller {
         this.send(JSONMessage);
         JSONMessage.params.componentName = "Navigation";
         this.send(JSONMessage);
-        JSONMessage.params.componentName = "VehicleInfo";
-        this.send(JSONMessage);
+        //JSONMessage.params.componentName = "VehicleInfo";
+        //this.send(JSONMessage);
         var ready = {
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnReady"
@@ -165,9 +165,9 @@ export default class Controller {
             case "TTS":
                 response = ttsController.handleRPC(rpc);
                 break;
-            case "VehicleInfo":
-                response = viController.handleRPC(rpc);
-                break;
+            //case "VehicleInfo":
+                //response = viController.handleRPC(rpc);
+              //  break;
             case "SDL":
                 response = sdlController.handleRPC(rpc);
             // case "Navigation":

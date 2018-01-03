@@ -3,3 +3,7 @@
     height: $master-height - 75px;
     overflow-y: auto;
 }
+
+::-webkit-scrollbar { 
+    display: none; 
+}
