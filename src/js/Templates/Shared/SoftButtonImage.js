@@ -1,22 +1,24 @@
 import React from 'react';
-import StaticIcon from './Templates/Shared/StaticIcon'
-export default class AlbumArt extends React.Component {
+import StaticIcon from './StaticIcon'
+
+export default class SoftButtonImage extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         if(this.props.image) {
+            var className = this.props.class ? this.props.class : "soft-button-image";
             if(this.props.imageType === "STATIC") {
                 return (
-                    <div className="album-art">
-                       <StaticIcon class="static-icon" image={this.props.image} />
+                    <div className={className}>
+                        <StaticIcon image={this.props.image} />
                     </div>
                 )
             } else {
                 return (
-                    <div className="album-art">
-                        <img className="th-box-shadow" src={this.props.image} />
+                    <div className={className}>
+                        <img src={this.props.image} />
                     </div>
                 )
             }

@@ -17,7 +17,9 @@ export default class VScrollMenu extends React.Component {
                             menuItem={menuItem} 
                             isPerformingInteraction={this.props.isPerformingInteraction}
                             interactionId={this.props.interactionId ? this.props.interactionId : 0}
-                            onSelection={this.props.onSelection}/>
+                            onSelection={this.props.onSelection}
+                            image={menuItem.image}
+                            imageType={menuItem.imageType}/>
                     </div>)
         })
         return (

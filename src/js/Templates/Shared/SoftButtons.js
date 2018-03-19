@@ -1,5 +1,5 @@
 import React from 'react';
-
+import SoftButtonImage from './SoftButtonImage'
 
 export default class SoftButtonsBody extends React.Component {
     constructor(props) {
@@ -15,7 +15,10 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}   
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                             
                         </div>)
             })
         } else if (softButtons.length == 2) {
@@ -23,7 +26,10 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}      
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                 
                         </div>)
             })
         } else if (softButtons.length == 3) {
@@ -31,7 +37,10 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}    
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                  
                         </div>)
             })            
         } else if (softButtons.length == 4) {
@@ -39,7 +48,10 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text} 
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                      
                         </div>)
             })         
         } else if (softButtons.length == 5) {
@@ -48,13 +60,19 @@ export default class SoftButtonsBody extends React.Component {
                     return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                       
                         </div>)
                 } else {
                     return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}  
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                     
                         </div>)
                 }
             })
@@ -63,7 +81,10 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                       
                         </div>)
             })
         }

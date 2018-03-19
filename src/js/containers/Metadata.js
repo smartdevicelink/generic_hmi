@@ -36,7 +36,7 @@ const mapStateToProps = (state) => {
                     break
             }
         })
-        props.graphic = metadata.graphic ? metadata.graphic.value : null
+        props.graphic = metadata.graphic ? metadata.graphic : null
     }
 
     for(var app in state.ui) {

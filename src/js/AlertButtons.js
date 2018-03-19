@@ -1,5 +1,5 @@
 import React from 'react';
-
+import SoftButtonImage from './Templates/Shared/SoftButtonImage'
 
 export default class AlertButtons extends React.Component {
     constructor(props) {
@@ -38,7 +38,10 @@ export default class AlertButtons extends React.Component {
                 return (<div className="alert-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                   
                         </div>)
             })
         } else if (softButtons.length == 2) {
@@ -46,7 +49,10 @@ export default class AlertButtons extends React.Component {
                 return (<div className="alert-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
             })
         } else if (softButtons.length == 3) {
@@ -54,7 +60,10 @@ export default class AlertButtons extends React.Component {
                 return (<div className="alert-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
             })            
         } else if (softButtons.length == 4) {
@@ -62,7 +71,10 @@ export default class AlertButtons extends React.Component {
                 return (<div className="alert-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
             })         
         } else if (softButtons.length == 5) {
@@ -71,13 +83,19 @@ export default class AlertButtons extends React.Component {
                     return (<div className="alert-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
                                 key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
                 } else {
                     return (<div className="alert-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
                                 key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
                 }
             })
@@ -86,7 +104,10 @@ export default class AlertButtons extends React.Component {
                 return (<div className="alert-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                />                                    
                         </div>)
             })
         }
