@@ -7,7 +7,12 @@ export default class SoftButtonsBody extends React.Component {
     }
 
     render() {
-        var softButtons = this.props.softButtons
+        var softButtons = []
+        if(this.props.softButtons.length > 6) {
+            softButtons = this.props.softButtons.slice(0, 6)
+        } else {
+            softButtons = this.props.softButtons
+        }
         var id = 0
         var items;
         if(softButtons.length == 1) {
