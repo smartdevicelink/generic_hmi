@@ -15,11 +15,7 @@ function newAppState () {
         isPerformingInteraction: false,
         interactionText: "",
         choices: [],
-        startTime: {
-            hours: 0,
-            minutes: 0,
-            seconds: 0
-        },
+        startTime: null,
         endTime: {
             hours: 0,
             minutes: 0,
@@ -102,7 +98,7 @@ function ui(state = {}, action) {
             if (action.graphic) {
                 app.graphic = action.graphic
             }
-            if (action.softButtons && action.softButtons.length > 0) {
+            if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
             return newState
@@ -264,6 +260,11 @@ function ui(state = {}, action) {
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
                     break                    
+                case "TEXTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-buttons-with-graphic"
+                case "TEXTBUTTONS_ONLY":
+                    app.displayLayout = "text-buttons-only"
+                    break
                 default: 
                     break
             }
