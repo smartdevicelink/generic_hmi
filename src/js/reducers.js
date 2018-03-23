@@ -257,6 +257,9 @@ function ui(state = {}, action) {
                 case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "large-graphic-with-softbuttons"
                     break
+                case "GRAPHIC_WITH_TEXTBUTTONS":
+                    app.displayLayout = "graphic-with-text-buttons"
+                    break                    
                 case "TEXTBUTTONS_WITH_GRAPHIC":
                     app.displayLayout = "text-buttons-with-graphic"
                 case "TEXTBUTTONS_ONLY":
