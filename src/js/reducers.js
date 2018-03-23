@@ -98,7 +98,7 @@ function ui(state = {}, action) {
             if (action.graphic) {
                 app.graphic = action.graphic
             }
-            if (action.softButtons && action.softButtons.length > 0) {
+            if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
             return newState
