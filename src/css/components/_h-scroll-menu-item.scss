@@ -6,6 +6,8 @@
     color: color(white);
     border: 2px solid;
     position: relative;
+    background-color: #111111;
+    border-color: #333333 !important;
 
     &__image {
         @include size(50%);
