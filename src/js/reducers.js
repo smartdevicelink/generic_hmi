@@ -266,6 +266,9 @@ function ui(state = {}, action) {
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
                     break
+                case "TILES_ONLY":
+                    app.displayLayout = "tiles-only"
+                    break
                 default: 
                     break
             }

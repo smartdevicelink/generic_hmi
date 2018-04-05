@@ -9,10 +9,10 @@ import LargeGraphicWithSoftbuttons from './Templates/LargeGraphicWithSoftbuttons
 import GraphicWithTextButtons from './Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './Templates/TextButtonsOnly/TextButtonsOnly'
+import TilesOnly from './Templates/TilesOnly/TilesOnly';
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
-import TilesOnly from './TilesOnly';
 import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -78,10 +78,10 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
+            <Route path="/tiles-only" component={TilesOnly} />            
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
-            <Route path="/tilesonly" component={TilesOnly} />
         </Router>
     </HMIApp>
     </Provider>
