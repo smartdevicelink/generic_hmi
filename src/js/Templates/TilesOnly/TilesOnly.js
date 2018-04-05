@@ -11,7 +11,7 @@ export default class TilesOnly extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader appIcon="false" backLink="" appName="Menu" />
+                <AppHeader backLink="/" menuName="Apps"/>
                 <div className="tiles-only-template">
                     <SoftButtons class="tiles-only-container"/>
                 </div>
