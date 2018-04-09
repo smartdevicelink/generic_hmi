@@ -1,26 +1,26 @@
-.text-with-graphic-template {
+.graphic-with-text-template {
     width: 100%;
     height: calc(#{$master-height} - 75px);
     padding: 25px;
     display: flex;
 }
 
-.text-with-graphic-container {
+.graphic-with-text-container {
     height: 100%;
     width: 50%;
     display: flex;
     align-items: center;
 }
 
-.text-with-graphic-template .large-graphic {
+.graphic-with-text-template .large-graphic {
     padding-right: 25px;
     padding-left: 10px;
-    height:75%;
+    height: 75%;
     object-fit: contain;
 
 }
 
-.text-with-graphic-template .text-body {
+.graphic-with-text-template .text-body {
     width: 100%;
     height: 75%;
     @include display(flex);
