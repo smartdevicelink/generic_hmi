@@ -266,6 +266,12 @@ function ui(state = {}, action) {
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
                     break
+                case "TEXT_WITH_GRAPHIC":
+                    app.displayLayout = "text-with-graphic"
+                    break
+                case "GRAPHIC_WITH_TEXT":
+                    app.displayLayout = "graphic-with-text"
+                    break
                 default: 
                     break
             }

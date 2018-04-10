@@ -1,0 +1,38 @@
+.graphic-with-text-template {
+    width: 100%;
+    height: calc(#{$master-height} - 75px);
+    padding: 25px;
+    display: flex;
+}
+
+.graphic-with-text-container {
+    height: 100%;
+    min-width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.graphic-with-text-template .large-graphic {
+    padding-right: 25px;
+    padding-left: 10px;
+    height: 75%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.graphic-with-text-template .text-body {
+    width: 100%;
+    height: 75%;
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(column);
+    @include flex-wrap(wrap);
+    @include align-items(stretch);
+    padding-left: 25px;
+    padding-right: 10px;
+    flex-shrink: 0;
+}
+
+.min-width-50 {
+    min-width: 50%;
+}

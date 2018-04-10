@@ -3,6 +3,7 @@ import MediaPlayerBody from '../MediaPlayerBody'
 import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
 import LargeGraphicBody from '../Templates/Shared/LargeGraphicBody'
 import AlertBody from '../AlertBody'
+import TextBody from '../Templates/Shared/TextBody'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -83,5 +84,10 @@ export const AlertStrings = connect(
     mapStateToProps,
     mapDispatchToProps
 )(AlertBody)
+
+export const TextFields = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TextBody)
 
 export default MediaMetadata
