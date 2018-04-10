@@ -15,7 +15,7 @@ export default class TextWithGraphic extends React.Component {
                 <AppHeader backLink="/" menuName="Apps"/>
                 <div className="text-with-graphic-template">
                     <div className="text-with-graphic-container">
-                        <TextFields />
+                        <TextFields/>
                     </div>
                     <LargeGraphic class="text-with-graphic-container"/>
                 </div>

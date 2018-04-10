@@ -13,10 +13,12 @@ export default class GraphicWithText extends React.Component {
         return (
             <div>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <div className="graphic-with-text-template">v
-                    <LargeGraphic class="graphic-with-text-container"/>
+                <div className="graphic-with-text-template">
+                    <div className="min-width-50">
+                        <LargeGraphic class="graphic-with-text-container"/>
+                    </div>
                     <div className="graphic-with-text-container">
-                        <TextFields />
+                        <TextFields/>
                     </div>
                 </div>
             </div>

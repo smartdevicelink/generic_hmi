@@ -7,7 +7,7 @@
 
 .graphic-with-text-container {
     height: 100%;
-    width: 50%;
+    min-width: 50%;
     display: flex;
     align-items: center;
 }
@@ -16,8 +16,8 @@
     padding-right: 25px;
     padding-left: 10px;
     height: 75%;
+    width: 100%;
     object-fit: contain;
-
 }
 
 .graphic-with-text-template .text-body {
@@ -31,4 +31,8 @@
     padding-left: 25px;
     padding-right: 10px;
     flex-shrink: 0;
+}
+
+.min-width-50 {
+    min-width: 50%;
 }
