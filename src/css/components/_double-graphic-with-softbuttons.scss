@@ -1,0 +1,51 @@
+.double-graphic-with-softbuttons-template{
+    width: 100%;
+    height: calc(#{$master-height} - 75px);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.double-graphic-with-softbuttons-top-container{
+    height: 80%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.double-graphic-with-softbuttons-bottom-container{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.double-graphic-with-softbuttons-template .double-graphic {
+    padding-right: 10px;
+    padding-left: 10px;
+    width:50%;
+    height:100%;
+    object-fit: contain;
+}
+
+ .double-graphic-with-softbuttons-template .soft-buttons {
+    width: 100%;
+    height: 100%;
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(stretch);
+    flex-shrink: 0;
+}
+
+.double-graphic-with-softbuttons-template .soft-button {
+    flex: 1 1 0 !important;
+    margin-bottom: 0px !important;
+    margin-right: 20px;
+}
+
+.double-graphic-with-softbuttons-template .soft-button:last-child {
+    margin-right: 0px !important;
+}
