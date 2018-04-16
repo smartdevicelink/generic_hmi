@@ -20,7 +20,7 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
             })
         } else if (softButtons.length == 2) {
@@ -28,7 +28,7 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                               
                         </div>)
             })
         } else if (softButtons.length == 3) {
@@ -36,7 +36,7 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
             })            
         } else if (softButtons.length == 4) {
@@ -44,7 +44,7 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
             })         
         } else if (softButtons.length == 5) {
@@ -53,13 +53,13 @@ export default class SoftButtonsBody extends React.Component {
                     return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
                 } else {
                     return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
                 }
             })
@@ -68,7 +68,7 @@ export default class SoftButtonsBody extends React.Component {
                 return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" 
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
-                                {softButton.text}                                
+                                <p>{softButton.text}</p>                                
                         </div>)
             })
         }

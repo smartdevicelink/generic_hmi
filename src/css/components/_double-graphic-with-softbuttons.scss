@@ -44,6 +44,14 @@
     flex: 1 1 0 !important;
     margin-bottom: 0px !important;
     margin-right: 20px;
+    min-width: 0;
+}
+
+.double-graphic-with-softbuttons-template .soft-button p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px;
 }
 
 .double-graphic-with-softbuttons-template .soft-button:last-child {
