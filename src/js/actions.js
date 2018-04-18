@@ -44,13 +44,14 @@ export const deactivateApp = (appID) => {
     }
 }
 
-export const show = (appID, showStrings, graphic, softButtons) => {
+export const show = (appID, showStrings, graphic, softButtons, secondaryGraphic) => {
     return {
         type: Actions.SHOW,
         appID: appID,
         showStrings: showStrings,
         graphic: graphic,
-        softButtons: softButtons
+        softButtons: softButtons,
+        secondaryGraphic: secondaryGraphic
     }
 }
 

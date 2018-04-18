@@ -7,6 +7,7 @@ function newAppState () {
     return {
         showStrings: [],
         graphic: null,
+        secondaryGraphic: null,
         softButtons: [],
         icon: null,
         menu: [],
@@ -98,6 +99,9 @@ function ui(state = {}, action) {
             if (action.graphic) {
                 app.graphic = action.graphic
             }
+            if (action.secondaryGraphic) {
+                app.secondaryGraphic = action.secondaryGraphic
+            }            
             if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
@@ -271,6 +275,9 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXT":
                     app.displayLayout = "graphic-with-text"
+                    break
+                case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
+                    app.displayLayout = "double-graphic-with-softbuttons"
                     break
                 default: 
                     break

@@ -11,6 +11,7 @@ import TextButtonsWithGraphic from './Templates/TextButtonsWithGraphic/TextButto
 import TextButtonsOnly from './Templates/TextButtonsOnly/TextButtonsOnly'
 import TextWithGraphic from './Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './Templates/GraphicWithText/GraphicWithText'
+import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
@@ -81,8 +82,9 @@ ReactDOM.render((
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
-            <Route path="text-with-graphic" component={TextWithGraphic}/>
-            <Route path="graphic-with-text" component={GraphicWithText}/>
+            <Route path="/text-with-graphic" component={TextWithGraphic}/>
+            <Route path="/graphic-with-text" component={GraphicWithText}/>
+            <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/tilesonly" component={TilesOnly} />
