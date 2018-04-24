@@ -3,6 +3,8 @@ import MediaPlayerBody from '../MediaPlayerBody'
 import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
 import LargeGraphicBody from '../Templates/Shared/LargeGraphicBody'
 import AlertBody from '../AlertBody'
+import TextBody from '../Templates/Shared/TextBody'
+import DoubleGraphicBody from '../Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicBody'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -15,7 +17,8 @@ const mapStateToProps = (state) => {
         alertText1: null,
         alertText2: null,
         alertText3: null,
-        graphic: null
+        graphic: null,
+        secondaryGraphic: null
 
     }
 
@@ -37,6 +40,7 @@ const mapStateToProps = (state) => {
             }
         })
         props.graphic = metadata.graphic ? metadata.graphic.value : null
+        props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic.value : null
     }
 
     for(var app in state.ui) {
@@ -83,5 +87,15 @@ export const AlertStrings = connect(
     mapStateToProps,
     mapDispatchToProps
 )(AlertBody)
+
+export const TextFields = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TextBody)
+
+export const DoubleGraphic = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DoubleGraphicBody)
 
 export default MediaMetadata

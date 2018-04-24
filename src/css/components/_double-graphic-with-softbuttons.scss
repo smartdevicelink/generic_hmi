@@ -1,4 +1,4 @@
-.large-graphic-with-softbuttons-template{
+.double-graphic-with-softbuttons-template{
     width: 100%;
     height: calc(#{$master-height} - 75px);
     padding: 25px;
@@ -6,31 +6,30 @@
     flex-direction: column;
 }
 
-.large-graphic-with-softbuttons-top-container{
+.double-graphic-with-softbuttons-top-container{
     height: 80%;
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.large-graphic-with-softbuttons-bottom-container{
+.double-graphic-with-softbuttons-bottom-container{
     height: 20%;
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.large-graphic-with-softbuttons-template .large-graphic {
+.double-graphic-with-softbuttons-template .double-graphic {
     padding-right: 10px;
     padding-left: 10px;
-    width:100%;
+    width:50%;
     height:100%;
     object-fit: contain;
-    margin-bottom: 50px;
-
 }
 
- .large-graphic-with-softbuttons-template .soft-buttons {
+ .double-graphic-with-softbuttons-template .soft-buttons {
     width: 100%;
     height: 100%;
     @include display(flex);
@@ -41,20 +40,20 @@
     flex-shrink: 0;
 }
 
-.large-graphic-with-softbuttons-template .soft-button {
+.double-graphic-with-softbuttons-template .soft-button {
     flex: 1 1 0 !important;
     margin-bottom: 0px !important;
     margin-right: 20px;
     min-width: 0;
 }
 
-.large-graphic-with-softbuttons-template .soft-button p {
+.double-graphic-with-softbuttons-template .soft-button p {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 5px;
 }
 
-.large-graphic-with-softbuttons-template .soft-button:last-child {
+.double-graphic-with-softbuttons-template .soft-button:last-child {
     margin-right: 0px !important;
 }

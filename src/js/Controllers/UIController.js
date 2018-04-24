@@ -43,7 +43,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.showStrings,
                     rpc.params.graphic,
-                    rpc.params.softButtons
+                    rpc.params.softButtons,
+                    rpc.params.secondaryGraphic
                 ))
                 return true
             case "SetAppIcon":

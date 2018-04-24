@@ -27,6 +27,13 @@ class SDLController {
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch (methodName) {
+            case "OnStatusUpdate":
+                if(rpc.params.status === "UP_TO_DATE") {
+                    if(flags.ExternalPolicies) {
+                        externalPolicies.stopUpdateRetry();
+                    }                    
+                }
+                return null;
             default:
                 return null
         }
@@ -52,7 +59,9 @@ class SDLController {
                     externalPolicies.pack({            
                         type: 'PROPRIETARY',
                         policyUpdateFile: state.system.policyFile,
-                        urls: state.system.urls
+                        urls: state.system.urls,
+                        retry: state.system.policyRetry,
+                        timeout: state.system.policyTimeout
                     })
                 } else {
                     bcController.onSystemRequest(state.system.policyFile, state.system.urls)
