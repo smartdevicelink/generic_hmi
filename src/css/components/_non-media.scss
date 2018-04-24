@@ -129,3 +129,14 @@
     @include align-items(center);
     @include justify-content(center);
 }
+
+.soft-button p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px;
+}
+
+.soft-button {
+    min-width: 0;
+}
