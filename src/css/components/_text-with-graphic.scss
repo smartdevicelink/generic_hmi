@@ -1,0 +1,33 @@
+.text-with-graphic-template {
+    width: 100%;
+    height: calc(#{$master-height} - 75px);
+    padding: 25px;
+    display: flex;
+}
+
+.text-with-graphic-container {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.text-with-graphic-template .large-graphic {
+    padding-right: 25px;
+    padding-left: 10px;
+    height:75%;
+    object-fit: contain;
+}
+
+.text-with-graphic-template .text-body {
+    width: 100%;
+    height: 75%;
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(column);
+    @include flex-wrap(wrap);
+    @include align-items(stretch);
+    padding-left: 25px;
+    padding-right: 10px;
+    flex-shrink: 0;
+}

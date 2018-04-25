@@ -8,6 +8,7 @@ function newAppState () {
     return {
         showStrings: [],
         graphic: null,
+        secondaryGraphic: null,
         softButtons: [],
         icon: null,
         menu: [],
@@ -16,11 +17,7 @@ function newAppState () {
         isPerformingInteraction: false,
         interactionText: "",
         choices: [],
-        startTime: {
-            hours: 0,
-            minutes: 0,
-            seconds: 0
-        },
+        startTime: null,
         endTime: {
             hours: 0,
             minutes: 0,
@@ -103,7 +100,10 @@ function ui(state = {}, action) {
             if (action.graphic) {
                 app.graphic = action.graphic
             }
-            if (action.softButtons && action.softButtons.length > 0) {
+            if (action.secondaryGraphic) {
+                app.secondaryGraphic = action.secondaryGraphic
+            }            
+            if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
             return newState
@@ -261,7 +261,26 @@ function ui(state = {}, action) {
                     break
                 case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "large-graphic-with-softbuttons"
-                default:
+                    break
+                case "GRAPHIC_WITH_TEXTBUTTONS":
+                    app.displayLayout = "graphic-with-text-buttons"
+                    break                    
+                case "TEXTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-buttons-with-graphic"
+                    break
+                case "TEXTBUTTONS_ONLY":
+                    app.displayLayout = "text-buttons-only"
+                    break
+                case "TEXT_WITH_GRAPHIC":
+                    app.displayLayout = "text-with-graphic"
+                    break
+                case "GRAPHIC_WITH_TEXT":
+                    app.displayLayout = "graphic-with-text"
+                    break
+                case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
+                    app.displayLayout = "double-graphic-with-softbuttons"
+                    break
+                default: 
                     break
             }
             return newState

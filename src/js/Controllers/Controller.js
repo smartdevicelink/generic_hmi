@@ -128,6 +128,7 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppRegistered")
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
+        this.subscribeToNotification("SDL.OnStatusUpdate")
     }
     handleRPC(rpc) {
         var response = undefined

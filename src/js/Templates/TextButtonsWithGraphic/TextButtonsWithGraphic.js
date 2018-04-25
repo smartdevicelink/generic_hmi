@@ -4,7 +4,7 @@ import AppHeader from '../../containers/Header';
 import { LargeGraphic } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
 
-export default class LargeGraphicWithSoftbuttons extends React.Component {
+export default class TextButtonswithGraphic extends React.Component {
     constructor() {
         super();
     }
@@ -13,9 +13,9 @@ export default class LargeGraphicWithSoftbuttons extends React.Component {
         return (
             <div>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <div className="large-graphic-with-softbuttons-template">
-                    <LargeGraphic class="large-graphic-with-softbuttons-top-container"/>
-                    <SoftButtons class="large-graphic-with-softbuttons-bottom-container"/>
+                <div className="text-buttons-with-graphic-template">
+                    <SoftButtons class="text-buttons-with-graphic-container"/>
+                    <LargeGraphic class="text-buttons-with-graphic-container"/>
                 </div>
             </div>
         )
