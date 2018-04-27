@@ -35,6 +35,40 @@ function newAppState () {
             alertType: null,
             showProgressIndicator: null,
             msgID: null
+        },
+        dayColorScheme: {
+            primaryColor: {
+                red: 255,
+                green: 255,
+                blue: 0
+            },             
+            secondaryColor: {
+                red: 0,
+                green: 255,
+                blue: 255
+            },
+            backgroundColor: {
+                red: 0,
+                green: 255,
+                blue: 0
+            }
+        },
+        nightColorScheme: {
+            primaryColor: {
+                red: 0,
+                green: 255,
+                blue: 0
+            },             
+            secondaryColor: {
+                red: 0,
+                green: 0,
+                blue: 255
+            },
+            backgroundColor: {
+                red: 255,
+                green: 0,
+                blue: 0
+            }
         }
     }
 }
@@ -43,8 +77,9 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+            break
         default:
-            return true
+            return state
     }
 }
 
@@ -282,6 +317,13 @@ function ui(state = {}, action) {
                 default: 
                     break
             }
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }            
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }

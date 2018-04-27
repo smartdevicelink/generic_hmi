@@ -158,11 +158,13 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
     }
 }
 
-export const setDisplayLayout = (displayLayout, appID) => {
+export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
     return {
         type: Actions.SET_DISPLAY_LAYOUT,
         displayLayout: displayLayout,
-        appID: appID
+        appID: appID,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme
     }
 }
 

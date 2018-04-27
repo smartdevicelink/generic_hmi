@@ -84,7 +84,24 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons}
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = null;
+    if (theme === true) { //Dark theme
+        if(app.nightColorScheme) {
+            if(app.nightColorScheme.secondaryColor) {
+                colorScheme = app.nightColorScheme.secondaryColor
+            }
+        }
+    } else {
+        if(app.dayColorScheme) { //Light theme
+            if(app.dayColorScheme.secondaryColor) {
+                colorScheme = app.dayColorScheme.secondaryColor
+            }
+        }
+    }
+
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme}
 }
 
 const mapDispatchToProps = (dispatch) => {

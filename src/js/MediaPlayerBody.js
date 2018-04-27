@@ -8,9 +8,23 @@ export default class MediaPlayerBody extends React.Component {
         super(props);
     }
 
+    getColorScheme() {
+        if (this.props.colorScheme) {
+            var redInt = this.props.colorScheme.red;
+            var blueInt = this.props.colorScheme.blue;
+            var greenInt = this.props.colorScheme.green;
+            var cssColorScheme = {
+                backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
+            }
+            return cssColorScheme;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
-            <div className="media-player-body">
+            <div className="media-player-body" style={this.getColorScheme()}>
                 <AlbumArt image={this.props.graphic} />
                 <div className="media-track">
                     <div className="media-metadata">
