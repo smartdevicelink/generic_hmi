@@ -312,6 +312,11 @@ function ui(state = {}, action) {
                 msgID: null
             }
             return newState
+        case Actions.SET_APP_IS_CONNECTED:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.isDisconnected = false
+            return newState
         default:
             return state
     }
