@@ -89,14 +89,22 @@ const mapStateToProps = (state) => {
     var colorScheme = null;
     if (theme === true) { //Dark theme
         if(app.nightColorScheme) {
+            colorScheme = {}
+            if(app.nightColorScheme.primaryColor) {
+                colorScheme["primary"] = app.nightColorScheme.primaryColor
+            }
             if(app.nightColorScheme.secondaryColor) {
-                colorScheme = app.nightColorScheme.secondaryColor
+                colorScheme["secondary"] = app.nightColorScheme.secondaryColor
             }
         }
     } else {
         if(app.dayColorScheme) { //Light theme
+            colorScheme = {}
+            if(app.dayColorScheme.primaryColor) {
+                colorScheme["primary"] = app.dayColorScheme.primaryColor
+            }
             if(app.dayColorScheme.secondaryColor) {
-                colorScheme = app.dayColorScheme.secondaryColor
+                colorScheme["secondary"] = app.dayColorScheme.secondaryColor
             }
         }
     }

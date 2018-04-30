@@ -8,10 +8,10 @@ export default class ControlBar extends React.Component {
     }
 
     getColorScheme() {
-        if (this.props.colorScheme) {
-            var redInt = this.props.colorScheme.red;
-            var blueInt = this.props.colorScheme.blue;
-            var greenInt = this.props.colorScheme.green;
+        if (this.props.colorScheme && this.props.colorScheme.secondary) {
+            var redInt = this.props.colorScheme.secondary.red;
+            var blueInt = this.props.colorScheme.secondary.blue;
+            var greenInt = this.props.colorScheme.secondary.green;
             var cssColorScheme = {
                 backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
             }
