@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate } from '../actions'
+import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate,  updateColorScheme} from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -22,6 +22,15 @@ class BCController {
                 return {"rpc": RpcFactory.BCGetSystemInfoResponse(rpc)}
             case "UpdateAppList":
                 store.dispatch(updateAppList(rpc.params.applications))
+                rpc.params.applications.map((app, index) => {
+                    if (app.dayColorScheme || app.nightColorScheme) {
+                        store.dispatch(updateColorScheme(
+                            app.appID,
+                            app.dayColorScheme ? app.dayColorScheme : null,
+                            app.nightColorScheme ? app.nightColorScheme : null
+                        ));
+                    }
+                });
                 return true
             case "ActivateApp":
                 store.dispatch(activateApp(rpc.params.appID))

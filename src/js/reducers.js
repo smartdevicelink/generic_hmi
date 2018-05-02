@@ -36,40 +36,8 @@ function newAppState () {
             showProgressIndicator: null,
             msgID: null
         },
-        dayColorScheme: {
-            primaryColor: {
-                red: 255,
-                green: 255,
-                blue: 0
-            },             
-            secondaryColor: {
-                red: 0,
-                green: 255,
-                blue: 255
-            },
-            backgroundColor: {
-                red: 0,
-                green: 255,
-                blue: 0
-            }
-        },
-        nightColorScheme: {
-            primaryColor: {
-                red: 0,
-                green: 255,
-                blue: 0
-            },             
-            secondaryColor: {
-                red: 0,
-                green: 0,
-                blue: 255
-            },
-            backgroundColor: {
-                red: 255,
-                green: 0,
-                blue: 0
-            }
-        }
+        dayColorScheme: null,
+        nightColorScheme: null
     }
 }
 
@@ -354,6 +322,17 @@ function ui(state = {}, action) {
                 msgID: null
             }
             return newState
+        case Actions.UPDATE_COLOR_SCHEME:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }
+            return newState   
         default:
             return state
     }

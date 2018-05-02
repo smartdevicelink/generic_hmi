@@ -48,9 +48,6 @@ class SoftButtonsBody extends React.Component {
         var cssColorStyle = Object.assign(primaryStyle ? primaryStyle : {}, 
                                             secondaryStyle ? secondaryStyle : {});
 
-        console.log("Softbuttons")
-        console.log(cssColorStyle);
-
         if(this.props.softButtons.length > 6) {
             softButtons = this.props.softButtons.slice(0, 6)
         } else {

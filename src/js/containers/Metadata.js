@@ -68,7 +68,6 @@ const mapStateToProps = (state) => {
 
     //Assign color scheme to props
     var theme = state.theme
-    console.log("metadata theme: " + theme)
     var colorScheme = null;
     if (theme === true) { //Dark theme
         if(state.ui[activeApp].nightColorScheme) {

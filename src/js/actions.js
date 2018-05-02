@@ -21,7 +21,8 @@ export const Actions = {
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
-    GET_URLS: "GET_URLS"
+    GET_URLS: "GET_URLS",
+    UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME"
 }
 
 export const updateAppList = (applications) => {
@@ -217,5 +218,14 @@ export const getURLS = (urls) => {
     return {
         type: Actions.GET_URLS,
         urls: urls
+    }
+}
+
+export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
+    return {
+        type: Actions.UPDATE_COLOR_SCHEME,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme,
+        appID: appID
     }
 }
