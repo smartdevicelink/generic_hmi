@@ -29,7 +29,7 @@ class LargeGraphicOnly extends React.Component {
             var blueInt = colorScheme.blue;
             var greenInt = colorScheme.green;
             var cssColorScheme = {
-                backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
+                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
             }
             return cssColorScheme;
         } else {

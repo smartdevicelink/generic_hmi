@@ -17,7 +17,7 @@ export default class ProgressBar extends React.Component {
                 var redInt = this.props.colorScheme.primaryColor.red;
                 var blueInt = this.props.colorScheme.primaryColor.blue;
                 var greenInt = this.props.colorScheme.primaryColor.green;
-                var cssColorScheme = `rgb(${redInt}, ${blueInt}, ${greenInt})`
+                var cssColorScheme = `rgb(${redInt}, ${greenInt}, ${blueInt})`
                 return cssColorScheme;
             }
         }
@@ -30,7 +30,7 @@ export default class ProgressBar extends React.Component {
                 var blueInt = this.props.colorScheme.secondaryColor.blue;
                 var greenInt = this.props.colorScheme.secondaryColor.green;
                 var cssColorScheme = {
-                    backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
                 }
                 return cssColorScheme;
             }

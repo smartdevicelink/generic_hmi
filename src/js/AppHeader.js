@@ -22,7 +22,7 @@ class AppHeader extends React.Component {
             var blueInt = this.props.colorScheme.blue;
             var greenInt = this.props.colorScheme.green;
             var cssColorScheme = {
-                backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`,
+                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
                 backgroundImage: `none`
             }
             return cssColorScheme;

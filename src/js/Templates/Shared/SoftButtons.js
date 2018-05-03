@@ -13,7 +13,7 @@ class SoftButtonsBody extends React.Component {
             var blueInt = this.props.colorScheme.secondary.blue;
             var greenInt = this.props.colorScheme.secondary.green;
             var cssColorScheme = {
-                backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
+                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
             }
             return cssColorScheme;
         } else {
@@ -28,7 +28,7 @@ class SoftButtonsBody extends React.Component {
             var greenInt = this.props.colorScheme.primary.green;
             var cssColorScheme = {
                 ':active': {
-                    backgroundColor: `rgb(${redInt}, ${blueInt}, ${greenInt})`
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
                   }
                 
             }
