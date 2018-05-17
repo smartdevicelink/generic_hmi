@@ -10,7 +10,7 @@ export default class NonMediaGraphic extends React.Component {
             if(this.props.image.imageType === "STATIC") {
                 return (
                     <div className="non-media-graphic">
-                       <StaticIcon class="static-icon" image={this.props.image.value} />
+                        <StaticIcon class="static-icon" image={this.props.image.value} />
                     </div>
                 )
             } else {

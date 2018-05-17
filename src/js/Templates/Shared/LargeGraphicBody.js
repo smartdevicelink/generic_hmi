@@ -18,7 +18,7 @@ export default class LargeGraphicBody extends React.Component {
             } else {
                 return (
                     <div className={this.props.class}>            
-                            <img className="large-graphic" src={this.props.graphic.value} />
+                        <img className="large-graphic" src={this.props.graphic.value} />
                     </div>
                 )
             }

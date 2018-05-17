@@ -10,7 +10,7 @@ export default class AlbumArt extends React.Component {
             if(this.props.imageType === "STATIC") {
                 return (
                     <div className="album-art">
-                       <StaticIcon class="static-icon" image={this.props.image} />
+                        <StaticIcon class="static-icon" image={this.props.image} />
                     </div>
                 )
             } else {

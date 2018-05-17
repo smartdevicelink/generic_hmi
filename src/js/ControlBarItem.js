@@ -10,7 +10,7 @@ export default class ControlBar extends React.Component {
             return (
                 <div className={`control-bar__control th-b-color-secondary control-bar__control--${ this.props.class }`}
                     onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}>
-                   <StaticIcon class="static-icon" image={this.props.image} />
+                    <StaticIcon class="static-icon" image={this.props.image} />
                 </div>
             )            
         } else {
