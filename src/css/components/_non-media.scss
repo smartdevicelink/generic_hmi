@@ -130,6 +130,11 @@
     @include justify-content(center);
 }
 
+
+.soft-button-image {
+    @include size(1.5em)
+}
+
 .soft-button p {
     overflow: hidden;
     text-overflow: ellipsis;

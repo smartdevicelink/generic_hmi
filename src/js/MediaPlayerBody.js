@@ -9,9 +9,15 @@ export default class MediaPlayerBody extends React.Component {
     }
 
     render() {
+        var value = null;
+        var type = null;
+        if(this.props.graphic) {
+            value = this.props.graphic.value ? this.props.graphic.value : null;
+            type = this.props.graphic.imageType ? this.props.graphic.imageType : null;
+        }
         return (
             <div className="media-player-body">
-                <AlbumArt image={this.props.graphic} />
+                <AlbumArt image={value} imageType={type} />
                 <div className="media-track">
                     <div className="media-metadata">
                         <p className="t-small t-medium th-f-color">{this.props.mainField3}</p>

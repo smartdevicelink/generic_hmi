@@ -23,3 +23,7 @@
         width: 100%;
     }
 }
+
+.static-icon {
+    @include size(100%);
+}

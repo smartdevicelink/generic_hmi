@@ -51,6 +51,11 @@
     .svg-wrap svg polygon {
         fill: color($accent-color);
     }
+
+    .svg-stroke{
+        stroke: color($accent-color) !important;
+    }
+    
     .th-tile-background-color {
         background-color: #111111;
     }

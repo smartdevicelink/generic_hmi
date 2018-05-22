@@ -15,7 +15,8 @@
 .text-with-graphic-template .large-graphic {
     padding-right: 25px;
     padding-left: 10px;
-    height:75%;
+    width: 100%;
+    max-height:100%;
     object-fit: contain;
 }
 

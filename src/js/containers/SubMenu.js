@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
                 appID: activeApp,
                 cmdID: choice.choiceID,
                 name: choice.menuName,
-                image: undefined,
+                image: choice.image ? choice.image.value : undefined,
+                imageType: choice.image ? choice.image.imageType : undefined,
                 link: '/media'
             }
         })
@@ -35,6 +36,7 @@ const mapStateToProps = (state) => {
             cmdID: command.cmdID,
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
+            imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
             link: link
         }
     })
