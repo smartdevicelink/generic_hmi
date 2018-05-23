@@ -21,7 +21,9 @@ export const Actions = {
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
-    GET_URLS: "GET_URLS"
+    GET_URLS: "GET_URLS",
+    UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
+    SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED"
 }
 
 export const updateAppList = (applications) => {
@@ -44,13 +46,14 @@ export const deactivateApp = (appID) => {
     }
 }
 
-export const show = (appID, showStrings, graphic, softButtons) => {
+export const show = (appID, showStrings, graphic, softButtons, secondaryGraphic) => {
     return {
         type: Actions.SHOW,
         appID: appID,
         showStrings: showStrings,
         graphic: graphic,
-        softButtons: softButtons
+        softButtons: softButtons,
+        secondaryGraphic: secondaryGraphic
     }
 }
 
@@ -157,11 +160,13 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
     }
 }
 
-export const setDisplayLayout = (displayLayout, appID) => {
+export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
     return {
         type: Actions.SET_DISPLAY_LAYOUT,
         displayLayout: displayLayout,
-        appID: appID
+        appID: appID,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme
     }
 }
 
@@ -214,5 +219,22 @@ export const getURLS = (urls) => {
     return {
         type: Actions.GET_URLS,
         urls: urls
+    }
+}
+
+
+export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
+    return {
+        type: Actions.UPDATE_COLOR_SCHEME,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme,
+        appID: appID
+    }
+}
+
+export const setAppIsConnected = (appID) => {
+    return {
+        type: Actions.SET_APP_IS_CONNECTED, 
+        appID: appID
     }
 }

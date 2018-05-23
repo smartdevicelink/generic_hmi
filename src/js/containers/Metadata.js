@@ -3,6 +3,8 @@ import MediaPlayerBody from '../MediaPlayerBody'
 import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
 import LargeGraphicBody from '../Templates/Shared/LargeGraphicBody'
 import AlertBody from '../AlertBody'
+import TextBody from '../Templates/Shared/TextBody'
+import DoubleGraphicBody from '../Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicBody'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -15,7 +17,8 @@ const mapStateToProps = (state) => {
         alertText1: null,
         alertText2: null,
         alertText3: null,
-        graphic: null
+        graphic: null,
+        secondaryGraphic: null
 
     }
 
@@ -36,7 +39,8 @@ const mapStateToProps = (state) => {
                     break
             }
         })
-        props.graphic = metadata.graphic ? metadata.graphic.value : null
+        props.graphic = metadata.graphic ? metadata.graphic : null
+        props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic : null
     }
 
     for(var app in state.ui) {
@@ -54,6 +58,28 @@ const mapStateToProps = (state) => {
                         break
                 }
             })
+        }
+    }
+
+    if(!state.ui[activeApp]) { 
+        //No active app, do not assign color scheme
+        return props
+    }
+
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = null;
+    if (theme === true) { //Dark theme
+        if(state.ui[activeApp].nightColorScheme) {
+            if(state.ui[activeApp].nightColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].nightColorScheme.backgroundColor
+            }
+        }
+    } else {
+        if(state.ui[activeApp].dayColorScheme) { //Light theme
+            if(state.ui[activeApp].dayColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].dayColorScheme.backgroundColor
+            }
         }
     }
     
@@ -83,5 +109,15 @@ export const AlertStrings = connect(
     mapStateToProps,
     mapDispatchToProps
 )(AlertBody)
+
+export const TextFields = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TextBody)
+
+export const DoubleGraphic = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DoubleGraphicBody)
 
 export default MediaMetadata

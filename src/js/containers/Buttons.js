@@ -23,13 +23,14 @@ const mapStateToProps = (state) => {
         app = state.ui[activeApp]
         graphicPresent = state.ui[activeApp].graphic ? true : false
     }
-    // TODO: differentiate between types of softButtons and softButtons that use static images
+
     var buttons = []
     if (softButtons.length > 0) {
         buttons.push({
             class: "tertiary",
             name: "CUSTOM_BUTTON",
             image: softButtons[0].image ? softButtons[0].image.value : undefined,
+            imageType: softButtons[0].image ? softButtons[0].image.imageType : undefined,
             id: softButtons[0].softButtonID
         })
     }
@@ -66,6 +67,7 @@ const mapStateToProps = (state) => {
             class: "tertiary",
             name: "CUSTOM_BUTTON",
             image: softButtons[1].image ? softButtons[1].image.value : undefined,
+            imageType: softButtons[1].image ? softButtons[1].image.imageType : undefined,
             id: softButtons[1].softButtonID
         })
     }
@@ -84,7 +86,32 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons}
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = null;
+    if (theme === true) { //Dark theme
+        if(app.nightColorScheme) {
+            colorScheme = {}
+            if(app.nightColorScheme.primaryColor) {
+                colorScheme["primary"] = app.nightColorScheme.primaryColor
+            }
+            if(app.nightColorScheme.secondaryColor) {
+                colorScheme["secondary"] = app.nightColorScheme.secondaryColor
+            }
+        }
+    } else {
+        if(app.dayColorScheme) { //Light theme
+            colorScheme = {}
+            if(app.dayColorScheme.primaryColor) {
+                colorScheme["primary"] = app.dayColorScheme.primaryColor
+            }
+            if(app.dayColorScheme.secondaryColor) {
+                colorScheme["secondary"] = app.dayColorScheme.secondaryColor
+            }
+        }
+    }
+
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme}
 }
 
 const mapDispatchToProps = (dispatch) => {

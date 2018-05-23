@@ -43,7 +43,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.showStrings,
                     rpc.params.graphic,
-                    rpc.params.softButtons
+                    rpc.params.softButtons,
+                    rpc.params.secondaryGraphic
                 ))
                 return true
             case "SetAppIcon":
@@ -107,7 +108,7 @@ class UIController {
                 ))
                 return true
             case "SetDisplayLayout":
-                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID));
+                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return true;
             case "SetGlobalProperties":
                 // TODO: implement this RPC

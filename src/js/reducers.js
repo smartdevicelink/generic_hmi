@@ -7,6 +7,7 @@ function newAppState () {
     return {
         showStrings: [],
         graphic: null,
+        secondaryGraphic: null,
         softButtons: [],
         icon: null,
         menu: [],
@@ -34,7 +35,9 @@ function newAppState () {
             alertType: null,
             showProgressIndicator: null,
             msgID: null
-        }
+        },
+        dayColorScheme: null,
+        nightColorScheme: null
     }
 }
 
@@ -42,8 +45,9 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+            break
         default:
-            return true
+            return state
     }
 }
 
@@ -98,6 +102,9 @@ function ui(state = {}, action) {
             if (action.graphic) {
                 app.graphic = action.graphic
             }
+            if (action.secondaryGraphic) {
+                app.secondaryGraphic = action.secondaryGraphic
+            }            
             if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
@@ -269,9 +276,25 @@ function ui(state = {}, action) {
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"
                     break
+                case "TEXT_WITH_GRAPHIC":
+                    app.displayLayout = "text-with-graphic"
+                    break
+                case "GRAPHIC_WITH_TEXT":
+                    app.displayLayout = "graphic-with-text"
+                    break
+                case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
+                    app.displayLayout = "double-graphic-with-softbuttons"
+                    break
                 default: 
                     break
             }
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }            
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
@@ -301,6 +324,22 @@ function ui(state = {}, action) {
                 showProgressIndicator: null,
                 msgID: null
             }
+            return newState
+        case Actions.UPDATE_COLOR_SCHEME:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }
+            return newState   
+        case Actions.SET_APP_IS_CONNECTED:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.isDisconnected = false
             return newState
         default:
             return state

@@ -8,7 +8,9 @@ class ExternalPoliciesController {
         this.packUrl = null
         this.unpackUrl = null
         this.sysReqParams = {}
-
+        this.policyUpdateRetryTimer = null
+        this.retryCount = 0;
+        this.retryTimeout = 0;
     }
     connectPolicyManager(packUrl, unpackUrl) {
         if(packUrl) {
@@ -61,7 +63,10 @@ class ExternalPoliciesController {
     }
     onPackMessage(evt) {
         bcController.onSystemRequest(this.sysReqParams.policyUpdateFile, this.sysReqParams.urls)
-        this.sysReqParams = {}
+        this.retryCount = 0;
+        this.retryTimeout = 0;
+        this.policyUpdateRetry();
+        
     }
     onUnpackMessage(evt) {
         sdlController.onReceivedPolicyUpdate(evt.data)
@@ -72,6 +77,28 @@ class ExternalPoliciesController {
     }
     unpack(file) {
         this.unpackClient.send(file)
+    }
+    policyUpdateRetry() {
+        clearTimeout(this.policyUpdateRetryTimer)
+        this.policyUpdateRetryTimer = null
+        if (this.retryCount < this.sysReqParams.retry.length) {
+            this.retryTimeout = this.retryTimeout + 
+                this.sysReqParams.timeout*1000 + 
+                this.sysReqParams.retry[this.retryCount] * 1000;
+            
+            this.policyUpdateRetryTimer = setTimeout(
+                function() {
+                    bcController.onSystemRequest(this.sysReqParams.policyUpdateFile, this.sysReqParams.urls)
+                    this.policyUpdateRetry();
+                }.bind(this), this.retryTimeout
+            );
+            this.retryCount++;
+        }
+    }
+    stopUpdateRetry() {
+        clearTimeout(this.policyUpdateRetryTimer)
+        this.policyUpdateRetryTimer = null     
+        this.retryCount = 0;   
     }
 }
 
