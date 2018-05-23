@@ -1,6 +1,7 @@
 let capabilities = {
 	"displayCapabilities": {
 		"displayType": "GEN2_8_DMA",
+		"displayName": "GENERIC_DISPLAY",
 		"textFields": [{
 				"name": "mainField1",
 				"characterSet": "TYPE2SET",
