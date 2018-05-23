@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
             class: dataClass,
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
+            imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
             appID: activeApp,
             link: link,
             menuID: command.menuID

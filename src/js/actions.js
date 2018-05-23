@@ -22,7 +22,8 @@ export const Actions = {
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     GET_URLS: "GET_URLS",
-    UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME"
+    UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
+    SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED"
 }
 
 export const updateAppList = (applications) => {
@@ -221,11 +222,19 @@ export const getURLS = (urls) => {
     }
 }
 
+
 export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
     return {
         type: Actions.UPDATE_COLOR_SCHEME,
         dayColorScheme: dayColorScheme,
         nightColorScheme: nightColorScheme,
+        appID: appID
+    }
+}
+
+export const setAppIsConnected = (appID) => {
+    return {
+        type: Actions.SET_APP_IS_CONNECTED, 
         appID: appID
     }
 }

@@ -29,6 +29,7 @@ export default class ControlBar extends React.Component {
                 class={button.class}
                 icon={button.icon}
                 image={button.image}
+                imageType={button.imageType}
                 key={button.name + id++}
                 name={button.name}
                 id={button.id}

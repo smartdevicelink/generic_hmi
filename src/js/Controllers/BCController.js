@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate,  updateColorScheme} from '../actions'
+import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate,  updateColorScheme, setAppIsConnected } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -33,10 +33,12 @@ class BCController {
                 });
                 return true
             case "ActivateApp":
+                store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
             case "OnAppUnregistered":
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))
+                store.dispatch(deactivateApp())
                 return null
             case "UpdateDeviceList":
                 return true
