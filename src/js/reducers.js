@@ -26,7 +26,7 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: 'media',
+        displayLayout: 'double-graphic-with-softbuttons',
         alert: {
             showAlert: false,
             alertStrings: [],
@@ -58,7 +58,7 @@ function appList(state = [], action) {
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
-                    return { ...app, icon: action.icon.value }
+                    return { ...app, icon: action.icon }
                 } else {
                     return { ...app }
                 }

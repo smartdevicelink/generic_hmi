@@ -1,8 +1,19 @@
 import React from 'react';
 import StaticIcon from './Templates/Shared/StaticIcon'
+import Image from './Templates/Shared/Image'
 export default class ControlBar extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    fillColor() {
+        var fillColor = null;
+        if (this.props.theme) {
+            fillColor = "#FFFFFF"
+        } else {
+            fillColor = "#000000"
+        }
+        return fillColor;
     }
 
     render() {
@@ -14,9 +25,11 @@ export default class ControlBar extends React.Component {
                 </div>
             )            
         } else {
+            var fillColor = this.fillColor()
             var image = this.props.icon ?
                 <span key="icon" className="svg-wrap" dangerouslySetInnerHTML={{__html: this.props.icon}} /> :
-                <img key="image" src={this.props.image} />
+                (<Image key="image" image={this.props.image} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
+
             return (
                 <div
                     className={`control-bar__control th-b-color-secondary control-bar__control--${ this.props.class }`}
@@ -25,7 +38,5 @@ export default class ControlBar extends React.Component {
                 </div>
             )
         }
-
-
     }
 }

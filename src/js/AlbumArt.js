@@ -1,5 +1,7 @@
 import React from 'react';
 import StaticIcon from './Templates/Shared/StaticIcon'
+import Image from './Templates/Shared/Image'
+
 export default class AlbumArt extends React.Component {
     constructor(props) {
         super(props);
@@ -14,9 +16,20 @@ export default class AlbumArt extends React.Component {
                     </div>
                 )
             } else {
+                
+                var fillColor = null;
+                if (this.props.theme) {
+                    fillColor = "#FFFFFF"
+                } else {
+                    fillColor = "#000000"
+                }
+
                 return (
                     <div className="album-art">
-                        <img className="th-box-shadow" src={this.props.image} />
+                        <Image class="th-box-shadow" 
+                            image={this.props.image} 
+                            isTemplate={this.props.isTemplate}
+                            fillColor={fillColor}/>
                     </div>
                 )
             }

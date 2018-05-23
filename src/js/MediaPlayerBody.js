@@ -25,13 +25,17 @@ export default class MediaPlayerBody extends React.Component {
     render() {
         var value = null;
         var type = null;
+        var templateImage = null;
+        var theme = null;
         if(this.props.graphic) {
             value = this.props.graphic.value ? this.props.graphic.value : null;
             type = this.props.graphic.imageType ? this.props.graphic.imageType : null;
+            templateImage = this.props.graphic.isTemplate ? this.props.graphic.isTemplate : null;
+            theme = this.props.theme ? this.props.theme : null;
         }
         return (
             <div className="media-player-body" style={this.getColorScheme()}>
-                <AlbumArt image={this.props.graphic} imageType={type}/>
+                <AlbumArt image={value} imageType={type} isTemplate={templateImage} theme={theme}/>
                 <div className="media-track">
                     <div className="media-metadata">
                         <p className="t-small t-medium th-f-color">{this.props.mainField3}</p>

@@ -64,6 +64,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>     
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                             
                         </div>)
             })
@@ -75,6 +77,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>        
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                 
                         </div>)
             })
@@ -86,6 +90,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>     
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                  
 
                         </div>)
@@ -98,6 +104,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>  
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                      
                         </div>)
             })         
@@ -110,6 +118,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>  
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                       
                         </div>)
                 } else {
@@ -119,6 +129,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>   
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                     
                         </div>)
                 }
@@ -131,6 +143,8 @@ class SoftButtonsBody extends React.Component {
                                 <p>{softButton.text}</p>  
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
                                 />                                       
                         </div>)
             })

@@ -1,9 +1,20 @@
 import React from 'react';
 import StaticIcon from './StaticIcon'
+import Image from './Image'
 
 export default class SoftButtonImage extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    fillColor() {
+        var fillColor = null;
+        if (this.props.theme) {
+            fillColor = "#FFFFFF"
+        } else {
+            fillColor = "#000000"
+        }
+        return fillColor;        
     }
 
     render() {
@@ -18,7 +29,9 @@ export default class SoftButtonImage extends React.Component {
             } else {
                 return (
                     <div className={className}>
-                        <img src={this.props.image} />
+                        <Image image={this.props.image} 
+                            isTemplate={this.props.isTemplate}
+                            fillColor={this.fillColor()}/>
                     </div>
                 )
             }

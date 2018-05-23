@@ -34,7 +34,9 @@ export default class ControlBar extends React.Component {
                 name={button.name}
                 id={button.id}
                 appID={this.props.appID}
-                onButtonPress={this.props.onButtonPress}/>)
+                onButtonPress={this.props.onButtonPress}
+                theme={this.props.theme}
+                isTemplate={button.isTemplate}/>)
         })
         return (
             <div className="control-bar th-bg-color" style={this.getColorScheme()}>

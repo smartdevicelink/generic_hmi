@@ -31,7 +31,8 @@ const mapStateToProps = (state) => {
             name: "CUSTOM_BUTTON",
             image: softButtons[0].image ? softButtons[0].image.value : undefined,
             imageType: softButtons[0].image ? softButtons[0].image.imageType : undefined,
-            id: softButtons[0].softButtonID
+            id: softButtons[0].softButtonID,
+            isTemplate: softButtons[0].image ? softButtons[0].image.isTemplate : null
         })
     }
     if (subscribedButtons.SEEKLEFT === true) {
@@ -68,7 +69,8 @@ const mapStateToProps = (state) => {
             name: "CUSTOM_BUTTON",
             image: softButtons[1].image ? softButtons[1].image.value : undefined,
             imageType: softButtons[1].image ? softButtons[1].image.imageType : undefined,
-            id: softButtons[1].softButtonID
+            id: softButtons[1].softButtonID,
+            isTemplate: softButtons[1].image ? softButtons[1].image.isTemplate : null
         })
     }
 
@@ -111,7 +113,7 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
 const mapDispatchToProps = (dispatch) => {
