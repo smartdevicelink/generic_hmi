@@ -26,7 +26,7 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: 'double-graphic-with-softbuttons',
+        displayLayout: 'media',
         alert: {
             showAlert: false,
             alertStrings: [],

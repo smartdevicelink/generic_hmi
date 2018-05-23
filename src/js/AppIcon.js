@@ -18,7 +18,6 @@ export default class AppIcon extends React.Component {
         //While viewing menu, pressing menu button takes user back to app screen
         var path = this.props.isShowingMenu ? this.props.backLink : "/inappmenu" 
         var icon = this.props.icon ?
-            /*(<img className="app-icon" src={this.props.icon} />)*/
             (<Image class="app-icon" image={this.props.icon} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
             : (<span className="app-icon"></span>)
         return (

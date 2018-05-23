@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
         appID: activeApp,
         backLink: link,
         theme: state.theme,
-        isTemplate: true //////////app.icon.isTemplate CHANGE THIS BACK!!!!
+        isTemplate: app.icon.isTemplate
     }
 }
 

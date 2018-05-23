@@ -29,10 +29,6 @@ export default class Image extends React.Component {
             canvas.width = canvasContainer.clientWidth
             canvas.height = canvasContainer.clientHeight
             img.onload = () => {
-                console.log("onload!")
-                console.log(canvasContainer.clientWidth)
-                console.log(canvasContainer.clientHeight)
-
                 var scaledDimensions = this.scaleImage({
                         "width": img.width,
                         "height": img.height
@@ -62,26 +58,16 @@ export default class Image extends React.Component {
     }
 
     componentDidMount() {
-        console.log("component did mount")
         this.drawImage();
-    }
-
-    componentWillUpdate(){
-        console.log("component will update")
-
     }
 
     componentDidUpdate(){
-        console.log("component did update")
         this.drawImage();
     }
 
-
     render() {
         if(this.props.image) {
-            console.log(this.props.image)
             if(this.props.isTemplate) {
-                console.log("isTempalte")
                 var hidden = {display:'none'};
                 var size = {
                     height: "100%",
