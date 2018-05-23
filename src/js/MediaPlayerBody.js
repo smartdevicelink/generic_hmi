@@ -8,6 +8,20 @@ export default class MediaPlayerBody extends React.Component {
         super(props);
     }
 
+    getColorScheme() {
+        if (this.props.colorScheme) {
+            var redInt = this.props.colorScheme.red;
+            var blueInt = this.props.colorScheme.blue;
+            var greenInt = this.props.colorScheme.green;
+            var cssColorScheme = {
+                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
+            }
+            return cssColorScheme;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         var value = null;
         var type = null;
@@ -16,8 +30,8 @@ export default class MediaPlayerBody extends React.Component {
             type = this.props.graphic.imageType ? this.props.graphic.imageType : null;
         }
         return (
-            <div className="media-player-body">
-                <AlbumArt image={value} imageType={type} />
+            <div className="media-player-body" style={this.getColorScheme()}>
+                <AlbumArt image={this.props.graphic} imageType={type}/>
                 <div className="media-track">
                     <div className="media-metadata">
                         <p className="t-small t-medium th-f-color">{this.props.mainField3}</p>

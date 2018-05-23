@@ -60,6 +60,28 @@ const mapStateToProps = (state) => {
             })
         }
     }
+
+    if(!state.ui[activeApp]) { 
+        //No active app, do not assign color scheme
+        return props
+    }
+
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = null;
+    if (theme === true) { //Dark theme
+        if(state.ui[activeApp].nightColorScheme) {
+            if(state.ui[activeApp].nightColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].nightColorScheme.backgroundColor
+            }
+        }
+    } else {
+        if(state.ui[activeApp].dayColorScheme) { //Light theme
+            if(state.ui[activeApp].dayColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].dayColorScheme.backgroundColor
+            }
+        }
+    }
     
     return props
 }

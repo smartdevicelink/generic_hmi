@@ -82,7 +82,6 @@ class ExternalPoliciesController {
         clearTimeout(this.policyUpdateRetryTimer)
         this.policyUpdateRetryTimer = null
         if (this.retryCount < this.sysReqParams.retry.length) {
-            console.log("Retry Timeout: " + this.retryTimeout);
             this.retryTimeout = this.retryTimeout + 
                 this.sysReqParams.timeout*1000 + 
                 this.sysReqParams.retry[this.retryCount] * 1000;

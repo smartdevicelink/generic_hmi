@@ -35,7 +35,9 @@ function newAppState () {
             alertType: null,
             showProgressIndicator: null,
             msgID: null
-        }
+        },
+        dayColorScheme: null,
+        nightColorScheme: null
     }
 }
 
@@ -43,8 +45,9 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+            break
         default:
-            return true
+            return state
     }
 }
 
@@ -282,6 +285,13 @@ function ui(state = {}, action) {
                 default: 
                     break
             }
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }            
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
@@ -312,6 +322,17 @@ function ui(state = {}, action) {
                 msgID: null
             }
             return newState
+        case Actions.UPDATE_COLOR_SCHEME:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }
+            return newState   
         case Actions.SET_APP_IS_CONNECTED:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
