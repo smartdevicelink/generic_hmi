@@ -18,9 +18,12 @@ const mapStateToProps = (state) => {
         alertText2: null,
         alertText3: null,
         graphic: null,
-        secondaryGraphic: null
+        secondaryGraphic: null,
+        theme: null
 
     }
+
+    props.theme = state.theme
 
     if(metadata) {
         metadata.showStrings.map ((textField) => {

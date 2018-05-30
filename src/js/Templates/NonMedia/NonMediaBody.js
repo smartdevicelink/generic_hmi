@@ -43,7 +43,7 @@ export default class NonMediaBody extends React.Component {
             <div>
                 <div className="non-media-body">               
                     <div className="non-media-meta-data" dangerouslySetInnerHTML={{__html: softButtonsDiv}}/>
-                    <Graphic image={this.props.graphic} />
+                    <Graphic image={this.props.graphic} theme={this.props.theme} />
                 </div>
             </div>
         )

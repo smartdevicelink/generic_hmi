@@ -1,9 +1,20 @@
 import React from 'react';
 import StaticIcon from '../Shared/StaticIcon'
+import Image from '../Shared/Image'
 
 export default class DoubleGraphicBody extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    fillColor() {
+        var fillColor = null;
+        if (this.props.theme) {
+            fillColor = "#FFFFFF"
+        } else {
+            fillColor = "#000000"
+        }
+        return fillColor;        
     }
 
     primaryGraphic() {
@@ -11,7 +22,10 @@ export default class DoubleGraphicBody extends React.Component {
             if(this.props.graphic.imageType === "STATIC") {
                 return <StaticIcon class="double-graphic" image={this.props.graphic.value} />
             } else {
-                return <img className="double-graphic" src={this.props.graphic.value} />
+                return <Image class="double-graphic" 
+                    image={this.props.graphic.value} 
+                    isTemplate={this.props.graphic.isTemplate}
+                    fillColor={this.fillColor()}/>
             }
         } else {
             return null
@@ -23,7 +37,10 @@ export default class DoubleGraphicBody extends React.Component {
             if(this.props.secondaryGraphic.imageType === "STATIC") {
                 return <StaticIcon class="double-graphic" image={this.props.secondaryGraphic.value} />
             } else {
-                return <img className="double-graphic" src={this.props.secondaryGraphic.value} />
+                return <Image class="double-graphic" 
+                    image={this.props.secondaryGraphic.value} 
+                    isTemplate={this.props.secondaryGraphic.isTemplate}
+                    fillColor={this.fillColor()}/>
             }
         } else {
             return null
