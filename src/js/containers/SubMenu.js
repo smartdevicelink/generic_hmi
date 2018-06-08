@@ -7,6 +7,7 @@ import '../polyfill_find'
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
+    var theme = state.theme
     if (app.isPerformingInteraction) {
         var data = app.choices.map((choice) => {
             return {
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => {
                 name: choice.menuName,
                 image: choice.image ? choice.image.value : undefined,
                 imageType: choice.image ? choice.image.imageType : undefined,
+                isTemplate: choice.image ? choice.image.isTemplate : undefined,
                 link: '/media'
             }
         })
@@ -37,10 +39,11 @@ const mapStateToProps = (state) => {
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
             imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
+            isTemplate: command.cmdIcon ? command.cmdIcon.isTemplate : undefined,
             link: link
         }
     })
-    return {data: data, isPerformingInteraction: false}
+    return {data: data, isPerformingInteraction: false, theme: theme}
 }
 
 const mapDispatchToProps = (dispatch) => {
