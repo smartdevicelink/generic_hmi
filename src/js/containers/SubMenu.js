@@ -23,7 +23,8 @@ const mapStateToProps = (state) => {
         return {
             data:data,
             isPerformingInteraction: true,
-            interactionId: app.interactionId
+            interactionId: app.interactionId,
+            theme: theme
         }
     }
     // The app isn't performing an interaction, so pass the sub menu items 
