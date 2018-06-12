@@ -9,6 +9,8 @@ class VRController {
                 return true
             case "AddCommand":
                 return true
+            case "DeleteCommand":
+                return true
         }
     }
 }

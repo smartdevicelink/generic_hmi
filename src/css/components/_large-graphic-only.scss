@@ -1,3 +1,8 @@
+.large-graphic-only-template{
+    width: 100%;
+    height: 100%
+}
+
 .large-graphic-only{
     width: 100%;
     height: calc(#{$master-height} - 75px);

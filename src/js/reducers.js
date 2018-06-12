@@ -35,7 +35,9 @@ function newAppState () {
             alertType: null,
             showProgressIndicator: null,
             msgID: null
-        }
+        },
+        dayColorScheme: null,
+        nightColorScheme: null
     }
 }
 
@@ -43,8 +45,9 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+            break
         default:
-            return true
+            return state
     }
 }
 
@@ -55,7 +58,7 @@ function appList(state = [], action) {
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
-                    return { ...app, icon: action.icon.value }
+                    return { ...app, icon: action.icon }
                 } else {
                     return { ...app }
                 }
@@ -270,6 +273,9 @@ function ui(state = {}, action) {
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
                     break
+                case "TILES_ONLY":
+                    app.displayLayout = "tiles-only"
+                    break
                 case "TEXT_WITH_GRAPHIC":
                     app.displayLayout = "text-with-graphic"
                     break
@@ -282,6 +288,13 @@ function ui(state = {}, action) {
                 default: 
                     break
             }
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }            
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
@@ -312,6 +325,17 @@ function ui(state = {}, action) {
                 msgID: null
             }
             return newState
+        case Actions.UPDATE_COLOR_SCHEME:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }
+            return newState   
         case Actions.SET_APP_IS_CONNECTED:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
