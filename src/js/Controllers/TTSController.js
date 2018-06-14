@@ -24,10 +24,12 @@ class TTSController {
 
         this.audioPlayer.onended = () => {
             this.audioPlayer.src ="";
-            if(this.filePlaylist[0].type === "FILE") {
-                this.playAudio();
-            } else if (this.filePlaylist[0].type === "TEXT"){
-                this.speak();
+            if(this.filePlaylist[0]) {
+                if(this.filePlaylist[0].type === "FILE") {
+                    this.playAudio();
+                } else if (this.filePlaylist[0].type === "TEXT"){
+                    this.speak();
+                }
             }
         }
 
@@ -46,15 +48,24 @@ class TTSController {
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
-            if(this.filePlaylist[0].type === "FILE") {
-                this.playAudio();
-            } else if (this.filePlaylist[0].type === "TEXT"){
-                this.speak();
-            }            
+            if(this.filePlaylist[0]) {
+                if(this.filePlaylist[0].type === "FILE") {
+                    this.playAudio();
+                } else if (this.filePlaylist[0].type === "TEXT"){
+                    this.speak();
+                }    
+            }
         }
 
         speechPlayer.onerror = (event) => {
             console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
+            if(this.filePlaylist[0]) {
+                if(this.filePlaylist[0].type === "FILE") {
+                    this.playAudio();
+                } else if (this.filePlaylist[0].type === "TEXT"){
+                    this.speak();
+                }    
+            }
         }
 
         speechPlayer.text = text;
