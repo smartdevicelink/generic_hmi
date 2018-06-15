@@ -22,6 +22,17 @@ class TTSController {
         var path = this.filePlaylist[0].text;
         this.filePlaylist.shift();
 
+        this.audioPlayer.onerror = (event) => {
+            console.log(event);
+            if(this.filePlaylist[0]) {
+                if(this.filePlaylist[0].type === "FILE") {
+                    this.playAudio();
+                } else if (this.filePlaylist[0].type === "TEXT"){
+                    this.speak();
+                }    
+            }
+        }
+
         this.audioPlayer.onended = () => {
             this.audioPlayer.src ="";
             if(this.filePlaylist[0]) {
