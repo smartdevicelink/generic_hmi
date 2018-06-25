@@ -129,6 +129,13 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
+
+        var onSystemTimeReady = {
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemTimeReady"
+        }
+
+        this.send(onSystemTimeReady);
     }
     handleRPC(rpc) {
         var response = undefined

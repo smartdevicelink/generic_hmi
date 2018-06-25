@@ -53,9 +53,11 @@ class BCController {
                     externalPolicies.unpack(rpc.params.fileName)
                 } else {
                     sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
-                }
- 
+                } 
                 return true
+            case "GetSystemTime":
+                this.listener.send(RpcFactory.GetSystemTime(rpc.id))
+                return null
         }
     }
     handleRPCResponse(rpc) {
