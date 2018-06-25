@@ -83,12 +83,13 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams) => {
+export const addSubMenu = (appID, menuID, menuParams, icon) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
-        menuParams: menuParams
+        menuParams: menuParams,
+        subMenuIcon: icon
     }
 }
 

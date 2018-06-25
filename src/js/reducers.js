@@ -166,6 +166,7 @@ function ui(state = {}, action) {
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
+                cmdIcon: action.subMenuIcon,
                 subMenu: []
             })
             menu.sort((a, b) => {
