@@ -301,6 +301,11 @@ function ui(state = {}, action) {
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = true
+            app.menu = []
+            app.choices = []
+            app.subscribedButtons = {}
+            app.activeSubMenu = null
+            app.softButtons = []
             return newState
         case Actions.ALERT:
             var newState = { ...state }
