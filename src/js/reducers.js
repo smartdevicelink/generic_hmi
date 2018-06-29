@@ -58,7 +58,7 @@ function appList(state = [], action) {
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
-                    return { ...app, icon: action.icon }
+                    return { ...app, icon: action.icon.value }
                 } else {
                     return { ...app }
                 }
