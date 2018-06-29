@@ -64,7 +64,8 @@ class UIController {
                 store.dispatch(addSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID,
-                    rpc.params.menuParams
+                    rpc.params.menuParams,
+                    rpc.params.menuIcon
                 ))
                 return true
             case "DeleteCommand":
