@@ -422,7 +422,18 @@ class RpcFactory {
         }
         return msg  
     }
-
+    static SetDisplayLayoutResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                "displayCapabilities": capabilities.displayCapabilities,
+                "softButtonCapabilities": capabilities.softButtonCapabilities
+            }
+        })        
+    }
 }
 
 export default RpcFactory

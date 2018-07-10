@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
     var theme = state.theme
+    var link =  state.ui[activeApp].displayLayout
     if (app.isPerformingInteraction) {
         var data = app.choices.map((choice) => {
             return {
@@ -17,7 +18,7 @@ const mapStateToProps = (state) => {
                 image: choice.image ? choice.image.value : undefined,
                 imageType: choice.image ? choice.image.imageType : undefined,
                 isTemplate: choice.image ? choice.image.isTemplate : undefined,
-                link: '/media'
+                link: link
             }
         })
         return {
@@ -33,7 +34,6 @@ const mapStateToProps = (state) => {
     var data = menu.find((test) => {
         return test.menuID === activeSubMenu
     }).subMenu.map((command) => {
-        var link = '/media' // TODO: only supports media right now
         return {
             appID: activeApp,
             cmdID: command.cmdID,

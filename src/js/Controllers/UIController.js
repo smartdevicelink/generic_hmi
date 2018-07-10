@@ -110,7 +110,7 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-                return true;
+                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true

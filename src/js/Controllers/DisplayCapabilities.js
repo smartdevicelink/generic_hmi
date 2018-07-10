@@ -173,7 +173,7 @@ let capabilities = {
 		],
 		"imageFields": [{
 				"name": "softButtonImage",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -181,7 +181,7 @@ let capabilities = {
 			},
 			{
 				"name": "choiceImage",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -189,7 +189,7 @@ let capabilities = {
 			},
 			{
 				"name": "choiceSecondaryImage",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -197,7 +197,7 @@ let capabilities = {
 			},
 			{
 				"name": "menuIcon",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -205,7 +205,7 @@ let capabilities = {
 			},
 			{
 				"name": "cmdIcon",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -213,7 +213,7 @@ let capabilities = {
 			},
 			{
 				"name": "appIcon",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -221,7 +221,7 @@ let capabilities = {
 			},
 			{
 				"name": "graphic",
-				"imageTypeSupported": [],
+				"imageTypeSupported": ["GRAPHIC_PNG"],
 				"imageResolution": {
 					"resolutionWidth": 35,
 					"resolutionHeight": 35
@@ -263,12 +263,12 @@ let capabilities = {
 		"audioType": "PCM"
 	},
 	"hmiZoneCapabilities": "FRONT",
-	"softButtonCapabilities": {
+	"softButtonCapabilities": [{
 		"shortPressAvailable": true,
 		"longPressAvailable": false,
 		"upDownAvailable": false,
 		"imageSupported": true
-	},
+	}],
 	"hmiCapabilities": {
 		"navigation": false,
 		"phoneCall": false
