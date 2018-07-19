@@ -151,13 +151,14 @@ export const timeoutPerformInteraction = (msgID, appID) => {
     }
 }
 
-export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
+export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioStreamingIndicator) => {
     return {
         type: Actions.SET_MEDIA_CLOCK_TIMER,
         appID: appID,
         startTime: startTime,
         endTime: endTime,
-        updateMode: updateMode
+        updateMode: updateMode,
+        audioStreamingIndicator: audioStreamingIndicator
     }
 }
 

@@ -105,7 +105,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.startTime,
                     rpc.params.endTime,
-                    rpc.params.updateMode
+                    rpc.params.updateMode,
+                    rpc.params.audioStreamingIndicator
                 ))
                 return true
             case "SetDisplayLayout":

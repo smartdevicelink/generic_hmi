@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
             icon: iconSeekLeft
         })
     }
-    if (subscribedButtons.OK === true && app.updateMode === "PAUSE") {
+    if (subscribedButtons.OK === true && (app.audioStreamingIndicator === "PLAY" || app.updateMode === "PAUSE")) {
         buttons.push({
             class: "primary",
             name: "OK",
