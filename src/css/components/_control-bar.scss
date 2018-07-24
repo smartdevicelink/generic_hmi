@@ -6,6 +6,14 @@
     background: color(black);
 
     &__control {
+        &--double {
+            height: 75px;
+            width: 150px;          
+        }
+        &--square {
+            height: 75px;
+            width: 75px;          
+        }
         &--primary {
             height: 75px;
             width: 60px;

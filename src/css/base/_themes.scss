@@ -52,7 +52,11 @@
         fill: color($accent-color);
     }
 
-    .svg-stroke{
+    .svg-fill-important {
+        fill: color($accent-color) !important;
+    }
+
+    .svg-stroke {
         stroke: color($accent-color) !important;
     }
     
@@ -111,6 +115,15 @@
     .svg-wrap svg polygon {
         fill: color(black);
     }
+    
+    .svg-fill-important {
+        fill: color(black) !important;
+    }
+
+    .svg-stroke{
+        stroke: color(black) !important;
+    }
+
     .th-tile-background-color {
         background-color: #ffffff;
     }

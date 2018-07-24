@@ -22,7 +22,7 @@ function newAppState () {
             minutes: 0,
             seconds: 0
         },
-        updateMode: "COUNTUP",
+        updateMode: "CLEAR",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,

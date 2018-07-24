@@ -9,6 +9,8 @@ import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
 import iconSeekRight from '../../img/icons/icon-seek-right.svg';
 import iconPlay from '../../img/icons/icon-play.svg';
 import iconPause from '../../img/icons/icon-pause.svg';
+import iconPlayPause from '../../img/icons/icon-play-pause.svg';
+import iconStop from '../../img/icons/icon-stop.svg';
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -42,19 +44,79 @@ const mapStateToProps = (state) => {
             icon: iconSeekLeft
         })
     }
-    if (subscribedButtons.OK === true && (app.audioStreamingIndicator === "PLAY" || app.updateMode === "PAUSE")) {
-        buttons.push({
-            class: "primary",
-            name: "OK",
-            icon: iconPlay
-        })
-    }
-    else if (subscribedButtons.OK === true) {
-        buttons.push({
-            class: "primary",
-            name: "OK",
-            icon: iconPause
-        })
+    if (subscribedButtons.OK === true ) {
+        if (app.audioStreamingIndicator) {
+            if (app.audioStreamingIndicator === "PLAY") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPlay
+                })
+            } else if (app.audioStreamingIndicator === "PAUSE") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPause
+                })                
+            } else if (app.audioStreamingIndicator === "STOP") {
+                buttons.push({
+                    class: "square",
+                    name: "OK",
+                    icon: iconStop
+                })                
+            } else if (app.audioStreamingIndicator === "PLAY_PAUSE") {
+                buttons.push({
+                    class: "double",
+                    name: "OK",
+                    icon: iconPlayPause
+                })                
+            } else {
+                buttons.push({
+                    class: "double",
+                    name: "OK",
+                    icon: iconPlayPause
+                })                    
+            }
+        } 
+        else if (app.updateMode) {
+            if (app.updateMode === "COUNTUP") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPause
+                })                    
+            } else if (app.updateMode === "COUNTDOWN") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPause
+                })                    
+            } else if (app.updateMode === "RESUME") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPause
+                })                    
+            } else if (app.updateMode === "PAUSE") {
+                buttons.push({
+                    class: "primary",
+                    name: "OK",
+                    icon: iconPlay
+                })                    
+            } else {
+                buttons.push({
+                    class: "double",
+                    name: "OK",
+                    icon: iconPlayPause
+                })                    
+            }
+        } else {
+            buttons.push({
+                class: "double",
+                name: "OK",
+                icon: iconPlayPause
+            })                    
+        }
     }
     if (subscribedButtons.SEEKRIGHT === true) {
         buttons.push({
