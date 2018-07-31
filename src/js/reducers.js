@@ -22,7 +22,7 @@ function newAppState () {
             minutes: 0,
             seconds: 0
         },
-        updateMode: "COUNTUP",
+        updateMode: "CLEAR",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
@@ -245,6 +245,9 @@ function ui(state = {}, action) {
                 app.updateTime = new Date().getTime()
             }
             app.updateMode = action.updateMode
+            if(action.audioStreamingIndicator) {
+                app.audioStreamingIndicator = action.audioStreamingIndicator
+            }
             return newState
         case Actions.SET_DISPLAY_LAYOUT:
             var newState = {...state}
