@@ -30,6 +30,7 @@ class BCController {
                             app.nightColorScheme ? app.nightColorScheme : null
                         ));
                     }
+                    store.dispatch(setAppIsConnected(app.appID))
                 });
                 return true
             case "ActivateApp":
