@@ -3,6 +3,7 @@ import React from 'react';
 export default class Image extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {error: false};
     }
 
     scaleImage(ogDimension, parentDimension) {
@@ -65,8 +66,12 @@ export default class Image extends React.Component {
         this.drawImage();
     }
 
+    onError(event) {
+        this.setState({error: true});
+    }
+
     render() {
-        if(this.props.image) {
+        if(this.props.image && !this.state.error) {
             if(this.props.isTemplate) {
                 var hidden = {display:'none'};
                 var size = {
@@ -80,7 +85,9 @@ export default class Image extends React.Component {
                     </div>
                 )
             } else {
-                return <img className={this.props.class} src={this.props.image} />
+                return (
+                    <img className={this.props.class} src={this.props.image} onError={e => this.onError(e)} />
+                )
             }
 
         } else {
