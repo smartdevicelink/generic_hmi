@@ -5,7 +5,7 @@ import './polyfill_find'
 
 function newAppState () {
     return {
-        showStrings: [],
+        showStrings: {},
         graphic: null,
         secondaryGraphic: null,
         softButtons: [],
@@ -97,7 +97,11 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             if (action.showStrings && action.showStrings.length > 0) {
-                app.showStrings = action.showStrings
+                for (var i=0; i < action.showStrings.length; i++) {
+                    var fieldName = action.showStrings[i].fieldName
+                    var fieldText = action.showStrings[i].fieldText
+                    app.showStrings[fieldName] = fieldText
+                }
             }
             if (action.graphic) {
                 app.graphic = action.graphic
