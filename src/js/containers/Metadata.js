@@ -26,19 +26,20 @@ const mapStateToProps = (state) => {
     props.theme = state.theme
 
     if(metadata) {
-        metadata.showStrings.map ((textField) => {
-            switch (textField.fieldName) {
+        Object.keys(metadata.showStrings).map((fieldName) => {
+            console.log(metadata.showStrings)
+            switch (fieldName) {
                 case "mainField1":
-                    props.mainField1 = textField.fieldText
+                    props.mainField1 = metadata.showStrings[fieldName]
                     break
                 case "mainField2":
-                    props.mainField2 = textField.fieldText
+                    props.mainField2 = metadata.showStrings[fieldName]
                     break
                 case "mainField3":
-                    props.mainField3 = textField.fieldText
+                    props.mainField3 = metadata.showStrings[fieldName]
                     break
                 case "mainField4":
-                    props.mainField4 = textField.fieldText
+                    props.mainField4 = metadata.showStrings[fieldName]
                     break
             }
         })
