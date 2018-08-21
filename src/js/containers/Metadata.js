@@ -39,7 +39,6 @@ const mapStateToProps = (state) => {
                     props.mainField3 = metadata.showStrings[fieldName]
                     break
                 case "mainField4":
-                    console.log("mainField4")
                     props.mainField4 = metadata.showStrings[fieldName]
                     break
             }
