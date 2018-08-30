@@ -5,7 +5,8 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp] ? state.ui[activeApp] : {
         isPerformingInteraction: false,
-        isDisconnected: false
+        isDisconnected: true,
+        displayLayout: ""
     }
 
     var showAlert = false
