@@ -306,13 +306,9 @@ function ui(state = {}, action) {
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            app.isDisconnected = true
-            app.menu = []
-            app.choices = []
-            app.subscribedButtons = {}
-            app.activeSubMenu = null
-            app.softButtons = []
+            if (newState[action.appID]) {
+                delete newState[action.appID]
+            }
             return newState
         case Actions.ALERT:
             var newState = { ...state }

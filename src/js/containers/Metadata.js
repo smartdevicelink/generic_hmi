@@ -27,7 +27,6 @@ const mapStateToProps = (state) => {
 
     if(metadata) {
         Object.keys(metadata.showStrings).map((fieldName) => {
-            console.log(metadata.showStrings)
             switch (fieldName) {
                 case "mainField1":
                     props.mainField1 = metadata.showStrings[fieldName]
