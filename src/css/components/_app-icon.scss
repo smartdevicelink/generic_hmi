@@ -1,3 +1,5 @@
 .app-icon {
     @include size(40px);
+    display: inline-block;
+    vertical-align: middle;
 }

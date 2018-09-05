@@ -129,6 +129,23 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
+
+        var onSystemTimeReady = {
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemTimeReady"
+        }
+
+        this.send(onSystemTimeReady);
+
+        var onDriverDistraction = {
+            "jsonrpc": "2.0",
+            "method": "UI.OnDriverDistraction",
+            "params": {
+                "state": "DD_OFF"
+            }
+        }
+
+        this.send(onDriverDistraction);
     }
     handleRPC(rpc) {
         var response = undefined

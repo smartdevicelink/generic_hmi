@@ -398,6 +398,42 @@ class RpcFactory {
         return (msg)
     }
 
+    static GetSystemTime(id) {
+        var date = new Date();
+        var systemTime = {
+            millisecond: date.getMilliseconds(),
+            second: date.getSeconds(),
+            minute: date.getMinutes(),
+            hour: date.getHours(),
+            day: date.getDate(),
+            month: date.getMonth()+1,
+            year: date.getFullYear(),
+            tz_hour: Math.floor(date.getTimezoneOffset()/-60),
+            tz_minute: Math.abs(date.getTimezoneOffset()%60)
+        }
+        var msg = {
+            'jsonrpc': '2.0',
+            'id': id,
+            'result': {
+                'code': 0, // type (enum) from SDL protocol
+                'method': 'BasicCommunication.GetSystemTime',
+                'systemTime': systemTime
+            }
+        }
+        return msg  
+    }
+    static SetDisplayLayoutResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                "displayCapabilities": capabilities.displayCapabilities,
+                "softButtonCapabilities": capabilities.softButtonCapabilities
+            }
+        })        
+    }
 }
 
 export default RpcFactory

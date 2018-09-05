@@ -18,29 +18,32 @@ const mapStateToProps = (state) => {
         alertText2: null,
         alertText3: null,
         graphic: null,
-        secondaryGraphic: null
+        secondaryGraphic: null,
+        theme: null
 
     }
 
+    props.theme = state.theme
+
     if(metadata) {
-        metadata.showStrings.map ((textField) => {
-            switch (textField.fieldName) {
+        Object.keys(metadata.showStrings).map((fieldName) => {
+            switch (fieldName) {
                 case "mainField1":
-                    props.mainField1 = textField.fieldText
+                    props.mainField1 = metadata.showStrings[fieldName]
                     break
                 case "mainField2":
-                    props.mainField2 = textField.fieldText
+                    props.mainField2 = metadata.showStrings[fieldName]
                     break
                 case "mainField3":
-                    props.mainField3 = textField.fieldText
+                    props.mainField3 = metadata.showStrings[fieldName]
                     break
                 case "mainField4":
-                    props.mainField4 = textField.fieldText
+                    props.mainField4 = metadata.showStrings[fieldName]
                     break
             }
         })
-        props.graphic = metadata.graphic ? metadata.graphic.value : null
-        props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic.value : null
+        props.graphic = metadata.graphic ? metadata.graphic : null
+        props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic : null
     }
 
     for(var app in state.ui) {
@@ -58,6 +61,28 @@ const mapStateToProps = (state) => {
                         break
                 }
             })
+        }
+    }
+
+    if(!state.ui[activeApp]) { 
+        //No active app, do not assign color scheme
+        return props
+    }
+
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = null;
+    if (theme === true) { //Dark theme
+        if(state.ui[activeApp].nightColorScheme) {
+            if(state.ui[activeApp].nightColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].nightColorScheme.backgroundColor
+            }
+        }
+    } else {
+        if(state.ui[activeApp].dayColorScheme) { //Light theme
+            if(state.ui[activeApp].dayColorScheme.backgroundColor) {
+                props.colorScheme = state.ui[activeApp].dayColorScheme.backgroundColor
+            }
         }
     }
     

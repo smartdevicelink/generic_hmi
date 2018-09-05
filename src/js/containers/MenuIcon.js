@@ -10,11 +10,14 @@ const mapStateToProps = (state) => {
         return app.appID === activeApp
     })
     var link =  activeApp ? state.ui[activeApp].displayLayout : "/"
+    var icon = activeApp ? state.ui[activeApp].icon : null
     app = app ? app : {}
     return {
-        icon: app.icon,
+        icon: icon ? icon.value : null,
         appID: activeApp,
-        backLink: link
+        backLink: link,
+        theme: state.theme,
+        isTemplate: icon ? icon.isTemplate : null
     }
 }
 

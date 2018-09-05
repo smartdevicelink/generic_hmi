@@ -27,3 +27,17 @@
         height: 44px;
     }
 }
+
+.vscrollmenu-item-primary {
+    display:flex;
+    width: 100%;
+}
+
+.vscrollmenu-item-image {
+    @include size(1.15em);
+    margin-left: 20px;
+}
+
+.vscrollmenu-item-image img{
+    max-height: 100%;
+}

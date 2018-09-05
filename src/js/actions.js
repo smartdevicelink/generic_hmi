@@ -22,6 +22,7 @@ export const Actions = {
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     GET_URLS: "GET_URLS",
+    UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED"
 }
 
@@ -82,12 +83,13 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams) => {
+export const addSubMenu = (appID, menuID, menuParams, icon) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
-        menuParams: menuParams
+        menuParams: menuParams,
+        subMenuIcon: icon
     }
 }
 
@@ -149,21 +151,24 @@ export const timeoutPerformInteraction = (msgID, appID) => {
     }
 }
 
-export const setMediaClockTimer = (appID, startTime, endTime, updateMode) => {
+export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioStreamingIndicator) => {
     return {
         type: Actions.SET_MEDIA_CLOCK_TIMER,
         appID: appID,
         startTime: startTime,
         endTime: endTime,
-        updateMode: updateMode
+        updateMode: updateMode,
+        audioStreamingIndicator: audioStreamingIndicator
     }
 }
 
-export const setDisplayLayout = (displayLayout, appID) => {
+export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
     return {
         type: Actions.SET_DISPLAY_LAYOUT,
         displayLayout: displayLayout,
-        appID: appID
+        appID: appID,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme
     }
 }
 
@@ -216,6 +221,16 @@ export const getURLS = (urls) => {
     return {
         type: Actions.GET_URLS,
         urls: urls
+    }
+}
+
+
+export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
+    return {
+        type: Actions.UPDATE_COLOR_SCHEME,
+        dayColorScheme: dayColorScheme,
+        nightColorScheme: nightColorScheme,
+        appID: appID
     }
 }
 
