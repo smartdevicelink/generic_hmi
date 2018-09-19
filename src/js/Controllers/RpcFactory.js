@@ -88,6 +88,12 @@ class RpcFactory {
                         "shortPressAvailable": true,
                         "longPressAvailable": false,
                         "upDownAvailable": false
+                    },
+                    {
+                        "name": "PLAY_PAUSE",
+                        "shortPressAvailable": true,
+                        "longPressAvailable": false,
+                        "upDownAvailable": false
                     }
                 ]
             }
