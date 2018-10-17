@@ -50,6 +50,10 @@ class BCController {
                 sdlController.getURLS(7)
                 return true;
             case "SystemRequest":
+                if (rpc.params.requestType != "PROPRIETARY") {
+                    // Generic HMI can only process PROPREITARY System Requests
+                    return true
+                }
                 if(flags.ExternalPolicies) {
                     externalPolicies.unpack(rpc.params.fileName)
                 } else {
