@@ -18,12 +18,13 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities,
+                "displayCapabilities": capabilities.displayCapabilities["MEDIA"],
                 "audioPassThruCapabilities": capabilities.audioPassThruCapabilities,
                 "hmiZoneCapabilities": capabilities.hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities.softButtonCapabilities,
                 "hmiCapabilities": capabilities.hmiCapabilities,
-                "systemCapabilities": capabilities.systemCapabilities
+                "systemCapabilities": capabilities.systemCapabilities["MEDIA"],
+                "buttonCapabilities": capabilities.buttonCapabilities["MEDIA"]
             }
         })
     }
@@ -429,14 +430,16 @@ class RpcFactory {
         return msg  
     }
     static SetDisplayLayoutResponse(rpc) {
+        var layout = rpc.params.displayLayout;
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities,
-                "softButtonCapabilities": capabilities.softButtonCapabilities
+                "displayCapabilities": capabilities.displayCapabilities[layout] ? capabilities.displayCapabilities[layout] : {},
+                "softButtonCapabilities": capabilities.softButtonCapabilities[layout] ? capabilities.softButtonCapabilities[layout] : [],
+                "buttonCapabilities": capabilities.buttonCapabilities[layout] ? capabilities.buttonCapabilities[layout] : []
             }
         })        
     }
