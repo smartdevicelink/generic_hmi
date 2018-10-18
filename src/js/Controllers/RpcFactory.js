@@ -431,17 +431,37 @@ class RpcFactory {
     }
     static SetDisplayLayoutResponse(rpc) {
         var layout = rpc.params.displayLayout;
-        return ({
-            "jsonrpc": "2.0",
-            "id": rpc.id,
-            "result": {
-                "method": rpc.method,
-                "code": 0,
-                "displayCapabilities": capabilities[layout].displayCapabilities ? capabilities[layout].displayCapabilities : null,
-                "softButtonCapabilities": capabilities[layout].softButtonCapabilities ? capabilities[layout].softButtonCapabilities : null,
-                "buttonCapabilities": capabilities[layout].buttonCapabilities ? capabilities[layout].buttonCapabilities : null
+        var supportedTemplates = ["DEFAULT", "MEDIA", "LARGE_GRAPHIC_ONLY", 
+        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
+        if (supportedTemplates.includes(layout)) {
+            if (layout == "DEFAULT") {
+                layout = "MEDIA"
             }
-        })        
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "result": {
+                    "method": rpc.method,
+                    "code": 0,
+                    "displayCapabilities": capabilities[layout].displayCapabilities ? capabilities[layout].displayCapabilities : null,
+                    "softButtonCapabilities": capabilities[layout].softButtonCapabilities ? capabilities[layout].softButtonCapabilities : null,
+                    "buttonCapabilities": capabilities[layout].buttonCapabilities ? capabilities[layout].buttonCapabilities : null
+                }
+            })        
+        } else {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "error": {
+                    "code": 1,
+                    "data": {
+                        "method": rpc.method
+                    }
+                }
+            })            
+        }
+
     }
 }
 
