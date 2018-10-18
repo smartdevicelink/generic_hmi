@@ -18,13 +18,13 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities["MEDIA"],
-                "audioPassThruCapabilities": capabilities.audioPassThruCapabilities,
-                "hmiZoneCapabilities": capabilities.hmiZoneCapabilities,
-                "softButtonCapabilities": capabilities.softButtonCapabilities,
-                "hmiCapabilities": capabilities.hmiCapabilities,
-                "systemCapabilities": capabilities.systemCapabilities["MEDIA"],
-                "buttonCapabilities": capabilities.buttonCapabilities["MEDIA"]
+                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "audioPassThruCapabilities": capabilities["MEDIA"].audioPassThruCapabilities,
+                "hmiZoneCapabilities": capabilities["MEDIA"].hmiZoneCapabilities,
+                "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
+                "hmiCapabilities": capabilities["MEDIA"].hmiCapabilities,
+                "systemCapabilities": capabilities["MEDIA"].systemCapabilities,
+                "buttonCapabilities": capabilities["MEDIA"].buttonCapabilities
             }
         })
     }
@@ -437,9 +437,9 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities[layout] ? capabilities.displayCapabilities[layout] : {},
-                "softButtonCapabilities": capabilities.softButtonCapabilities[layout] ? capabilities.softButtonCapabilities[layout] : [],
-                "buttonCapabilities": capabilities.buttonCapabilities[layout] ? capabilities.buttonCapabilities[layout] : []
+                "displayCapabilities": capabilities[layout].displayCapabilities ? capabilities[layout].displayCapabilities : null,
+                "softButtonCapabilities": capabilities[layout].softButtonCapabilities ? capabilities[layout].softButtonCapabilities : null,
+                "buttonCapabilities": capabilities[layout].buttonCapabilities ? capabilities[layout].buttonCapabilities : null
             }
         })        
     }
