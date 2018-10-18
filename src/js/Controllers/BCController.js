@@ -51,7 +51,7 @@ class BCController {
                 return true;
             case "SystemRequest":
                 if (rpc.params.requestType != "PROPRIETARY") {
-                    // Generic HMI can only process PROPREITARY System Requests
+                    // Generic HMI can only process PROPRIETARY System Requests
                     return true
                 }
                 if(flags.ExternalPolicies) {
