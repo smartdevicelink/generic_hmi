@@ -390,7 +390,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -590,7 +590,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -798,7 +798,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -950,7 +950,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -1150,7 +1150,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -1350,7 +1350,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -1542,7 +1542,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -1718,7 +1718,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -1894,7 +1894,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
@@ -2086,7 +2086,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			}
 		},
-			"softButtonCapabilities": [{
+		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
