@@ -438,17 +438,24 @@ class RpcFactory {
             if (layout == "DEFAULT") {
                 layout = "MEDIA"
             }
-            return ({
+            var response = {
                 "jsonrpc": "2.0",
                 "id": rpc.id,
                 "result": {
                     "method": rpc.method,
-                    "code": 0,
-                    "displayCapabilities": capabilities[layout].displayCapabilities ? capabilities[layout].displayCapabilities : null,
-                    "softButtonCapabilities": capabilities[layout].softButtonCapabilities ? capabilities[layout].softButtonCapabilities : null,
-                    "buttonCapabilities": capabilities[layout].buttonCapabilities ? capabilities[layout].buttonCapabilities : null
+                    "code": 0
                 }
-            })        
+            }
+            if (capabilities[layout].displayCapabilities) {
+                response.result["displayCapabilities"] = capabilities[layout].displayCapabilities
+            }
+            if (capabilities[layout].softButtonCapabilities) {
+                response.result["softButtonCapabilities"] = capabilities[layout].softButtonCapabilities
+            }
+            if (capabilities[layout].buttonCapabilities) {
+                response.result["buttonCapabilities"] = capabilities[layout].buttonCapabilities
+            }
+            return (response)        
         } else {
             return ({
                 "jsonrpc": "2.0",
