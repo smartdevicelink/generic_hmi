@@ -20,7 +20,9 @@ export default class StaticIcon extends React.Component {
     render() {
         if(this.props.image) {
             var path = "";
-            var image = this.props.image.toUpperCase()
+            var hex = this.props.image.substring(0, 2).toLowerCase();
+            var value = this.props.image.substring(2, 4).toUpperCase();
+            var image = hex + value;
             path = "./" + image + ".svg"
             return (
                 <div className={this.props.class} dangerouslySetInnerHTML={{__html: svgsObj[path]}} />
