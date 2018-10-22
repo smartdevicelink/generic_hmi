@@ -2125,14 +2125,14 @@ let capabilities = {
 		]
 	},
 	"COMMON": {
-        "audioPassThruCapabilities": {
-            "samplingRate": "44KHZ",
-            "bitsPerSample": "RATE_8_BIT",
-            "audioType": "PCM"
+		"audioPassThruCapabilities": {
+			"samplingRate": "44KHZ",
+			"bitsPerSample": "RATE_8_BIT",
+			"audioType": "PCM"
 		},
 		"speechCapabilities": [
 			"FILE"
-		],	
+		],
 		"prerecordedSpeechCapabilities": ["INITIAL_JINGLE"]
 	}
 }
