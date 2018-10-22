@@ -24,6 +24,8 @@
         }
         &--tertiary {
             @include size(50px);
+            display: flex;
+            align-items: center;
             img {
                 max-width: 100%;
             }
