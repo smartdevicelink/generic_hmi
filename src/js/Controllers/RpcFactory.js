@@ -19,15 +19,26 @@ class RpcFactory {
                 "method": rpc.method,
                 "code": 0,
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
-                "audioPassThruCapabilities": capabilities["MEDIA"].audioPassThruCapabilities,
+                "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "hmiZoneCapabilities": capabilities["MEDIA"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
                 "hmiCapabilities": capabilities["MEDIA"].hmiCapabilities,
-                "systemCapabilities": capabilities["MEDIA"].systemCapabilities,
-                "buttonCapabilities": capabilities["MEDIA"].buttonCapabilities
+                "systemCapabilities": capabilities["MEDIA"].systemCapabilities
             }
         })
     }
+    static TTSGetCapabilitiesResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                "speechCapabilities": capabilities["COMMON"].speechCapabilities,
+                "prerecordedSpeechCapabilities": capabilities["COMMON"].prerecordedSpeechCapabilities,
+            }
+        })
+    }        
     static activateAppResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -71,32 +82,7 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": [
-                    {
-                        "name": "OK",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKLEFT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKRIGHT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "PLAY_PAUSE",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    }
-                ]
+                "capabilities": capabilities["MEDIA"].buttonCapabilities
             }
         })
     }
