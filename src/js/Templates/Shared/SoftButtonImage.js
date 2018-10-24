@@ -21,6 +21,7 @@ export default class SoftButtonImage extends React.Component {
         if(this.props.image) {
             var className = this.props.class ? this.props.class : "soft-button-image";
             if(this.props.imageType === "STATIC") {
+                className += "-static"
                 return (
                     <div className={className}>
                         <StaticIcon image={this.props.image} />
