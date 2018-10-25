@@ -38,6 +38,14 @@ class UIController {
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
+            case "GetCapabilities":
+                if (rpc.method.split(".")[0] === "UI") {
+                    return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
+                } else if (rpc.method.split(".")[0] === "Buttons") {
+                    return {"rpc": RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
+                } else {
+                    return false;
+                }                
             case "Show":
                 store.dispatch(show(
                     rpc.params.appID,

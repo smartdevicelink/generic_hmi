@@ -72,8 +72,7 @@ class AppHeader extends React.Component {
         else if (nextProps.router.isActive("/inapplist")
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
-                // TODO: probably go back instead of pushing media - needs investigation
-                this.props.router.push("/media")
+                this.props.router.push("/" + nextProps.displayLayout)
         }
         else if (this.props.displayLayout != nextProps.displayLayout) {
             if(nextProps.activeApp) {

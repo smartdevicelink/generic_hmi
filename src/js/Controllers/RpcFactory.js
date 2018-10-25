@@ -1,6 +1,19 @@
 import capabilities from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static UnsupportedResourceResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 2,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }            
+        })
+    }
     static AlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -19,15 +32,26 @@ class RpcFactory {
                 "method": rpc.method,
                 "code": 0,
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
-                "audioPassThruCapabilities": capabilities["MEDIA"].audioPassThruCapabilities,
-                "hmiZoneCapabilities": capabilities["MEDIA"].hmiZoneCapabilities,
+                "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
+                "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
-                "hmiCapabilities": capabilities["MEDIA"].hmiCapabilities,
-                "systemCapabilities": capabilities["MEDIA"].systemCapabilities,
-                "buttonCapabilities": capabilities["MEDIA"].buttonCapabilities
+                "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
+                "systemCapabilities": capabilities["COMMON"].systemCapabilities
             }
         })
     }
+    static TTSGetCapabilitiesResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                "speechCapabilities": capabilities["COMMON"].speechCapabilities,
+                "prerecordedSpeechCapabilities": capabilities["COMMON"].prerecordedSpeechCapabilities,
+            }
+        })
+    }        
     static activateAppResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -71,32 +95,7 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": [
-                    {
-                        "name": "OK",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKLEFT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKRIGHT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "PLAY_PAUSE",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    }
-                ]
+                "capabilities": capabilities["MEDIA"].buttonCapabilities
             }
         })
     }
@@ -217,6 +216,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "UI.PerformInteraction Failed",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -229,6 +229,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "VR.PerformInteraction Failed",
                 "data": {
                     "method": "VR.PerformInteraction"
                 }
