@@ -1,6 +1,19 @@
 import capabilities from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static UnsupportedResourceResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 2,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }            
+        })
+    }
     static AlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
