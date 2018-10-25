@@ -216,6 +216,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "UI.PerformInteraction Failed",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -228,6 +229,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "VR.PerformInteraction Failed",
                 "data": {
                     "method": "VR.PerformInteraction"
                 }
