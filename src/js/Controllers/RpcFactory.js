@@ -20,10 +20,10 @@ class RpcFactory {
                 "code": 0,
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
-                "hmiZoneCapabilities": capabilities["MEDIA"].hmiZoneCapabilities,
+                "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
-                "hmiCapabilities": capabilities["MEDIA"].hmiCapabilities,
-                "systemCapabilities": capabilities["MEDIA"].systemCapabilities
+                "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
+                "systemCapabilities": capabilities["COMMON"].systemCapabilities
             }
         })
     }
