@@ -140,6 +140,12 @@
     }
 }
 
+.soft-button-image-static {
+    max-height: 75px;
+    max-width: 100%;
+    min-width: 75px;
+}
+
 .soft-button p {
     overflow: hidden;
     text-overflow: ellipsis;
