@@ -164,20 +164,6 @@ let capabilities = {
 				"imageSupported": true
 			}
 		],
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -376,20 +362,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -575,20 +547,6 @@ let capabilities = {
 				}
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
-		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
 		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
@@ -784,20 +742,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -935,20 +879,6 @@ let capabilities = {
 				}
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
-		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
 		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
@@ -1136,20 +1066,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -1336,20 +1252,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -1528,20 +1430,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -1704,20 +1592,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -1879,20 +1753,6 @@ let capabilities = {
 				}
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
-		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
 		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
@@ -2072,20 +1932,6 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"]
 		},
-		"hmiZoneCapabilities": "FRONT",
-		"hmiCapabilities": {
-			"navigation": false,
-			"phoneCall": false
-		},
-		"systemCapabilities": {
-			"navigationCapability": {
-				"sendLocationEnabled": false,
-				"getWayPointsEnabled": false
-			},
-			"phoneCapability": {
-				"dialNumberEnabled": false
-			}
-		},
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
@@ -2123,6 +1969,31 @@ let capabilities = {
 				"imageSupported": true
 			}
 		]
+	},
+	"COMMON": {
+		"audioPassThruCapabilities": {
+			"samplingRate": "44KHZ",
+			"bitsPerSample": "RATE_8_BIT",
+			"audioType": "PCM"
+		},
+		"speechCapabilities": [
+			"FILE"
+		],
+		"prerecordedSpeechCapabilities": ["INITIAL_JINGLE"],
+		"hmiZoneCapabilities": "FRONT",
+		"hmiCapabilities": {
+			"navigation": false,
+			"phoneCall": false
+		},
+		"systemCapabilities": {
+			"navigationCapability": {
+				"sendLocationEnabled": false,
+				"getWayPointsEnabled": false
+			},
+			"phoneCapability": {
+				"dialNumberEnabled": false
+			}
+		}
 	}
 }
 
