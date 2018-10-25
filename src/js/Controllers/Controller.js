@@ -7,6 +7,7 @@ import ttsController from './TTSController';
 import viController from './VehicleInfoController';
 import sdlController from './SDLController';
 import externalPolicyManager from './ExternalPoliciesController';
+import navController from './NavController'
 import {flags} from '../Flags';
 
 export default class Controller {
@@ -16,9 +17,8 @@ export default class Controller {
         uiController.addListener(this)
         sdlController.addListener(this)
         ttsController.addListener(this)
+        navController.addListener(this)
         // this.vrController = new VRController;
-        // this.ttsController = new TTSController;
-        // this.navController = new NavigationController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
@@ -188,9 +188,9 @@ export default class Controller {
                 break;
             case "SDL":
                 response = sdlController.handleRPC(rpc);
-            // case "Navigation":
-            //     response = navController.handleRPC(rpc);
-            //     break;
+            case "Navigation":
+                response = navController.handleRPC(rpc);
+                break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
         if (response === null) {
