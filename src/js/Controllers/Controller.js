@@ -105,19 +105,19 @@ export default class Controller {
                 "componentName": "UI"
             }
         };
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "BasicCommunication";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "Buttons";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VR";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "TTS";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "Navigation";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VehicleInfo";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         var ready = {
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnReady"
