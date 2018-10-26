@@ -6,9 +6,10 @@ import { activateSubMenu } from '../actions'
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var menu = state.ui[activeApp].menu
+    var theme = state.theme
     var data = menu.map((command) => {
         var dataClass = null
-        if (command.cmdIcn) {
+        if (command.cmdIcon) {
             dataClass = 'with-icon'
         }
         var link =  state.ui[activeApp].displayLayout
@@ -20,12 +21,14 @@ const mapStateToProps = (state) => {
             class: dataClass,
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
+            imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
+            isTemplate: command.cmdIcon ? command.cmdIcon.isTemplate : undefined,
             appID: activeApp,
             link: link,
             menuID: command.menuID
         }
     })
-    return {data: data}
+    return {data: data, theme: theme}
 }
 
 const mapDispatchToProps = (dispatch) => {

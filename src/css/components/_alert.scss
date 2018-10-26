@@ -73,13 +73,15 @@
 
 .alert-buttons{
     @include display(flex);
-    @include justify-content(space-between);
-    @include flex(1);
+    @include justify-content(space-around);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(stretch);
     padding: 15px;
 }
 
-.alert-button-tile-large {
-    //height: 100%;
+.alert-button-1 {
+    height: 75px;
     width: 100%;
     text-align: center;
     border-radius: 8px;
@@ -93,9 +95,9 @@
     @include justify-content(center);
 }
 
-.alert-button-tile {
-    //height: 45.5%;
-    width: 47.63%; //calculate
+.alert-button-2 {
+    height: 75px;
+    width: 45%;
     text-align: center;
     border-radius: 8px;
     border-width: 0.154px;
@@ -107,38 +109,24 @@
     @include justify-content(center);
 }
 
-
-.alert-button-tile-small {
-    //height: 123.33333334px;
-    width: 47.63%;
-    text-align: center;
-    border-radius: 8px;
-    border-width: 0.154px;
-    border-style: solid;
-    margin: 15px;
-
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(center);
-}
-
-.alert-button-tile-wide-large {
-    //height: 195px;
-    width: 100%;
-    text-align: center;
-    border-radius: 8px;
-    border-width: 0.154px;
-    border-style: solid;
-    margin: 15px;
-
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(center);
-}
-
-.alert-button-tile-wide {
+.alert-button-3 {
     //height: 123.333333334px;
-    width: 100%;
+    height: 75px;
+    width: 29%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 15px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+.alert-button-4 {
+    height: 50px;
+    width: 45%;
     text-align: center;
     border-radius: 8px;
     border-width: 0.154px;

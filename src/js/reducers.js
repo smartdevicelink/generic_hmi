@@ -5,7 +5,7 @@ import './polyfill_find'
 
 function newAppState () {
     return {
-        showStrings: [],
+        showStrings: {},
         graphic: null,
         secondaryGraphic: null,
         softButtons: [],
@@ -22,7 +22,7 @@ function newAppState () {
             minutes: 0,
             seconds: 0
         },
-        updateMode: "COUNTUP",
+        updateMode: "CLEAR",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
@@ -35,7 +35,9 @@ function newAppState () {
             alertType: null,
             showProgressIndicator: null,
             msgID: null
-        }
+        },
+        dayColorScheme: null,
+        nightColorScheme: null
     }
 }
 
@@ -43,8 +45,9 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+            break
         default:
-            return true
+            return state
     }
 }
 
@@ -94,7 +97,11 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             if (action.showStrings && action.showStrings.length > 0) {
-                app.showStrings = action.showStrings
+                for (var i=0; i < action.showStrings.length; i++) {
+                    var fieldName = action.showStrings[i].fieldName
+                    var fieldText = action.showStrings[i].fieldText
+                    app.showStrings[fieldName] = fieldText
+                }
             }
             if (action.graphic) {
                 app.graphic = action.graphic
@@ -163,6 +170,7 @@ function ui(state = {}, action) {
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
+                cmdIcon: action.subMenuIcon,
                 subMenu: []
             })
             menu.sort((a, b) => {
@@ -241,6 +249,9 @@ function ui(state = {}, action) {
                 app.updateTime = new Date().getTime()
             }
             app.updateMode = action.updateMode
+            if(action.audioStreamingIndicator) {
+                app.audioStreamingIndicator = action.audioStreamingIndicator
+            }
             return newState
         case Actions.SET_DISPLAY_LAYOUT:
             var newState = {...state}
@@ -270,6 +281,9 @@ function ui(state = {}, action) {
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
                     break
+                case "TILES_ONLY":
+                    app.displayLayout = "tiles-only"
+                    break
                 case "TEXT_WITH_GRAPHIC":
                     app.displayLayout = "text-with-graphic"
                     break
@@ -282,11 +296,19 @@ function ui(state = {}, action) {
                 default: 
                     break
             }
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }            
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            app.isDisconnected = true
+            if (newState[action.appID]) {
+                delete newState[action.appID]
+            }
             return newState
         case Actions.ALERT:
             var newState = { ...state }
@@ -312,6 +334,17 @@ function ui(state = {}, action) {
                 msgID: null
             }
             return newState
+        case Actions.UPDATE_COLOR_SCHEME:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.dayColorScheme) {
+                app.dayColorScheme = action.dayColorScheme
+            }
+
+            if (action.nightColorScheme) {
+                app.nightColorScheme = action.nightColorScheme
+            }
+            return newState   
         case Actions.SET_APP_IS_CONNECTED:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()

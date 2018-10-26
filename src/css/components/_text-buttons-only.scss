@@ -11,7 +11,8 @@
     display: flex;
     align-items: center;
 }
- .text-buttons-only-template .soft-buttons {
+
+.text-buttons-only-template .soft-buttons {
     width: 100%;
     height: 100%;
     @include display(flex);
@@ -22,5 +23,18 @@
     padding-left: 15px;
     padding-right: 15px;
     flex-shrink: 0;
+}
+
+.text-buttons-only-template .soft-button-tile-wide {
+    width: 98%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
 }
 

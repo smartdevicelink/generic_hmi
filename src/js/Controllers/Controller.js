@@ -7,6 +7,7 @@ import ttsController from './TTSController';
 import viController from './VehicleInfoController';
 import sdlController from './SDLController';
 import externalPolicyManager from './ExternalPoliciesController';
+import navController from './NavController'
 import {flags} from '../Flags';
 
 export default class Controller {
@@ -16,9 +17,8 @@ export default class Controller {
         uiController.addListener(this)
         sdlController.addListener(this)
         ttsController.addListener(this)
+        navController.addListener(this)
         // this.vrController = new VRController;
-        // this.ttsController = new TTSController;
-        // this.navController = new NavigationController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
@@ -105,19 +105,19 @@ export default class Controller {
                 "componentName": "UI"
             }
         };
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "BasicCommunication";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "Buttons";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VR";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "TTS";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "Navigation";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VehicleInfo";
-        this.send(JSONMessage);
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         var ready = {
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnReady"
@@ -129,6 +129,23 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
+
+        var onSystemTimeReady = {
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemTimeReady"
+        }
+
+        this.send(onSystemTimeReady);
+
+        var onDriverDistraction = {
+            "jsonrpc": "2.0",
+            "method": "UI.OnDriverDistraction",
+            "params": {
+                "state": "DD_OFF"
+            }
+        }
+
+        this.send(onDriverDistraction);
     }
     handleRPC(rpc) {
         var response = undefined
@@ -171,9 +188,10 @@ export default class Controller {
                 break;
             case "SDL":
                 response = sdlController.handleRPC(rpc);
-            // case "Navigation":
-            //     response = navController.handleRPC(rpc);
-            //     break;
+                break;
+            case "Navigation":
+                response = navController.handleRPC(rpc);
+                break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
         if (response === null) {

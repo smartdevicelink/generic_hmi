@@ -1,5 +1,5 @@
 import React from 'react';
-
+import SoftButtonImage from './Templates/Shared/SoftButtonImage'
 
 export default class AlertButtons extends React.Component {
     constructor(props) {
@@ -32,63 +32,59 @@ export default class AlertButtons extends React.Component {
         if(!softButtons){
             return (null)
         }
-        var action
+
         if(softButtons.length == 1) {
             items = softButtons.map((softButton, index) => {               
-                return (<div className="alert-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className="alert-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
+                                />                                   
                         </div>)
             })
         } else if (softButtons.length == 2) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className="alert-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
+                                />                                    
                         </div>)
             })
         } else if (softButtons.length == 3) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className="alert-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
+                                />                                    
                         </div>)
             })            
         } else if (softButtons.length == 4) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className="alert-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
+                                {softButton.text}
+                                <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
+                                    imageType={softButton.image ? softButton.image.imageType : null}
+                                    isTemplate={softButton.image ? softButton.image.isTemplate : null}
+                                    theme={this.props.theme}
+                                />                                    
                         </div>)
             })         
-        } else if (softButtons.length == 5) {
-            items = softButtons.map((softButton, index) => {
-                if (index == 4) {
-                    return (<div className="alert-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons" 
-                                key={softButton.softButtonID}
-                            onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
-                        </div>)
-                } else {
-                    return (<div className="alert-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
-                                key={softButton.softButtonID}
-                            onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
-                        </div>)
-                }
-            })
-        } else if (softButtons.length == 6) {
-            items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons" 
-                            key={softButton.softButtonID}
-                            onClick={() => this.getAction(softButton)}>
-                                {softButton.text}                                
-                        </div>)
-            })
         }
 
         return (

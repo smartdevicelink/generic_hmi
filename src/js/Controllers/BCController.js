@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate, setAppIsConnected } from '../actions'
+import { updateAppList, activateApp, deactivateApp, unregisterApplication, policyUpdate,  updateColorScheme, setAppIsConnected } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -22,14 +22,24 @@ class BCController {
                 return {"rpc": RpcFactory.BCGetSystemInfoResponse(rpc)}
             case "UpdateAppList":
                 store.dispatch(updateAppList(rpc.params.applications))
+                rpc.params.applications.map((app, index) => {
+                    if (app.dayColorScheme || app.nightColorScheme) {
+                        store.dispatch(updateColorScheme(
+                            app.appID,
+                            app.dayColorScheme ? app.dayColorScheme : null,
+                            app.nightColorScheme ? app.nightColorScheme : null
+                        ));
+                    }
+                    store.dispatch(setAppIsConnected(app.appID))
+                });
                 return true
             case "ActivateApp":
                 store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
             case "OnAppUnregistered":
-                store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))
                 store.dispatch(deactivateApp())
+                store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
                 return null
             case "UpdateDeviceList":
                 return true
@@ -40,13 +50,19 @@ class BCController {
                 sdlController.getURLS(7)
                 return true;
             case "SystemRequest":
+                if (rpc.params.requestType != "PROPRIETARY") {
+                    // Generic HMI can only process PROPRIETARY System Requests
+                    return true
+                }
                 if(flags.ExternalPolicies) {
                     externalPolicies.unpack(rpc.params.fileName)
                 } else {
                     sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
-                }
- 
+                } 
                 return true
+            case "GetSystemTime":
+                this.listener.send(RpcFactory.GetSystemTime(rpc.id))
+                return null
         }
     }
     handleRPCResponse(rpc) {

@@ -6,6 +6,14 @@
     background: color(black);
 
     &__control {
+        &--double {
+            height: 75px;
+            width: 150px;          
+        }
+        &--square {
+            height: 75px;
+            width: 75px;          
+        }
         &--primary {
             height: 75px;
             width: 60px;
@@ -15,9 +23,14 @@
             width: 75px;
         }
         &--tertiary {
-            width: 50px;
+            @include size(75px);
+            display: flex;
+            align-items: center;
             img {
                 max-width: 100%;
+            }
+            &--static {
+                width: 75px;
             }
         }
     }

@@ -38,6 +38,14 @@ class UIController {
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
+            case "GetCapabilities":
+                if (rpc.method.split(".")[0] === "UI") {
+                    return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
+                } else if (rpc.method.split(".")[0] === "Buttons") {
+                    return {"rpc": RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
+                } else {
+                    return false;
+                }                
             case "Show":
                 store.dispatch(show(
                     rpc.params.appID,
@@ -64,7 +72,8 @@ class UIController {
                 store.dispatch(addSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID,
-                    rpc.params.menuParams
+                    rpc.params.menuParams,
+                    rpc.params.menuIcon
                 ))
                 return true
             case "DeleteCommand":
@@ -104,12 +113,13 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.startTime,
                     rpc.params.endTime,
-                    rpc.params.updateMode
+                    rpc.params.updateMode,
+                    rpc.params.audioStreamingIndicator
                 ))
                 return true
             case "SetDisplayLayout":
-                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID));
-                return true;
+                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 // TODO: implement this RPC
                 return true

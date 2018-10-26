@@ -11,6 +11,32 @@ export default class ProgressBar extends React.Component {
     componentWillUnmount() {
         clearInterval(this.interval)
     }
+    getPrimaryColorScheme() {
+        if (this.props.colorScheme) {
+            if (this.props.colorScheme.primaryColor) {
+                var redInt = this.props.colorScheme.primaryColor.red;
+                var blueInt = this.props.colorScheme.primaryColor.blue;
+                var greenInt = this.props.colorScheme.primaryColor.green;
+                var cssColorScheme = `rgb(${redInt}, ${greenInt}, ${blueInt})`
+                return cssColorScheme;
+            }
+        }
+        return null;
+    }
+    getSecondaryColorScheme() {
+        if (this.props.colorScheme) {
+            if (this.props.colorScheme.secondaryColor) {
+                var redInt = this.props.colorScheme.secondaryColor.red;
+                var blueInt = this.props.colorScheme.secondaryColor.blue;
+                var greenInt = this.props.colorScheme.secondaryColor.green;
+                var cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
+                }
+                return cssColorScheme;
+            }
+        }
+        return null;
+    }
     render() {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
@@ -28,13 +54,14 @@ export default class ProgressBar extends React.Component {
         }
         var timeSince = new Date(startDate.getTime() + now - this.props.now)
 
-        let progress = {
-            width: this.percentage(timeSince, endDate) + "%"
+        let progressStyle = {
+            width: this.percentage(timeSince, endDate) + "%",
+            backgroundColor: this.getPrimaryColorScheme()
         }
 
         return (
-            <div className="progress-bar th-bg-color th-bb-color">
-                <div className="progress-bar__progress" style={ progress }></div>
+            <div className="progress-bar th-bg-color th-bb-color" style={this.getSecondaryColorScheme()}>
+                <div className="progress-bar__progress" style={ progressStyle } ></div>
             </div>
         )
     }

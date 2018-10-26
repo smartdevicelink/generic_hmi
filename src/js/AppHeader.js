@@ -5,7 +5,7 @@ import Alert from './Alert';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
-
+import store from './store'
 
 
 
@@ -16,13 +16,32 @@ class AppHeader extends React.Component {
 
     }
 
+    getColorScheme() {
+        if (this.props.colorScheme) {
+            var redInt = this.props.colorScheme.red;
+            var blueInt = this.props.colorScheme.blue;
+            var greenInt = this.props.colorScheme.green;
+            var cssColorScheme = {
+                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                backgroundImage: `none`
+            }
+            return cssColorScheme;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.router.isActive('/inappmenu')
         const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+
+        var colorScheme = null;
+        colorScheme = this.getColorScheme();
+
         return (
-            <div className="app__header">
+            <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
                 <Name />
                 { icon }
@@ -53,8 +72,7 @@ class AppHeader extends React.Component {
         else if (nextProps.router.isActive("/inapplist")
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
-                // TODO: probably go back instead of pushing media - needs investigation
-                this.props.router.push("/media")
+                this.props.router.push("/" + nextProps.displayLayout)
         }
         else if (this.props.displayLayout != nextProps.displayLayout) {
             if(nextProps.activeApp) {
