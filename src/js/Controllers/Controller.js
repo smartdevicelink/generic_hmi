@@ -188,6 +188,7 @@ export default class Controller {
                 break;
             case "SDL":
                 response = sdlController.handleRPC(rpc);
+                break;
             case "Navigation":
                 response = navController.handleRPC(rpc);
                 break;
