@@ -23,9 +23,14 @@
             width: 75px;
         }
         &--tertiary {
-            @include size(50px);
+            @include size(75px);
+            display: flex;
+            align-items: center;
             img {
                 max-width: 100%;
+            }
+            &--static {
+                width: 75px;
             }
         }
     }

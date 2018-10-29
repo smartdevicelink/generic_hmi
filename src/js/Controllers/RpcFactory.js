@@ -1,6 +1,19 @@
 import capabilities from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static UnsupportedResourceResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 2,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }            
+        })
+    }
     static AlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -18,15 +31,27 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities,
-                "audioPassThruCapabilities": capabilities.audioPassThruCapabilities,
-                "hmiZoneCapabilities": capabilities.hmiZoneCapabilities,
-                "softButtonCapabilities": capabilities.softButtonCapabilities,
-                "hmiCapabilities": capabilities.hmiCapabilities,
-                "systemCapabilities": capabilities.systemCapabilities
+                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
+                "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
+                "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
+                "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
+                "systemCapabilities": capabilities["COMMON"].systemCapabilities
             }
         })
     }
+    static TTSGetCapabilitiesResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                "speechCapabilities": capabilities["COMMON"].speechCapabilities,
+                "prerecordedSpeechCapabilities": capabilities["COMMON"].prerecordedSpeechCapabilities,
+            }
+        })
+    }        
     static activateAppResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -70,26 +95,7 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": [
-                    {
-                        "name": "OK",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKLEFT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    },
-                    {
-                        "name": "SEEKRIGHT",
-                        "shortPressAvailable": true,
-                        "longPressAvailable": false,
-                        "upDownAvailable": false
-                    }
-                ]
+                "capabilities": capabilities["MEDIA"].buttonCapabilities
             }
         })
     }
@@ -210,6 +216,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "UI.PerformInteraction Failed",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -222,6 +229,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 22,
+                "message": "VR.PerformInteraction Failed",
                 "data": {
                     "method": "VR.PerformInteraction"
                 }
@@ -423,16 +431,45 @@ class RpcFactory {
         return msg  
     }
     static SetDisplayLayoutResponse(rpc) {
-        return ({
-            "jsonrpc": "2.0",
-            "id": rpc.id,
-            "result": {
-                "method": rpc.method,
-                "code": 0,
-                "displayCapabilities": capabilities.displayCapabilities,
-                "softButtonCapabilities": capabilities.softButtonCapabilities
+        var layout = rpc.params.displayLayout;
+        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
+        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
+        if (supportedTemplates.includes(layout)) {
+            if (layout == "DEFAULT") {
+                layout = "MEDIA"
             }
-        })        
+            var response = {
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "result": {
+                    "method": rpc.method,
+                    "code": 0
+                }
+            }
+            if (capabilities[layout].displayCapabilities) {
+                response.result["displayCapabilities"] = capabilities[layout].displayCapabilities
+            }
+            if (capabilities[layout].softButtonCapabilities) {
+                response.result["softButtonCapabilities"] = capabilities[layout].softButtonCapabilities
+            }
+            if (capabilities[layout].buttonCapabilities) {
+                response.result["buttonCapabilities"] = capabilities[layout].buttonCapabilities
+            }
+            return (response)        
+        } else {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "error": {
+                    "code": 1,
+                    "data": {
+                        "method": rpc.method
+                    }
+                }
+            })            
+        }
+
     }
 }
 
