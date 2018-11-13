@@ -154,7 +154,7 @@ export default class Controller {
         
         if (rpc.notRpc) { //handle custom messages coming from other HMIs
             if (rpc.type === "SET_THEME") {
-                console.log("SETTING THEME TO: " rpc.data.isDark);
+                console.log("SETTING THEME TO: " + rpc.data.isDark);
             }
             return;
         };
