@@ -11,8 +11,9 @@ import navController from './NavController'
 import {flags} from '../Flags';
 
 export default class Controller {
-    constructor () {
+    constructor (setThemeFunc) {
         this.socket = null
+        this.setTheme = setThemeFunc;
         bcController.addListener(this)
         uiController.addListener(this)
         sdlController.addListener(this)
@@ -155,6 +156,7 @@ export default class Controller {
         if (rpc.notRpc) { //handle custom messages coming from other HMIs
             if (rpc.type === "SET_THEME") {
                 console.log("SETTING THEME TO: " + rpc.data.isDark);
+                this.setTheme(rpc.data.isDark);
             }
             return;
         };

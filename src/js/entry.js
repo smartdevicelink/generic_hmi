@@ -34,11 +34,11 @@ class HMIApp extends React.Component {
         this.state = {
             dark: true
         }
-        this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
+        this.sdl = new Controller(this.handleClick)
     }
-    handleClick() {
-        var theme = !this.state.dark
+    handleClick(newState) {
+        var theme = newState
         this.setState({ dark: theme})
         store.dispatch(setTheme(theme))
     }
