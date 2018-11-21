@@ -95,7 +95,10 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": capabilities["MEDIA"].buttonCapabilities
+                "capabilities": capabilities["MEDIA"].buttonCapabilities,
+                "presetBankCapabilities": {
+                    "onScreenPresetsAvailable": false
+                }
             }
         })
     }
