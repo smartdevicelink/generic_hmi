@@ -9,7 +9,10 @@ const mapStateToProps = (state) => {
             icon = app.icon.replace("local:", "file:")
         }
         var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
-        var link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
+        var link = "media"
+        if (state.ui[app.appID]) {
+            link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
+        }
         return {
             appID: app.appID,
             class: 'with-image',
