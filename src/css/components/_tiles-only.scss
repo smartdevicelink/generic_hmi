@@ -32,6 +32,13 @@
     text-align: center;
     text-decoration: none;
     position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.tiles-only-template .soft-button .soft-button-image {
+    height: 50%;
+    max-width: 50%;
 }
 
 .tiles-only-template .soft-button:nth-of-type(3n) {
