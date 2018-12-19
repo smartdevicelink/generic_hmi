@@ -24,9 +24,6 @@ export default class VScrollMenuItem extends React.Component {
                     </div>
                     <p className="t-large t-light th-f-color-secondary">{this.props.menuItem.info}</p>
                 </div>
-                <div>
-                    <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} />
-                </div>
             </Link>
         )
     }

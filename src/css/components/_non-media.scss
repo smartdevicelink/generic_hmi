@@ -11,7 +11,7 @@
     width: 100%;
     height: 98px;
     margin-left: 50px;
-    margin-bottom: 42px;
+    margin-bottom: 10px;
     align-items: center;
 }
 
@@ -34,8 +34,9 @@
 .non-media-graphic {
     @include display(flex);
     @include align-items(center);
-    margin: auto 50px; 
-    @include size(calc((#{$master-height} - 173px) / 1.22439 ));
+    margin: auto 80px; 
+    width: 250px;
+    max-height: 250px;
     img {
         width: 100%;
     }

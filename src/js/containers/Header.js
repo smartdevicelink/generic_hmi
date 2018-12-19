@@ -9,6 +9,8 @@ const mapStateToProps = (state) => {
         displayLayout: ""
     }
 
+    var appIcon = app.icon ? app.icon : ""
+
     var showAlert = false
     var alertAppName = ""
     for(var prop in state.ui){
@@ -48,7 +50,8 @@ const mapStateToProps = (state) => {
         alertName: alertAppName,
         theme: theme,
         activeApp: activeApp,
-        colorScheme: colorScheme
+        colorScheme: colorScheme,
+        alertIcon: appIcon
         
     }
 }

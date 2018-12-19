@@ -9,6 +9,11 @@
     @include flex-wrap(wrap);
     @include align-content(flex-start);
 }
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 @mixin h-scroll-item-per-line() {
     @if $master-width >=800 {
         width: var(--calc-width-3);

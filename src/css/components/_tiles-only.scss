@@ -19,6 +19,7 @@
     @include flex-direction(row);
     @include flex-wrap(wrap);
     @include align-items(stretch);
+    @include align-content(flex-end);
     //@include align-content(space-between);
     padding-left: 15px;
     padding-right: 15px;
@@ -32,6 +33,24 @@
     text-align: center;
     text-decoration: none;
     position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.tiles-only-template .soft-button p {
+    width: 100%;
+    height: 60px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    white-space: normal;
+}
+
+.tiles-only-template .soft-button .soft-button-image {
+    height: 50%;
+    max-width: 50%;
 }
 
 .tiles-only-template .soft-button:nth-of-type(3n) {

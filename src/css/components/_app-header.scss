@@ -10,6 +10,8 @@
     height: 75px;
     padding: 0 25px;
 
+    text-overflow: ellipsis;
+
     div {
         @include flex(1);
         &:nth-of-type(2) {

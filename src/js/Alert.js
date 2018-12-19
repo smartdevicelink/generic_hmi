@@ -12,7 +12,6 @@ export default class MediaPlayer extends React.Component {
     }
 
     render() {
-
         return (
             <div className="alert">
                 <div className="alert-title">
@@ -23,7 +22,7 @@ export default class MediaPlayer extends React.Component {
                 <div className="alert-top">
                     <AlertStrings/>
                     <div className="alert-icon">
-                        <span key="icon" className="svg-wrap" dangerouslySetInnerHTML={{__html: alertIcon}} />
+                        <img key="icon" className="svg-wrap" src={this.props.alertIcon.value} />
                     </div>
                 </div>
                 <AlertButtons class="alert-softbuttons-container"/>
