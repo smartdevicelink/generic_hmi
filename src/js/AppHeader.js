@@ -6,7 +6,7 @@ import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-
+import {UseDarkText} from './calculate_text_color';
 
 
 
@@ -25,6 +25,13 @@ class AppHeader extends React.Component {
                 backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
                 backgroundImage: `none`
             }
+            if (UseDarkText(this.props.colorScheme) && this.props.theme === true) {
+                cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                    backgroundImage: `none`,
+                    color: '#000000'
+                }
+            }
             return cssColorScheme;
         } else {
             return null;
@@ -35,15 +42,16 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.router.isActive('/inappmenu')
-        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
+        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu} style={colorScheme}/> ;
+
         return (
             <div className="app__header" style={colorScheme}>
-                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
-                <Name />
+                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink} style={colorScheme}/>
+                <Name style={colorScheme}/>
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}

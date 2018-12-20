@@ -3,7 +3,7 @@ import VScrollMenu from '../VScrollMenu'
 import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction } from '../actions'
 import '../polyfill_find'
-
+import {UseDarkText} from '../calculate_text_color';
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
@@ -18,14 +18,19 @@ const mapStateToProps = (state) => {
                 image: choice.image ? choice.image.value : undefined,
                 imageType: choice.image ? choice.image.imageType : undefined,
                 isTemplate: choice.image ? choice.image.isTemplate : undefined,
-                link: link
+                link: link,
+                activeApp: activeApp,
+                ui: state.ui,
+                theme: theme   
             }
         })
         return {
             data:data,
             isPerformingInteraction: true,
             interactionId: app.interactionId,
-            theme: theme
+            theme: theme,
+            activeApp: activeApp,
+            ui: state.ui   
         }
     }
     // The app isn't performing an interaction, so pass the sub menu items 
@@ -41,10 +46,18 @@ const mapStateToProps = (state) => {
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
             imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
             isTemplate: command.cmdIcon ? command.cmdIcon.isTemplate : undefined,
-            link: link
+            link: link,
+            activeApp: state.activeApp,
+            theme: state.theme,
+            ui: state.ui     
         }
     })
-    return {data: data, isPerformingInteraction: false, theme: theme}
+    return {
+        data: data, isPerformingInteraction: false, 
+        theme: theme, 
+        activeApp: activeApp,
+        ui: state.ui 
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

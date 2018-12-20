@@ -2,6 +2,7 @@ import React from 'react';
 import Radium from 'radium'
 
 import SoftButtonImage from './SoftButtonImage'
+import {UseDarkText} from '../../calculate_text_color';
 
 class SoftButtonsBody extends React.Component {
     constructor(props) {
@@ -15,6 +16,12 @@ class SoftButtonsBody extends React.Component {
             var greenInt = this.props.colorScheme.secondary.green;
             var cssColorScheme = {
                 backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
+            }
+            if (UseDarkText(this.props.colorScheme.secondary) && this.props.theme === true) {
+                cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                    color: '#000000'
+                }                
             }
             return cssColorScheme;
         } else {
@@ -31,6 +38,16 @@ class SoftButtonsBody extends React.Component {
                 ':active': {
                     backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
                   }
+                
+            }
+            if (UseDarkText(this.props.colorScheme.primary) && this.props.theme === true) {
+                cssColorScheme = {
+                    ':active': {
+                        backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                        color: '#000000'
+                    },
+                    
+                }
                 
             }
             return cssColorScheme;

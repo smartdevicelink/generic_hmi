@@ -19,7 +19,10 @@ const mapStateToProps = (state) => {
             name: app.appName,
             image: icon,
             link: '/' + link,
-            cmdID: 0
+            cmdID: 0,
+            activeApp: state.activeApp,
+            theme: state.theme,
+            ui: state.ui     
         }
     })
     return {data: data}

@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
-
+import {UseDarkText} from '../calculate_text_color';
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var menu = state.ui[activeApp].menu
@@ -25,10 +25,18 @@ const mapStateToProps = (state) => {
             isTemplate: command.cmdIcon ? command.cmdIcon.isTemplate : undefined,
             appID: activeApp,
             link: link,
-            menuID: command.menuID
+            menuID: command.menuID,
+            activeApp: activeApp,
+            theme: state.theme,
+            ui: state.ui     
         }
     })
-    return {data: data, theme: theme}
+    return {
+        data: data, theme: theme,           
+        activeApp: activeApp,
+        theme: state.theme,
+        ui: state.ui    
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

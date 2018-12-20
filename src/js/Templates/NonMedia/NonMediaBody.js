@@ -23,6 +23,9 @@ export default class NonMediaBody extends React.Component {
             for(var i=0; i<textFields.length; i++) {
                 if(i < 2) {
                     textFields[i].className = "t-large t-light th-f-color non-media-text-4"; 
+                    if (this.props.style && this.props.style.color && this.props.style.color == '#000000') {
+                        textFields[i].className += " t-black"
+                    }
                 } else {
                     textFields[i].className = "t-small t-light th-f-color-secondary non-media-text-4"; 
                 }
@@ -30,6 +33,9 @@ export default class NonMediaBody extends React.Component {
         } else {
             if(textFields[0]) {
                 textFields[0].className = "t-large t-light th-f-color non-media-text-2"; 
+                if (this.props.style && this.props.style.color && this.props.style.color == '#000000') {
+                    textFields[0].className += " t-black"
+                }
             }
             if(textFields[1]) {
                 textFields[1].className = "t-small t-light th-f-color-secondary non-media-text-2";

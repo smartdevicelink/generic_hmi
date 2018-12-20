@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppHeader from '../../containers/Header';
 import { LargeGraphic, TextFields } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
-
+import {UseDarkText} from '../../calculate_text_color';
 class GraphicWithText extends React.Component {
     constructor() {
         super();
@@ -31,6 +31,12 @@ class GraphicWithText extends React.Component {
             var cssColorScheme = {
                 backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
             }
+            if (UseDarkText(colorScheme) && this.props.theme === true) {
+                cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                    color: '#000000'
+                }                
+            }
             return cssColorScheme;
         } else {
             return null;
@@ -38,15 +44,17 @@ class GraphicWithText extends React.Component {
     }
     
     render() {
+        var colorScheme = null;
+        colorScheme = this.getColorScheme();
         return (
             <div>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <div className="graphic-with-text-template" style={this.getColorScheme()}>
+                <div className="graphic-with-text-template" style={colorScheme}>
                     <div className="min-width-50">
                         <LargeGraphic class="graphic-with-text-container"/>
                     </div>
                     <div className="graphic-with-text-container">
-                        <TextFields/>
+                        <TextFields style={colorScheme}/>
                     </div>
                 </div>
             </div>
