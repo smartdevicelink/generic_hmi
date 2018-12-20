@@ -47,9 +47,9 @@ export default class MediaPlayerBody extends React.Component {
                 <AlbumArt image={value} imageType={type} isTemplate={templateImage} theme={theme}/>
                 <div className="media-track">
                     <div className="media-metadata">
-                        <p className="t-small t-medium th-f-color" style={colorScheme}>{this.props.mainField3}</p>
-                        <p className="t-large t-light th-f-color" style={colorScheme}>{this.props.mainField1}</p>
-                        <p className="t-large t-light th-f-color-secondary" style={colorScheme}>{this.props.mainField2}</p>
+                        <p className="t-small t-medium th-f-color truncate" style={colorScheme}>{this.props.mainField3}</p>
+                        <p className="t-large t-light th-f-color truncate" style={colorScheme}>{this.props.mainField1}</p>
+                        <p className="t-large t-light th-f-color-secondary truncate" style={colorScheme}>{this.props.mainField2}</p>
                     </div>
                     <MediaTrackInfo />
                 </div>
