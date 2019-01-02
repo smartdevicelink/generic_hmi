@@ -135,7 +135,8 @@
 
     @include display(flex);
     @include align-items(center);
-    @include justify-content(center);
+    @include justify-content(flex-start);
+    padding-left: 33%;
 }
 
 
