@@ -205,9 +205,9 @@ class RpcFactory {
                 "code": 0,
                 "method": "VehicleInfo.GetVehicleType",
                 "vehicleType": {
-                    "make": "Ford",
-                    "model": "Fiesta",
-                    "modelYear": "2013",
+                    "make": "SDL",
+                    "model": "Generic",
+                    "modelYear": "2019",
                     "trim": "SE"
                 }
             }
@@ -306,9 +306,9 @@ class RpcFactory {
                 "code": 0,
                 "method": rpc.method,
                 "vehicleType": {
-                    "make": "ford",
-                    "model": "fiesta",
-                    "modelYear": "2013",
+                    "make": "SDL",
+                    "model": "Generic",
+                    "modelYear": "2019",
                     "trim": "SE"
                 }
             }
