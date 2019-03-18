@@ -13,13 +13,14 @@ const mapStateToProps = (state) => {
         if (state.ui[app.appID]) {
             link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
         }
+        var name = app.isCloudApplication ? app.appName + " (Cloud)" : app.appName;
         return {
             appID: app.appID,
             class: 'with-image',
-            name: app.appName,
+            name: name,
             image: icon,
             link: '/' + link,
-            cmdID: 0
+            cmdID: app.appID
         }
     })
     return {data: data}
