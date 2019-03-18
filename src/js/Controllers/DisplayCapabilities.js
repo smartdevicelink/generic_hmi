@@ -1,7 +1,7 @@
 let capabilities = {
 	"MEDIA": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "mainField1",
@@ -192,7 +192,7 @@ let capabilities = {
 	},
 	"NON-MEDIA": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "mainField1",
@@ -402,7 +402,7 @@ let capabilities = {
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -588,7 +588,7 @@ let capabilities = {
 	},
 	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -782,7 +782,7 @@ let capabilities = {
 	},
 	"LARGE_GRAPHIC_ONLY": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -920,7 +920,7 @@ let capabilities = {
 	},
 	"GRAPHIC_WITH_TEXTBUTTONS": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -1106,7 +1106,7 @@ let capabilities = {
 	},
 	"TEXTBUTTONS_WITH_GRAPHIC": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -1292,7 +1292,7 @@ let capabilities = {
 	},
 	"TEXTBUTTONS_ONLY": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
@@ -1470,7 +1470,7 @@ let capabilities = {
 	},
 	"TEXT_WITH_GRAPHIC": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "mainField1",
@@ -1632,7 +1632,7 @@ let capabilities = {
 	},
 	"GRAPHIC_WITH_TEXT": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "mainField1",
@@ -1794,7 +1794,7 @@ let capabilities = {
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
-			"displayType": "GEN2_8_DMA",
+			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [{
 					"name": "alertText1",
