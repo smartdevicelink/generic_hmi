@@ -42,7 +42,8 @@ class UIController {
                 if (rpc.method.split(".")[0] === "UI") {
                     return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
                 } else if (rpc.method.split(".")[0] === "Buttons") {
-                    return {"rpc": RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
+                    return; //do not respond to button capabilities
+                    //return {"rpc": RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
                 } else {
                     return false;
                 }                
