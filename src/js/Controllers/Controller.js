@@ -152,14 +152,17 @@ export default class Controller {
         var response = undefined
         let componentName = undefined
         rpc = this.sanitizeRPC(rpc)
-        
+
+        if (rpc.error) {
+            return;
+        }
+
         if (rpc.notRpc) { //handle custom messages coming from other HMIs
             if (rpc.type === "SET_THEME") {
                 this.setTheme(rpc.data.isDark);
             }
             return;
         };
-
 
         if (rpc.method) {
             componentName = rpc.method.split(".")[0];
