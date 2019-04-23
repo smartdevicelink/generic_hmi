@@ -15,6 +15,7 @@ export const Actions = {
     DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
+    REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
     ALERT: "ALERT",
@@ -170,6 +171,15 @@ export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColo
         dayColorScheme: dayColorScheme,
         nightColorScheme: nightColorScheme
     }
+}
+
+export const registerApplication = (appID, isMediaApplication) => {
+  console.log(appID)
+  return {
+      type: Actions.REGISTER_APPLICATION,
+      appID: appID,
+      isMediaApplication: isMediaApplication
+  }
 }
 
 export const unregisterApplication = (appID, isUnexpected) => {
