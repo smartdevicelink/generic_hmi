@@ -26,7 +26,7 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: 'media',
+        displayLayout:  null,
         alert: {
             showAlert: false,
             alertStrings: [],
@@ -306,6 +306,16 @@ function ui(state = {}, action) {
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
             }            
+            return newState
+        case Actions.REGISTER_APPLICATION:
+            var newState = { ...state }         
+            if (!newState[action.appID]) {
+              newState[action.appID] = newAppState()
+            }
+            var app = newState[action.appID]
+            if (app.displayLayout == null) {
+              app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
+            }
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }
