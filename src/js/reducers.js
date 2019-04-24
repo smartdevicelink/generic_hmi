@@ -127,28 +127,31 @@ function ui(state = {}, action) {
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
+            var menuItem = {
+                cmdID: cmdID,
+                parentID: menuParams.parentID,
+                position: menuParams.position,
+                menuName: menuParams.menuName,
+                cmdIcon: cmdIcon
+            }
             if (menuParams.parentID) {
                 var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
                 })
-                subMenu.subMenu.push({
-                    cmdID: cmdID,
-                    parentID: menuParams.parentID,
-                    position: menuParams.position,
-                    menuName: menuParams.menuName,
-                    cmdIcon: cmdIcon
-                })
+                // Push item to front of list if position is 0
+                (menuParams.position === 0) ? 
+                    subMenu.subMenu.unshift(menuItem) : 
+                    subMenu.subMenu.push(menuItem);
+
                 subMenu.subMenu.sort((a, b) => {
                     return a.position - b.position
                 })
             } else {
-                menu.push({
-                    cmdID: cmdID,
-                    parentID: menuParams.parentID,
-                    position: menuParams.position,
-                    menuName: menuParams.menuName,
-                    cmdIcon: cmdIcon
-                })
+                // Push item to front of list if position is 0
+                (menuParams.position === 0) ? 
+                    menu.unshift(menuItem) : 
+                    menu.push(menuItem);
+
                 menu.sort((a, b) => {
                     return a.position - b.position
                 })
