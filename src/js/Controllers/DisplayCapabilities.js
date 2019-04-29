@@ -83,14 +83,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -270,21 +270,21 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
-          "name": "softButtonImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 50,
-            "resolutionHeight": 50
-          }
-        },
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
 				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
@@ -464,21 +464,21 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
-          "name": "softButtonImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 50,
-            "resolutionHeight": 50
-          }
-        },
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
 				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
@@ -658,21 +658,21 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
-          "name": "softButtonImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 50,
-            "resolutionHeight": 50
-          }
-        },
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
 				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
@@ -860,14 +860,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "menuIcon",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1006,14 +1006,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1200,14 +1200,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1394,14 +1394,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1604,14 +1604,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "menuIcon",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1774,14 +1774,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "menuIcon",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -1920,14 +1920,14 @@ let capabilities = {
 				}
 			],
 			"imageFields": [{
-          "name": "choiceImage",
-          "imageTypeSupported": ["GRAPHIC_PNG"],
-          "imageResolution": {
-            "resolutionWidth": 40,
-            "resolutionHeight": 40
-          }
-        },
-        {
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
 					"name": "softButtonImage",
 					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
@@ -2071,7 +2071,8 @@ let capabilities = {
 		"hmiZoneCapabilities": "FRONT",
 		"hmiCapabilities": {
 			"navigation": false,
-			"phoneCall": false
+			"phoneCall": false,
+			"videoStreaming": false
 		},
 		"systemCapabilities": {
 			"navigationCapability": {

@@ -112,6 +112,10 @@
         background-color: color(white);
     }
 
+    .th-f-accent-color {
+      color: color($secondary-accent-color);
+    }
+
     .th-soft-buttons {
         border-color: #919191;
     }

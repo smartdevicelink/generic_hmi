@@ -174,7 +174,6 @@ export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColo
 }
 
 export const registerApplication = (appID, isMediaApplication) => {
-  console.log(appID)
   return {
       type: Actions.REGISTER_APPLICATION,
       appID: appID,

@@ -138,23 +138,13 @@ function ui(state = {}, action) {
                 var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
                 })
-                // Push item to front of list if position is 0
-                (menuParams.position === 0) ? 
-                    subMenu.subMenu.unshift(menuItem) : 
+                (menuParams.position || menuParams.position === 0) ? 
+                    subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
                     subMenu.subMenu.push(menuItem);
-
-                subMenu.subMenu.sort((a, b) => {
-                    return a.position - b.position
-                })
             } else {
-                // Push item to front of list if position is 0
-                (menuParams.position === 0) ? 
-                    menu.unshift(menuItem) : 
+                (menuParams.position || menuParams.position === 0) ? 
+                    menu.splice(menuParams.position, 0, menuItem) : 
                     menu.push(menuItem);
-
-                menu.sort((a, b) => {
-                    return a.position - b.position
-                })
             }
             return newState
         case Actions.DELETE_COMMAND:

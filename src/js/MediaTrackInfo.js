@@ -63,7 +63,7 @@ export default class MediaTrackInfo extends React.Component {
 
         return (
             <div className="media-track__time">
-                <span className="t-small t-medium th-f-accent-color" style={primaryStyle}>{startTime} </span><span className="t-small t-medium .th-f-color-alt">{endTime}</span>
+                <span className="t-small t-medium th-f-accent-color" style={primaryStyle}>{startTime} </span><span className="t-small t-medium th-f-color-alt">{endTime}</span>
             </div>
         )
     }
