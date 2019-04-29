@@ -14,11 +14,26 @@ const mapStateToProps = (state) => {
     }
     var startDate = startTime ? new Date(0, 0, 0, startTime.hours, startTime.minutes, startTime.seconds, 0) : null
     var endDate = new Date(0, 0, 0, endTime.hours, endTime.minutes, endTime.seconds, 0)
+
+    //Assign color scheme to props
+    var theme = state.theme
+    var colorScheme = {};
+    if (theme === true) { //Dark theme
+        if(app.nightColorScheme) {
+            colorScheme = app.nightColorScheme
+        }
+    } else {
+        if(app.dayColorScheme) { //Light theme
+            colorScheme = app.dayColorScheme
+        }
+    }
+
     return {
         startDate: startDate,
         endDate: endDate,
         updateMode: app.updateMode,
-        now: app.updateTime
+        now: app.updateTime,
+        colorScheme: colorScheme
     }
 }
 

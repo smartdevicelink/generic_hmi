@@ -26,7 +26,7 @@ function newAppState () {
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
-        displayLayout: 'media',
+        displayLayout:  null,
         alert: {
             showAlert: false,
             alertStrings: [],
@@ -127,31 +127,24 @@ function ui(state = {}, action) {
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
+            var menuItem = {
+                cmdID: cmdID,
+                parentID: menuParams.parentID,
+                position: menuParams.position,
+                menuName: menuParams.menuName,
+                cmdIcon: cmdIcon
+            }
             if (menuParams.parentID) {
                 var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
                 })
-                subMenu.subMenu.push({
-                    cmdID: cmdID,
-                    parentID: menuParams.parentID,
-                    position: menuParams.position,
-                    menuName: menuParams.menuName,
-                    cmdIcon: cmdIcon
-                })
-                subMenu.subMenu.sort((a, b) => {
-                    return a.position - b.position
-                })
+                (menuParams.position || menuParams.position === 0) ? 
+                    subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
+                    subMenu.subMenu.push(menuItem);
             } else {
-                menu.push({
-                    cmdID: cmdID,
-                    parentID: menuParams.parentID,
-                    position: menuParams.position,
-                    menuName: menuParams.menuName,
-                    cmdIcon: cmdIcon
-                })
-                menu.sort((a, b) => {
-                    return a.position - b.position
-                })
+                (menuParams.position || menuParams.position === 0) ? 
+                    menu.splice(menuParams.position, 0, menuItem) : 
+                    menu.push(menuItem);
             }
             return newState
         case Actions.DELETE_COMMAND:
@@ -303,6 +296,16 @@ function ui(state = {}, action) {
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
             }            
+            return newState
+        case Actions.REGISTER_APPLICATION:
+            var newState = { ...state }         
+            if (!newState[action.appID]) {
+              newState[action.appID] = newAppState()
+            }
+            var app = newState[action.appID]
+            if (app.displayLayout == null) {
+              app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
+            }
             return newState
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state }

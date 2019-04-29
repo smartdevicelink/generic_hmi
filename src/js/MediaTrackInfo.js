@@ -11,6 +11,18 @@ export default class MediaTrackInfo extends React.Component {
     componentWillUnmount() {
         clearInterval(this.interval)
     }
+    getPrimaryColorScheme() {
+      if (this.props.colorScheme) {
+          if (this.props.colorScheme.primaryColor) {
+              var redInt = this.props.colorScheme.primaryColor.red;
+              var blueInt = this.props.colorScheme.primaryColor.blue;
+              var greenInt = this.props.colorScheme.primaryColor.green;
+              var cssColorScheme = `rgb(${redInt}, ${greenInt}, ${blueInt})`
+              return cssColorScheme;
+          }
+      }
+      return null;
+  }
     render() {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
@@ -44,9 +56,14 @@ export default class MediaTrackInfo extends React.Component {
             startTime = null
             endTime = null
         }
+
+        let primaryStyle = {
+          color: this.getPrimaryColorScheme()
+        }
+
         return (
             <div className="media-track__time">
-                <span className="t-small t-medium th-f-accent-color">{startTime} </span><span className="t-small t-medium .th-f-color-secondary">{endTime}</span>
+                <span className="t-small t-medium th-f-accent-color" style={primaryStyle}>{startTime} </span><span className="t-small t-medium th-f-color-alt">{endTime}</span>
             </div>
         )
     }
