@@ -24,7 +24,8 @@ export const Actions = {
     POLICY_UPDATE: "POLICY_UPDATE",
     GET_URLS: "GET_URLS",
     UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
-    SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED"
+    SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
+    ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED"
 }
 
 export const updateAppList = (applications) => {
@@ -247,5 +248,12 @@ export const setAppIsConnected = (appID) => {
     return {
         type: Actions.SET_APP_IS_CONNECTED, 
         appID: appID
+    }
+}
+
+export const onSystemCapabilityUpdated = (capability) => {
+    return {
+        type: Actions.ON_SYSTEM_CAPABILITY_UPDATED,
+        capability: capability
     }
 }

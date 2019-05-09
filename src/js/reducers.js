@@ -68,6 +68,33 @@ function appList(state = [], action) {
             return state
     }
 }
+
+function systemCapability( state = {}, action) {
+    switch(action.type) {
+        case Actions.ON_SYSTEM_CAPABILITY_UPDATED:
+            console.log("reducers on sys cap upated")
+            var newState = { ...state }
+            var type = action.capability.systemCapabilityType
+            var capability = {}
+            if (type === "NAVIGATION") {
+                capability = action.capability.navigationCapability
+            } else if (type === "PHONE_CALL") {
+                capability = action.capability.phoneCapability
+            } else if (type === "VIDEO_STREAMING") {
+                capability = action.capability.videoStreamingCapability
+            } else if (type === "REMOTE_CONTROL") {
+                capability = action.capability.remoteControlCapability
+            } else if (type === "APP_SERVICES") {
+                capability = action.capability.appServicesCapabilities
+            }
+            newState[type] = capability
+            console.log(newState)
+            return newState
+        default: 
+            return state
+    }
+}
+
 function activeApp(state = null, action) {
     switch (action.type) {
         case Actions.ACTIVATE_APP:
@@ -381,5 +408,6 @@ export const hmi = combineReducers({
     appList,
     activeApp,
     ui,
-    system
+    system,
+    systemCapability
 })

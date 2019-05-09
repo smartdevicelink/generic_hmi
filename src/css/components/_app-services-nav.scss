@@ -1,0 +1,76 @@
+.app-services-nav {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px 0 18px;
+
+}
+
+.app-services-button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 80%;
+
+  .svg-size {
+    @include size(50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    svg {
+      @include size(35px);      
+    }    
+  }
+
+  .menu-color {
+    background-color: #696969;
+  }
+  
+  .nav-color {
+    background-color: #F6A145;
+  }
+
+  .media-color {
+    background-color: #45C5F6;
+  }
+
+  .weather-color {
+    background-color: #F6457F;
+  }
+}
+
+.app-services-tab {
+  margin: 0 17px 0 17px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  width: 50px;
+  transition: width 1s;
+}
+
+.tab-wide { 
+  &__nav {
+    width: 500px;
+    border: 2px solid #F6A145;
+  }
+  &__media {
+    width: 500px;
+    border: 2px solid #45C5F6;
+  }
+  &__weather {
+    width: 500px;
+    border: 2px solid #F6457F;
+  }
+}
+
+.clock {
+  width : 15%
+}
+
+.hide-tab {
+  display: none;
+  width: 0;
+}
