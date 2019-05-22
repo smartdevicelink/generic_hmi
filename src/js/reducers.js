@@ -137,7 +137,7 @@ function ui(state = {}, action) {
             if (menuParams.parentID) {
                 var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
-                })
+                });
                 (menuParams.position || menuParams.position === 0) ? 
                     subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
                     subMenu.subMenu.push(menuItem);
