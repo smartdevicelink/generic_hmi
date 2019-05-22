@@ -30,6 +30,12 @@ const mapStateToProps = (state) => {
             } else if (type == "WEATHER") {
                 activeServices[type].manifest = manifest.weatherServiceManifest
             }
+
+            var serviceData = state.appServiceData
+            var serviceID = serviceRecord.serviceID
+            if (serviceData && serviceData[serviceID]) {
+                activeServices[type].serviceData = serviceData[serviceID]
+            }
         }
     }
 
@@ -38,7 +44,8 @@ const mapStateToProps = (state) => {
     
     return {
         appServicesEnabled : !appServiceEmpty,
-        activeServices: activeServices
+        activeServices: activeServices,
+        theme: state.theme
     }
 }
 

@@ -42,6 +42,7 @@ function newAppState () {
 }
 
 function theme(state = true, action) {
+    console.log("reducer theme")
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
@@ -52,6 +53,7 @@ function theme(state = true, action) {
 }
 
 function appList(state = [], action) {
+    console.log("reducer appList")
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
             return action.appList
@@ -70,6 +72,7 @@ function appList(state = [], action) {
 }
 
 function systemCapability( state = {}, action) {
+    console.log("reducer sysCap")
     switch(action.type) {
         case Actions.ON_SYSTEM_CAPABILITY_UPDATED:
             console.log("reducers on sys cap upated")
@@ -95,7 +98,115 @@ function systemCapability( state = {}, action) {
     }
 }
 
+function parseActionBearing(action, bearing) {
+    var result = null;
+    var simpleBearing = ""
+    if (bearing === 0) {
+        simpleBearing = "Straight"
+    } else if (bearing < 45 && bearing > 0) {
+        simpleBearing = "Slight Right"
+    } else if (bearing < 180 && bearing > 135) {
+        simpleBearing = "Sharp Right"
+    } else if (bearing <= 135 && bearing >= 45) {
+        simpleBearing = "Right"
+    } else if (bearing === 180) {
+        simpleBearing = "U-Turn"
+    }  else if (bearing <= 359 && bearing > 315) {
+        simpleBearing = "Slight Left"
+    } else if (bearing < 270 && bearing > 180) {
+        simpleBearing = "Sharp Left"
+    } else if (bearing <= 315 && bearing >= 225) {
+        simpleBearing = "Right"
+    }
+    
+    if (action.length !== 0) {
+        action = action.charAt(0).toUpperCase() + action.slice(1).toLowerCase()
+        result = action
+    }
+    if (simpleBearing.length !== 0) {
+        if (result) {
+            result += " " + simpleBearing
+        } else {
+            result = simpleBearing
+        }            
+    }
+    return result
+}
+
+function parseNavData (data) {
+    var pData = {            
+        location: null,
+        actionBearing: null,
+        distance: null,
+        nextActionBearing: null,
+        image: null
+    };
+    
+    if (data.instructions && data.instructions[0]) {
+        // Location Details is mandatory
+        var instruction = data.instructions[0]
+
+        // Parse first address line
+        var locationDetails = instruction.locationDetails;
+        var addressLines = locationDetails.addressLines;
+        pData.location = addressLines && addressLines[0] ? addressLines[0] : null;
+
+        // Parse Action + Bearing
+        var bearing = instruction.bearing ? instruction.bearing : "";
+        var action = instruction.action ? instruction.action : ""
+        pData.actionBearing = parseActionBearing(action, bearing)
+
+        // Parse Distance
+        pData.distance = data.nextInstructionDistance ? data.nextInstructionDistance : null
+
+        // Parse Image
+        pData.image = instruction.image ? instruction.image : null
+
+        // Parse Next Action Bearing and Distance
+        if (data.instructions[1]) {
+            var nextInstruction = data.instructions[1]
+            var nextAction = nextInstruction.action ? nextInstruction.action : ""
+            var nextBearing = nextInstruction.bearing ? nextInstruction.bearing : ""
+            var nextActionBearing = parseActionBearing(nextAction, nextBearing);
+            if (nextActionBearing && nextActionBearing.length !== 0) {
+                pData.nextActionBearing = "Then " + nextActionBearing
+            }            
+        } else {
+            // No more instructions assume arrived at destination
+            pData.nextActionBearing = "Then Arrive At Destination"
+        }
+    }
+    return pData
+}
+
+function appServiceData( state = {}, action) {
+    console.log("reducer app service data " + JSON.stringify(action, null, 2))
+    console.log(action.type)
+    switch(action.type) {
+        case Actions.ON_APP_SERVICE_DATA:
+            console.log("switch reducer on app service data")
+            var newState = { ...state };
+            var data = action.serviceData;
+            var type = data.serviceType;
+            var serviceID = data.serviceID;
+            data = type === "MEDIA" ? data.mediaServiceData : 
+                type === "NAVIGATION" ? parseNavData(data.navigationServiceData) : 
+                type === "WEATHER" ? data.weatherServiceData : null;
+
+            data.serviceType = type;
+
+            newState[serviceID] = newState[serviceID] ? 
+                {...newState[serviceID], ...data} : { ...data };
+            console.log("New AS Data State: " + JSON.stringify(newState, null, 2))
+            return newState;
+        default:
+            console.log("appServiceDataDefault!")
+            return state
+    }
+}
+
 function activeApp(state = null, action) {
+  console.log("reducer activeApp")
     switch (action.type) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
@@ -118,6 +229,7 @@ function deleteCommand(commands, cmdID) {
     return commands
 }
 function ui(state = {}, action) {
+    console.log("reducer ui")
     switch (action.type) {
         case Actions.SHOW:
             var newState = { ...state }
@@ -386,6 +498,7 @@ function ui(state = {}, action) {
 }
 
 function system(state = {}, action) {
+    console.log("reducer system")
     switch(action.type) {
         case Actions.POLICY_UPDATE:
             var newState = { ...state }
@@ -406,6 +519,7 @@ function system(state = {}, action) {
 export const hmi = combineReducers({
     theme,
     appList,
+    appServiceData,
     activeApp,
     ui,
     system,

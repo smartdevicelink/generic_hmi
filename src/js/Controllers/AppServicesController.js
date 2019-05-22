@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-
+import { onAppServiceData } from '../actions'
 class AppServicesController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -10,11 +10,12 @@ class AppServicesController {
     }
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
+        console.log("App Service Handle RPC: " + JSON.stringify(rpc))
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, false)}
             case "OnAppServiceData":
-                console.log("todo on app service data")
+                store.dispatch(onAppServiceData(rpc.params.serviceData))
                 return null
         }
     }
