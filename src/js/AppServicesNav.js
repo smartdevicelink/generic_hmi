@@ -66,6 +66,7 @@ class AppServicesNav extends React.Component {
         var mediaData = {
             artist: "",
             track: "",
+            album: "",
             image: null
         }
 
@@ -111,6 +112,7 @@ class AppServicesNav extends React.Component {
                 mediaData = {
                     artist: serviceData.mediaArtist,
                     title: serviceData.mediaTitle,
+                    album: serviceData.mediaAlbum,
                     mediaImage: serviceData.mediaImage ? serviceData.mediaImage : null
                 }
             } else if (key === "WEATHER") {
@@ -136,9 +138,6 @@ class AppServicesNav extends React.Component {
 
         var activeServiceTab = this.state.activeServiceTab;
         var themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
-
-                                //<span className="svg-size  nav-color " 
-                       //     dangerouslySetInnerHTML={{__html: navIcon}} onClick={() => this.setActive("nav")}/>
         return (
             <div className="app-services-nav th-nav-background-color" onClick={() =>this.toggleModal()}>
                 <div className="clock">
@@ -150,7 +149,7 @@ class AppServicesNav extends React.Component {
                     <div className={"app-services-tab " + 
                         ((activeServiceTab == "nav") ? "tab-wide__nav" : "") + 
                         (navActive ? "" : " hide-tab")}
-                        onClick={() => this.setActive("navigation")}>
+                        onClick={() => this.setActive("nav")}>
                         <NavInstructionImage image={navData.image} theme={this.props.theme}/>
                         <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab == "nav") ? "" : "hide-tab")}>
                             <p>

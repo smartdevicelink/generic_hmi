@@ -15,12 +15,18 @@ export default class AppServiceMediaCard extends React.Component {
 
         var mediaData = this.props.mediaData;
 
-        var artistLine = mediaData.artist ? (
+        var titleLine = mediaData.title ? (
             <p className="t-large t-medium th-f-color ">
+                {mediaData.title}
+            </p>
+        ) : null;
+
+        var artistLine = mediaData.artist ? (
+            <p className="t-light t-small th-f-color">
                 {mediaData.artist}
             </p>) : null;
 
-        var titleLine = mediaData.title ? (
+        var albumLine = mediaData.title ? (
             <p className="t-light t-small th-f-color">
                 {mediaData.title}
             </p>
@@ -29,8 +35,9 @@ export default class AppServiceMediaCard extends React.Component {
         return (
             <div className="app-service-media-card app-service-medium-tab">
                 <MediaServiceDataImage image={mediaData.mediaImage} />
-                {artistLine}
                 {titleLine}
+                {artistLine}
+                {albumLine}
                 <p className="app-service-card-footer th-f-color">
                     MEDIA
                 </p>
