@@ -251,3 +251,10 @@
 .app-service-card-footer {
   margin-bottom: 5px;
 }
+
+.app-service-modal-button {
+  @include size(30px);
+  border-radius: 5px;
+  background-color: #F7F8F9;
+  float: right;
+}

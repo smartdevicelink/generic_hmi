@@ -139,7 +139,7 @@ class AppServicesNav extends React.Component {
         var activeServiceTab = this.state.activeServiceTab;
         var themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         return (
-            <div className="app-services-nav th-nav-background-color" onClick={() =>this.toggleModal()}>
+            <div className="app-services-nav th-nav-background-color">
                 <div className="clock">
                     <p className="t-small t-medium th-f-color">
                         {this.state.time}
@@ -212,10 +212,12 @@ class AppServicesNav extends React.Component {
                             </div>
                         </div>
                         
-                    </div>
+                    </div>                 
                     
                 </div>
-                <div className="clock"/>
+                <div className="clock">
+                    <div className="app-service-modal-button" onClick={() =>this.toggleModal()}></div>
+                </div>
                 <Modal 
                     isOpen={this.state.showModal}
                     className="app-service-modal th-nav-background-color"

@@ -1,5 +1,6 @@
 import React from 'react';
 import navIcon from "../img/app_services/navigation.svg";
+import NavInstructionImage from "./NavInstructionImage";
 export default class AppServiceNavCard extends React.Component {
 
     constructor() {
@@ -39,8 +40,7 @@ export default class AppServiceNavCard extends React.Component {
 
         return (
             <div className="app-service-nav-card app-service-medium-tab">
-                <span className="svg-size  nav-color svg-fill-important" 
-                    dangerouslySetInnerHTML={{__html: navIcon}} />
+                <NavInstructionImage image={navData.image} theme={this.props.theme}/>
                 {instructionLines}
                 {nextActionLine}
                 <p className="app-service-card-footer th-f-color">
