@@ -158,17 +158,18 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             var menu = app.menu
-            menu.push({
+            var position = action.menuParams.position
+            var menuItem = {
                 menuID: action.menuID,
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
                 cmdIcon: action.subMenuIcon,
                 subMenu: []
-            })
-            menu.sort((a, b) => {
-                return a.position - b.position
-            })
+            };
+            (position || position === 0) ? 
+                menu.splice(position, 0, menuItem) : 
+                menu.push(menuItem);
             return newState
         case Actions.DELETE_SUB_MENU:
             var newState = { ...state }
