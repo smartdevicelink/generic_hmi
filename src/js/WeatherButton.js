@@ -24,5 +24,4 @@ export default class WeatherButton extends React.Component {
         var icon = this.props.weatherIcon
         return (<WeatherServiceImage image={icon}/>)
     }
-
 }

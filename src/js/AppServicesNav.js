@@ -70,19 +70,19 @@ class AppServicesNav extends React.Component {
             image: null
         }
         var weatherData = {
-          high: null,
-          low: null,
-          precipProbability: null,
-          windMPH: null,
-          current: null,
-          weatherIcon: null
+            high: null,
+            low: null,
+            precipProbability: null,
+            windMPH: null,
+            current: null,
+            weatherIcon: null
         }
         for (const key of activeTypes) {
             if (key == "NAVIGATION") {
                 navActive = true
                 var serviceData = activeServices["NAVIGATION"].serviceData
                 if (!serviceData) {
-                  continue;
+                    continue;
                 }
                 navData = {
                   location: serviceData.location,

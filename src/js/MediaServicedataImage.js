@@ -27,7 +27,7 @@ export default class MediaServiceDataImage extends React.Component {
                     <div className="app-service-icon svg-size">
                         <StaticIcon class="static-icon" image={image.value} />
                     </div>
-                )                
+                )
             } else {
                 return (
                     <div className="app-service-icon">
@@ -43,8 +43,5 @@ export default class MediaServiceDataImage extends React.Component {
                     dangerouslySetInnerHTML={{__html: mediaIcon}} /> 
             );
         }
-      
-
     }
-
 }

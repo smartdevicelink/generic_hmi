@@ -43,8 +43,5 @@ export default class NavInstructionImage extends React.Component {
                     dangerouslySetInnerHTML={{__html: navIcon}} /> 
             );
         }
-      
-
     }
-
 }

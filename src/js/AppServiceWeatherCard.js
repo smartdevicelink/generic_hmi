@@ -13,7 +13,6 @@ export default class AppServiceWeatherCard extends React.Component {
         if (!this.props.weatherActive || !this.props.weatherData) {
             return null;
         }
-
         var weatherData = this.props.weatherData;
 
         var currentLine = weatherData.currentTemperature ? (
@@ -75,5 +74,4 @@ export default class AppServiceWeatherCard extends React.Component {
             </div>
         )
     }
-
 }

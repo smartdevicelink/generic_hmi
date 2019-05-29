@@ -10,9 +10,7 @@ export default class AppServiceNavCard extends React.Component {
     render() {
         if (!this.props.navActive || !this.props.navData) {
             return null;
-        }
-
-        
+        }        
         var navData = this.props.navData;
         var streetLine = navData.location ? 
             (<p className="t-large t-medium th-f-color ">
@@ -48,5 +46,4 @@ export default class AppServiceNavCard extends React.Component {
             </div>
         )
     }
-
 }

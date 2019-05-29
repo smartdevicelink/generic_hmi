@@ -44,5 +44,4 @@ export default class AppServiceMediaCard extends React.Component {
             </div>
         )
     }
-
 }

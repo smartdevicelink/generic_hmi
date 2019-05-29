@@ -6,7 +6,6 @@
   padding: 0 18px 0 18px;
   position: relative;
   z-index: 2000;
-
 }
 
 .app-services-button-group {
@@ -163,12 +162,9 @@
 .app-service-overlay {
   position          : fixed;
   @include app-service-overlay-dimensions();
-  //top               : calc((#{$master-height} * 0.7) - 65px);
   left              : 0;
   right             : 0;
-  //bottom            : 0;
   width: $master-width;
-  //height: $master-height;
   margin: 25px 0px 0px 25px;  
   z-index:1001;
 }
@@ -181,7 +177,6 @@
   box-shadow: 0px -10px 20px 0px rgba(0,0,0,0.15);
 }
 
-
 .app-service-modal {
   position: absolute;
   top: 50%;
@@ -193,7 +188,6 @@
   outline: none;
   width: 100%;
   height: 100%;
-
 }
 
 .app-service-nav-card {

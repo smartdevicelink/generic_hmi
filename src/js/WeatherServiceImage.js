@@ -32,8 +32,6 @@ export default class WeatherServiceImage extends React.Component {
                 <span className="svg-size  weather-color " 
                     dangerouslySetInnerHTML={{__html: weatherIcon}} /> 
             );
-        }     
-
+        }
     }
-
 }

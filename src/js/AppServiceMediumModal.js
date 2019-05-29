@@ -24,5 +24,4 @@ export default class AppServiceMediumModal extends React.Component {
             </div>
         )
     }
-
 }

@@ -27,5 +27,4 @@ export default class Divider extends React.Component {
             <div className="app-service-card-divider th-divider-color" />
         )
     }
-
 }
