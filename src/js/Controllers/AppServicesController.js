@@ -10,7 +10,6 @@ class AppServicesController {
     }
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
-        console.log("App Service Handle RPC: " + JSON.stringify(rpc))
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, false)}

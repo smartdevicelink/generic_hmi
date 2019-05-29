@@ -42,7 +42,6 @@ function newAppState () {
 }
 
 function theme(state = true, action) {
-    console.log("reducer theme")
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
@@ -53,7 +52,6 @@ function theme(state = true, action) {
 }
 
 function appList(state = [], action) {
-    console.log("reducer appList")
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
             return action.appList
@@ -72,10 +70,8 @@ function appList(state = [], action) {
 }
 
 function systemCapability( state = {}, action) {
-    console.log("reducer sysCap")
     switch(action.type) {
         case Actions.ON_SYSTEM_CAPABILITY_UPDATED:
-            console.log("reducers on sys cap upated")
             var newState = { ...state }
             var type = action.capability.systemCapabilityType
             var capability = {}
@@ -91,7 +87,6 @@ function systemCapability( state = {}, action) {
                 capability = action.capability.appServicesCapabilities
             }
             newState[type] = capability
-            console.log(newState)
             return newState
         default: 
             return state
@@ -180,11 +175,8 @@ function parseNavData (data) {
 }
 
 function appServiceData( state = {}, action) {
-    console.log("reducer app service data " + JSON.stringify(action, null, 2))
-    console.log(action.type)
     switch(action.type) {
         case Actions.ON_APP_SERVICE_DATA:
-            console.log("switch reducer on app service data")
             var newState = { ...state };
             var data = action.serviceData;
             var type = data.serviceType;
@@ -197,16 +189,13 @@ function appServiceData( state = {}, action) {
 
             newState[serviceID] = newState[serviceID] ? 
                 {...newState[serviceID], ...data} : { ...data };
-            console.log("New AS Data State: " + JSON.stringify(newState, null, 2))
             return newState;
         default:
-            console.log("appServiceDataDefault!")
             return state
     }
 }
 
 function activeApp(state = null, action) {
-  console.log("reducer activeApp")
     switch (action.type) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
@@ -229,7 +218,6 @@ function deleteCommand(commands, cmdID) {
     return commands
 }
 function ui(state = {}, action) {
-    console.log("reducer ui")
     switch (action.type) {
         case Actions.SHOW:
             var newState = { ...state }
@@ -498,7 +486,6 @@ function ui(state = {}, action) {
 }
 
 function system(state = {}, action) {
-    console.log("reducer system")
     switch(action.type) {
         case Actions.POLICY_UPDATE:
             var newState = { ...state }

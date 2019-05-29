@@ -22,16 +22,11 @@ class AppServicesNav extends React.Component {
 
     toggleModal() {
         if (this.state.activeServiceTab === "") {
-            console.log("Show half modal")
             this.setState({showModal: !this.state.showModal})
-
-        } else {
-            console.log("Show full modal for type: " + this.state.activeServiceTab)
         }
     }
 
     setActive(type) {
-        console.log("Set Active " + type)
         var active = this.state.activeServiceTab
         if (type == active) {
             this.setState({activeServiceTab : ""});
@@ -41,7 +36,6 @@ class AppServicesNav extends React.Component {
     }
 
     getTime() {
-        console.log("getTime")
         var d = new Date();
         var hours = d.getHours();
         var minutes = d.getMinutes();
@@ -53,11 +47,9 @@ class AppServicesNav extends React.Component {
     }
 
     render() {
-        console.log("RENDER")
         if (!this.props.appServicesEnabled) {
             return null
         }
-        console.log(this.props.activeServices)
         var activeServices = this.props.activeServices
         var activeTypes = Object.keys(activeServices)
         var navActive = false
@@ -85,9 +77,7 @@ class AppServicesNav extends React.Component {
           current: null,
           weatherIcon: null
         }
-        console.log(activeServices)
         for (const key of activeTypes) {
-            console.log(key)
             if (key == "NAVIGATION") {
                 navActive = true
                 var serviceData = activeServices["NAVIGATION"].serviceData
@@ -107,8 +97,6 @@ class AppServicesNav extends React.Component {
                 if (!serviceData) {
                     continue;
                 }
-                
-                console.log("SERVICEDATA!  " + JSON.stringify(serviceData))
                 mediaData = {
                     artist: serviceData.mediaArtist,
                     title: serviceData.mediaTitle,
@@ -124,7 +112,6 @@ class AppServicesNav extends React.Component {
 
                 var currentForecast = serviceData.currentForecast
                 
-                console.log("SERVICEDATA!  " + JSON.stringify(serviceData))
                 weatherData = {
                     high: currentForecast.temperatureHigh ? currentForecast.temperatureHigh.value: 0,
                     low: currentForecast.temperatureLow ? currentForecast.temperatureLow.value : 0,

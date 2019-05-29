@@ -11,7 +11,6 @@ export default class WeatherServiceImage extends React.Component {
 
     render() {
         var icon = this.props.image
-        console.log("WeatherServiceImage: " + JSON.stringify(this.props, null, 2))
         if (icon) {
             if (icon.imageType === "STATIC") {
                 return (

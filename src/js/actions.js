@@ -260,7 +260,6 @@ export const onSystemCapabilityUpdated = (capability) => {
 }
 
 export const onAppServiceData = (service_data) => {
-    console.log("Action: ON app service data " + JSON.stringify(service_data))
     return {
         type: Actions.ON_APP_SERVICE_DATA,
         serviceData: service_data

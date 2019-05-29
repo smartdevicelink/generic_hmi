@@ -14,7 +14,6 @@ export default class AppServiceNavCard extends React.Component {
 
         
         var navData = this.props.navData;
-        console.log("Nav Card Render: " + JSON.stringify(navData, null, 2))
         var streetLine = navData.location ? 
             (<p className="t-large t-medium th-f-color ">
                 {navData.location}

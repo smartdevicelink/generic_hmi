@@ -2,11 +2,6 @@ import { connect } from 'react-redux'
 import AppServicesNav from '../AppServicesNav'
 
 const mapStateToProps = (state) => {
-    // Get registered services to know which to populate
-    // mediaActive: true
-    // navActive  : false
-    console.log("AS container")
-    console.log(state)
     if (!state.systemCapability["APP_SERVICES"] || 
         !state.systemCapability["APP_SERVICES"].appServices) {
         return {appServicesEnabled: false}

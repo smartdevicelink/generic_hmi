@@ -11,7 +11,6 @@ export default class AppServiceMediumModal extends React.Component {
     }
 
     render() {
-        console.log("AS Medium modal props: " + JSON.stringify(this.props, null, 2));
         return (
             <div className="app-service-medium">
                 <AppServiceNavCard  navData={this.props.navData} 
