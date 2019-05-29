@@ -137,7 +137,7 @@ class AppServicesNav extends React.Component {
         }
 
         var activeServiceTab = this.state.activeServiceTab;
-        var themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
+        var themeClass = this.props.theme ? 'dark-theme dark-shadow' : 'light-theme light-shadow';
         return (
             <div className="app-services-nav th-nav-background-color">
                 <div className="clock">
