@@ -24,13 +24,13 @@ export default class NavInstructionImage extends React.Component {
         if (image) {
             if (image.imageType === "STATIC") {
                 return (
-                    <div className="app-service-navigation-icon">
+                    <div className="app-service-icon svg-size">
                         <StaticIcon class="static-icon" image={image.value} />
                     </div>
                 )                
             } else {
                 return (
-                    <div className="app-service-navigation-icon">
+                    <div className="app-service-icon">
                         <Image image={image.value} 
                             isTemplate={image.isTemplate}
                             fillColor={this.fillColor}/>

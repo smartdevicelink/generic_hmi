@@ -131,7 +131,7 @@ class AppServicesNav extends React.Component {
                     precipProbability: currentForecast.precipProbability *100,
                     windMPH: currentForecast.windSpeed,
                     currentTemperature: currentForecast.currentTemperature ? currentForecast.currentTemperature.value : 0,
-                    weatherIcon: serviceData.weatherIcon ? serviceData.weatherIcon : null
+                    weatherIcon: currentForecast.weatherIcon ? currentForecast.weatherIcon : null
                 }
             }
         }

@@ -25,7 +25,19 @@
     border-radius: 5px;
     svg {
       @include size(35px);      
-    }    
+    }
+  }
+    
+  .app-service-icon {
+    @include size(50px);
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    img {
+      @include size(35px);      
+    }
   }
 
   .nav-text-bubble {
@@ -196,6 +208,17 @@
       @include size(75px);
     }    
   }
+  
+  .app-service-icon {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      @include size(75px);
+    }    
+  }
 }
 
 .app-service-media-card {
@@ -210,6 +233,18 @@
     svg {
       @include size(65px);      
     }    
+  }
+
+  .app-service-icon {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    img {
+      @include size(65px);      
+    }     
   }
 
   .media-color {
@@ -235,6 +270,18 @@
     svg {
       @include size(50px);      
     }    
+  }
+
+  .app-service-icon {
+    @include size(70px);
+    min-width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    img {
+      @include size(50px);      
+    }     
   }
 
   .space-left {

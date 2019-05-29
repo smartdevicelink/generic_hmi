@@ -11,16 +11,17 @@ export default class WeatherServiceImage extends React.Component {
 
     render() {
         var icon = this.props.image
+        console.log("WeatherServiceImage: " + JSON.stringify(this.props, null, 2))
         if (icon) {
             if (icon.imageType === "STATIC") {
                 return (
-                    <div className="app-service-weather-icon">
+                    <div className="app-service-icon svg-size">
                         <StaticIcon class="static-icon" image={icon.value} />
                     </div>
                 )                
             } else {
                 return (
-                    <div className="app-service-weather-icon">
+                    <div className="app-service-icon">
                         <Image image={icon.value} 
                             isTemplate={icon.isTemplate}
                             fillColor={"#FFFFFF"}/>
