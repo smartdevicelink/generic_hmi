@@ -24,16 +24,16 @@ export default class MediaServiceDataImage extends React.Component {
         if (image) {
             if (image.imageType === "STATIC") {
                 return (
-                    <div className="app-service-icon svg-size">
+                    <div className="app-service-icon svg-size media-color">
                         <StaticIcon class="static-icon" image={image.value} />
                     </div>
                 )
             } else {
                 return (
-                    <div className="app-service-icon">
+                    <div className="app-service-icon media-color">
                         <Image image={image.value} 
                             isTemplate={image.isTemplate}
-                            fillColor={this.fillColor}/>
+                            fillColor={this.fillColor()}/>
                     </div>
                 )
             }

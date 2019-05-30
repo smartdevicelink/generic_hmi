@@ -137,7 +137,7 @@ class AppServicesNav extends React.Component {
                         ((activeServiceTab == "nav") ? "tab-wide__nav" : "") + 
                         (navActive ? "" : " hide-tab")}
                         onClick={() => this.setActive("nav")}>
-                        <NavInstructionImage image={navData.image} theme={this.props.theme}/>
+                        <NavInstructionImage image={navData.image} theme={undefined}/>
                         <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab == "nav") ? "" : "hide-tab")}>
                             <p>
                                 {navData.location}
@@ -215,7 +215,8 @@ class AppServicesNav extends React.Component {
                         navData={navData}
                         weatherActive={weatherActive}
                         mediaActive={mediaActive}
-                        navActive={navActive}/>    
+                        navActive={navActive}
+                        theme={this.props.theme}/>    
                 </Modal>
             </div>
         )
