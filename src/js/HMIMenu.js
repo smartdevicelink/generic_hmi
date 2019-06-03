@@ -2,6 +2,7 @@ import React from 'react';
 
 import AppHeader from './containers/Header';
 import AppList from './containers/AppList';
+import AppServices from './containers/AppServices';
 
 export default class HMIMenu extends React.Component {
     constructor() {
@@ -13,6 +14,7 @@ export default class HMIMenu extends React.Component {
             <div>
                 <AppHeader appIcon="false" backLink="" appName="Menu" />
                 <AppList />
+                <AppServices />
             </div>
         )
     }

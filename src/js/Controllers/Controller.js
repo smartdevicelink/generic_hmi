@@ -6,6 +6,7 @@ import vrController from './VRController';
 import ttsController from './TTSController';
 import viController from './VehicleInfoController';
 import sdlController from './SDLController';
+import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
 import {flags} from '../Flags';
@@ -19,6 +20,7 @@ export default class Controller {
         sdlController.addListener(this)
         ttsController.addListener(this)
         navController.addListener(this)
+        appServicesController.addListener(this)
         // this.vrController = new VRController;
         // this.vehicleInfoController = new VehicleInfoController;
     }
@@ -119,6 +121,8 @@ export default class Controller {
         this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VehicleInfo";
         this.send(JSON.parse(JSON.stringify(JSONMessage)));
+        JSONMessage.params.componentName = "AppService";
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));        
         var ready = {
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnReady"
@@ -130,6 +134,8 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
+        this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
+        this.subscribeToNotification("AppService.OnAppServiceData")
 
         var onSystemTimeReady = {
             "jsonrpc": "2.0",
@@ -204,6 +210,9 @@ export default class Controller {
                 break;
             case "Navigation":
                 response = navController.handleRPC(rpc);
+                break;
+            case "AppService":
+                response = appServicesController.handleRPC(rpc);
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
