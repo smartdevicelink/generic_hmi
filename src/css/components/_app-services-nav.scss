@@ -15,6 +15,13 @@
   height: 100%;
   width: 80%;
 
+  .waiting-message {
+    width: 100%;
+    min-width: 100%;
+    text-align: center;
+    padding: 0px;
+  }
+
   .svg-size {
     @include size(50px);
     min-width: 50px;
@@ -96,6 +103,7 @@
 .hide-tab {
   display: none !important;
   width: 0 !important;
+  min-width: 0 !important;
 }
 
 .tab-text {
@@ -306,4 +314,18 @@
   border-radius: 5px;
   background-color: #F7F8F9;
   float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .svg-size {
+    @include size(25px);
+    min-width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      @include size(25px);
+    }  
+  }
 }
