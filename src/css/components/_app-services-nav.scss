@@ -1,0 +1,331 @@
+.app-services-nav {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px 0 18px;
+  position: relative;
+  z-index: 2000;
+}
+
+.app-services-button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 80%;
+
+  .waiting-message {
+    width: 100%;
+    min-width: 100%;
+    text-align: center;
+    padding: 0px;
+  }
+
+  .svg-size {
+    @include size(50px);
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    svg {
+      @include size(35px);      
+    }
+  }
+    
+  .app-service-icon {
+    @include size(50px);
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    img {
+      @include size(35px);      
+    }
+  }
+
+  .nav-text-bubble {
+    @include size(50px);
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;    
+    border: 2px solid #49C7ED;
+  }
+
+  .menu-color {
+    background-color: #696969;
+  }
+  
+  .nav-color {
+    background-color: #49C7ED;
+  }
+
+  .media-color {
+    background-color: #49C7ED;
+  }
+
+  .weather-color {
+    background-color: #49C7ED;
+  }
+}
+
+.app-services-tab {
+  margin: 0 17px 0 17px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  width: 50px;
+}
+
+.tab-wide { 
+  &__nav {
+    width: 500px;
+    border: 2px solid #49C7ED;
+  }
+  &__media {
+    width: 500px;
+    border: 2px solid #49C7ED;
+  }
+  &__weather {
+    width: 500px;
+    border: 2px solid #49C7ED;
+  }
+}
+
+.clock {
+  width : 15%
+}
+
+.hide-tab {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+}
+
+.tab-text {
+  max-height: 50px;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  text-align: center;
+  p {
+    max-width: 50%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 10px;
+  }
+}
+
+.even-spacing {
+  justify-content: space-evenly;
+}
+
+.weather-item {
+  min-width: 30%;
+  display: flex;
+  justify-content: center;
+
+  p {
+    padding-left: 5px;
+  }
+}
+
+.width-40-pct { 
+  width: 40%;
+}
+
+.app-service-medium {
+  width:100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.app-service-medium-tab {
+  width: 33.33%;
+  max-height: 100%;
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+@mixin app-service-overlay-dimensions() {
+  $nav-height: 65px;
+  $overlay-height: ($master-height * 0.7) - 65px;
+  $top-distance: $master-height - $nav-height - $overlay-height;
+  top: $top-distance;
+  bottom: $nav-height;
+  height: $overlay-height;
+}
+
+.app-service-overlay {
+  position          : fixed;
+  @include app-service-overlay-dimensions();
+  left              : 0;
+  right             : 0;
+  width: $master-width;
+  margin: 25px 0px 0px 25px;  
+  z-index:1001;
+}
+
+.dark-shadow {
+  box-shadow: 0px -10px 20px 0px;
+}
+
+.light-shadow {
+  box-shadow: 0px -10px 20px 0px rgba(0,0,0,0.15);
+}
+
+.app-service-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  @include transform(translate(-50%, -50%));
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+.app-service-nav-card {
+  border-bottom: 1px solid #49C7ED;
+  .svg-size {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      @include size(75px);
+    }    
+  }
+  
+  .app-service-icon {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      @include size(75px);
+    }    
+  }
+}
+
+.app-service-media-card {
+  border-bottom: 1px solid #49C7ED;
+  .svg-size {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    svg {
+      @include size(65px);      
+    }    
+  }
+
+  .app-service-icon {
+    @include size(100px);
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    img {
+      @include size(65px);      
+    }     
+  }
+
+  .media-color {
+    background-color: #45C5F6;
+  }
+}
+
+.app-service-weather-card {
+  border-bottom: 1px solid #49C7ED;
+  .weather-line {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .svg-size {
+    @include size(70px);
+    min-width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    svg {
+      @include size(50px);      
+    }    
+  }
+
+  .app-service-icon {
+    @include size(70px);
+    min-width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    img {
+      @include size(50px);      
+    }     
+  }
+
+  .space-left {
+    margin-left: 5px;
+  }
+
+  .baseline {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .weather-color {
+    background-color: #F6457F;
+  }
+}
+
+.app-service-card-divider {
+  max-height: 100%;
+  width: 1px;
+  margin: 25px 0px 25px 0px;
+}
+
+.app-service-card-footer {
+  margin-bottom: 5px;
+}
+
+.app-service-modal-button {
+  @include size(30px);
+  border-radius: 5px;
+  background-color: #F7F8F9;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .svg-size {
+    @include size(25px);
+    min-width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      @include size(25px);
+    }  
+  }
+}
