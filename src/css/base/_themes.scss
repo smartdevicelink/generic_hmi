@@ -17,6 +17,10 @@
         color: color($font-secondary-color);
     }
 
+    .th-f-color-alt {
+      color: color(white);
+    }
+
     .th-b-color {
         border-color: #333333;
     }
@@ -84,6 +88,10 @@
         color: color(steel);
     }
 
+    .th-f-color-alt {
+        color: color(black);
+    }
+
     .th-b-color {
         border-color: #dddddd;
     }
@@ -102,6 +110,10 @@
 
     .th-bg-color {
         background-color: color(white);
+    }
+
+    .th-f-accent-color {
+      color: color($secondary-accent-color);
     }
 
     .th-soft-buttons {
