@@ -197,7 +197,7 @@ class AppServicesNav extends React.Component {
                             <p className={weatherMissingData ? "waiting-message" : "hide-tab"}>
                                 {weatherMissingData ? waitingMessage : null}
                             </p>
-                            <div className={weatherMissingData ? "hide-tab" : "weather-item"}>
+                            <div className={(weatherMissingData || !(weatherData.high && weatherData.low)) ? "hide-tab" : "weather-item"}>
                                 <p>
                                     {weatherData.high && weatherData.low ? weatherData.high + "°" : null}
                                 </p>
@@ -205,7 +205,7 @@ class AppServicesNav extends React.Component {
                                     {weatherData.high && weatherData.low ? "/ " + weatherData.low + "°" : null}
                                 </p>
                             </div>
-                            <div className={weatherMissingData ? "hide-tab" : "weather-item"}>
+                            <div className={weatherMissingData || !weatherData.precipProbability ? "hide-tab" : "weather-item"}>
                                 <p>
                                     {weatherData.precipProbability ? weatherData.precipProbability + "% " : null}
                                 </p>
@@ -213,7 +213,7 @@ class AppServicesNav extends React.Component {
                                     {weatherData.precipProbability ? "prec." : null}
                                 </p>
                             </div>
-                            <div className={weatherMissingData ? "hide-tab" : "weather-item width-40-pct "}>
+                            <div className={weatherMissingData || !weatherData.windMPH ? "hide-tab" : "weather-item width-40-pct "}>
                                 <p>
                                     {weatherData.windMPH ? weatherData.windMPH + "mph " : null}
                                 </p>
