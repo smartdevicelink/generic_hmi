@@ -19,7 +19,7 @@ export default class AppServiceNavCard extends React.Component {
 
         var actionBearingLine = navData.actionBearing ? 
             (<p className="t-light t-small th-f-color">
-                {navData.actionBearing}
+                {navData.actionBearing + (navData.distance ? " | " + navData.distance : "")}
             </p>) : null;
 
         var instructionLines = null;
