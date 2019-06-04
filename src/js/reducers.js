@@ -125,6 +125,12 @@ function parseActionBearing(action, bearing) {
             result = simpleBearing
         }            
     }
+
+    if (result === "Turn U-Turn") {
+        // Exception case for U-turns
+        result = "Make U-Turn";
+    }
+
     return result
 }
 
