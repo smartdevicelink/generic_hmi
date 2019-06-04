@@ -25,8 +25,6 @@ export default class NavInstructionImage extends React.Component {
 
     render() {
         var image = this.props.image
-        console.log("Nav Instruction Image")
-        console.log(this.props)
         if (image) {
             if (image.imageType === "STATIC") {
                 return (
