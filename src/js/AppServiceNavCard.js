@@ -1,5 +1,4 @@
 import React from 'react';
-import navIcon from "../img/app_services/navigation.svg";
 import NavInstructionImage from "./NavInstructionImage";
 export default class AppServiceNavCard extends React.Component {
 
@@ -19,7 +18,7 @@ export default class AppServiceNavCard extends React.Component {
 
         var actionBearingLine = navData.actionBearing ? 
             (<p className="t-light t-small th-f-color">
-                {navData.actionBearing}
+                {navData.actionBearing + (navData.distance ? " | " + navData.distance : "")}
             </p>) : null;
 
         var instructionLines = null;
@@ -37,7 +36,7 @@ export default class AppServiceNavCard extends React.Component {
 
         return (
             <div className="app-service-nav-card app-service-medium-tab">
-                <NavInstructionImage image={navData.image} theme={this.props.theme}/>
+                <NavInstructionImage image={navData.image} theme={this.props.theme} parent="nav-card"/>
                 {instructionLines}
                 {nextActionLine}
                 <p className="app-service-card-footer th-f-color">
