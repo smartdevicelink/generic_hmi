@@ -137,7 +137,9 @@ class AppServicesNav extends React.Component {
         var themeClass = this.props.theme ? 'dark-theme dark-shadow' : 'light-theme light-shadow';
 
         // If there is no service data present, hide option to expand medium view.
-        var hideExpandButton = navMissingData && mediaMissingData && weatherMissingData;
+        var hideExpandButton = (navMissingData || !navActive) && 
+            (mediaMissingData || !mediaActive) && 
+            (weatherMissingData || !weatherActive);
         
         return (
             <div className="app-services-nav th-nav-background-color">
