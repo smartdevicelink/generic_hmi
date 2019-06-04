@@ -128,6 +128,21 @@ function parseActionBearing(action, bearing) {
     return result
 }
 
+function parseNavDistance (distance) {
+    var gt0 = distance > 0;
+    var parsedDistance = distance.toFixed(1);
+    if (gt0 && parsedDistance == 0) {
+        return "<0.1"
+    }
+    if (parsedDistance > 0 && parsedDistance < 10) {
+        return parsedDistance.toString();
+    }
+    if (parsedDistance > 10) {
+        return parsedDistance.toFixed(0).toString();
+    }
+    return "0"
+}
+
 function parseNavData (data) {
     var pData = {            
         location: null,
@@ -152,7 +167,7 @@ function parseNavData (data) {
         pData.actionBearing = parseActionBearing(action, bearing)
 
         // Parse Distance
-        pData.distance = data.nextInstructionDistance ? data.nextInstructionDistance : null
+        pData.distance = data.nextInstructionDistance ? parseNavDistance(data.nextInstructionDistance) : null
 
         // Parse Image
         pData.image = instruction.image ? instruction.image : null
