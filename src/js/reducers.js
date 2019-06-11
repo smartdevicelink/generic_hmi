@@ -481,6 +481,10 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = false
             return newState
+        case Actions.ON_PUT_FILE:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            return newState
         default:
             return state
     }
