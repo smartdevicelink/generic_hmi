@@ -39,7 +39,8 @@ class UIController {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
             case "GetCapabilities":
-                if (rpc.method.split(".")[0] === "UI") { //do not respond to ui capabilities
+                if (rpc.method.split(".")[0] === "UI") { 
+                    return; //do not respond to ui capabilities
                     //return {"rpc": RpcFactory.UIGetCapabilitiesResponse(rpc)}
                 } else if (rpc.method.split(".")[0] === "Buttons") {
                     return; //do not respond to button capabilities
