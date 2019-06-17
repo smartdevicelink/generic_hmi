@@ -45,7 +45,8 @@ export const activateApp = (appID) => {
 
 export const deactivateApp = (appID) => {
     return {
-        type: Actions.DEACTIVATE_APP
+        type: Actions.DEACTIVATE_APP,
+        appID: appID
     }
 }
 
