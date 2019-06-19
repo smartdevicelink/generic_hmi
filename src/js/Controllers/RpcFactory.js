@@ -466,6 +466,7 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
+                    "message": "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }
