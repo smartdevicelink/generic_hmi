@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -46,6 +46,10 @@ class BCController {
                 return null
             case "OnSystemCapabilityUpdated":
                 store.dispatch(onSystemCapabilityUpdated(rpc.params.systemCapability))
+                return null
+            case "OnPutFile":
+                store.dispatch(onPutFile(rpc.params.appID, rpc.params.syncFileName, rpc.params.fileType, rpc.params.fileSize, 
+                                         rpc.params.offset, rpc.params.length, rpc.params.isSystemFile, rpc.params.isPersistentFile))
                 return null
             case "UpdateDeviceList":
                 return true
