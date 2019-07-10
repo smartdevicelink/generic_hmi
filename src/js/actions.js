@@ -136,14 +136,15 @@ export const deactivateInteraction = (appID) => {
     }
 }
 
-export const performInteraction = (appID, text, choices, layout, msgID) => {
+export const performInteraction = (appID, text, choices, layout, msgID, cancelID) => {
     return {
         type: Actions.PERFORM_INTERACTION,
         appID: appID,
         text: text,
         choices: choices,
         layout: layout,
-        msgID: msgID
+        msgID: msgID,
+        cancelID: cancelID
     }
 }
 
@@ -192,7 +193,7 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
-export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID) => {
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, cancelID) => {
     return {
         type: Actions.ALERT,
         appID: appID,
@@ -201,7 +202,8 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         softButtons: softButtons,
         alertType: alertType,
         showProgressIndicator: progressIndicator,
-        msgID: msgID
+        msgID: msgID,
+        cancelID: cancelID
     }
 }
 

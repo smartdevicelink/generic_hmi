@@ -13,6 +13,7 @@ import {
     setDisplayLayout,
     alert,
     closeAlert,
+    deactivateInteraction,
     activateApp
 } from '../actions'
 import store from '../store'
@@ -101,7 +102,8 @@ class UIController {
                     rpc.params.initialText,
                     rpc.params.choiceSet,
                     rpc.params.interactionLayout,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
@@ -131,7 +133,8 @@ class UIController {
                     rpc.params.softButtons,
                     rpc.params.alertType,
                     rpc.params.progressIndicator,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
@@ -147,6 +150,22 @@ class UIController {
                 }
 
                 return null
+            case "CancelInteraction":
+
+                const state2 = store.getState()
+                var app = state2.ui[state2.activeApp]
+    
+                if (rpc.params.functionID === 10 && app.isPerformingInteraction
+                     && (rpc.params.cancelID === -1 || rpc.params.cancelID === app.interactionCancelId)) {
+                    store.dispatch(deactivateInteraction(rpc.params.appID))
+                    return true
+                } else if (rpc.params.functionID === 12 && app.alert.showAlert
+                     && (rpc.params.cancelID === -1 || rpc.params.cancelID === app.alert.cancelID)) {
+                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    return true
+                } 
+                
+                return false
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
