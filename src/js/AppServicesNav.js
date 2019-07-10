@@ -4,7 +4,6 @@ import weatherIcon from "../img/app_services/weather.svg";
 import WeatherButton from "./WeatherButton";
 import mediaIcon from "../img/app_services/media.svg";
 import MediaServiceDataImage from "./MediaServiceDataImage";
-import navIcon from "../img/app_services/navigation.svg";
 import NavInstructionImage from "./NavInstructionImage";
 import iconMenu from '../img/icons/icon-menu.svg';
 import expandIcon from '../img/app_services/expand.svg';
@@ -138,7 +137,9 @@ class AppServicesNav extends React.Component {
         var themeClass = this.props.theme ? 'dark-theme dark-shadow' : 'light-theme light-shadow';
 
         // If there is no service data present, hide option to expand medium view.
-        var hideExpandButton = navMissingData && mediaMissingData && weatherMissingData;
+        var hideExpandButton = (navMissingData || !navActive) && 
+            (mediaMissingData || !mediaActive) && 
+            (weatherMissingData || !weatherActive);
         
         return (
             <div className="app-services-nav th-nav-background-color">
@@ -152,7 +153,7 @@ class AppServicesNav extends React.Component {
                         ((activeServiceTab == "nav") ? "tab-wide__nav" : "") + 
                         (navActive ? "" : " hide-tab")}
                         onClick={() => this.setActive("nav")}>
-                        <NavInstructionImage image={navData.image} theme={undefined}/>
+                        <NavInstructionImage image={navData.image} theme={undefined} parent="nav-bar"/>
                         <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab == "nav") ? "" : "hide-tab")}>
                             <p className={navMissingData ? "waiting-message" : "hide-tab"}>
                                 {navMissingData ? waitingMessage : null}

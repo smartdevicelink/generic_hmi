@@ -1,7 +1,7 @@
 import React from 'react';
-import AppServiceNavCard from './AppserviceNavCard';
-import AppServiceMediaCard from './AppserviceMediaCard';
-import AppServiceWeatherCard from './AppserviceWeatherCard';
+import AppServiceNavCard from './AppServiceNavCard';
+import AppServiceMediaCard from './AppServiceMediaCard';
+import AppServiceWeatherCard from './AppServiceWeatherCard';
 import Divider from './Divider';
 
 export default class AppServiceMediumModal extends React.Component {
