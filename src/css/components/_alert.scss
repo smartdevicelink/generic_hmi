@@ -52,7 +52,10 @@
     @include justify-content(center);
     @include align-items(center);
     .svg-wrap{
-        height:75%;
+        max-height:75%;
+        max-width: 75%;
+        height: auto;
+        width: auto;
 
         svg{
             height: 100%;

@@ -3,16 +3,14 @@ import React from 'react';
 import AlertHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
+import Image from './Templates/Shared/Image'
 
-import alertIcon from '../img/icons/icon-alert.svg'
-
-export default class MediaPlayer extends React.Component {
+export default class Alert extends React.Component {
     constructor() {
         super();
     }
 
     render() {
-
         return (
             <div className="alert">
                 <div className="alert-title">
@@ -23,7 +21,7 @@ export default class MediaPlayer extends React.Component {
                 <div className="alert-top">
                     <AlertStrings/>
                     <div className="alert-icon">
-                        <span key="icon" className="svg-wrap" dangerouslySetInnerHTML={{__html: alertIcon}} />
+                        <Image class="svg-wrap" image={this.props.icon.value}/>
                     </div>
                 </div>
                 <AlertButtons class="alert-softbuttons-container"/>
