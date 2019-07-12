@@ -21,7 +21,7 @@ export default class Alert extends React.Component {
                 <div className="alert-top">
                     <AlertStrings/>
                     <div className="alert-icon">
-                        <Image class="svg-wrap" image={this.props.icon.value}/>
+                        <Image class="icon" image={this.props.icon}/>
                     </div>
                 </div>
                 <AlertButtons class="alert-softbuttons-container"/>

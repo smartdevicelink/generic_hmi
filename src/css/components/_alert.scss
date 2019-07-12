@@ -51,17 +51,12 @@
     @include display(flex);
     @include justify-content(center);
     @include align-items(center);
-    .svg-wrap{
+    .icon{
         max-height:75%;
         max-width: 75%;
         height: auto;
         width: auto;
-
-        svg{
-            height: 100%;
-        }
     }
-
 }
 
 .alert-text-fields{
