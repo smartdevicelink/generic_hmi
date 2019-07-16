@@ -125,7 +125,28 @@ function parseActionBearing(action, bearing) {
             result = simpleBearing
         }            
     }
+
+    if (result === "Turn U-Turn") {
+        // Exception case for U-turns
+        result = "Make U-Turn";
+    }
+
     return result
+}
+
+function parseNavDistance (distance) {
+    var gt0 = distance > 0;
+    var parsedDistance = distance.toFixed(1);
+    if (gt0 && parsedDistance == 0) {
+        return "<0.1"
+    }
+    if (parsedDistance > 0 && parsedDistance < 10) {
+        return parsedDistance.toString();
+    }
+    if (parsedDistance > 10) {
+        return parsedDistance.toFixed(0).toString();
+    }
+    return "0"
 }
 
 function parseNavData (data) {
@@ -152,7 +173,7 @@ function parseNavData (data) {
         pData.actionBearing = parseActionBearing(action, bearing)
 
         // Parse Distance
-        pData.distance = data.nextInstructionDistance ? data.nextInstructionDistance : null
+        pData.distance = data.nextInstructionDistance ? parseNavDistance(data.nextInstructionDistance) : null
 
         // Parse Image
         pData.image = instruction.image ? instruction.image : null
@@ -480,6 +501,10 @@ function ui(state = {}, action) {
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = false
+            return newState
+        case Actions.ON_PUT_FILE:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             return newState
         default:
             return state

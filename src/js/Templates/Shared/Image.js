@@ -86,7 +86,7 @@ export default class Image extends React.Component {
                 )
             } else {
                 return (
-                    <img className={this.props.class} src={this.props.image} onError={e => this.onError(e)} />
+                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} />
                 )
             }
 

@@ -26,7 +26,8 @@ export const Actions = {
     UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
-    ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA"
+    ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
+    ON_PUT_FILE: "ON_PUT_FILE"
 }
 
 export const updateAppList = (applications) => {
@@ -264,5 +265,19 @@ export const onAppServiceData = (service_data) => {
     return {
         type: Actions.ON_APP_SERVICE_DATA,
         serviceData: service_data
+    }
+}
+
+export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, isSystemFile, isPersistentFile) => {
+    return {
+        type: Actions.ON_PUT_FILE,
+        appID: appID,
+        fileName: fileName,
+        fileType: fileType,
+        fileSize: fileSize,
+        offset: offset,
+        length: length,
+        isSystemFile: isSystemFile,
+        isPersistentFile: isPersistentFile
     }
 }
