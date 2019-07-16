@@ -37,11 +37,14 @@ class BCController {
                 store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
+            case "CloseApplication":
+                store.dispatch(deactivateApp(rpc.params.appID))
+                return true
             case "OnAppRegistered":
                 store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication))
                 return null
             case "OnAppUnregistered":
-                store.dispatch(deactivateApp())
+                store.dispatch(deactivateApp(rpc.params.appID))
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
                 return null
             case "OnSystemCapabilityUpdated":
