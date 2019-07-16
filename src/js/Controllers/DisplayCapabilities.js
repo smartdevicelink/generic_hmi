@@ -40,6 +40,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 100,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,

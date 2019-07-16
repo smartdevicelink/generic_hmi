@@ -9,13 +9,17 @@ const mapStateToProps = (state) => {
     })
 
     var name = ""
+    var templateTitle = "";  
+    if(state.ui[activeApp] && state.ui[activeApp].showStrings.templateTitle){
+        templateTitle = state.ui[activeApp].showStrings.templateTitle;
+    }
 
     if(activeApp && app) {
         name = app.appName ? app.appName : "Apps"
     } else { 
         name = "Apps"
     }
-    return {name: name}
+    return {name: name, templateTitle: templateTitle}
 }
 
 const mapDispatchToProps = (dispatch) => {
