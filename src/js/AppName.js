@@ -8,11 +8,9 @@ export default class AppName extends React.Component {
         let templateTitle = this.props.templateTitle;
         return (
             <div>
-                <p className="t-small t-medium th-f-color">
-                    {this.props.name}
-                </p>
-                <p className="t-small t-light th-f-color t-oneline">
-                    {templateTitle}
+                <p>
+                    <span className="t-small t-medium th-f-color">{this.props.name}</span>
+                    <span className="t-small t-light th-f-color t-oneline">{templateTitle}</span>
                 </p>
             </div>
         )

@@ -260,6 +260,11 @@ function ui(state = {}, action) {
             if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
+            if (app.showStrings.templateTitle){
+                console.log("Show templateTitle: " + app.showStrings.templateTitle);
+            }else{
+                console.log("No template title specified");
+            }
             return newState
         case Actions.SET_APP_ICON:
             var newState = { ...state }
