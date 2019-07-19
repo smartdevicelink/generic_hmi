@@ -157,8 +157,9 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
-		},
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		}, 
 		"softButtonCapabilities": [{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
