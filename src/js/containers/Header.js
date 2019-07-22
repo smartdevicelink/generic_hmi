@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
             }
 
             if (state.ui[prop].alert.icon) {
-                alertIcon = state.ui[prop].alert.icon.value
+                alertIcon = state.ui[prop].alert.icon
             }
 
             break

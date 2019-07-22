@@ -4,6 +4,7 @@ import AlertHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
 import Image from './Templates/Shared/Image'
+import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class Alert extends React.Component {
     constructor() {
@@ -11,6 +12,10 @@ export default class Alert extends React.Component {
     }
 
     render() {
+        var icon = (this.props.icon.imageType === "STATIC")
+                 ? (<StaticIcon class="alert-icon" image={this.props.icon.value} />)
+                 : (<div className="alert-icon"><Image class="icon" image={this.props.icon.value} /></div>);
+
         return (
             <div className="alert">
                 <div className="alert-title">
@@ -20,9 +25,7 @@ export default class Alert extends React.Component {
                 </div>
                 <div className="alert-top">
                     <AlertStrings/>
-                    <div className="alert-icon">
-                        <Image class="icon" image={this.props.icon}/>
-                    </div>
+                    { icon }
                 </div>
                 <AlertButtons class="alert-softbuttons-container"/>
             </div>
