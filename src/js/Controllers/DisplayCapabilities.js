@@ -137,6 +137,13 @@ let capabilities = {
 						"resolutionWidth": 360,
 						"resolutionHeight": 360
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -356,6 +363,13 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -549,6 +563,13 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -752,6 +773,13 @@ let capabilities = {
 						"resolutionWidth": 480,
 						"resolutionHeight": 480
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -897,6 +925,13 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1092,6 +1127,13 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1286,6 +1328,13 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1472,6 +1521,13 @@ let capabilities = {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1642,6 +1698,13 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -1811,6 +1874,13 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1997,6 +2067,13 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
