@@ -27,6 +27,10 @@ const mapStateToProps = (state) => {
 
     var theme = state.theme
     var colorScheme = null;
+    var triggerShowAppMenu = (state.ui[activeApp]) ? state.ui[activeApp].triggerShowAppMenu : false;
+    
+    console.log("triggerShowAppMenu: " + triggerShowAppMenu)
+
     if (theme === true) { //Dark theme
         if(app.nightColorScheme) {
             if(app.nightColorScheme.backgroundColor) {
@@ -48,7 +52,8 @@ const mapStateToProps = (state) => {
         alertName: alertAppName,
         theme: theme,
         activeApp: activeApp,
-        colorScheme: colorScheme
+        colorScheme: colorScheme,
+        triggerShowAppMenu: triggerShowAppMenu
         
     }
 }

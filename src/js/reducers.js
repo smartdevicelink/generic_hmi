@@ -11,6 +11,7 @@ function newAppState () {
         softButtons: [],
         icon: null,
         menu: [],
+        triggerShowAppMenu: false,
         activeSubMenu: null,
         subscribedButtons: {},
         isPerformingInteraction: false,
@@ -329,6 +330,13 @@ function ui(state = {}, action) {
             })
             menu.splice(i, 1)
             return newState
+        case Actions.SHOW_APP_MENU:
+            var newState = { ...state }
+            console.log("Setting triggerShowAppMenu")
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.triggerShowAppMenu = true
+            newState[action.appID] = app
+            return newState
         case Actions.SUBSCRIBE_BUTTON:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
@@ -505,6 +513,13 @@ function ui(state = {}, action) {
         case Actions.ON_PUT_FILE:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            return newState
+        case Actions.RESET_SHOW_APP_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            console.log("Reseting triggerShowAppMenu")
+            app.triggerShowAppMenu = false
+            newState[action.appID] = app        
             return newState
         default:
             return state

@@ -13,7 +13,8 @@ import {
     setDisplayLayout,
     alert,
     closeAlert,
-    activateApp
+    activateApp,
+    showAppMenu
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -84,6 +85,13 @@ class UIController {
                 return true
             case "DeleteSubMenu":
                 store.dispatch(deleteSubMenu(
+                    rpc.params.appID,
+                    rpc.params.menuID
+                ))
+                return true
+            case "ShowAppMenu":
+                console.log("Received ShowAppMenu request");
+                store.dispatch(showAppMenu(
                     rpc.params.appID,
                     rpc.params.menuID
                 ))
