@@ -154,13 +154,13 @@ class UIController {
 
                 const state2 = store.getState()
                 var app = state2.ui[state2.activeApp]
-    
+                
                 if (rpc.params.functionID === 10 && app.isPerformingInteraction
-                     && (rpc.params.cancelID === -1 || rpc.params.cancelID === app.interactionCancelId)) {
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert
-                     && (rpc.params.cancelID === -1 || rpc.params.cancelID === app.alert.cancelID)) {
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     return true
                 } 
