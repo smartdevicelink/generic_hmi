@@ -140,6 +140,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -366,6 +367,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -567,6 +569,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -776,6 +779,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -929,6 +933,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -1130,6 +1135,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -1331,6 +1337,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -1524,6 +1531,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -1701,6 +1709,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -1878,6 +1887,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
@@ -2071,6 +2081,7 @@ let capabilities = {
 				},
 				{
 					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
 					"imageResolution": {
 						"resolutionWidth": 225,
 						"resolutionHeight": 225
