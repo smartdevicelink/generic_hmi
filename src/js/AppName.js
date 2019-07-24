@@ -10,6 +10,7 @@ export default class AppName extends React.Component {
             <div>
                 <p>
                     <span className="t-small t-medium th-f-color">{this.props.name}</span>
+                    <br />
                     <span className="t-small t-light th-f-color t-oneline">{templateTitle}</span>
                 </p>
             </div>
