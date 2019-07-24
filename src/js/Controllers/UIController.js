@@ -90,7 +90,6 @@ class UIController {
                 ))
                 return true
             case "ShowAppMenu":
-                console.log("Received ShowAppMenu request");
                 store.dispatch(showAppMenu(
                     rpc.params.appID,
                     rpc.params.menuID

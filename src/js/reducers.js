@@ -332,9 +332,10 @@ function ui(state = {}, action) {
             return newState
         case Actions.SHOW_APP_MENU:
             var newState = { ...state }
-            console.log("Setting triggerShowAppMenu")
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.triggerShowAppMenu = true
+            // If action has menuID, activate submenu otherwise deactivate sub menu
+            app.activeSubMenu = (action.menuID) ? action.menuID : null;
             newState[action.appID] = app
             return newState
         case Actions.SUBSCRIBE_BUTTON:
@@ -517,7 +518,6 @@ function ui(state = {}, action) {
         case Actions.RESET_SHOW_APP_MENU:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            console.log("Reseting triggerShowAppMenu")
             app.triggerShowAppMenu = false
             newState[action.appID] = app        
             return newState

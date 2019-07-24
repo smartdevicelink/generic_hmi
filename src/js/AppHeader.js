@@ -85,16 +85,21 @@ class AppHeader extends React.Component {
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
-        
         else if(nextProps.triggerShowAppMenu){
-            if(!this.props.router.isActive("/inappmenu")){
-                console.log("Opening app menu")
-                this.props.router.push('/inappmenu')    
+            if(nextProps.activeSubMenu){
+                // If menuID is specified, activate that sub menu
+                if(!this.props.router.isActive("/inapplist")){
+                    this.props.router.push('/inapplist')    
+                }
+            }
+            else{
+                // If NO menuID is specifed, show menu 
+                if(!this.props.router.isActive("/inappmenu")){
+                    this.props.router.push('/inappmenu')    
+                }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))
         }
-        console.log(this.props)
-        console.log(nextProps)
 
     }
 }
