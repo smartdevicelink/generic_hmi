@@ -26,8 +26,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, path) => {
-            const state = store.getState()
-            dispatch(deactivateSubMenu(state.activeApp))
+            dispatch(deactivateSubMenu(appID))
 
             if (path == "/inappmenu") {
                 uiController.onSystemContext("MENU", appID)
