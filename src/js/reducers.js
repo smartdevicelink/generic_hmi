@@ -514,6 +514,7 @@ function ui(state = {}, action) {
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
             }
+            newState[action.appID] = app
             return newState
         default:
             return state

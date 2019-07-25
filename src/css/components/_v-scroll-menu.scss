@@ -1,5 +1,8 @@
 .vscrollmenu {
     width: 100%;
     height: $master-height - 75px;
-    overflow-y: scroll;
+    overflow: hidden;
+    .div {
+        overflow-y: scroll;
+    }
 }

@@ -3,6 +3,7 @@ import uiController from '../Controllers/UIController'
 import AppIcon from '../AppIcon'
 import store from '../store'
 import '../polyfill_find'
+import { deactivateSubMenu } from '../actions';
 
 
 const mapStateToProps = (state) => {
@@ -26,10 +27,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, path) => {
             const state = store.getState()
-            const app = state.ui[state.activeApp]
-            if (app) {
-                app.activeSubMenu = null
-            }
+            dispatch(deactivateSubMenu(state.activeApp))
 
             if (path == "/inappmenu") {
                 uiController.onSystemContext("MENU", appID)
