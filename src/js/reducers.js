@@ -221,7 +221,7 @@ function activeApp(state = null, action) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
         case Actions.DEACTIVATE_APP:
-            return null;
+            return action.appID == state ? null : state;
         default:
             return state
     }
