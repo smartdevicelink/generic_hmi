@@ -157,10 +157,13 @@ class UIController {
                 
                 if (rpc.params.functionID === 10 && app.isPerformingInteraction
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
+                    this.listener.send(RpcFactory.VRPerformInteractionAbortedResponse(app.interactionId - 1))
+                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                        this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     return true
                 } 

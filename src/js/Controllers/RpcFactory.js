@@ -24,6 +24,16 @@ class RpcFactory {
             }
         })
     }
+    static AlertAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 5,
+                "method": "UI.Alert"
+            }
+        })
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -66,6 +76,16 @@ class RpcFactory {
             }
         })
     }
+    static UIPerformInteractionAbortedResponse(msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "result": {
+                "method": "UI.PerformInteraction",
+                "code": 5
+            }
+        })
+    }
     static UIPerformInteractionResponse(choiceID, appID, msgID) {
         return ({
             "jsonrpc": "2.0",
@@ -74,6 +94,16 @@ class RpcFactory {
                 "method": "UI.PerformInteraction",
                 "code": 0,
                 "choiceID": choiceID
+            }
+        })
+    }
+    static VRPerformInteractionAbortedResponse(msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "result": {
+                "method": "VR.PerformInteraction",
+                "code": 5
             }
         })
     }
