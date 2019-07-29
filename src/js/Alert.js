@@ -12,9 +12,10 @@ export default class Alert extends React.Component {
     }
 
     render() {
+        var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = (this.props.icon.imageType === "STATIC")
                  ? (<StaticIcon class="alert-icon" image={this.props.icon.value} />)
-                 : (<div className="alert-icon"><Image class="icon" image={this.props.icon.value} /></div>);
+                 : (<div className="alert-icon"><Image class="icon" image={this.props.icon.value} isTemplate={this.props.icon.isTemplate} fillColor={fill} /></div>);
 
         return (
             <div className="alert">
