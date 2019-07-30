@@ -40,6 +40,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -232,6 +238,12 @@ let capabilities = {
 					"name": "mainField4",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -455,6 +467,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -654,6 +672,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -867,6 +891,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1018,6 +1048,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -1223,6 +1259,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1422,6 +1464,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -1625,6 +1673,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1803,6 +1857,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1972,6 +2032,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
