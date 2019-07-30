@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
     var name = ""
     var templateTitle = "";
-    var menuName = "";
+    var subMenuName = "";
     
     if(state.ui[activeApp] && state.ui[activeApp].showStrings.templateTitle){
         templateTitle = state.ui[activeApp].showStrings.templateTitle;
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
         let submenu = state.ui[activeApp].menu.find(
             (entry) => {return entry.menuID && entry.menuID == state.ui[activeApp].activeSubMenu}
         )
-        menuName = (submenu) ? submenu.menuName : "";
+        subMenuName = (submenu) ? submenu.menuName : "";
     }
 
     if(activeApp && app) {
@@ -28,7 +28,7 @@ const mapStateToProps = (state) => {
     } else { 
         name = "Apps"
     }
-    return {name: name, templateTitle: templateTitle, menuName: menuName}
+    return {name: name, templateTitle: templateTitle, subMenuName: subMenuName}
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -10,6 +10,9 @@
     height: 100px;
     padding: 0 25px;
 
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+
     div {
         @include flex(1);
         &:nth-of-type(2) {
