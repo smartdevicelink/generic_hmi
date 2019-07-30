@@ -1,4 +1,5 @@
 import React from 'react'
+import titleSeparator from '../img/static/0xFF.svg'
 
 export default class AppName extends React.Component {
     constructor (props) {
@@ -14,7 +15,7 @@ export default class AppName extends React.Component {
         return (
             <div>
                 <p className="t-oneline">
-                    <span className="t-small t-medium th-f-color">{this.props.name}</span>  <span className="t-large t-light th-f-color">{(subTitle) ? "|": ""}</span>  <span className="t-small t-light th-f-color-secondary">{subTitle}</span>
+                    <span className="t-small t-medium th-f-color">{this.props.name}</span> <span className="svg-wrap-secondary" dangerouslySetInnerHTML={{__html: (subTitle) ? titleSeparator : ""}} /> <span className="t-small t-light th-f-color-secondary">{subTitle}</span>
                 </p>
             </div>
         )
