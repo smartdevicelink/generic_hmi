@@ -131,7 +131,8 @@ class UIController {
                     rpc.params.softButtons,
                     rpc.params.alertType,
                     rpc.params.progressIndicator,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.alertIcon
                 ))
                 var timeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
