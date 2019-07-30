@@ -42,7 +42,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -235,7 +235,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -453,7 +453,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -653,7 +653,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -861,7 +861,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1013,7 +1013,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1213,7 +1213,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1413,7 +1413,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1611,7 +1611,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1787,7 +1787,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{
@@ -1957,7 +1957,7 @@ let capabilities = {
 				{
 					"name": "templateTitle",
 					"characterSet": "TYPE2SET",
-					"width": 75,
+					"width": 55,
 					"rows": 1
 				},
 				{

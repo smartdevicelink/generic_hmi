@@ -13,10 +13,8 @@ export default class AppName extends React.Component {
         
         return (
             <div>
-                <p>
-                    <span className="t-small t-medium th-f-color">{this.props.name}</span>
-                    <br />
-                    <span className="t-small t-light th-f-color t-oneline">{subTitle}</span>
+                <p className="t-oneline">
+                    <span className="t-small t-medium th-f-color">{this.props.name}</span>  <span className="t-large t-light th-f-color">{(subTitle) ? "|": ""}</span>  <span className="t-small t-light th-f-color-secondary">{subTitle}</span>
                 </p>
             </div>
         )
