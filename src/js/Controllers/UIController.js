@@ -94,6 +94,7 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.menuID
                 ))
+                this.onSystemContext("MENU", rpc.params.appID)
                 return true
             case "OnButtonSubscription":
                 store.dispatch(subscribeButton(
