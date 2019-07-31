@@ -28,9 +28,11 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "id": rpcID,
-            "result": {
+            "error": {
                 "code": 5,
-                "method": "UI.Alert"
+                "data": {
+                    "method": "UI.Alert"
+                }
             }
         })
     }
@@ -80,9 +82,11 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
-            "result": {
-                "method": "UI.PerformInteraction",
-                "code": 5
+            "error": {
+                "code": 5,
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
             }
         })
     }
@@ -101,9 +105,11 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
-            "result": {
-                "method": "VR.PerformInteraction",
-                "code": 5
+            "error": {
+                "code": 5,
+                "data": {
+                    "method": "VR.PerformInteraction"
+                }
             }
         })
     }

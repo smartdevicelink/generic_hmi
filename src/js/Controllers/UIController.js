@@ -163,10 +163,10 @@ class UIController {
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
-                        this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                    this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     return true
-                } 
+                }
                 
                 return false
         }
