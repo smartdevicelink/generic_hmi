@@ -29,7 +29,8 @@ export const Actions = {
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
-    ON_PUT_FILE: "ON_PUT_FILE"
+    ON_PUT_FILE: "ON_PUT_FILE",
+    SET_DD_STATE: "SET_DD_STATE"
 }
 
 export const updateAppList = (applications) => {
@@ -117,11 +118,12 @@ export const subscribeButton = (appID, buttonName, isSubscribed) => {
     }
 }
 
-export const activateSubMenu = (appID, menuID) => {
+export const activateSubMenu = (appID, menuID, depth) => {
     return {
         type: Actions.ACTIVATE_SUB_MENU,
         menuID: menuID,
-        appID: appID
+        appID: appID,
+        depth: depth
     }
 }
 
@@ -297,5 +299,12 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
         length: length,
         isSystemFile: isSystemFile,
         isPersistentFile: isPersistentFile
+    }
+}
+
+export const setDDState = (ddState) => {
+    return {
+        type: Actions.SET_DD_STATE,
+        dd: ddState
     }
 }

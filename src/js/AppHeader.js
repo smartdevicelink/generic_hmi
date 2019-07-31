@@ -33,16 +33,27 @@ class AppHeader extends React.Component {
 
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
-        var modalClass = themeClass + " alertOverlay"
-        var isShowingMenu = this.props.router.isActive('/inappmenu')
-        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+        var modalClass = themeClass + " alertOverlay";
+        var isShowingMenu = this.props.router.isActive('/inappmenu');
+        var isShowingSubMenu = this.props.router.isActive('/inapplist');
+        
+        const icon = this.props.appIcon == 'false' ? (<div />) 
+            : <MenuIcon isShowingMenu={isShowingMenu || isShowingSubMenu} 
+                        activeSubMenu={this.props.activeSubMenu ? true : false}/> ;
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
+        // Determine backLink for special case when showing submenu
+        var backLink = this.props.backLink;
+        if (this.props.activeSubMenu) {
+            backLink = (this.props.activeMenuDepth > 1) ? "/inapplist" : "/inappmenu";
+        } else if (isShowingMenu) {
+            backLink = this.props.activeLayout;
+        }
         return (
             <div className="app__header" style={colorScheme}>
-                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
+                <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
                 <Name />
                 { icon }
                 <Modal

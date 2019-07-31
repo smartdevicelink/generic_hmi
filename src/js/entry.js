@@ -26,24 +26,31 @@ import store from './store'
 
 import Controller from './Controllers/Controller'
 import bcController from './Controllers/BCController'
-import {setTheme} from './actions'
+import {setTheme, setDDState} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dark: true
+            dark: true,
+            dd: false // Driver Distraction State
         }
         this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
+        this.handleDDToggle = this.handleDDToggle.bind(this);
     }
     handleClick() {
         var theme = !this.state.dark
-        this.setState({ dark: theme})
+        this.setState({dark: theme})
         store.dispatch(setTheme(theme))
     }
     handleShutdown(){
         bcController.onIgnitionCycleOver()
         bcController.onExitAllApplications("IGNITION_OFF")
+    }
+    handleDDToggle(){
+        var ddState = !this.state.dd;
+        this.setState({dd: ddState});
+        store.dispatch(setDDState(ddState));
     }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
@@ -57,6 +64,7 @@ class HMIApp extends React.Component {
                 <div> 
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
+                    <div className="driver-distraction-button" onClick={this.handleDDToggle}>DD Toggle</div>
                 </div>
             </div>
         )

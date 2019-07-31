@@ -13,6 +13,7 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
+        activeMenuDepth: 0,
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -47,6 +48,15 @@ function theme(state = true, action) {
         case Actions.SET_THEME:
             return action.theme
             break
+        default:
+            return state
+    }
+}
+
+function ddState(state = false, action) {
+    switch (action.type) {
+        case Actions.SET_DD_STATE:
+            return action.dd
         default:
             return state
     }
@@ -239,6 +249,76 @@ function deleteCommand(commands, cmdID) {
     }
     return commands
 }
+
+function deleteSubMenu(commands, menuID) {
+    for (var i = 0; i < commands.length; i++) {
+        if (commands[i].menuID === menuID) {
+            commands.splice(i, 1)
+            return commands
+        }
+        else if (commands[i].subMenu) {
+            commands[i].subMenu = deleteSubMenu(commands[i].subMenu, menuID)
+        }
+    }
+    return commands
+}
+
+// Depth First Search Recursive Function
+function SubmenuDeepFind(menu, parentID, depth) { 
+    if (!menu || !parentID) {
+        return null;
+    }
+    var deepSubMenu = null;
+    var subMenu = menu.find((command) => {
+        if (command.subMenu) { 
+            var result = SubmenuDeepFind(command.subMenu, parentID, depth++)
+            if (result && result.subMenu) {
+                deepSubMenu = result;
+                return true;
+            }
+        }
+        return command.menuID === parentID
+    });
+    if (deepSubMenu) {
+        return deepSubMenu;
+    }
+    if (subMenu) {
+        return {
+            subMenu: subMenu,
+            depth: depth
+        }
+    }
+    return null;
+}
+
+/*
+function FindAndDeleteSubMenu(menu, menuID) {
+    if (!menu || !menuID) {
+        return false;
+    }
+    var resultIndex = -1;
+    var deepResult = false;
+    var subMenu = menu.find((command, index) => {
+        if (command.subMenu) {
+            var result = FindAndDeleteSubMenu(command.subMenu, menuID)
+            if (result) {
+                deepResult = true;
+                return true
+            }
+        }
+        resultIndex = index;
+        return command.menuID === menuID
+    });
+    if (deepResult) {
+        return true;
+    }
+    if (subMenu && resultIndex > -1) {
+        menu.splice(resultIndex, 1)
+        return true
+    }
+    return false;    
+}*/
+
 function ui(state = {}, action) {
     switch (action.type) {
         case Actions.SHOW:
@@ -284,12 +364,17 @@ function ui(state = {}, action) {
                 cmdIcon: cmdIcon
             }
             if (menuParams.parentID) {
-                var subMenu = menu.find((command) => {
+                /*var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
-                });
+                });*/
+                var result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
                 (menuParams.position || menuParams.position === 0) ? 
-                    subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
-                    subMenu.subMenu.push(menuItem);
+                    result.subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
+                    result.subMenu.subMenu.push(menuItem);
             } else {
                 (menuParams.position || menuParams.position === 0) ? 
                     menu.splice(menuParams.position, 0, menuItem) : 
@@ -316,19 +401,28 @@ function ui(state = {}, action) {
                 cmdIcon: action.subMenuIcon,
                 subMenu: []
             };
-            (position || position === 0) ? 
-                menu.splice(position, 0, menuItem) : 
-                menu.push(menuItem);
+
+            if (menuItem.parentID) {
+                var result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
+                (position || position === 0) ? 
+                result.subMenu.subMenu.splice(position, 0, menuItem) : 
+                result.subMenu.subMenu.push(menuItem);
+            } else {
+                (position || position === 0) ? 
+                    menu.splice(position, 0, menuItem) : 
+                    menu.push(menuItem);
+            }
             return newState
         case Actions.DELETE_SUB_MENU:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             var menu = app.menu
-            var i = menu.findIndex((command) => {
-                return command.menuID === action.menuID
-            })
-            menu.splice(i, 1)
+            app.menu = deleteSubMenu(menu, action.menuID);
             return newState
         case Actions.SHOW_APP_MENU:
             var newState = { ...state }
@@ -350,12 +444,14 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             app.activeSubMenu = action.menuID
+            app.activeMenuDepth += action.depth
             return newState
         case Actions.DEACTIVATE_SUB_MENU:
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             app.activeSubMenu = null
+            app.activeMenuDepth = 0
             return newState
         case Actions.PERFORM_INTERACTION:
             var newState = { ...state }
@@ -547,6 +643,7 @@ function system(state = {}, action) {
 
 export const hmi = combineReducers({
     theme,
+    ddState,
     appList,
     appServiceData,
     activeApp,

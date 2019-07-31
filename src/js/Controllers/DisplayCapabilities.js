@@ -2235,7 +2235,11 @@ let capabilities = {
 			},
 			"phoneCapability": {
 				"dialNumberEnabled": false
-			}
+			},
+			"driverDistractionCapability": {
+                "menuLength": 10,
+                "subMenuDepth": 2
+            }
 		}
 	}
 }
