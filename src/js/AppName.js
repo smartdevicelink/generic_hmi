@@ -12,10 +12,14 @@ export default class AppName extends React.Component {
         subTitle = (isShowingMenu) ? "Menu" : subTitle
         subTitle = (isShowingSubMenu) ? this.props.subMenuName : subTitle 
         
+        let appName_html = <span className="t-small t-medium th-f-color">{this.props.name}</span>
+        let separator_html = (subTitle) ? <span className="svg-wrap-secondary" dangerouslySetInnerHTML={{__html:titleSeparator}} /> : null
+        let subTitle_html = (subTitle) ? <span className="t-small t-light th-f-color-secondary">{subTitle}</span> : null
+        
         return (
             <div>
                 <p className="t-oneline">
-                    <span className="t-small t-medium th-f-color">{this.props.name}</span> <span className="svg-wrap-secondary" dangerouslySetInnerHTML={{__html: (subTitle) ? titleSeparator : ""}} /> <span className="t-small t-light th-f-color-secondary">{subTitle}</span>
+                    {appName_html}{separator_html}{subTitle_html}
                 </p>
             </div>
         )
