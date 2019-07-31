@@ -13,7 +13,8 @@ import {
     setDisplayLayout,
     alert,
     closeAlert,
-    activateApp
+    activateApp,
+    showAppMenu
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -87,6 +88,13 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.menuID
                 ))
+                return true
+            case "ShowAppMenu":
+                store.dispatch(showAppMenu(
+                    rpc.params.appID,
+                    rpc.params.menuID
+                ))
+                this.onSystemContext("MENU", rpc.params.appID)
                 return true
             case "OnButtonSubscription":
                 store.dispatch(subscribeButton(

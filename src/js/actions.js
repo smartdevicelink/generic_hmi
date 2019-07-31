@@ -11,6 +11,8 @@ export const Actions = {
     SUBSCRIBE_BUTTON: "SUBSCRIBE_BUTTON",
     ACTIVATE_SUB_MENU: "ACTIVATE_SUB_MENU",
     DEACTIVATE_SUB_MENU: "DEACTIVATE_SUB_MENU",
+    SHOW_APP_MENU: "SHOW_APP_MENU",
+    RESET_SHOW_APP_MENU: "RESET_SHOW_APP_MENU",
     PERFORM_INTERACTION: "PERFORM_INTERACTION",
     DEACTIVATE_INTERACTION: "DEACTIVATE_INTERACTION",
     TIMEOUT_PERFORM_INTERACTION: "TIMEOUT_PERFORM_INTERACTION",
@@ -126,6 +128,21 @@ export const activateSubMenu = (appID, menuID) => {
 export const deactivateSubMenu = (appID) => {
     return {
         type: Actions.DEACTIVATE_SUB_MENU,
+        appID: appID
+    }
+}
+
+export const showAppMenu = (appID, menuID) => {
+    return {
+        type: Actions.SHOW_APP_MENU,
+        menuID: menuID,
+        appID: appID
+    }
+}
+
+export const resetShowAppMenu = (appID) => {
+    return {
+        type: Actions.RESET_SHOW_APP_MENU,
         appID: appID
     }
 }
