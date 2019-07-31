@@ -15,11 +15,13 @@ export default class AppName extends React.Component {
         let appName_html = <span className="t-small t-medium th-f-color">{this.props.name}</span>
         let separator_html = (subTitle) ? <span className="svg-wrap-secondary" dangerouslySetInnerHTML={{__html:titleSeparator}} /> : null
         let subTitle_html = (subTitle) ? <span className="t-small t-light th-f-color-secondary">{subTitle}</span> : null
-        
+
         return (
             <div>
                 <p className="t-oneline">
-                    {appName_html}{separator_html}{subTitle_html}
+                    {appName_html}
+                    {separator_html}
+                    {subTitle_html}
                 </p>
             </div>
         )
