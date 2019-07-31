@@ -157,7 +157,6 @@ class UIController {
                 
                 if (rpc.params.functionID === 10 && app.isPerformingInteraction
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
-                    this.listener.send(RpcFactory.VRPerformInteractionAbortedResponse(app.interactionId - 1))
                     this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     return true
