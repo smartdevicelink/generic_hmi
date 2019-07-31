@@ -210,7 +210,7 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
-export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID) => {
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon) => {
     return {
         type: Actions.ALERT,
         appID: appID,
@@ -219,7 +219,8 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         softButtons: softButtons,
         alertType: alertType,
         showProgressIndicator: progressIndicator,
-        msgID: msgID
+        msgID: msgID,
+        icon: icon
     }
 }
 

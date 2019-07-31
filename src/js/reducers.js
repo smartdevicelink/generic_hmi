@@ -481,6 +481,7 @@ function ui(state = {}, action) {
             app.alert.alertType = action.alertType
             app.alert.showProgressIndicator = action.showProgressIndicator
             app.alert.msgID = action.msgID
+            app.alert.icon = action.icon
             return newState
         case Actions.CLOSE_ALERT:
             var newState = { ...state }

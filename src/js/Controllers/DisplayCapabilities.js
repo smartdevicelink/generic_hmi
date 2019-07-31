@@ -40,6 +40,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -137,6 +143,14 @@ let capabilities = {
 						"resolutionWidth": 360,
 						"resolutionHeight": 360
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -224,6 +238,12 @@ let capabilities = {
 					"name": "mainField4",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -356,6 +376,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -436,6 +464,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -550,6 +584,14 @@ let capabilities = {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -630,6 +672,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -752,6 +800,14 @@ let capabilities = {
 						"resolutionWidth": 480,
 						"resolutionHeight": 480
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -835,6 +891,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -897,6 +959,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -981,6 +1051,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1091,6 +1167,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1175,6 +1259,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1286,6 +1376,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1366,6 +1464,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -1471,6 +1575,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1561,6 +1673,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1641,6 +1759,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1731,6 +1857,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1811,6 +1943,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],
@@ -1895,6 +2035,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1997,6 +2143,14 @@ let capabilities = {
 					"imageResolution": {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
 					}
 				}
 			],

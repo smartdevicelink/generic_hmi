@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 
     var showAlert = false
     var alertAppName = ""
+    var alertIcon = { imageType: "STATIC", value: "0xFE" }
     for(var prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -21,6 +22,11 @@ const mapStateToProps = (state) => {
             if(alertApp.appName) {
                 alertAppName = alertApp.appName
             }
+
+            if (state.ui[prop].alert.icon) {
+                alertIcon = state.ui[prop].alert.icon
+            }
+
             break
         }
     }
@@ -53,7 +59,8 @@ const mapStateToProps = (state) => {
         activeApp: activeApp,
         colorScheme: colorScheme,
         triggerShowAppMenu: triggerShowAppMenu,
-        activeSubMenu: activeSubMenu
+        activeSubMenu: activeSubMenu,
+        alertIcon: alertIcon
     }
 }
 

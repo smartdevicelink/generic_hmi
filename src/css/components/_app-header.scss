@@ -36,4 +36,13 @@
         text-decoration: none;
         text-transform: uppercase;
     }
+
+    .svg-wrap-secondary{
+        width: 30px;
+        svg{
+            width: 10px;
+            height: 10px;
+            margin-left: 5px;
+        }
+    }
 }
