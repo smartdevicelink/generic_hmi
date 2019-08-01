@@ -30,6 +30,7 @@ class RpcFactory {
             "id": rpcID,
             "error": {
                 "code": 5,
+                "message": "The Interaction was cancelled",
                 "data": {
                     "method": "UI.Alert"
                 }
@@ -84,6 +85,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 5,
+                "message": "The Interaction was cancelled",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -98,18 +100,6 @@ class RpcFactory {
                 "method": "UI.PerformInteraction",
                 "code": 0,
                 "choiceID": choiceID
-            }
-        })
-    }
-    static VRPerformInteractionAbortedResponse(msgID) {
-        return ({
-            "jsonrpc": "2.0",
-            "id": msgID,
-            "error": {
-                "code": 5,
-                "data": {
-                    "method": "VR.PerformInteraction"
-                }
             }
         })
     }

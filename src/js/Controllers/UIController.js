@@ -157,11 +157,15 @@ class UIController {
                 
                 if (rpc.params.functionID === 10 && app.isPerformingInteraction
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
+                    clearTimeout(this.timers[app.interactionId])
+                    delete this.timers[app.interactionId]
                     this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    clearTimeout(this.timers[app.alert.msgID])
+                    delete this.timers[app.alert.msgID]
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     return true
@@ -172,7 +176,6 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionFailure(msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
@@ -237,7 +240,6 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionResponse(choiceID, appID, msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {
@@ -262,7 +264,6 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.VRPerformInteractionFailure(parseInt(msgID)-1))
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
