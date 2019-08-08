@@ -2213,11 +2213,11 @@ let capabilities = {
 		]
 	},
 	"COMMON": {
-		"audioPassThruCapabilities": {
+		"audioPassThruCapabilities": [{
 			"samplingRate": "44KHZ",
 			"bitsPerSample": "8_BIT",
 			"audioType": "PCM"
-		},
+		}],
 		"speechCapabilities": [
 			"FILE"
 		],
