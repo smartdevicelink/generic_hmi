@@ -14,6 +14,9 @@ export default class HScrollMenuItem extends React.Component {
             <div
                 className={`hscrollmenu-item th-b-color th-tile-background-color ${menuItem.class}`}
                 onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
+                <div className="hscrollmenu-item__device-name">
+                    <p className="t-light th-f-color-secondary t-oneline">{ menuItem.devicename }</p>
+                </div>
                 <div className="hscrollmenu-item__image">
                     { graphic }
                 </div>
