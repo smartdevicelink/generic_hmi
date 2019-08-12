@@ -364,6 +364,7 @@ function ui(state = {}, action) {
             app.interactionText = action.text
             app.choices = action.choices
             app.interactionId = action.msgID
+            app.interactionCancelId = action.cancelID
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -482,6 +483,7 @@ function ui(state = {}, action) {
             app.alert.showProgressIndicator = action.showProgressIndicator
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
+            app.alert.cancelID = action.cancelID
             return newState
         case Actions.CLOSE_ALERT:
             var newState = { ...state }

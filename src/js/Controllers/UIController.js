@@ -13,6 +13,7 @@ import {
     setDisplayLayout,
     alert,
     closeAlert,
+    deactivateInteraction,
     activateApp,
     showAppMenu
 } from '../actions'
@@ -109,7 +110,8 @@ class UIController {
                     rpc.params.initialText,
                     rpc.params.choiceSet,
                     rpc.params.interactionLayout,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
@@ -140,7 +142,8 @@ class UIController {
                     rpc.params.alertType,
                     rpc.params.progressIndicator,
                     rpc.id,
-                    rpc.params.alertIcon
+                    rpc.params.alertIcon,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
@@ -156,11 +159,32 @@ class UIController {
                 }
 
                 return null
+            case "CancelInteraction":
+
+                const state2 = store.getState()
+                var app = state2.ui[state2.activeApp]
+                
+                if (rpc.params.functionID === 10 && app.isPerformingInteraction
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
+                    clearTimeout(this.timers[app.interactionId])
+                    delete this.timers[app.interactionId]
+                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
+                    store.dispatch(deactivateInteraction(rpc.params.appID))
+                    return true
+                } else if (rpc.params.functionID === 12 && app.alert.showAlert
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    clearTimeout(this.timers[app.alert.msgID])
+                    delete this.timers[app.alert.msgID]
+                    this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    return true
+                }
+                
+                return false
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionFailure(msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
@@ -225,7 +249,6 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionResponse(choiceID, appID, msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {
@@ -250,7 +273,6 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.VRPerformInteractionFailure(parseInt(msgID)-1))
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
