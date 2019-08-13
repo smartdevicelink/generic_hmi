@@ -220,6 +220,8 @@ class UIController {
         delete this.timers[msgID]
         this.listener.send(RpcFactory.VRPerformInteractionResponse(choiceID, appID, msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
+        //inform other hmis to dismiss their VR interactions
+        this.listener.send(RpcFactory.NonSdlDismissInteractionVr())
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))

@@ -10,6 +10,11 @@ import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
 import {flags} from '../Flags';
+import store from '../store'
+import RpcFactory from './RpcFactory';
+import {
+    timeoutPerformInteraction,
+} from '../actions'
 
 export default class Controller {
     constructor (setThemeFunc) {
@@ -166,6 +171,13 @@ export default class Controller {
         if (rpc.notRpc) { //handle custom messages coming from other HMIs
             if (rpc.type === "SET_THEME") {
                 this.setTheme(rpc.data.isDark);
+            }
+            if (rpc.type === "DISMISS_INTERACTION") {
+                store.dispatch(timeoutPerformInteraction(
+                    rpc.data.rpcID,
+                    rpc.data.appID
+                ))
+                uiController.onSystemContext("MAIN", rpc.data.appID)
             }
             return;
         };

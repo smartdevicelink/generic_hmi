@@ -475,6 +475,19 @@ class RpcFactory {
         }
 
     }
+
+
+    //NON-RPC MESSAGES
+
+    static NonSdlDismissInteractionVr() {
+        return ({
+            notRpc: true,
+            type: "DISMISS_INTERACTION_VR",
+            data: {
+            }
+        })
+    }
+
 }
 
 export default RpcFactory
