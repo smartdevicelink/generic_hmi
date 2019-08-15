@@ -13,6 +13,7 @@ import {
     setDisplayLayout,
     alert,
     closeAlert,
+    setGlobalProperties,
     deactivateInteraction,
     activateApp,
     showAppMenu
@@ -75,7 +76,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.menuID,
                     rpc.params.menuParams,
-                    rpc.params.menuIcon
+                    rpc.params.menuIcon,
+                    rpc.params.menuLayout
                 ))
                 return true
             case "DeleteCommand":
@@ -131,7 +133,10 @@ class UIController {
                 store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
-                // TODO: implement this RPC
+                store.dispatch(setGlobalProperties(
+                    rpc.params.appID,
+                    rpc.params.menuLayout
+                ))
                 return true
             case "Alert":
                 store.dispatch(alert(

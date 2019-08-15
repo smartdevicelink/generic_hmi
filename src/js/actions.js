@@ -29,7 +29,8 @@ export const Actions = {
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
-    ON_PUT_FILE: "ON_PUT_FILE"
+    ON_PUT_FILE: "ON_PUT_FILE",
+    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES"
 }
 
 export const updateAppList = (applications) => {
@@ -90,13 +91,14 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams, icon) => {
+export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
         menuParams: menuParams,
-        subMenuIcon: icon
+        subMenuIcon: icon,
+        menuLayout: menuLayout
     }
 }
 
@@ -299,5 +301,13 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
         length: length,
         isSystemFile: isSystemFile,
         isPersistentFile: isPersistentFile
+    }
+}
+
+export const setGlobalProperties = (appID, menuLayout) => {
+    return {
+        type: Actions.SET_GLOBAL_PROPERTIES,
+        appID: appID,
+        menuLayout: menuLayout
     }
 }

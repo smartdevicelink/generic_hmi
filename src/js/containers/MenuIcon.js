@@ -1,7 +1,9 @@
 import { connect } from 'react-redux'
 import uiController from '../Controllers/UIController'
 import AppIcon from '../AppIcon'
+import store from '../store'
 import '../polyfill_find'
+import { deactivateSubMenu } from '../actions';
 
 
 const mapStateToProps = (state) => {
@@ -24,6 +26,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, path) => {
+            dispatch(deactivateSubMenu(appID))
+
             if (path == "/inappmenu") {
                 uiController.onSystemContext("MENU", appID)
             } else { //user exited menu
