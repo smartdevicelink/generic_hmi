@@ -14,10 +14,13 @@ const mapStateToProps = (state) => {
             link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
         }
         var name = app.isCloudApplication ? app.appName + " (Cloud)" : app.appName;
+        var devicename = (app.deviceInfo.name.trim()) ? app.deviceInfo.name 
+            : app.deviceInfo.transportType + ": " + app.deviceInfo.id.substring(0, 10) + "...";
         return {
             appID: app.appID,
             class: 'with-image',
             name: name,
+            devicename: devicename,
             image: icon,
             link: '/' + link,
             cmdID: app.appID

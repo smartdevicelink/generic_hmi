@@ -9,6 +9,12 @@ export default class HScrollMenuItem extends React.Component {
     }
     render() {
         const { menuItem } = this.props;
+        var header = menuItem.devicename;
+        var header_html = (header) ? 
+            (<div className="hscrollmenu-item__header">
+                <p className="t-light th-f-color-secondary t-oneline">{ header }</p>
+            </div>)
+            : null;
         var graphic = (this.props.menuItem.imageType === "STATIC")
                  ? <StaticIcon image={this.props.menuItem.image} />
                  : <Image image={this.props.menuItem.image} />;
@@ -19,6 +25,7 @@ export default class HScrollMenuItem extends React.Component {
                 onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
                 <div
                     className="hscrollmenu-item th-b-color th-tile-background-color">
+                    { header_html }
                     <div className="hscrollmenu-item__image">
                         { graphic }
                     </div>
