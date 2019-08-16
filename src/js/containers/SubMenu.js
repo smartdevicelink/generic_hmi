@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
+import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction } from '../actions'
 import '../polyfill_find'
@@ -62,9 +63,14 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const SubMenu = connect(
+export const VSubMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(VScrollMenu)
 
-export default SubMenu
+export const HSubMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HScrollMenu)
+
+export default VSubMenu

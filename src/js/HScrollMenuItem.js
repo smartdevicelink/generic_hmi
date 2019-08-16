@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Image from './Templates/Shared/Image'
+import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class HScrollMenuItem extends React.Component {
     constructor(props) {
@@ -7,28 +9,31 @@ export default class HScrollMenuItem extends React.Component {
     }
     render() {
         const { menuItem } = this.props;
-        const graphic = this.props.menuItem.class == 'with-icon' ?
-        (<span className="svg-wrap" dangerouslySetInnerHTML={{__html: `${menuItem.image}`}} />)
-        : <img src={menuItem.image} /> ;
-
         var header = menuItem.devicename;
         var header_html = (header) ? 
             (<div className="hscrollmenu-item__header">
                 <p className="t-light th-f-color-secondary t-oneline">{ header }</p>
             </div>)
             : null;
+        var graphic = (this.props.menuItem.imageType === "STATIC")
+                 ? <StaticIcon image={this.props.menuItem.image} />
+                 : <Image image={this.props.menuItem.image} />;
+
         return (
-            <div
-                className={`hscrollmenu-item th-b-color th-tile-background-color ${menuItem.class}`}
+            <Link
+                to={this.props.menuItem.link}
                 onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
-                { header_html }
-                <div className="hscrollmenu-item__image">
-                    { graphic }
+                <div
+                    className="hscrollmenu-item th-b-color th-tile-background-color">
+                    { header_html }
+                    <div className="hscrollmenu-item__image">
+                        { graphic }
+                    </div>
+                    <div className="hscrollmenu-item__name">
+                        <p className="t-small t-light th-f-color">{menuItem.name}</p>
+                    </div>
                 </div>
-                <div className="hscrollmenu-item__name">
-                    <p className="t-small t-light th-f-color">{ menuItem.name }</p>
-                </div>
-            </div>
+            </Link>
         )
     }
 }

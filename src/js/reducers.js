@@ -13,6 +13,7 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
+        menuLayout: "LIST",
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -314,7 +315,8 @@ function ui(state = {}, action) {
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
                 cmdIcon: action.subMenuIcon,
-                subMenu: []
+                subMenu: [],
+                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
             (position || position === 0) ? 
                 menu.splice(position, 0, menuItem) : 
@@ -364,6 +366,7 @@ function ui(state = {}, action) {
             app.interactionText = action.text
             app.choices = action.choices
             app.interactionId = action.msgID
+            app.interactionCancelId = action.cancelID
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -482,6 +485,7 @@ function ui(state = {}, action) {
             app.alert.showProgressIndicator = action.showProgressIndicator
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
+            app.alert.cancelID = action.cancelID
             return newState
         case Actions.CLOSE_ALERT:
             var newState = { ...state }
@@ -521,6 +525,14 @@ function ui(state = {}, action) {
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.triggerShowAppMenu = false
             newState[action.appID] = app        
+            return newState
+        case Actions.SET_GLOBAL_PROPERTIES:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.menuLayout && action.menuLayout.length) {
+                app.menuLayout = action.menuLayout
+            }
+            newState[action.appID] = app
             return newState
         default:
             return state
