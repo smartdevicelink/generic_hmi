@@ -12,7 +12,7 @@ class VRController {
             case "DeleteCommand":
                 return true
             case "PerformInteraction":
-                return true
+                return undefined
         }
     }
 }
