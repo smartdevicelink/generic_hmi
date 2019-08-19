@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
     var showAlert = false
     var alertAppName = ""
-    var alertIcon = { imageType: "STATIC", value: "0xFE" }
+    var alertIcon = null
     for(var prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true

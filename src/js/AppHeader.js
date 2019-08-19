@@ -51,7 +51,7 @@ class AppHeader extends React.Component {
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
                 >
-                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon}/>
+                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>
                 </Modal>
             </div>
             
