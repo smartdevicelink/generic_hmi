@@ -12,7 +12,9 @@ function newAppState () {
         softButtons: [],
         icon: null,
         menu: [],
+        triggerShowAppMenu: false,
         activeSubMenu: null,
+        menuLayout: "LIST",
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -222,7 +224,7 @@ function activeApp(state = null, action) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
         case Actions.DEACTIVATE_APP:
-            return null;
+            return action.appID == state ? null : state;
         default:
             return state
     }
@@ -314,7 +316,8 @@ function ui(state = {}, action) {
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
                 cmdIcon: action.subMenuIcon,
-                subMenu: []
+                subMenu: [],
+                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
             (position || position === 0) ? 
                 menu.splice(position, 0, menuItem) : 
@@ -329,6 +332,14 @@ function ui(state = {}, action) {
                 return command.menuID === action.menuID
             })
             menu.splice(i, 1)
+            return newState
+        case Actions.SHOW_APP_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.triggerShowAppMenu = true
+            // If action has menuID, activate submenu otherwise deactivate sub menu
+            app.activeSubMenu = (action.menuID) ? action.menuID : null;
+            newState[action.appID] = app
             return newState
         case Actions.SUBSCRIBE_BUTTON:
             var newState = { ...state }
@@ -356,6 +367,7 @@ function ui(state = {}, action) {
             app.interactionText = action.text
             app.choices = action.choices
             app.interactionId = action.msgID
+            app.interactionCancelId = action.cancelID
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -473,6 +485,8 @@ function ui(state = {}, action) {
             app.alert.alertType = action.alertType
             app.alert.showProgressIndicator = action.showProgressIndicator
             app.alert.msgID = action.msgID
+            app.alert.icon = action.icon
+            app.alert.cancelID = action.cancelID
             return newState
         case Actions.CLOSE_ALERT:
             var newState = { ...state }
@@ -502,6 +516,24 @@ function ui(state = {}, action) {
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = false
+            return newState
+        case Actions.ON_PUT_FILE:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            return newState
+        case Actions.RESET_SHOW_APP_MENU:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.triggerShowAppMenu = false
+            newState[action.appID] = app        
+            return newState
+        case Actions.SET_GLOBAL_PROPERTIES:
+            var newState = { ...state }
+            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            if (action.menuLayout && action.menuLayout.length) {
+                app.menuLayout = action.menuLayout
+            }
+            newState[action.appID] = app
             return newState
         default:
             return state

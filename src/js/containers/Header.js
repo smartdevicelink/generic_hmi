@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 
     var showAlert = false
     var alertAppName = ""
+    var alertIcon = null
     for(var prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -21,12 +22,20 @@ const mapStateToProps = (state) => {
             if(alertApp.appName) {
                 alertAppName = alertApp.appName
             }
+
+            if (state.ui[prop].alert.icon) {
+                alertIcon = state.ui[prop].alert.icon
+            }
+
             break
         }
     }
 
     var theme = state.theme
     var colorScheme = null;
+    var triggerShowAppMenu = (state.ui[activeApp]) ? state.ui[activeApp].triggerShowAppMenu : false;
+    var activeSubMenu = (state.ui[activeApp]) ? state.ui[activeApp].activeSubMenu : null;
+    
     if (theme === true) { //Dark theme
         if(app.nightColorScheme) {
             if(app.nightColorScheme.backgroundColor) {
@@ -48,8 +57,10 @@ const mapStateToProps = (state) => {
         alertName: alertAppName,
         theme: theme,
         activeApp: activeApp,
-        colorScheme: colorScheme
-        
+        colorScheme: colorScheme,
+        triggerShowAppMenu: triggerShowAppMenu,
+        activeSubMenu: activeSubMenu,
+        alertIcon: alertIcon
     }
 }
 

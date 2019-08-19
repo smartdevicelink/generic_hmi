@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
+import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 
@@ -8,17 +9,12 @@ const mapStateToProps = (state) => {
     var menu = state.ui[activeApp].menu
     var theme = state.theme
     var data = menu.map((command) => {
-        var dataClass = null
-        if (command.cmdIcon) {
-            dataClass = 'with-icon'
-        }
         var link =  state.ui[activeApp].displayLayout
         if (command.subMenu) {
             link = '/inapplist'
         }
         return {
             cmdID: command.cmdID,
-            class: dataClass,
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
             imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
@@ -45,9 +41,14 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const Menu = connect(
+export const VMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(VScrollMenu)
 
-export default Menu
+export const HMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HScrollMenu)
+
+export default VMenu

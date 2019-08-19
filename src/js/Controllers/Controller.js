@@ -137,6 +137,7 @@ export default class Controller {
         this.subscribeToNotification("Buttons.OnButtonSubscription")
         this.subscribeToNotification("BasicCommunication.OnAppRegistered")
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
+        this.subscribeToNotification("BasicCommunication.OnPutFile")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")

@@ -51,14 +51,18 @@
     @include display(flex);
     @include justify-content(center);
     @include align-items(center);
-    .svg-wrap{
-        height:75%;
-
-        svg{
-            height: 100%;
-        }
+    .icon{
+        max-height:75%;
+        max-width: 75%;
+        height: auto;
+        width: auto;
     }
-
+    #Layer_1 {
+        max-height:75%;
+        max-width: 75%;
+        height: auto;
+        width: 75%;
+    }
 }
 
 .alert-text-fields{

@@ -6,7 +6,7 @@ import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-
+import {resetShowAppMenu} from './actions'
 
 
 
@@ -51,7 +51,7 @@ class AppHeader extends React.Component {
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
                 >
-                    <Alert alertName={this.props.alertName}/>
+                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>
                 </Modal>
             </div>
             
@@ -84,6 +84,21 @@ class AppHeader extends React.Component {
             if(!this.props.activeApp && nextProps.activeApp) {
                 this.props.router.push("/" + nextProps.displayLayout)
             }
+        }
+        else if(nextProps.triggerShowAppMenu){
+            if(nextProps.activeSubMenu){
+                // If menuID is specified, activate that sub menu
+                if(!this.props.router.isActive("/inapplist")){
+                    this.props.router.push('/inapplist')    
+                }
+            }
+            else{
+                // If NO menuID is specifed, show menu 
+                if(!this.props.router.isActive("/inappmenu")){
+                    this.props.router.push('/inappmenu')    
+                }    
+            }
+            store.dispatch(resetShowAppMenu(nextProps.activeApp))
         }
 
     }

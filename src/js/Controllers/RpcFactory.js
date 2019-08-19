@@ -24,6 +24,19 @@ class RpcFactory {
             }
         })
     }
+    static AlertAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Alert"
+                }
+            }
+        })
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -63,6 +76,19 @@ class RpcFactory {
                 "isAppRevoked": false,
                 "isPermissionsConsentNeeded": false,
                 "isSDLAllowed": true
+            }
+        })
+    }
+    static UIPerformInteractionAbortedResponse(msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
             }
         })
     }

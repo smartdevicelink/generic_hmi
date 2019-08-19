@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -37,15 +37,22 @@ class BCController {
                 store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
+            case "CloseApplication":
+                store.dispatch(deactivateApp(rpc.params.appID))
+                return true
             case "OnAppRegistered":
                 store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication))
                 return null
             case "OnAppUnregistered":
-                store.dispatch(deactivateApp())
+                store.dispatch(deactivateApp(rpc.params.appID))
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
                 return null
             case "OnSystemCapabilityUpdated":
                 store.dispatch(onSystemCapabilityUpdated(rpc.params.systemCapability))
+                return null
+            case "OnPutFile":
+                store.dispatch(onPutFile(rpc.params.appID, rpc.params.syncFileName, rpc.params.fileType, rpc.params.fileSize, 
+                                         rpc.params.offset, rpc.params.length, rpc.params.isSystemFile, rpc.params.isPersistentFile))
                 return null
             case "UpdateDeviceList":
                 return true
