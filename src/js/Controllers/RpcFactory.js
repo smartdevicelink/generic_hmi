@@ -505,11 +505,14 @@ class RpcFactory {
 
     //NON-RPC MESSAGES
 
-    static NonSdlDismissInteractionVr() {
+    static NonSdlDismissInteractionVr(choiceID, appID, msgID) {
         return ({
             notRpc: true,
             type: "DISMISS_INTERACTION_VR",
             data: {
+                choiceID, 
+                appID, 
+                msgID
             }
         })
     }
