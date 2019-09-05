@@ -502,6 +502,19 @@ class RpcFactory {
         }
 
     }
+    static UICancelInteractionIgnoredResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 6,
+                "message": "Request is ignored, because the intended result is already in effect.",
+                "data": {
+                    "method": "UI.CancelInteraction"
+                }
+            }
+        })
+    }
 }
 
 export default RpcFactory
