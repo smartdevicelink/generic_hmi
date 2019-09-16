@@ -54,7 +54,27 @@ class SDLController {
                 return;
             case "GetURLS":
                 store.dispatch(getURLS(rpc.result.urls))
-                const state = store.getState()
+                var state = store.getState()
+                if(flags.ExternalPolicies) {
+                    externalPolicies.pack({            
+                        type: 'PROPRIETARY',
+                        policyUpdateFile: state.system.policyFile,
+                        urls: state.system.urls,
+                        retry: state.system.policyRetry,
+                        timeout: state.system.policyTimeout
+                    })
+                } else {
+                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                }
+                return;
+            case "GetPolicyConfigurationData":
+                var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
+                var parsed_urls = [];
+                for (const url of urls) {
+                    parsed_urls.push({'url': url});
+                }
+                store.dispatch(getURLS(parsed_urls))
+                var state = store.getState()
                 if(flags.ExternalPolicies) {
                     externalPolicies.pack({            
                         type: 'PROPRIETARY',
@@ -86,6 +106,9 @@ class SDLController {
     }
     getURLS(serviceType) {
         this.listener.send(RpcFactory.GetURLS(serviceType))
+    }
+    getPolicyConfiguration(type, property) {
+        this.listener.send(RpcFactory.GetPolicyConfigurationData(type, property));
     }
     onReceivedPolicyUpdate(policyFile) {
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
