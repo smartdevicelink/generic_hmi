@@ -366,16 +366,6 @@ class RpcFactory {
             }           
         })
     }
-    static GetURLS(serviceType) {
-         return ({
-            'jsonrpc': '2.0',
-            "id": rpcFactory_msgId++,
-            'method': 'SDL.GetURLS',
-            'params': {
-                'service' : serviceType
-            }           
-        })       
-    }
     static GetPolicyConfigurationData(type, property) {
         return ({
            'jsonrpc': '2.0',

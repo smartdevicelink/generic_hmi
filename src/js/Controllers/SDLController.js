@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, getURLS  } from '../actions'
+import { activateApp, setURLS  } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -52,28 +52,13 @@ class SDLController {
                     store.dispatch(activateApp(activatingApplication))
                 } 
                 return;
-            case "GetURLS":
-                store.dispatch(getURLS(rpc.result.urls))
-                var state = store.getState()
-                if(flags.ExternalPolicies) {
-                    externalPolicies.pack({            
-                        type: 'PROPRIETARY',
-                        policyUpdateFile: state.system.policyFile,
-                        urls: state.system.urls,
-                        retry: state.system.policyRetry,
-                        timeout: state.system.policyTimeout
-                    })
-                } else {
-                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
-                }
-                return;
             case "GetPolicyConfigurationData":
                 var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
                 var parsed_urls = [];
                 for (const url of urls) {
                     parsed_urls.push({'url': url});
                 }
-                store.dispatch(getURLS(parsed_urls))
+                store.dispatch(setURLS(parsed_urls))
                 var state = store.getState()
                 if(flags.ExternalPolicies) {
                     externalPolicies.pack({            
@@ -103,9 +88,6 @@ class SDLController {
         // this.listener.send(RpcFactory.BCOnAppActivatedNotification(appID))
         activatingApplication = appID
         this.listener.send(RpcFactory.SDLActivateApp(appID))
-    }
-    getURLS(serviceType) {
-        this.listener.send(RpcFactory.GetURLS(serviceType))
     }
     getPolicyConfiguration(type, property) {
         this.listener.send(RpcFactory.GetPolicyConfigurationData(type, property));
