@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, getURLS  } from '../actions'
+import { activateApp, setURLS  } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -52,9 +52,14 @@ class SDLController {
                     store.dispatch(activateApp(activatingApplication))
                 } 
                 return;
-            case "GetURLS":
-                store.dispatch(getURLS(rpc.result.urls))
-                const state = store.getState()
+            case "GetPolicyConfigurationData":
+                var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
+                var parsed_urls = [];
+                for (const url of urls) {
+                    parsed_urls.push({'url': url});
+                }
+                store.dispatch(setURLS(parsed_urls))
+                var state = store.getState()
                 if(flags.ExternalPolicies) {
                     externalPolicies.pack({            
                         type: 'PROPRIETARY',
@@ -84,8 +89,8 @@ class SDLController {
         activatingApplication = appID
         this.listener.send(RpcFactory.SDLActivateApp(appID))
     }
-    getURLS(serviceType) {
-        this.listener.send(RpcFactory.GetURLS(serviceType))
+    getPolicyConfiguration(type, property) {
+        this.listener.send(RpcFactory.GetPolicyConfigurationData(type, property));
     }
     onReceivedPolicyUpdate(policyFile) {
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
