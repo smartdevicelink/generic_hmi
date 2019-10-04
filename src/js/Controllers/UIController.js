@@ -50,13 +50,27 @@ class UIController {
                     return false;
                 }                
             case "Show":
+                if (rpc.params.windowID && rpc.params.windowID != 0) {
+                    // Generic HMI only supports main window for now.
+                    return false;
+                }
                 store.dispatch(show(
                     rpc.params.appID,
                     rpc.params.showStrings,
                     rpc.params.graphic,
                     rpc.params.softButtons,
                     rpc.params.secondaryGraphic
-                ))
+                ));
+                if (rpc.params.templateConfiguration) {
+                    const templateConfiguration = rpc.params.templateConfiguration;
+                    store.dispatch(setDisplayLayout(
+                        templateConfiguration.template, 
+                        rpc.params.appID, 
+                        templateConfiguration.dayColorScheme, 
+                        templateConfiguration.nightColorScheme
+                    ));
+                    listen.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                }
                 return true
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
@@ -130,6 +144,7 @@ class UIController {
                 ))
                 return true
             case "SetDisplayLayout":
+                console.log("Warning: RPC SetDisplayLayout is deprecated");
                 store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":

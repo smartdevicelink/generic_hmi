@@ -1,4 +1,4 @@
-import capabilities from './DisplayCapabilities.js'
+import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
     static UnsupportedResourceResponse(rpc, message) {
@@ -513,6 +513,20 @@ class RpcFactory {
                 "data": {
                     "method": "UI.CancelInteraction"
                 }
+            }
+        })
+    }
+    static OnSystemCapabilityDisplay(template, appID) {
+        var systemCapability = {
+            systemCapabilityType: "DISPLAYS",
+            displayCapabilities: [getDisplayCapability(template)]
+        }
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": systemCapability,
+                "appID": appID
             }
         })
     }

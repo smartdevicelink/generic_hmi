@@ -178,13 +178,15 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		],
 		"buttonCapabilities": [{
@@ -412,37 +414,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -621,37 +629,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -838,37 +852,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -999,37 +1019,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -1208,37 +1234,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -1417,37 +1449,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -1618,37 +1656,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -1803,37 +1847,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -1988,37 +2038,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -2189,37 +2245,43 @@ let capabilities = {
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			},
 			{
 				"shortPressAvailable": true,
 				"longPressAvailable": false,
 				"upDownAvailable": false,
-				"imageSupported": true
+				"imageSupported": true,
+				"textSupported": true
 			}
 		]
 	},
@@ -2256,4 +2318,42 @@ let capabilities = {
 	}
 }
 
-export default capabilities;
+const mainWindowTypeCapability = {
+	type: "MAIN",
+	maximumNumberOfWindows: 1
+}
+
+const getWindowCapability = (template) => {
+	if (!template || !capabilities[template]) {
+		return null;
+	}
+	var templateCapability = capabilities[template];
+	var templateDisplayCapability = templateCapability.displayCapabilities
+	var capability = {
+		textFields: templateDisplayCapability.textFields,
+		imageFields: templateDisplayCapability.imageFields,
+		imageTypeSupported: templateDisplayCapability.imageFields ? templateDisplayCapability.imageFields[0].imageTypeSupported : "GRAPHIC_PNG",
+		templatesAvailable: templateDisplayCapability.templatesAvailable,
+		buttonCapabilities: templateDisplayCapability.buttonCapabilities,
+		softButtonCapabilities: templateDisplayCapability.softButtonCapabilities,
+		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
+	}
+	return capability;
+}
+
+const getDisplayCapability = (template) => {
+	var templateCapability = capabilities[template];
+	if (!templateCapability) {
+		console.log("Error: Trying to access capability for unsupported template")
+		return {}
+	}
+	var capability = {
+		displayName: templateCapability.displayCapabilities.displayName,
+		windowTypeSupported: [mainWindowTypeCapability],
+		windowCapabilities: [getWindowCapability(template)]
+	}
+	return capability;
+	
+}
+
+export {capabilities, getDisplayCapability};
