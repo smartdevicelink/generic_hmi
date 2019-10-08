@@ -69,7 +69,7 @@ class UIController {
                         templateConfiguration.dayColorScheme, 
                         templateConfiguration.nightColorScheme
                     ));
-                    listen.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
                 }
                 return true
             case "SetAppIcon":
@@ -201,6 +201,8 @@ class UIController {
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            default:
+                return false;
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
