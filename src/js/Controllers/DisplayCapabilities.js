@@ -2334,8 +2334,8 @@ const getWindowCapability = (template) => {
 		imageFields: templateDisplayCapability.imageFields,
 		imageTypeSupported: templateDisplayCapability.imageFields ? templateDisplayCapability.imageFields[0].imageTypeSupported : "GRAPHIC_PNG",
 		templatesAvailable: templateDisplayCapability.templatesAvailable,
-		buttonCapabilities: templateDisplayCapability.buttonCapabilities,
-		softButtonCapabilities: templateDisplayCapability.softButtonCapabilities,
+		buttonCapabilities: templateCapability.buttonCapabilities,
+		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
 	}
 	return capability;
