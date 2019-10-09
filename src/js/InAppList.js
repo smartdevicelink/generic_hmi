@@ -12,7 +12,9 @@ export default class InAppMenu extends React.Component {
     render() {
         const state = store.getState()
         const app = state.ui[state.activeApp]
-        var layout = app ? (app.activeSubMenu ? app.menu.find(x => x.menuID === app.activeSubMenu).menuLayout : app.menuLayout) : "LIST";
+        var layout = (app && !app.isPerformingInteraction) ?
+            (app.activeSubMenu ? app.menu.find(x => x.menuID === app.activeSubMenu).menuLayout : app.menuLayout)
+            : "LIST";
         var menu = (layout === "LIST") ? (<VSubMenu />) : (<HSubMenu />)
 
         return (
