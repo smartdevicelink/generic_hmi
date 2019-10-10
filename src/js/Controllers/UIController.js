@@ -187,7 +187,7 @@ class UIController {
                     return true
                 }
                 
-                return false
+                return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
         }
     }
     onPerformInteractionTimeout(msgID, appID) {

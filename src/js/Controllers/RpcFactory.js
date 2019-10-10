@@ -366,16 +366,17 @@ class RpcFactory {
             }           
         })
     }
-    static GetURLS(serviceType) {
-         return ({
-            'jsonrpc': '2.0',
-            "id": rpcFactory_msgId++,
-            'method': 'SDL.GetURLS',
-            'params': {
-                'service' : serviceType
-            }           
-        })       
-    }
+    static GetPolicyConfigurationData(type, property) {
+        return ({
+           'jsonrpc': '2.0',
+           "id": rpcFactory_msgId++,
+           'method': 'SDL.GetPolicyConfigurationData',
+           'params': {
+               'policyType' : type,
+               'property' : property
+           }           
+       })       
+   }
     static OnSystemRequestNotification(policyFile, url, appID) {
         return ({
             'jsonrpc': '2.0',
@@ -503,7 +504,6 @@ class RpcFactory {
 
     }
 
-
     //NON-RPC MESSAGES
 
     static NonSdlDismissInteractionVr(choiceID, appID, msgID) {
@@ -518,6 +518,21 @@ class RpcFactory {
         })
     }
 
+    //END OF NON-RPC MESSAGES
+
+    static UICancelInteractionIgnoredResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 6,
+                "message": "Request is ignored, because the intended result is already in effect.",
+                "data": {
+                    "method": "UI.CancelInteraction"
+                }
+            }
+        })
+    }
 }
 
 export default RpcFactory

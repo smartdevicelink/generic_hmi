@@ -548,7 +548,7 @@ function system(state = {}, action) {
             newState.policyRetry = action.retry
             newState.policyTimeout = action.timeout
             return newState
-        case Actions.GET_URLS:
+        case Actions.SET_URLS:
             var newState = { ...state }
             newState.urls = action.urls
             return newState

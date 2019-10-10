@@ -24,7 +24,7 @@ export const Actions = {
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
-    GET_URLS: "GET_URLS",
+    SET_URLS: "SET_URLS",
     UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
@@ -252,9 +252,9 @@ export const policyUpdate = (file, retry, timeout) => {
     }
 }
 
-export const getURLS = (urls) => {
+export const setURLS = (urls) => {
     return {
-        type: Actions.GET_URLS,
+        type: Actions.SET_URLS,
         urls: urls
     }
 }

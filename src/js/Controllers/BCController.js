@@ -60,7 +60,7 @@ class BCController {
                 return {"rpc": RpcFactory.MixingAudioResponse(rpc)}
             case "PolicyUpdate":
                 store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
-                sdlController.getURLS(7)
+                sdlController.getPolicyConfiguration("module_config", "endpoints");
                 return true;
             case "SystemRequest":
                 if (rpc.params.requestType != "PROPRIETARY") {
