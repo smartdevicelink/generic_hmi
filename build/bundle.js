@@ -3098,7 +3098,7 @@
 /* 509 */
 /***/ (function(module, exports) {
 
-	eval("module.exports = \"<svg version=\\\"1.1\\\" id=\\\"Layer_1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlink\\\" x=\\\"0px\\\" y=\\\"0px\\\" viewBox=\\\"0 0 8 10\\\" style=\\\"enable-background:new 0 0 8 10;\\\" xml:space=\\\"preserve\\\"><style type=\\\"text/css\\\"> .st0{fill:#FFFFFF;} </style><polygon class=\\\"st0\\\" points=\\\"0,0 0,10 8,5 \\\"></polygon></svg>\"\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/img/static/0xFF.svg\n// module id = 509\n// module chunks = 0\n//# sourceURL=webpack:///./src/img/static/0xFF.svg?");
+	eval("module.exports = \"<svg version=\\\"1.1\\\" id=\\\"Layer_1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlink\\\" x=\\\"0px\\\" y=\\\"0px\\\" viewBox=\\\"0 0 8 10\\\" style=\\\"enable-background:new 0 0 8 10;\\\" xml:space=\\\"preserve\\\"><style type=\\\"text/css\\\"> .ff_fill{fill:#FFFFFF;} </style><polygon class=\\\"ff_fill\\\" points=\\\"0,0 0,10 8,5 \\\"></polygon></svg>\"\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/img/static/0xFF.svg\n// module id = 509\n// module chunks = 0\n//# sourceURL=webpack:///./src/img/static/0xFF.svg?");
 
 /***/ }),
 /* 510 */
