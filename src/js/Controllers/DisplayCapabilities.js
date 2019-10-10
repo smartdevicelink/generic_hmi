@@ -1,3 +1,10 @@
+let softButtonCapability = {
+	"shortPressAvailable": true,
+	"longPressAvailable": false,
+	"upDownAvailable": false,
+	"imageSupported": true,
+	"textSupported": true
+}
 let capabilities = {
 	"MEDIA": {
 		"displayCapabilities": {
@@ -174,20 +181,9 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		}, 
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
@@ -410,48 +406,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
@@ -625,48 +586,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS": {
@@ -848,48 +774,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"LARGE_GRAPHIC_ONLY": {
@@ -1015,48 +906,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"GRAPHIC_WITH_TEXTBUTTONS": {
@@ -1230,48 +1086,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXTBUTTONS_WITH_GRAPHIC": {
@@ -1445,48 +1266,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXTBUTTONS_ONLY": {
@@ -1652,48 +1438,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXT_WITH_GRAPHIC": {
@@ -1843,48 +1594,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"GRAPHIC_WITH_TEXT": {
@@ -2034,48 +1750,13 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TILES_ONLY": {
@@ -2241,48 +1922,12 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true,
-				"textSupported": true
-			}
+		"softButtonCapabilities": [softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"COMMON": {
@@ -2334,8 +1979,8 @@ const getWindowCapability = (template) => {
 		imageFields: templateDisplayCapability.imageFields,
 		imageTypeSupported: templateDisplayCapability.imageFields ? templateDisplayCapability.imageFields[0].imageTypeSupported : "GRAPHIC_PNG",
 		templatesAvailable: templateDisplayCapability.templatesAvailable,
-		buttonCapabilities: templateDisplayCapability.buttonCapabilities,
-		softButtonCapabilities: templateDisplayCapability.softButtonCapabilities,
+		buttonCapabilities: templateCapability.buttonCapabilities,
+		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
 	}
 	return capability;

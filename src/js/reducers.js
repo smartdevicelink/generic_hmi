@@ -407,7 +407,7 @@ function ui(state = {}, action) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
             return newState
-        case Actions.SET_DISPLAY_LAYOUT:
+        case Actions.SET_TEMPLATE_CONFIGURATION:
             var newState = {...state}
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             switch(action.displayLayout) {
