@@ -41,7 +41,9 @@ class BCController {
                 store.dispatch(deactivateApp(rpc.params.appID))
                 return true
             case "OnAppRegistered":
-                store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication))
+                store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication));
+                var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
+                this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
                 return null
             case "OnAppUnregistered":
                 store.dispatch(deactivateApp(rpc.params.appID))
