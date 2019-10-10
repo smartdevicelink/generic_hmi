@@ -10,7 +10,7 @@ import {
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer,
-    setDisplayLayout,
+    setTemplateConfiguration,
     alert,
     closeAlert,
     setGlobalProperties,
@@ -63,7 +63,7 @@ class UIController {
                 ));
                 if (rpc.params.templateConfiguration) {
                     const templateConfiguration = rpc.params.templateConfiguration;
-                    store.dispatch(setDisplayLayout(
+                    store.dispatch(setTemplateConfiguration(
                         templateConfiguration.template, 
                         rpc.params.appID, 
                         templateConfiguration.dayColorScheme, 
@@ -145,7 +145,7 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
-                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(

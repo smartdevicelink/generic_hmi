@@ -19,7 +19,7 @@ export const Actions = {
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
     REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
-    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
+    SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
@@ -187,9 +187,9 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioS
     }
 }
 
-export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
+export const setTemplateConfiguration = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
     return {
-        type: Actions.SET_DISPLAY_LAYOUT,
+        type: Actions.SET_TEMPLATE_CONFIGURATION,
         displayLayout: displayLayout,
         appID: appID,
         dayColorScheme: dayColorScheme,
