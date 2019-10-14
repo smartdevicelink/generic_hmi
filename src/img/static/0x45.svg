@@ -4,9 +4,10 @@
 	 viewBox="3 3 44 44" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st1{fill:currentColor;stroke:#000000;stroke-width:1;stroke-miterlimit:10;}
 </style>
 <path class="st0" d="M25,35L25,35c-2.8,0-5-2.2-5-5V15h10v15C30,32.8,27.8,35,25,35z"/>
-<circle cx="25" cy="6" r="1"/>
+<circle class="st1" cx="25" cy="6" r="0.5"/>
 <line class="st0" x1="25" y1="8" x2="25" y2="15"/>
 <line class="st0" x1="25" y1="35" x2="25" y2="45"/>
 </svg>

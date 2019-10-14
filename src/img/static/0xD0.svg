@@ -4,9 +4,9 @@
 	 viewBox="7 7 36 36" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
-	.st1{stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st2{fill:currentColor;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
 <polygon class="st0" points="10,18 20,25 10,32 "/>
-<rect x="29" y="19" class="st1" width="4" height="12"/>
-<rect x="37" y="19" class="st1" width="4" height="12"/>
+<rect class="st2" x="29" y="19" class="st1" width="4" height="12"/>
+<rect class="st2" x="37" y="19" class="st1" width="4" height="12"/>
 </svg>
