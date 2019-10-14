@@ -3,28 +3,9 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="6 6 36 36" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{opacity:0;clip-path:url(#SVGID_2_);fill:#FFFFFF;}
-	.st1{clip-path:url(#SVGID_2_);}
-	.st2{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<g>
-	<defs>
-		<rect id="SVGID_1_" x="-28" y="8" width="21" height="27"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<rect x="-28" y="8" class="st0" width="21" height="27"/>
-	<g class="st1">
-		<defs>
-			<rect id="SVGID_3_" x="-28" y="8" width="21" height="27"/>
-		</defs>
-		<clipPath id="SVGID_4_">
-			<use xlink:href="#SVGID_3_"  style="overflow:visible;"/>
-		</clipPath>
-	</g>
-</g>
-<rect x="13" y="8" class="st2" width="24" height="33"/>
-<rect x="17" y="12" class="st2" width="16" height="10"/>
-<circle class="st2" cx="25" cy="31" r="5"/>
+<rect x="13" y="8" class="st0" width="24" height="33"/>
+<rect x="17" y="12" class="st0" width="16" height="10"/>
+<circle class="st0" cx="25" cy="31" r="5"/>
 </svg>
