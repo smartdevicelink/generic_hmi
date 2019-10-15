@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import MenuIcon from './containers/MenuIcon';
@@ -34,7 +34,7 @@ class AppHeader extends React.Component {
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
-        var isShowingMenu = this.props.router.isActive('/inappmenu')
+        var isShowingMenu = this.props.location.pathname === '/inappmenu';
         const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
 
         var colorScheme = null;
@@ -63,13 +63,13 @@ class AppHeader extends React.Component {
         if (nextProps.isDisconnected) {
             this.props.router.push("/")
         }
-        else if (!nextProps.router.isActive("/inapplist")
+        else if (!nextProps.location.pathname === "/inapplist"
             && nextProps.isPerformingInteraction) {
                 this.props.router.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
         // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
-        else if (nextProps.router.isActive("/inapplist")
+        else if (nextProps.location.pathname === "/inapplist"
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
                 this.props.router.push("/" + nextProps.displayLayout)
@@ -88,13 +88,13 @@ class AppHeader extends React.Component {
         else if(nextProps.triggerShowAppMenu){
             if(nextProps.activeSubMenu){
                 // If menuID is specified, activate that sub menu
-                if(!this.props.router.isActive("/inapplist")){
+                if(!this.props.location.pathname === "/inapplist"){
                     this.props.router.push('/inapplist')    
                 }
             }
             else{
                 // If NO menuID is specifed, show menu 
-                if(!this.props.router.isActive("/inappmenu")){
+                if(!this.props.location.pathname === "/inappmenu"){
                     this.props.router.push('/inappmenu')    
                 }    
             }

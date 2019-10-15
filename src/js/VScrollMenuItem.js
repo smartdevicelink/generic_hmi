@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage'
 import iconArrowRight from '../img/icons/icon-arrow-right.svg';
 

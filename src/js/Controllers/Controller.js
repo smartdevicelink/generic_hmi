@@ -1,5 +1,3 @@
-let url = "ws://localhost:8087"
-let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -10,6 +8,9 @@ import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
 import {flags} from '../Flags';
+
+let url = "ws://localhost:8087"
+let file_access_base_url = "";
 
 export default class Controller {
     constructor () {
