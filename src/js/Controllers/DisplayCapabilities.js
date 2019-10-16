@@ -1977,7 +1977,7 @@ const getWindowCapability = (template) => {
 	var capability = {
 		textFields: templateDisplayCapability.textFields,
 		imageFields: templateDisplayCapability.imageFields,
-		imageTypeSupported: templateDisplayCapability.imageFields ? templateDisplayCapability.imageFields[0].imageTypeSupported : "GRAPHIC_PNG",
+		imageTypeSupported: ["STATIC", "DYNAMIC"],
 		templatesAvailable: templateDisplayCapability.templatesAvailable,
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
