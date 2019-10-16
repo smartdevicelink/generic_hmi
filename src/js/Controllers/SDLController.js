@@ -8,9 +8,7 @@ var activatingApplication = 0
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
-        var incrementedRpcId = 5012
-        var rpcAppIdMap = {}
-        
+
         //ToDo: Add ExternalConsentStatus View
         //Sample struct used below
         /*this.externalConsentStatus = [{
@@ -82,6 +80,8 @@ class SDLController {
                 }
                 this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
                 return;
+            default:
+                return false;
         }
     }
     onAppActivated(appID) {

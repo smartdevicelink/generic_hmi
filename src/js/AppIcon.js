@@ -4,10 +4,6 @@ import Image from './Templates/Shared/Image'
 import iconMenu from '../img/icons/icon-menu.svg';
 
 export default class AppIcon extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         var fillColor = null;
         if (this.props.theme) {

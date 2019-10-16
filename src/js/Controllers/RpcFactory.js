@@ -467,7 +467,7 @@ class RpcFactory {
         "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
         "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
         if (supportedTemplates.includes(layout)) {
-            if (layout == "DEFAULT") {
+            if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
             var response = {

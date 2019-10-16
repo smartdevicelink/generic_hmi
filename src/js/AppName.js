@@ -2,9 +2,6 @@ import React from 'react'
 import titleSeparator from '../img/static/0xFF.svg'
 
 export default class AppName extends React.Component {
-    constructor (props) {
-        super(props)
-    }
     render () {
         let isShowingMenu = this.props.location.pathname === '/inappmenu'
         let isShowingSubMenu = (this.props.location.pathname === '/inapplist' && this.props.subMenuName)

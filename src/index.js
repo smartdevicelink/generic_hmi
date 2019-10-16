@@ -1,5 +1,4 @@
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // import css
@@ -20,10 +19,9 @@ import DoubleGraphicWithSoftbuttons from './js/Templates/DoubleGraphicWithSoftbu
 import HMIMenu from './js/HMIMenu';
 import InAppMenu from './js/InAppMenu';
 import InAppList from './js/InAppList';
-import Alert from './js/Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, HashRouter } from 'react-router-dom'
+import { Route, HashRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './js/store'
@@ -37,7 +35,7 @@ class HMIApp extends React.Component {
         this.state = {
             dark: true
         }
-        this.sdl = new Controller
+        this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {

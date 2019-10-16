@@ -1,10 +1,6 @@
 import React from 'react'
 
 export default class AlertBody extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="alert-text-fields">

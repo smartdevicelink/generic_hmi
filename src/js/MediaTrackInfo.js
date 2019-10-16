@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default class MediaTrackInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         clearInterval(this.interval)
         this.interval = setInterval(this.forceUpdate.bind(this), 1000)
@@ -37,6 +34,8 @@ export default class MediaTrackInfo extends React.Component {
                 clearInterval(this.interval)
                 this.interval = setInterval(this.forceUpdate.bind(this), 1000)
                 break
+            default:
+                break
         }
         if(startDate) {
             var timeSince = new Date(startDate.getTime() + now - this.props.now)
@@ -49,7 +48,7 @@ export default class MediaTrackInfo extends React.Component {
             var endSecs = endDate.getSeconds() < 10 ? "0" + endDate.getSeconds() : endDate.getSeconds()
             var startTime = startHours + ":" + startMins + ":" + startSecs
             var endTime = "/ " + endHours + ":" + endMins + ":" + endSecs
-            if(endHours == "00" && endMins == "00" && endSecs == "00") {
+            if(endHours === "00" && endMins === "00" && endSecs === "00") {
                 endTime = ""
             }
         } else {

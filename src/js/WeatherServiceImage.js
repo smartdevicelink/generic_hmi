@@ -4,11 +4,6 @@ import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
 export default class WeatherServiceImage extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         var icon = this.props.image
         if (icon) {

@@ -1,11 +1,6 @@
 import React from 'react';
 import NavInstructionImage from "./NavInstructionImage";
 export default class AppServiceNavCard extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         if (!this.props.navActive || !this.props.navData) {
             return null;

@@ -2,10 +2,6 @@ import React from 'react';
 import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 export default class ControlBar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     fillColor() {
         var fillColor = null;
         if (this.props.theme) {

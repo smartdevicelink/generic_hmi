@@ -40,7 +40,10 @@ const mapStateToProps = (state) => {
                 case "mainField4":
                     props.mainField4 = metadata.showStrings[fieldName]
                     break
+                default:
+                    break;
             }
+            return true;
         })
         props.graphic = metadata.graphic ? metadata.graphic : null
         props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic : null
@@ -59,7 +62,10 @@ const mapStateToProps = (state) => {
                     case "alertText3":
                         props.alertText3 = textField.fieldText
                         break
+                    default:
+                        break
                 }
+                return true;
             })
         }
     }
@@ -71,7 +77,6 @@ const mapStateToProps = (state) => {
 
     //Assign color scheme to props
     var theme = state.theme
-    var colorScheme = null;
     if (theme === true) { //Dark theme
         if(state.ui[activeApp].nightColorScheme) {
             if(state.ui[activeApp].nightColorScheme.backgroundColor) {

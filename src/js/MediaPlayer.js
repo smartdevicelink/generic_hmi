@@ -6,10 +6,6 @@ import ProgressBar from './containers/ProgressBar_c';
 import Buttons from './containers/Buttons';
 
 export default class MediaPlayer extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div className="media-template">

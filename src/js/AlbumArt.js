@@ -3,10 +3,6 @@ import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
 export default class AlbumArt extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if(this.props.image) {
             if(this.props.imageType === "STATIC") {

@@ -12,11 +12,11 @@ const mapStateToProps = (state) => {
     var showAlert = false
     var alertAppName = ""
     var alertIcon = null
-    for(var prop in state.ui){
+    for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
             var alertApp = state.appList.find((key) => {
-                return key.appID == prop
+                return key.appID === prop
             })
 
             if(alertApp.appName) {

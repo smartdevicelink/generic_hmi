@@ -4,11 +4,6 @@ import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
 export default class MediaServiceDataImage extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     fillColor() {
         var fillColor = null;
         if (this.props.theme) {

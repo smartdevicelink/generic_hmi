@@ -51,7 +51,7 @@ class ExternalPoliciesController {
         }
     }
     onopen (evt) {
-        if (this.retry && this.packClient == 1 && this.unpackClient == 1) {
+        if (this.retry && this.packClient && this.unpackClient) {
             clearInterval(this.retry)
         }
 

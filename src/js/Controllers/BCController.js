@@ -4,13 +4,9 @@ import { updateAppList, activateApp, deactivateApp, registerApplication, unregis
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
-var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
-        var incrementedRpcId = 5012
-        var rpcAppIdMap = {}
-        var getUserFriendlyMessageCallback={}
     }
     addListener(listener) {
         this.listener = listener
@@ -31,6 +27,7 @@ class BCController {
                         ));
                     }
                     store.dispatch(setAppIsConnected(app.appID))
+                    return true;
                 });
                 return true
             case "ActivateApp":
@@ -65,7 +62,7 @@ class BCController {
                 sdlController.getPolicyConfiguration("module_config", "endpoints");
                 return true;
             case "SystemRequest":
-                if (rpc.params.requestType != "PROPRIETARY") {
+                if (rpc.params.requestType !== "PROPRIETARY") {
                     // Generic HMI can only process PROPRIETARY System Requests
                     return true
                 }
@@ -78,15 +75,11 @@ class BCController {
             case "GetSystemTime":
                 this.listener.send(RpcFactory.GetSystemTime(rpc.id))
                 return null
+            default:
+                return false;
         }
     }
     handleRPCResponse(rpc) {
-        let methodName = rpc.result.method.split(".")[1]
-        /*switch (methodName) {
-            case "ActivateApp":
-                store.dispatch(activateApp(activatingApplication))
-                return;
-        }*/
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))

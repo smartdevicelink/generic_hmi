@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "./static/css/main.f0e24ce6.chunk.css",
-    "main.js": "./static/js/main.5eeef330.chunk.js",
-    "main.js.map": "./static/js/main.5eeef330.chunk.js.map",
+    "main.css": "./static/css/main.88870705.chunk.css",
+    "main.js": "./static/js/main.4a9cdc6d.chunk.js",
+    "main.js.map": "./static/js/main.4a9cdc6d.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.0cbb4eb1.js",
     "runtime-main.js.map": "./static/js/runtime-main.0cbb4eb1.js.map",
-    "static/js/2.1e8b58f4.chunk.js": "./static/js/2.1e8b58f4.chunk.js",
-    "static/js/2.1e8b58f4.chunk.js.map": "./static/js/2.1e8b58f4.chunk.js.map",
+    "static/js/2.4f4a2702.chunk.js": "./static/js/2.4f4a2702.chunk.js",
+    "static/js/2.4f4a2702.chunk.js.map": "./static/js/2.4f4a2702.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.961f503d978056b87da475e28ccbe5ae.js": "./precache-manifest.961f503d978056b87da475e28ccbe5ae.js",
+    "precache-manifest.42c12cadb05ad4abfbac3afe82191f1e.js": "./precache-manifest.42c12cadb05ad4abfbac3afe82191f1e.js",
     "service-worker.js": "./service-worker.js",
-    "static/css/main.f0e24ce6.chunk.css.map": "./static/css/main.f0e24ce6.chunk.css.map",
+    "static/css/main.88870705.chunk.css.map": "./static/css/main.88870705.chunk.css.map",
     "static/media/0x02.svg": "./static/media/0x02.aa354f18.svg",
     "static/media/0x03.svg": "./static/media/0x03.cff0a79d.svg",
     "static/media/0x04.svg": "./static/media/0x04.662c5fbf.svg",
@@ -210,7 +210,6 @@
     "static/media/icon-seek-left.svg": "./static/media/icon-seek-left.5a43632c.svg",
     "static/media/icon-seek-right.svg": "./static/media/icon-seek-right.c5cdd78c.svg",
     "static/media/icon-stop.svg": "./static/media/icon-stop.ff094aed.svg",
-    "static/media/logo.svg": "./static/media/logo.25bf045c.svg",
     "static/media/media.svg": "./static/media/media.82ff0eca.svg",
     "static/media/navigationBlack.svg": "./static/media/navigationBlack.36f92d49.svg",
     "static/media/navigationWhite.svg": "./static/media/navigationWhite.2c226a6b.svg",
@@ -218,8 +217,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.0cbb4eb1.js",
-    "static/js/2.1e8b58f4.chunk.js",
-    "static/css/main.f0e24ce6.chunk.css",
-    "static/js/main.5eeef330.chunk.js"
+    "static/js/2.4f4a2702.chunk.js",
+    "static/css/main.88870705.chunk.css",
+    "static/js/main.4a9cdc6d.chunk.js"
   ]
 }

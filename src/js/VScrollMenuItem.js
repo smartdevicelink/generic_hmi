@@ -4,9 +4,6 @@ import SoftButtonImage from './Templates/Shared/SoftButtonImage'
 import iconArrowRight from '../img/icons/icon-arrow-right.svg';
 
 export default class VScrollMenuItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <Link

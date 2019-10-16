@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import MenuIcon from './containers/MenuIcon';
@@ -11,10 +11,6 @@ import {resetShowAppMenu} from './actions'
 
 
 class AppHeader extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     getColorScheme() {
         if (this.props.colorScheme) {
@@ -35,7 +31,7 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
-        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+        const icon = this.props.appIcon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
@@ -74,13 +70,13 @@ class AppHeader extends React.Component {
             && !nextProps.isPerformingInteraction) {
                 this.props.router.push("/" + nextProps.displayLayout)
         }
-        else if (this.props.displayLayout != nextProps.displayLayout) {
+        else if (this.props.displayLayout !== nextProps.displayLayout) {
             if(nextProps.activeApp) {
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
    
-        else if(this.props.activeApp != nextProps.activeApp) {            
+        else if(this.props.activeApp !== nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
                 this.props.router.push("/" + nextProps.displayLayout)
             }

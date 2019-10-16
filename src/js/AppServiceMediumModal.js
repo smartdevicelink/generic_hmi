@@ -5,11 +5,6 @@ import AppServiceWeatherCard from './AppServiceWeatherCard';
 import Divider from './Divider';
 
 export default class AppServiceMediumModal extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div className="app-service-medium">

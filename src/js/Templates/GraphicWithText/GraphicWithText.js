@@ -2,13 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppHeader from '../../containers/Header';
 import { LargeGraphic, TextFields } from '../../containers/Metadata';
-import { SoftButtons } from '../../containers/Buttons';
 
 class GraphicWithText extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

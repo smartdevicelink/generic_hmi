@@ -10,8 +10,9 @@ const mapStateToProps = (state) => {
     var app = state.ui[activeApp]
     var theme = state.theme
     var link =  state.ui[activeApp].displayLayout
+    var data = null;
     if (app.isPerformingInteraction) {
-        var data = app.choices.map((choice) => {
+        data = app.choices.map((choice) => {
             return {
                 appID: activeApp,
                 cmdID: choice.choiceID,
@@ -32,7 +33,7 @@ const mapStateToProps = (state) => {
     // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
-    var data = menu.find((test) => {
+    data = menu.find((test) => {
         return test.menuID === activeSubMenu
     }).subMenu.map((command) => {
         return {

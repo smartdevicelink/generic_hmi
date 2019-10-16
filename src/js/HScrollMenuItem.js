@@ -4,9 +4,6 @@ import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class HScrollMenuItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { menuItem } = this.props;
         var header = menuItem.devicename;

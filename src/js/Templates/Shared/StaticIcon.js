@@ -1,6 +1,5 @@
 import React from 'react';
 const svgs = require.context('../../../img/static', true, /\.svg$/);
-const keys = svgs.keys()
 
 const svgsObj = svgs.keys()
   .reduce((images, key) => {
@@ -13,10 +12,6 @@ const svgsObj = svgs.keys()
   }, {})
 
 export default class StaticIcon extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if(this.props.image) {
             var path = "";
