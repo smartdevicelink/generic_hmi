@@ -56,42 +56,42 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
-        if (nextProps.isDisconnected) {
-            this.props.router.push("/")
+        if (nextProps.isDisconnected && nextProps.location.pathname !== "/") {
+            this.props.history.push("/")
         }
         else if (!nextProps.location.pathname === "/inapplist"
             && nextProps.isPerformingInteraction) {
-                this.props.router.push("/inapplist")
+                this.props.history.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
         // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
         else if (nextProps.location.pathname === "/inapplist"
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)
         }
         else if (this.props.displayLayout !== nextProps.displayLayout) {
             if(nextProps.activeApp) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)
             }
         }
    
         else if(this.props.activeApp !== nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)
             }
         }
         else if(nextProps.triggerShowAppMenu){
             if(nextProps.activeSubMenu){
                 // If menuID is specified, activate that sub menu
                 if(!this.props.location.pathname === "/inapplist"){
-                    this.props.router.push('/inapplist')    
+                    this.props.history.push('/inapplist')    
                 }
             }
             else{
                 // If NO menuID is specifed, show menu 
                 if(!this.props.location.pathname === "/inappmenu"){
-                    this.props.router.push('/inappmenu')    
+                    this.props.history.push('/inappmenu')    
                 }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))

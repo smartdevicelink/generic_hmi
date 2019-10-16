@@ -9,36 +9,39 @@
     @include flex-wrap(wrap);
     @include align-content(flex-start);
 }
+
+@debug "hscroll menu width " + $master-width;    
+$menu-width: $master-width;
+$box-width-3: ($menu-width * 0.3);
+$margin-size-3: ((($menu-width) - (($box-width-3) * 3)) / 3);
+$calc-width-3: (($box-width-3) - (($margin-size-3) / 3));
+
+$box-width-2: (($menu-width) * 0.45);
+$margin-size-2: ((($menu-width) - (($box-width-2) * 2)) / 2);
+$calc-width-2: (($box-width-2) - (($margin-size-2) / 2));
+
+$box-width-1: (($menu-width) * 0.9);
+$margin-size-1: ((($menu-width) - (($box-width-1) * 1)) / 1);
+$calc-width-1: (($box-width-1) - (($margin-size-1) / 1));
+
 @mixin h-scroll-item-per-line() {
     @if $master-width >=800 {
-        width: var(--calc-width-3);
-        margin-left: var( --margin-size-3);
-        margin-bottom: var(--margin-size-3);
-        height: calc((var(--calc-width-3)) * 0.78);
+        width: ($calc-width-3);
+        margin-left: ($margin-size-3);
+        margin-bottom: ($margin-size-3);
+        height: ((($calc-width-3)) * 0.78);
     } @else if $master-width >=480 {
-        width: var(--calc-width-2);
-        margin-left: var( --margin-size-2);
-        margin-bottom: var(--margin-size-2);
-        height: calc((var(--calc-width-2)) * 0.78);
+        width: ($calc-width-2);
+        margin-left: ($margin-size-2);
+        margin-bottom: ($margin-size-2);
+        height: ((($calc-width-2)) * 0.78);
     } @else {
-        width: var(--calc-width-1);
-        margin-left: var( --margin-size-1);
-        margin-bottom: var(--margin-size-1);
-        height: calc((var(--calc-width-1)) * 0.78);
+        width: ($calc-width-1);
+        margin-left: ( $margin-size-1);
+        margin-bottom: ($margin-size-1);
+        height: ((($calc-width-1)) * 0.78);
     }
 }
-.hscrollmenu .hscrollmenu-block {    
-    --menu-width: $master-width;
-    --box-width-3: calc(var(--menu-width) * 0.3);
-    --margin-size-3: calc((var(--menu-width) - (var(--box-width-3) * 3)) / 3);
-    --calc-width-3: calc(var(--box-width-3) - (var(--margin-size-3) / 3));
-
-    --box-width-2: calc(var(--menu-width) * 0.45);
-    --margin-size-2: calc((var(--menu-width) - (var(--box-width-2) * 2)) / 2);
-    --calc-width-2: calc(var(--box-width-2) - (var(--margin-size-2) / 2));
-
-    --box-width-1: calc(var(--menu-width) * 0.9);
-    --margin-size-1: calc((var(--menu-width) - (var(--box-width-1) * 1)) / 1);
-    --calc-width-1: calc(var(--box-width-1) - (var(--margin-size-1) / 1));
+.hscrollmenu .hscrollmenu-block {
     @include h-scroll-item-per-line();    
 }
