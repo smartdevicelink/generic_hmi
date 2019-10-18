@@ -3,11 +3,11 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="7 7 36 36" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0_6E{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<polyline class="st0" points="11,16 11,11 16,11 "/>
-<path class="st0" d="M29.8,37.1c1.6-0.7,3.1-1.6,4.3-2.9s2.2-2.7,2.9-4.3c0.6-1.5,0.9-3.1,0.9-4.8c0-1.9-0.4-3.7-1.1-5.3
+<polyline class="st0_6E" points="11,16 11,11 16,11 "/>
+<path class="st0_6E" d="M29.8,37.1c1.6-0.7,3.1-1.6,4.3-2.9s2.2-2.7,2.9-4.3c0.6-1.5,0.9-3.1,0.9-4.8c0-1.9-0.4-3.7-1.1-5.3
 	c-0.7-1.5-1.6-2.8-2.7-3.9c-1.3-1.3-2.8-2.3-4.5-2.9c-1.5-0.6-3-0.9-4.7-0.9c-1.8,0-3.5,0.4-5.1,1"/>
-<path class="st0" d="M11,11l3,3l1.8,1.8c-1.2,1.2-2.1,2.6-2.8,4.1c-0.7,1.6-1,3.3-1,5.1c0,1.6,0.3,3.2,0.9,4.7
+<path class="st0_6E" d="M11,11l3,3l1.8,1.8c-1.2,1.2-2.1,2.6-2.8,4.1c-0.7,1.6-1,3.3-1,5.1c0,1.6,0.3,3.2,0.9,4.7
 	c0.7,1.7,1.7,3.3,2.9,4.5c1.1,1.1,2.5,2,3.9,2.7c1.6,0.7,3.4,1.1,5.3,1.1v5"/>
 </svg>

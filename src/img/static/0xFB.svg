@@ -3,13 +3,13 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="7 7 36 36" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0_FB{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<rect x="10" y="16" class="st0" width="29" height="18"/>
-<rect x="19" y="20" class="st0" width="1" height="10"/>
-<rect x="14" y="20" class="st0" width="1" height="10"/>
-<rect x="24" y="20" class="st0" width="1" height="10"/>
-<rect x="29" y="20" class="st0" width="1" height="10"/>
-<rect x="34" y="20" class="st0" width="1" height="10"/>
-<rect x="40" y="22" class="st0" width="2" height="6"/>
+<rect x="10" y="16" class="st0_FB" width="29" height="18"/>
+<rect x="19" y="20" class="st0_FB" width="1" height="10"/>
+<rect x="14" y="20" class="st0_FB" width="1" height="10"/>
+<rect x="24" y="20" class="st0_FB" width="1" height="10"/>
+<rect x="29" y="20" class="st0_FB" width="1" height="10"/>
+<rect x="34" y="20" class="st0_FB" width="1" height="10"/>
+<rect x="40" y="22" class="st0_FB" width="2" height="6"/>
 </svg>
