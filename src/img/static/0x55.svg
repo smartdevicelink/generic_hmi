@@ -3,17 +3,17 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="5 5 40 40" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0_55{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
 		<g>
-			<rect x="12" y="20" class="st0" width="26" height="20"/>
-			<polygon class="st0" points="25,8 8,20 42,20 			"/>
+			<rect x="12" y="20" class="st0_55" width="26" height="20"/>
+			<polygon class="st0_55" points="25,8 8,20 42,20 			"/>
 		</g>
 	</g>
 </g>
-<rect x="22" y="34" class="st0" width="6" height="6"/>
-<rect x="16" y="25" class="st0" width="4" height="4"/>
-<rect x="30" y="25" class="st0" width="4" height="4"/>
+<rect x="22" y="34" class="st0_55" width="6" height="6"/>
+<rect x="16" y="25" class="st0_55" width="4" height="4"/>
+<rect x="30" y="25" class="st0_55" width="4" height="4"/>
 </svg>
