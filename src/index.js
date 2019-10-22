@@ -76,7 +76,7 @@ ReactDOM.render((
     <Provider store={store}>
     <HMIApp>
         <HashRouter>
-            <Route path="/" component={HMIMenu} />
+            <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
