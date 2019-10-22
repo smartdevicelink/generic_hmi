@@ -245,8 +245,21 @@ class RpcFactory {
             "jsonrpc": "2.0",
             "id": msgID,
             "error": {
-                "code": 22,
-                "message": "UI.PerformInteraction Failed",
+                "code": 5,
+                "message": "UI.PerformInteraction Aborted",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
+    static UIPerformInteractionTimeout (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 10,
+                "message": "UI.PerformInteraction Timed Out",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
