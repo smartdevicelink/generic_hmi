@@ -12,7 +12,6 @@ export default class StaticIcon extends React.Component {
             var value = this.props.image.substring(2, 4).toUpperCase();
             var image = hex + value;
             path = "./" + image + ".svg"
-            console.log("Static icon: ", cache2[path]);
             return (
                 <div className={this.props.class} >
                     {iconCache[path]}
