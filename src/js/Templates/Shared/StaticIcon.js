@@ -4,9 +4,7 @@ const svgs = require.context('../../../img/static', true, /\.svg$/);
 const svgsObj = svgs.keys()
   .reduce((images, key) => {
     var svg = svgs(key)
-    svg = svg.replace(/"st0"/g, '"st0 svg-stroke"')
-    svg = svg.replace(/"st1"/g, '"st1 svg-stroke"')
-    svg = svg.replace(/"st2"/g, '"st2 svg-stroke"')
+    svg = svg.replace(/"st([0-9]{1})_([A-F|0-9]{2})"/g, '"st$1_$2 svg-stroke"')
     images[key] = svg
     return images
   }, {})

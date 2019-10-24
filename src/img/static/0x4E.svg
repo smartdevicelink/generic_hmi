@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+	 viewBox="5 5 38 38" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0_4E{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<circle class="st0" cx="14.5" cy="32.5" r="7.5"/>
-<polyline class="st0" points="22,33 22,10 32,20 "/>
-<line class="st0" x1="27" y1="36" x2="41" y2="36"/>
-<line class="st0" x1="27" y1="32" x2="41" y2="32"/>
-<line class="st0" x1="27" y1="28" x2="41" y2="28"/>
+<circle class="st0_4E" cx="14.5" cy="32.5" r="7.5"/>
+<polyline class="st0_4E" points="22,33 22,10 32,20 "/>
+<line class="st0_4E" x1="27" y1="36" x2="41" y2="36"/>
+<line class="st0_4E" x1="27" y1="32" x2="41" y2="32"/>
+<line class="st0_4E" x1="27" y1="28" x2="41" y2="28"/>
 </svg>

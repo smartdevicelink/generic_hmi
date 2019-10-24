@@ -206,7 +206,7 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
+        this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
             appID

@@ -6,20 +6,21 @@ import StaticIcon from './Templates/Shared/StaticIcon'
 export default class HScrollMenuItem extends React.Component {
     render() {
         const { menuItem } = this.props;
+        var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var header = menuItem.devicename;
         var header_html = (header) ? 
             (<div className="hscrollmenu-item__header">
                 <p className="t-light th-f-color-secondary t-oneline">{ header }</p>
             </div>)
             : null;
-        var graphic = (this.props.menuItem.imageType === "STATIC")
-                 ? <StaticIcon image={this.props.menuItem.image} />
-                 : <Image image={this.props.menuItem.image} />;
+        var graphic = (menuItem.imageType === "STATIC")
+                 ? <StaticIcon image={menuItem.image} />
+                 : <Image image={menuItem.image} isTemplate={menuItem.isTemplate} fillColor={fill} />;
 
         return (
             <Link
-                to={this.props.menuItem.link}
-                onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
+                to={menuItem.link}
+                onClick={() => this.props.onSelection(menuItem.appID, menuItem.cmdID, menuItem.menuID)}>
                 <div
                     className="hscrollmenu-item th-b-color th-tile-background-color">
                     { header_html }
