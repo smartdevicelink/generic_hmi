@@ -6,11 +6,11 @@
 	.st0_0B{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 	.st1_0B{fill:currentColor;stroke:#000000;stroke-width:1;stroke-miterlimit:10;}
 </style>
-<circle class="st1_0B" cx="25" cy="40" r="3"/>
-<line class="st0_0B" x1="25" y1="37" x2="25" y2="10"/>
-<polygon class="st1_0B" points="22.5,10 27.5,10 25,6  "/>
-<polyline class="st0_0B" points="25,34 18,27 18,20 "/>
-<polyline class="st0_0B" points="25,30 32,23 32,16 "/>
-<circle class="st1_0B" cx="18" cy="18.5" r="2.5"/>
-<rect class="st1_0B" x="30" y="12" width="4" height="4"/>
+<circle class="st1_0B svg-stroke" cx="25" cy="40" r="3"/>
+<line class="st0_0B svg-stroke" x1="25" y1="37" x2="25" y2="10"/>
+<polygon class="st1_0B svg-stroke" points="22.5,10 27.5,10 25,6  "/>
+<polyline class="st0_0B svg-stroke" points="25,34 18,27 18,20 "/>
+<polyline class="st0_0B svg-stroke" points="25,30 32,23 32,16 "/>
+<circle class="st1_0B svg-stroke" cx="18" cy="18.5" r="2.5"/>
+<rect class="st1_0B svg-stroke" x="30" y="12" width="4" height="4"/>
 </svg>

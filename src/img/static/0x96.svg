@@ -5,7 +5,7 @@
 <style type="text/css">
 	.st0_96{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<circle class="st0_96" cx="25" cy="17.5" r="6.5"/>
-<path class="st0_96" d="M22.5,17.5c0-1.4,1.1-2.5,2.5-2.5"/>
-<line class="st0_96" x1="25" y1="24" x2="25" y2="40"/>
+<circle class="st0_96 svg-stroke" cx="25" cy="17.5" r="6.5"/>
+<path class="st0_96 svg-stroke" d="M22.5,17.5c0-1.4,1.1-2.5,2.5-2.5"/>
+<line class="st0_96 svg-stroke" x1="25" y1="24" x2="25" y2="40"/>
 </svg>

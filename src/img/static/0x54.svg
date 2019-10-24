@@ -5,8 +5,8 @@
 <style type="text/css">
 	.st0_54{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<rect x="15" y="9" class="st0_54" width="20" height="32"/>
-<line class="st0_54" x1="15" y1="31" x2="35" y2="31"/>
+<rect x="15" y="9" class="st0_54 svg-stroke" width="20" height="32"/>
+<line class="st0_54 svg-stroke" x1="15" y1="31" x2="35" y2="31"/>
 <circle cx="25" cy="36" r="2"/>
-<line class="st0_54" x1="22" y1="13" x2="28" y2="13"/>
+<line class="st0_54 svg-stroke" x1="22" y1="13" x2="28" y2="13"/>
 </svg>

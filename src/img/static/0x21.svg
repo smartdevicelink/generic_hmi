@@ -5,10 +5,10 @@
 <style type="text/css">
 	.st0_21{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<circle class="st0_21" cx="25" cy="25" r="18"/>
-<circle class="st0_21" cx="25" cy="25" r="3"/>
-<path class="st0_21" d="M12,25c0-7.2,5.8-13,13-13"/>
-<path class="st0_21" d="M38,25c0,7.2-5.8,13-13,13"/>
-<path class="st0_21" d="M17,25c0-4.4,3.6-8,8-8"/>
-<path class="st0_21" d="M33,25c0,4.4-3.6,8-8,8"/>
+<circle class="st0_21 svg-stroke" cx="25" cy="25" r="18"/>
+<circle class="st0_21 svg-stroke" cx="25" cy="25" r="3"/>
+<path class="st0_21 svg-stroke" d="M12,25c0-7.2,5.8-13,13-13"/>
+<path class="st0_21 svg-stroke" d="M38,25c0,7.2-5.8,13-13,13"/>
+<path class="st0_21 svg-stroke" d="M17,25c0-4.4,3.6-8,8-8"/>
+<path class="st0_21 svg-stroke" d="M33,25c0,4.4-3.6,8-8,8"/>
 </svg>
