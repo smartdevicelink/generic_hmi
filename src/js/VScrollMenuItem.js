@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage'
-import iconArrowRight from '../img/icons/icon-arrow-right.svg';
+import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.svg';
 
 export default class VScrollMenuItem extends React.Component {
     render() {
@@ -22,7 +22,9 @@ export default class VScrollMenuItem extends React.Component {
                     <p className="t-large t-light th-f-color-secondary">{this.props.menuItem.info}</p>
                 </div>
                 <div>
-                    <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} />
+                    <span className="svg-wrap">
+                        {this.props.menuID ? <IconArrowRight/> : null}
+                    </span>
                 </div>
             </Link>
         )

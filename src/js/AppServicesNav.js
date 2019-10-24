@@ -3,8 +3,8 @@ import { withRouter } from 'react-router';
 import WeatherButton from "./WeatherButton";
 import MediaServiceDataImage from "./MediaServiceDataImage";
 import NavInstructionImage from "./NavInstructionImage";
-import expandIcon from '../img/app_services/expand.svg';
-import collapseIcon from '../img/app_services/collapse.svg';
+import {ReactComponent as ExpandIcon} from '../img/app_services/expand.svg';
+import {ReactComponent as CollapseIcon} from '../img/app_services/collapse.svg';
 import AppServiceMediumModal from './AppServiceMediumModal';
 import Modal from 'react-modal';
 
@@ -225,8 +225,9 @@ class AppServicesNav extends React.Component {
                 </div>
                 <div className="clock">
                     <div className={hideExpandButton ? "hide-tab" : "app-service-modal-button"} onClick={() =>this.toggleModal()}>
-                        <span className={hideExpandButton ? "hide-tab" : "svg-size"} 
-                        dangerouslySetInnerHTML={this.state.showModal ? {__html: collapseIcon} : {__html: expandIcon}} /> 
+                        <span className={hideExpandButton ? "hide-tab" : "svg-size"} >
+                            {this.state.showModal ? <CollapseIcon/> : <ExpandIcon/>}
+                        </span> 
                     </div>
                 </div>
                 <Modal 

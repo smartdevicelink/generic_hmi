@@ -1,6 +1,6 @@
 import React from 'react';
-import navIconWhite from "../img/app_services/navigationWhite.svg";
-import navIconBlack from "../img/app_services/navigationBlack.svg";
+import {ReactComponent as NavIconWhite} from "../img/app_services/navigationWhite.svg";
+import {ReactComponent as NavIconBlack} from "../img/app_services/navigationBlack.svg";
 import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
@@ -40,13 +40,15 @@ export default class NavInstructionImage extends React.Component {
         } else {
             if (this.props.parent === "nav-bar") {
                 return (
-                    <span className="svg-size  nav-color " 
-                        dangerouslySetInnerHTML={{__html: navIconWhite}} /> 
+                    <span className="svg-size  nav-color ">
+                        <NavIconWhite/>
+                    </span>
                 );
             } else {
                 return (
-                    <span className="svg-size  nav-color " 
-                        dangerouslySetInnerHTML={this.props.theme ? {__html: navIconWhite} : {__html: navIconBlack}} /> 
+                    <span className="svg-size  nav-color ">
+                        {this.props.theme ? <NavIconWhite/> : <NavIconBlack/>}
+                    </span> 
                 );
             }
 

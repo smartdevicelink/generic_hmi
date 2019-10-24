@@ -31,14 +31,18 @@ export default class NonMediaBody extends React.Component {
                 textFields[1].className = "t-small t-light th-f-color-secondary non-media-text-2";
             }           
         }        
-        var softButtonsDiv = "";
+        var softButtonsDiv = [];
         for (i=0; i<textFields.length; i++) {
-            softButtonsDiv += '<p class="' + textFields[i].className + '"> ' + textFields[i].text + '</p>';
+            softButtonsDiv.push(
+                <p className={textFields[i].className}>{textFields[i].text}</p>
+            );
         }
         return (
             <div>
                 <div className="non-media-body">               
-                    <div className="non-media-meta-data" dangerouslySetInnerHTML={{__html: softButtonsDiv}}/>
+                    <div className="non-media-meta-data">
+                        {softButtonsDiv}
+                    </div>
                     <Graphic image={this.props.graphic} theme={this.props.theme} />
                 </div>
             </div>

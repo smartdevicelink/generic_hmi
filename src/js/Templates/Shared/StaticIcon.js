@@ -1,13 +1,8 @@
 import React from 'react';
-const svgs = require.context('../../../img/static', true, /\.svg$/);
 
-const svgsObj = svgs.keys()
-  .reduce((images, key) => {
-    var svg = svgs(key)
-    svg = svg.replace(/"st([0-9]{1})_([A-F|0-9]{2})"/g, '"st$1_$2 svg-stroke"')
-    images[key] = svg
-    return images
-  }, {})
+const icons = require.context('!@svgr/webpack?{svgo:false}!../../../img/static', true, /\.svg$/);
+const iconCache = {};
+icons.keys().forEach(key => iconCache[key] = icons(key).default());
 
 export default class StaticIcon extends React.Component {
     render() {
@@ -17,8 +12,11 @@ export default class StaticIcon extends React.Component {
             var value = this.props.image.substring(2, 4).toUpperCase();
             var image = hex + value;
             path = "./" + image + ".svg"
+            console.log("Static icon: ", cache2[path]);
             return (
-                <div className={this.props.class} dangerouslySetInnerHTML={{__html: svgsObj[path]}} />
+                <div className={this.props.class} >
+                    {iconCache[path]}
+                </div>
             )
         } else {
             return(null)
