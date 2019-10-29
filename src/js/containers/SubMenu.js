@@ -9,6 +9,11 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
     var theme = state.theme
+
+    if (!activeApp || !app) {
+        return {data: [], isPerformingInteraction: false, theme: theme}
+    }
+    
     var link =  state.ui[activeApp].displayLayout
     var data = null;
     if (app.isPerformingInteraction) {
@@ -33,6 +38,9 @@ const mapStateToProps = (state) => {
     // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
+    if (!activeSubMenu || !menu) {
+        return {data: [], isPerformingInteraction: false, theme: theme}
+    }
     data = menu.find((test) => {
         return test.menuID === activeSubMenu
     }).subMenu.map((command) => {
