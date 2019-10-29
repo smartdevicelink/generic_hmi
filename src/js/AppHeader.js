@@ -59,7 +59,7 @@ class AppHeader extends React.Component {
         if (nextProps.isDisconnected && nextProps.location.pathname !== "/") {
             this.props.history.push("/")
         }
-        else if (!nextProps.location.pathname === "/inapplist"
+        else if (nextProps.location.pathname !== "/inapplist"
             && nextProps.isPerformingInteraction) {
                 this.props.history.push("/inapplist")
         }
@@ -68,11 +68,11 @@ class AppHeader extends React.Component {
         else if (nextProps.location.pathname === "/inapplist"
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
-                this.props.history.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)                
         }
         else if (this.props.displayLayout !== nextProps.displayLayout) {
             if(nextProps.activeApp) {
-                this.props.history.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)                
             }
         }
    
@@ -84,13 +84,13 @@ class AppHeader extends React.Component {
         else if(nextProps.triggerShowAppMenu){
             if(nextProps.activeSubMenu){
                 // If menuID is specified, activate that sub menu
-                if(!this.props.location.pathname === "/inapplist"){
+                if(this.props.location.pathname !== "/inapplist"){
                     this.props.history.push('/inapplist')    
                 }
             }
             else{
                 // If NO menuID is specifed, show menu 
-                if(!this.props.location.pathname === "/inappmenu"){
+                if(this.props.location.pathname !== "/inappmenu"){
                     this.props.history.push('/inappmenu')    
                 }    
             }
