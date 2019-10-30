@@ -10,10 +10,13 @@ import {
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer,
-    setDisplayLayout,
+    setTemplateConfiguration,
     alert,
     closeAlert,
-    activateApp
+    setGlobalProperties,
+    deactivateInteraction,
+    activateApp,
+    showAppMenu
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -47,13 +50,27 @@ class UIController {
                     return false;
                 }                
             case "Show":
+                if (rpc.params.windowID && rpc.params.windowID != 0) {
+                    // Generic HMI only supports main window for now.
+                    return false;
+                }
                 store.dispatch(show(
                     rpc.params.appID,
                     rpc.params.showStrings,
                     rpc.params.graphic,
                     rpc.params.softButtons,
                     rpc.params.secondaryGraphic
-                ))
+                ));
+                if (rpc.params.templateConfiguration) {
+                    const templateConfiguration = rpc.params.templateConfiguration;
+                    store.dispatch(setTemplateConfiguration(
+                        templateConfiguration.template, 
+                        rpc.params.appID, 
+                        templateConfiguration.dayColorScheme, 
+                        templateConfiguration.nightColorScheme
+                    ));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                }
                 return true
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
@@ -73,7 +90,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.menuID,
                     rpc.params.menuParams,
-                    rpc.params.menuIcon
+                    rpc.params.menuIcon,
+                    rpc.params.menuLayout
                 ))
                 return true
             case "DeleteCommand":
@@ -88,6 +106,13 @@ class UIController {
                     rpc.params.menuID
                 ))
                 return true
+            case "ShowAppMenu":
+                store.dispatch(showAppMenu(
+                    rpc.params.appID,
+                    rpc.params.menuID
+                ))
+                this.onSystemContext("MENU", rpc.params.appID)
+                return true
             case "OnButtonSubscription":
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
@@ -101,7 +126,8 @@ class UIController {
                     rpc.params.initialText,
                     rpc.params.choiceSet,
                     rpc.params.interactionLayout,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
@@ -118,10 +144,14 @@ class UIController {
                 ))
                 return true
             case "SetDisplayLayout":
-                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                console.log("Warning: RPC SetDisplayLayout is deprecated");
+                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
-                // TODO: implement this RPC
+                store.dispatch(setGlobalProperties(
+                    rpc.params.appID,
+                    rpc.params.menuLayout
+                ))
                 return true
             case "Alert":
                 store.dispatch(alert(
@@ -131,7 +161,9 @@ class UIController {
                     rpc.params.softButtons,
                     rpc.params.alertType,
                     rpc.params.progressIndicator,
-                    rpc.id
+                    rpc.id,
+                    rpc.params.alertIcon,
+                    rpc.params.cancelID
                 ))
                 var timeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
@@ -147,12 +179,35 @@ class UIController {
                 }
 
                 return null
+            case "CancelInteraction":
+
+                const state2 = store.getState()
+                var app = state2.ui[state2.activeApp]
+                
+                if (rpc.params.functionID === 10 && app.isPerformingInteraction
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
+                    clearTimeout(this.timers[app.interactionId])
+                    delete this.timers[app.interactionId]
+                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
+                    store.dispatch(deactivateInteraction(rpc.params.appID))
+                    return true
+                } else if (rpc.params.functionID === 12 && app.alert.showAlert
+                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    clearTimeout(this.timers[app.alert.msgID])
+                    delete this.timers[app.alert.msgID]
+                    this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    return true
+                }
+                
+                return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            default:
+                return false;
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionFailure(msgID-1))
-        this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
+        this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
             appID
@@ -216,7 +271,6 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.VRPerformInteractionResponse(choiceID, appID, msgID-1))
         this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
     }
     onSystemContext(context, appID) {
@@ -241,7 +295,6 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.VRPerformInteractionFailure(parseInt(msgID)-1))
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),

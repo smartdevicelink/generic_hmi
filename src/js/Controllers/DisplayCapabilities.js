@@ -1,3 +1,10 @@
+let softButtonCapability = {
+	"shortPressAvailable": true,
+	"longPressAvailable": false,
+	"upDownAvailable": false,
+	"imageSupported": true,
+	"textSupported": true
+}
 let capabilities = {
 	"MEDIA": {
 		"displayCapabilities": {
@@ -37,6 +44,12 @@ let capabilities = {
 					"name": "mediaTrack",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -137,6 +150,14 @@ let capabilities = {
 						"resolutionWidth": 360,
 						"resolutionHeight": 360
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -157,20 +178,12 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
-		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		}, 
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
@@ -224,6 +237,12 @@ let capabilities = {
 					"name": "mainField4",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -356,6 +375,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -376,44 +403,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
@@ -436,6 +435,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -550,6 +555,14 @@ let capabilities = {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -570,44 +583,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS": {
@@ -630,6 +615,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -752,6 +743,14 @@ let capabilities = {
 						"resolutionWidth": 480,
 						"resolutionHeight": 480
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -772,44 +771,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"LARGE_GRAPHIC_ONLY": {
@@ -832,6 +803,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -898,6 +875,14 @@ let capabilities = {
 						"resolutionWidth": 915,
 						"resolutionHeight": 490
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -918,44 +903,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"GRAPHIC_WITH_TEXTBUTTONS": {
@@ -981,6 +938,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1092,6 +1055,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1112,44 +1083,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXTBUTTONS_WITH_GRAPHIC": {
@@ -1175,6 +1118,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "menuName",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1286,6 +1235,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1306,44 +1263,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXTBUTTONS_ONLY": {
@@ -1366,6 +1295,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -1472,6 +1407,14 @@ let capabilities = {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -1492,44 +1435,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TEXT_WITH_GRAPHIC": {
@@ -1561,6 +1476,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1642,6 +1563,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -1662,44 +1591,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"GRAPHIC_WITH_TEXT": {
@@ -1731,6 +1632,12 @@ let capabilities = {
 					"rows": 1
 				},
 				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
 					"name": "alertText1",
 					"characterSet": "TYPE2SET",
 					"width": 500,
@@ -1812,6 +1719,14 @@ let capabilities = {
 						"resolutionWidth": 410,
 						"resolutionHeight": 410
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
@@ -1832,44 +1747,16 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"TILES_ONLY": {
@@ -1892,6 +1779,12 @@ let capabilities = {
 					"name": "alertText3",
 					"characterSet": "TYPE2SET",
 					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
 					"rows": 1
 				},
 				{
@@ -1998,6 +1891,14 @@ let capabilities = {
 						"resolutionWidth": 50,
 						"resolutionHeight": 50
 					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
 				}
 			],
 			"mediaClockFormats": [],
@@ -2018,44 +1919,15 @@ let capabilities = {
 					"doublePressAvailable": false
 				}
 			},
-			"imageCapabilities": ["DYNAMIC", "STATIC"]
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
-				"imageSupported": true
-			}
+		"softButtonCapabilities": [softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
 		]
 	},
 	"COMMON": {
@@ -2064,6 +1936,11 @@ let capabilities = {
 			"bitsPerSample": "8_BIT",
 			"audioType": "PCM"
 		},
+		"audioPassThruCapabilitiesList": [{
+			"samplingRate": "44KHZ",
+			"bitsPerSample": "8_BIT",
+			"audioType": "PCM"
+		}],
 		"speechCapabilities": [
 			"FILE"
 		],
@@ -2086,4 +1963,42 @@ let capabilities = {
 	}
 }
 
-export default capabilities;
+const mainWindowTypeCapability = {
+	type: "MAIN",
+	maximumNumberOfWindows: 1
+}
+
+const getWindowCapability = (template) => {
+	if (!template || !capabilities[template]) {
+		return null;
+	}
+	var templateCapability = capabilities[template];
+	var templateDisplayCapability = templateCapability.displayCapabilities
+	var capability = {
+		textFields: templateDisplayCapability.textFields,
+		imageFields: templateDisplayCapability.imageFields,
+		imageTypeSupported: ["STATIC", "DYNAMIC"],
+		templatesAvailable: templateDisplayCapability.templatesAvailable,
+		buttonCapabilities: templateCapability.buttonCapabilities,
+		softButtonCapabilities: templateCapability.softButtonCapabilities,
+		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
+	}
+	return capability;
+}
+
+const getDisplayCapability = (template) => {
+	var templateCapability = capabilities[template];
+	if (!templateCapability) {
+		console.log("Error: Trying to access capability for unsupported template")
+		return {}
+	}
+	var capability = {
+		displayName: templateCapability.displayCapabilities.displayName,
+		windowTypeSupported: [mainWindowTypeCapability],
+		windowCapabilities: [getWindowCapability(template)]
+	}
+	return capability;
+	
+}
+
+export {capabilities, getDisplayCapability};

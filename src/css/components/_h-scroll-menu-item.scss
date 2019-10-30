@@ -20,9 +20,17 @@
 
     &__name {
         position: absolute;
+        overflow: scroll;
         bottom: 0px;
         width: 100%;
         height: 23%;
+    }
+
+    &__header {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        height: 10%;
     }
 
     &.with-icon {

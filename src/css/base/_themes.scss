@@ -56,11 +56,17 @@
         fill: color($accent-color);
     }
 
+    .svg-wrap-secondary svg path,
+    .svg-wrap-secondary svg polygon {
+        fill: color($font-secondary-color);
+    }
+
     .svg-fill-important {
         fill: color($accent-color) !important;
     }
 
     .svg-stroke {
+        color: color($accent-color) !important;
         stroke: color($accent-color) !important;
     }
     
@@ -135,12 +141,18 @@
     .svg-wrap svg polygon {
         fill: color(black);
     }
+
+    .svg-wrap-secondary svg path,
+    .svg-wrap-secondary svg polygon {
+        fill: color(steel);
+    }
     
     .svg-fill-important {
         fill: color(black) !important;
     }
 
     .svg-stroke{
+        color: color(black) !important;
         stroke: color(black) !important;
     }
 

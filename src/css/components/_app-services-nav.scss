@@ -44,6 +44,11 @@
     img {
       @include size(35px);      
     }
+    .static-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .nav-text-bubble {

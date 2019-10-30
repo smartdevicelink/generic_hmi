@@ -1,4 +1,4 @@
-import capabilities from './DisplayCapabilities.js'
+import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
     static UnsupportedResourceResponse(rpc, message) {
@@ -24,6 +24,19 @@ class RpcFactory {
             }
         })
     }
+    static AlertAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Alert"
+                }
+            }
+        })
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -33,6 +46,7 @@ class RpcFactory {
                 "code": 0,
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
+                "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
                 "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
@@ -63,6 +77,19 @@ class RpcFactory {
                 "isAppRevoked": false,
                 "isPermissionsConsentNeeded": false,
                 "isSDLAllowed": true
+            }
+        })
+    }
+    static UIPerformInteractionAbortedResponse(msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
             }
         })
     }
@@ -218,8 +245,21 @@ class RpcFactory {
             "jsonrpc": "2.0",
             "id": msgID,
             "error": {
-                "code": 22,
-                "message": "UI.PerformInteraction Failed",
+                "code": 5,
+                "message": "UI.PerformInteraction Aborted",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
+    static UIPerformInteractionTimeout (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 10,
+                "message": "UI.PerformInteraction Timed Out",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -339,16 +379,17 @@ class RpcFactory {
             }           
         })
     }
-    static GetURLS(serviceType) {
-         return ({
-            'jsonrpc': '2.0',
-            "id": rpcFactory_msgId++,
-            'method': 'SDL.GetURLS',
-            'params': {
-                'service' : serviceType
-            }           
-        })       
-    }
+    static GetPolicyConfigurationData(type, property) {
+        return ({
+           'jsonrpc': '2.0',
+           "id": rpcFactory_msgId++,
+           'method': 'SDL.GetPolicyConfigurationData',
+           'params': {
+               'policyType' : type,
+               'property' : property
+           }           
+       })       
+   }
     static OnSystemRequestNotification(policyFile, url, appID) {
         return ({
             'jsonrpc': '2.0',
@@ -466,6 +507,7 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
+                    "message": "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }
@@ -473,6 +515,33 @@ class RpcFactory {
             })            
         }
 
+    }
+    static UICancelInteractionIgnoredResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 6,
+                "message": "Request is ignored, because the intended result is already in effect.",
+                "data": {
+                    "method": "UI.CancelInteraction"
+                }
+            }
+        })
+    }
+    static OnSystemCapabilityDisplay(template, appID) {
+        var systemCapability = {
+            systemCapabilityType: "DISPLAYS",
+            displayCapabilities: [getDisplayCapability(template)]
+        }
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": systemCapability,
+                "appID": appID
+            }
+        })
     }
 }
 
