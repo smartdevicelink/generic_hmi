@@ -10,7 +10,6 @@
     @include align-content(flex-start);
 }
 
-@debug "hscroll menu width " + $master-width;    
 $menu-width: $master-width;
 $box-width-3: ($menu-width * 0.3);
 $margin-size-3: ((($menu-width) - (($box-width-3) * 3)) / 3);

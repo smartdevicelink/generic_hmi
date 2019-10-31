@@ -18,7 +18,7 @@ class BCController {
                 return {"rpc": RpcFactory.BCGetSystemInfoResponse(rpc)}
             case "UpdateAppList":
                 store.dispatch(updateAppList(rpc.params.applications))
-                rpc.params.applications.map((app, index) => {
+                rpc.params.applications.forEach((app) => {
                     if (app.dayColorScheme || app.nightColorScheme) {
                         store.dispatch(updateColorScheme(
                             app.appID,
@@ -27,7 +27,6 @@ class BCController {
                         ));
                     }
                     store.dispatch(setAppIsConnected(app.appID))
-                    return true;
                 });
                 return true
             case "ActivateApp":

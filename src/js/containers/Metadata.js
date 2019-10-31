@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     props.theme = state.theme
 
     if(metadata) {
-        Object.keys(metadata.showStrings).map((fieldName) => {
+        Object.keys(metadata.showStrings).forEach((fieldName) => {
             switch (fieldName) {
                 case "mainField1":
                     props.mainField1 = metadata.showStrings[fieldName]
@@ -43,7 +43,6 @@ const mapStateToProps = (state) => {
                 default:
                     break;
             }
-            return true;
         })
         props.graphic = metadata.graphic ? metadata.graphic : null
         props.secondaryGraphic = metadata.secondaryGraphic ? metadata.secondaryGraphic : null
@@ -51,7 +50,7 @@ const mapStateToProps = (state) => {
 
     for(var app in state.ui) {
         if(state.ui[app].alert.showAlert) {
-            state.ui[app].alert.alertStrings.map((textField) => {
+            state.ui[app].alert.alertStrings.forEach((textField) => {
                 switch (textField.fieldName) {
                     case "alertText1":
                         props.alertText1 = textField.fieldText
@@ -65,7 +64,6 @@ const mapStateToProps = (state) => {
                     default:
                         break
                 }
-                return true;
             })
         }
     }

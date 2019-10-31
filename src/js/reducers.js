@@ -242,12 +242,12 @@ function deleteCommand(commands, cmdID) {
 function ui(state = {}, action) {
     var newState = { ...state }
     var app = newState[action.appID] ? newState[action.appID] : newAppState();
+    newState[action.appID] = app;
     var menu = app.menu;
     var menuItem = null;
     var i = 0;
     switch (action.type) {
         case Actions.SHOW:           
-            newState[action.appID] = app
             if (action.showStrings && action.showStrings.length > 0) {
                 for (i=0; i < action.showStrings.length; i++) {
                     var fieldName = action.showStrings[i].fieldName
@@ -266,12 +266,9 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SET_APP_ICON:
-            newState[action.appID] = app
             app.icon = action.icon
             return newState
         case Actions.ADD_COMMAND:
-            newState[action.appID] = app
-            menu = app.menu
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
@@ -296,12 +293,9 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.DELETE_COMMAND:
-            newState[action.appID] = app
-            app.menu = deleteCommand(app.menu, action.cmdID)
+            menu = deleteCommand(menu, action.cmdID)
             return newState
         case Actions.ADD_SUB_MENU:
-            newState[action.appID] = app
-            menu = app.menu
             var position = action.menuParams.position
             menuItem = {
                 menuID: action.menuID,
@@ -317,8 +311,6 @@ function ui(state = {}, action) {
                 menu.push(menuItem);
             return newState
         case Actions.DELETE_SUB_MENU:
-            newState[action.appID] = app
-            menu = app.menu
             i = menu.findIndex((command) => {
                 return command.menuID === action.menuID
             })
@@ -328,19 +320,15 @@ function ui(state = {}, action) {
             app.triggerShowAppMenu = true
             // If action has menuID, activate submenu otherwise deactivate sub menu
             app.activeSubMenu = (action.menuID) ? action.menuID : null;
-            newState[action.appID] = app
             return newState
         case Actions.SUBSCRIBE_BUTTON:
-            newState[action.appID] = app
             var buttons = app.subscribedButtons
             buttons[action.buttonName] = action.isSubscribed
             return newState
         case Actions.ACTIVATE_SUB_MENU:
-            newState[action.appID] = app
             app.activeSubMenu = action.menuID
             return newState
         case Actions.DEACTIVATE_SUB_MENU:
-            newState[action.appID] = app
             app.activeSubMenu = null
             return newState
         case Actions.PERFORM_INTERACTION:
@@ -349,14 +337,12 @@ function ui(state = {}, action) {
             app.choices = action.choices
             app.interactionId = action.msgID
             app.interactionCancelId = action.cancelID
-            newState[action.appID] = app
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
             app.isPerformingInteraction = false
             app.interactionText = ""
             app.choices = []
-            newState[action.appID] = app
             return newState
         case Actions.SET_MEDIA_CLOCK_TIMER:
             if (action.startTime) {
@@ -386,7 +372,6 @@ function ui(state = {}, action) {
             if(action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
-            newState[action.appID] = app
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
@@ -435,18 +420,12 @@ function ui(state = {}, action) {
 
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
-            }
-            newState[action.appID] = app            
+            }          
             return newState
         case Actions.REGISTER_APPLICATION:        
-            if (!newState[action.appID]) {
-              newState[action.appID] = newAppState()
-            }
-            app = newState[action.appID]
-            if (app.displayLayout === null) {
+            if (!app.displayLayout) {
               app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
             }
-            newState[action.appID] = app
             return newState
         case Actions.UNREGISTER_APPLICATION:
             if (newState[action.appID]) {
@@ -463,7 +442,6 @@ function ui(state = {}, action) {
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
             app.alert.cancelID = action.cancelID
-            newState[action.appID] = app
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {
@@ -475,7 +453,6 @@ function ui(state = {}, action) {
                 showProgressIndicator: null,
                 msgID: null
             }
-            newState[action.appID] = app
             return newState
         case Actions.UPDATE_COLOR_SCHEME:
             if (action.dayColorScheme) {
@@ -485,24 +462,19 @@ function ui(state = {}, action) {
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
             }
-            newState[action.appID] = app
             return newState   
         case Actions.SET_APP_IS_CONNECTED:
             app.isDisconnected = false
-            newState[action.appID] = app
             return newState
         case Actions.ON_PUT_FILE:
-            newState[action.appID] = app
             return newState
         case Actions.RESET_SHOW_APP_MENU:
-            app.triggerShowAppMenu = false
-            newState[action.appID] = app        
+            app.triggerShowAppMenu = false     
             return newState
         case Actions.SET_GLOBAL_PROPERTIES:
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
             }
-            newState[action.appID] = app
             return newState
         default:
             return state
