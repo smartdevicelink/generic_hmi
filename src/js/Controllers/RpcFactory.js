@@ -1,4 +1,4 @@
-import capabilities from './DisplayCapabilities.js'
+import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
     static UnsupportedResourceResponse(rpc, message) {
@@ -245,8 +245,21 @@ class RpcFactory {
             "jsonrpc": "2.0",
             "id": msgID,
             "error": {
-                "code": 22,
-                "message": "UI.PerformInteraction Failed",
+                "code": 5,
+                "message": "UI.PerformInteraction Aborted",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
+    static UIPerformInteractionTimeout (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 10,
+                "message": "UI.PerformInteraction Timed Out",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -530,6 +543,20 @@ class RpcFactory {
                 "data": {
                     "method": "UI.CancelInteraction"
                 }
+            }
+        })
+    }
+    static OnSystemCapabilityDisplay(template, appID) {
+        var systemCapability = {
+            systemCapabilityType: "DISPLAYS",
+            displayCapabilities: [getDisplayCapability(template)]
+        }
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": systemCapability,
+                "appID": appID
             }
         })
     }

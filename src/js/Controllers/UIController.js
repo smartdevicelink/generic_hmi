@@ -10,7 +10,7 @@ import {
     performInteraction,
     timeoutPerformInteraction,
     setMediaClockTimer,
-    setDisplayLayout,
+    setTemplateConfiguration,
     alert,
     closeAlert,
     setGlobalProperties,
@@ -52,13 +52,27 @@ class UIController {
                     return false;
                 }                
             case "Show":
+                if (rpc.params.windowID && rpc.params.windowID != 0) {
+                    // Generic HMI only supports main window for now.
+                    return false;
+                }
                 store.dispatch(show(
                     rpc.params.appID,
                     rpc.params.showStrings,
                     rpc.params.graphic,
                     rpc.params.softButtons,
                     rpc.params.secondaryGraphic
-                ))
+                ));
+                if (rpc.params.templateConfiguration) {
+                    const templateConfiguration = rpc.params.templateConfiguration;
+                    store.dispatch(setTemplateConfiguration(
+                        templateConfiguration.template, 
+                        rpc.params.appID, 
+                        templateConfiguration.dayColorScheme, 
+                        templateConfiguration.nightColorScheme
+                    ));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                }
                 return true
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
@@ -132,7 +146,8 @@ class UIController {
                 ))
                 return true
             case "SetDisplayLayout":
-                store.dispatch(setDisplayLayout(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                console.log("Warning: RPC SetDisplayLayout is deprecated");
+                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
@@ -188,11 +203,13 @@ class UIController {
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            default:
+                return false;
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.UIPerformInteractionFailure(msgID))
+        this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
             appID
