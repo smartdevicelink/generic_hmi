@@ -36,7 +36,6 @@ class SoftButtonsBody extends React.Component {
     }
 
     render() {
-        var id = 0
         var items;
         var softButtons = this.props.softButtons.slice(0, 6)
 

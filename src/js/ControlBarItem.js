@@ -34,6 +34,8 @@ export default class ControlBar extends React.Component {
                 return <IconPlayPause/>
             case "iconStop":
                 return <IconStop/>
+            default:
+                return null
         }
     }
 
