@@ -145,10 +145,8 @@
     max-width: 100%;
     min-width: 75px;
 
-    div {
-        svg {
-            max-height: 75px;
-        }
+    div svg {
+        max-height: 75px;
     }
 }
 
