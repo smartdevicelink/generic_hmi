@@ -49,7 +49,7 @@ class UIController {
                     return; //do not respond to button capabilities
                     //return {"rpc": RpcFactory.ButtonsGetCapabilitiesResponse(rpc)}
                 } else {
-                    return false;
+                    return; // let the Manticore UI handle responses
                 }                
             case "Show":
                 if (rpc.params.windowID && rpc.params.windowID != 0) {
