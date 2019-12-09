@@ -4,6 +4,9 @@ import '../css/main.scss';
 // import react and js
 import MediaPlayer from './MediaPlayer';
 import NonMedia from './Templates/NonMedia/NonMedia'
+import MediaCustom from './Templates/MediaCustom/MediaCustom'
+import { CMenu } from './containers/Menu'
+import MediaCustomPerformInteraction from './Templates/MediaCustom/MediaCustomPerformInteraction'
 import LargeGraphicOnly from './Templates/LargeGraphicOnly/LargeGraphicOnly'
 import LargeGraphicWithSoftbuttons from './Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
 import GraphicWithTextButtons from './Templates/GraphicWithTextButtons/GraphicWithTextButtons'
@@ -88,6 +91,9 @@ ReactDOM.render((
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
+            <Route path="/media-custom" component={MediaCustom} />
+            <Route path="/media-custom-pi" component={MediaCustomPerformInteraction} />
+            <Route path="/media-custom-menu" component={CMenu} />
         </Router>
     </HMIApp>
     </Provider>

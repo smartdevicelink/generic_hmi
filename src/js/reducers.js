@@ -417,6 +417,9 @@ function ui(state = {}, action) {
                 case "MEDIA":
                     app.displayLayout = "media"
                     break
+                case "MEDIA_CUSTOM":
+                    app.displayLayout = "media-custom"
+                    break
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break

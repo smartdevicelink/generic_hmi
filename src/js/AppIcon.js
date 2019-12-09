@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import Image from './Templates/Shared/Image'
 import iconMenu from '../img/icons/icon-menu.svg';
 
-export default class AppIcon extends React.Component {
+class AppIcon extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -16,7 +16,7 @@ export default class AppIcon extends React.Component {
             fillColor = "#000000"
         }
         //While viewing menu, pressing menu button takes user back to app screen
-        var path = this.props.isShowingMenu ? this.props.backLink : "/inappmenu" 
+        var path = this.props.isShowingMenu ? this.props.backLink : (this.props.router.isActive('media-custom') ? 'media-custom-menu' : "/inappmenu")
         var icon = this.props.icon ?
             (<Image class="app-icon" image={this.props.icon} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
             : (<span className="app-icon"></span>)
@@ -32,3 +32,5 @@ export default class AppIcon extends React.Component {
         )
     }
 }
+
+export default withRouter(AppIcon);

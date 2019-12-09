@@ -40,6 +40,11 @@ class AppHeader extends React.Component {
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
+        if (this.props.router.isActive('/media-custom-pi')
+            || this.props.router.isActive('/media-custom-menu')) {
+            return null;
+        }
+
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
@@ -64,12 +69,13 @@ class AppHeader extends React.Component {
             this.props.router.push("/")
         }
         else if (!nextProps.router.isActive("/inapplist")
-            && nextProps.isPerformingInteraction) {
-                this.props.router.push("/inapplist")
+            && nextProps.isPerformingInteraction
+            && !nextProps.router.isActive("/media-custom-pi")) {
+                this.props.router.push(this.props.router.isActive("/media-custom") ? "/media-custom-pi" : "/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
         // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
-        else if (nextProps.router.isActive("/inapplist")
+        else if ((nextProps.router.isActive("/inapplist") || nextProps.router.isActive("/media-custom-pi"))
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
                 this.props.router.push("/" + nextProps.displayLayout)
@@ -79,8 +85,7 @@ class AppHeader extends React.Component {
                 this.props.router.push("/" + nextProps.displayLayout)
             }
         }
-   
-        else if(this.props.activeApp != nextProps.activeApp) {            
+        else if(this.props.activeApp != nextProps.activeApp) {
             if(!this.props.activeApp && nextProps.activeApp) {
                 this.props.router.push("/" + nextProps.displayLayout)
             }
@@ -89,7 +94,7 @@ class AppHeader extends React.Component {
             if(nextProps.activeSubMenu){
                 // If menuID is specified, activate that sub menu
                 if(!this.props.router.isActive("/inapplist")){
-                    this.props.router.push('/inapplist')    
+                    this.props.router.push(this.props.router.isActive("/media-custom") ? "/media-custom-menu" : "/inapplist");
                 }
             }
             else{

@@ -4,6 +4,8 @@ import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 
+import MediaCustomMenu from '../Templates/MediaCustom/MediaCustomMenu'
+
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var menu = state.ui[activeApp].menu
@@ -50,5 +52,10 @@ export const HMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(HScrollMenu)
+
+export const CMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MediaCustomMenu)
 
 export default VMenu
