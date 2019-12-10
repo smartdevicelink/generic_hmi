@@ -24,6 +24,12 @@ class MediaCustomPerformInteraction extends React.Component {
             divStyle.backgroundImage = `linear-gradient(-180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.00) 10%), url(${this.props.albumArt})`;
         }
 
+        var header = "Queue";
+        
+        if (this.props.text && this.props.text.fieldName == "initialInteractionText") {
+            header = this.props.text.fieldText;
+        }
+
         return (<div className="media-custom-template" style={divStyle}>
             <AppHeader />
             <div className="media-custom-template__head">
@@ -32,7 +38,7 @@ class MediaCustomPerformInteraction extends React.Component {
                     onClick={() => this.props.onSelection(this.props.appID)}>
                     <StaticIcon class="static-icon" image="0x04" />
                 </Link>
-                <p className="t-large t-light text-strong-contrast">Queue</p>
+                <p className="t-large t-light text-strong-contrast">{header}</p>
             </div>
             <div className="media-custom-template__queue" style={{background: bgColor}}>
                 {
@@ -54,7 +60,7 @@ const mapStateToProps = (state) => {
         return {
             cmdID: choice.choiceID,
             name: choice.menuName,
-            artist: choice.secondaryText,
+            artist: choice.secondaryText
         }
     })
     return {
@@ -64,6 +70,7 @@ const mapStateToProps = (state) => {
         isPerformingInteraction: app.isPerformingInteraction,
         interactionId: app.interactionId,
         theme: theme,
+        text: app.interactionText
     }
 }
 
