@@ -19,8 +19,8 @@
     bottom: 25px;
     display: flex;
     align-items: center;
-    width: 100px;
-    height: 200px;
+    width: 60px;
+    height: 100px;
 }
 
 .custom-large-graphic-with-softbuttons-template .large-graphic {
@@ -40,6 +40,16 @@
     @include flex-wrap(wrap);
     @include align-items(stretch);
     flex-shrink: 0;
+}
+
+.custom-large-graphic-with-softbuttons-bottom-container .soft-button-image-static {
+    max-height: 60px;
+    max-width: 100%;
+    min-width: 60px;
+
+    div svg {
+        max-height: 60px;
+    }
 }
 
 .custom-large-graphic-with-softbuttons-template .soft-button {

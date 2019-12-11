@@ -49,15 +49,18 @@
     &__image {
         display: flex;
         justify-content: center;
-        @include size(30px);
+        @include size(40px);
         img {
-            @include size(30px);
+            @include size(40px);
         }
     }
 
     &__name {
         display: flex;
         justify-content: center;
+        p {
+            font-size: 21px !important;
+        }
     }
 }
 
@@ -80,14 +83,17 @@
     justify-content: center;
     flex: 1;
     margin-left: 40px;
+
+    p {
+        line-height: 1.75;
+    }
 }
 
 .custom-non-media-graphic {
     display: flex;
     flex: 1;
     justify-content: center;
-    margin-right: 50px;
-
+    padding: 20px 0px 20px 0px;
 }
 
 .custom-non-media-graphic img {

@@ -40,6 +40,7 @@
     justify-content: space-between;
     margin-bottom: 0px !important;
     padding: 5px;
+    padding-top: 10px;
     background: #373737;
     border: 1px solid #979797;
 }
@@ -47,13 +48,14 @@
 .custom-tiles-only-template .soft-button-image {
     max-width: 80%;
     max-height: 60%;
-    @include size(70px);
+    @include size(55px);
     //margin-top: 25px;
 }
 
 .custom-tiles-only-template .soft-button p {
     padding: 0;
     text-align: left;
+    font-size: 18px !important;
 }
 
 .custom-tiles-only-template .soft-button-multiline-text {
