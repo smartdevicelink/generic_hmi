@@ -478,7 +478,7 @@ class RpcFactory {
         var layout = rpc.params.displayLayout;
         var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", "MEDIA_CUSTOM",
         "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "NON-MEDIA_CUSTOM", "TILES_ONLY_CUSTOM", "LARGE_GRAPHIC_WITH_SOFTBUTTONS_CUSTOM"];
         if (supportedTemplates.includes(layout)) {
             if (layout == "DEFAULT") {
                 layout = "MEDIA"

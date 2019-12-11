@@ -59,16 +59,18 @@ class SoftButtonsBody extends React.Component {
     render() {
         var id = 0
         var items;
-        var softButtons = this.props.softButtons.slice(0, 6)
+        var softButtons = this.props.softButtons
 
         var secondaryStyle = this.getSecondaryColorScheme();
         var primaryStyle = this.getPrimaryColorScheme();
-        var cssColorStyle = Object.assign(primaryStyle ? primaryStyle : {}, 
-                                            secondaryStyle ? secondaryStyle : {});
+        var cssColorStyle = !this.props.customTemplate ? Object.assign(primaryStyle ? primaryStyle : {}, 
+                                            secondaryStyle ? secondaryStyle : {}) : {};
+
+        var customColor = this.props.customColors && this.props.customBGColorClass ? this.props.customBGColorClass : "";
 
         if(softButtons.length == 1) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="soft-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                return (<div className={"soft-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -81,7 +83,7 @@ class SoftButtonsBody extends React.Component {
             })
         } else if (softButtons.length == 2) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="soft-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                return (<div className={"soft-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -94,7 +96,7 @@ class SoftButtonsBody extends React.Component {
             })
         } else if (softButtons.length == 3) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                return (<div className={"soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -107,7 +109,7 @@ class SoftButtonsBody extends React.Component {
             })            
         } else if (softButtons.length == 4) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="soft-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                return (<div className={"soft-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -121,7 +123,7 @@ class SoftButtonsBody extends React.Component {
         } else if (softButtons.length == 5) {
             items = softButtons.map((softButton, index) => {
                 if (index == 4) {
-                    return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                    return (<div className={"soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -132,7 +134,7 @@ class SoftButtonsBody extends React.Component {
                                 />) : null}
                         </div>)
                 } else {
-                    return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                    return (<div className={"soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                                 key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
@@ -146,10 +148,34 @@ class SoftButtonsBody extends React.Component {
             })
         } else if (softButtons.length == 6) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
+                return (<div className={"soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
                             key={softButton.softButtonID}
                             onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
+                                {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
+                                    imageType={softButton.image.imageType}
+                                    isTemplate={softButton.image.isTemplate}
+                                    theme={this.props.theme}
+                                />) : null}
+                        </div>)
+            })
+        } else if (softButtons.length > 6) {
+            items = softButtons.map((softButton, index) => {
+                var textArray = softButton.text ? softButton.text.split(" - ") : [];
+                var softButtonText = null;
+                var i =0;
+                for (var t of textArray) {
+                    if (!softButtonText) {
+                        softButtonText = [];
+                    }
+                    softButtonText.push((<p key={i++}>{t}</p>))
+                }
+                return (<div className={"soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button " + customColor} style={cssColorStyle}
+                            key={softButton.softButtonID}
+                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                                <div className="soft-button-multiline-text">
+                                    {softButtonText}
+                                </div>
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
                                     isTemplate={softButton.image.isTemplate}

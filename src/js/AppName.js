@@ -8,7 +8,7 @@ export default class AppName extends React.Component {
     render () {
         let isShowingMenu = this.props.router.isActive('/inappmenu')
         let isShowingSubMenu = (this.props.router.isActive('/inapplist') && this.props.subMenuName)
-        let subTitle = this.props.templateTitle
+        let subTitle = this.props.disableTemplateTitle ? "" : this.props.templateTitle
         subTitle = (isShowingMenu) ? "Menu" : subTitle
         subTitle = (isShowingSubMenu) ? this.props.subMenuName : subTitle 
         

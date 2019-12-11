@@ -1,6 +1,6 @@
 .hscrollmenu {
     width: 100%;
-    height: calc(#{$master-height} - 75px);
+    height: calc(#{$master-height} - #{$app-header-height});
     overflow-y: hidden;
 
     @include display(flex);

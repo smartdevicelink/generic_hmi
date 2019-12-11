@@ -1,6 +1,6 @@
 @mixin album-art-size() {
     $calc-width: $master-width / 2.954;
-    $calc-height: ($master-height - 75px)  / 1.8461;
+    $calc-height: ($master-height - $app-header-height)  / 1.8461;
     @if $calc-width <= $calc-height {
         $size: $calc-width + ($calc-width / 6.5);
         @include size($size);
