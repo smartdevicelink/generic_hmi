@@ -57,10 +57,6 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div> 
-                    <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
-                    <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
-                </div>
             </div>
         )
     }

@@ -23,10 +23,18 @@ const mapStateToProps = (state) => {
             isTemplate: command.cmdIcon ? command.cmdIcon.isTemplate : undefined,
             appID: activeApp,
             link: link,
-            menuID: command.menuID
+            menuID: command.menuID,
+            activeApp: activeApp,
+            theme: state.theme,
+            ui: state.ui     
         }
     })
-    return {data: data, theme: theme}
+    return {
+        data: data, theme: theme,           
+        activeApp: activeApp,
+        theme: state.theme,
+        ui: state.ui    
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

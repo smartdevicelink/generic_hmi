@@ -36,5 +36,30 @@
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);
+    padding-left: 0px;
+}
+
+.text-buttons-only-template .soft-button-tile-small {
+    //height: 123.33333334px;
+    width: 47.63%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin-bottom: 20px;
+
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(flex-start);
+    padding-left: 14%;
+}
+
+.text-buttons-only-template .soft-button-image {
+    height: 1.5em;
+    max-width: 100%;
+    img {
+        max-width: 100%;
+        max-height: 90%;
+    }
 }
 

@@ -9,6 +9,8 @@ const mapStateToProps = (state) => {
         displayLayout: ""
     }
 
+    var appIcon = app.icon ? app.icon : ""
+
     var showAlert = false
     var alertAppName = ""
     var alertIcon = null

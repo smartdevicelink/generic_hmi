@@ -3,6 +3,7 @@
     height:100%;
     text-align: center;
     text-decoration: none;
+    text-overflow: ellipsis;
     color: color(white);
     border: 2px solid;
     position: relative;
@@ -14,7 +15,8 @@
         border-radius: 4px;
 
         img {
-            width: 100%;
+            max-height: 100%;
+            max-width: 100%;
         }
     }
 

@@ -183,6 +183,10 @@
         }
     }
 
+    .control-bar__control .static-icon svg {
+        max-height: 100%;
+    }
+
     .hscrollmenu-block:nth-child(1) .hscrollmenu-item {
         background-color: #B23434;
     }

@@ -49,42 +49,60 @@ class TTSController {
     }
 
     speak() {
+        function base64ToArrayBuffer(base64) {
+            var binary_string =  window.atob(base64);
+            var len = binary_string.length;
+            var bytes = new Uint8Array( len );
+            for (var i = 0; i < len; i++)        {
+                bytes[i] = binary_string.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
         if(this.filePlaylist.length == 0) {
             return;
         }
-
         var text = this.filePlaylist[0].text;
         this.filePlaylist.shift();
 
-        var speechPlayer = new SpeechSynthesisUtterance();
-
-        speechPlayer.onend = () => {
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
+        var xhr = new XMLHttpRequest();
+        var url = "https://texttospeech.googleapis.com/v1/text:synthesize?fields=audioContent&key=AIzaSyD8D2sSNTMcIzf5yFkh9cr72XXchaMziJo";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                var buf = base64ToArrayBuffer(json.audioContent);
+                var context = new window.AudioContext();
+                context.decodeAudioData(buf, function(buffer) {
+                    var source = context.createBufferSource(); // creates a sound source
+                    source.buffer = buffer;
+                    source.connect(context.destination);       // connect the source to the context'
+                    source.onended = function() {
+                        context.close();
+                        if(this.filePlaylist[0]) {
+                            if(this.filePlaylist[0].type === "FILE") {
+                                this.playAudio();
+                            } else if (this.filePlaylist[0].type === "TEXT"){
+                                this.speak();
+                            }    
+                        }
+                    };
+                    source.start(0);
+                });
             }
         }
-
-        speechPlayer.onerror = (event) => {
-            console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            }
-        }
-
-        speechPlayer.text = text;
-        speechPlayer.volume = 1;
-        speechPlayer.rate = 1;
-        speechPlayer.pitch = 0;
-        window.speechSynthesis.speak(speechPlayer)
-
+        var data = JSON.stringify({
+          "input": {
+            "text":text
+          },
+          "audioConfig": {
+            "audioEncoding":"MP3"
+          },
+          "voice": {
+            "languageCode":"en-US"
+          }
+        });
+        xhr.send(data);
     }
     
     handleRPC(rpc) {

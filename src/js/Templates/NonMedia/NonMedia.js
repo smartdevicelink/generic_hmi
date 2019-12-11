@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
 import { NonMediaMetadata } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
+import {UseDarkText} from '../../calculate_text_color';
 
 class NonMedia extends React.Component {
     constructor() {
@@ -31,6 +32,12 @@ class NonMedia extends React.Component {
             var cssColorScheme = {
                 backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
             }
+            if (UseDarkText(colorScheme) && this.props.theme === true) {
+                cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                    color: '#000000'
+                }                
+            }
             return cssColorScheme;
         } else {
             return null;
@@ -38,10 +45,12 @@ class NonMedia extends React.Component {
     }
 
     render() {
+        var colorScheme = null;
+        colorScheme = this.getColorScheme();
         return (
-            <div className="non-media-template" style={this.getColorScheme()}>
+            <div className="non-media-template" style={colorScheme}>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <NonMediaMetadata />
+                <NonMediaMetadata style={colorScheme}/>
                 <SoftButtons class="non-media"/>
             </div>
         )

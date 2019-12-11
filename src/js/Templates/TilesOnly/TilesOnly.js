@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
 import { SoftButtons } from '../../containers/Buttons';
+import {UseDarkText} from '../../calculate_text_color';
 
 class TilesOnly extends React.Component {
     constructor() {
@@ -29,6 +30,12 @@ class TilesOnly extends React.Component {
             var greenInt = colorScheme.green;
             var cssColorScheme = {
                 backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
+            }
+            if (UseDarkText(colorScheme) && this.props.theme === true) {
+                cssColorScheme = {
+                    backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`,
+                    color: '#000000'
+                }                
             }
             return cssColorScheme;
         } else {

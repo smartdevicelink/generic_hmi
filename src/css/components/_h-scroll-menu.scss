@@ -1,20 +1,24 @@
 .hscrollmenu {
     width: 100%;
-    height: calc(#{$master-height} - 140px);
-    overflow-y: auto;
-    padding: calc(#{$master-height} / 21.6) 0px 0 0px;
+    height: calc(#{$master-height} - 75px);
+    overflow-y: hidden;
 
     @include display(flex);
     @include flex-direction(row);
     @include flex-wrap(wrap);
     @include align-content(flex-start);
 }
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 @mixin h-scroll-item-per-line() {
     @if $master-width >=800 {
         width: var(--calc-width-3);
         margin-left: var( --margin-size-3);
         margin-bottom: var(--margin-size-3);
-        height: calc((var(--calc-width-3)) * 0.78);
+        height: calc((var(--calc-width-3)) * 0.76);
     } @else if $master-width >=480 {
         width: var(--calc-width-2);
         margin-left: var( --margin-size-2);
