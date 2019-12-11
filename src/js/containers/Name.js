@@ -28,6 +28,7 @@ const mapStateToProps = (state) => {
     } else { 
         name = "Apps"
     }
+
     return {name: name, templateTitle: templateTitle, subMenuName: subMenuName}
 }
 

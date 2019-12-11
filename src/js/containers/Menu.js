@@ -2,12 +2,18 @@ import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
 import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
+import Tabs from '../Templates/CustomNonMedia/Tabs'
 import { activateSubMenu } from '../actions'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-    var menu = state.ui[activeApp].menu
+    var menu = activeApp ? state.ui[activeApp].menu : []
     var theme = state.theme
+
+    var templateTitle = "";
+    if(state.ui[activeApp] && state.ui[activeApp].showStrings.templateTitle){
+        templateTitle = state.ui[activeApp].showStrings.templateTitle;
+    }
     var data = menu.map((command) => {
         var link =  state.ui[activeApp].displayLayout
         if (command.subMenu) {
@@ -24,7 +30,7 @@ const mapStateToProps = (state) => {
             menuID: command.menuID
         }
     })
-    return {data: data, theme: theme}
+    return {data: data, theme: theme, templateTitle: templateTitle}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -50,5 +56,10 @@ export const HMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(HScrollMenu)
+
+export const TabMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Tabs)
 
 export default VMenu

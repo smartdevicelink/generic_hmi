@@ -4,12 +4,15 @@ import '../css/main.scss';
 // import react and js
 import MediaPlayer from './MediaPlayer';
 import NonMedia from './Templates/NonMedia/NonMedia'
+import CustomNonMedia from './Templates/CustomNonMedia/CustomNonMedia'
 import LargeGraphicOnly from './Templates/LargeGraphicOnly/LargeGraphicOnly'
 import LargeGraphicWithSoftbuttons from './Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
+import CustomLargeGraphicWithSoftbuttons from './Templates/CustomLargeGraphicWithSoftbuttons/CustomLargeGraphicWithSoftbuttons'
 import GraphicWithTextButtons from './Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './Templates/TextButtonsOnly/TextButtonsOnly'
 import TilesOnly from './Templates/TilesOnly/TilesOnly';
+import CustomTilesOnly from './Templates/CustomTilesOnly/CustomTilesOnly';
 import TextWithGraphic from './Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './Templates/GraphicWithText/GraphicWithText'
 import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
@@ -77,17 +80,21 @@ ReactDOM.render((
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
+            <Route path="/nonmedia-custom" component={CustomNonMedia} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
+            <Route path="/large-graphic-with-softbuttons-custom" component={CustomLargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
-            <Route path="/tiles-only" component={TilesOnly} />            
+            <Route path="/tiles-only" component={TilesOnly} />         
+            <Route path="/tiles-only-custom" component={CustomTilesOnly} />        
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
+            <Route path="/custom-nonmedia" component={CustomNonMedia} />
         </Router>
     </HMIApp>
     </Provider>
