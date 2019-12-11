@@ -38,8 +38,8 @@ class MediaCustom extends React.Component {
             <div className="media-custom-template__container" style={divStyle}>
                 <div className="media-custom-template__body" key="0">
                     <div className="media-custom-template__body__text" key="0">
-                        <p className="t-large t-light">{showStrings.mainField1}</p>
-                        <p className="t-small t-light">{showStrings.mainField2}</p>
+                        <p className="t-large t-light" style={{ fontSize: 42 }}>{showStrings.mainField1}</p>
+                        <p className="t-light"style={{ fontSize: 24, fontWeight: 600 }}>{showStrings.mainField2}</p>
                     </div>
                     {
                         softButtons.map((button, i) => {

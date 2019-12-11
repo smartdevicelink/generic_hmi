@@ -202,4 +202,33 @@
             font-weight: 800;
         }
     }
+
+    .control-bar {
+        background-color: #222;
+    }
+
+    .control-bar__control {
+        img {
+            height: 80%;
+            margin: auto;
+        }
+
+        .static-icon {
+            width: auto;
+            margin: auto;
+
+            svg {
+                height: 80%;
+                margin-top: 10%;
+            }
+        }
+
+        .svg-wrap svg {
+            height: 80%;
+        }
+    }
+
+    .progress-bar {
+        background-color: #373737;
+    }
 }
