@@ -167,7 +167,7 @@
 @mixin app-service-overlay-dimensions() {
   $nav-height: 65px;
   $overlay-height: ($master-height * 0.7);
-  $top-distance: $master-height - ($overlay-height - $nav-height);
+  $top-distance: $master-height - $overlay-height - $nav-height;
   top: $top-distance;
   bottom: $nav-height;
   height: $overlay-height;
