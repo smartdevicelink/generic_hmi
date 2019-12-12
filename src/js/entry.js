@@ -79,6 +79,7 @@ ReactDOM.render((
             <Route path="/" component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
+            <Route path="/text-with-graphic-and-softbuttons" component={NonMedia} />
             <Route path="/nonmedia-custom" component={CustomNonMedia} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />

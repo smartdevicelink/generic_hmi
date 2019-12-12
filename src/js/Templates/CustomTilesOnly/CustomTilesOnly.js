@@ -43,7 +43,7 @@ class CustomTilesOnly extends React.Component {
                 <AppHeader backLink="/" menuName="Apps" disableColor={true} disableTemplateTitle={true} disableMenu={true}/>
                 <div className="custom-tiles-only-template">
                     <TabMenu />
-                    <SoftButtons class="custom-tiles-only-container" customTemplate={true} customColors={false}/>
+                    <SoftButtons class="custom-tiles-only-container" customTemplate={true} customColors={false} maxButtons={8}/>
                 </div>
             </div>
         )

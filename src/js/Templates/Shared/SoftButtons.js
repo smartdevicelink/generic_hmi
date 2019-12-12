@@ -9,6 +9,16 @@ class SoftButtonsBody extends React.Component {
         super(props);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        var nps = JSON.stringify(nextProps);
+        var ps = JSON.stringify(this.props);
+
+        var nss = JSON.stringify(nextState);
+        var ss = JSON.stringify(this.state);
+
+        return nps !== ps || nss !==ss;
+    }
+
     getSecondaryColorScheme() {
         if (this.props.colorScheme && this.props.colorScheme.secondary) {
             var redInt = this.props.colorScheme.secondary.red;
@@ -59,7 +69,9 @@ class SoftButtonsBody extends React.Component {
     render() {
         var id = 0
         var items;
-        var softButtons = this.props.softButtons
+        var upperLimit = (this.props.maxButtons && this.props.softButtons.length >= this.props.maxButtons) ? this.props.maxButtons : 6
+        console.log("upperlimit ", upperLimit)
+        var softButtons = this.props.softButtons.slice(0,upperLimit)
 
         var secondaryStyle = this.getSecondaryColorScheme();
         var primaryStyle = this.getPrimaryColorScheme();

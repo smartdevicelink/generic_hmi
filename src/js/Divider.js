@@ -15,12 +15,12 @@ export default class Divider extends React.Component {
           }
         });
 
-        if (this.props.position === 1 && cardCount < 2) {
+        if (this.props.position === 1 && cardCount <= 2 && !this.props.navActive) {
           return null;
         }
 
-        if (this.props.position === 2 && cardCount < 3) {
-          return null;
+        if (this.props.position === 2 && !(cardCount >= 3 || (this.props.mediaActive && this.props.weatherActive))) {
+            return null;          
         }
 
         return (

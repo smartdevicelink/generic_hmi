@@ -102,7 +102,8 @@
 }
 
 .clock {
-  width : 15%
+  width : 15%;
+  white-space: nowrap;
 }
 
 .hide-tab {
@@ -164,8 +165,8 @@
 
 @mixin app-service-overlay-dimensions() {
   $nav-height: 65px;
-  $overlay-height: ($master-height * 0.7) - 65px;
-  $top-distance: $master-height - $nav-height - $overlay-height;
+  $overlay-height: ($master-height * 0.7);
+  $top-distance: $master-height - ($overlay-height);
   top: $top-distance;
   bottom: $nav-height;
   height: $overlay-height;
@@ -177,7 +178,7 @@
   left              : 0;
   right             : 0;
   width: $master-width;
-  margin: 25px 0px 0px 25px;  
+  //margin: 25px 0px 0px 25px;  
   z-index:1001;
 }
 
@@ -230,8 +231,8 @@
 .app-service-media-card {
   border-bottom: 1px solid #49C7ED;
   .svg-size {
-    @include size(100px);
-    min-width: 100px;
+    @include size(75px);
+    min-width: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,9 +242,13 @@
     }    
   }
 
+  .t-large {
+    font-size: 30px;
+  }
+
   .app-service-icon {
-    @include size(100px);
-    min-width: 100px;
+    @include size(75px);
+    min-width: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -266,6 +271,14 @@
     justify-content: center;
   }
 
+  .t-large {
+    font-size: 30px;
+  }
+
+  .t-small {
+    line-height: 1.4;
+  }
+
   .svg-size {
     @include size(70px);
     min-width: 70px;
@@ -279,14 +292,23 @@
   }
 
   .app-service-icon {
-    @include size(70px);
-    min-width: 70px;
+    @include size(50px);
+    min-width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     img {
-      @include size(50px);      
+      @include size(40px);      
+    }
+    canvas {
+      @include size(40px);
+    }
+    div {
+      @include size(40px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }     
   }
 
