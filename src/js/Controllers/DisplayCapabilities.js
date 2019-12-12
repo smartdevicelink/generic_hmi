@@ -620,6 +620,210 @@ let capabilities = {
 			softButtonCapability
 		]
 	},
+	"TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [{
+					"name": "mainField1",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "mainField2",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "mainField3",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "mainField4",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "templateTitle",
+					"characterSet": "TYPE2SET",
+					"width": 50,
+					"rows": 1
+				},
+				{
+					"name": "alertText1",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "alertText2",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "alertText3",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "menuName",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "secondaryText",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "tertiaryText",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				},
+				{
+					"name": "menuTitle",
+					"characterSet": "TYPE2SET",
+					"width": 500,
+					"rows": 1
+				}
+			],
+			"imageFields": [{
+					"name": "choiceImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "softButtonImage",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "menuIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 40,
+						"resolutionHeight": 40
+					}
+				},
+				{
+					"name": "cmdIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 150,
+						"resolutionHeight": 150
+					}
+				},
+				{
+					"name": "appIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 50,
+						"resolutionHeight": 50
+					}
+				},
+				{
+					"name": "graphic",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 410,
+						"resolutionHeight": 410
+					}
+				},
+				{
+					"name": "alertIcon",
+					"imageTypeSupported": ["GRAPHIC_PNG"],
+					"imageResolution": {
+						"resolutionWidth": 225,
+						"resolutionHeight": 225
+					}
+				}
+			],
+			"mediaClockFormats": [],
+			"graphicSupported": true,
+			"templatesAvailable": [
+				"DEFAULT", "MEDIA", "NON-MEDIA", "NON-MEDIA_CUSTOM", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_WITH_SOFTBUTTONS_CUSTOM", "LARGE_GRAPHIC_ONLY",
+				"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
+				"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "MEDIA_CUSTOM", "TILES_ONLY", "TILES_ONLY_CUSTOM", "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC"
+			],
+			"screenParams": {
+				"resolution": {
+					"resolutionWidth": 960,
+					"resolutionHeight": 675
+				},
+				"touchEventAvailable": {
+					"pressAvailable": true,
+					"multiTouchAvailable": false,
+					"doublePressAvailable": false
+				}
+			},
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		},
+		"softButtonCapabilities": [
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability,
+			softButtonCapability
+		]
+	},
 	"NON-MEDIA_CUSTOM": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
