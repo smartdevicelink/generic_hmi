@@ -423,8 +423,8 @@ function ui(state = {}, action) {
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break
-                case "TEXT_WITH_GRAPHIC_AND_SOFTBUTTONS":
-                    app.displayLayout = "text-with-graphic-and-softbuttons"
+                case "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-and-softbuttos-with-graphic"
                     break
                 case "NON-MEDIA_CUSTOM":
                     app.displayLayout = "nonmedia-custom"
