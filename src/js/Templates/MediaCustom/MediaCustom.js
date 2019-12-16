@@ -29,7 +29,7 @@ class MediaCustom extends React.Component {
             showStrings = this.props.ui[activeApp].showStrings;
 
             if (this.props.ui[activeApp].graphic) {
-                divStyle.backgroundImage = `linear-gradient(-180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.00) 10%), url(${this.props.ui[activeApp].graphic.value})`;
+                divStyle.backgroundImage = `linear-gradient(-180deg, rgba(0,0,0,0.85) 2%, rgba(0,0,0,0.00) 18%), linear-gradient(0deg, rgba(0,0,0,0.70) 5%, rgba(0,0,0,0.00) 50%), url(${this.props.ui[activeApp].graphic.value})`;
             }
         }
 
@@ -38,8 +38,8 @@ class MediaCustom extends React.Component {
             <div className="media-custom-template__container" style={divStyle}>
                 <div className="media-custom-template__body" key="0">
                     <div className="media-custom-template__body__text" key="0">
-                        <p className="t-large t-light text-strong-contrast">{showStrings.mainField1}</p>
-                        <p className="t-small t-light text-mid-contrast">{showStrings.mainField2}</p>
+                        <p className="t-large t-light" style={{ fontSize: 42 }}>{showStrings.mainField1}</p>
+                        <p className="t-light"style={{ fontSize: 24, fontWeight: 600 }}>{showStrings.mainField2}</p>
                     </div>
                     {
                         softButtons.map((button, i) => {

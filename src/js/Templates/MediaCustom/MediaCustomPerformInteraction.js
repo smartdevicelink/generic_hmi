@@ -21,7 +21,7 @@ class MediaCustomPerformInteraction extends React.Component {
         const bgColor = this.props.theme ? '#222222' : '#FFFFFF';
 
         if (this.props.albumArt) {
-            divStyle.backgroundImage = `linear-gradient(-180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.00) 10%), url(${this.props.albumArt})`;
+            divStyle.backgroundImage = `linear-gradient(-180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.00) 15%), url(${this.props.albumArt})`;
         }
 
         var header = "Queue";
