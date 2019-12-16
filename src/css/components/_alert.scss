@@ -47,7 +47,7 @@
 
 .alert-icon{
     width: 50%;
-    height: calc((#{$master-height} - 75px) / 2);
+    height: calc((#{$master-height} - #{$app-header-height}) / 2);
     @include display(flex);
     @include justify-content(center);
     @include align-items(center);
@@ -70,7 +70,7 @@
     @include flex-direction(column);
     @include justify-content(center);
     @include align-items(center);
-    height: calc((#{$master-height} - 75px) / 2);
+    height: calc((#{$master-height} - #{$app-header-height}) / 2);
     width: 50%;
     text-align: center;
 }

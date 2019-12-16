@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import MediaPlayerBody from '../MediaPlayerBody'
 import NonMediaBody from '../Templates/NonMedia/NonMediaBody'
+import CustomNonMediaBody from '../Templates/CustomNonMedia/CustomNonMediaBody'
 import LargeGraphicBody from '../Templates/Shared/LargeGraphicBody'
 import AlertBody from '../AlertBody'
 import TextBody from '../Templates/Shared/TextBody'
@@ -102,6 +103,11 @@ export const NonMediaMetadata = connect(
     mapStateToProps,
     mapDispatchToProps
 )(NonMediaBody)
+
+export const CustomNonMediaMetadata = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CustomNonMediaBody)
 
 export const LargeGraphic = connect(
     mapStateToProps,

@@ -18,7 +18,7 @@ class AppHeader extends React.Component {
     }
 
     getColorScheme() {
-        if (this.props.colorScheme) {
+        if (this.props.colorScheme && !this.props.disableColor) {
             var redInt = this.props.colorScheme.red;
             var blueInt = this.props.colorScheme.blue;
             var greenInt = this.props.colorScheme.green;
@@ -43,6 +43,7 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.router.isActive('/inappmenu')
+        const icon = this.props.appIcon == 'false' || this.props.disableMenu ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
@@ -52,12 +53,10 @@ class AppHeader extends React.Component {
             return null;
         }
 
-        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu} style={colorScheme}/> ;
-
         return (
             <div className="app__header" style={colorScheme}>
-                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink} style={colorScheme}/>
-                <Name style={colorScheme}/>
+                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
+                <Name disableTemplateTitle={this.props.disableTemplateTitle} style={colorScheme}/>
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}

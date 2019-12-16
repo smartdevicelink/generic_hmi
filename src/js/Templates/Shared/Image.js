@@ -6,6 +6,16 @@ export default class Image extends React.Component {
         this.state = {error: false};
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        var nps = JSON.stringify(nextProps);
+        var ps = JSON.stringify(this.props);
+
+        var nss = JSON.stringify(nextState);
+        var ss = JSON.stringify(this.state);
+
+        return nps !== ps || nss !==ss;
+    }
+
     scaleImage(ogDimension, parentDimension) {
         var scaledDimensions = {
             width: 0,
@@ -63,11 +73,13 @@ export default class Image extends React.Component {
     }
 
     componentDidUpdate(){
+        console.log("Image did update")
         this.drawImage();
     }
 
     onError(event) {
         this.setState({error: true});
+        setTimeout(() => this.setState({error: false}), 100)
     }
 
     render() {

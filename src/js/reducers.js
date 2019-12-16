@@ -423,11 +423,20 @@ function ui(state = {}, action) {
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break
+                case "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-and-softbuttos-with-graphic"
+                    break
+                case "NON-MEDIA_CUSTOM":
+                    app.displayLayout = "nonmedia-custom"
+                    break
                 case "LARGE_GRAPHIC_ONLY":
                     app.displayLayout = "large-graphic-only"
                     break
                 case "LARGE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "large-graphic-with-softbuttons"
+                    break
+                case "LARGE_GRAPHIC_WITH_SOFTBUTTONS_CUSTOM":
+                    app.displayLayout = "large-graphic-with-softbuttons-custom"
                     break
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
@@ -440,6 +449,9 @@ function ui(state = {}, action) {
                     break
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"
+                    break
+                case "TILES_ONLY_CUSTOM":
+                    app.displayLayout = "tiles-only-custom"
                     break
                 case "TEXT_WITH_GRAPHIC":
                     app.displayLayout = "text-with-graphic"

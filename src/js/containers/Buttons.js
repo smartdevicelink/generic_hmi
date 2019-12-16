@@ -181,7 +181,23 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
+    // Assign custom color scheme
+    var customBGColorClass = "";
+    var templateTitle = "";
+    if(state.ui[activeApp] && state.ui[activeApp].showStrings.templateTitle){
+        templateTitle = state.ui[activeApp].showStrings.templateTitle;
+    }
+    var menu = activeApp ? state.ui[activeApp].menu : []
+    for (var i=0; i<menu.length; i++) {
+        var menuItem = menu[i];
+        if (menuItem.menuName && menuItem.menuName === templateTitle) {
+            customBGColorClass = "soft-button-bg-"+(i+1)
+            break;
+        }
+    }
+    
+
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme, customBGColorClass: customBGColorClass}
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,6 +1,6 @@
 .large-graphic-with-softbuttons-template{
     width: 100%;
-    height: calc(#{$master-height} - 75px);
+    height: calc(#{$master-height} - #{$app-header-height});
     padding: 25px;
     display: flex;
     flex-direction: column;
