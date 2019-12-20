@@ -75,9 +75,12 @@ export default class Controller {
         var obj = {
             "jsonrpc": "2.0",
             "id": id,
-            "result": {
+            "error": {
                 "code": 22,
-                "method": method
+                "data": {
+                    "method": method
+                },
+                "message": "RPC Failed"
             }
         }
         this.send(obj)
