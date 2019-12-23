@@ -52,7 +52,9 @@ export default class ProgressBar extends React.Component {
                 this.interval = setInterval(this.forceUpdate.bind(this), 50)
                 break
         }
-        var timeSince = new Date(startDate.getTime() + now - this.props.now)
+        var timeSince = this.props.updateMode === "PAUSE" ? 
+            new Date(startDate.getTime() + this.props.pauseTime - this.props.now) 
+            : new Date(startDate.getTime() + now - this.props.now);
 
         let progressStyle = {
             width: this.percentage(timeSince, endDate) + "%",
