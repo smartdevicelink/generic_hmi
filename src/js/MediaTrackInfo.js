@@ -39,7 +39,7 @@ export default class MediaTrackInfo extends React.Component {
                 break
         }
         if(startDate) {
-            var timeSince = new Date(startDate.getTime() + now - this.props.now)
+            var timeSince =  this.props.updateMode === "PAUSE" ? new Date(startDate.getTime() + this.props.pauseTime - this.props.now) : new Date(startDate.getTime() + now - this.props.now)
             // If the numbers are less than 10 put a 0 in front of them
             var startHours = timeSince.getHours() < 10 ? "0" + timeSince.getHours() : timeSince.getHours()
             var startMins = timeSince.getMinutes() < 10 ? "0" + timeSince.getMinutes() : timeSince.getMinutes()
