@@ -214,6 +214,10 @@
     }
 
     .control-bar__control {
+        @include display(flex);
+        @include align-items(center);
+        @include justify-content(center);
+
         img {
             height: 80%;
             margin: auto;
