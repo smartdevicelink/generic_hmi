@@ -156,6 +156,10 @@
             font-family: LivioNorm;
 
             @include align-self(center);
+
+            span svg {
+                max-height: 25px;
+            }
         }
 
         &__info {
@@ -217,6 +221,8 @@
         @include display(flex);
         @include align-items(center);
         @include justify-content(center);
+
+        max-width: 75px;
 
         img {
             height: 80%;

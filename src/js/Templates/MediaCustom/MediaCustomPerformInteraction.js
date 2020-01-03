@@ -44,7 +44,7 @@ class MediaCustomPerformInteraction extends React.Component {
                 {
                     this.props.data ? this.props.data.map((dat, i) => {
                         return (<MediaCustomQueueItem onClick={() => this.props.queueItemClicked(dat.cmdID, this.props.appID, this.props.interactionId)} 
-                                    key={i} index={i+1} song={dat.name} artist={dat.artist} theme={this.props.theme} />);
+                                    key={i} index={i+1} song={dat.name} artist={dat.artist} theme={this.props.theme} image={dat.image} />);
                     }) : null
                 }
             </div>
@@ -60,7 +60,8 @@ const mapStateToProps = (state) => {
         return {
             cmdID: choice.choiceID,
             name: choice.menuName,
-            artist: choice.secondaryText
+            artist: choice.secondaryText,
+            image: choice.image
         }
     })
     return {
