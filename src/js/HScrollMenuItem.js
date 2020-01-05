@@ -10,7 +10,7 @@ export default class HScrollMenuItem extends React.Component {
     render() {
         const { menuItem } = this.props;
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
-        var header = menuItem.devicename;
+        var header = null; // menuItem.devicename;
         var header_html = (header) ? 
             (<div className="hscrollmenu-item__header">
                 <p className="t-light th-f-color-secondary t-oneline">{ header }</p>
