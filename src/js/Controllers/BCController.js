@@ -23,13 +23,6 @@ class BCController {
             case "UpdateAppList":
                 store.dispatch(updateAppList(rpc.params.applications))
                 rpc.params.applications.map((app, index) => {
-                    if (app.dayColorScheme || app.nightColorScheme) {
-                        store.dispatch(updateColorScheme(
-                            app.appID,
-                            app.dayColorScheme ? app.dayColorScheme : null,
-                            app.nightColorScheme ? app.nightColorScheme : null
-                        ));
-                    }
                     store.dispatch(setAppIsConnected(app.appID))
                 });
                 return true
@@ -42,6 +35,13 @@ class BCController {
                 return true
             case "OnAppRegistered":
                 store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication));
+                if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
+                    store.dispatch(updateColorScheme(
+                        rpc.params.application.appID,
+                        rpc.params.application.dayColorScheme ? rpc.params.application.dayColorScheme : null,
+                        rpc.params.application.nightColorScheme ? rpc.params.application.nightColorScheme : null
+                    ));
+                }
                 var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
                 this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
                 return null
