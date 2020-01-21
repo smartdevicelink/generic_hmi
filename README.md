@@ -102,7 +102,7 @@ Core should already be running. To verify, use the following command and you sho
 docker ps
 ```
 
-Connect **SyncProxyTester** to the instance of core running on your machine. The IP should be your machine's IP address and the port is `12345`
+Connect an SDL-connected application (such as [Hello SDL Android](https://github.com/smartdevicelink/sdl_java_suite/tree/master/android/hello_sdl_android)) to the instance of core running on your machine. The IP should be your machine's IP address and the port is `12345`
 
 Open (or refresh) the running HMI in a chrominium based browser (chrome). By default it is running at [http://localhost:3000/](http://localhost:3000/)
 
