@@ -3,6 +3,8 @@ import store from '../store'
 import { activateApp, setURLS  } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
+import vehicleModem from './VehicleModemController'
+
 import {flags} from '../Flags'
 var activatingApplication = 0
 class SDLController {
@@ -53,6 +55,8 @@ class SDLController {
                 } 
                 return;
             case "GetPolicyConfigurationData":
+                console.log('PTU: Received SDL.GetPolicyConfigData', rpc)
+
                 var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
                 var parsed_urls = [];
                 for (const url of urls) {
@@ -60,18 +64,32 @@ class SDLController {
                 }
                 store.dispatch(setURLS(parsed_urls))
                 var state = store.getState()
-                if(flags.ExternalPolicies) {
-                    externalPolicies.pack({            
-                        type: 'PROPRIETARY',
-                        policyUpdateFile: state.system.policyFile,
-                        urls: state.system.urls,
-                        retry: state.system.policyRetry,
-                        timeout: state.system.policyTimeout
+                
+                console.log('PTU: ', parsed_urls)
+
+                if(flags.PTUWithModemEnabled){
+                    console.log('PTU: Starting PTU over vehicle modem');
+                    vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
+                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls)
                     })
-                } else {
-                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
                 }
+                else{
+                    console.log('PTU: Starting PTU over mobile')
+                    if(flags.ExternalPolicies) {
+                        externalPolicies.pack({            
+                            type: 'PROPRIETARY',
+                            policyUpdateFile: state.system.policyFile,
+                            urls: state.system.urls,
+                            retry: state.system.policyRetry,
+                            timeout: state.system.policyTimeout
+                        })
+                    } else {
+                        bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                    }
+                }
+
                 return;
+
             case "GetListOfPermissions":         
                 //To Do: Implement permission view. For now all permissions are consented
                 var allowedFunctions = rpc.result.allowedFunctions
@@ -90,9 +108,11 @@ class SDLController {
         this.listener.send(RpcFactory.SDLActivateApp(appID))
     }
     getPolicyConfiguration(type, property) {
+        console.log(`PTU: Sending get policy config data type: ${type}, property: ${property}`)
         this.listener.send(RpcFactory.GetPolicyConfigurationData(type, property));
     }
     onReceivedPolicyUpdate(policyFile) {
+        console.log('PTU: Sending SDL.onReceivedPolicyUpdate', policyFile)
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
     }
     getListOfPermissions(appID) {

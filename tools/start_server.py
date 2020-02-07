@@ -80,7 +80,7 @@ class RPCService(WSServer.SampleRPCService):
     }
 
   async def send(self, _msg):
-    # print('***Sending message: %s' % _msg)
+    print('***Sending message: %s' % _msg)
     await self.websocket.send(_msg)
   
   async def send_error(self, _error_msg):
@@ -89,7 +89,7 @@ class RPCService(WSServer.SampleRPCService):
     await self.send(json.dumps(err))
 
   async def on_receive(self, _msg):
-    # print('***Message received: %s' % _msg)
+    print('***Message received: %s' % _msg)
     request_message = None
 
     try:
