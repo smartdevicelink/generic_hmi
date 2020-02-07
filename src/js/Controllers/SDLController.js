@@ -65,16 +65,7 @@ class SDLController {
                 store.dispatch(setURLS(parsed_urls))
                 var state = store.getState()
                 
-                console.log('PTU: ', parsed_urls)
-
-                if(flags.PTUWithModemEnabled){
-                    console.log('PTU: Starting PTU over vehicle modem');
-                    vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
-                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls)
-                    })
-                }
-                else{
-                    console.log('PTU: Starting PTU over mobile')
+                let regular_ptu_flow = () => {
                     if(flags.ExternalPolicies) {
                         externalPolicies.pack({            
                             type: 'PROPRIETARY',
@@ -86,6 +77,20 @@ class SDLController {
                     } else {
                         bcController.onSystemRequest(state.system.policyFile, state.system.urls)
                     }
+                };
+
+                if(flags.PTUWithModemEnabled){
+                    console.log('PTU: Starting PTU over vehicle modem');
+                    vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
+                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls).then(() => {
+                            console.log('PTU: PTU over vehicle modem was successful')
+                        }, regular_ptu_flow);
+                    },regular_ptu_flow);
+
+                }
+                else{
+                    console.log('PTU: Starting PTU over mobile')
+                    regular_ptu_flow()
                 }
 
                 return;

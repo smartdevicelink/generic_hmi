@@ -1,5 +1,4 @@
 import sdlController from './SDLController';
-import bcController from './BCController';
 
 class VehicleModemController {
     constructor() {
@@ -25,39 +24,23 @@ class VehicleModemController {
           that.onPTUServiceOpen(evt)
           resolve()
         }
+        this.PTUClient.onerror = function(evt) {
+          console.log('PTU: Failed to connect to PTU Backend service')
+          reject()
+        }
         this.PTUClient.onclose = this.onPTUServiceClose.bind(this)
         this.PTUClient.onmessage = this.onPTUServiceMessageReceived.bind(this)
 
       });
 
     }
-    // disconnectPolicyManager() {
-    //     if (this.retry) {
-    //         clearInterval(this.retry);
-    //     }
-    //     if (this.packClient) {
-    //         if(this.packClient.readyState === this.packClient.OPEN) {
-    //             this.packClient.onclose = function () {
-    //                 this.packClient.close()
-    //             }
-    //         }
-    //     }
-    //     if (this.unpackClient) {
-    //         if(this.unpackClient.readyState === this.unpackClient.OPEN) {
-    //             this.unpackClient.onclose = function () {
-    //                 this.unpackClient.close()
-    //             }
-    //         }
-    //     }
-    // }
+
     onPTUServiceOpen (evt) {
       console.log('Connected to PTU Backend Service')
-
     }
 
     onPTUServiceClose (evt) {
       console.log('Disconnected from PTU Backend Service')
-      console.log(evt)
       this.PTUClient.close()
       this.PTUClient = null
     }
@@ -216,24 +199,27 @@ class VehicleModemController {
 
     requestPTUFromEndpoint(pts_file_name, urls){
       var that = this;
-      let ptu_failed_callback = function(){
-        console.error('PTU: PTUWithModem failed. Switching to PTUWithMobile')
-        that.PTUClient.close()
-        //TODO: Set flag to false
-        //TODO: switch back to regular PT flow 
-      };
+      return new Promise((resolve, reject) => {
+        let ptu_failed_callback = function(){
+          console.error('PTU: PTUWithModem failed. Switching to PTUWithMobile')
+          that.PTUClient.close()
+          
+          //Return to regular PT flow
+          reject()
+        };
 
-      that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
-        console.log('PTU: PTS Contents', pts_content)
-        that.sendPTSToEndpoint(urls[0]['url'], pts_content).then((ptu_content) => {
-          console.log('PTU: PTU Contents', ptu_content)
-          let ptu_file_name = that.generatePTUFilePath()
-          that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
-            console.log('PTU: Ready to send OnReceivedPolicyUpdate')
-            sdlController.onReceivedPolicyUpdate(ptu_file_name)
-          })
+        that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
+          console.log('PTU: PTS Contents', pts_content)
+          that.sendPTSToEndpoint(urls[0]['url'], pts_content).then((ptu_content) => {
+            console.log('PTU: PTU Contents', ptu_content)
+            let ptu_file_name = that.generatePTUFilePath()
+            that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
+              sdlController.onReceivedPolicyUpdate(ptu_file_name)
+              resolve()
+            })
+          }, ptu_failed_callback)
         }, ptu_failed_callback)
-      }, ptu_failed_callback)
+      });
     }
 
 }
