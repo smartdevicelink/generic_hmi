@@ -551,6 +551,10 @@ function system(state = {}, action) {
             var newState = { ...state }
             newState.urls = action.urls
             return newState
+        case Actions.SET_PTU_WITH_MODEM:
+            var newState ={ ...state }
+            newState.ptuWithModemEnabled = action.enabled
+            return newState
         default:
             return state
 

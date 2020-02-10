@@ -26,6 +26,7 @@ class VehicleModemController {
         }
         this.PTUClient.onerror = function(evt) {
           console.log('PTU: Failed to connect to PTU Backend service')
+          //Return to regular PT flow
           reject()
         }
         this.PTUClient.onclose = this.onPTUServiceClose.bind(this)
