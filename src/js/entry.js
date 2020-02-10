@@ -19,6 +19,8 @@ import InAppList from './InAppList';
 import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux'
+
 import { Router, Route, hashHistory } from 'react-router'
 
 import { Provider } from 'react-redux'
@@ -26,7 +28,7 @@ import store from './store'
 
 import Controller from './Controllers/Controller'
 import bcController from './Controllers/BCController'
-import {setTheme} from './actions'
+import {setTheme, setPTUWithModem} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ class HMIApp extends React.Component {
         }
         this.sdl = new Controller
         this.handleClick = this.handleClick.bind(this);
+        this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
     }
     handleClick() {
         var theme = !this.state.dark
@@ -44,6 +47,9 @@ class HMIApp extends React.Component {
     handleShutdown(){
         bcController.onIgnitionCycleOver()
         bcController.onExitAllApplications("IGNITION_OFF")
+    }
+    togglePTUWithModem(){
+        store.dispatch(setPTUWithModem(!this.props.ptuWithModemEnabled))
     }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
@@ -57,6 +63,10 @@ class HMIApp extends React.Component {
                 <div> 
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
+                    <div className="toggle-ptu-with-modem-button" >
+                        <input type="checkbox" onClick={this.togglePTUWithModem} checked={this.props.ptuWithModemEnabled}/>
+                        <label>PTU With Modem</label>
+                    </div>
                 </div>
             </div>
         )
@@ -68,6 +78,13 @@ class HMIApp extends React.Component {
         this.sdl.disconnectFromSDL()
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        ptuWithModemEnabled: state.system.ptuWithModemEnabled
+    }
+}
+HMIApp = connect(mapStateToProps)(HMIApp)
 
 // render
 ReactDOM.render((
