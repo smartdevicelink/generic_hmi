@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem  } from '../actions'
+import { activateApp, setURLS, setPTUWithModem } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import vehicleModem from './VehicleModemController'

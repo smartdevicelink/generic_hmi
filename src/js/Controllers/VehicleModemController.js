@@ -80,7 +80,7 @@ class VehicleModemController {
     downloadPTSFromFile(file_name, timeout){
       var that = this;
 
-      return new Promise( (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         let pts_receive_timer = setTimeout(() => {
           console.error('PTU: Timeout for downloading PTS expired')
           that.unsubscribeFromPTUServiceEvent('GetPTSFileContent')
