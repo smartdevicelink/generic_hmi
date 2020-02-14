@@ -19,10 +19,9 @@ class VehicleModemController {
           return;
         }
 
-        var that = this;
         this.PTUClient = new WebSocket(this.PTUBackendUrl)
         this.PTUClient.onopen = function(evt) {
-          that.onPTUServiceOpen(evt)
+          console.log('Connected to PTU Backend Service')
           resolve()
         }
         this.PTUClient.onerror = function(evt) {
@@ -37,18 +36,12 @@ class VehicleModemController {
 
     }
 
-    onPTUServiceOpen (evt) {
-      console.log('Connected to PTU Backend Service')
-    }
-
     onPTUServiceClose (evt) {
-      console.log('Disconnected from PTU Backend Service')
       this.PTUClient.close()
       this.PTUClient = null
     }
 
     onPTUServiceMessageReceived(evt) {
-      console.log('Received message from PTU Backend Service')
       let event = JSON.parse(evt.data)
       let event_name = event.method;
       if(event.success != undefined && event_name in this.PTUEventListenersMap){
@@ -59,7 +52,6 @@ class VehicleModemController {
 
     sendToPTUService(json_msg){
       let msg = JSON.stringify(json_msg)
-      console.log('Sending message to PTU Backend Service: ', msg)
       this.PTUClient.send(msg)
     }
 
@@ -196,7 +188,7 @@ class VehicleModemController {
       return `${path}/PTU_${timestamp}.json`
     }
 
-    requestPTUFromEndpoint(pts_file_name, urls){
+    requestPTUFromEndpoint(pts_file_name, url){
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
@@ -207,7 +199,7 @@ class VehicleModemController {
         };
 
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
-          that.sendPTSToEndpoint(urls[0]['url'], pts_content).then((ptu_content) => {
+          that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
             that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
               sdlController.onReceivedPolicyUpdate(ptu_file_name)

@@ -87,7 +87,7 @@ class SDLController {
                     };
 
                     vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
-                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls).then(() => {
+                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then(() => {
                             console.log('PTU: PTU over vehicle modem was successful')
                         }, switch_to_regular_ptu_flow);
                     },switch_to_regular_ptu_flow);
