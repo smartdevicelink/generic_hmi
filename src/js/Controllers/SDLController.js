@@ -56,8 +56,6 @@ class SDLController {
                 } 
                 return;
             case "GetPolicyConfigurationData":
-                console.log('PTU: Received SDL.GetPolicyConfigData', rpc)
-
                 var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
                 var parsed_urls = [];
                 for (const url of urls) {
@@ -93,15 +91,12 @@ class SDLController {
                             console.log('PTU: PTU over vehicle modem was successful')
                         }, switch_to_regular_ptu_flow);
                     },switch_to_regular_ptu_flow);
-
                 }
                 else{
                     console.log('PTU: Starting PTU over mobile')
                     regular_ptu_flow()
                 }
-
                 return;
-
             case "GetListOfPermissions":         
                 //To Do: Implement permission view. For now all permissions are consented
                 var allowedFunctions = rpc.result.allowedFunctions

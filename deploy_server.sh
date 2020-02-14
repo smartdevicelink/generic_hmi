@@ -38,17 +38,16 @@ DeployServer() {
 }
 
 StartServer() {
-	echo "Starting HMI Backend service..."
-    cp $SOURCE_DIR/$TARGET_SCRIPT $TARGET_DIR
-    python3 $TARGET_DIR/$TARGET_SCRIPT
-    rm $TARGET_DIR/$TARGET_SCRIPT
-    echo "HMI Backend service was stopped"
+    cp ${SOURCE_DIR}/${TARGET_SCRIPT} ${TARGET_DIR}
+    python3 ${TARGET_DIR}/${TARGET_SCRIPT}
+    rm ${TARGET_DIR}/${TARGET_SCRIPT}
 }
 
-if find $TARGET_DIR -mindepth 1 | read; then
-     StartServer
-else
+if ! find $TARGET_DIR -mindepth 1 | read; then
     echo "Fetching HMI dependencies..."
     DeployServer
-    StartServer
 fi
+echo "Starting HMI Backend service..."
+StartServer
+echo "HMI Backend service was stopped"
+

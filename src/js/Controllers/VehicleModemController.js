@@ -16,16 +16,17 @@ class VehicleModemController {
         if(!this.PTUBackendUrl){
           console.error('PTU Backend URL not specified. Cannot connect')
           reject()
-        }        
+          return;
+        }
+
         var that = this;
-        console.log('Opening socket to PTU backend')
         this.PTUClient = new WebSocket(this.PTUBackendUrl)
         this.PTUClient.onopen = function(evt) {
           that.onPTUServiceOpen(evt)
           resolve()
         }
         this.PTUClient.onerror = function(evt) {
-          console.log('PTU: Failed to connect to PTU Backend service')
+          console.error('PTU: Failed to connect to PTU Backend service')
           //Return to regular PT flow
           reject()
         }
@@ -88,15 +89,14 @@ class VehicleModemController {
         }, timeout);
 
         let pts_received_callback = function(success, params){
-          console.log('PTU: Downloading PTS has finished')
           clearTimeout(pts_receive_timer)
           that.unsubscribeFromPTUServiceEvent('GetPTSFileContent')
           if(!success){
             console.error('PTU: Downloading PTS was not successful')
             reject();
+            return;
           }
 
-          console.log('PTU: PTS downloaded successfully')
           resolve(params['content'])
         }
 
@@ -120,16 +120,16 @@ class VehicleModemController {
      */
     sendPTSToEndpoint(url, pts_data){
       return new Promise((resolve, reject) => {
-        console.log('PTU: Sending POST request to endpoint: ' + url)
+        console.log('PTU: Requesting PTU from endpoint: ' + url)
 
         var xhr = new XMLHttpRequest()
         xhr.onload = () => {
-          console.log('PTU: Received PTU response from endpoint')
+          // Received PTU response from endpoint
           const ptu_content = JSON.stringify(JSON.parse(xhr.response).data[0])
           resolve(ptu_content);
         };
         xhr.onerror = (err) => {
-          console.error('PTU: Request to endpoint has failed')
+          console.error('PTU: Request to endpoint has failed', err)
           reject();
         }
         xhr.open('POST', url)
@@ -146,7 +146,6 @@ class VehicleModemController {
     savePTUToFile(file_name, ptu_data, timeout){
       var that = this;
       return new Promise((resolve, reject) => {
-        console.log('PTU: Saving PTU to file: ' + file_name)
         let ptu_save_timer = setTimeout(() => {
           console.error('PTU: Timeout for saving PTU expired')
           that.unsubscribeFromPTUServiceEvent('SavePTUToFile')
@@ -154,16 +153,15 @@ class VehicleModemController {
         }, timeout);
 
         let ptu_saved_callback = (success, params) => {
-          console.log('PTU: Received response for save PTU request')
           clearTimeout(ptu_save_timer);
           that.unsubscribeFromPTUServiceEvent('SavePTUToFile')
           
           if(!success){
-            console.log('PTU: PTU save was not successful')
+            console.error('PTU: PTU save was not successful')
             reject();
+            return;
           }
 
-          console.log('PTU: PTU save was successful!')
           resolve();
         };
 
@@ -202,7 +200,6 @@ class VehicleModemController {
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
-          console.error('PTU: PTUWithModem failed. Switching to PTUWithMobile')
           that.PTUClient.close()
           
           //Return to regular PT flow
@@ -210,9 +207,7 @@ class VehicleModemController {
         };
 
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
-          console.log('PTU: PTS Contents', pts_content)
           that.sendPTSToEndpoint(urls[0]['url'], pts_content).then((ptu_content) => {
-            console.log('PTU: PTU Contents', ptu_content)
             let ptu_file_name = that.generatePTUFilePath()
             that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
               sdlController.onReceivedPolicyUpdate(ptu_file_name)

@@ -84,7 +84,7 @@ class RPCService(WSServer.SampleRPCService):
     await self.websocket.send(_msg)
   
   async def send_error(self, _error_msg):
-    err = {'success': False, 'info': _error_msg}
+    err = self.gen_error_msg(_error_msg)
     print(json.dumps(err))
     await self.send(json.dumps(err))
 
@@ -145,7 +145,6 @@ class RPCService(WSServer.SampleRPCService):
 
     file_name = _params["fileName"]
     content = json.loads(_params["content"])
-
 
     with open(file_name, 'w') as json_file:
       json.dump(content, json_file)
