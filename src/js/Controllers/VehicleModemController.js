@@ -1,88 +1,29 @@
 import sdlController from './SDLController';
+import SimpleRPCClient from '../SimpleRPCClient'
 
 class VehicleModemController {
     constructor() {
-      this.PTUBackendUrl = null
       this.PTUClient = null
-      this.PTUEventListenersMap = {}
     }
 
     connectPTUManager(ptuBackendUrl) {
-      if(ptuBackendUrl){
-        this.PTUBackendUrl = ptuBackendUrl
-      }
-
-      return new Promise((resolve, reject) => {
-        if(!this.PTUBackendUrl){
-          console.error('PTU Backend URL not specified. Cannot connect')
-          reject()
-          return;
-        }
-
-        this.PTUClient = new WebSocket(this.PTUBackendUrl)
-        this.PTUClient.onopen = function(evt) {
-          console.log('Connected to PTU Backend Service')
-          resolve()
-        }
-        this.PTUClient.onerror = function(evt) {
-          console.error('PTU: Failed to connect to PTU Backend service')
-          //Return to regular PT flow
-          reject()
-        }
-        this.PTUClient.onclose = this.onPTUServiceClose.bind(this)
-        this.PTUClient.onmessage = this.onPTUServiceMessageReceived.bind(this)
-
-      });
-
+      this.PTUClient = new SimpleRPCClient(ptuBackendUrl)
+      return this.PTUClient.connect()
     }
 
-    onPTUServiceClose (evt) {
-      this.PTUClient.close()
-      this.PTUClient = null
-    }
-
-    onPTUServiceMessageReceived(evt) {
-      let event = JSON.parse(evt.data)
-      let event_name = event.method;
-      if(event.success != undefined && event_name in this.PTUEventListenersMap){
-        let params = event.params
-        this.PTUEventListenersMap[event_name](event.success, params)
-      }
-    }
-
-    sendToPTUService(json_msg){
-      let msg = JSON.stringify(json_msg)
-      this.PTUClient.send(msg)
-    }
-
-    subscribeToPTUServiceEvent(event_name, callback){
-      this.PTUEventListenersMap[event_name] = callback;
-    }
-
-    unsubscribeFromPTUServiceEvent(event_name){
-      if(event_name in this.PTUEventListenersMap){
-        delete this.PTUEventListenersMap[event_name]
-      }
-    }
-
-    /**
-     * @description Downloads PTS content through the backend
-     * @param {String} file_name
-     * @returns promise for downloading the PTS content
-     */
     downloadPTSFromFile(file_name, timeout){
       var that = this;
 
       return new Promise((resolve, reject) => {
         let pts_receive_timer = setTimeout(() => {
           console.error('PTU: Timeout for downloading PTS expired')
-          that.unsubscribeFromPTUServiceEvent('GetPTSFileContent')
+          that.PTUClient.unsubscribeFromEvent('GetPTSFileContent')
           reject();
         }, timeout);
 
         let pts_received_callback = function(success, params){
           clearTimeout(pts_receive_timer)
-          that.unsubscribeFromPTUServiceEvent('GetPTSFileContent')
+          that.PTUClient.unsubscribeFromEvent('GetPTSFileContent')
           if(!success){
             console.error('PTU: Downloading PTS was not successful')
             reject();
@@ -99,17 +40,11 @@ class VehicleModemController {
           }
         };
 
-        that.subscribeToPTUServiceEvent('GetPTSFileContent', pts_received_callback)
-        that.sendToPTUService(request)
+        that.PTUClient.subscribeToEvent('GetPTSFileContent', pts_received_callback)
+        that.PTUClient.sendJSONMessage(request)
       });
     }
 
-    /**
-     * @description Sends PTS to specified endpoint URL
-     * @param {String} url
-     * @param {String} pts_data
-     * @returns promise for sending PTS to endpoint
-     */
     sendPTSToEndpoint(url, pts_data){
       return new Promise((resolve, reject) => {
         console.log('PTU: Requesting PTU from endpoint: ' + url)
@@ -129,24 +64,18 @@ class VehicleModemController {
       });
     }
 
-    /**
-     * @description Saves PTU content to specified file
-     * @param {String}
-     * @param {String}
-     * @returns promise for saving PTU content
-     */
     savePTUToFile(file_name, ptu_data, timeout){
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_save_timer = setTimeout(() => {
           console.error('PTU: Timeout for saving PTU expired')
-          that.unsubscribeFromPTUServiceEvent('SavePTUToFile')
+          that.PTUClient.unsubscribeFromEvent('SavePTUToFile')
           reject();
         }, timeout);
 
         let ptu_saved_callback = (success, params) => {
           clearTimeout(ptu_save_timer);
-          that.unsubscribeFromPTUServiceEvent('SavePTUToFile')
+          that.PTUClient.unsubscribeFromEvent('SavePTUToFile')
           
           if(!success){
             console.error('PTU: PTU save was not successful')
@@ -165,15 +94,11 @@ class VehicleModemController {
           }
         };        
 
-        that.subscribeToPTUServiceEvent('SavePTUToFile', ptu_saved_callback);
-        that.sendToPTUService(request)
+        that.PTUClient.subscribeToEvent('SavePTUToFile', ptu_saved_callback);
+        that.PTUClient.sendJSONMessage(request)
       })
     }
 
-    /**
-    * @description Generates new file path for updated PT
-    * @returns generated file path
-    */
     generatePTUFilePath(){
       let path = document.location.pathname;
       let index = path.lastIndexOf('/');
@@ -192,7 +117,7 @@ class VehicleModemController {
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
-          that.PTUClient.close()
+          that.PTUClient.disconnect()
           
           //Return to regular PT flow
           reject()

@@ -32,6 +32,7 @@ import asyncio
 import signal
 import websockets
 import json
+import os
 
 class WSServer():
   def __init__(self, _host, _port, _service_class=None):
@@ -146,9 +147,22 @@ class RPCService(WSServer.SampleRPCService):
     file_name = _params["fileName"]
     content = json.loads(_params["content"])
 
-    with open(file_name, 'w') as json_file:
-      json.dump(content, json_file)
+    # Validate file path
+    def isFileNameValid(_file_name):
+      path = os.path.abspath(os.path.normpath(_file_name))      
+      if os.path.commonpath([path, os.getcwd()]) != os.getcwd(): # Trying to save outside the working directory
+        return False
+      return True
     
+    if not isFileNameValid(file_name):
+      return self.gen_error_msg('Invalid file name: %s. Cannot save PTU' % file_name)
+    
+    try:
+      json_file = open(file_name, 'w')
+      json.dump(content, json_file)
+    except:
+      return self.gen_error_msg('Failed to save PTU file %s' % file_name)
+
     return {
       "method": _method_name,
       "success": True
