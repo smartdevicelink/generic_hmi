@@ -112,11 +112,11 @@ docker restart core
 ```
 then go through the usage instructions again.
 
-### PTU with vehicle modem(optional)
+### PTU with vehicle modem (optional)
 
 In order to get policy table updates using the vehicle modem, some additional setup is required
 ```
-1. Run `deploy_server.sh
+1. Run `deploy_server.sh`
 2. Run the HMI normally
 3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
 ```
