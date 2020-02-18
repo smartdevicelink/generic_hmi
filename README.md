@@ -112,6 +112,15 @@ docker restart core
 ```
 then go through the usage instructions again.
 
+### PTU with vehicle modem (optional)
+
+In order to get policy table updates using the vehicle modem, some additional setup is required
+```
+1. Run `deploy_server.sh`
+2. Run the HMI normally
+3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+```
+
 ## Developing the HMI
 
 The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. Implement an SDL HMI is an exercise in receiving, processing, and responding to RPCs which are coming from a connected SDL Core instance.

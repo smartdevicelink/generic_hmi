@@ -1,8 +1,10 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS  } from '../actions'
+import { activateApp, setURLS, setPTUWithModem } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
+import vehicleModem from './VehicleModemController'
+
 import {flags} from '../Flags'
 var activatingApplication = 0
 class SDLController {
@@ -20,6 +22,7 @@ class SDLController {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
         this.externalConsentStatus = [];
+        store.dispatch(setPTUWithModem(flags.PTUWithModemEnabled))
     }
     addListener(listener) {
         this.listener = listener
@@ -60,16 +63,38 @@ class SDLController {
                 }
                 store.dispatch(setURLS(parsed_urls))
                 var state = store.getState()
-                if(flags.ExternalPolicies) {
-                    externalPolicies.pack({            
-                        type: 'PROPRIETARY',
-                        policyUpdateFile: state.system.policyFile,
-                        urls: state.system.urls,
-                        retry: state.system.policyRetry,
-                        timeout: state.system.policyTimeout
-                    })
-                } else {
-                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                
+                let regular_ptu_flow = () => {
+                    if(flags.ExternalPolicies) {
+                        externalPolicies.pack({            
+                            type: 'PROPRIETARY',
+                            policyUpdateFile: state.system.policyFile,
+                            urls: state.system.urls,
+                            retry: state.system.policyRetry,
+                            timeout: state.system.policyTimeout
+                        })
+                    } else {
+                        bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                    }
+                };
+                
+                if(state.system.ptuWithModemEnabled){
+                    console.log('PTU: Starting PTU over vehicle modem');
+                    let switch_to_regular_ptu_flow = () => {
+                        console.log('PTU: PTU over vehicle modem failed. Switching to PTU over mobile')
+                        store.dispatch(setPTUWithModem(false))
+                        regular_ptu_flow()
+                    };
+
+                    vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
+                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then(() => {
+                            console.log('PTU: PTU over vehicle modem was successful')
+                        }, switch_to_regular_ptu_flow);
+                    },switch_to_regular_ptu_flow);
+                }
+                else{
+                    console.log('PTU: Starting PTU over mobile')
+                    regular_ptu_flow()
                 }
                 return;
             case "GetListOfPermissions":         

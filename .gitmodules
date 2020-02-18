@@ -1,0 +1,4 @@
+[submodule "python_websocket"]
+	path = python_websocket
+	url = https://github.com/aaugustin/websockets.git
+	branch = 8.1
