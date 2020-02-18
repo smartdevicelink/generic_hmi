@@ -65,7 +65,7 @@ class HMIApp extends React.Component {
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
                     <div className="toggle-ptu-with-modem-button" >
                         <input type="checkbox" onClick={this.togglePTUWithModem} checked={this.props.ptuWithModemEnabled}/>
-                        <label>PTU With Modem</label>
+                        <label>PTU using in-vehicle modem</label>
                     </div>
                 </div>
             </div>
