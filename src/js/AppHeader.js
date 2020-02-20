@@ -8,7 +8,32 @@ import MenuLink from './containers/AppsButton'
 import store from './store'
 import {resetShowAppMenu} from './actions'
 
+import iconMenu from '../img/icons/icon-menu.svg'
+import iconCart from '../img/icons/icon-cart.svg'
 
+class AppStoreIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstore">
+                    <div className="app-icon">
+                        <div className="static-icon">
+                            <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconCart}} />
+                        </div>
+                    </div>
+                </Link>
+            </div>);
+    }
+}
+
+class AppStoreMenuIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstoremenu">
+                    <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconMenu}} />
+                </Link>
+            </div>);
+    }
+}
 
 class AppHeader extends React.Component {
     constructor(props) {
@@ -35,7 +60,11 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.router.isActive('/inappmenu')
-        const icon = this.props.appIcon == 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+
+        const icon = this.props.appIcon == 'false' ? (<div />) : 
+            (this.props.appIcon == 'store' ? 
+                (this.props.router.isActive('/appstore') ? <AppStoreMenuIcon /> : <AppStoreIcon />)
+            : <MenuIcon isShowingMenu={isShowingMenu}/>);
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();

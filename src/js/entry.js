@@ -16,6 +16,9 @@ import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbutto
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
+import AppStore from './AppStore';
+import AppStoreMenu from './AppStoreMenu';
+import WebEngineAppContainer from './WebEngineAppContainer'
 import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -68,6 +71,11 @@ class HMIApp extends React.Component {
                         <label>PTU using in-vehicle modem</label>
                     </div>
                 </div>
+                {
+                    this.props.webEngineApps ? this.props.webEngineApps.map((app) => {
+                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + '?sdl-host=localhost&sdl-port=2020&sdl-transport-role=ws-client'} />);
+                    }) : null
+                }
             </div>
         )
     }
@@ -81,7 +89,8 @@ class HMIApp extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ptuWithModemEnabled: state.system.ptuWithModemEnabled
+        ptuWithModemEnabled: state.system.ptuWithModemEnabled,
+        webEngineApps: state.appStore.installedApps
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)
@@ -105,6 +114,8 @@ ReactDOM.render((
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
+            <Route path="/appstore" component={AppStore} />
+            <Route path="/appstoremenu" component={AppStoreMenu} />
         </Router>
     </HMIApp>
     </Provider>

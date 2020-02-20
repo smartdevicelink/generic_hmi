@@ -1,6 +1,6 @@
 export default class SimpleRPCClient{
-  constructor(backendUrl){
-    this.backendUrl = backendUrl
+  constructor(){
+    this.backendUrl = null
     this.eventListenersMap = {}
     this.socket = null
     this.sendQueue = []
@@ -28,7 +28,7 @@ export default class SimpleRPCClient{
         let event = JSON.parse(evt.data)
         let event_name = event.method;
         if(event.success != undefined && event_name in this.eventListenersMap){
-          let params = event.params
+          let params = event.params ? event.params : {}
           this.eventListenersMap[event_name](event.success, params)
         }
       }

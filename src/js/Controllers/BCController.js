@@ -82,11 +82,14 @@ class BCController {
     }
     handleRPCResponse(rpc) {
         let methodName = rpc.result.method.split(".")[1]
-        /*switch (methodName) {
-            case "ActivateApp":
-                store.dispatch(activateApp(activatingApplication))
+        switch (methodName) {
+            case "SetAppProperties":
+                console.log('[!] SetAppProperties response: ', rpc);
                 return;
-        }*/
+            /*case "ActivateApp":
+                store.dispatch(activateApp(activatingApplication))
+                return;*/
+        }
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
@@ -108,6 +111,9 @@ class BCController {
     }
     onAllowSDLFunctionality(allowed, source) {
         this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
+    }
+    setAppProperties(properties) {
+        this.listener.send(RpcFactory.BCSetAppProperties(properties));
     }
 }
 

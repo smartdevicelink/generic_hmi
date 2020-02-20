@@ -1,6 +1,16 @@
 import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static BCSetAppProperties(properties) {
+        return {
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "BasicCommunication.SetAppProperties",
+            "params": {
+                "properties": properties
+            }
+        }
+    }
     static UnsupportedResourceResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",

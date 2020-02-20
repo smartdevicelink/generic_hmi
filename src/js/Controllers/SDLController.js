@@ -3,7 +3,7 @@ import store from '../store'
 import { activateApp, setURLS, setPTUWithModem } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
-import vehicleModem from './VehicleModemController'
+import fileSystemController from './FileSystemController'
 
 import {flags} from '../Flags'
 var activatingApplication = 0
@@ -86,9 +86,9 @@ class SDLController {
                         regular_ptu_flow()
                     };
 
-                    vehicleModem.connectPTUManager(flags.PTUWithModemBackendUrl).then(()=> {
-                        vehicleModem.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then(() => {
-                            console.log('PTU: PTU over vehicle modem was successful')
+                    fileSystemController.connect(flags.FileSystemApiUrl).then(()=> {
+                        fileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
+                            onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
                     },switch_to_regular_ptu_flow);
                 }

@@ -31,7 +31,11 @@ export const Actions = {
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
-    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES"
+    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
+    UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
+    UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
+    APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
+    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED"
 }
 
 export const updateAppList = (applications) => {
@@ -316,5 +320,33 @@ export const setGlobalProperties = (appID, menuLayout) => {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
         menuLayout: menuLayout
+    }
+}
+
+export const updateAvailableAppStoreApps = (availableApps) => {
+    return {
+        type: Actions.UPDATE_AVAILABLE_APPSTORE_APPS,
+        availableApps: availableApps
+    };
+}
+
+export const updateInstalledAppStoreApps = (installedApps) => {
+    return {
+        type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
+        installedApps: installedApps
+    };
+}
+
+export const appStoreAppInstalled = (app) => {
+    return {
+        type: Actions.APPSTORE_APP_INSTALLED,
+        app: app
+    }
+}
+
+export const appStoreAppUninstalled = (policyAppID) => {
+    return {
+        type: Actions.APPSTORE_APP_UNINSTALLED,
+        appID: policyAppID
     }
 }

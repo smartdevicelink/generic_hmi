@@ -11,6 +11,8 @@ import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
 import {flags} from '../Flags';
 
+import fileSystemController from './FileSystemController'
+
 export default class Controller {
     constructor () {
         this.socket = null
@@ -28,6 +30,12 @@ export default class Controller {
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)
+
+        fileSystemController.connect(flags.FileSystemApiUrl).then(() => {
+            console.log('Connected to FileSystemController');
+        }, () => {
+            console.error('Error connecting to FileSystemController');
+        });
     }
     disconnectFromSDL() {
         if (this.retry) {

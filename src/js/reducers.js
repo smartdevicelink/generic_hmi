@@ -561,6 +561,43 @@ function system(state = {}, action) {
     }
 }
 
+function appStore(state = {}, action) {
+    switch (action.type) {
+        case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
+            var newState = { ...state };
+            newState.availableApps = action.availableApps;
+            return newState;
+        case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
+            var newState = { ...state };
+            newState.installedApps = action.installedApps.map((app) => {
+                var appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === app.policyAppID) : {};
+                return Object.assign(appDirEntry, app);
+            });
+            return newState;
+        case Actions.APPSTORE_APP_INSTALLED:
+            var newState = { ...state };
+            var appDirEntry = newState.availableApps ? 
+                newState.availableApps.find(x => x.policyAppID === action.app.policyAppID) : {};
+            var newInstalled = [ Object.assign(appDirEntry, action.app) ];
+            for (var app of newState.installedApps) {
+                newInstalled.push(app);
+            }
+            newState.installedApps = newInstalled;
+            return newState;
+        case Actions.APPSTORE_APP_UNINSTALLED:
+            var newState = { ...state };
+            for (var i = 0; i < newState.installedApps.length; ++i) {
+                if (newState.installedApps[i].policyAppID === action.appID) {
+                    newState.installedApps.splice(i, 1);
+                    break;
+                }
+            }
+            return newState;
+        default:
+            return state;
+    }
+}
+
 export const hmi = combineReducers({
     theme,
     appList,
@@ -568,5 +605,6 @@ export const hmi = combineReducers({
     activeApp,
     ui,
     system,
-    systemCapability
+    systemCapability,
+    appStore
 })

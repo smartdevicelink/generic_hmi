@@ -3,7 +3,7 @@ var flags = {
     ExternalPoliciesPackUrl: 'ws://127.0.0.1:8088',
     ExternalPoliciesUnpackUrl: 'ws://127.0.0.1:8089',
     PTUWithModemEnabled : false,
-    PTUWithModemBackendUrl: 'ws://127.0.0.1:8081'
+    FileSystemApiUrl: 'ws://127.0.0.1:8081'
 };
 
 export {flags};
