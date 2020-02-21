@@ -15,16 +15,14 @@
     @include display(flex);
     @include justify-content(space-between);
     @include align-items(center);
+
     flex-direction: row;
     flex: 1;
     max-height: 15%;
-
     padding-left: 55px;
     padding-right: 50px;
-
     text-decoration: none;
     color: color(white);
-
     border-bottom: 2px solid;
 
     &__image {
@@ -59,18 +57,4 @@
         flex: 1;
         overflow: hidden;
     }
-}
-
-.appstore-menu-item-primary {
-    display:flex;
-    width: 100%;
-}
-
-.appstore-menu-item-image {
-    @include size(1.15em);
-    margin-left: 20px;
-}
-
-.appstore-menu-item-image img{
-    max-height: 100%;
 }

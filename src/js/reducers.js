@@ -580,9 +580,7 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             var newState = { ...state };
-            var appDirEntry = newState.availableApps ? 
-                newState.availableApps.find(x => x.policyAppID === action.app.policyAppID) : {};
-            var newInstalled = [ Object.assign(appDirEntry, action.app) ];
+            var newInstalled = [ action.app ];
             for (var app of newState.installedApps) {
                 newInstalled.push(app);
             }

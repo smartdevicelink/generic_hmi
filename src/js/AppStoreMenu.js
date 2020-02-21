@@ -48,7 +48,6 @@ class AppStoreMenu extends React.Component {
     }
 
     onSelection(appID, name, icon, description) {
-        console.log(`AppStoreMenu::onSelection(${appID})`);
         this.setState((state, props) => {
             return {
                 confirmID: appID,
@@ -108,7 +107,7 @@ class AppStoreMenu extends React.Component {
                 overlayClassName={modalClass}
                 contentLabel="Example Modal">
                     <ConfirmAlert appID={this.state.confirmID} name={`Uninstall ${this.state.appName}?`}
-                        description={this.state.appDescription} icon_url={this.state.appIcon}
+                        description={this.state.appDescription} iconUrl={this.state.appIcon}
                         leftText="Cancel" leftCallback={this.cancel} rightText="Uninstall" rightCallback={this.confirm} />
                 </Modal>
                 <AppHeader appIcon='false' backLink="/appstore" menuName="STORE"/>
@@ -123,8 +122,8 @@ class AppStoreMenu extends React.Component {
                         var size = app.package.size_decompressed_bytes / postFixSizes[postFixIndex];
 
                         return <AppStoreMenuItem key={app.policyAppID}
-                            onSelect={() => this.onSelection(app.policyAppID, app.name, app.icon_url, app.description)}
-                            appIcon={app.icon_url}
+                            onSelect={() => this.onSelection(app.policyAppID, app.name, app.iconUrl, app.description)}
+                            appIcon={app.iconUrl}
                             appName={app.name}
                             appSize={`${size.toFixed(1)} ${postFixes[postFixIndex]}`}
                         />

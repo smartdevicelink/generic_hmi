@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal'
 import { connect } from 'react-redux';
 import store from './store';
+import { flags } from './Flags'
 
 import AppHeader from './containers/Header';
 import HScrollMenu from './HScrollMenu';
@@ -28,8 +29,6 @@ class AppStore extends React.Component {
     }
 
     cancel() {
-        console.log(`chose not to install app ${this.state.confirmID}`);
-
         this.setState((state, props) => {
             return {
                 confirmID: null,
@@ -39,14 +38,10 @@ class AppStore extends React.Component {
     }
 
     confirm() {
-        console.log(`installing app ${this.state.confirmID}`);
-
         fileSystemController.subscribeToEvent('InstallApp', (success, params) => {
             if (!success || !params.appUrl) {
                 console.error('error encountered when installing app');
             }
-
-            console.log('received app params: ', params);
 
             fetch(params.appUrl + 'manifest.js')
                 .then(x => x.blob())
@@ -56,14 +51,6 @@ class AppStore extends React.Component {
                 let jsonEnd = manifestJS.lastIndexOf('}') + 1;
                 let manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd))
 
-                console.log('parsed manifest: ', manifest);
-
-                store.dispatch(appStoreAppInstalled({ 
-                    policyAppID: manifest.appId,
-                    version: manifest.appVersion,
-                    baseUrl: params.appUrl
-                }));
-                
                 var appProperties = {
                     policyAppID: manifest.appId,
                     enabled: true
@@ -71,6 +58,12 @@ class AppStore extends React.Component {
 
                 let state = store.getState();
                 var appDirEntry = state.appStore.availableApps.find(x => x.policyAppID == manifest.appId);
+
+                store.dispatch(appStoreAppInstalled(Object.assign(appDirEntry, { 
+                    policyAppID: manifest.appId,
+                    version: manifest.appVersion,
+                    baseUrl: params.appUrl
+                })));
 
                 let addIfExists = (key) => {
                     if (appDirEntry[key]) {
@@ -113,7 +106,7 @@ class AppStore extends React.Component {
     }
 
     componentDidMount() {
-        fetch('https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json').then((res) => {
+        fetch(flags.AppStoreDirectoryUrl).then((res) => {
             if (!res.ok) {
                 console.error('could not contact app store server');
                 return [];
@@ -121,7 +114,13 @@ class AppStore extends React.Component {
 
             return res.json();
         }).then((json) => {
-            store.dispatch(updateAvailableAppStoreApps(json));
+            store.dispatch(updateAvailableAppStoreApps(json.map((app) => {
+                if ('icon_url' in app) {
+                    app.iconUrl = app.icon_url;
+                    delete app.icon_url;
+                }
+                return app;
+            })));
         });
 
         fileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
@@ -145,7 +144,7 @@ class AppStore extends React.Component {
         var pendingInstallApp = this.state.confirmApp ? this.state.confirmApp : {
             name: null,
             description: null,
-            icon_url: null
+            iconUrl: null
         };
 
         return (
@@ -156,13 +155,13 @@ class AppStore extends React.Component {
                 overlayClassName={modalClass}
                 contentLabel="Example Modal">
                     <ConfirmAlert appID={this.state.confirmID} name={pendingInstallApp.name}
-                        description={pendingInstallApp.description} icon_url={pendingInstallApp.icon_url}
+                        description={pendingInstallApp.description} iconUrl={pendingInstallApp.iconUrl}
                         leftText="Cancel" leftCallback={this.cancel} rightText="Download" rightCallback={this.confirm} />
                 </Modal>
                 <AppHeader appIcon='store' backLink="/" menuName="APPS"/>
                 {this.props.apps ? <HScrollMenu data={this.props.apps.map((app) => {
                         return {
-                                image: app.icon_url,
+                                image: app.iconUrl,
                                 appID: app.policyAppID,
                                 cmdID: app.package_url,
                                 name: app.name

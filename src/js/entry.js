@@ -75,8 +75,6 @@ class HMIApp extends React.Component {
                 {
                     this.props.webEngineApps ? this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
-                        console.log('rendering app w url: ', app.baseUrl);
-                        console.log('rendering app w query string: ', query);
                         return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
                     }) : null
                 }

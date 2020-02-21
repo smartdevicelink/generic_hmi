@@ -15,7 +15,7 @@ export default class ConfirmAlert extends React.Component {
                 </div>
                 <div className="alert-top">
                     <h4 className="t-small t-medium th-f-color">{this.props.description}</h4>
-                    <img style={{ height: '50%', width: '50%' }} src={this.props.icon_url} />
+                    <img style={{ height: '50%', width: '50%' }} src={this.props.iconUrl} />
                 </div>
                 <div className="alert-buttons">
                     <div className="alert-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons" 
