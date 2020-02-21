@@ -23,6 +23,7 @@ import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
+import { flags } from './Flags'
 
 import { Router, Route, hashHistory } from 'react-router'
 
@@ -73,7 +74,10 @@ class HMIApp extends React.Component {
                 </div>
                 {
                     this.props.webEngineApps ? this.props.webEngineApps.map((app) => {
-                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + '?sdl-host=localhost&sdl-port=2020&sdl-transport-role=ws-client'} />);
+                        let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
+                        console.log('rendering app w url: ', app.baseUrl);
+                        console.log('rendering app w query string: ', query);
+                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
                     }) : null
                 }
             </div>

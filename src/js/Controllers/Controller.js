@@ -1,4 +1,5 @@
-let url = "ws://localhost:8087"
+import {flags} from '../Flags';
+let url = `ws://${flags.CoreHost}:${flags.CorePort}`
 let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
@@ -9,7 +10,6 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
-import {flags} from '../Flags';
 
 import fileSystemController from './FileSystemController'
 

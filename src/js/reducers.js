@@ -566,6 +566,10 @@ function appStore(state = {}, action) {
         case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
             var newState = { ...state };
             newState.availableApps = action.availableApps;
+            newState.installedApps = state.installedApps ? state.installedApps.map((app) => {
+                var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
+                return Object.assign(appDirEntry, app);
+            }) : [];
             return newState;
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
             var newState = { ...state };
@@ -586,12 +590,7 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             var newState = { ...state };
-            for (var i = 0; i < newState.installedApps.length; ++i) {
-                if (newState.installedApps[i].policyAppID === action.appID) {
-                    newState.installedApps.splice(i, 1);
-                    break;
-                }
-            }
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID != action.appID);
             return newState;
         default:
             return state;

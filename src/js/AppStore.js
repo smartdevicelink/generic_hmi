@@ -61,7 +61,7 @@ class AppStore extends React.Component {
                 store.dispatch(appStoreAppInstalled({ 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
-                    baseURL: params.appUrl
+                    baseUrl: params.appUrl
                 }));
                 
                 var appProperties = {
@@ -104,8 +104,6 @@ class AppStore extends React.Component {
     }
 
     onSelection(appID) {
-        console.log(`AppStore onSelection(${appID})`);
-
         this.setState((state, props) => {
             return {
                 confirmID: appID,
@@ -123,7 +121,6 @@ class AppStore extends React.Component {
 
             return res.json();
         }).then((json) => {
-            console.log('retrieved available apps: ', json);
             store.dispatch(updateAvailableAppStoreApps(json));
         });
 
@@ -133,7 +130,6 @@ class AppStore extends React.Component {
                 return;
             }
 
-            console.log('updating installed apps: ', params.apps);
             store.dispatch(updateInstalledAppStoreApps(params.apps))
         });
 
