@@ -45,6 +45,8 @@ class FileServer():
       self.tcp_server = socketserver.TCPServer(("127.0.0.1", self.PORT), self.getRequestHandler(self.SECRET_KEY))
       self.tcp_server.serve_forever()
       self.stop()
+    except KeyboardInterrupt:
+      pass
     except Exception as e:
       print('Failed to open file server at port %s' % self.PORT)
       print(e)

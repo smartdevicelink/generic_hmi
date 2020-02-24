@@ -12,7 +12,7 @@ import ConfirmAlert from './ConfirmAlert';
 import BCController from './Controllers/BCController';
 import fileSystemController from './Controllers/FileSystemController'
 
-import { updateAvailableAppStoreApps, appStoreAppInstalled } from './actions';
+import { updateAvailableAppStoreApps, appStoreAddAppPendingSetAppProperties } from './actions';
 
 class AppStore extends React.Component {
     constructor() {
@@ -59,11 +59,11 @@ class AppStore extends React.Component {
                 let state = store.getState();
                 var appDirEntry = state.appStore.availableApps.find(x => x.policyAppID == manifest.appId);
 
-                store.dispatch(appStoreAppInstalled(Object.assign(appDirEntry, { 
+                store.dispatch(appStoreAddAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
                     baseUrl: params.appUrl
-                })));
+                }), true));
 
                 let addIfExists = (key) => {
                     if (appDirEntry[key]) {

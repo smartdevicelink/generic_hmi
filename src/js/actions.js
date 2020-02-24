@@ -34,6 +34,7 @@ export const Actions = {
     SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
     UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
+    APPSTORE_ADD_APP_PENDING_SET_APP_PROPERTIES: "APPSTORE_ADD_APP_PENDING_SET_APP_PROPERTIES",
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH"
@@ -338,17 +339,25 @@ export const updateInstalledAppStoreApps = (installedApps) => {
     };
 }
 
-export const appStoreAppInstalled = (app) => {
+export const appStoreAddAppPendingSetAppProperties = (app, enable) => {
+    return {
+        type: Actions.APPSTORE_ADD_APP_PENDING_SET_APP_PROPERTIES,
+        app: app,
+        enable: enable
+    }
+    
+}
+export const appStoreAppInstalled = (success) => {
     return {
         type: Actions.APPSTORE_APP_INSTALLED,
-        app: app
+        success: success
     }
 }
 
-export const appStoreAppUninstalled = (policyAppID) => {
+export const appStoreAppUninstalled = (success) => {
     return {
         type: Actions.APPSTORE_APP_UNINSTALLED,
-        policyAppID: policyAppID
+        success: success
     }
 }
 

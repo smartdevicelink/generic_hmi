@@ -1,9 +1,10 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, appStoreAppInstalled, appStoreAppUninstalled } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
+import fileSystemController from './FileSystemController';
 var activatingApplication = 0
 class BCController {
     constructor () {
@@ -84,7 +85,28 @@ class BCController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "SetAppProperties":
-                console.log('[!] SetAppProperties response: ', rpc);
+                let success = (rpc.result.resultCode == 'SUCCESS')
+                let entry = store.getState().appStore.appsPendingSetAppProperties[0]
+                if(!success){
+                    console.error(`Failed to install/uninstall app ${entry.app.policyAppID}. Removing from fs`)
+                    fileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
+                        if (!success || !params.policyAppID) {
+                            console.error('Error encountered while removing app');
+                        }  
+                    });
+                    fileSystemController.sendJSONMessage({
+                        method: 'UninstallApp',
+                        params: {
+                            policyAppID: entry.app.policyAppID
+                        }
+                    });
+                }
+                if(entry.enable){
+                    store.dispatch(appStoreAppInstalled(success))
+                }
+                else{
+                    store.dispatch(appStoreAppUninstalled(success))
+                }
                 return;
             /*case "ActivateApp":
                 store.dispatch(activateApp(activatingApplication))
