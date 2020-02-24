@@ -43,10 +43,7 @@ class FileServer():
     socketserver.TCPServer.allow_reuse_address = True
     try:
       self.tcp_server = socketserver.TCPServer(("127.0.0.1", self.PORT), self.getRequestHandler(self.SECRET_KEY))
-      try:
-        self.tcp_server.serve_forever()
-      except KeyboardInterrupt:
-        pass
+      self.tcp_server.serve_forever()
       self.stop()
     except Exception as e:
       print('Failed to open file server at port %s' % self.PORT)

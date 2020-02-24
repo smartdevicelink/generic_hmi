@@ -86,9 +86,10 @@ class SDLController {
                         regular_ptu_flow()
                     };
 
+                    var that = this;
                     fileSystemController.connect(flags.FileSystemApiUrl).then(()=> {
                         fileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
-                            onReceivedPolicyUpdate(policyFile);
+                            that.onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
                     },switch_to_regular_ptu_flow);
                 }
