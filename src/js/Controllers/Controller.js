@@ -1,7 +1,6 @@
 import {flags} from '../Flags';
 let url = `ws://${flags.CoreHost}:${flags.CorePort}`
 let file_access_base_url = "";
-import store from '../store'
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -11,8 +10,6 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
-import fileSystemController from './FileSystemController';
-import { updateInstalledAppStoreApps } from '../actions';
 
 export default class Controller {
     constructor () {
@@ -31,25 +28,6 @@ export default class Controller {
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)
-
-        fileSystemController.connect(flags.FileSystemApiUrl).then(() => {
-            console.log('Connected to FileSystemController');
-
-            fileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                if (!success || !params.apps) {
-                    console.error('error encountered when retrieving installed apps');
-                    return;
-                }
-    
-                store.dispatch(updateInstalledAppStoreApps(params.apps))
-            });
-    
-            fileSystemController.sendJSONMessage({
-                method: 'GetInstalledApps', params: {}
-            });
-        }, () => {
-            console.error('Error connecting to FileSystemController');
-        });
     }
     disconnectFromSDL() {
         if (this.retry) {

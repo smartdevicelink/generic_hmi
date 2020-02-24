@@ -31,8 +31,9 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import Controller from './Controllers/Controller'
+import fileSystemController from './Controllers/FileSystemController';
 import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem} from './actions'
+import {setTheme, setPTUWithModem, updateInstalledAppStoreApps} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -83,6 +84,25 @@ class HMIApp extends React.Component {
     }
     componentDidMount() {
         this.sdl.connectToSDL()
+
+        fileSystemController.connect(flags.FileSystemApiUrl).then(() => {
+            console.log('Connected to FileSystemController');
+
+            fileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
+                if (!success || !params.apps) {
+                    console.error('error encountered when retrieving installed apps');
+                    return;
+                }
+    
+                store.dispatch(updateInstalledAppStoreApps(params.apps))
+            });
+    
+            fileSystemController.sendJSONMessage({
+                method: 'GetInstalledApps', params: {}
+            });
+        }, () => {
+            console.error('Error connecting to FileSystemController');
+        });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
