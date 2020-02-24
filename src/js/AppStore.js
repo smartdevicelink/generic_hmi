@@ -12,7 +12,7 @@ import ConfirmAlert from './ConfirmAlert';
 import BCController from './Controllers/BCController';
 import fileSystemController from './Controllers/FileSystemController'
 
-import { updateAvailableAppStoreApps, updateInstalledAppStoreApps, appStoreAppInstalled } from './actions';
+import { updateAvailableAppStoreApps, appStoreAppInstalled } from './actions';
 
 class AppStore extends React.Component {
     constructor() {
@@ -121,19 +121,6 @@ class AppStore extends React.Component {
                 }
                 return app;
             })));
-        });
-
-        fileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-            if (!success || !params.apps) {
-                console.error('error encountered when retrieving installed apps');
-                return;
-            }
-
-            store.dispatch(updateInstalledAppStoreApps(params.apps))
-        });
-
-        fileSystemController.sendJSONMessage({
-            method: 'GetInstalledApps', params: {}
         });
     }
 

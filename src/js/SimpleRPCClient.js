@@ -6,7 +6,11 @@ export default class SimpleRPCClient{
     this.sendQueue = []
   }
 
-  connect(){
+  connect(url){
+    if (url) {
+      this.backendUrl = url;
+    }
+
     return new Promise((resolve, reject) => {
       if(!this.backendUrl){
         reject();
