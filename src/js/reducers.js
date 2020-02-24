@@ -56,7 +56,27 @@ function theme(state = true, action) {
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
-            return action.appList
+            return action.appList.map((app) => {
+                var existingApp = state.find(x => x.appID === app.appID);
+                return {
+                    ...app,
+                    isRegistered: existingApp ? existingApp.isRegistered : false
+                };
+            });
+        case Actions.REGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = true;
+                }
+                return app;
+            });
+        case Actions.UNREGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = false;
+                }
+                return app;
+            });
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
@@ -568,18 +588,20 @@ function appStore(state = {}, action) {
             newState.availableApps = action.availableApps;
             newState.installedApps = state.installedApps ? state.installedApps.map((app) => {
                 var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
-                return Object.assign(appDirEntry, app);
+                return appDirEntry ? Object.assign(appDirEntry, app) : app;
             }) : [];
             return newState;
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
             var newState = { ...state };
             newState.installedApps = action.installedApps.map((app) => {
                 var appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === app.policyAppID) : {};
+                appDirEntry.runningAppId = 0;
                 return Object.assign(appDirEntry, app);
             });
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             var newState = { ...state };
+            action.app.runningAppId = 0;
             var newInstalled = [ action.app ];
             for (var app of newState.installedApps) {
                 newInstalled.push(app);
@@ -588,7 +610,17 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             var newState = { ...state };
-            newState.installedApps = state.installedApps.filter(app => app.policyAppID != action.appID);
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID != action.policyAppID);
+            return newState;
+        case Actions.WEBENGINE_APP_LAUNCH:
+            var newState = { ...state };
+            var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
+            launchedApp.runningAppId = action.appID;
+            return newState;
+        case Actions.DEACTIVATE_APP:
+            var newState = { ...state };
+            var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (launchedApp) { launchedApp.runningAppId = 0; }
             return newState;
         default:
             return state;

@@ -35,7 +35,8 @@ export const Actions = {
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
     UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
-    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED"
+    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
+    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH"
 }
 
 export const updateAppList = (applications) => {
@@ -347,6 +348,14 @@ export const appStoreAppInstalled = (app) => {
 export const appStoreAppUninstalled = (policyAppID) => {
     return {
         type: Actions.APPSTORE_APP_UNINSTALLED,
-        appID: policyAppID
+        policyAppID: policyAppID
+    }
+}
+
+export const webEngineAppLaunch = (policyAppID, appID) => {
+    return {
+        type: Actions.WEBENGINE_APP_LAUNCH,
+        policyAppID: policyAppID,
+        appID: appID
     }
 }

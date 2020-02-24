@@ -73,10 +73,10 @@ class HMIApp extends React.Component {
                     </div>
                 </div>
                 {
-                    this.props.webEngineApps ? this.props.webEngineApps.map((app) => {
+                    this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
                         return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
-                    }) : null
+                    })
                 }
             </div>
         )
@@ -92,7 +92,7 @@ class HMIApp extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
-        webEngineApps: state.appStore.installedApps
+        webEngineApps: state.appStore.installedApps ? state.appStore.installedApps.filter(app => app.runningAppId) : []
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)

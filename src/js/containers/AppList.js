@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
+import store from '../store'
 import HScrollMenu from '../HScrollMenu'
+import { webEngineAppLaunch } from '../actions'
 import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
@@ -23,7 +25,7 @@ const mapStateToProps = (state) => {
             devicename: devicename,
             image: icon,
             link: '/' + link,
-            cmdID: app.appID
+            cmdID: app
         }
     })
     return {data: data}
@@ -31,8 +33,25 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID) => {
-            sdlController.onAppActivated(appID)
+        onSelection: (appID, app) => {
+            let state = store.getState();
+            var webEngineApp = state.appStore.installedApps.find(x => x.policyAppID === app.policyAppID);
+
+            if (!webEngineApp) {
+                sdlController.onAppActivated(appID)
+                return;
+            }
+
+            dispatch(webEngineAppLaunch(app.policyAppID, appID));
+
+            var activateAppOnceRegistered = setInterval(() => {
+                if (!app.isRegistered) {
+                    return;
+                }
+                
+                sdlController.onAppActivated(app.appID);
+                clearInterval(activateAppOnceRegistered);
+            }, 250);
         }
     }
 }
