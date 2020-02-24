@@ -180,7 +180,7 @@ class RPCService(WSServer.SampleRPCService):
     return {'success': False, 'info': _error_msg}
 
 class WebEngineManager():
-  next_available_port = 3000
+  next_available_port = 4000
   webengine_apps = {}
   def __init__(self):
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
