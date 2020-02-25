@@ -599,7 +599,7 @@ function appStore(state = {}, action) {
                 return Object.assign(appDirEntry, app);
             });
             return newState;
-        case Actions.APPSTORE_ADD_APP_PENDING_SET_APP_PROPERTIES:
+        case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             var newState = { ...state };
             if(!newState.appsPendingSetAppProperties){
                 newState.appsPendingSetAppProperties = []

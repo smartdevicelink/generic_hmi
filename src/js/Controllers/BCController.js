@@ -4,7 +4,7 @@ import { updateAppList, activateApp, deactivateApp, registerApplication, unregis
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
-import fileSystemController from './FileSystemController';
+import FileSystemController from './FileSystemController';
 var activatingApplication = 0
 class BCController {
     constructor () {
@@ -89,12 +89,12 @@ class BCController {
                 let entry = store.getState().appStore.appsPendingSetAppProperties[0]
                 if(!success){
                     console.error(`Failed to install/uninstall app ${entry.app.policyAppID}. Removing from fs`)
-                    fileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
+                    FileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
                         if (!success || !params.policyAppID) {
                             console.error('Error encountered while removing app');
                         }  
                     });
-                    fileSystemController.sendJSONMessage({
+                    FileSystemController.sendJSONMessage({
                         method: 'UninstallApp',
                         params: {
                             policyAppID: entry.app.policyAppID

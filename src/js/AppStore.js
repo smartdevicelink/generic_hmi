@@ -23,12 +23,10 @@ class AppStore extends React.Component {
             confirmApp: null
         }
 
-        this.cancel = this.cancel.bind(this);
-        this.confirm = this.confirm.bind(this);
         this.onSelection = this.onSelection.bind(this);
     }
 
-    cancel() {
+    cancelInstall() {
         this.setState((state, props) => {
             return {
                 confirmID: null,
@@ -37,7 +35,7 @@ class AppStore extends React.Component {
         });
     }
 
-    confirm() {
+    confirmInstall() {
         fileSystemController.subscribeToEvent('InstallApp', (success, params) => {
             if (!success || !params.appUrl) {
                 console.error('error encountered when installing app');
@@ -154,10 +152,10 @@ class AppStore extends React.Component {
                 contentLabel="Example Modal">
                     <ConfirmAlert appID={this.state.confirmID} name={pendingInstallApp.name}
                         description={pendingInstallApp.description} iconUrl={pendingInstallApp.iconUrl}
-                        leftText="Cancel" leftCallback={this.cancel} rightText="Download" rightCallback={this.confirm} />
+                        leftText="Cancel" leftCallback={() => this.cancelInstall()} rightText="Download" rightCallback={() => this.confirmInstall()} />
                 </Modal>
                 <AppHeader icon='store' backLink="/" menuName="APPS"/>
-                {this.props.apps ? <HScrollMenu data={this.props.apps.map((app) => {
+                {<HScrollMenu data={this.props.apps.map((app) => {
                         return {
                                 image: app.iconUrl,
                                 appID: app.policyAppID,
@@ -167,7 +165,7 @@ class AppStore extends React.Component {
                         })}
                         theme={this.props.theme}
                         onSelection={this.onSelection}
-                        isPerformingInteraction={false} /> : null}
+                        isPerformingInteraction={false} />}
                 <AppServices />
             </div>
         )
@@ -177,7 +175,7 @@ class AppStore extends React.Component {
 const mapStateToProps = (state) => {
     var props = {
         theme: state.theme,
-        apps: state.appStore.availableApps
+        apps: state.appStore.availableApps ? state.appStore.availableApps : []
     }
 
     if (state.appStore.installedApps && state.appStore.availableApps) {

@@ -9,7 +9,7 @@ import StaticIcon from './Templates/Shared/StaticIcon';
 import ConfirmAlert from './ConfirmAlert';
 
 import BCController from './Controllers/BCController';
-import fileSystemController from './Controllers/FileSystemController';
+import FileSystemController from './Controllers/FileSystemController';
 
 class AppStoreMenuItem extends React.Component {
     constructor() {
@@ -41,10 +41,7 @@ class AppStoreMenu extends React.Component {
             appName: null,
             appIcon: null,
             appDescription: null
-        }
-
-        this.cancel = this.cancel.bind(this);
-        this.confirm = this.confirm.bind(this);
+        };
     }
 
     onSelection(appID, name, icon, description) {
@@ -58,15 +55,15 @@ class AppStoreMenu extends React.Component {
         });
     }
 
-    cancel() {
+    cancelUninstall() {
         this.setState((state, props) => {
             state.confirmID = null;
             return state;
         });
     }
 
-    confirm() {
-        fileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
+    confirmUninstall() {
+        FileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
             if (!success || !params.policyAppID) {
                 console.error('error encountered when uninstalling app');
                 return;
@@ -79,7 +76,7 @@ class AppStoreMenu extends React.Component {
             });
         });
 
-        fileSystemController.sendJSONMessage({
+        FileSystemController.sendJSONMessage({
             method: 'UninstallApp',
             params: {
                 policyAppID: this.state.confirmID
@@ -87,12 +84,17 @@ class AppStoreMenu extends React.Component {
         });
 
         this.setState((state, props) => {
-            state.confirmID = null;
-            return state;
+            return {
+                confirmID: null,
+                appName: null,
+                appIcon: null,
+                appDescription: null
+            };
         });
     }
 
     render() {
+        // these 2 vars used to calculate app size displayed in uninstall list
         const postFixes = [ "KB", "MB", "GB" ]
         const postFixSizes = [ 1024, 1048576, 1073741824 ]
 
@@ -108,7 +110,7 @@ class AppStoreMenu extends React.Component {
                 contentLabel="Example Modal">
                     <ConfirmAlert appID={this.state.confirmID} name={`Uninstall ${this.state.appName}?`}
                         description={this.state.appDescription} iconUrl={this.state.appIcon}
-                        leftText="Cancel" leftCallback={this.cancel} rightText="Uninstall" rightCallback={this.confirm} />
+                        leftText="Cancel" leftCallback={() => this.cancelUninstall()} rightText="Uninstall" rightCallback={() => this.confirmUninstall()} />
                 </Modal>
                 <AppHeader icon='false' backLink="/appstore" menuName="STORE"/>
                 <div className="appstore-menu">
