@@ -339,14 +339,14 @@ export const updateInstalledAppStoreApps = (installedApps) => {
     };
 }
 
-export const appStoreAddAppPendingSetAppProperties = (app, enable) => {
+export const addAppPendingSetAppProperties = (app, enable) => {
     return {
         type: Actions.APPSTORE_ADD_APP_PENDING_SET_APP_PROPERTIES,
         app: app,
         enable: enable
     }
-    
 }
+
 export const appStoreAppInstalled = (success) => {
     return {
         type: Actions.APPSTORE_APP_INSTALLED,

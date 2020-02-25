@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal'
 import { connect } from 'react-redux';
 import store from './store';
-import { appStoreAddAppPendingSetAppProperties } from './actions'
+import { addAppPendingSetAppProperties } from './actions'
 
 import AppHeader from './AppHeader';
 import StaticIcon from './Templates/Shared/StaticIcon';
@@ -72,7 +72,7 @@ class AppStoreMenu extends React.Component {
                 return;
             }
 
-            store.dispatch(appStoreAddAppPendingSetAppProperties({'policyAppID': params.policyAppID}, false));
+            store.dispatch(addAppPendingSetAppProperties({'policyAppID': params.policyAppID}, false));
             BCController.setAppProperties({ 
                 policyAppID: params.policyAppID,
                 enabled: false

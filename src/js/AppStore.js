@@ -12,7 +12,7 @@ import ConfirmAlert from './ConfirmAlert';
 import BCController from './Controllers/BCController';
 import fileSystemController from './Controllers/FileSystemController'
 
-import { updateAvailableAppStoreApps, appStoreAddAppPendingSetAppProperties } from './actions';
+import { updateAvailableAppStoreApps, addAppPendingSetAppProperties } from './actions';
 
 class AppStore extends React.Component {
     constructor() {
@@ -70,7 +70,7 @@ class AppStore extends React.Component {
                     return;
                 }
 
-                store.dispatch(appStoreAddAppPendingSetAppProperties(Object.assign(appDirEntry, { 
+                store.dispatch(addAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
                     baseUrl: params.appUrl
