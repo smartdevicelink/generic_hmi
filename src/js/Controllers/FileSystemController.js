@@ -6,8 +6,7 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     connect(url) {
-      this.backendUrl = url;
-      return super.connect();
+      return super.connect(url);
     }
 
     downloadPTSFromFile(file_name, timeout){

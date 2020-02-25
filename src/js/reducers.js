@@ -612,7 +612,6 @@ function appStore(state = {}, action) {
             if (!action.success){
                 return newState;
             }
-
             pendingApp.runningAppId = 0;
             var newInstalled = [ pendingApp ];
             for (var app of newState.installedApps) {
@@ -626,7 +625,6 @@ function appStore(state = {}, action) {
             if (!action.success){
                 return newState;
             }
-
             newState.installedApps = state.installedApps.filter(app => app.policyAppID != pendingApp.policyAppID);
             return newState;
         case Actions.WEBENGINE_APP_LAUNCH:

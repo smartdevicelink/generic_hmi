@@ -44,7 +44,6 @@ class AppStore extends React.Component {
             }
 
             fetch(params.appUrl + 'manifest.js')
-                .then(x => x.blob())
                 .then(x => x.text())
                 .then((manifestJS) => {
                 let jsonStart = manifestJS.indexOf('{');
