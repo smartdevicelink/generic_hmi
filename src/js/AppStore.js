@@ -48,7 +48,14 @@ class AppStore extends React.Component {
                 .then((manifestJS) => {
                 let jsonStart = manifestJS.indexOf('{');
                 let jsonEnd = manifestJS.lastIndexOf('}') + 1;
-                let manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd))
+                var manifest = {};
+
+                try {
+                    manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd));
+                } catch (e) {
+                    console.error('failed to parse manifest as JSON: ', e);
+                    return;
+                }
 
                 var appProperties = {
                     policyAppID: manifest.appId,
@@ -57,6 +64,11 @@ class AppStore extends React.Component {
 
                 let state = store.getState();
                 var appDirEntry = state.appStore.availableApps.find(x => x.policyAppID == manifest.appId);
+
+                if (!appDirEntry) {
+                    console.error('no app found in app store directory with policyAppID ', manifest.appId);
+                    return;
+                }
 
                 store.dispatch(appStoreAddAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
@@ -144,7 +156,7 @@ class AppStore extends React.Component {
                         description={pendingInstallApp.description} iconUrl={pendingInstallApp.iconUrl}
                         leftText="Cancel" leftCallback={this.cancel} rightText="Download" rightCallback={this.confirm} />
                 </Modal>
-                <AppHeader appIcon='store' backLink="/" menuName="APPS"/>
+                <AppHeader icon='store' backLink="/" menuName="APPS"/>
                 {this.props.apps ? <HScrollMenu data={this.props.apps.map((app) => {
                         return {
                                 image: app.iconUrl,

@@ -110,7 +110,7 @@ class AppStoreMenu extends React.Component {
                         description={this.state.appDescription} iconUrl={this.state.appIcon}
                         leftText="Cancel" leftCallback={this.cancel} rightText="Uninstall" rightCallback={this.confirm} />
                 </Modal>
-                <AppHeader appIcon='false' backLink="/appstore" menuName="STORE"/>
+                <AppHeader icon='false' backLink="/appstore" menuName="STORE"/>
                 <div className="appstore-menu">
                     {this.props.apps ? this.props.apps.map((app) => {
 
