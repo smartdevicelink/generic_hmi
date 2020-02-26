@@ -12,7 +12,7 @@ import ConfirmAlert from './ConfirmAlert';
 import BCController from './Controllers/BCController';
 import FileSystemController from './Controllers/FileSystemController'
 
-import { updateAvailableAppStoreApps, addAppPendingSetAppProperties } from './actions';
+import { updateAvailableAppStoreApps, addAppPendingSetAppProperties, appStoreBeginInstall } from './actions';
 
 class AppStore extends React.Component {
     constructor() {
@@ -89,6 +89,7 @@ class AppStore extends React.Component {
             });
         });
 
+        store.dispatch(appStoreBeginInstall(this.state.confirmID))
         FileSystemController.sendJSONMessage({
             method: 'InstallApp',
             params: {
@@ -148,7 +149,8 @@ class AppStore extends React.Component {
                     image: app.iconUrl,
                     appID: app.policyAppID,
                     cmdID: app.package_url,
-                    name: app.name
+                    name: app.pendingInstall ? 'Installing...' : app.name,
+                    greyOut: app.installed
                 }
             });
 
@@ -181,10 +183,11 @@ const mapStateToProps = (state) => {
     }
 
     if (state.appStore.installedApps && state.appStore.availableApps) {
-        props.apps = props.apps.filter((app) => {
-            return !state.appStore.installedApps.find((iApp) => {
+        props.apps = props.apps.map((app) => {
+            app.installed = !!state.appStore.installedApps.find((iApp) => {
                 return app.policyAppID === iApp.policyAppID;
             });
+            return app;
         });
     }
 

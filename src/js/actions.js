@@ -37,7 +37,8 @@ export const Actions = {
     ADD_APP_PENDING_SET_APP_PROPERTIES: "ADD_APP_PENDING_SET_APP_PROPERTIES",
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
-    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH"
+    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
 }
 
 export const updateAppList = (applications) => {
@@ -366,5 +367,12 @@ export const webEngineAppLaunch = (policyAppID, appID) => {
         type: Actions.WEBENGINE_APP_LAUNCH,
         policyAppID: policyAppID,
         appID: appID
+    }
+}
+
+export const appStoreBeginInstall = (policyAppID) => {
+    return {
+        type: Actions.APPSTORE_BEGIN_INSTALL,
+        policyAppID: policyAppID
     }
 }

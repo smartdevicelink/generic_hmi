@@ -9,6 +9,11 @@ const mapStateToProps = (state) => {
         var icon = ""
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
+        } else {
+            var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID == app.policyAppID);
+            if (appDirEntry) {
+                icon = appDirEntry.iconUrl;
+            }
         }
         var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
         var link = "media"
@@ -25,7 +30,8 @@ const mapStateToProps = (state) => {
             devicename: devicename,
             image: icon,
             link: '/' + link,
-            cmdID: app
+            cmdID: app,
+            greyOut: app.greyOut
         }
     })
     return {data: data}
