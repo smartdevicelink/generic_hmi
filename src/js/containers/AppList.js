@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
             let state = store.getState();
             var webEngineApp = state.appStore.installedApps.find(x => x.policyAppID === app.policyAppID);
 
-            if (!webEngineApp) {
+            if (!webEngineApp || webEngineApp.runningAppId) {
                 sdlController.onAppActivated(appID)
                 return;
             }

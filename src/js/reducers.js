@@ -634,7 +634,7 @@ function appStore(state = {}, action) {
             var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
             launchedApp.runningAppId = action.appID;
             return newState;
-        case Actions.DEACTIVATE_APP:
+        case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state };
             var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
             if (launchedApp) { launchedApp.runningAppId = 0; }
