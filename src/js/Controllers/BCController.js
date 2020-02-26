@@ -135,7 +135,7 @@ class BCController {
         this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
     }
     setAppProperties(properties) {
-        this.listener.send(RpcFactory.BCSetAppProperties(properties));
+        this.listener.send(RpcFactory.SetAppProperties(properties));
     }
 }
 

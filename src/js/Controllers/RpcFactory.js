@@ -1,7 +1,7 @@
 import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
-    static BCSetAppProperties(properties) {
+    static SetAppProperties(properties) {
         return {
             "jsonrpc": "2.0",
             "id": rpcFactory_msgId++,

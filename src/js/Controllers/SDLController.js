@@ -3,7 +3,7 @@ import store from '../store'
 import { activateApp, setURLS, setPTUWithModem } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
-import fileSystemController from './FileSystemController'
+import FileSystemController from './FileSystemController'
 
 import {flags} from '../Flags'
 var activatingApplication = 0
@@ -87,8 +87,8 @@ class SDLController {
                     };
 
                     var that = this;
-                    fileSystemController.connect(flags.FileSystemApiUrl).then(()=> {
-                        fileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
+                    FileSystemController.connect(flags.FileSystemApiUrl).then(()=> {
+                        FileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
                             that.onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
                     },switch_to_regular_ptu_flow);

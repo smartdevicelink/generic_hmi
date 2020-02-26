@@ -10,7 +10,7 @@ import AppServices from './containers/AppServices';
 import ConfirmAlert from './ConfirmAlert';
 
 import BCController from './Controllers/BCController';
-import fileSystemController from './Controllers/FileSystemController'
+import FileSystemController from './Controllers/FileSystemController'
 
 import { updateAvailableAppStoreApps, addAppPendingSetAppProperties } from './actions';
 
@@ -36,7 +36,7 @@ class AppStore extends React.Component {
     }
 
     confirmInstall() {
-        fileSystemController.subscribeToEvent('InstallApp', (success, params) => {
+        FileSystemController.subscribeToEvent('InstallApp', (success, params) => {
             if (!success || !params.appUrl) {
                 console.error('error encountered when installing app');
             }
@@ -89,7 +89,7 @@ class AppStore extends React.Component {
             });
         });
 
-        fileSystemController.sendJSONMessage({
+        FileSystemController.sendJSONMessage({
             method: 'InstallApp',
             params: {
                 policyAppID: this.state.confirmID,
@@ -143,6 +143,15 @@ class AppStore extends React.Component {
             iconUrl: null
         };
 
+        var menuData = this.props.apps.map((app) => {
+            return {
+                    image: app.iconUrl,
+                    appID: app.policyAppID,
+                    cmdID: app.package_url,
+                    name: app.name
+                }
+            });
+
         return (
             <div>
                 <Modal
@@ -155,14 +164,7 @@ class AppStore extends React.Component {
                         leftText="Cancel" leftCallback={() => this.cancelInstall()} rightText="Download" rightCallback={() => this.confirmInstall()} />
                 </Modal>
                 <AppHeader icon='store' backLink="/" menuName="APPS"/>
-                {<HScrollMenu data={this.props.apps.map((app) => {
-                        return {
-                                image: app.iconUrl,
-                                appID: app.policyAppID,
-                                cmdID: app.package_url,
-                                name: app.name
-                            }
-                        })}
+                {<HScrollMenu data={menuData}
                         theme={this.props.theme}
                         onSelection={this.onSelection}
                         isPerformingInteraction={false} />}
