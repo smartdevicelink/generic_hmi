@@ -87,7 +87,7 @@ class BCController {
             case "SetAppProperties":
                 let success = (rpc.result.resultCode == 'SUCCESS')
                 let entry = store.getState().appStore.appsPendingSetAppProperties[0]
-                if(!success){
+                if (!success) {
                     console.error(`Failed to install/uninstall app ${entry.app.policyAppID}. Removing from fs`)
                     FileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
                         if (!success || !params.policyAppID) {
@@ -101,7 +101,7 @@ class BCController {
                         }
                     });
                 }
-                if(entry.enable){
+                if (entry.enable) {
                     store.dispatch(appStoreAppInstalled(success))
                 }
                 else{
