@@ -595,7 +595,6 @@ function appStore(state = {}, action) {
             var newState = { ...state };
             newState.installedApps = action.installedApps.map((app) => {
                 var appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === app.policyAppID) : {};
-                appDirEntry.runningAppId = 0;
                 return Object.assign(appDirEntry, app);
             });
             return newState;
@@ -604,15 +603,14 @@ function appStore(state = {}, action) {
             if (!newState.appsPendingSetAppProperties) {
                 newState.appsPendingSetAppProperties = []
             }
-            newState.appsPendingSetAppProperties.push({'app': action.app, 'enable': action.enable})
+            newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable})
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             var newState = { ...state };
-            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app']: null;
+            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
             if (!action.success) {
                 return newState;
             }
-            pendingApp.runningAppId = 0;
             var newInstalled = [ pendingApp ];
             for (var app of newState.installedApps) {
                 newInstalled.push(app);
@@ -621,7 +619,7 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             var newState = { ...state };
-            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app']: null;
+            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
             if (!action.success) {
                 return newState;
             }
