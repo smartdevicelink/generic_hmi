@@ -31,7 +31,14 @@ export const Actions = {
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
-    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES"
+    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
+    UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
+    UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
+    ADD_APP_PENDING_SET_APP_PROPERTIES: "ADD_APP_PENDING_SET_APP_PROPERTIES",
+    APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
+    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
+    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
 }
 
 export const updateAppList = (applications) => {
@@ -316,5 +323,56 @@ export const setGlobalProperties = (appID, menuLayout) => {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
         menuLayout: menuLayout
+    }
+}
+
+export const updateAvailableAppStoreApps = (availableApps) => {
+    return {
+        type: Actions.UPDATE_AVAILABLE_APPSTORE_APPS,
+        availableApps: availableApps
+    };
+}
+
+export const updateInstalledAppStoreApps = (installedApps) => {
+    return {
+        type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
+        installedApps: installedApps
+    };
+}
+
+export const addAppPendingSetAppProperties = (app, enable) => {
+    return {
+        type: Actions.ADD_APP_PENDING_SET_APP_PROPERTIES,
+        app: app,
+        enable: enable
+    }
+}
+
+export const appStoreAppInstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_INSTALLED,
+        success: success
+    }
+}
+
+export const appStoreAppUninstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_UNINSTALLED,
+        success: success
+    }
+}
+
+export const webEngineAppLaunch = (policyAppID, appID) => {
+    return {
+        type: Actions.WEBENGINE_APP_LAUNCH,
+        policyAppID: policyAppID,
+        appID: appID
+    }
+}
+
+export const appStoreBeginInstall = (policyAppID) => {
+    return {
+        type: Actions.APPSTORE_BEGIN_INSTALL,
+        policyAppID: policyAppID
     }
 }

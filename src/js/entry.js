@@ -16,10 +16,14 @@ import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbutto
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
+import AppStore from './AppStore';
+import AppStoreMenu from './AppStoreMenu';
+import WebEngineAppContainer from './WebEngineAppContainer'
 import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
+import { flags } from './Flags'
 
 import { Router, Route, hashHistory } from 'react-router'
 
@@ -27,8 +31,9 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import Controller from './Controllers/Controller'
+import FileSystemController from './Controllers/FileSystemController';
 import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem} from './actions'
+import {setTheme, setPTUWithModem, updateInstalledAppStoreApps} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -68,11 +73,36 @@ class HMIApp extends React.Component {
                         <label>PTU using in-vehicle modem</label>
                     </div>
                 </div>
+                {
+                    this.props.webEngineApps.map((app) => {
+                        let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
+                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
+                    })
+                }
             </div>
         )
     }
     componentDidMount() {
         this.sdl.connectToSDL()
+
+        FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
+            console.log('Connected to FileSystemController');
+
+            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
+                if (!success || !params.apps) {
+                    console.error('error encountered when retrieving installed apps');
+                    return;
+                }
+    
+                store.dispatch(updateInstalledAppStoreApps(params.apps))
+            });
+    
+            FileSystemController.sendJSONMessage({
+                method: 'GetInstalledApps', params: {}
+            });
+        }, () => {
+            console.error('Error connecting to FileSystemController');
+        });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
@@ -81,7 +111,8 @@ class HMIApp extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ptuWithModemEnabled: state.system.ptuWithModemEnabled
+        ptuWithModemEnabled: state.system.ptuWithModemEnabled,
+        webEngineApps: state.appStore.installedApps ? state.appStore.installedApps.filter(app => app.runningAppId) : []
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)
@@ -105,6 +136,8 @@ ReactDOM.render((
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
+            <Route path="/appstore" component={AppStore} />
+            <Route path="/appstoremenu" component={AppStoreMenu} />
         </Router>
     </HMIApp>
     </Provider>

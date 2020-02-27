@@ -1,14 +1,12 @@
-import sdlController from './SDLController';
 import SimpleRPCClient from '../SimpleRPCClient'
 
-class VehicleModemController {
+class FileSystemController extends SimpleRPCClient {
     constructor() {
-      this.PTUClient = null
+      super();
     }
 
-    connectPTUManager(ptuBackendUrl) {
-      this.PTUClient = new SimpleRPCClient(ptuBackendUrl)
-      return this.PTUClient.connect()
+    connect(url) {
+      return super.connect(url);
     }
 
     downloadPTSFromFile(file_name, timeout){
@@ -17,13 +15,13 @@ class VehicleModemController {
       return new Promise((resolve, reject) => {
         let pts_receive_timer = setTimeout(() => {
           console.error('PTU: Timeout for downloading PTS expired')
-          that.PTUClient.unsubscribeFromEvent('GetPTSFileContent')
+          that.unsubscribeFromEvent('GetPTSFileContent')
           reject();
         }, timeout);
 
         let pts_received_callback = function(success, params){
           clearTimeout(pts_receive_timer)
-          that.PTUClient.unsubscribeFromEvent('GetPTSFileContent')
+          that.unsubscribeFromEvent('GetPTSFileContent')
           if(!success){
             console.error('PTU: Downloading PTS was not successful')
             reject();
@@ -40,8 +38,8 @@ class VehicleModemController {
           }
         };
 
-        that.PTUClient.subscribeToEvent('GetPTSFileContent', pts_received_callback)
-        that.PTUClient.sendJSONMessage(request)
+        that.subscribeToEvent('GetPTSFileContent', pts_received_callback)
+        that.sendJSONMessage(request)
       });
     }
 
@@ -69,13 +67,13 @@ class VehicleModemController {
       return new Promise((resolve, reject) => {
         let ptu_save_timer = setTimeout(() => {
           console.error('PTU: Timeout for saving PTU expired')
-          that.PTUClient.unsubscribeFromEvent('SavePTUToFile')
+          that.unsubscribeFromEvent('SavePTUToFile')
           reject();
         }, timeout);
 
         let ptu_saved_callback = (success, params) => {
           clearTimeout(ptu_save_timer);
-          that.PTUClient.unsubscribeFromEvent('SavePTUToFile')
+          that.unsubscribeFromEvent('SavePTUToFile')
           
           if(!success){
             console.error('PTU: PTU save was not successful')
@@ -94,8 +92,8 @@ class VehicleModemController {
           }
         };        
 
-        that.PTUClient.subscribeToEvent('SavePTUToFile', ptu_saved_callback);
-        that.PTUClient.sendJSONMessage(request)
+        that.subscribeToEvent('SavePTUToFile', ptu_saved_callback);
+        that.sendJSONMessage(request)
       })
     }
 
@@ -117,7 +115,7 @@ class VehicleModemController {
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
-          that.PTUClient.disconnect()
+          that.disconnect()
           
           //Return to regular PT flow
           reject()
@@ -127,8 +125,7 @@ class VehicleModemController {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
             that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
-              sdlController.onReceivedPolicyUpdate(ptu_file_name)
-              resolve()
+              resolve(ptu_file_name)
             })
           }, ptu_failed_callback)
         }, ptu_failed_callback)
@@ -137,5 +134,5 @@ class VehicleModemController {
 
 }
 
-let controller = new VehicleModemController()
+let controller = new FileSystemController()
 export default controller
