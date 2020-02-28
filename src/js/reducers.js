@@ -600,33 +600,22 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             var newState = { ...state };
-            if (!newState.appsPendingSetAppProperties) {
-                newState.appsPendingSetAppProperties = [];
-            }
+            if (!newState.appsPendingSetAppProperties) { newState.appsPendingSetAppProperties = []; }
             newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             var newState = { ...state };
             var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
-            if (!action.success) {
-                return newState;
-            }
-            var newInstalled = [ pendingApp ];
-            for (var app of newState.installedApps) {
-                newInstalled.push(app);
-            }
+            if (!action.success) { return newState; }
+            var newInstalled = [ pendingApp ].concat(newState.installedApps);
             newState.installedApps = newInstalled;
             var appStoreApp = newState.availableApps.find(app => app.policyAppID == pendingApp.policyAppID);
-            if (appStoreApp) {
-                appStoreApp.pendingInstall = false;
-            }
+            if (appStoreApp) { appStoreApp.pendingInstall = false; }
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             var newState = { ...state };
             var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
-            if (!action.success) {
-                return newState;
-            }
+            if (!action.success) { return newState; }
             newState.installedApps = state.installedApps.filter(app => app.policyAppID != pendingApp.policyAppID);
             return newState;
         case Actions.WEBENGINE_APP_LAUNCH:
@@ -636,15 +625,14 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state };
+            if (!newState.installedApps) { return newState; }
             var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
             if (launchedApp) { launchedApp.runningAppId = 0; }
             return newState;
         case Actions.APPSTORE_BEGIN_INSTALL:
             var newState = { ...state };
             var appStoreApp = newState.availableApps.find(app => app.policyAppID == action.policyAppID);
-            if (appStoreApp) {
-                appStoreApp.pendingInstall = true;
-            }
+            if (appStoreApp) { appStoreApp.pendingInstall = true; }
             return newState;
         default:
             return state;
