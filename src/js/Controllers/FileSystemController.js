@@ -9,6 +9,10 @@ class FileSystemController extends SimpleRPCClient {
       return super.connect(url);
     }
 
+    onDisconnect(func){
+      this.socket.onclose = func;
+    }
+
     downloadPTSFromFile(file_name, timeout){
       var that = this;
 

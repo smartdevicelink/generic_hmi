@@ -33,7 +33,7 @@ import store from './store'
 import Controller from './Controllers/Controller'
 import FileSystemController from './Controllers/FileSystemController';
 import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem, updateInstalledAppStoreApps} from './actions'
+import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -87,13 +87,14 @@ class HMIApp extends React.Component {
 
         FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
+            store.dispatch(updateAppStoreConnectionStatus(true));
+            FileSystemController.onDisconnect(() => {store.dispatch(updateAppStoreConnectionStatus(false));});
 
             FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
                 if (!success || !params.apps) {
                     console.error('error encountered when retrieving installed apps');
                     return;
                 }
-    
                 store.dispatch(updateInstalledAppStoreApps(params.apps));
             });
     
@@ -101,6 +102,7 @@ class HMIApp extends React.Component {
                 method: 'GetInstalledApps', params: {}
             });
         }, () => {
+            store.dispatch(updateAppStoreConnectionStatus(false));
             store.dispatch(updateInstalledAppStoreApps([]));
         });
     }

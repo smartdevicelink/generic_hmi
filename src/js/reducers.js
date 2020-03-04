@@ -583,6 +583,10 @@ function system(state = {}, action) {
 
 function appStore(state = {}, action) {
     switch (action.type) {
+        case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
+            var newState = { ...state };
+            newState.isConnected = action.isConnected
+            return newState;
         case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
             var newState = { ...state };
             newState.availableApps = action.availableApps;

@@ -86,7 +86,13 @@ class BCController {
         switch (methodName) {
             case "SetAppProperties":
                 let success = (rpc.result.resultCode == 'SUCCESS')
-                let entry = store.getState().appStore.appsPendingSetAppProperties[0]
+                let appsPendingSetAppProperties = store.getState().appStore.appsPendingSetAppProperties;
+                if(!appsPendingSetAppProperties || appsPendingSetAppProperties.length == 0){
+                    console.error("SetAppProperties Response: no apps in pending queue");
+                    return;
+                }
+                let entry = appsPendingSetAppProperties[0]
+
                 if (!success) {
                     console.error(`Failed to install/uninstall app ${entry.app.policyAppID}. Removing from fs`)
                     FileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
