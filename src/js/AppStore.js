@@ -149,7 +149,7 @@ class AppStore extends React.Component {
                     image: app.iconUrl,
                     appID: app.policyAppID,
                     cmdID: app.package_url,
-                    name: app.pendingInstall ? 'Installing...' : app.name,
+                    name: app.pendingInstall ? `Installing ${app.name}...` : app.name,
                     greyOut: app.installed
                 }
             });
