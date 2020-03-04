@@ -94,14 +94,14 @@ class HMIApp extends React.Component {
                     return;
                 }
     
-                store.dispatch(updateInstalledAppStoreApps(params.apps))
+                store.dispatch(updateInstalledAppStoreApps(params.apps));
             });
     
             FileSystemController.sendJSONMessage({
                 method: 'GetInstalledApps', params: {}
             });
         }, () => {
-            console.error('Error connecting to FileSystemController');
+            store.dispatch(updateInstalledAppStoreApps([]));
         });
     }
     componentWillUnmount() {
