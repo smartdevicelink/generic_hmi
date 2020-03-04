@@ -59,7 +59,7 @@ export default class SimpleRPCClient{
 
   onSend(){
     let msg = this.sendQueue.pop()
-    if (this.socket && this.socket.readyState == this.socket.OPEN){
+    if (this.isConnected()){
       this.socket.send(msg)
     }
 
@@ -74,6 +74,10 @@ export default class SimpleRPCClient{
 
   unsubscribeFromEvent(event_name){
     delete this.eventListenersMap[event_name]
+  }
+
+  isConnected(){
+    return (this.socket && this.socket.readyState == WebSocket.OPEN);
   }
 
 }
