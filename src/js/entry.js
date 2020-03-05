@@ -76,7 +76,7 @@ class HMIApp extends React.Component {
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
-                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
+                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + app.entrypoint + query} />);
                     })
                 }
             </div>
@@ -95,7 +95,17 @@ class HMIApp extends React.Component {
                     console.error('error encountered when retrieving installed apps');
                     return;
                 }
-                store.dispatch(updateInstalledAppStoreApps(params.apps));
+
+                params.apps.map((app) => {
+                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) =>{
+                        let appEntry = Object.assign(app, {
+                            entrypoint: manifest.entrypoint,
+                            version: manifest.appVersion
+                        });
+                        store.dispatch(updateInstalledAppStoreApps(appEntry));
+                        bcController.getAppProperties(app.policyAppID);
+                    });
+                });
             });
     
             FileSystemController.sendJSONMessage({
@@ -103,7 +113,6 @@ class HMIApp extends React.Component {
             });
         }, () => {
             store.dispatch(updateAppStoreConnectionStatus(false));
-            store.dispatch(updateInstalledAppStoreApps([]));
         });
     }
     componentWillUnmount() {

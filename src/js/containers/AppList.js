@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
         var icon = ""
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
-        } else {
+        } else if(state.appStore.installedApps){
             var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID == app.policyAppID);
             if (appDirEntry) {
                 icon = appDirEntry.iconUrl;

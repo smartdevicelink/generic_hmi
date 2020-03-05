@@ -41,20 +41,7 @@ class AppStore extends React.Component {
                 console.error('error encountered when installing app');
             }
 
-            fetch(params.appUrl + 'manifest.js')
-                .then(x => x.text())
-                .then((manifestJS) => {
-                let jsonStart = manifestJS.indexOf('{');
-                let jsonEnd = manifestJS.lastIndexOf('}') + 1;
-                var manifest = {};
-
-                try {
-                    manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd));
-                } catch (e) {
-                    console.error('failed to parse manifest as JSON: ', e);
-                    return;
-                }
-
+            FileSystemController.parseWebEngineAppManifest(params.appUrl).then((manifest) => {
                 var appProperties = {
                     policyAppID: manifest.appId,
                     enabled: true
@@ -71,7 +58,8 @@ class AppStore extends React.Component {
                 store.dispatch(addAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
-                    baseUrl: params.appUrl
+                    entrypoint: manifest.entrypoint,
+                    appUrl: params.appUrl
                 }), true));
 
                 let addIfExists = (key) => {

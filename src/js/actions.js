@@ -341,10 +341,10 @@ export const updateAvailableAppStoreApps = (availableApps) => {
     };
 }
 
-export const updateInstalledAppStoreApps = (installedApps) => {
+export const updateInstalledAppStoreApps = (installedApp) => {
     return {
         type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
-        installedApps: installedApps
+        installedApp: installedApp
     };
 }
 

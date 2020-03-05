@@ -597,10 +597,19 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
             var newState = { ...state };
-            newState.installedApps = action.installedApps.map((app) => {
-                var appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === app.policyAppID) : {};
-                return Object.assign(appDirEntry, app);
-            });
+
+            if(!newState.installedApps){ newState.installedApps = []; }
+            let existingApp = newState.installedApps.find(app => app.policyAppID == action.installedApp.policyAppID)
+
+            if(!existingApp){
+                let appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID) : {};
+                let appEntry = Object.assign(appDirEntry, action.installedApp);
+                newState.installedApps.push(appEntry);
+                return newState;
+            }
+            // Update the existing app's properties
+            existingApp = Object.assign(existingApp, action.installedApp);
+            
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             var newState = { ...state };
