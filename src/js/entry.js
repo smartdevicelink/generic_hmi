@@ -88,7 +88,7 @@ class HMIApp extends React.Component {
         FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
             store.dispatch(updateAppStoreConnectionStatus(true));
-            FileSystemController.onDisconnect(() => {store.dispatch(updateAppStoreConnectionStatus(false));});
+            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
 
             FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
                 if (!success || !params.apps) {
@@ -111,9 +111,7 @@ class HMIApp extends React.Component {
             FileSystemController.sendJSONMessage({
                 method: 'GetInstalledApps', params: {}
             });
-        }, () => {
-            store.dispatch(updateAppStoreConnectionStatus(false));
-        });
+        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()

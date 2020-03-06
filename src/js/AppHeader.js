@@ -64,9 +64,10 @@ class AppHeader extends React.Component {
         var icon = this.props.icon == 'false' ? (<div />) : (<MenuIcon isShowingMenu={isShowingMenu}/>);
 
         if (this.props.icon == 'store') {
-            if(this.props.isAppStoreConnected){
+            if (this.props.isAppStoreConnected) {
                 icon = this.props.router.isActive('/appstore') ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
-            }else{
+            }
+            else{
                 icon = (<div />)
             }
         }

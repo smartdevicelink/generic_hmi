@@ -18,7 +18,7 @@ class RpcFactory {
             "method": "BasicCommunication.GetAppProperties",
             "params": {}
         }
-        if(policyAppID){
+        if (policyAppID) {
             msg.params.policyAppID = policyAppID
         }
         return msg;

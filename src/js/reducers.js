@@ -598,10 +598,10 @@ function appStore(state = {}, action) {
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
             var newState = { ...state };
 
-            if(!newState.installedApps){ newState.installedApps = []; }
+            if (!newState.installedApps) { newState.installedApps = []; }
             let existingApp = newState.installedApps.find(app => app.policyAppID == action.installedApp.policyAppID)
 
-            if(!existingApp){
+            if (!existingApp) {
                 let appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID) : {};
                 let appEntry = Object.assign(appDirEntry, action.installedApp);
                 newState.installedApps.push(appEntry);
