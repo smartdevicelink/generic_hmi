@@ -581,7 +581,12 @@ function system(state = {}, action) {
     }
 }
 
-function appStore(state = {}, action) {
+function appStore(state = {
+    isConnected: false,
+    availableApps: [],
+    installedApps: [],
+    appsPendingSetAppProperties: []
+}, action) {
     switch (action.type) {
         case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
             var newState = { ...state };
@@ -590,19 +595,18 @@ function appStore(state = {}, action) {
         case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
             var newState = { ...state };
             newState.availableApps = action.availableApps;
-            newState.installedApps = state.installedApps ? state.installedApps.map((app) => {
+            newState.installedApps = state.installedApps.map((app) => {
                 var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
                 return appDirEntry ? Object.assign(appDirEntry, app) : app;
-            }) : [];
+            });
             return newState;
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
             var newState = { ...state };
 
-            if (!newState.installedApps) { newState.installedApps = []; }
             let existingApp = newState.installedApps.find(app => app.policyAppID == action.installedApp.policyAppID)
 
             if (!existingApp) {
-                let appDirEntry = newState.availableApps ? newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID) : {};
+                let appDirEntry = newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID);
                 let appEntry = Object.assign(appDirEntry, action.installedApp);
                 newState.installedApps.push(appEntry);
                 return newState;
@@ -613,12 +617,12 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             var newState = { ...state };
-            if (!newState.appsPendingSetAppProperties) { newState.appsPendingSetAppProperties = []; }
             newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             var newState = { ...state };
-            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
             var newInstalled = [ pendingApp ].concat(newState.installedApps);
             newState.installedApps = newInstalled;
@@ -627,7 +631,8 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             var newState = { ...state };
-            var pendingApp = (newState.appsPendingSetAppProperties) ? newState.appsPendingSetAppProperties.shift()['app'] : null;
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
             newState.installedApps = state.installedApps.filter(app => app.policyAppID != pendingApp.policyAppID);
             return newState;
@@ -638,7 +643,6 @@ function appStore(state = {}, action) {
             return newState;
         case Actions.UNREGISTER_APPLICATION:
             var newState = { ...state };
-            if (!newState.installedApps) { return newState; }
             var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
             if (launchedApp) { launchedApp.runningAppId = 0; }
             return newState;
