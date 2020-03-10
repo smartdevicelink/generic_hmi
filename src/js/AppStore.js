@@ -167,17 +167,15 @@ class AppStore extends React.Component {
 const mapStateToProps = (state) => {
     var props = {
         theme: state.theme,
-        apps: state.appStore.availableApps ? state.appStore.availableApps : []
+        apps: state.appStore.availableApps
     }
 
-    if (state.appStore.installedApps && state.appStore.availableApps) {
-        props.apps = props.apps.map((app) => {
-            app.installed = !!state.appStore.installedApps.find((iApp) => {
-                return app.policyAppID === iApp.policyAppID;
-            });
-            return app;
+    props.apps = props.apps.map((app) => {
+        app.installed = !!state.appStore.installedApps.find((iApp) => {
+            return app.policyAppID === iApp.policyAppID;
         });
-    }
+        return app;
+    });
 
     return props;
 }

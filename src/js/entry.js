@@ -121,7 +121,7 @@ class HMIApp extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
-        webEngineApps: state.appStore.installedApps ? state.appStore.installedApps.filter(app => app.runningAppId) : []
+        webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId)
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)

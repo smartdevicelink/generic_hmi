@@ -607,13 +607,13 @@ function appStore(state = {
 
             if (!existingApp) {
                 let appDirEntry = newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID);
-                let appEntry = Object.assign(appDirEntry, action.installedApp);
-                newState.installedApps.push(appEntry);
+                newState.installedApps.push(
+                    appDirEntry ? Object.assign(appDirEntry, action.installedApp) : action.installedApp
+                );
                 return newState;
             }
             // Update the existing app's properties
             existingApp = Object.assign(existingApp, action.installedApp);
-            
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             var newState = { ...state };
