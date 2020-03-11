@@ -25,7 +25,8 @@ export default class HScrollMenuItem extends React.Component {
         
         if (menuItem.greyOut) {
             clickHandler = undefined;
-            buttonClass += " hscrollmenu-item-disabled"
+            menuItem.link = undefined;
+            buttonClass += " hscrollmenu-item-disabled";
         }
 
         return (

@@ -35,6 +35,11 @@ const mapStateToProps = (state) => {
             greyOut: app.greyOut
         }
     })
+
+    if (!state.appStore.isConnected) {
+        data = data.filter(app => app.deviceInfo.transportType !== 'WEBENGINE_WEBSOCKET');
+    }
+
     return {data: data}
 }
 
