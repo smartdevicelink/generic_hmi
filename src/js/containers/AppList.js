@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
         var icon = ""
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
-        } else {
+        }
+        else {
             var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID == app.policyAppID);
             if (appDirEntry) {
                 icon = appDirEntry.iconUrl;
@@ -34,6 +35,11 @@ const mapStateToProps = (state) => {
             greyOut: app.greyOut
         }
     })
+
+    if (!state.appStore.isConnected) {
+        data = data.filter(app => app.deviceInfo.transportType !== 'WEBENGINE_WEBSOCKET');
+    }
+
     return {data: data}
 }
 

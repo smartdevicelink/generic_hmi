@@ -7,6 +7,7 @@ import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
 import {resetShowAppMenu} from './actions'
+import { connect } from 'react-redux'
 
 import iconMenu from '../img/icons/icon-menu.svg'
 import iconCart from '../img/icons/icon-cart.svg'
@@ -38,7 +39,6 @@ class AppStoreMenuIcon extends React.Component {
 class AppHeader extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
     getColorScheme() {
@@ -64,7 +64,12 @@ class AppHeader extends React.Component {
         var icon = this.props.icon == 'false' ? (<div />) : (<MenuIcon isShowingMenu={isShowingMenu}/>);
 
         if (this.props.icon == 'store') {
-            icon = this.props.router.isActive('/appstore') ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+            if (this.props.isAppStoreConnected) {
+                icon = this.props.router.isActive('/appstore') ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+            }
+            else{
+                icon = (<div />)
+            }
         }
 
         var colorScheme = null;
@@ -133,5 +138,12 @@ class AppHeader extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isAppStoreConnected: state.appStore.isConnected
+    }
+}
+AppHeader = connect(mapStateToProps)(AppHeader)
 
 export default withRouter(AppHeader)

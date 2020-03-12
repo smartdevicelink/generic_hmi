@@ -33,7 +33,7 @@ import store from './store'
 import Controller from './Controllers/Controller'
 import FileSystemController from './Controllers/FileSystemController';
 import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem, updateInstalledAppStoreApps} from './actions'
+import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -76,7 +76,7 @@ class HMIApp extends React.Component {
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
-                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.baseUrl + query} />);
+                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + app.entrypoint + query} />);
                     })
                 }
             </div>
@@ -87,22 +87,31 @@ class HMIApp extends React.Component {
 
         FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
+            store.dispatch(updateAppStoreConnectionStatus(true));
+            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
 
             FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
                 if (!success || !params.apps) {
                     console.error('error encountered when retrieving installed apps');
                     return;
                 }
-    
-                store.dispatch(updateInstalledAppStoreApps(params.apps))
+
+                params.apps.map((app) => {
+                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) =>{
+                        let appEntry = Object.assign(app, {
+                            entrypoint: manifest.entrypoint,
+                            version: manifest.appVersion
+                        });
+                        store.dispatch(updateInstalledAppStoreApps(appEntry));
+                        bcController.getAppProperties(app.policyAppID);
+                    });
+                });
             });
     
             FileSystemController.sendJSONMessage({
                 method: 'GetInstalledApps', params: {}
             });
-        }, () => {
-            console.error('Error connecting to FileSystemController');
-        });
+        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
@@ -112,7 +121,7 @@ class HMIApp extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
-        webEngineApps: state.appStore.installedApps ? state.appStore.installedApps.filter(app => app.runningAppId) : []
+        webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId)
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)

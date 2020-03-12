@@ -9,6 +9,10 @@ class FileSystemController extends SimpleRPCClient {
       return super.connect(url);
     }
 
+    onDisconnect(func){
+      this.socket.onclose = func;
+    }
+
     downloadPTSFromFile(file_name, timeout){
       var that = this;
 
@@ -132,6 +136,30 @@ class FileSystemController extends SimpleRPCClient {
       });
     }
 
+    parseWebEngineAppManifest(app_url){
+      return new Promise((resolve, reject) => {
+
+        fetch(app_url + 'manifest.js')
+        .then(x => x.text())
+        .then((manifestJS) => {
+          let jsonStart = manifestJS.indexOf('{');
+          let jsonEnd = manifestJS.lastIndexOf('}') + 1;
+
+          try {
+            let manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd));
+            resolve(manifest);
+          } catch (e) {
+            console.error('Failed to parse manifest as JSON: ', e);
+            reject();
+          }
+
+        }).catch(() => {
+          console.error('Failed to get the contents of the manifest JS File', e);
+          reject();
+        });
+      
+      });
+    }
 }
 
 let controller = new FileSystemController()

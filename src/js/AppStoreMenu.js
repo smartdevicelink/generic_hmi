@@ -114,7 +114,7 @@ class AppStoreMenu extends React.Component {
                 </Modal>
                 <AppHeader icon='false' backLink="/appstore" menuName="STORE"/>
                 <div className="appstore-menu">
-                    {this.props.apps ? this.props.apps.map((app) => {
+                    {this.props.apps.map((app) => {
 
                         var postFixIndex = 0;
                         while (app.package.size_decompressed_bytes > postFixSizes[postFixIndex + 1]) {
@@ -129,7 +129,7 @@ class AppStoreMenu extends React.Component {
                             appName={app.name}
                             appSize={`${size.toFixed(1)} ${postFixes[postFixIndex]}`}
                         />
-                    }) : null}
+                    })}
                 </div>
             </div>
         )

@@ -87,11 +87,14 @@ class SDLController {
                     };
 
                     var that = this;
-                    FileSystemController.connect(flags.FileSystemApiUrl).then(()=> {
+                    if(FileSystemController.isConnected()){
                         FileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
                             that.onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
-                    },switch_to_regular_ptu_flow);
+                    }
+                    else{
+                        switch_to_regular_ptu_flow()
+                    }
                 }
                 else{
                     console.log('PTU: Starting PTU over mobile')

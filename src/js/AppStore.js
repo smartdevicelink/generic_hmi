@@ -41,20 +41,7 @@ class AppStore extends React.Component {
                 console.error('error encountered when installing app');
             }
 
-            fetch(params.appUrl + 'manifest.js')
-                .then(x => x.text())
-                .then((manifestJS) => {
-                let jsonStart = manifestJS.indexOf('{');
-                let jsonEnd = manifestJS.lastIndexOf('}') + 1;
-                var manifest = {};
-
-                try {
-                    manifest = JSON.parse(manifestJS.substring(jsonStart, jsonEnd));
-                } catch (e) {
-                    console.error('failed to parse manifest as JSON: ', e);
-                    return;
-                }
-
+            FileSystemController.parseWebEngineAppManifest(params.appUrl).then((manifest) => {
                 var appProperties = {
                     policyAppID: manifest.appId,
                     enabled: true
@@ -71,7 +58,8 @@ class AppStore extends React.Component {
                 store.dispatch(addAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
-                    baseUrl: params.appUrl
+                    entrypoint: manifest.entrypoint,
+                    appUrl: params.appUrl
                 }), true));
 
                 let addIfExists = (key) => {
@@ -148,8 +136,8 @@ class AppStore extends React.Component {
             return {
                     image: app.iconUrl,
                     appID: app.policyAppID,
-                    cmdID: app.package_url,
-                    name: app.pendingInstall ? 'Installing...' : app.name,
+                    cmdID: app.package.url,
+                    name: app.pendingInstall ? `Installing...` : app.name,
                     greyOut: app.installed
                 }
             });
@@ -179,17 +167,15 @@ class AppStore extends React.Component {
 const mapStateToProps = (state) => {
     var props = {
         theme: state.theme,
-        apps: state.appStore.availableApps ? state.appStore.availableApps : []
+        apps: state.appStore.availableApps
     }
 
-    if (state.appStore.installedApps && state.appStore.availableApps) {
-        props.apps = props.apps.map((app) => {
-            app.installed = !!state.appStore.installedApps.find((iApp) => {
-                return app.policyAppID === iApp.policyAppID;
-            });
-            return app;
+    props.apps = props.apps.map((app) => {
+        app.installed = !!state.appStore.installedApps.find((iApp) => {
+            return app.policyAppID === iApp.policyAppID;
         });
-    }
+        return app;
+    });
 
     return props;
 }

@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, appStoreAppInstalled, appStoreAppUninstalled } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -86,7 +86,13 @@ class BCController {
         switch (methodName) {
             case "SetAppProperties":
                 let success = (rpc.result.resultCode == 'SUCCESS')
-                let entry = store.getState().appStore.appsPendingSetAppProperties[0]
+                let appsPendingSetAppProperties = store.getState().appStore.appsPendingSetAppProperties;
+                if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length == 0) {
+                    console.error("SetAppProperties Response: no apps in pending queue");
+                    return;
+                }
+                let entry = appsPendingSetAppProperties[0]
+
                 if (!success) {
                     console.error(`Failed to install/uninstall app ${entry.app.policyAppID}. Removing from fs`)
                     FileSystemController.subscribeToEvent('UninstallApp', (success, params) => {
@@ -107,6 +113,16 @@ class BCController {
                 else{
                     store.dispatch(appStoreAppUninstalled(success))
                 }
+                return;
+            case "GetAppProperties":
+                if (!rpc.result.success ||  !rpc.result.properties) {
+                    console.error('Failed to GetAppProperties');
+                    return;
+                }
+                rpc.result.properties.map((app_properties)=>{
+                    store.dispatch(updateInstalledAppStoreApps(app_properties))
+                });
+
                 return;
             /*case "ActivateApp":
                 store.dispatch(activateApp(activatingApplication))
@@ -136,6 +152,9 @@ class BCController {
     }
     setAppProperties(properties) {
         this.listener.send(RpcFactory.SetAppProperties(properties));
+    }
+    getAppProperties(policyAppID){
+        this.listener.send(RpcFactory.GetAppProperties(policyAppID))
     }
 }
 

@@ -32,6 +32,7 @@ export const Actions = {
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
     SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
+    UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
     UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
     ADD_APP_PENDING_SET_APP_PROPERTIES: "ADD_APP_PENDING_SET_APP_PROPERTIES",
@@ -326,6 +327,13 @@ export const setGlobalProperties = (appID, menuLayout) => {
     }
 }
 
+export const updateAppStoreConnectionStatus = (isConnected) => {
+    return {
+        type: Actions.UPDATE_APPSTORE_CONNECTION_STATUS,
+        isConnected: isConnected 
+    }
+}
+
 export const updateAvailableAppStoreApps = (availableApps) => {
     return {
         type: Actions.UPDATE_AVAILABLE_APPSTORE_APPS,
@@ -333,10 +341,10 @@ export const updateAvailableAppStoreApps = (availableApps) => {
     };
 }
 
-export const updateInstalledAppStoreApps = (installedApps) => {
+export const updateInstalledAppStoreApps = (installedApp) => {
     return {
         type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
-        installedApps: installedApps
+        installedApp: installedApp
     };
 }
 
