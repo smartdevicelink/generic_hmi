@@ -5,7 +5,13 @@ import { webEngineAppLaunch } from '../actions'
 import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
-    var data = state.appList.map ((app, index) => {
+    var appList = state.appList;
+
+    if (!state.appStore.isConnected) {
+        appList = appList.filter(app => app.deviceInfo.transportType !== 'WEBENGINE_WEBSOCKET')
+    }
+
+    var data = appList.map ((app) => {
         var icon = ""
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
@@ -35,10 +41,6 @@ const mapStateToProps = (state) => {
             greyOut: app.greyOut
         }
     })
-
-    if (!state.appStore.isConnected) {
-        data = data.filter(app => app.deviceInfo.transportType !== 'WEBENGINE_WEBSOCKET');
-    }
 
     return {data: data}
 }
