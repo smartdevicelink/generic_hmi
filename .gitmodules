@@ -1,4 +1,4 @@
 [submodule "python_websocket"]
 	path = python_websocket
-	url = https://github.com/aaugustin/websockets.git
+	url = https://github.com/smartdevicelink/websockets.git
 	branch = 8.1
