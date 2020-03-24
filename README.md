@@ -71,6 +71,14 @@ Once SDL Core is setup, follow these steps to clone, build, and run the SDL Gene
 
 Clone this repository
 
+To initialize the git submodules in this project after cloning, run the following commands:
+```
+cd generic_hmi
+git submodule init
+git submodule update
+```
+Alternatively, you can clone this repository with the --recurse-submodules flag.
+
 Note: If you are not making any changes to the Generic HMI, you may skip straight to the last step and launch the Generic HMI in a web browser.
 
 Install webpack:
