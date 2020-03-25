@@ -85,7 +85,7 @@ class BCController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "SetAppProperties":
-                let success = (rpc.result.resultCode == 'SUCCESS')
+                let success = (rpc.result.code == 0)
                 let appsPendingSetAppProperties = store.getState().appStore.appsPendingSetAppProperties;
                 if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length == 0) {
                     console.error("SetAppProperties Response: no apps in pending queue");
@@ -115,7 +115,7 @@ class BCController {
                 }
                 return;
             case "GetAppProperties":
-                if (!rpc.result.success ||  !rpc.result.properties) {
+                if (rpc.result.code != 0 ||  !rpc.result.properties) {
                     console.error('Failed to GetAppProperties');
                     return;
                 }
