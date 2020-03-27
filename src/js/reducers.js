@@ -408,6 +408,10 @@ function ui(state = {}, action) {
             if (action.updateMode === "COUNTUP") {
                 app.updateTime = new Date().getTime()
             }
+            else if (action.updateMode === "COUNTDOWN") {
+                app.updateTime = new Date().getTime()
+                app.endTime = action.endTime ? action.endTime : null
+            }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.pauseTime = new Date().getTime()
                 app.updateTime = app.pauseTime
@@ -421,6 +425,8 @@ function ui(state = {}, action) {
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
+                app.startTime = null
+                app.endTime = null
             }
             app.updateMode = action.updateMode
             if(action.audioStreamingIndicator) {

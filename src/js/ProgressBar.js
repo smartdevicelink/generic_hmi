@@ -41,21 +41,32 @@ export default class ProgressBar extends React.Component {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
         var now = new Date().getTime()
-        // TODO: support more than just COUNTUP, move intervals and what not over here
         switch (this.props.updateMode) {
             case "PAUSE":
                 clearInterval(this.interval)
                 break        
             case "RESUME":
             case "COUNTUP":
+            case "COUNTDOWN":
                 clearInterval(this.interval)
                 this.interval = setInterval(this.forceUpdate.bind(this), 50)
                 break
         }
-        var timeSince = new Date(startDate.getTime() + now - this.props.now)
+
+        if (this.props.updateMode === "COUNTDOWN") {
+            var timeSince = new Date(now - this.props.now)
+            var position = new Date(startDate - timeSince)
+            position = position < endDate ? endDate : position
+            var endPosition = startDate
+        }
+        else {
+            timeSince = new Date(startDate.getTime() + now - this.props.now)
+            position = timeSince > endDate ? endDate : timeSince
+            endPosition = endDate
+        }
 
         let progressStyle = {
-            width: this.percentage(timeSince, endDate) + "%",
+            width: this.percentage(position, endPosition) + "%",
             backgroundColor: this.getPrimaryColorScheme()
         }
 
