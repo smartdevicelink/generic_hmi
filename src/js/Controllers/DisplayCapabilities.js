@@ -5,6 +5,15 @@ let softButtonCapability = {
 	"imageSupported": true,
 	"textSupported": true
 }
+
+let imageButtonCapability = {
+	"shortPressAvailable": true,
+	"longPressAvailable": false,
+	"upDownAvailable": false,
+	"imageSupported": true,
+	"textSupported": false
+}
+
 let capabilities = {
 	"MEDIA": {
 		"displayCapabilities": {
@@ -182,8 +191,8 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		}, 
 		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability
+			imageButtonCapability,
+			imageButtonCapability
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
@@ -905,15 +914,7 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability
-		]
+		}
 	},
 	"GRAPHIC_WITH_TEXTBUTTONS": {
 		"displayCapabilities": {
@@ -1749,15 +1750,7 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability
-		]
+		}
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
