@@ -67,8 +67,8 @@ class SDLController {
                 let regular_ptu_flow = () => {
                     if(flags.ExternalPolicies) {
                         externalPolicies.pack({            
-                            type: 'PROPRIETARY',
-                            policyUpdateFile: state.system.policyFile,
+                            requestType: 'PROPRIETARY',
+                            fileName: state.system.policyFile,
                             urls: state.system.urls,
                             retry: state.system.policyRetry,
                             timeout: state.system.policyTimeout

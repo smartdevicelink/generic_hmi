@@ -71,7 +71,11 @@ class BCController {
                     return true
                 }
                 if(flags.ExternalPolicies) {
-                    externalPolicies.unpack(rpc.params.fileName)
+                    externalPolicies.unpack({
+                        requestType: rpc.params.requestType,
+                        requestSubType: rpc.params.requestSubType,
+                        fileName: rpc.params.fileName
+                      })
                 } else {
                     sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
                 } 
