@@ -66,13 +66,18 @@ class BCController {
                 sdlController.getPolicyConfiguration("module_config", "endpoints");
                 return true;
             case "SystemRequest":
-                if (rpc.params.requestType != "PROPRIETARY") {
-                    // Generic HMI can only process PROPRIETARY System Requests
-                    return true
-                }
                 if(flags.ExternalPolicies) {
-                    externalPolicies.unpack(rpc.params.fileName)
+                    externalPolicies.unpack({
+                        requestType: rpc.params.requestType,
+                        requestSubType: rpc.params.requestSubType,
+                        fileName: rpc.params.fileName
+                      })
                 } else {
+                    if (rpc.params.requestType != "PROPRIETARY") {
+                        // Generic HMI can only process PROPRIETARY System Requests
+                        return true
+                    }
+    
                     sdlController.onReceivedPolicyUpdate(rpc.params.fileName)
                 } 
                 return true
