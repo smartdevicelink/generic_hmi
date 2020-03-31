@@ -1594,15 +1594,7 @@ let capabilities = {
 			},
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability
-		]
+		}
 	},
 	"GRAPHIC_WITH_TEXT": {
 		"displayCapabilities": {
