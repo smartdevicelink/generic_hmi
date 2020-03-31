@@ -16,8 +16,7 @@ export default class SoftButtons extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                           
                         >
                                 {softButton.text}                                
                         </div>)
@@ -28,8 +27,7 @@ export default class SoftButtons extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text}                                
                         </div>)
@@ -40,8 +38,7 @@ export default class SoftButtons extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text}                                
                         </div>)
@@ -52,8 +49,7 @@ export default class SoftButtons extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text}                                
                         </div>)
@@ -65,8 +61,7 @@ export default class SoftButtons extends React.Component {
                                 key={softButton.softButtonID}
                                 /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                                 onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                
+                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                                
                             >
                                 {softButton.text}                                
                         </div>)
@@ -75,8 +70,7 @@ export default class SoftButtons extends React.Component {
                                 key={softButton.softButtonID}
                                 /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                                 onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                
+                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                                
                             >
                                 {softButton.text}                                
                         </div>)
@@ -88,8 +82,7 @@ export default class SoftButtons extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                         
                         >
                                 {softButton.text}                                
                         </div>)

@@ -55,8 +55,7 @@ class SoftButtonsBody extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -72,8 +71,7 @@ class SoftButtonsBody extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -89,8 +87,7 @@ class SoftButtonsBody extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -106,8 +103,7 @@ class SoftButtonsBody extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                           
                         >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -124,8 +120,7 @@ class SoftButtonsBody extends React.Component {
                                 key={softButton.softButtonID}
                                 /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                                 onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                
+                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                                
                             >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -139,8 +134,7 @@ class SoftButtonsBody extends React.Component {
                                 key={softButton.softButtonID}
                                 /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                                 onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                                
+                                onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                                
                             >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
@@ -157,8 +151,7 @@ class SoftButtonsBody extends React.Component {
                             key={softButton.softButtonID}
                             /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
                             onMouseDown={() => this.props.onButtonDown(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}
-                            
+                            onMouseUp={() => this.props.onButtonUp(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}                            
                         >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
