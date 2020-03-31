@@ -43,6 +43,7 @@ export default class ProgressBar extends React.Component {
         var now = new Date().getTime()
         switch (this.props.updateMode) {
             case "PAUSE":
+            case "CLEAR":
                 clearInterval(this.interval)
                 break        
             case "RESUME":
