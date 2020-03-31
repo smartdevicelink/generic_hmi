@@ -184,8 +184,37 @@ const mapStateToProps = (state) => {
     return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
+var buttonPressMap = {};
+
+const onLongButtonPress = (appID, buttonID, buttonName) => {
+    if (buttonPressMap[appID][buttonID].hasOwnProperty(buttonName) 
+        && buttonPressMap[appID][buttonID][buttonName] === true) {
+        buttonPressMap[appID][buttonID][buttonName] = false;
+        uiController.onLongButtonPress(appID, buttonID, buttonName);
+    }    
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
+        onButtonDown: (appID, buttonID, buttonName) => {
+            buttonPressMap[appID] = {};
+            buttonPressMap[appID][buttonID] = {};
+            buttonPressMap[appID][buttonID][buttonName] = true;
+            setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
+        },
+        onButtonUp: (appID, buttonID, buttonName) => {
+            if (buttonPressMap[appID][buttonID][buttonName] === true) {
+                // Short press
+                buttonPressMap[appID][buttonID][buttonName] = false;
+                uiController.onButtonPress(appID, buttonID, buttonName)
+            } else if (buttonPressMap[appID][buttonID][buttonName] === false){
+                // Long press
+            } else {
+                return;
+            }
+            delete buttonPressMap[appID][buttonID][buttonName];
+            
+        },
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
