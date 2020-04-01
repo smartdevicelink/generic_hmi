@@ -6,8 +6,13 @@ let softButtonCapability = {
 	"textSupported": true
 }
 
-let imageButtonCapability = softButtonCapability
-imageButtonCapability.textSupported = false
+let imageButtonCapability = {
+	"shortPressAvailable": true,
+	"longPressAvailable": false,
+	"upDownAvailable": false,
+	"imageSupported": true,
+	"textSupported": false
+}
 
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
