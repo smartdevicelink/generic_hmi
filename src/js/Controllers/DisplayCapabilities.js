@@ -6,14 +6,6 @@ let softButtonCapability = {
 	"textSupported": true
 }
 
-let imageButtonCapability = {
-	"shortPressAvailable": true,
-	"longPressAvailable": false,
-	"upDownAvailable": false,
-	"imageSupported": true,
-	"textSupported": false
-}
-
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
@@ -179,8 +171,8 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		}, 
 		"softButtonCapabilities": [
-			imageButtonCapability,
-			imageButtonCapability
+			softButtonCapability,
+			softButtonCapability
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
