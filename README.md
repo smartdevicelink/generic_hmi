@@ -2,76 +2,15 @@
 
 ## Get an instance of SDL Core running
 
-There are two options for running SDL Core. You can either clone and compile the code yourself on an Ubuntu virtual machine, or you may use a Docker instance of SDL Core.
+Note: This requires you to use Ubuntu 16.04 or 18.04.
 
-### Option 1: Build & Run SDL Core Locally
-
-Note: This option requires you to use Ubuntu 14.04. If you do not have an Ubuntu environment available, please use setup option 2. 
-
-#### Compile Core
-
-  1. [Clone the SDL Core repository](https://github.com/smartdevicelink/sdl_core)
-  2. Create a folder for your build and run `cmake ../sdl_core`
-  3. If there are any dependency issues, install missing dependencies:
-  
-  
-```
-sudo apt-get install git cmake build-essential libavahi-client-dev libsqlite3-dev chromium-browser libssl-dev libudev-dev libgtest-dev libbluetooth3 libbluetooth-dev bluez-tools gstreamer1.0* libpulse-dev
-```
-    
-  4. Run the following commands to compile and install SDL Core
-
-
-
-```
-make
-make install
-```
-
-#### Start SDL Core
-Once SDL Core is compiled and installed you can start it from the executable in the bin folder
-
-```
-cd bin/
-./start.sh
-```
-
-### Option 2: Use Docker Instance
-
-[Install Docker](https://docs.docker.com/engine/installation/)
-
-*Docker version greater than 1.8 is required for OS X*
-
-Start a Docker container containing the latest version of core:
-```
-docker run -d -p 12345:12345 -p 8087:8087 -p 3001:3001 --name core smartdevicelink/core:latest
-```
-
-*This [run](https://docs.docker.com/engine/reference/run/) command is starting a docker container in detached mode `-d` (so it won't take over your terminal). It then maps the ports `-p` 3001, 8080, 8087, 12345 of your machine to the same ports in the container. So the container can be easily referenced it is given the name `--name` core.*
-
-Core is now running and exposing ports for communication. Core logs can be viewed using:
-```
-docker logs -f core
-```
-*The `-f` flag allows the Docker [logs](https://docs.docker.com/engine/reference/commandline/logs/) output to be followed in terminal*
-
-#### Core communication ports
-The Docker instance of Core exposes multiple ports for different types of communication:
-
-| TCP port       | description                                                 	        |
-|----------------|----------------------------------------------------------------------|
-| 3001           | Exposes core's file system in `/usr/sdl/bin/storage`                 |        
-| 8087           | Websocket used by the HMI to communicate with SDL Core               |
-| 12345          | SDL Core's port used to communicate with mobile application over TCP |
-
+Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
 ## Start the HMI
 
-Once SDL Core is setup, follow these steps to clone, build, and run the SDL Generic HMI.
+Once SDL Core is running, follow these steps to set up the Generic HMI.
 
-Clone this repository
-
-To initialize the git submodules in this project after cloning, run the following commands:
+First, clone this repository. Once cloned, you can initialize the git submodules in this project by running the following commands:
 ```
 cd generic_hmi
 git submodule init
@@ -79,7 +18,26 @@ git submodule update
 ```
 Alternatively, you can clone this repository with the --recurse-submodules flag.
 
-Note: If you are not making any changes to the Generic HMI, you may skip straight to the last step and launch the Generic HMI in a web browser.
+After initializing the git submodules for this project, you can launch the Generic HMI in a web browser:
+```
+chromium-browser index.html
+```
+
+### PTU with vehicle modem (optional)
+
+In order to get policy table updates using the vehicle modem, some additional setup is required
+
+1. Run `deploy_server.sh` in the root folder
+2. Run the HMI normally
+3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+
+## Developing/Modifying the HMI
+
+The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. The HMI component of SDL is responsible for processing and responding to RPCs which are received from a connected SDL Core instance.
+
+### Building the HMI
+
+Before any changes can be made to the HMI, you will first need to set up your environment to allow for building the Generic HMI.
 
 Install webpack:
 ```
@@ -91,61 +49,19 @@ Install dependencies (you might need to clean the `node_modules` folder):
 npm install
 ```
 
-Run webpack
-
+Run webpack:
 ```
 webpack
 ```
+Note: This command must be run before relaunching the HMI in the browser to see any changes made.
 
-Launch the Generic HMI in a web browser
+### Key Files
 
-```
-chromium-browser index.html
-```
-
-## Usage
-
-Core should already be running. To verify, use the following command and you should see a container with the name `core`:
-```
-docker ps
-```
-
-Connect **SyncProxyTester** to the instance of core running on your machine. The IP should be your machine's IP address and the port is `12345`
-
-Open (or refresh) the running HMI in a chrominium based browser (chrome). By default it is running at [http://localhost:3000/](http://localhost:3000/)
-
-**IMPORTANT** If you need to restart the HMI then Core must also be restarted! Just restart the Docker container using:
-```
-docker restart core
-```
-then go through the usage instructions again.
-
-### PTU with vehicle modem (optional)
-
-In order to get policy table updates using the vehicle modem, some additional setup is required
-```
-1. Run `deploy_server.sh`
-2. Run the HMI normally
-3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
-```
-
-## Developing the HMI
-
-The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. Implement an SDL HMI is an exercise in receiving, processing, and responding to RPCs which are coming from a connected SDL Core instance.
-
-
-Note: After making any changes to the Generic HMI, you must run 
-```
-webpack
-```
-before relaunching the HMI in the browser to see any changes made.
-
-
-### entry.js
+#### entry.js
 
 This is the main entry point for the entire application. It sets up the routes and highest level components in the React app. Once the application is loaded, it attempts to connect to an instance of SDL Core.
 
-### Controllers/Controller.js
+#### Controllers/Controller.js
 
 This is the main path to all things SDL related. The Controller routes RPCs coming from SDL to sub-controllers so that they can be handled, and responds to SDL. Sub-controllers all implement a `handleRPC()` function. The handleRPC function returns true if the Controller should respond with a generic success to SDL, return false for a generic false, return an object with a key of `rpc` to respond with a custom RPC, and return `null` if the Controller should not respond (such as in the case of incoming notifications from SDL). The Controller also implements a `sanitize` function which can be used to manipulate RPCs before they're sent off to a sub-controller to be handled.
 
@@ -361,7 +277,7 @@ The only thing left to do now is to make sure the connected React Component is p
 onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID)}>
 ```
 
-#### Changing the router history
+### Changing the router history
 
 The last common activity required to implement an SDL HMI completely is the ability to change views based on messages received by SDL. Views in the React Application are defined by Routes. When a user selects an item that changes the view, a route is taken such as `/inapplist`. We can force a route to be taken using React Routers `withRouter`. Right now, since the AppHeader component is rendered in every single view, it is responsible for forcing a change to routing history (thereby changing the view) when it renders. So the flow is
 
