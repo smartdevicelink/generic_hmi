@@ -291,16 +291,36 @@ class UIController {
         button.mode = "SHORT"
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
-    onLongButtonPress(appID, buttonID, buttonName) {
+    onButtonEventDown(appID, buttonID, buttonName) {
         var button = {
             name: buttonName,
             mode: "BUTTONDOWN",
             customButtonID: buttonID
         }
         this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
-        button.mode = "BUTTONUP"
+    }
+    onButtonEventUp(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "BUTTONUP",
+            customButtonID: buttonID
+        }
         this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
-        button.mode = "LONG"
+    }
+    onShortButtonPress(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "SHORT",
+            customButtonID: buttonID
+        }
+        this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
+    }
+    onLongButtonPress(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "LONG",
+            customButtonID: buttonID
+        }
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
     failInteractions() {

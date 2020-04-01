@@ -201,17 +201,19 @@ const mapDispatchToProps = (dispatch) => {
             buttonPressMap[appID][buttonID] = {};
             buttonPressMap[appID][buttonID][buttonName] = true;
             setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
+            uiController.onButtonEventDown(appID, buttonID, buttonName);
         },
         onButtonUp: (appID, buttonID, buttonName) => {
             if (buttonPressMap[appID][buttonID][buttonName] === true) {
                 // Short press
                 buttonPressMap[appID][buttonID][buttonName] = false;
-                uiController.onButtonPress(appID, buttonID, buttonName)
+                uiController.onShortButtonPress(appID, buttonID, buttonName)
             } else if (buttonPressMap[appID][buttonID][buttonName] === false){
                 // Long press
             } else {
                 return;
             }
+            uiController.onButtonEventUp(appID, buttonID, buttonName);
             delete buttonPressMap[appID][buttonID][buttonName];
             
         },
