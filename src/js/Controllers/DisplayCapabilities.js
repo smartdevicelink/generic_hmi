@@ -55,7 +55,92 @@ function imageField(name, width, height) {
 	}
 }
 
+// Store capabilities of mirrored templates
+let textWithGraphicCapabilities = {
+	"displayCapabilities": {
+		"displayType": "SDL_GENERIC",
+		"displayName": "GENERIC_DISPLAY",
+		"textFields": [
+			textField("mainField1"),
+			textField("mainField2"),
+			textField("mainField3"),
+			textField("mainField4"),
+			textField("templateTitle", 50),
+			textField("alertText1"),
+			textField("alertText2"),
+			textField("alertText3"),
+			textField("menuName"),
+			textField("secondaryText"),
+			textField("tertiaryText"),
+			textField("menuTitle")
+		],
+		"imageFields": [
+			imageField("choiceImage", 40),
+			imageField("menuIcon", 40),
+			imageField("cmdIcon", 150),
+			imageField("appIcon", 50),
+			imageField("graphic", 410),
+			imageField("alertIcon", 225)
+		],
+		"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
+		"graphicSupported": true,
+		"templatesAvailable": templatesAvailable,
+		"screenParams": screenParams,
+		"imageCapabilities": ["DYNAMIC", "STATIC"],
+		"menuLayoutsAvailable": ["LIST", "TILES"]
+	}
+}
+
+let textbuttonsWithGraphicCapabilities = {
+	"displayCapabilities": {
+		"displayType": "SDL_GENERIC",
+		"displayName": "GENERIC_DISPLAY",
+		"textFields": [
+			textField("alertText1"),
+			textField("alertText2"),
+			textField("alertText3"),
+			textField("templateTitle", 50),
+			textField("menuName"),
+			textField("secondaryText"),
+			textField("tertiaryText"),
+			textField("menuTitle")
+		],
+		"imageFields": [
+			imageField("choiceImage", 40),
+			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 50),
+			imageField("menuIcon", 40),
+			imageField("cmdIcon", 150),
+			imageField("appIcon", 50),
+			imageField("graphic", 410),
+			imageField("alertIcon", 225)
+		],
+		"mediaClockFormats": [],
+		"graphicSupported": true,
+		"templatesAvailable": templatesAvailable,
+		"screenParams": screenParams,
+		"imageCapabilities": ["DYNAMIC", "STATIC"],
+		"menuLayoutsAvailable": ["LIST", "TILES"]
+	},
+	"softButtonCapabilities": [
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability
+	]
+}
+
 let capabilities = {
+	"TEXT_WITH_GRAPHIC": textWithGraphicCapabilities,
+	"GRAPHIC_WITH_TEXT": textWithGraphicCapabilities,
+	"TEXTBUTTONS_WITH_GRAPHIC": textbuttonsWithGraphicCapabilities,
+	"GRAPHIC_WITH_TEXTBUTTONS": textbuttonsWithGraphicCapabilities,
 	"MEDIA": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -290,94 +375,6 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		}
 	},
-	"GRAPHIC_WITH_TEXTBUTTONS": {
-		"displayCapabilities": {
-			"displayType": "SDL_GENERIC",
-			"displayName": "GENERIC_DISPLAY",
-			"textFields": [
-				textField("alertText1"),
-				textField("alertText2"),
-				textField("alertText3"),
-				textField("templateTitle", 50),
-				textField("menuName"),
-				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
-			],
-			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
-				imageField("appIcon", 50),
-				imageField("graphic", 410),
-				imageField("alertIcon", 225)
-			],
-			"mediaClockFormats": [],
-			"graphicSupported": true,
-			"templatesAvailable": templatesAvailable,
-			"screenParams": screenParams,
-			"imageCapabilities": ["DYNAMIC", "STATIC"],
-			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability
-		]
-	},
-	"TEXTBUTTONS_WITH_GRAPHIC": {
-		"displayCapabilities": {
-			"displayType": "SDL_GENERIC",
-			"displayName": "GENERIC_DISPLAY",
-			"textFields": [
-				textField("alertText1"),
-				textField("alertText2"),
-				textField("alertText3"),
-				textField("templateTitle", 50),
-				textField("menuName"),
-				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
-			],
-			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("softButtonImage", 50),
-				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
-				imageField("appIcon", 50),
-				imageField("graphic", 410),
-				imageField("alertIcon", 225)
-			],
-			"mediaClockFormats": [],
-			"graphicSupported": true,
-			"templatesAvailable": templatesAvailable,
-			"screenParams": screenParams,
-			"imageCapabilities": ["DYNAMIC", "STATIC"],
-			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability,
-			softButtonCapability
-		]
-	},
 	"TEXTBUTTONS_ONLY": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -420,74 +417,6 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		]
-	},
-	"TEXT_WITH_GRAPHIC": {
-		"displayCapabilities": {
-			"displayType": "SDL_GENERIC",
-			"displayName": "GENERIC_DISPLAY",
-			"textFields": [
-				textField("mainField1"),
-				textField("mainField2"),
-				textField("mainField3"),
-				textField("mainField4"),
-				textField("templateTitle", 50),
-				textField("alertText1"),
-				textField("alertText2"),
-				textField("alertText3"),
-				textField("menuName"),
-				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
-			],
-			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
-				imageField("appIcon", 50),
-				imageField("graphic", 410),
-				imageField("alertIcon", 225)
-			],
-			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
-			"graphicSupported": true,
-			"templatesAvailable": templatesAvailable,
-			"screenParams": screenParams,
-			"imageCapabilities": ["DYNAMIC", "STATIC"],
-			"menuLayoutsAvailable": ["LIST", "TILES"]
-		}
-	},
-	"GRAPHIC_WITH_TEXT": {
-		"displayCapabilities": {
-			"displayType": "SDL_GENERIC",
-			"displayName": "GENERIC_DISPLAY",
-			"textFields": [
-				textField("mainField1"),
-				textField("mainField2"),
-				textField("mainField3"),
-				textField("mainField4"),
-				textField("templateTitle", 50),
-				textField("alertText1"),
-				textField("alertText2"),
-				textField("alertText3"),
-				textField("menuName"),
-				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
-			],
-			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
-				imageField("appIcon", 50),
-				imageField("graphic", 410),
-				imageField("alertIcon", 225)
-			],
-			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
-			"graphicSupported": true,
-			"templatesAvailable": templatesAvailable,
-			"screenParams": screenParams,
-			"imageCapabilities": ["DYNAMIC", "STATIC"],
-			"menuLayoutsAvailable": ["LIST", "TILES"]
-		}
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
