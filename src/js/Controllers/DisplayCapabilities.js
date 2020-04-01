@@ -1,7 +1,7 @@
 let softButtonCapability = {
 	"shortPressAvailable": true,
-	"longPressAvailable": false,
-	"upDownAvailable": false,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
 	"imageSupported": true,
 	"textSupported": true
 }
