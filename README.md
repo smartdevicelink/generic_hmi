@@ -39,9 +39,11 @@ The main third-party technologies we use to develop this HMI are React, React-Re
 
 Before any changes can be made to the HMI, you will first need to set up your environment to allow for building the Generic HMI.
 
+Note: These instructions are written for Node version 7.2 
+
 Install webpack:
 ```
-npm install -g webpack
+npm install -g webpack@1.11
 ```
 
 Install dependencies (you might need to clean the `node_modules` folder):
