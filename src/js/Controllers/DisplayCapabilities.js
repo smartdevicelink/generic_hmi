@@ -7,8 +7,8 @@ let softButtonCapability = {
 }
 let imageOnlySoftButtonCapability = {
 	"shortPressAvailable": true,
-	"longPressAvailable": false,
-	"upDownAvailable": false,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
 	"imageSupported": true,
 	"textSupported": false
 }
