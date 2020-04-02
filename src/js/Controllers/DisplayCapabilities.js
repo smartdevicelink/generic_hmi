@@ -194,26 +194,26 @@ let capabilities = {
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
+				"longPressAvailable": true,
+				"upDownAvailable": true,
 				"name": "OK"
 			},
 			{
 				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
+				"longPressAvailable": true,
+				"upDownAvailable": true,
 				"name": "PLAY_PAUSE"
 			},
 			{
 				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
+				"longPressAvailable": true,
+				"upDownAvailable": true,
 				"name": "SEEKLEFT"
 			},
 			{
 				"shortPressAvailable": true,
-				"longPressAvailable": false,
-				"upDownAvailable": false,
+				"longPressAvailable": true,
+				"upDownAvailable": true,
 				"name": "SEEKRIGHT"
 			}
 		]
