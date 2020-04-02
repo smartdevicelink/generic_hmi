@@ -83,6 +83,7 @@
     margin-bottom: 20px;
 
     @include display(flex);
+    @include flex-direction(column-reverse);
     @include align-items(center);
     @include justify-content(center);
 }
