@@ -5,6 +5,13 @@ let softButtonCapability = {
 	"imageSupported": true,
 	"textSupported": true
 }
+let imageOnlySoftButtonCapability = {
+	"shortPressAvailable": true,
+	"longPressAvailable": false,
+	"upDownAvailable": false,
+	"imageSupported": true,
+	"textSupported": false
+}
 let capabilities = {
 	"MEDIA": {
 		"displayCapabilities": {
@@ -182,8 +189,8 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		}, 
 		"softButtonCapabilities": [
-			softButtonCapability,
-			softButtonCapability
+			imageOnlySoftButtonCapability,
+			imageOnlySoftButtonCapability
 		],
 		"buttonCapabilities": [{
 				"shortPressAvailable": true,
