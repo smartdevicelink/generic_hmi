@@ -24,12 +24,21 @@ export default class AlbumArt extends React.Component {
                     fillColor = "#000000"
                 }
 
+                var style = {
+                    height: "100%", 
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center"
+                }
+
                 return (
                     <div className="album-art">
-                        <Image class="th-box-shadow" 
-                            image={this.props.image} 
-                            isTemplate={this.props.isTemplate}
-                            fillColor={fillColor}/>
+                        <div style={style} className="th-box-shadow">
+                            <Image
+                                image={this.props.image} 
+                                isTemplate={this.props.isTemplate}
+                                fillColor={fillColor}/>
+                        </div>    
                     </div>
                 )
             }
