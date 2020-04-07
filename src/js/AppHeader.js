@@ -7,8 +7,39 @@ import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
 import {resetShowAppMenu} from './actions'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
 
+import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
+import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
 
+class AppStoreIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstore">
+                    <div className="app-icon">
+                        <div className="static-icon">
+                            <span className="svg-wrap">
+                                <IconCart/>
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>);
+    }
+}
+
+class AppStoreMenuIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstoremenu">
+                    <span className="svg-wrap">
+                        <IconMenu/>
+                    </span>
+                </Link>
+            </div>);
+    }
+}
 
 class AppHeader extends React.Component {
 
@@ -31,7 +62,16 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
-        const icon = this.props.appIcon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+        var icon = this.props.appIcon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+
+        if (this.props.icon == 'store') {
+            if (this.props.isAppStoreConnected) {
+                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+            }
+            else{
+                icon = (<div />)
+            }
+        }
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
@@ -56,7 +96,11 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
-        if (nextProps.isDisconnected && nextProps.location.pathname !== "/") {
+        if (!this.props.isDisconnected 
+            && nextProps.isDisconnected 
+            && nextProps.location.pathname !== "/" 
+            && nextProps.location.pathname !== "/appstore" 
+            && nextProps.location.pathname !== "/appstoremenu") {
             this.props.history.push("/")
         }
         else if (nextProps.location.pathname !== "/inapplist"
@@ -99,5 +143,12 @@ class AppHeader extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isAppStoreConnected: state.appStore.isConnected
+    }
+}
+AppHeader = connect(mapStateToProps)(AppHeader)
 
 export default withRouter(AppHeader)

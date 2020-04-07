@@ -25,12 +25,21 @@ export const Actions = {
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     SET_URLS: "SET_URLS",
+    SET_PTU_WITH_MODEM: "SET_PTU_WITH_MODEM",
     UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
-    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES"
+    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
+    UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
+    UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
+    UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
+    ADD_APP_PENDING_SET_APP_PROPERTIES: "ADD_APP_PENDING_SET_APP_PROPERTIES",
+    APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
+    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
+    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
 }
 
 export const updateAppList = (applications) => {
@@ -259,6 +268,12 @@ export const setURLS = (urls) => {
     }
 }
 
+export const setPTUWithModem = (enabled) => {
+    return {
+        type: Actions.SET_PTU_WITH_MODEM,
+        enabled: enabled
+    }
+}
 
 export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
     return {
@@ -309,5 +324,63 @@ export const setGlobalProperties = (appID, menuLayout) => {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
         menuLayout: menuLayout
+    }
+}
+
+export const updateAppStoreConnectionStatus = (isConnected) => {
+    return {
+        type: Actions.UPDATE_APPSTORE_CONNECTION_STATUS,
+        isConnected: isConnected 
+    }
+}
+
+export const updateAvailableAppStoreApps = (availableApps) => {
+    return {
+        type: Actions.UPDATE_AVAILABLE_APPSTORE_APPS,
+        availableApps: availableApps
+    };
+}
+
+export const updateInstalledAppStoreApps = (installedApp) => {
+    return {
+        type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
+        installedApp: installedApp
+    };
+}
+
+export const addAppPendingSetAppProperties = (app, enable) => {
+    return {
+        type: Actions.ADD_APP_PENDING_SET_APP_PROPERTIES,
+        app: app,
+        enable: enable
+    }
+}
+
+export const appStoreAppInstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_INSTALLED,
+        success: success
+    }
+}
+
+export const appStoreAppUninstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_UNINSTALLED,
+        success: success
+    }
+}
+
+export const webEngineAppLaunch = (policyAppID, appID) => {
+    return {
+        type: Actions.WEBENGINE_APP_LAUNCH,
+        policyAppID: policyAppID,
+        appID: appID
+    }
+}
+
+export const appStoreBeginInstall = (policyAppID) => {
+    return {
+        type: Actions.APPSTORE_BEGIN_INSTALL,
+        policyAppID: policyAppID
     }
 }

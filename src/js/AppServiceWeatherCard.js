@@ -30,7 +30,7 @@ export default class AppServiceWeatherCard extends React.Component {
         var precipProbabilityLine = weatherData.precipProbability ? (
             <div className="weather-line">
                 <p className="t-medium t-large">
-                    {weatherData.precipProbability}
+                    {weatherData.precipProbability.toFixed(0)}
                 </p>
                 <p className="t-light t-small">
                     % prec.

@@ -1,12 +1,26 @@
 import { connect } from 'react-redux'
+import store from '../store'
 import HScrollMenu from '../HScrollMenu'
+import { webEngineAppLaunch } from '../actions'
 import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
-    var data = state.appList.map ((app, index) => {
+    var appList = state.appList;
+
+    if (!state.appStore.isConnected) {
+        appList = appList.filter(app => app.deviceInfo.transportType !== 'WEBENGINE_WEBSOCKET')
+    }
+
+    var data = appList.map ((app) => {
         var icon = ""
         if (app.icon) {
             icon = app.icon.replace("local:", "file:")
+        }
+        else {
+            var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID == app.policyAppID);
+            if (appDirEntry) {
+                icon = appDirEntry.iconUrl;
+            }
         }
         var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
         var link = "media"
@@ -23,16 +37,35 @@ const mapStateToProps = (state) => {
             devicename: devicename,
             image: icon,
             link: '/' + link,
-            cmdID: app.appID
+            cmdID: app,
+            greyOut: app.greyOut
         }
     })
+
     return {data: data}
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID) => {
-            sdlController.onAppActivated(appID)
+        onSelection: (appID, app) => {
+            let state = store.getState();
+            var webEngineApp = state.appStore.installedApps.find(x => x.policyAppID === app.policyAppID);
+
+            if (!webEngineApp || webEngineApp.runningAppId) {
+                sdlController.onAppActivated(appID)
+                return;
+            }
+
+            dispatch(webEngineAppLaunch(app.policyAppID, appID));
+
+            var activateAppOnceRegistered = setInterval(() => {
+                if (!app.isRegistered) {
+                    return;
+                }
+                
+                sdlController.onAppActivated(app.appID);
+                clearInterval(activateAppOnceRegistered);
+            }, 250);
         }
     }
 }

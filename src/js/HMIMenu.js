@@ -8,7 +8,7 @@ export default class HMIMenu extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader appIcon="false" backLink="" appName="Menu" />
+                <AppHeader icon="store" backLink="" appName="Menu" />
                 <AppList />
                 <AppServices />
             </div>
