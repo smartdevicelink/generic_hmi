@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
         if(state.ui[prop].alert.showAlert){
             showAlert = true
             var alertApp = state.appList.find((key) => {
-                return key.appID === prop
+                return key.appID === parseInt(prop)
             })
 
             if(alertApp.appName) {
