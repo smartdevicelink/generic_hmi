@@ -60,6 +60,8 @@ export default class ControlBar extends React.Component {
                 id={button.id}
                 appID={this.props.appID}
                 onButtonPress={this.props.onButtonPress}
+                onButtonDown={this.props.onButtonDown}
+                onButtonUp={this.props.onButtonUp}
                 theme={this.props.theme}
                 isTemplate={button.isTemplate}
                 highlightColor={this.getHighlightColor(button)}/>)

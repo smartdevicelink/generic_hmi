@@ -43,12 +43,18 @@ class SoftButtonsBody extends React.Component {
         var primaryStyle = this.getPrimaryColorScheme();
         var cssColorStyle = Object.assign(primaryStyle ? primaryStyle : {}, 
                                             secondaryStyle ? secondaryStyle : {});
+        
+        var mouseDown = (button) => this.props.onButtonDown(this.props.appID, button.softButtonID, "CUSTOM_BUTTON");
+        var mouseUp = (button) => this.props.onButtonUp(this.props.appID, button.softButtonID, "CUSTOM_BUTTON");
 
         if(softButtons.length === 1) {
             items = softButtons.map((softButton, index) => {
                 return (<div className="soft-button-tile-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                             key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                            /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                            onMouseDown={() => mouseDown(softButton)}
+                            onMouseUp={() => mouseUp(softButton)}                            
+                        >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -61,7 +67,10 @@ class SoftButtonsBody extends React.Component {
             items = softButtons.map((softButton, index) => {
                 return (<div className="soft-button-tile-wide-large th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                             key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                            /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                            onMouseDown={() => mouseDown(softButton)}
+                            onMouseUp={() => mouseUp(softButton)}                            
+                        >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -74,7 +83,10 @@ class SoftButtonsBody extends React.Component {
             items = softButtons.map((softButton, index) => {
                 return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                             key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                            /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                            onMouseDown={() => mouseDown(softButton)}
+                            onMouseUp={() => mouseUp(softButton)}                            
+                        >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -87,7 +99,10 @@ class SoftButtonsBody extends React.Component {
             items = softButtons.map((softButton, index) => {
                 return (<div className="soft-button-tile th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                             key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                            /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                            onMouseDown={() => mouseDown(softButton)}
+                            onMouseUp={() => mouseUp(softButton)}                           
+                        >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -101,7 +116,10 @@ class SoftButtonsBody extends React.Component {
                 if (index === 4) {
                     return (<div className="soft-button-tile-wide th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                                 key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                                /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                                onMouseDown={() => mouseDown(softButton)}
+                                onMouseUp={() => mouseUp(softButton)}                                
+                            >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -112,7 +130,10 @@ class SoftButtonsBody extends React.Component {
                 } else {
                     return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                                 key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                                /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                                onMouseDown={() => mouseDown(softButton)}
+                                onMouseUp={() => mouseUp(softButton)}                                
+                            >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
@@ -126,7 +147,10 @@ class SoftButtonsBody extends React.Component {
             items = softButtons.map((softButton, index) => {
                 return (<div className="soft-button-tile-small th-f-color t-small t-light th-bg-color th-soft-buttons soft-button" style={cssColorStyle}
                             key={softButton.softButtonID}
-                            onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}>
+                            /*onClick={() => this.props.onButtonPress(this.props.appID, softButton.softButtonID, "CUSTOM_BUTTON")}*/
+                            onMouseDown={() => mouseDown(softButton)}
+                            onMouseUp={() => mouseUp(softButton)}                            
+                        >
                                 {softButton.text ? (<p>{softButton.text}</p>) : null}
                                 {softButton.image ? (<SoftButtonImage image={softButton.image.value} 
                                     imageType={softButton.image.imageType}
