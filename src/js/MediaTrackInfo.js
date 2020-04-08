@@ -42,7 +42,7 @@ export default class MediaTrackInfo extends React.Component {
                 return null
         }
         if (startDate) {
-            if (this.props.updateMode === "COUNTDOWN") {
+            if (this.props.countDirection === "COUNTDOWN") {
                 var timeSince = new Date(now - this.props.now)
                 var position = new Date(startDate - timeSince)
 

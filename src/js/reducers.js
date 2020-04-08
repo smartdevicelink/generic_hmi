@@ -25,6 +25,7 @@ function newAppState () {
             seconds: 0
         },
         updateMode: "CLEAR",
+        countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
         pauseTime: new Date().getTime(),
         isDisconnected: false,
@@ -406,11 +407,18 @@ function ui(state = {}, action) {
                 app.endTime = action.endTime
             }
             if (action.updateMode === "COUNTUP") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "COUNTDOWN") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
-                app.endTime = action.endTime ? action.endTime : null
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.pauseTime = new Date().getTime()
