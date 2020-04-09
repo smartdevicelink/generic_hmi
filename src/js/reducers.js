@@ -406,6 +406,7 @@ function ui(state = {}, action) {
             if (action.endTime) {
                 app.endTime = action.endTime
             }
+
             if (action.updateMode === "COUNTUP") {
                 if (action.updateMode != app.countDirection) {
                     app.endTime = action.endTime ? action.endTime : null
@@ -424,13 +425,12 @@ function ui(state = {}, action) {
                 app.pauseTime = new Date().getTime()
                 app.updateTime = app.pauseTime
             }
-            else if (action.updateMode === "PAUSE") {
+            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
                 app.pauseTime = new Date().getTime()
             }
             else if (action.updateMode === "RESUME" && app.pauseTime) {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
-                app.pauseTime = null
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
@@ -440,6 +440,9 @@ function ui(state = {}, action) {
             app.updateMode = action.updateMode
             if(action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
+            }
+            if (action.updateMode !== "PAUSE") {
+                app.pauseTime = null
             }
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:

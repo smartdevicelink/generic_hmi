@@ -26,8 +26,7 @@ export default class MediaTrackInfo extends React.Component {
     render() {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
-        var now = new Date().getTime()
-        // TODO: support more than just COUNTUP, move intervals and what not over here
+        var now = this.props.pauseTime ? this.props.pauseTime : new Date().getTime()
         switch (this.props.updateMode) {
             case "PAUSE":
                 clearInterval(this.interval)
@@ -43,7 +42,7 @@ export default class MediaTrackInfo extends React.Component {
         }
         if (startDate) {
             if (this.props.countDirection === "COUNTDOWN") {
-                var timeSince = new Date(now - this.props.now)
+                var timeSince = new Date(now - this.props.updateTime)
                 var position = new Date(startDate - timeSince)
 
                 // Clamp position to timer bounds
@@ -51,7 +50,7 @@ export default class MediaTrackInfo extends React.Component {
                 var endTime = ""
             }
             else {
-                var timeSince = new Date(startDate.getTime() + now - this.props.now)
+                var timeSince = new Date(startDate.getTime() + now - this.props.updateTime)
                 // Clamp position to timer bounds
                 position = endDate && timeSince > endDate ? endDate : timeSince
 

@@ -47,7 +47,8 @@ const mapStateToProps = (state) => {
         endDate: endDate,
         updateMode: app.updateMode,
         countDirection: app.countDirection,
-        now: app.updateTime,
+        updateTime: app.updateTime,
+        pauseTime: app.pauseTime,
         colorScheme: colorScheme
     }
 }
