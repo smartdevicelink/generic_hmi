@@ -27,7 +27,7 @@ function newAppState () {
         updateMode: "CLEAR",
         countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
-        pauseTime: new Date().getTime(),
+        pauseTime: null,
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -427,9 +427,10 @@ function ui(state = {}, action) {
             else if (action.updateMode === "PAUSE") {
                 app.pauseTime = new Date().getTime()
             }
-            else if (action.updateMode === "RESUME") {
+            else if (action.updateMode === "RESUME" && app.pauseTime) {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
+                app.pauseTime = null
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
