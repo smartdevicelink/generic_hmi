@@ -69,6 +69,7 @@ class RpcFactory {
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
+                "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
                 "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
                 "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
