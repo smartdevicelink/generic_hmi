@@ -36,6 +36,32 @@ class UIController {
     addListener(listener) {
         this.listener = listener
     }
+
+    isColorSchemeEqual(left, right) {
+        //utility functions to compare colors
+        let isColorEqual = function (colorLeft, colorRight) {
+            return colorLeft["red"] === colorRight["red"] 
+            && colorLeft["green"] === colorRight["green"]
+            && colorLeft["blue"] === colorRight["blue"];
+        };
+
+        let compareSchemesByColor = function (lhs, rhs, color) {
+            let colorInLhs = lhs ? color in lhs : null;
+            let colorRhs = rhs ? color in rhs : null;
+            if(colorInLhs && colorRhs) {
+                return isColorEqual(lhs[color], rhs[color]);
+            } else if (!colorInLhs && !colorRhs) {
+                return true;
+            }
+
+            return false;
+        };
+
+        return compareSchemesByColor(left, right, "primaryColor") 
+            && compareSchemesByColor(left, right, "secondaryColor") 
+            && compareSchemesByColor(left, right, "backgroundColor");
+    }
+
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch (methodName) {
@@ -145,8 +171,24 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
+
+                let appUIState = store.getState()['ui'][rpc.params.appID];
+                let prevDisplayLayout = appUIState.displayLayout;
+                let prevDayColorScheme = {...appUIState.dayColorScheme};
+                let prevNightColorScheme = {...appUIState.nightColorScheme};
+
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-                this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
+
+                let sendCapabilityUpdated = false;
+                if(appUIState){
+                    sendCapabilityUpdated = (prevDisplayLayout != appUIState.displayLayout);
+                    sendCapabilityUpdated = sendCapabilityUpdated || !this.isColorSchemeEqual(prevDayColorScheme, appUIState.dayColorScheme);
+                    sendCapabilityUpdated = sendCapabilityUpdated || !this.isColorSchemeEqual(prevNightColorScheme, appUIState.nightColorScheme);
+                }
+
+                if (sendCapabilityUpdated) {
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
+                }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
