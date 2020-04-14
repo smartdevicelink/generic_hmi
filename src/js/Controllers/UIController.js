@@ -146,6 +146,7 @@ class UIController {
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
