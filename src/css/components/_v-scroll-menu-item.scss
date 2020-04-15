@@ -3,7 +3,6 @@
     @include flex-direction(row);
     @include justify-content(space-between);
     @include align-items(center);
-    padding: 1% 4%;
     height: calc((#{$master-height} - 75px) / 5);
 
     text-decoration: none;
@@ -20,6 +19,7 @@
     }
 
     &__image {
+        padding: 1% 1%;
         flex: 1;
         align-self: flex-start;
         border-radius: 4px;
@@ -45,11 +45,11 @@
             align-items: center;
 
             svg {
-                display: block;
-                margin:auto;
+                // display: block;
+                // margin:auto;
                 
-                max-width: 100%;
-                max-height: 45px;
+                // max-width: 100%;
+                // max-height: 45px;
             }
         }
     }
