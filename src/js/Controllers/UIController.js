@@ -46,11 +46,11 @@ class UIController {
         };
 
         let compareSchemesByColor = function (lhs, rhs, color) {
-            let colorInLhs = lhs ? color in lhs : null;
+            let colorLhs = lhs ? color in lhs : null;
             let colorRhs = rhs ? color in rhs : null;
-            if(colorInLhs && colorRhs) {
+            if(colorLhs && colorRhs) {
                 return isColorEqual(lhs[color], rhs[color]);
-            } else if (!colorInLhs && !colorRhs) {
+            } else if (!colorLhs && !colorRhs) {
                 return true;
             }
 
