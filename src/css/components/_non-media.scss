@@ -76,6 +76,7 @@
 .soft-button-tile {
     //height: 45.5%;
     width: 47.63%; //calculate
+    height: 48%;
     text-align: center;
     border-radius: 8px;
     border-width: 0.154px;
@@ -152,6 +153,7 @@
 }
 
 .soft-button p {
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
