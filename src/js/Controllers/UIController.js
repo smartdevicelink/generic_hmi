@@ -36,6 +36,7 @@ class UIController {
     addListener(listener) {
         this.listener = listener
     }
+
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch (methodName) {
@@ -62,6 +63,8 @@ class UIController {
                     rpc.params.secondaryGraphic
                 ));
                 if (rpc.params.templateConfiguration) {
+                    var appUIState = store.getState()['ui'][rpc.params.appID];
+                    const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
                     const templateConfiguration = rpc.params.templateConfiguration;
                     store.dispatch(setTemplateConfiguration(
                         templateConfiguration.template, 
@@ -69,7 +72,10 @@ class UIController {
                         templateConfiguration.dayColorScheme, 
                         templateConfiguration.nightColorScheme
                     ));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                    
+                    if (prevDisplayLayout != templateConfiguration.template) {
+                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                    }                    
                 }
                 return true
             case "SetAppIcon":
@@ -145,7 +151,15 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
+
+                var appUIState = store.getState()['ui'][rpc.params.appID];
+                const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
+
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                
+                if (prevDisplayLayout != rpc.params.displayLayout) {
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
+                }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(

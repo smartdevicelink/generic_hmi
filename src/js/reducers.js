@@ -108,6 +108,8 @@ function systemCapability( state = {}, action) {
                 capability = action.capability.remoteControlCapability
             } else if (type === "APP_SERVICES") {
                 capability = action.capability.appServicesCapabilities
+            } else if (type === "DISPLAYS"){
+                capability = action.capability.displayCapabilities
             }
             newState[type] = capability
             return newState
