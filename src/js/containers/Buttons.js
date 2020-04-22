@@ -187,9 +187,12 @@ const mapStateToProps = (state) => {
 var buttonPressMap = {};
 
 const onLongButtonPress = (appID, buttonID, buttonName) => {
-    if (buttonPressMap[appID][buttonID].hasOwnProperty(buttonName) 
-        && buttonPressMap[appID][buttonID][buttonName] === true) {
-        buttonPressMap[appID][buttonID][buttonName] = false;
+    // int cast to string to index json object
+    var appIDStr = appID.toString();
+    var buttonIDStr = buttonID.toString();
+    if (buttonPressMap[appIDStr][buttonIDStr].hasOwnProperty(buttonName) 
+        && buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+        buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
         uiController.onLongButtonPress(appID, buttonID, buttonName);
     }    
 }
@@ -197,24 +200,27 @@ const onLongButtonPress = (appID, buttonID, buttonName) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onButtonDown: (appID, buttonID, buttonName) => {
-            buttonPressMap[appID] = {};
-            buttonPressMap[appID][buttonID] = {};
-            buttonPressMap[appID][buttonID][buttonName] = true;
-            setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID.toString();
+            buttonPressMap[appIDStr] = buttonPressMap[appIDStr] ? buttonPressMap[appIDStr] : {};
+            buttonPressMap[appIDStr][buttonIDStr] = buttonPressMap[appIDStr][buttonIDStr] ? buttonPressMap[appIDStr][buttonIDStr] : {};
+            // Save timeout to clear later
+            buttonPressMap[appIDStr][buttonIDStr][buttonName] = setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
             uiController.onButtonEventDown(appID, buttonID, buttonName);
         },
         onButtonUp: (appID, buttonID, buttonName) => {
-            if (buttonPressMap[appID][buttonID][buttonName] === true) {
-                // Short press
-                buttonPressMap[appID][buttonID][buttonName] = false;
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID.toString();
+            if (buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+                // Short press, clear long press timeout
+                clearTimeout(buttonPressMap[appIDStr][buttonIDStr][buttonName]);
+                buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
                 uiController.onShortButtonPress(appID, buttonID, buttonName)
-            } else if (buttonPressMap[appID][buttonID][buttonName] === false){
-                // Long press
-            } else {
-                return;
             }
             uiController.onButtonEventUp(appID, buttonID, buttonName);
-            delete buttonPressMap[appID][buttonID][buttonName];
+            delete buttonPressMap[appIDStr][buttonIDStr][buttonName];
             
         },
         onButtonPress: (appID, buttonID, buttonName) => {
