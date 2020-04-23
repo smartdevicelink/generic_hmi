@@ -40,6 +40,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            canvas {
+                margin:auto;
+                max-width: 100%;
+            }
+            
+            svg {
+                margin:auto;
+                max-width: 100%;
+            }
         }
     }
 
