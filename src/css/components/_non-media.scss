@@ -76,6 +76,7 @@
 .soft-button-tile {
     //height: 45.5%;
     width: 47.63%; //calculate
+    height: 48%;
     text-align: center;
     border-radius: 8px;
     border-width: 0.154px;
@@ -83,6 +84,7 @@
     margin-bottom: 20px;
 
     @include display(flex);
+    @include flex-direction(column-reverse);
     @include align-items(center);
     @include justify-content(center);
 }
@@ -132,7 +134,7 @@
 
 
 .soft-button-image {
-    height: 1.5em;
+    height: 75px;
     max-width: 100%;
     img {
         max-width: 100%;
@@ -151,6 +153,7 @@
 }
 
 .soft-button p {
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
