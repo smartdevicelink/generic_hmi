@@ -189,7 +189,7 @@ var buttonPressMap = {};
 const onLongButtonPress = (appID, buttonID, buttonName) => {
     // int cast to string to index json object
     var appIDStr = appID.toString();
-    var buttonIDStr = buttonID.toString();
+    var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
     if (buttonPressMap[appIDStr][buttonIDStr].hasOwnProperty(buttonName) 
         && buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
         buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
@@ -202,7 +202,7 @@ const mapDispatchToProps = (dispatch) => {
         onButtonDown: (appID, buttonID, buttonName) => {
             // int cast to string to index json object
             var appIDStr = appID.toString();
-            var buttonIDStr = buttonID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
             buttonPressMap[appIDStr] = buttonPressMap[appIDStr] ? buttonPressMap[appIDStr] : {};
             buttonPressMap[appIDStr][buttonIDStr] = buttonPressMap[appIDStr][buttonIDStr] ? buttonPressMap[appIDStr][buttonIDStr] : {};
             // Save timeout to clear later
@@ -212,7 +212,7 @@ const mapDispatchToProps = (dispatch) => {
         onButtonUp: (appID, buttonID, buttonName) => {
             // int cast to string to index json object
             var appIDStr = appID.toString();
-            var buttonIDStr = buttonID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
             if (buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
                 // Short press, clear long press timeout
                 clearTimeout(buttonPressMap[appIDStr][buttonIDStr][buttonName]);
