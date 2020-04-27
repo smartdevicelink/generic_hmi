@@ -263,9 +263,11 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
         var timeout = alert.duration ? alert.duration : 10000
-        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID)
-        this.onResetTimeout(alert.appID, "UI.Alert")   
-
+        const state = store.getState()
+        const context = state.activeApp
+        
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID)
+        this.onResetTimeout(alert.appID, "UI.Alert")
     }
     onDefaultAction(alert, context) {
         clearTimeout(this.timers[alert.msgID])
