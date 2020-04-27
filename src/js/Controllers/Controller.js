@@ -160,6 +160,16 @@ export default class Controller {
         rpc = this.sanitizeRPC(rpc)
 
         if (rpc.error) {
+            if (rpc.error.data && rpc.error.data.method) {
+                componentName = rpc.error.data.method.split(".")[0];
+
+                switch (componentName) {
+                    case "SDL":
+                        sdlController.handleRPCError(rpc);
+                        break;
+                }
+            }
+            
             return;
         }
 

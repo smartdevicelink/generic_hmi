@@ -251,6 +251,16 @@ function activeApp(state = null, action) {
             return state
     }
 }
+function pendingAppLaunch(state = null, action) {
+    switch (action.type) {
+        case Actions.SET_PENDING_APP_LAUNCH:
+            return action.appID
+        case Actions.CLEAR_PENDING_APP_LAUNCH:
+            return null
+        default:
+            return state
+    }
+}
 function deleteCommand(commands, cmdID) {
     for (var i = 0; i < commands.length; i++) {
         if (commands[i].cmdID === cmdID) {
@@ -681,6 +691,7 @@ export const hmi = combineReducers({
     appList,
     appServiceData,
     activeApp,
+    pendingAppLaunch,
     ui,
     system,
     systemCapability,

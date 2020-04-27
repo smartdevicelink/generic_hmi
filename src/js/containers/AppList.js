@@ -36,13 +36,13 @@ const mapStateToProps = (state) => {
             name: name,
             devicename: devicename,
             image: icon,
-            link: '/' + link,
+            link: undefined,
             cmdID: app,
             greyOut: app.greyOut
         }
     })
 
-    return {data: data}
+    return {data: data, pendingAppLaunch: state.pendingAppLaunch}
 }
 
 const mapDispatchToProps = (dispatch) => {

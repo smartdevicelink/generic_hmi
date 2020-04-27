@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
@@ -10,6 +10,7 @@ var activatingApplication = 0
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        this.handleRPCError = this.handleRPCError.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
         
@@ -45,6 +46,7 @@ class SDLController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "ActivateApp":
+                store.dispatch(clearPendingAppLaunch());
                 if(rpc.result.isPermissionsConsentNeeded) {
                     this.getListOfPermissions(activatingApplication)
                 }
@@ -110,6 +112,14 @@ class SDLController {
                     }
                 }
                 this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
+                return;
+        }
+    }
+    handleRPCError(rpc) {
+        let methodName = rpc.error.data.method.split(".")[1]
+        switch (methodName) {
+            case "ActivateApp":
+                store.dispatch(clearPendingAppLaunch())
                 return;
         }
     }
