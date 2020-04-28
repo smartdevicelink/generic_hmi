@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
         }
     })
 
-    return {data: data, pendingAppLaunch: state.pendingAppLaunch}
+    return {data: data}
 }
 
 const mapDispatchToProps = (dispatch) => {
