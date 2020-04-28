@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import store from '../store'
 import HScrollMenu from '../HScrollMenu'
-import { webEngineAppLaunch } from '../actions'
+import { webEngineAppLaunch, setPendingAppLaunch } from '../actions'
 import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
@@ -30,6 +30,13 @@ const mapStateToProps = (state) => {
         var name = app.isCloudApplication ? app.appName + " (Cloud)" : app.appName;
         var devicename = (app.deviceInfo.name.trim()) ? app.deviceInfo.name 
             : app.deviceInfo.transportType + ": " + app.deviceInfo.id.substring(0, 10) + "...";
+
+        var greyOut = app.greyOut;
+        if (app.appID === state.pendingAppLaunch) {
+            name = 'Loading...';
+            greyOut = true;
+        }
+
         return {
             appID: app.appID,
             class: 'with-image',
@@ -38,7 +45,7 @@ const mapStateToProps = (state) => {
             image: icon,
             link: undefined,
             cmdID: app,
-            greyOut: app.greyOut
+            greyOut: greyOut
         }
     })
 
@@ -49,6 +56,13 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, app) => {
             let state = store.getState();
+
+            if (state.pendingAppLaunch) {
+                return;
+            }
+
+            dispatch(setPendingAppLaunch(appID))
+
             var webEngineApp = state.appStore.installedApps.find(x => x.policyAppID === app.policyAppID);
 
             if (!webEngineApp || webEngineApp.runningAppId) {
