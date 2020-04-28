@@ -2,6 +2,8 @@ export const Actions = {
     UPDATE_APP_LIST: "UPDATE_APP_LIST",
     ACTIVATE_APP: "ACTIVATE_APP",
     DEACTIVATE_APP: "DEACTIVATE_APP",
+    SET_PENDING_APP_LAUNCH: "SET_PENDING_APP_LAUNCH",
+    CLEAR_PENDING_APP_LAUNCH: "CLEAR_PENDING_APP_LAUNCH",
     SHOW: "SHOW",
     SET_APP_ICON: "SET_APP_ICON",
     ADD_COMMAND: "ADD_COMMAND",
@@ -155,6 +157,19 @@ export const resetShowAppMenu = (appID) => {
     return {
         type: Actions.RESET_SHOW_APP_MENU,
         appID: appID
+    }
+}
+
+export const setPendingAppLaunch = (appID) => {
+    return {
+        type: Actions.SET_PENDING_APP_LAUNCH,
+        appID: appID
+    }
+}
+
+export const clearPendingAppLaunch = (appID) => {
+    return {
+        type: Actions.CLEAR_PENDING_APP_LAUNCH
     }
 }
 
