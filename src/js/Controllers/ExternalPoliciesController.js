@@ -62,7 +62,7 @@ class ExternalPoliciesController {
         }
     }
     onPackMessage(evt) {
-        bcController.onSystemRequest(this.sysReqParams.policyUpdateFile, this.sysReqParams.urls)
+        bcController.onSystemRequest(this.sysReqParams.fileName, this.sysReqParams.urls)
         this.retryCount = 0;
         this.retryTimeout = 0;
         this.policyUpdateRetry();
@@ -73,10 +73,10 @@ class ExternalPoliciesController {
     }
     pack(params) {
         this.sysReqParams = params
-        this.packClient.send(this.sysReqParams.policyUpdateFile);
+        this.packClient.send(JSON.stringify(this.sysReqParams));
     }
-    unpack(file) {
-        this.unpackClient.send(file)
+    unpack(params) {
+        this.unpackClient.send(JSON.stringify(params))
     }
     policyUpdateRetry() {
         clearTimeout(this.policyUpdateRetryTimer)

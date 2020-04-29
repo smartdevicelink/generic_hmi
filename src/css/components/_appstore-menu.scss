@@ -1,0 +1,60 @@
+.appstore-menu {
+    width: 100%;
+    height: $master-height - 75px;
+    overflow-y: scroll;
+
+    @include display(flex);
+    flex-direction: column;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.appstore-menu-item {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+
+    flex-direction: row;
+    flex: 1;
+    max-height: 15%;
+    padding-left: 55px;
+    padding-right: 50px;
+    text-decoration: none;
+    color: color(white);
+    border-bottom: 2px solid;
+
+    &__image {
+        flex: 0.5;
+        border-radius: 4px;
+        width: 16%;
+        max-width: 16%;
+        height: 80%;
+        max-height: 80%;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .svg-wrap {
+        display: block;
+        width: 44px;
+        height: 44px;
+    }
+
+    h2 {
+        flex: 3;
+        overflow: hidden;
+        margin-right: 5%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    h4 {
+        flex: 1;
+        overflow: hidden;
+    }
+}

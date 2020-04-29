@@ -12,7 +12,8 @@ export default class AppName extends React.Component {
         subTitle = (isShowingMenu) ? "Menu" : subTitle
         subTitle = (isShowingSubMenu) ? this.props.subMenuName : subTitle 
         
-        let appName_html = <span className="t-small t-medium th-f-color">{this.props.name}</span>
+        let name = this.props.router.isActive('/appstore') ? 'App Store' : this.props.router.isActive('/appstoremenu') ? 'Installed Apps' : this.props.name;
+        let appName_html = <span className="t-small t-medium th-f-color">{name}</span>
         let separator_html = (subTitle) ? <span className="svg-wrap-secondary" dangerouslySetInnerHTML={{__html:titleSeparator}} /> : null
         let subTitle_html = (subTitle) ? <span className="t-small t-light th-f-color-secondary">{subTitle}</span> : null
 
