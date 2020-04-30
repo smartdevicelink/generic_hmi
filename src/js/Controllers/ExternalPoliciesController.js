@@ -87,7 +87,7 @@ class ExternalPoliciesController {
             
             this.policyUpdateRetryTimer = setTimeout(
                 function() {
-                    var endpoint = this.sysReqParams.urls[retryCount % this.sysReqParams.urls.length];
+                    var endpoint = this.sysReqParams.urls[this.retryCount % this.sysReqParams.urls.length];
                     bcController.onSystemRequest(this.sysReqParams.fileName, endpoint.url)
                     this.policyUpdateRetry();
                 }.bind(this), this.retryTimeout
