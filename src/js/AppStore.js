@@ -95,7 +95,6 @@ class AppStore extends React.Component {
     }
 
     onSelection(appID) {
-        console.log("OnSelection: ", appID);
         this.setState((state, props) => {
             return {
                 confirmID: appID,
@@ -113,7 +112,6 @@ class AppStore extends React.Component {
 
             return res.json();
         }).then((json) => {
-            console.log(json)
             var apps = [];
             if (json.data && json.data.applications) {
                 apps = json.data.applications

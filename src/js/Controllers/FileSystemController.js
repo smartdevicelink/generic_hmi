@@ -63,10 +63,7 @@ class FileSystemController extends SimpleRPCClient {
         }
         xhr.open('POST', url)
         xhr.setRequestHeader("Content-Type", "application/json");
-        var pts_json = JSON.parse(pts_data)
-        console.log("data type: ", typeof pts_data);
-        console.log("PST_DATA: ", pts_json)
-        xhr.send(pts_json)
+        xhr.send(pts_data)
       });
     }
 
