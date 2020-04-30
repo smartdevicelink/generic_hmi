@@ -95,6 +95,7 @@ class AppStore extends React.Component {
     }
 
     onSelection(appID) {
+        console.log("OnSelection: ", appID);
         this.setState((state, props) => {
             return {
                 confirmID: appID,
@@ -112,7 +113,14 @@ class AppStore extends React.Component {
 
             return res.json();
         }).then((json) => {
-            store.dispatch(updateAvailableAppStoreApps(json.map((app) => {
+            console.log(json)
+            var apps = [];
+            if (json.data && json.data.applications) {
+                apps = json.data.applications
+            } else {
+                apps = json
+            }
+            store.dispatch(updateAvailableAppStoreApps(apps.map((app) => {
                 if ('icon_url' in app) {
                     app.iconUrl = app.icon_url;
                     delete app.icon_url;
