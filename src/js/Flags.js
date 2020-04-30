@@ -7,7 +7,7 @@ var flags = {
     CoreHost: '127.0.0.1',
     CorePort: 8087,
     CoreWebEngineAppPort: 2020,
-    AppStoreDirectoryUrl: 'http://f7e26824.ngrok.io/api/v1/applications/store'
+    AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json'
 };
 
 export {flags};
