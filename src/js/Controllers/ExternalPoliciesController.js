@@ -62,11 +62,10 @@ class ExternalPoliciesController {
         }
     }
     onPackMessage(evt) {
-        bcController.onSystemRequest(this.sysReqParams.fileName, this.sysReqParams.urls)
+        bcController.onSystemRequest(this.sysReqParams.fileName, this.sysReqParams.urls[0].url)
         this.retryCount = 0;
         this.retryTimeout = 0;
         this.policyUpdateRetry();
-        
     }
     onUnpackMessage(evt) {
         sdlController.onReceivedPolicyUpdate(evt.data)
@@ -88,7 +87,8 @@ class ExternalPoliciesController {
             
             this.policyUpdateRetryTimer = setTimeout(
                 function() {
-                    bcController.onSystemRequest(this.sysReqParams.policyUpdateFile, this.sysReqParams.urls)
+                    var endpoint = this.sysReqParams.urls[retryCount % this.sysReqParams.urls.length];
+                    bcController.onSystemRequest(this.sysReqParams.fileName, endpoint.url)
                     this.policyUpdateRetry();
                 }.bind(this), this.retryTimeout
             );
