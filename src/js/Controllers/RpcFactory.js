@@ -413,16 +413,21 @@ class RpcFactory {
        })       
    }
     static OnSystemRequestNotification(policyFile, url, appID) {
-        return ({
+        var msg = {
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnSystemRequest',
             'params': {
                 'requestType': 'PROPRIETARY',
-                'url': url,
-                'fileName': policyFile,
-                'appID': appID
+                'fileName': policyFile
             }
-        })        
+        }
+        if (url) {
+            msg.params.url = url
+        }
+        if (appID) {
+            msg.params.appID = appID
+        }
+        return (msg)       
     }
     static OnReceivedPolicyUpdate(policyFile) {
         return ({

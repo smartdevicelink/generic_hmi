@@ -75,8 +75,9 @@ class SDLController {
                             retry: state.system.policyRetry,
                             timeout: state.system.policyTimeout
                         })
-                    } else {
-                        bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                    }
+                    else {
+                        bcController.onSystemRequest(state.system.policyFile)
                     }
                 };
                 

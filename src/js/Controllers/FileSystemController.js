@@ -62,6 +62,7 @@ class FileSystemController extends SimpleRPCClient {
           reject();
         }
         xhr.open('POST', url)
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(pts_data)
       });
     }
