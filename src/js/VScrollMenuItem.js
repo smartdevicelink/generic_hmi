@@ -8,6 +8,10 @@ export default class VScrollMenuItem extends React.Component {
         super(props);
     }
     render() {
+        let subMenuIndicator = this.props.menuID ? 
+            <span className="vscrollmenu-item__arrow svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} /> 
+            : null;
+
         return (
             <Link
                 to={this.props.menuItem.link}
@@ -23,7 +27,7 @@ export default class VScrollMenuItem extends React.Component {
                         <p className="t-large t-light th-f-color">{this.props.menuItem.name}</p>
                         <p className="t-large t-light th-f-color-secondary">{this.props.menuItem.info}</p>
                     </div>
-                    <span className="vscrollmenu-item__arrow svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} />
+                    {subMenuIndicator}
                 </div>
             </Link>
         )
