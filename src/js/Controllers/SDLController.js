@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, alert } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
@@ -47,10 +47,25 @@ class SDLController {
         switch (methodName) {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch());
-                if(rpc.result.isPermissionsConsentNeeded) {
+                if (rpc.result.isPermissionsConsentNeeded) {
                     this.getListOfPermissions(activatingApplication)
                 }
-                if(!rpc.result.isSDLAllowed) {
+                if (rpc.result.isAppRevoked) {
+                    // NOTE: Alert text should be populated using GetUserFriendlyMessage, 
+                    // but this RPC is not implemented in the Generic HMI as of yet
+                    const app = store.getState().appList.find(x => x.appID === activatingApplication);
+                    store.dispatch(alert(activatingApplication,
+                        [
+                            {fieldName: "alertText1", fieldText: app.appName},
+                            {fieldName: "alertText2", fieldText: "is disabled by policies"}
+                        ],
+                        5000,
+                        [
+                            {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
+                        ],
+                        "BOTH")
+                    )
+                } else if (!rpc.result.isSDLAllowed) {
                     //bcController.getUserFriendlyMessages("DataConsent", "AllowSDL", activatingApplication)
                     bcController.onAllowSDLFunctionality(true, "GUI")
                 } else {

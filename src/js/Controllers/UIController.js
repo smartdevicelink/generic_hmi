@@ -270,6 +270,10 @@ class UIController {
         this.onResetTimeout(alert.appID, "UI.Alert")
     }
     onDefaultAction(alert, context) {
+        if (!alert.msgID) {
+            // This was a system alert, do not send a response to Core
+            return
+        }
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
