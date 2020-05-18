@@ -26,8 +26,9 @@ function newAppState () {
             seconds: 0
         },
         updateMode: "CLEAR",
+        countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
-        pauseTime: new Date().getTime(),
+        pauseTime: null,
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -57,7 +58,27 @@ function theme(state = true, action) {
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
-            return action.appList
+            return action.appList.map((app) => {
+                var existingApp = state.find(x => x.appID === app.appID);
+                return {
+                    ...app,
+                    isRegistered: existingApp ? existingApp.isRegistered : false
+                };
+            });
+        case Actions.REGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = true;
+                }
+                return app;
+            });
+        case Actions.UNREGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = false;
+                }
+                return app;
+            });
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
@@ -88,6 +109,8 @@ function systemCapability( state = {}, action) {
                 capability = action.capability.remoteControlCapability
             } else if (type === "APP_SERVICES") {
                 capability = action.capability.appServicesCapabilities
+            } else if (type === "DISPLAYS"){
+                capability = action.capability.displayCapabilities
             }
             newState[type] = capability
             return newState
@@ -225,6 +248,16 @@ function activeApp(state = null, action) {
             return action.activeApp
         case Actions.DEACTIVATE_APP:
             return action.appID == state ? null : state;
+        default:
+            return state
+    }
+}
+function pendingAppLaunch(state = null, action) {
+    switch (action.type) {
+        case Actions.SET_PENDING_APP_LAUNCH:
+            return action.appID
+        case Actions.CLEAR_PENDING_APP_LAUNCH:
+            return null
         default:
             return state
     }
@@ -386,26 +419,43 @@ function ui(state = {}, action) {
             if (action.endTime) {
                 app.endTime = action.endTime
             }
+
             if (action.updateMode === "COUNTUP") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
+                app.updateTime = new Date().getTime()
+            }
+            else if (action.updateMode === "COUNTDOWN") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.pauseTime = new Date().getTime()
                 app.updateTime = app.pauseTime
             }
-            else if (action.updateMode === "PAUSE") {
+            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
                 app.pauseTime = new Date().getTime()
             }
-            else if (action.updateMode === "RESUME") {
+            else if (action.updateMode === "RESUME" && app.pauseTime) {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
+                app.startTime = null
+                app.endTime = null
             }
             app.updateMode = action.updateMode
             if(action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
+            }
+            if (action.updateMode !== "PAUSE") {
+                app.pauseTime = null
             }
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
@@ -552,9 +602,88 @@ function system(state = {}, action) {
             var newState = { ...state }
             newState.urls = action.urls
             return newState
+        case Actions.SET_PTU_WITH_MODEM:
+            var newState ={ ...state }
+            newState.ptuWithModemEnabled = action.enabled
+            return newState
         default:
             return state
 
+    }
+}
+
+function appStore(state = {
+    isConnected: false,
+    availableApps: [],
+    installedApps: [],
+    appsPendingSetAppProperties: []
+}, action) {
+    switch (action.type) {
+        case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
+            var newState = { ...state };
+            newState.isConnected = action.isConnected
+            return newState;
+        case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
+            var newState = { ...state };
+            newState.availableApps = action.availableApps;
+            newState.installedApps = state.installedApps.map((app) => {
+                var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
+                return appDirEntry ? Object.assign(appDirEntry, app) : app;
+            });
+            return newState;
+        case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
+            var newState = { ...state };
+
+            let existingApp = newState.installedApps.find(app => app.policyAppID == action.installedApp.policyAppID)
+
+            if (!existingApp) {
+                let appDirEntry = newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID);
+                newState.installedApps.push(
+                    appDirEntry ? Object.assign(appDirEntry, action.installedApp) : action.installedApp
+                );
+                return newState;
+            }
+            // Update the existing app's properties
+            existingApp = Object.assign(existingApp, action.installedApp);
+            return newState;
+        case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
+            var newState = { ...state };
+            newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
+            return newState;
+        case Actions.APPSTORE_APP_INSTALLED:
+            var newState = { ...state };
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
+            if (!action.success) { return newState; }
+            var newInstalled = [ pendingApp ].concat(newState.installedApps);
+            newState.installedApps = newInstalled;
+            var appStoreApp = newState.availableApps.find(app => app.policyAppID == pendingApp.policyAppID);
+            if (appStoreApp) { appStoreApp.pendingInstall = false; }
+            return newState;
+        case Actions.APPSTORE_APP_UNINSTALLED:
+            var newState = { ...state };
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
+            if (!action.success) { return newState; }
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID != pendingApp.policyAppID);
+            return newState;
+        case Actions.WEBENGINE_APP_LAUNCH:
+            var newState = { ...state };
+            var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
+            launchedApp.runningAppId = action.appID;
+            return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            var newState = { ...state };
+            var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (launchedApp) { launchedApp.runningAppId = 0; }
+            return newState;
+        case Actions.APPSTORE_BEGIN_INSTALL:
+            var newState = { ...state };
+            var appStoreApp = newState.availableApps.find(app => app.policyAppID == action.policyAppID);
+            if (appStoreApp) { appStoreApp.pendingInstall = true; }
+            return newState;
+        default:
+            return state;
     }
 }
 
@@ -563,8 +692,10 @@ export const hmi = combineReducers({
     appList,
     appServiceData,
     activeApp,
+    pendingAppLaunch,
     ui,
     routing: routerReducer,
     system,
-    systemCapability
+    systemCapability,
+    appStore
 })

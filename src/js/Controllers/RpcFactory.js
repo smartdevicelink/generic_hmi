@@ -1,6 +1,28 @@
 import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static SetAppProperties(properties) {
+        return {
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "BasicCommunication.SetAppProperties",
+            "params": {
+                "properties": properties
+            }
+        }
+    }
+    static GetAppProperties(policyAppID) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "BasicCommunication.GetAppProperties",
+            "params": {}
+        }
+        if (policyAppID) {
+            msg.params.policyAppID = policyAppID
+        }
+        return msg;
+    }
     static UnsupportedResourceResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",
@@ -391,16 +413,21 @@ class RpcFactory {
        })       
    }
     static OnSystemRequestNotification(policyFile, url, appID) {
-        return ({
+        var msg = {
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnSystemRequest',
             'params': {
                 'requestType': 'PROPRIETARY',
-                'url': url,
-                'fileName': policyFile,
-                'appID': appID
+                'fileName': policyFile
             }
-        })        
+        }
+        if (url) {
+            msg.params.url = url
+        }
+        if (appID) {
+            msg.params.appID = appID
+        }
+        return (msg)       
     }
     static OnReceivedPolicyUpdate(policyFile) {
         return ({

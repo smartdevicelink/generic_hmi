@@ -36,6 +36,7 @@ class UIController {
     addListener(listener) {
         this.listener = listener
     }
+
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch (methodName) {
@@ -64,6 +65,8 @@ class UIController {
                     rpc.params.secondaryGraphic
                 ));
                 if (rpc.params.templateConfiguration) {
+                    var appUIState = store.getState()['ui'][rpc.params.appID];
+                    const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
                     const templateConfiguration = rpc.params.templateConfiguration;
                     store.dispatch(setTemplateConfiguration(
                         templateConfiguration.template, 
@@ -71,7 +74,10 @@ class UIController {
                         templateConfiguration.dayColorScheme, 
                         templateConfiguration.nightColorScheme
                     ));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                    
+                    if (prevDisplayLayout != templateConfiguration.template) {
+                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                    }                    
                 }
                 return true
             case "SetAppIcon":
@@ -147,7 +153,15 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
+
+                var appUIState = store.getState()['ui'][rpc.params.appID];
+                const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
+
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                
+                if (prevDisplayLayout != rpc.params.displayLayout) {
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
+                }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
@@ -249,9 +263,11 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
         var timeout = alert.duration ? alert.duration : 10000
-        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID)
-        this.onResetTimeout(alert.appID, "UI.Alert")   
-
+        const state = store.getState()
+        const context = state.activeApp
+        
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID)
+        this.onResetTimeout(alert.appID, "UI.Alert")
     }
     onDefaultAction(alert, context) {
         clearTimeout(this.timers[alert.msgID])
@@ -290,6 +306,38 @@ class UIController {
         button.mode = "BUTTONUP"
         this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
         button.mode = "SHORT"
+        this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
+    }
+    onButtonEventDown(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "BUTTONDOWN",
+            customButtonID: buttonID
+        }
+        this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
+    }
+    onButtonEventUp(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "BUTTONUP",
+            customButtonID: buttonID
+        }
+        this.listener.send(RpcFactory.OnButtonEventNotification(appID, button))
+    }
+    onShortButtonPress(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "SHORT",
+            customButtonID: buttonID
+        }
+        this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
+    }
+    onLongButtonPress(appID, buttonID, buttonName) {
+        var button = {
+            name: buttonName,
+            mode: "LONG",
+            customButtonID: buttonID
+        }
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
     failInteractions() {

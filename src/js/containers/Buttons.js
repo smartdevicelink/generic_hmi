@@ -184,8 +184,45 @@ const mapStateToProps = (state) => {
     return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
+var buttonPressMap = {};
+
+const onLongButtonPress = (appID, buttonID, buttonName) => {
+    // int cast to string to index json object
+    var appIDStr = appID.toString();
+    var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+    if (buttonPressMap[appIDStr][buttonIDStr].hasOwnProperty(buttonName) 
+        && buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+        buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
+        uiController.onLongButtonPress(appID, buttonID, buttonName);
+    }    
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
+        onButtonDown: (appID, buttonID, buttonName) => {
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+            buttonPressMap[appIDStr] = buttonPressMap[appIDStr] ? buttonPressMap[appIDStr] : {};
+            buttonPressMap[appIDStr][buttonIDStr] = buttonPressMap[appIDStr][buttonIDStr] ? buttonPressMap[appIDStr][buttonIDStr] : {};
+            // Save timeout to clear later
+            buttonPressMap[appIDStr][buttonIDStr][buttonName] = setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
+            uiController.onButtonEventDown(appID, buttonID, buttonName);
+        },
+        onButtonUp: (appID, buttonID, buttonName) => {
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+            if (buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+                // Short press, clear long press timeout
+                clearTimeout(buttonPressMap[appIDStr][buttonIDStr][buttonName]);
+                buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
+                uiController.onShortButtonPress(appID, buttonID, buttonName)
+            }
+            uiController.onButtonEventUp(appID, buttonID, buttonName);
+            delete buttonPressMap[appIDStr][buttonIDStr][buttonName];
+            
+        },
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },

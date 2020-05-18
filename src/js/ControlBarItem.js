@@ -20,7 +20,10 @@ export default class ControlBar extends React.Component {
         if(this.props.imageType === "STATIC") {
             return (
                 <div className={`control-bar__control th-b-color-secondary control-bar__control--${ this.props.class }`}
-                    onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}>
+                    /*onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}*/
+                    onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
+                    onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
+                >
                     <StaticIcon class="static-icon" image={this.props.image} />
                 </div>
             )            
@@ -33,7 +36,10 @@ export default class ControlBar extends React.Component {
             return (
                 <div
                     className={`control-bar__control th-b-color-secondary control-bar__control--${ this.props.class }`}
-                    onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}>
+                    /*onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}*/
+                    onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
+                    onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
+                >
                         {image}
                 </div>
             )

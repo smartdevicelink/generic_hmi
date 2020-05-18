@@ -38,11 +38,29 @@
 
 .alert-title {
     text-align: center;
+
+    p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 }
 
 .alert-top {
     display: flex;
     padding: 30px;
+    max-height: calc((#{$master-height} - 75px) * 0.6);
+
+    h4 {
+        overflow: scroll;
+    }
+
+    img {
+        min-width: calc((#{$master-height} - 75px) * 0.3);
+
+        width: calc((#{$master-height} - 75px) * 0.3);
+        height: calc((#{$master-height} - 75px) * 0.3);
+    }
 }
 
 .alert-icon{

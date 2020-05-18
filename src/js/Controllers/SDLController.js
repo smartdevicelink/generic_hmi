@@ -1,13 +1,16 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS  } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
+import FileSystemController from './FileSystemController'
+
 import {flags} from '../Flags'
 var activatingApplication = 0
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        this.handleRPCError = this.handleRPCError.bind(this)
         var incrementedRpcId = 5012
         var rpcAppIdMap = {}
         
@@ -20,6 +23,7 @@ class SDLController {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
         this.externalConsentStatus = [];
+        store.dispatch(setPTUWithModem(flags.PTUWithModemEnabled))
     }
     addListener(listener) {
         this.listener = listener
@@ -42,6 +46,7 @@ class SDLController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "ActivateApp":
+                store.dispatch(clearPendingAppLaunch());
                 if(rpc.result.isPermissionsConsentNeeded) {
                     this.getListOfPermissions(activatingApplication)
                 }
@@ -60,16 +65,43 @@ class SDLController {
                 }
                 store.dispatch(setURLS(parsed_urls))
                 var state = store.getState()
-                if(flags.ExternalPolicies) {
-                    externalPolicies.pack({            
-                        type: 'PROPRIETARY',
-                        policyUpdateFile: state.system.policyFile,
-                        urls: state.system.urls,
-                        retry: state.system.policyRetry,
-                        timeout: state.system.policyTimeout
-                    })
-                } else {
-                    bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                
+                let regular_ptu_flow = () => {
+                    if(flags.ExternalPolicies) {
+                        externalPolicies.pack({            
+                            requestType: 'PROPRIETARY',
+                            fileName: state.system.policyFile,
+                            urls: state.system.urls,
+                            retry: state.system.policyRetry,
+                            timeout: state.system.policyTimeout
+                        })
+                    }
+                    else {
+                        bcController.onSystemRequest(state.system.policyFile)
+                    }
+                };
+                
+                if(state.system.ptuWithModemEnabled){
+                    console.log('PTU: Starting PTU over vehicle modem');
+                    let switch_to_regular_ptu_flow = () => {
+                        console.log('PTU: PTU over vehicle modem failed. Switching to PTU over mobile')
+                        store.dispatch(setPTUWithModem(false))
+                        regular_ptu_flow()
+                    };
+
+                    var that = this;
+                    if(FileSystemController.isConnected()){
+                        FileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
+                            that.onReceivedPolicyUpdate(policyFile);
+                        }, switch_to_regular_ptu_flow);
+                    }
+                    else{
+                        switch_to_regular_ptu_flow()
+                    }
+                }
+                else{
+                    console.log('PTU: Starting PTU over mobile')
+                    regular_ptu_flow()
                 }
                 return;
             case "GetListOfPermissions":         
@@ -81,6 +113,14 @@ class SDLController {
                     }
                 }
                 this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
+                return;
+        }
+    }
+    handleRPCError(rpc) {
+        let methodName = rpc.error.data.method.split(".")[1]
+        switch (methodName) {
+            case "ActivateApp":
+                store.dispatch(clearPendingAppLaunch())
                 return;
         }
     }
