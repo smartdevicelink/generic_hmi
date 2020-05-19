@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, alert } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
@@ -10,7 +10,8 @@ var activatingApplication = 0
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
-
+        this.handleRPCError = this.handleRPCError.bind(this)
+                
         //ToDo: Add ExternalConsentStatus View
         //Sample struct used below
         /*this.externalConsentStatus = [{
@@ -43,10 +44,26 @@ class SDLController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "ActivateApp":
-                if(rpc.result.isPermissionsConsentNeeded) {
+                store.dispatch(clearPendingAppLaunch());
+                if (rpc.result.isPermissionsConsentNeeded) {
                     this.getListOfPermissions(activatingApplication)
                 }
-                if(!rpc.result.isSDLAllowed) {
+                if (rpc.result.isAppRevoked) {
+                    // NOTE: Alert text should be populated using GetUserFriendlyMessage, 
+                    // but this RPC is not implemented in the Generic HMI as of yet
+                    const app = store.getState().appList.find(x => x.appID === activatingApplication);
+                    store.dispatch(alert(activatingApplication,
+                        [
+                            {fieldName: "alertText1", fieldText: app.appName},
+                            {fieldName: "alertText2", fieldText: "is disabled by policies"}
+                        ],
+                        5000,
+                        [
+                            {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
+                        ],
+                        "BOTH")
+                    )
+                } else if (!rpc.result.isSDLAllowed) {
                     //bcController.getUserFriendlyMessages("DataConsent", "AllowSDL", activatingApplication)
                     bcController.onAllowSDLFunctionality(true, "GUI")
                 } else {
@@ -71,8 +88,9 @@ class SDLController {
                             retry: state.system.policyRetry,
                             timeout: state.system.policyTimeout
                         })
-                    } else {
-                        bcController.onSystemRequest(state.system.policyFile, state.system.urls)
+                    }
+                    else {
+                        bcController.onSystemRequest(state.system.policyFile)
                     }
                 };
                 
@@ -111,6 +129,14 @@ class SDLController {
                 return;
             default:
                 return false;
+        }
+    }
+    handleRPCError(rpc) {
+        let methodName = rpc.error.data.method.split(".")[1]
+        switch (methodName) {
+            case "ActivateApp":
+                store.dispatch(clearPendingAppLaunch())
+                return;
         }
     }
     onAppActivated(appID) {

@@ -52,6 +52,7 @@ Install dependencies (you might need to clean the `node_modules` folder):
 npm install
 ```
 
+
 Run webpack:
 ```
 npm run build

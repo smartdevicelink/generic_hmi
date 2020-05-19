@@ -25,8 +25,9 @@ function newAppState () {
             seconds: 0
         },
         updateMode: "CLEAR",
+        countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
-        pauseTime: new Date().getTime(),
+        pauseTime: null,
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -106,6 +107,8 @@ function systemCapability( state = {}, action) {
                 capability = action.capability.remoteControlCapability
             } else if (type === "APP_SERVICES") {
                 capability = action.capability.appServicesCapabilities
+            } else if (type === "DISPLAYS"){
+                capability = action.capability.displayCapabilities
             }
             newState[type] = capability
             return newState
@@ -247,6 +250,16 @@ function activeApp(state = null, action) {
             return state
     }
 }
+function pendingAppLaunch(state = null, action) {
+    switch (action.type) {
+        case Actions.SET_PENDING_APP_LAUNCH:
+            return action.appID
+        case Actions.CLEAR_PENDING_APP_LAUNCH:
+            return null
+        default:
+            return state
+    }
+}
 function deleteCommand(commands, cmdID) {
     for (var i = 0; i < commands.length; i++) {
         if (commands[i].cmdID === cmdID) {
@@ -371,26 +384,43 @@ function ui(state = {}, action) {
             if (action.endTime) {
                 app.endTime = action.endTime
             }
+
             if (action.updateMode === "COUNTUP") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
+                app.updateTime = new Date().getTime()
+            }
+            else if (action.updateMode === "COUNTDOWN") {
+                if (action.updateMode != app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.pauseTime = new Date().getTime()
                 app.updateTime = app.pauseTime
             }
-            else if (action.updateMode === "PAUSE") {
+            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
                 app.pauseTime = new Date().getTime()
             }
-            else if (action.updateMode === "RESUME") {
+            else if (action.updateMode === "RESUME" && app.pauseTime) {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
+                app.startTime = null
+                app.endTime = null
             }
             app.updateMode = action.updateMode
             if(action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
+            }
+            if (action.updateMode !== "PAUSE") {
+                app.pauseTime = null
             }
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
@@ -602,6 +632,7 @@ export const hmi = combineReducers({
     appList,
     appServiceData,
     activeApp,
+    pendingAppLaunch,
     ui,
     system,
     systemCapability,

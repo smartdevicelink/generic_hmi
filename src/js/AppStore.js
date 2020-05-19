@@ -112,7 +112,13 @@ class AppStore extends React.Component {
 
             return res.json();
         }).then((json) => {
-            store.dispatch(updateAvailableAppStoreApps(json.map((app) => {
+            var apps = [];
+            if (json.data && json.data.applications) {
+                apps = json.data.applications
+            } else {
+                apps = json
+            }
+            store.dispatch(updateAvailableAppStoreApps(apps.map((app) => {
                 if ('icon_url' in app) {
                     app.iconUrl = app.icon_url;
                     delete app.icon_url;

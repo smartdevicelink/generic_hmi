@@ -67,7 +67,13 @@ class BCController {
                 return {"rpc": RpcFactory.MixingAudioResponse(rpc)}
             case "PolicyUpdate":
                 store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
-                sdlController.getPolicyConfiguration("module_config", "endpoints");
+                var state = store.getState()
+                if(flags.ExternalPolicies || state.system.ptuWithModemEnabled) {
+                    sdlController.getPolicyConfiguration("module_config", "endpoints");
+                }
+                else {
+                    this.onSystemRequest(rpc.params.file);
+                }
                 return true;
             case "SystemRequest":
                 if(flags.ExternalPolicies) {
@@ -150,13 +156,8 @@ class BCController {
     onExitAllApplications(reason) {
         this.listener.send(RpcFactory.OnExitAllApplicationsNotification(reason))
     }
-    onSystemRequest(policyFile, urls) {
-        for (var i in urls) {
-            var appID = urls[i].appID
-            var url = urls[i].url
-            this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
-        }
-        
+    onSystemRequest(policyFile, url, appID) {
+        this.listener.send(RpcFactory.OnSystemRequestNotification(policyFile, url, appID))
     }
     onAllowSDLFunctionality(allowed, source) {
         this.listener.send(RpcFactory.OnAllowSDLFunctionality(allowed, source))
