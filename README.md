@@ -44,7 +44,6 @@ Note: These instructions are written for Node version 12
 Install NVM and use node version 12
 ```
 nvm use 12
-npm install -g webpack@1.11
 ```
 
 Install dependencies (you might need to clean the `node_modules` folder):
@@ -53,7 +52,7 @@ npm install
 ```
 
 
-Run webpack:
+Build the project:
 ```
 npm run build
 ```
