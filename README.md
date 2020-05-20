@@ -6,7 +6,7 @@ Note: This requires you to use Ubuntu 16.04 or 18.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
-## Start the HMI
+### Build and Run the HMI
 
 Once SDL Core is running, follow these steps to set up the Generic HMI.
 
@@ -18,26 +18,7 @@ git submodule update
 ```
 Alternatively, you can clone this repository with the --recurse-submodules flag.
 
-After initializing the git submodules for this project, you can launch the Generic HMI in a web browser:
-```
-chromium-browser index.html
-```
-
-### PTU with vehicle modem (optional)
-
-In order to get policy table updates using the vehicle modem, some additional setup is required
-
-1. Run `deploy_server.sh` in the root folder
-2. Run the HMI normally
-3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
-
-## Developing/Modifying the HMI
-
-The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. The HMI component of SDL is responsible for processing and responding to RPCs which are received from a connected SDL Core instance.
-
-### Building the HMI
-
-Before any changes can be made to the HMI, you will first need to set up your environment to allow for building the Generic HMI.
+The build directory is not included in the github repository. In order to use the generic HMI you must build the application yourself.
 
 Note: These instructions are written for Node version 12
 
@@ -56,7 +37,24 @@ Build the project:
 ```
 npm run build
 ```
-Note: This command must be run before relaunching the HMI in the browser to see any changes made.
+Note: This command must be run before launching the HMI in the browser.
+
+After running the build command, you can launch the Generic HMI in a web browser:
+```
+chromium-browser generic_hmi/build/index.html
+```
+
+### PTU with vehicle modem (optional)
+
+In order to get policy table updates using the vehicle modem, some additional setup is required
+
+1. Run `deploy_server.sh` in the root folder
+2. Run the HMI normally
+3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+
+## Developing/Modifying the HMI
+
+The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. The HMI component of SDL is responsible for processing and responding to RPCs which are received from a connected SDL Core instance.
 
 ### Key Files
 
