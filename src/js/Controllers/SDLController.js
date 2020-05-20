@@ -137,6 +137,8 @@ class SDLController {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch())
                 return;
+            default:
+                return;
         }
     }
     onAppActivated(appID) {

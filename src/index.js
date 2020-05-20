@@ -22,7 +22,6 @@ import InAppList from './js/InAppList';
 import AppStore from './js/AppStore';
 import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer'
-import Alert from './js/Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
@@ -100,14 +99,16 @@ class HMIApp extends React.Component {
                 }
 
                 params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) =>{
+                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
                         let appEntry = Object.assign(app, {
                             entrypoint: manifest.entrypoint,
                             version: manifest.appVersion
                         });
                         store.dispatch(updateInstalledAppStoreApps(appEntry));
                         bcController.getAppProperties(app.policyAppID);
+                        return true;
                     });
+                    return true;
                 });
             });
     

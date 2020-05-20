@@ -168,6 +168,8 @@ export default class Controller {
                     case "SDL":
                         sdlController.handleRPCError(rpc);
                         break;
+                    default:
+                        break;
                 }
             }
             

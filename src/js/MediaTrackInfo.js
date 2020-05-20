@@ -40,8 +40,9 @@ export default class MediaTrackInfo extends React.Component {
                 break;
         }
         if (startDate) {
+            var timeSince = null;
             if (this.props.countDirection === "COUNTDOWN") {
-                var timeSince = new Date(now - this.props.updateTime)
+                timeSince = new Date(now - this.props.updateTime)
                 var position = new Date(startDate - timeSince)
 
                 // Clamp position to timer bounds
@@ -49,7 +50,7 @@ export default class MediaTrackInfo extends React.Component {
                 var endTime = ""
             }
             else {
-                var timeSince = new Date(startDate.getTime() + now - this.props.updateTime)
+                timeSince = new Date(startDate.getTime() + now - this.props.updateTime)
                 // Clamp position to timer bounds
                 position = endDate && timeSince > endDate ? endDate : timeSince
 
@@ -58,7 +59,7 @@ export default class MediaTrackInfo extends React.Component {
                 var endMins = endDate.getMinutes() < 10 ? "0" + endDate.getMinutes() : endDate.getMinutes()
                 var endSecs = endDate.getSeconds() < 10 ? "0" + endDate.getSeconds() : endDate.getSeconds()
                 endTime = "/ " + endHours + ":" + endMins + ":" + endSecs
-                if(endHours == "00" && endMins == "00" && endSecs == "00") {
+                if(endHours === "00" && endMins === "00" && endSecs === "00") {
                     endTime = ""
                 }
             }

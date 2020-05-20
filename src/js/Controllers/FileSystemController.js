@@ -1,10 +1,6 @@
 import SimpleRPCClient from '../SimpleRPCClient'
 
 class FileSystemController extends SimpleRPCClient {
-    constructor() {
-      super();
-    }
-
     connect(url) {
       return super.connect(url);
     }

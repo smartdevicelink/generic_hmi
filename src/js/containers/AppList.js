@@ -17,15 +17,10 @@ const mapStateToProps = (state) => {
             icon = app.icon.replace("local:", "file:")
         }
         else {
-            var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID == app.policyAppID);
+            var appDirEntry = state.appStore.installedApps.find(x => x.policyAppID === app.policyAppID);
             if (appDirEntry) {
                 icon = appDirEntry.iconUrl;
             }
-        }
-        var defaultLink = app.isMediaApplication ? "media" : "nonmedia";
-        var link = "media"
-        if (state.ui[app.appID]) {
-            link = state.ui[app.appID].displayLayout ? state.ui[app.appID].displayLayout : defaultLink
         }
         var name = app.isCloudApplication ? app.appName + " (Cloud)" : app.appName;
         var devicename = (app.deviceInfo.name.trim()) ? app.deviceInfo.name 

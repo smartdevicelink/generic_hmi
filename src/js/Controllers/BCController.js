@@ -5,7 +5,6 @@ import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
 import FileSystemController from './FileSystemController';
-var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -83,7 +82,7 @@ class BCController {
                         fileName: rpc.params.fileName
                       })
                 } else {
-                    if (rpc.params.requestType != "PROPRIETARY") {
+                    if (rpc.params.requestType !== "PROPRIETARY") {
                         // Generic HMI can only process PROPRIETARY System Requests
                         return true
                     }
@@ -102,9 +101,9 @@ class BCController {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "SetAppProperties":
-                let success = (rpc.result.code == 0)
+                let success = (rpc.result.code === 0)
                 let appsPendingSetAppProperties = store.getState().appStore.appsPendingSetAppProperties;
-                if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length == 0) {
+                if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length === 0) {
                     console.error("SetAppProperties Response: no apps in pending queue");
                     return;
                 }
@@ -132,14 +131,17 @@ class BCController {
                 }
                 return;
             case "GetAppProperties":
-                if (rpc.result.code != 0 ||  !rpc.result.properties) {
+                if (rpc.result.code !== 0 ||  !rpc.result.properties) {
                     console.error('Failed to GetAppProperties');
                     return;
                 }
-                rpc.result.properties.map((app_properties)=>{
+                rpc.result.properties.map((app_properties) => {
                     store.dispatch(updateInstalledAppStoreApps(app_properties))
+                    return true;
                 });
 
+                return;
+            default:
                 return;
             /*case "ActivateApp":
                 store.dispatch(activateApp(activatingApplication))
