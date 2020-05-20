@@ -38,7 +38,7 @@ class UIController {
 
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
-        var appUIState = rpc.params.appID ? store.getState()['ui'][rpc.params.appID] : null;
+        var appUIState = rpc.params && rpc.params.appID ? store.getState()['ui'][rpc.params.appID] : null;
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}

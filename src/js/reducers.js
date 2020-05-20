@@ -558,9 +558,6 @@ function appStore(state = {
     appsPendingSetAppProperties: []
 }, action) {
     var newState = { ...state };
-    var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
-    var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
-    var appStoreApp = newState.availableApps.find(app => app.policyAppID === pendingApp.policyAppID);
     switch (action.type) {
         case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
             newState.isConnected = action.isConnected
@@ -590,24 +587,30 @@ function appStore(state = {
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
             // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingAppInstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
-            var newInstalled = [ pendingApp ].concat(newState.installedApps);
+            var newInstalled = [ pendingAppInstall ].concat(newState.installedApps);
             newState.installedApps = newInstalled;
-            if (appStoreApp) { appStoreApp.pendingInstall = false; }
+            var appStoreAppInstalled = newState.availableApps.find(app => app.policyAppID === pendingAppInstall.policyAppID);
+            if (appStoreAppInstalled) { appStoreAppInstalled.pendingInstall = false; }
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
             // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            let pendingAppUninstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
-            newState.installedApps = state.installedApps.filter(app => app.policyAppID !== pendingApp.policyAppID);
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID !== pendingAppUninstall.policyAppID);
             return newState;
         case Actions.WEBENGINE_APP_LAUNCH:
+            var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
             launchedApp.runningAppId = action.appID;
             return newState;
         case Actions.UNREGISTER_APPLICATION:
-            if (launchedApp) { launchedApp.runningAppId = 0; }
+            var unregisteredApp = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (unregisteredApp) { unregisteredApp.runningAppId = 0; }
             return newState;
         case Actions.APPSTORE_BEGIN_INSTALL:
-            if (appStoreApp) { appStoreApp.pendingInstall = true; }
+            let appStoreAppToInstall = newState.availableApps.find(app => app.policyAppID === action.policyAppID);
+            if (appStoreAppToInstall) { appStoreAppToInstall.pendingInstall = true; }
             return newState;
         default:
             return state;
