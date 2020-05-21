@@ -79,7 +79,7 @@ class WSServer():
 class RPCService(WSServer.SampleRPCService):
   def __init__(self, _websocket, _path):
     super().__init__(_websocket, _path)
-    self.webengine_manager = WebEngineManager()
+    self.webengine_manager = WebEngineManager(self.websocket.host)
     self.rpc_mapping = {
       "GetPTSFileContent": self.handle_get_pts_file_content,
       "SavePTUToFile": self.handle_save_ptu_to_file,
@@ -182,7 +182,8 @@ class RPCService(WSServer.SampleRPCService):
 class WebEngineManager():
   next_available_port = 4000
   webengine_apps = {}
-  def __init__(self):
+  def __init__(self, _host):
+    self.WEBENGINE_HOST = _host
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
     if not os.path.isdir(self.storage_folder):
       print('\033[1mCreating apps storage folder\033[0m')
@@ -249,11 +250,11 @@ class WebEngineManager():
     secret_key = str(uuid.uuid4())
     print('\033[2mPort is %s, secret key is %s\033[0m' % (port, secret_key))
 
-    process = subprocess.Popen(['python3', '../../tools/file_server.py', str(port), secret_key], cwd=_app_storage_folder)
+    process = subprocess.Popen(['python3', '../../tools/file_server.py', str(self.WEBENGINE_HOST), str(port), secret_key], cwd=_app_storage_folder)
     time.sleep(1)
 
     WebEngineManager.next_available_port += 1
-    return {'process': process, 'url': 'http://localhost:%s/%s/' % (port, secret_key)}
+    return {'process': process, 'url': 'http://%s:%s/%s/' % (self.WEBENGINE_HOST, port, secret_key)}
 
   def handle_get_installed_apps(self, _method_name, _params):
     resp = self.get_installed_apps()
