@@ -183,6 +183,8 @@ class RPCService(WSServer.SampleRPCService):
 class WebEngineManager():
   next_available_port = 4000
   webengine_apps = {}
+  WEBENGINE_REMOTE_HOST = "127.0.0.1"
+
   def __init__(self, _host):
     self.WEBENGINE_HOST = _host
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
@@ -255,7 +257,7 @@ class WebEngineManager():
     time.sleep(1)
 
     WebEngineManager.next_available_port += 1
-    return {'process': process, 'url': 'http://%s:%s/%s/' % (self.WEBENGINE_HOST, port, secret_key)}
+    return {'process': process, 'url': 'http://%s:%s/%s/' % (WebEngineManager.WEBENGINE_REMOTE_HOST, port, secret_key)}
 
   def handle_get_installed_apps(self, _method_name, _params):
     resp = self.get_installed_apps()
@@ -319,6 +321,9 @@ def main():
 
   host = str(sys.argv[1])
   port = int(sys.argv[2])
+  WebEngineManager.WEBENGINE_REMOTE_HOST = str(sys.argv[3]) if (len(sys.argv) > 3 and str(sys.argv[3]).strip() != "") else host
+  WebEngineManager.next_available_port = int(sys.argv[4]) if (len(sys.argv) > 4 and int(sys.argv[4]) != 0) else WebEngineManager.next_available_port
+
   backend_server = WSServer(host, port, RPCService)
 
   print('Starting server')
