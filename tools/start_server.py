@@ -38,6 +38,7 @@ from zipfile import ZipFile
 import subprocess
 import uuid
 import time
+import sys
 
 class WSServer():
   def __init__(self, _host, _port, _service_class=None):
@@ -311,7 +312,14 @@ class WebEngineManager():
     }
     
 def main():
-  backend_server = WSServer('localhost', 8081, RPCService)
+
+  if len(sys.argv) < 3:
+    print('\033[31;01mMissing required arguments: hostname and port\033[0m')
+    sys.exit(1)
+
+  host = str(sys.argv[1])
+  port = int(sys.argv[2])
+  backend_server = WSServer(host, port, RPCService)
 
   print('Starting server')
   backend_server.start_server()
