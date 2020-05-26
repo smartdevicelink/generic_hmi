@@ -321,7 +321,7 @@ def main():
 
   host = str(sys.argv[1])
   port = int(sys.argv[2])
-  WebEngineManager.WEBENGINE_REMOTE_HOST = str(sys.argv[3]) if (len(sys.argv) > 3 and str(sys.argv[3]).strip() != "") else host
+  WebEngineManager.WEBENGINE_REMOTE_HOST = str(sys.argv[3]) if len(sys.argv) > 3 else host
   WebEngineManager.next_available_port = int(sys.argv[4]) if (len(sys.argv) > 4 and int(sys.argv[4]) != 0) else WebEngineManager.next_available_port
 
   backend_server = WSServer(host, port, RPCService)
