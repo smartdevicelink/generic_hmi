@@ -34,7 +34,8 @@ import os
 import sys
 
 class FileServer():
-  def __init__(self, _port, _secret_key):
+  def __init__(self, _host, _port, _secret_key):
+    self.HOST = _host
     self.PORT = _port
     self.SECRET_KEY = _secret_key
     self.tcp_server = None
@@ -42,7 +43,7 @@ class FileServer():
   def start(self):
     socketserver.TCPServer.allow_reuse_address = True
     try:
-      self.tcp_server = socketserver.TCPServer(("127.0.0.1", self.PORT), self.getRequestHandler(self.SECRET_KEY))
+      self.tcp_server = socketserver.TCPServer((self.HOST, self.PORT), self.getRequestHandler(self.SECRET_KEY))
       self.tcp_server.serve_forever()
       self.stop()
     except KeyboardInterrupt:
@@ -82,8 +83,9 @@ class FileServer():
     return Handler
 
 if __name__ == '__main__':
-  port = int(sys.argv[1])
-  secret_key = str(sys.argv[2])
+  host = str(sys.argv[1])
+  port = int(sys.argv[2])
+  secret_key = str(sys.argv[3])
 
-  fs = FileServer(port, secret_key)
+  fs = FileServer(host, port, secret_key)
   fs.start()

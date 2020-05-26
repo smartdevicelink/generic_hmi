@@ -39,7 +39,7 @@ DeployServer() {
 
 StartServer() {
     cp ${SOURCE_DIR}/${TARGET_SCRIPT} ${TARGET_DIR}
-    python3 ${TARGET_DIR}/${TARGET_SCRIPT}
+    python3 ${TARGET_DIR}/${TARGET_SCRIPT} 127.0.0.1 8081
     rm ${TARGET_DIR}/${TARGET_SCRIPT}
 }
 
