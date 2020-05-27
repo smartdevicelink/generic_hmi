@@ -44,9 +44,12 @@ from http.server import SimpleHTTPRequestHandler
 import threading
 
 class WebengineFileServer():
-  def __init__(self, _host, _port):
+  def __init__(self, _host, _port, _remote_host=None, _remote_port=None):
     self.HOST = _host
     self.PORT = _port
+    self.REMOTE_HOST = _remote_host if _remote_host is not None else _host
+    self.REMOTE_PORT = _remote_port if _remote_port is not None else _port
+
     self.tcp_server = None
     self.app_dir_mapping = {}
 
@@ -144,7 +147,7 @@ class WSServer():
 class RPCService(WSServer.SampleRPCService):
   def __init__(self, _websocket, _path):
     super().__init__(_websocket, _path)
-    self.webengine_manager = WebEngineManager(self.websocket.host)
+    self.webengine_manager = WebEngineManager()
     self.rpc_mapping = {
       "GetPTSFileContent": self.handle_get_pts_file_content,
       "SavePTUToFile": self.handle_save_ptu_to_file,
@@ -245,22 +248,15 @@ class RPCService(WSServer.SampleRPCService):
     return {'success': False, 'info': _error_msg}
 
 class WebEngineManager():
-  webengine_apps = {}
-  WEBENGINE_REMOTE_HOST = "127.0.0.1"
   file_server = None
-  FILE_SERVER_PORT = 4000
 
-  def __init__(self, _host):
-    self.WEBENGINE_HOST = _host
+  def __init__(self):
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
     if not os.path.isdir(self.storage_folder):
       print('\033[1mCreating apps storage folder\033[0m')
       os.mkdir(self.storage_folder)
 
-    WebEngineManager.file_server = WebengineFileServer(self.WEBENGINE_HOST, self.FILE_SERVER_PORT)
-
-    thd = threading.Thread(target=WebEngineManager.file_server.start)
-    thd.start()
+    self.webengine_apps = {}
 
   def handle_install_app(self, _method_name, _params):
     if 'policyAppID' not in _params:
@@ -302,7 +298,7 @@ class WebEngineManager():
     # Start file server
     print('\033[1mAdding app to File Server\033[0m')
     file_server_info = self.add_app_to_file_server(app_storage_folder)
-    WebEngineManager.webengine_apps[_app_id] = {
+    self.webengine_apps[_app_id] = {
       "policyAppID": _app_id,
       "appURL": file_server_info['url'],
       "appKey": file_server_info['key']
@@ -321,7 +317,7 @@ class WebEngineManager():
     WebEngineManager.file_server.add_app_mapping(secret_key, _app_storage_folder)
     return {
       "key": secret_key, 
-      "url": 'http://%s:%s/%s/' % (WebEngineManager.WEBENGINE_REMOTE_HOST, WebEngineManager.FILE_SERVER_PORT, secret_key)
+      "url": 'http://%s:%s/%s/' % (WebEngineManager.file_server.REMOTE_HOST, WebEngineManager.file_server.REMOTE_PORT, secret_key)
     }
 
   def handle_get_installed_apps(self, _method_name, _params):
@@ -332,18 +328,18 @@ class WebEngineManager():
     apps_info = []
     app_dirs = [d for d in os.listdir(self.storage_folder) if os.path.isdir(os.path.join(self.storage_folder, d))]
     for app_id in app_dirs:
-      if app_id not in WebEngineManager.webengine_apps:
+      if app_id not in self.webengine_apps:
         print('\033[1mAdding app %s to file server\033[0m' % app_id)
         app_storage_folder = os.path.join(self.storage_folder, app_id)
         file_server_info = self.add_app_to_file_server(app_storage_folder)
-        WebEngineManager.webengine_apps[app_id] = {
+        self.webengine_apps[app_id] = {
           "policyAppID": app_id,
           "appURL": file_server_info['url'],
           "appKey": file_server_info['key']
         }
       apps_info.append({
         "policyAppID": app_id, 
-        "appUrl": WebEngineManager.webengine_apps[app_id]['appURL']
+        "appUrl": self.webengine_apps[app_id]['appURL']
       })
     
     return {
@@ -366,9 +362,9 @@ class WebEngineManager():
       print('\033[1;31mApp %s is not installed\033[0m' % _app_id)
       return RPCService.gen_error_msg('App \'%s\' is not installed' % _app_id)
 
-    if _app_id in WebEngineManager.webengine_apps:
-      WebEngineManager.file_server.remove_app_mapping(WebEngineManager.webengine_apps[_app_id]['appKey'])
-      removed_app = WebEngineManager.webengine_apps.pop(_app_id)
+    if _app_id in self.webengine_apps:
+      WebEngineManager.file_server.remove_app_mapping(self.webengine_apps[_app_id]['appKey'])
+      removed_app = self.webengine_apps.pop(_app_id)
       print('\033[1mRemoving webengine app %s\033[0m' % str(removed_app))
 
     print('\033[1mRemoving app storage folder\033[0m')
@@ -380,7 +376,19 @@ class WebEngineManager():
         "policyAppID": _app_id
       }
     }
-    
+
+  @staticmethod
+  def start_file_server(_host, _port, _remote_host=None, _remote_port=None):
+    WebEngineManager.file_server = WebengineFileServer(_host, _port, _remote_host, _remote_port)
+    thd = threading.Thread(target=WebEngineManager.file_server.start)
+    thd.start()
+
+  @staticmethod
+  def stop_file_server():
+    if WebEngineManager.file_server is not None:
+      WebEngineManager.file_server.stop()
+      WebEngineManager.file_server = None
+
 def main():
 
   if len(sys.argv) < 3:
@@ -389,17 +397,20 @@ def main():
 
   host = str(sys.argv[1])
   port = int(sys.argv[2])
-  WebEngineManager.WEBENGINE_REMOTE_HOST = str(sys.argv[3]) if len(sys.argv) > 3 else host
-  WebEngineManager.FILE_SERVER_PORT = int(sys.argv[4]) if (len(sys.argv) > 4 and int(sys.argv[4]) != 0) else WebEngineManager.FILE_SERVER_PORT
+  remote_host = str(sys.argv[3]) if len(sys.argv) > 3 else host
+  file_server_port = int(sys.argv[4]) if (len(sys.argv) > 4 and int(sys.argv[4]) != 0) else 4000
 
   backend_server = WSServer(host, port, RPCService)
 
+  print('Starting file server')
+  WebEngineManager.start_file_server(host, file_server_port, remote_host)
   print('Starting server')
   backend_server.start_server()
+
+  print('Stopping file server')
+  WebEngineManager.stop_file_server()
   print('Stopping server')
-  if WebEngineManager.file_server is not None:
-    print('Stopping file server')
-    WebEngineManager.file_server.stop()
+
 
 if __name__ == '__main__':
   main()
