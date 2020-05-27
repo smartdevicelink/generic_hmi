@@ -397,13 +397,15 @@ def main():
 
   host = str(sys.argv[1])
   port = int(sys.argv[2])
-  remote_host = str(sys.argv[3]) if len(sys.argv) > 3 else host
-  file_server_port = int(sys.argv[4]) if (len(sys.argv) > 4 and int(sys.argv[4]) != 0) else 4000
+  file_server_port = int(sys.argv[3]) if (len(sys.argv) > 3 and int(sys.argv[3]) != 0) else 4000
+
+  remote_fs_host = str(sys.argv[4]) if len(sys.argv) > 4 else host
+  remote_fs_port = int(sys.argv[5]) if (len(sys.argv) > 5 and int(sys.argv[5]) != 0) else file_server_port
 
   backend_server = WSServer(host, port, RPCService)
 
   print('Starting file server')
-  WebEngineManager.start_file_server(host, file_server_port, remote_host)
+  WebEngineManager.start_file_server(host, file_server_port, remote_fs_host, remote_fs_port)
   print('Starting server')
   backend_server.start_server()
 
