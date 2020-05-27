@@ -85,7 +85,6 @@ class WebengineFileServer():
         path_parts = self.path.split('/')
         key = path_parts[1]
         file_path = '/'.join(path_parts[2:])  
-        print('key is %s, path is %s' % (key, file_path))
 
         # Check if the secret key is valid 
         if key not in app_dir_mapping:
@@ -101,7 +100,6 @@ class WebengineFileServer():
           return
 
         self.path = '/%s/%s' % (app_dir_path, file_path)
-        print(self.translate_path(self.path))
         super().do_GET()
 
     return Handler
@@ -260,7 +258,6 @@ class WebEngineManager():
       os.mkdir(self.storage_folder)
 
     WebEngineManager.file_server = WebengineFileServer(self.WEBENGINE_HOST, self.FILE_SERVER_PORT)
-    self.apps = {}
 
     thd = threading.Thread(target=WebEngineManager.file_server.start)
     thd.start()
