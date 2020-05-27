@@ -91,14 +91,17 @@ class WebengineFileServer():
         if key not in app_dir_mapping:
           super().send_error(403, "Using invalid key %s" % key)
           return
-        self.directory = os.path.join(app_dir_mapping[key])
+
+        # Get path relative to current working directory
+        app_dir_path = app_dir_mapping[key].lstrip(os.path.commonpath([app_dir_mapping[key], os.getcwd()]))
 
         # Check if requested path is a directory
-        if os.path.isdir(os.path.join(self.directory, file_path)):
+        if os.path.isdir(os.path.join(os.getcwd(), app_dir_path, file_path)):
           super().send_error(403, "Cannot list directories")
           return
 
-        self.path = '/%s' % file_path
+        self.path = '/%s/%s' % (app_dir_path, file_path)
+        print(self.translate_path(self.path))
         super().do_GET()
 
     return Handler
@@ -398,6 +401,7 @@ def main():
   backend_server.start_server()
   print('Stopping server')
   if WebEngineManager.file_server is not None:
+    print('Stopping file server')
     WebEngineManager.file_server.stop()
 
 if __name__ == '__main__':
