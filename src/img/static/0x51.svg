@@ -5,7 +5,7 @@
 <style type="text/css">
 	.st0_51{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<rect class="st0_51" x="13" y="10" width="24" height="30"/>
-<path class="st0_51" d="M21,21c0-2.2,1.8-4,4-4s4,1.8,4,4s-1.8,4-4,4v4"/>
-<rect class="st0_51" x="25" y="32" width=".01" height=".01"/>
+<rect class="st0_51 svg-stroke" x="13" y="10" width="24" height="30"/>
+<path class="st0_51 svg-stroke" d="M21,21c0-2.2,1.8-4,4-4s4,1.8,4,4s-1.8,4-4,4v4"/>
+<rect class="st0_51 svg-stroke" x="25" y="32" width=".01" height=".01"/>
 </svg>

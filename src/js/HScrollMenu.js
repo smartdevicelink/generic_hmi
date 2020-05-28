@@ -2,9 +2,6 @@ import React from 'react';
 import HScrollMenuItem from './HScrollMenuItem'
 
 export default class HScrollMenu extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         let menuItems = this.props.data.map((menuItem) => {

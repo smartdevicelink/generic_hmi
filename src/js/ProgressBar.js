@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default class ProgressBar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         clearInterval(this.interval)
         this.interval = setInterval(this.forceUpdate.bind(this), 50)
@@ -51,6 +48,8 @@ export default class ProgressBar extends React.Component {
             case "COUNTDOWN":
                 clearInterval(this.interval)
                 this.interval = setInterval(this.forceUpdate.bind(this), 50)
+                break
+            default:
                 break
         }
 

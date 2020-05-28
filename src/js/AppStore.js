@@ -48,7 +48,7 @@ class AppStore extends React.Component {
                 }
 
                 let state = store.getState();
-                var appDirEntry = state.appStore.availableApps.find(x => x.policyAppID == manifest.appId);
+                var appDirEntry = state.appStore.availableApps.find(x => x.policyAppID === manifest.appId);
 
                 if (!appDirEntry) {
                     console.error('no app found in app store directory with policyAppID ', manifest.appId);

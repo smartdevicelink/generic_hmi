@@ -11,9 +11,7 @@ class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
         this.handleRPCError = this.handleRPCError.bind(this)
-        var incrementedRpcId = 5012
-        var rpcAppIdMap = {}
-        
+                
         //ToDo: Add ExternalConsentStatus View
         //Sample struct used below
         /*this.externalConsentStatus = [{
@@ -129,6 +127,8 @@ class SDLController {
                 }
                 this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
                 return;
+            default:
+                return false;
         }
     }
     handleRPCError(rpc) {
@@ -136,6 +136,8 @@ class SDLController {
         switch (methodName) {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch())
+                return;
+            default:
                 return;
         }
     }

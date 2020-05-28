@@ -5,7 +5,7 @@
 <style type="text/css">
 	.st0_88{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<rect x="10" y="13" class="st0_88" width="30" height="26"/>
-<polyline class="st0_88" points="10,39 20,22 26,31 30,26 40,39 "/>
-<circle class="st0_88" cx="33" cy="19" r="2"/>
+<rect x="10" y="13" class="st0_88 svg-stroke" width="30" height="26"/>
+<polyline class="st0_88 svg-stroke" points="10,39 20,22 26,31 30,26 40,39 "/>
+<circle class="st0_88 svg-stroke" cx="33" cy="19" r="2"/>
 </svg>

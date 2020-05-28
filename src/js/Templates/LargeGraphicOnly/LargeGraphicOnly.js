@@ -5,10 +5,6 @@ import AppHeader from '../../containers/Header';
 import { LargeGraphic } from '../../containers/Metadata';
 
 class LargeGraphicOnly extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

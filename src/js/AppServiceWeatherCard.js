@@ -1,14 +1,7 @@
 import React from 'react';
-import weatherIcon from "../img/app_services/weather.svg";
-import WeatherButton from "./WeatherButton";
 import WeatherServiceImage from './WeatherServiceImage';
 
 export default class AppServiceWeatherCard extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         if (!this.props.weatherActive || !this.props.weatherData) {
             return null;

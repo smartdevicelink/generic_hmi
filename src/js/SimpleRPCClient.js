@@ -31,7 +31,7 @@ export default class SimpleRPCClient{
       this.socket.onmessage = (evt) => {
         let event = JSON.parse(evt.data)
         let event_name = event.method;
-        if(event.success != undefined && event_name in this.eventListenersMap){
+        if(event.success !== undefined && event_name in this.eventListenersMap){
           let params = event.params ? event.params : {}
           this.eventListenersMap[event_name](event.success, params)
         }
@@ -77,7 +77,7 @@ export default class SimpleRPCClient{
   }
 
   isConnected(){
-    return (this.socket && this.socket.readyState == WebSocket.OPEN);
+    return (this.socket && this.socket.readyState === WebSocket.OPEN);
   }
 
 }

@@ -1,16 +1,11 @@
 import React from 'react';
 
-import AlertHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
 import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class Alert extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }

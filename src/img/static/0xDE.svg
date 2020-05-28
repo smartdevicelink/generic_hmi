@@ -5,7 +5,7 @@
 <style type="text/css">
 	.st0_DE{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<rect x="13" y="13" class="st0_DE" width="24" height="24"/>
-<circle class="st0_DE" cx="25" cy="22" r="3"/>
-<circle class="st0_DE" cx="25" cy="28" r="3"/>
+<rect x="13" y="13" class="st0_DE svg-stroke" width="24" height="24"/>
+<circle class="st0_DE svg-stroke" cx="25" cy="22" r="3"/>
+<circle class="st0_DE svg-stroke" cx="25" cy="28" r="3"/>
 </svg>

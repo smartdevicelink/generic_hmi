@@ -5,10 +5,6 @@ import { VSubMenu, HSubMenu } from './containers/SubMenu';
 import store from './store'
 
 export default class InAppMenu extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const state = store.getState()
         const app = state.ui[state.activeApp]

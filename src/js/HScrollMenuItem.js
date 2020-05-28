@@ -1,12 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class HScrollMenuItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { menuItem } = this.props;
         var fill = this.props.theme ? "#FFFFFF" : "#000000";

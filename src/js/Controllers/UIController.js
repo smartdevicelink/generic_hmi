@@ -15,7 +15,6 @@ import {
     closeAlert,
     setGlobalProperties,
     deactivateInteraction,
-    activateApp,
     showAppMenu
 } from '../actions'
 import store from '../store'
@@ -39,6 +38,7 @@ class UIController {
 
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
+        var appUIState = rpc.params && rpc.params.appID ? store.getState()['ui'][rpc.params.appID] : null;
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
@@ -51,7 +51,7 @@ class UIController {
                     return false;
                 }                
             case "Show":
-                if (rpc.params.windowID && rpc.params.windowID != 0) {
+                if (rpc.params.windowID && rpc.params.windowID !== 0) {
                     // Generic HMI only supports main window for now.
                     return false;
                 }
@@ -63,7 +63,6 @@ class UIController {
                     rpc.params.secondaryGraphic
                 ));
                 if (rpc.params.templateConfiguration) {
-                    var appUIState = store.getState()['ui'][rpc.params.appID];
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
                     const templateConfiguration = rpc.params.templateConfiguration;
                     store.dispatch(setTemplateConfiguration(
@@ -73,7 +72,7 @@ class UIController {
                         templateConfiguration.nightColorScheme
                     ));
                     
-                    if (prevDisplayLayout != templateConfiguration.template) {
+                    if (prevDisplayLayout !== templateConfiguration.template) {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
                     }                    
                 }
@@ -151,13 +150,11 @@ class UIController {
                 return true
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
-
-                var appUIState = store.getState()['ui'][rpc.params.appID];
                 const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
 
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
                 
-                if (prevDisplayLayout != rpc.params.displayLayout) {
+                if (prevDisplayLayout !== rpc.params.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
@@ -179,16 +176,16 @@ class UIController {
                     rpc.params.alertIcon,
                     rpc.params.cancelID
                 ))
-                var timeout = rpc.params.duration ? rpc.params.duration : 10000
+                var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
                 const context = state.activeApp
 
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, timeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID)
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 this.onSystemContext("ALERT", rpc.params.appID)
 
-                if ((context != rpc.params.appID) && context) {
+                if ((context !== rpc.params.appID) && context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
 
@@ -236,7 +233,7 @@ class UIController {
         ))
         this.listener.send(RpcFactory.AlertResponse(msgID, appID))
 
-        if (appID != context) {
+        if (appID !== context) {
             this.onSystemContext("MAIN", appID)
         }
         this.onSystemContext("MAIN", context)

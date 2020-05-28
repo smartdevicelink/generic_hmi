@@ -6,7 +6,7 @@ import { activateSubMenu } from '../actions'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-    var menu = state.ui[activeApp].menu
+    var menu = state.ui[activeApp] ? state.ui[activeApp].menu : []
     var theme = state.theme
     var data = menu.map((command) => {
         var link =  state.ui[activeApp].displayLayout

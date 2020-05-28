@@ -1,14 +1,9 @@
 import React from 'react';
-import weatherIcon from "../img/app_services/weather.svg";
+import {ReactComponent as WeatherIcon} from "../img/app_services/weather.svg";
 import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
 export default class WeatherServiceImage extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         var icon = this.props.image
         if (icon) {
@@ -29,8 +24,9 @@ export default class WeatherServiceImage extends React.Component {
             }
         } else {
             return (
-                <span className="svg-size  weather-color " 
-                    dangerouslySetInnerHTML={{__html: weatherIcon}} /> 
+                <span className="svg-size  weather-color ">
+                    <WeatherIcon/>
+                </span>
             );
         }
     }

@@ -1,10 +1,6 @@
 import SimpleRPCClient from '../SimpleRPCClient'
 
 class FileSystemController extends SimpleRPCClient {
-    constructor() {
-      super();
-    }
-
     connect(url) {
       return super.connect(url);
     }
@@ -154,7 +150,7 @@ class FileSystemController extends SimpleRPCClient {
             reject();
           }
 
-        }).catch(() => {
+        }).catch((e) => {
           console.error('Failed to get the contents of the manifest JS File', e);
           reject();
         });

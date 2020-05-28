@@ -5,10 +5,6 @@ import { NonMediaMetadata } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
 
 class NonMedia extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

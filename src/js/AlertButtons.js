@@ -15,9 +15,9 @@ export default class AlertButtons extends React.Component {
             buttonName: "CUSTOM_BUTTON",
             duration: softButton.duration
         }
-        if(softButton.systemAction == "STEAL_FOCUS") {
+        if(softButton.systemAction === "STEAL_FOCUS") {
             action = this.props.onStealFocus(alert, this.props.appID)
-        } else if (softButton.systemAction == "KEEP_CONTEXT") {
+        } else if (softButton.systemAction === "KEEP_CONTEXT") {
             action = this.props.onKeepContext(alert)
         } else {
             action = this.props.onDefaultAction(alert, this.props.appID)
@@ -27,13 +27,12 @@ export default class AlertButtons extends React.Component {
     }
     render() {
         var softButtons = this.props.alertButtons
-        var id = 0
         var items;
         if(!softButtons){
             return (null)
         }
 
-        if(softButtons.length == 1) {
+        if(softButtons.length === 1) {
             items = softButtons.map((softButton, index) => {               
                 return (<div className="alert-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
@@ -46,7 +45,7 @@ export default class AlertButtons extends React.Component {
                                 />                                   
                         </div>)
             })
-        } else if (softButtons.length == 2) {
+        } else if (softButtons.length === 2) {
             items = softButtons.map((softButton, index) => {
                 return (<div className="alert-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
@@ -59,7 +58,7 @@ export default class AlertButtons extends React.Component {
                                 />                                    
                         </div>)
             })
-        } else if (softButtons.length == 3) {
+        } else if (softButtons.length === 3) {
             items = softButtons.map((softButton, index) => {
                 return (<div className="alert-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}
@@ -72,7 +71,7 @@ export default class AlertButtons extends React.Component {
                                 />                                    
                         </div>)
             })            
-        } else if (softButtons.length == 4) {
+        } else if (softButtons.length === 4) {
             items = softButtons.map((softButton, index) => {
                 return (<div className="alert-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons" 
                             key={softButton.softButtonID}

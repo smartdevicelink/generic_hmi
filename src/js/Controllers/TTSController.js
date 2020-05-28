@@ -10,7 +10,7 @@ class TTSController {
     }
 
     playAudio() {
-        if(this.filePlaylist.length == 0) {
+        if(this.filePlaylist.length === 0) {
             this.audioPlayer.onended = null;
             if(!this.audioPlayer.paused) {
                 this.audioPlayer.pause();
@@ -49,7 +49,7 @@ class TTSController {
     }
 
     speak() {
-        if(this.filePlaylist.length == 0) {
+        if(this.filePlaylist.length === 0) {
             return;
         }
 
@@ -116,6 +116,8 @@ class TTSController {
                 }
                 
                 return true;
+            default:
+                return false;
         }
     }
 }

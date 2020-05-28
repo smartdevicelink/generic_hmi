@@ -5,6 +5,6 @@
 <style type="text/css">
 	.st0_B9{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<polyline class="st0_B9" points="25,38 25,25 16,16 "/>
-<polyline class="st0_B9" points="16,22 16,16 22,16 "/>
+<polyline class="st0_B9 svg-stroke" points="25,38 25,25 16,16 "/>
+<polyline class="st0_B9 svg-stroke" points="16,22 16,16 22,16 "/>
 </svg>

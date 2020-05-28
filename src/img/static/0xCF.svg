@@ -6,7 +6,7 @@
 	.st0_CF{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 	.st2_CF{fill:currentColor;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<polygon class="st2_CF" points="10,18 20,25 10,32 "/>
-<rect class="st0_CF" x="29" y="19" class="st1_CF" width="4" height="12"/>
-<rect class="st0_CF" x="37" y="19" class="st1_CF" width="4" height="12"/>
+<polygon class="st2_CF svg-stroke" points="10,18 20,25 10,32 "/>
+<rect class="st0_CF svg-stroke" x="29" y="19" class="st1_CF svg-stroke" width="4" height="12"/>
+<rect class="st0_CF svg-stroke" x="37" y="19" class="st1_CF svg-stroke" width="4" height="12"/>
 </svg>

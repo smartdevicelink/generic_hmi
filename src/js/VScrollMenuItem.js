@@ -1,16 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage'
-import iconArrowRight from '../img/icons/icon-arrow-right.svg';
+import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.svg';
 
 export default class VScrollMenuItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
-        let subMenuIndicator = this.props.menuID ? 
-            <span className="vscrollmenu-item__arrow svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} /> 
-            : null;
+        let subMenuIndicator = this.props.menuID ? (
+                <span className="vscrollmenu-item__arrow svg-wrap" > 
+                    <IconArrowRight/>
+                </span>
+            ) : null;
 
         return (
             <Link

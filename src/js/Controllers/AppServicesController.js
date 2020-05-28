@@ -15,7 +15,9 @@ class AppServicesController {
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, false)}
             case "OnAppServiceData":
                 store.dispatch(onAppServiceData(rpc.params.serviceData))
-                return null
+                return null;
+            default:
+                return false;
         }
     }
 }

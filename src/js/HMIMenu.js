@@ -5,10 +5,6 @@ import AppList from './containers/AppList';
 import AppServices from './containers/AppServices';
 
 export default class HMIMenu extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div>

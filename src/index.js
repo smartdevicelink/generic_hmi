@@ -1,46 +1,48 @@
+import './index.css';
+import * as serviceWorker from './serviceWorker';
+
 // import css
-import '../css/main.scss';
+import './css/main.scss';
 
 // import react and js
-import MediaPlayer from './MediaPlayer';
-import NonMedia from './Templates/NonMedia/NonMedia'
-import LargeGraphicOnly from './Templates/LargeGraphicOnly/LargeGraphicOnly'
-import LargeGraphicWithSoftbuttons from './Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
-import GraphicWithTextButtons from './Templates/GraphicWithTextButtons/GraphicWithTextButtons'
-import TextButtonsWithGraphic from './Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
-import TextButtonsOnly from './Templates/TextButtonsOnly/TextButtonsOnly'
-import TilesOnly from './Templates/TilesOnly/TilesOnly';
-import TextWithGraphic from './Templates/TextWithGraphic/TextWithGraphic'
-import GraphicWithText from './Templates/GraphicWithText/GraphicWithText'
-import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
-import HMIMenu from './HMIMenu';
-import InAppMenu from './InAppMenu';
-import InAppList from './InAppList';
-import AppStore from './AppStore';
-import AppStoreMenu from './AppStoreMenu';
-import WebEngineAppContainer from './WebEngineAppContainer'
-import Alert from './Alert'
+import MediaPlayer from './js/MediaPlayer';
+import NonMedia from './js/Templates/NonMedia/NonMedia'
+import LargeGraphicOnly from './js/Templates/LargeGraphicOnly/LargeGraphicOnly'
+import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
+import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
+import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
+import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
+import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
+import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
+import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
+import DoubleGraphicWithSoftbuttons from './js/Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
+import HMIMenu from './js/HMIMenu';
+import InAppMenu from './js/InAppMenu';
+import InAppList from './js/InAppList';
+import AppStore from './js/AppStore';
+import AppStoreMenu from './js/AppStoreMenu';
+import WebEngineAppContainer from './js/WebEngineAppContainer'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
-import { flags } from './Flags'
+import { flags } from './js/Flags'
 
-import { Router, Route, hashHistory } from 'react-router'
+import { Route, HashRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
-import store from './store'
+import store from './js/store'
 
-import Controller from './Controllers/Controller'
-import FileSystemController from './Controllers/FileSystemController';
-import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './actions'
+import Controller from './js/Controllers/Controller'
+import FileSystemController from './js/Controllers/FileSystemController';
+import bcController from './js/Controllers/BCController'
+import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './js/actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dark: true
         }
-        this.sdl = new Controller
+        this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
     }
@@ -97,14 +99,16 @@ class HMIApp extends React.Component {
                 }
 
                 params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) =>{
+                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
                         let appEntry = Object.assign(app, {
                             entrypoint: manifest.entrypoint,
                             version: manifest.appVersion
                         });
                         store.dispatch(updateInstalledAppStoreApps(appEntry));
                         bcController.getAppProperties(app.policyAppID);
+                        return true;
                     });
+                    return true;
                 });
             });
     
@@ -130,8 +134,8 @@ HMIApp = connect(mapStateToProps)(HMIApp)
 ReactDOM.render((
     <Provider store={store}>
     <HMIApp>
-        <Router history={hashHistory}>
-            <Route path="/" component={HMIMenu} />
+        <HashRouter>
+            <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
@@ -147,7 +151,14 @@ ReactDOM.render((
             <Route path="/inapplist" component={InAppList} />
             <Route path="/appstore" component={AppStore} />
             <Route path="/appstoremenu" component={AppStoreMenu} />
-        </Router>
+        </HashRouter>
     </HMIApp>
     </Provider>
 ), document.getElementById('app'));
+
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: 
+// https://create-react-app.dev/docs/making-a-progressive-web-app/
+serviceWorker.unregister();
