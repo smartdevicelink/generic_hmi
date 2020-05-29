@@ -42,6 +42,7 @@ import sys
 import socketserver
 from http.server import SimpleHTTPRequestHandler
 import threading
+import argparse
 
 class Flags():
   """Used to define global properties"""
@@ -405,20 +406,20 @@ class WebEngineManager():
     }
 
 def main():
+  parser =  argparse.ArgumentParser(description="Handle backend operations for the hmi")
+  parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
+  parser.add_argument('--port', type=int, required=True, help="Backend server port number")
+  parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
+  parser.add_argument('--remote-fs-host', type=str, help="File server's remote hostname(to be sent back to the client hmi)")
+  parser.add_argument('--remote-fs-port', type=int, help="File server's remote port number(to be sent back to the client hmi)")
 
-  if len(sys.argv) < 3:
-    print('\033[31;01mMissing required arguments: hostname and port\033[0m')
-    sys.exit(1)
+  args = parser.parse_args()
+  Flags.FILE_SERVER_HOST = args.host
+  Flags.FILE_SERVER_PORT = args.fs_port
+  Flags.FILE_SERVER_REMOTE_HOST = args.remote_fs_host if args.remote_fs_host else Flags.FILE_SERVER_HOST
+  Flags.FILE_SERVER_REMOTE_PORT = args.remote_fs_port if args.remote_fs_port else Flags.FILE_SERVER_PORT
 
-  host = str(sys.argv[1])
-  port = int(sys.argv[2])
-
-  Flags.FILE_SERVER_HOST = host
-  Flags.FILE_SERVER_PORT = int(sys.argv[3]) if (len(sys.argv) > 3 and int(sys.argv[3]) != 0) else 4000
-  Flags.FILE_SERVER_REMOTE_HOST = str(sys.argv[4]) if len(sys.argv) > 4 else host
-  Flags.FILE_SERVER_REMOTE_PORT = int(sys.argv[5]) if (len(sys.argv) > 5 and int(sys.argv[5]) != 0) else Flags.FILE_SERVER_PORT
-
-  backend_server = WSServer(host, port, RPCService)
+  backend_server = WSServer(args.host, args.port, RPCService)
 
   print('Starting server')
   backend_server.start_server()
