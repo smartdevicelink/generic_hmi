@@ -43,6 +43,12 @@ import socketserver
 from http.server import SimpleHTTPRequestHandler
 import threading
 
+class Flags():
+  FILE_SERVER_HOST = '127.0.0.1'
+  FILE_SERVER_PORT = 4000
+  FILE_SERVER_REMOTE_HOST = '127.0.0.1'
+  FILE_SERVER_REMOTE_PORT = 4000
+
 class WebengineFileServer():
   def __init__(self, _host, _port, _remote_host=None, _remote_port=None):
     self.HOST = _host
@@ -66,7 +72,7 @@ class WebengineFileServer():
       print(e)
       self.tcp_server = None
 
-  def stop(self):
+  def stop(self, sig=None, frame=None):
     if self.tcp_server is not None:
       self.tcp_server.shutdown()
       self.tcp_server.server_close()
@@ -248,7 +254,6 @@ class RPCService(WSServer.SampleRPCService):
     return {'success': False, 'info': _error_msg}
 
 class WebEngineManager():
-  file_server = None
 
   def __init__(self):
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
@@ -257,6 +262,11 @@ class WebEngineManager():
       os.mkdir(self.storage_folder)
 
     self.webengine_apps = {}
+
+    self.file_server = WebengineFileServer(Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT, Flags.FILE_SERVER_REMOTE_HOST, Flags.FILE_SERVER_REMOTE_PORT)
+    thd = threading.Thread(target=self.file_server.start)
+    thd.start()
+    signal.signal(signal.SIGINT, self.file_server.stop)
 
   def handle_install_app(self, _method_name, _params):
     if 'policyAppID' not in _params:
@@ -314,10 +324,10 @@ class WebEngineManager():
   def add_app_to_file_server(self, _app_storage_folder):
     secret_key = str(uuid.uuid4())
     print('\033[2mSecret key is %s\033[0m' % (secret_key))
-    WebEngineManager.file_server.add_app_mapping(secret_key, _app_storage_folder)
+    self.file_server.add_app_mapping(secret_key, _app_storage_folder)
     return {
       "key": secret_key, 
-      "url": 'http://%s:%s/%s/' % (WebEngineManager.file_server.REMOTE_HOST, WebEngineManager.file_server.REMOTE_PORT, secret_key)
+      "url": 'http://%s:%s/%s/' % (self.file_server.REMOTE_HOST, self.file_server.REMOTE_PORT, secret_key)
     }
 
   def handle_get_installed_apps(self, _method_name, _params):
@@ -363,7 +373,7 @@ class WebEngineManager():
       return RPCService.gen_error_msg('App \'%s\' is not installed' % _app_id)
 
     if _app_id in self.webengine_apps:
-      WebEngineManager.file_server.remove_app_mapping(self.webengine_apps[_app_id]['appKey'])
+      self.file_server.remove_app_mapping(self.webengine_apps[_app_id]['appKey'])
       removed_app = self.webengine_apps.pop(_app_id)
       print('\033[1mRemoving webengine app %s\033[0m' % str(removed_app))
 
@@ -377,18 +387,6 @@ class WebEngineManager():
       }
     }
 
-  @staticmethod
-  def start_file_server(_host, _port, _remote_host=None, _remote_port=None):
-    WebEngineManager.file_server = WebengineFileServer(_host, _port, _remote_host, _remote_port)
-    thd = threading.Thread(target=WebEngineManager.file_server.start)
-    thd.start()
-
-  @staticmethod
-  def stop_file_server():
-    if WebEngineManager.file_server is not None:
-      WebEngineManager.file_server.stop()
-      WebEngineManager.file_server = None
-
 def main():
 
   if len(sys.argv) < 3:
@@ -397,20 +395,16 @@ def main():
 
   host = str(sys.argv[1])
   port = int(sys.argv[2])
-  file_server_port = int(sys.argv[3]) if (len(sys.argv) > 3 and int(sys.argv[3]) != 0) else 4000
 
-  remote_fs_host = str(sys.argv[4]) if len(sys.argv) > 4 else host
-  remote_fs_port = int(sys.argv[5]) if (len(sys.argv) > 5 and int(sys.argv[5]) != 0) else file_server_port
+  Flags.FILE_SERVER_HOST = host
+  Flags.FILE_SERVER_PORT = int(sys.argv[3]) if (len(sys.argv) > 3 and int(sys.argv[3]) != 0) else 4000
+  Flags.FILE_SERVER_REMOTE_HOST = str(sys.argv[4]) if len(sys.argv) > 4 else host
+  Flags.FILE_SERVER_REMOTE_PORT = int(sys.argv[5]) if (len(sys.argv) > 5 and int(sys.argv[5]) != 0) else Flags.FILE_SERVER_PORT
 
   backend_server = WSServer(host, port, RPCService)
 
-  print('Starting file server')
-  WebEngineManager.start_file_server(host, file_server_port, remote_fs_host, remote_fs_port)
   print('Starting server')
   backend_server.start_server()
-
-  print('Stopping file server')
-  WebEngineManager.stop_file_server()
   print('Stopping server')
 
 
