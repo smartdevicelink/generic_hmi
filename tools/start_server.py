@@ -46,6 +46,7 @@ import argparse
 
 class Flags():
   """Used to define global properties"""
+  WEBENGINE_STORAGE_FOLDER = os.path.join(os.getcwd(), 'webengine')
   FILE_SERVER_HOST = '127.0.0.1'
   FILE_SERVER_PORT = 4000
   FILE_SERVER_URI = 'http://127.0.0.1:4000'
@@ -164,13 +165,12 @@ class RPCService(WSServer.SampleRPCService):
   """
   def __init__(self, _websocket, _path):
     super().__init__(_websocket, _path)
-    self.webengine_manager = WebEngineManager()
     self.rpc_mapping = {
       "GetPTSFileContent": self.handle_get_pts_file_content,
       "SavePTUToFile": self.handle_save_ptu_to_file,
-      "InstallApp": self.webengine_manager.handle_install_app,
-      "GetInstalledApps": self.webengine_manager.handle_get_installed_apps,
-      "UninstallApp": self.webengine_manager.handle_uninstall_app,
+      "InstallApp": WebEngineManager.handle_install_app,
+      "GetInstalledApps": WebEngineManager.handle_get_installed_apps,
+      "UninstallApp": WebEngineManager.handle_uninstall_app,
     }
 
   async def send(self, _msg):
@@ -270,32 +270,43 @@ class WebEngineManager():
   All the `handle_*` functions parse the RPC requests and the non `handle_*` functions implement 
   the actual webengine operations(downloading the app zip, creating directories, etc.).
   """
-  def __init__(self):
-    self.storage_folder = os.path.join(os.getcwd(), 'webengine')
-    if not os.path.isdir(self.storage_folder):
+  file_server = None
+  webengine_apps = {}
+
+  @staticmethod
+  def init_storage_folder():
+    if not os.path.isdir(Flags.WEBENGINE_STORAGE_FOLDER):
       print('\033[1mCreating apps storage folder\033[0m')
-      os.mkdir(self.storage_folder)
+      os.mkdir(Flags.WEBENGINE_STORAGE_FOLDER)
 
-    self.webengine_apps = {}
+  @staticmethod
+  def start_file_server():
+    if WebEngineManager.file_server is None:
+      WebEngineManager.file_server = WebengineFileServer(Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT, Flags.FILE_SERVER_URI)
+      thd = threading.Thread(target=WebEngineManager.file_server.start)
+      thd.start()
 
-    self.file_server = WebengineFileServer(Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT, Flags.FILE_SERVER_URI)
-    thd = threading.Thread(target=self.file_server.start)
-    thd.start()
-    signal.signal(signal.SIGINT, self.file_server.stop)
+  @staticmethod
+  def stop_file_server():
+    if WebEngineManager.file_server is not None:
+      WebEngineManager.file_server.stop()
+      WebEngineManager.file_server = None
 
-  def handle_install_app(self, _method_name, _params):
+  @staticmethod
+  def handle_install_app(_method_name, _params):
     if 'policyAppID' not in _params:
       return RPCService.gen_error_msg('Missing manadatory param \'policyAppID\'')
     if 'packageUrl' not in _params:
       return RPCService.gen_error_msg('Missing manadatory param \'packageUrl\'')
     
-    resp = self.install_app(_params['policyAppID'], _params['packageUrl'])
+    resp = WebEngineManager.install_app(_params['policyAppID'], _params['packageUrl'])
     return resp
 
-  def install_app(self, _app_id, _package_url):
+  @staticmethod
+  def install_app(_app_id, _package_url):
     # Create app directory
     print('\033[1mCreating folder for app %s\033[0m' % _app_id)
-    app_storage_folder = os.path.join(self.storage_folder, _app_id)
+    app_storage_folder = os.path.join(Flags.WEBENGINE_STORAGE_FOLDER, _app_id)
     if os.path.isdir(app_storage_folder):
       print('\033[1;31mFolder already exists. returning\033[0m')
       return RPCService.gen_error_msg('App with id %s is already installed' % _app_id)
@@ -322,8 +333,8 @@ class WebEngineManager():
 
     # Start file server
     print('\033[1mAdding app to File Server\033[0m')
-    file_server_info = self.add_app_to_file_server(app_storage_folder)
-    self.webengine_apps[_app_id] = {
+    file_server_info = WebEngineManager.add_app_to_file_server(app_storage_folder)
+    WebEngineManager.webengine_apps[_app_id] = {
       "policyAppID": _app_id,
       "appURL": file_server_info['url'],
       "appKey": file_server_info['key']
@@ -336,35 +347,38 @@ class WebEngineManager():
       }
     }
 
-  def add_app_to_file_server(self, _app_storage_folder):
+  @staticmethod
+  def add_app_to_file_server(_app_storage_folder):
     secret_key = str(uuid.uuid4())
     print('\033[2mSecret key is %s\033[0m' % (secret_key))
-    self.file_server.add_app_mapping(secret_key, _app_storage_folder)
+    WebEngineManager.file_server.add_app_mapping(secret_key, _app_storage_folder)
     return {
       "key": secret_key, 
-      "url": '%s/%s/' % (self.file_server.URI, secret_key)
+      "url": '%s/%s/' % (WebEngineManager.file_server.URI, secret_key)
     }
 
-  def handle_get_installed_apps(self, _method_name, _params):
-    resp = self.get_installed_apps()
+  @staticmethod
+  def handle_get_installed_apps(_method_name, _params):
+    resp = WebEngineManager.get_installed_apps()
     return resp
 
-  def get_installed_apps(self):
+  @staticmethod
+  def get_installed_apps():
     apps_info = []
-    app_dirs = [d for d in os.listdir(self.storage_folder) if os.path.isdir(os.path.join(self.storage_folder, d))]
+    app_dirs = [d for d in os.listdir(Flags.WEBENGINE_STORAGE_FOLDER) if os.path.isdir(os.path.join(Flags.WEBENGINE_STORAGE_FOLDER, d))]
     for app_id in app_dirs:
-      if app_id not in self.webengine_apps:
+      if app_id not in WebEngineManager.webengine_apps:
         print('\033[1mAdding app %s to file server\033[0m' % app_id)
-        app_storage_folder = os.path.join(self.storage_folder, app_id)
-        file_server_info = self.add_app_to_file_server(app_storage_folder)
-        self.webengine_apps[app_id] = {
+        app_storage_folder = os.path.join(Flags.WEBENGINE_STORAGE_FOLDER, app_id)
+        file_server_info = WebEngineManager.add_app_to_file_server(app_storage_folder)
+        WebEngineManager.webengine_apps[app_id] = {
           "policyAppID": app_id,
           "appURL": file_server_info['url'],
           "appKey": file_server_info['key']
         }
       apps_info.append({
         "policyAppID": app_id, 
-        "appUrl": self.webengine_apps[app_id]['appURL']
+        "appUrl": WebEngineManager.webengine_apps[app_id]['appURL']
       })
     
     return {
@@ -374,22 +388,24 @@ class WebEngineManager():
       }
     }
 
-  def handle_uninstall_app(self, _method_name, _params):
+  @staticmethod
+  def handle_uninstall_app(_method_name, _params):
     if 'policyAppID' not in _params:
       return RPCService.gen_error_msg('Missing manadatory param \'policyAppID\'')
 
-    resp = self.uninstall_app(_params['policyAppID'])
+    resp = WebEngineManager.uninstall_app(_params['policyAppID'])
     return resp
 
-  def uninstall_app(self, _app_id):
-    app_storage_folder = os.path.join(self.storage_folder, _app_id)
+  @staticmethod
+  def uninstall_app(_app_id):
+    app_storage_folder = os.path.join(Flags.WEBENGINE_STORAGE_FOLDER, _app_id)
     if not os.path.isdir(app_storage_folder):
       print('\033[1;31mApp %s is not installed\033[0m' % _app_id)
       return RPCService.gen_error_msg('App \'%s\' is not installed' % _app_id)
 
-    if _app_id in self.webengine_apps:
-      self.file_server.remove_app_mapping(self.webengine_apps[_app_id]['appKey'])
-      removed_app = self.webengine_apps.pop(_app_id)
+    if _app_id in WebEngineManager.webengine_apps:
+      WebEngineManager.file_server.remove_app_mapping(WebEngineManager.webengine_apps[_app_id]['appKey'])
+      removed_app = WebEngineManager.webengine_apps.pop(_app_id)
       print('\033[1mRemoving webengine app %s\033[0m' % str(removed_app))
 
     print('\033[1mRemoving app storage folder\033[0m')
@@ -416,10 +432,16 @@ def main():
 
   backend_server = WSServer(args.host, args.port, RPCService)
 
+  print('Starting file server')
+  WebEngineManager.init_storage_folder()
+  WebEngineManager.start_file_server()
+
   print('Starting server')
   backend_server.start_server()
   print('Stopping server')
 
+  print('Stopping file server')
+  WebEngineManager.stop_file_server()
 
 if __name__ == '__main__':
   main()
