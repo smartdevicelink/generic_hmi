@@ -44,12 +44,17 @@ from http.server import SimpleHTTPRequestHandler
 import threading
 
 class Flags():
+  """Used to define global properties"""
   FILE_SERVER_HOST = '127.0.0.1'
   FILE_SERVER_PORT = 4000
   FILE_SERVER_REMOTE_HOST = '127.0.0.1'
   FILE_SERVER_REMOTE_PORT = 4000
 
 class WebengineFileServer():
+  """Used to handle routing file server requests for webengine apps.
+  
+  Routes are added/removed via the add_app_mapping/remove_app_mapping functions
+  """
   def __init__(self, _host, _port, _remote_host=None, _remote_port=None):
     self.HOST = _host
     self.PORT = _port
@@ -114,6 +119,10 @@ class WebengineFileServer():
     return Handler
 
 class WSServer():
+  """Used to create a Websocket Connection with the HMI.
+  
+  Has a SampleRPCService class to handle incoming and outgoing messages.
+  """
   def __init__(self, _host, _port, _service_class=None):
     self.HOST = _host
     self.PORT = _port
@@ -151,6 +160,10 @@ class WSServer():
       print('\033[1;2mMessage received: %s\033[0m' % _msg)
 
 class RPCService(WSServer.SampleRPCService):
+  """Used to handle receiving RPC requests and send RPC responses.
+  
+  An implementation of the SampleRPCService class. RPC requests are handled in the `handle_*` functions.
+  """
   def __init__(self, _websocket, _path):
     super().__init__(_websocket, _path)
     self.webengine_manager = WebEngineManager()
@@ -254,7 +267,11 @@ class RPCService(WSServer.SampleRPCService):
     return {'success': False, 'info': _error_msg}
 
 class WebEngineManager():
+  """Used to specifically handle WebEngine RPCs.
 
+  All the `handle_*` functions parse the RPC requests and the non `handle_*` functions implement 
+  the actual webengine operations(downloading the app zip, creating directories, etc.).
+  """
   def __init__(self):
     self.storage_folder = os.path.join(os.getcwd(), 'webengine')
     if not os.path.isdir(self.storage_folder):
