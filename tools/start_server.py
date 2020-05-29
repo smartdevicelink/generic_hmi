@@ -48,20 +48,17 @@ class Flags():
   """Used to define global properties"""
   FILE_SERVER_HOST = '127.0.0.1'
   FILE_SERVER_PORT = 4000
-  FILE_SERVER_REMOTE_HOST = '127.0.0.1'
-  FILE_SERVER_REMOTE_PORT = 4000
+  FILE_SERVER_URI = 'http://127.0.0.1:4000'
 
 class WebengineFileServer():
   """Used to handle routing file server requests for webengine apps.
   
   Routes are added/removed via the add_app_mapping/remove_app_mapping functions
   """
-  def __init__(self, _host, _port, _remote_host=None, _remote_port=None):
+  def __init__(self, _host, _port, _uri=None):
     self.HOST = _host
     self.PORT = _port
-    self.REMOTE_HOST = _remote_host if _remote_host is not None else _host
-    self.REMOTE_PORT = _remote_port if _remote_port is not None else _port
-
+    self.URI = _uri if _uri is not None else 'http://%s:%s' % (self.HOST, self.PORT)
     self.tcp_server = None
     self.app_dir_mapping = {}
 
@@ -281,7 +278,7 @@ class WebEngineManager():
 
     self.webengine_apps = {}
 
-    self.file_server = WebengineFileServer(Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT, Flags.FILE_SERVER_REMOTE_HOST, Flags.FILE_SERVER_REMOTE_PORT)
+    self.file_server = WebengineFileServer(Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT, Flags.FILE_SERVER_URI)
     thd = threading.Thread(target=self.file_server.start)
     thd.start()
     signal.signal(signal.SIGINT, self.file_server.stop)
@@ -345,7 +342,7 @@ class WebEngineManager():
     self.file_server.add_app_mapping(secret_key, _app_storage_folder)
     return {
       "key": secret_key, 
-      "url": 'http://%s:%s/%s/' % (self.file_server.REMOTE_HOST, self.file_server.REMOTE_PORT, secret_key)
+      "url": '%s/%s/' % (self.file_server.URI, secret_key)
     }
 
   def handle_get_installed_apps(self, _method_name, _params):
@@ -410,14 +407,12 @@ def main():
   parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
   parser.add_argument('--port', type=int, required=True, help="Backend server port number")
   parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
-  parser.add_argument('--remote-fs-host', type=str, help="File server's remote hostname(to be sent back to the client hmi)")
-  parser.add_argument('--remote-fs-port', type=int, help="File server's remote port number(to be sent back to the client hmi)")
+  parser.add_argument('--fs-uri', type=str, help="File server's URI (to be sent back to the client hmi)")
 
   args = parser.parse_args()
   Flags.FILE_SERVER_HOST = args.host
   Flags.FILE_SERVER_PORT = args.fs_port
-  Flags.FILE_SERVER_REMOTE_HOST = args.remote_fs_host if args.remote_fs_host else Flags.FILE_SERVER_HOST
-  Flags.FILE_SERVER_REMOTE_PORT = args.remote_fs_port if args.remote_fs_port else Flags.FILE_SERVER_PORT
+  Flags.FILE_SERVER_URI = args.fs_uri if args.fs_uri else 'http://%s:%s' % (Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT)
 
   backend_server = WSServer(args.host, args.port, RPCService)
 
