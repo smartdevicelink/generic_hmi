@@ -151,7 +151,7 @@ class RpcFactory {
             }
         })
     }
-    static UIGetSupportedLanguagesResponse(rpc) {
+    static GetSupportedLanguagesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
@@ -162,14 +162,14 @@ class RpcFactory {
             }
         })        
     }
-    static UIGetLanguageResponse(rpc, language) {
+    static GetLanguageResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "language": language
+                "language": "EN-US"
             }
         })
     }
