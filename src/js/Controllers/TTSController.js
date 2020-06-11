@@ -92,6 +92,10 @@ class TTSController {
         switch(methodName) {
             case "IsReady":
                 return {rpc: RpcFactory.IsReadyResponse(rpc, true)}
+            case "GetSupportedLanguages":
+                return { rpc: RpcFactory.GetSupportedLanguagesResponse(rpc) }
+            case "GetLanguage":
+                return { rpc: RpcFactory.GetLanguageResponse(rpc) }
             case "GetCapabilities":
                 return {"rpc": RpcFactory.TTSGetCapabilitiesResponse(rpc)}
             case "ChangeRegistration":
