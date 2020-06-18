@@ -33,9 +33,6 @@ export const Actions = {
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
-<<<<<<< HEAD
-    SET_DD_STATE: "SET_DD_STATE"
-=======
     SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
     UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
@@ -44,8 +41,8 @@ export const Actions = {
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
-    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
->>>>>>> origin/develop
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
+    SET_DD_STATE: "SET_DD_STATE"
 }
 
 export const updateAppList = (applications) => {
@@ -339,12 +336,6 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
-<<<<<<< HEAD
-export const setDDState = (ddState) => {
-    return {
-        type: Actions.SET_DD_STATE,
-        dd: ddState
-=======
 export const setGlobalProperties = (appID, menuLayout) => {
     return {
         type: Actions.SET_GLOBAL_PROPERTIES,
@@ -408,6 +399,12 @@ export const appStoreBeginInstall = (policyAppID) => {
     return {
         type: Actions.APPSTORE_BEGIN_INSTALL,
         policyAppID: policyAppID
->>>>>>> origin/develop
+    }
+}
+
+export const setDDState = (ddState) => {
+    return {
+        type: Actions.SET_DD_STATE,
+        dd: ddState
     }
 }

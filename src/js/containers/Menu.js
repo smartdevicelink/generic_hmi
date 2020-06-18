@@ -3,11 +3,10 @@ import VScrollMenu from '../VScrollMenu'
 import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
-import capabilities from '../Controllers/DisplayCapabilities'
+import {capabilities}  from '../Controllers/DisplayCapabilities'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-<<<<<<< HEAD
     var ddState = state.ddState;
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepth = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth;
@@ -15,21 +14,7 @@ const mapStateToProps = (state) => {
     var theme = state.theme
     var data = menu.map((command, index) => {
         // Check DD state and set hidden param
-        var hidden = false;
-
-        if (ddState === true && index >= menuLength) { 
-            hidden = true;
-        }
-
-        var dataClass = null
-        if (command.cmdIcon) {
-            dataClass = 'with-icon'
-        }
-=======
-    var menu = state.ui[activeApp] ? state.ui[activeApp].menu : []
-    var theme = state.theme
-    var data = menu.map((command) => {
->>>>>>> origin/develop
+        var hidden = (ddState === true && index >= menuLength) ? true : false;
         var link =  state.ui[activeApp].displayLayout
         var enabled = true
         if (command.subMenu) {

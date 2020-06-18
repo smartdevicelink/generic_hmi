@@ -20,13 +20,8 @@ export default class InAppMenu extends React.Component {
 
         return (
             <div>
-<<<<<<< HEAD
                 <AppHeader backLink="/" parentView="InAppList" menuName="Back"/>
-                <SubMenu />
-=======
-                <AppHeader backLink="/" menuName="APPS"/>
                 { menu }
->>>>>>> origin/develop
             </div>
         )
     }

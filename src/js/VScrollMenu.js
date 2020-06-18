@@ -4,7 +4,6 @@ import VScrollMenuItem from './VScrollMenuItem';
 import MenuFooter from './MenuFooter'
 
 export default class VScrollMenu extends React.Component {
-<<<<<<< HEAD
     constructor(props) {
         super(props);
         this.hiddenNames = [];
@@ -18,8 +17,6 @@ export default class VScrollMenu extends React.Component {
         this.hiddenNames.push(name)
     }
 
-=======
->>>>>>> origin/develop
     render() {
         this.clearHiddenNames();
         let menuItems = this.props.data.map((menuItem) => {

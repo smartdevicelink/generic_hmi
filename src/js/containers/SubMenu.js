@@ -4,7 +4,7 @@ import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction, activateSubMenu } from '../actions'
 import '../polyfill_find'
-import capabilities from '../Controllers/DisplayCapabilities'
+import {capabilities} from '../Controllers/DisplayCapabilities'
 
 function SubmenuDeepFind(menu, parentID, depth) { 
     if (!menu || !parentID) {
@@ -43,20 +43,14 @@ const mapStateToProps = (state) => {
     }
     
     var link =  state.ui[activeApp].displayLayout
-<<<<<<< HEAD
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepthLimit = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth - 1;
     if (app.isPerformingInteraction) {
-        var data = app.choices.map((choice, index) => {
+        var piData = app.choices.map((choice, index) => {
             var hidden = false;
             if (ddState === true && index >= menuLength) { 
                 hidden = true;
             }
-=======
-    var data = null;
-    if (app.isPerformingInteraction) {
-        data = app.choices.map((choice) => {
->>>>>>> origin/develop
             return {
                 appID: activeApp,
                 cmdID: choice.choiceID,
@@ -69,7 +63,7 @@ const mapStateToProps = (state) => {
             }
         })
         return {
-            data:data,
+            data: piData,
             isPerformingInteraction: true,
             interactionId: app.interactionId,
             theme: theme
@@ -78,9 +72,8 @@ const mapStateToProps = (state) => {
     // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
-<<<<<<< HEAD
     var ddState = state.ddState;
-    var data = SubmenuDeepFind(menu, activeSubMenu, 0).subMenu.subMenu.map((command, index) => {
+    var subMenuData = SubmenuDeepFind(menu, activeSubMenu, 0).subMenu.subMenu.map((command, index) => {
         // Check DD state and set hidden param
         var hidden = false;
         var enabled = true;
@@ -93,14 +86,6 @@ const mapStateToProps = (state) => {
         if (command.subMenu) {
             link = '/inapplist'
         }
-=======
-    if (!activeSubMenu || !menu) {
-        return {data: [], isPerformingInteraction: false, theme: theme}
-    }
-    data = menu.find((test) => {
-        return test.menuID === activeSubMenu
-    }).subMenu.map((command) => {
->>>>>>> origin/develop
         return {
             appID: activeApp,
             cmdID: command.cmdID,
@@ -114,7 +99,7 @@ const mapStateToProps = (state) => {
             menuID: command.menuID
         }
     })
-    return {data: data, isPerformingInteraction: false, theme: theme}
+    return {data: subMenuData, isPerformingInteraction: false, theme: theme}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -124,8 +109,8 @@ const mapDispatchToProps = (dispatch) => {
                 uiController.onSystemContext("MAIN", appID)
                 uiController.onChoiceSelection(cmdID, appID, interactionID)
                 dispatch(deactivateInteraction(appID))
-            } else if (menuID) {
-                (enabled === true) ? dispatch(activateSubMenu(appID, menuID, 1)) : null;
+            } else if (menuID && enabled === true) {
+                dispatch(activateSubMenu(appID, menuID, 1));
             } else {
                 uiController.onSystemContext("MAIN", appID)
                 uiController.onCommand(cmdID, appID)

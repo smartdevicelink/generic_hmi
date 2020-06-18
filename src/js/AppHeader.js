@@ -60,18 +60,12 @@ class AppHeader extends React.Component {
 
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
-<<<<<<< HEAD
-        var modalClass = themeClass + " alertOverlay";
-        var isShowingMenu = this.props.router.isActive('/inappmenu');
-        var isShowingSubMenu = this.props.router.isActive('/inapplist');
-        
-        const icon = this.props.appIcon == 'false' ? (<div />) 
-            : <MenuIcon isShowingMenu={isShowingMenu || isShowingSubMenu} 
-                        activeSubMenu={this.props.activeSubMenu ? true : false}/> ;
-=======
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
-        var icon = this.props.icon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+        var icon = this.props.icon === 'false' ? (<div />) 
+            : <MenuIcon 
+                isShowingMenu={isShowingMenu}
+                activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
             if (this.props.isAppStoreConnected) {
@@ -81,7 +75,6 @@ class AppHeader extends React.Component {
                 icon = (<div />)
             }
         }
->>>>>>> origin/develop
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();

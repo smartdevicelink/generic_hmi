@@ -2,11 +2,7 @@ import { connect } from 'react-redux'
 import uiController from '../Controllers/UIController'
 import AppIcon from '../AppIcon'
 import '../polyfill_find'
-<<<<<<< HEAD
-import {deactivateSubMenu} from '../actions'
-=======
 import { deactivateSubMenu } from '../actions';
->>>>>>> origin/develop
 
 
 const mapStateToProps = (state) => {
@@ -24,15 +20,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-<<<<<<< HEAD
         onSelection: (appID, path, activeSubMenu) => {
-            if (path == "/inappmenu") {
-=======
-        onSelection: (appID, path) => {
-            dispatch(deactivateSubMenu(appID))
-
+            //dispatch(deactivateSubMenu(appID))
             if (path === "/inappmenu") {
->>>>>>> origin/develop
                 uiController.onSystemContext("MENU", appID)
             } else { //user exited menu
                 uiController.onSystemContext("MAIN", appID)

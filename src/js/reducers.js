@@ -13,11 +13,8 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
-<<<<<<< HEAD
         activeMenuDepth: 0,
-=======
         menuLayout: "LIST",
->>>>>>> origin/develop
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -361,6 +358,7 @@ function ui(state = {}, action) {
     newState[action.appID] = app;
     var menu = app.menu;
     var menuItem = null;
+    var result = null;
     var i = 0;
     switch (action.type) {
         case Actions.SHOW:           
@@ -399,7 +397,7 @@ function ui(state = {}, action) {
                 /*var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
                 });*/
-                var result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
                 if (!result) {
                     return newState
                 }
@@ -429,7 +427,7 @@ function ui(state = {}, action) {
             };
 
             if (menuItem.parentID) {
-                var result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
                 if (!result) {
                     return newState
                 }
@@ -444,18 +442,7 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.DELETE_SUB_MENU:
-<<<<<<< HEAD
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
             app.menu = deleteSubMenu(menu, action.menuID);
-=======
-            i = menu.findIndex((command) => {
-                return command.menuID === action.menuID
-            })
-            menu.splice(i, 1)
->>>>>>> origin/develop
             return newState
         case Actions.SHOW_APP_MENU:
             app.triggerShowAppMenu = true

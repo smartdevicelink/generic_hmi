@@ -3,7 +3,6 @@ import HScrollMenuItem from './HScrollMenuItem'
 import MenuFooter from './MenuFooter'
 
 export default class HScrollMenu extends React.Component {
-<<<<<<< HEAD
     constructor(props) {
         super(props);
         this.hiddenNames = [];
@@ -16,8 +15,6 @@ export default class HScrollMenu extends React.Component {
     pushHiddenName(name) {
         this.hiddenNames.push(name)
     }
-=======
->>>>>>> origin/develop
 
     render() {
         this.clearHiddenNames();
