@@ -324,34 +324,6 @@ function SubmenuDeepFind(menu, parentID, depth) {
     return null;
 }
 
-/*
-function FindAndDeleteSubMenu(menu, menuID) {
-    if (!menu || !menuID) {
-        return false;
-    }
-    var resultIndex = -1;
-    var deepResult = false;
-    var subMenu = menu.find((command, index) => {
-        if (command.subMenu) {
-            var result = FindAndDeleteSubMenu(command.subMenu, menuID)
-            if (result) {
-                deepResult = true;
-                return true
-            }
-        }
-        resultIndex = index;
-        return command.menuID === menuID
-    });
-    if (deepResult) {
-        return true;
-    }
-    if (subMenu && resultIndex > -1) {
-        menu.splice(resultIndex, 1)
-        return true
-    }
-    return false;    
-}*/
-
 function ui(state = {}, action) {
     var newState = { ...state }
     var app = newState[action.appID] ? newState[action.appID] : newAppState();

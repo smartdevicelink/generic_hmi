@@ -491,7 +491,7 @@ let capabilities = {
 				"dialNumberEnabled": false
 			},
 			"driverDistractionCapability": {
-                "menuLength": 10,
+                "menuLength": 3,
                 "subMenuDepth": 2
             }
 		}
