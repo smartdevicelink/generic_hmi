@@ -2,6 +2,8 @@ export const Actions = {
     UPDATE_APP_LIST: "UPDATE_APP_LIST",
     ACTIVATE_APP: "ACTIVATE_APP",
     DEACTIVATE_APP: "DEACTIVATE_APP",
+    SET_PENDING_APP_LAUNCH: "SET_PENDING_APP_LAUNCH",
+    CLEAR_PENDING_APP_LAUNCH: "CLEAR_PENDING_APP_LAUNCH",
     SHOW: "SHOW",
     SET_APP_ICON: "SET_APP_ICON",
     ADD_COMMAND: "ADD_COMMAND",
@@ -19,18 +21,31 @@ export const Actions = {
     SET_MEDIA_CLOCK_TIMER: "SET_MEDIA_CLOCK_TIMER",
     REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
-    SET_DISPLAY_LAYOUT: "SET_DISPLAY_LAYOUT",
+    SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
-    GET_URLS: "GET_URLS",
+    SET_URLS: "SET_URLS",
+    SET_PTU_WITH_MODEM: "SET_PTU_WITH_MODEM",
     UPDATE_COLOR_SCHEME: "UPDATE_COLOR_SCHEME",
     SET_APP_IS_CONNECTED: "SET_APP_IS_CONNECTED",
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
+<<<<<<< HEAD
     SET_DD_STATE: "SET_DD_STATE"
+=======
+    SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
+    UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
+    UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
+    UPDATE_INSTALLED_APPSTORE_APPS: "UPDATE_INSTALLED_APPSTORE_APPS",
+    ADD_APP_PENDING_SET_APP_PROPERTIES: "ADD_APP_PENDING_SET_APP_PROPERTIES",
+    APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
+    APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
+    WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
+>>>>>>> origin/develop
 }
 
 export const updateAppList = (applications) => {
@@ -91,13 +106,14 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams, icon) => {
+export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
         menuParams: menuParams,
-        subMenuIcon: icon
+        subMenuIcon: icon,
+        menuLayout: menuLayout
     }
 }
 
@@ -149,6 +165,19 @@ export const resetShowAppMenu = (appID) => {
     }
 }
 
+export const setPendingAppLaunch = (appID) => {
+    return {
+        type: Actions.SET_PENDING_APP_LAUNCH,
+        appID: appID
+    }
+}
+
+export const clearPendingAppLaunch = (appID) => {
+    return {
+        type: Actions.CLEAR_PENDING_APP_LAUNCH
+    }
+}
+
 export const deactivateInteraction = (appID) => {
     return {
         type: Actions.DEACTIVATE_INTERACTION,
@@ -156,14 +185,15 @@ export const deactivateInteraction = (appID) => {
     }
 }
 
-export const performInteraction = (appID, text, choices, layout, msgID) => {
+export const performInteraction = (appID, text, choices, layout, msgID, cancelID) => {
     return {
         type: Actions.PERFORM_INTERACTION,
         appID: appID,
         text: text,
         choices: choices,
         layout: layout,
-        msgID: msgID
+        msgID: msgID,
+        cancelID: cancelID
     }
 }
 
@@ -186,9 +216,9 @@ export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioS
     }
 }
 
-export const setDisplayLayout = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
+export const setTemplateConfiguration = (displayLayout, appID, dayColorScheme, nightColorScheme) => {
     return {
-        type: Actions.SET_DISPLAY_LAYOUT,
+        type: Actions.SET_TEMPLATE_CONFIGURATION,
         displayLayout: displayLayout,
         appID: appID,
         dayColorScheme: dayColorScheme,
@@ -212,7 +242,7 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
-export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon) => {
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon, cancelID) => {
     return {
         type: Actions.ALERT,
         appID: appID,
@@ -222,7 +252,8 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         alertType: alertType,
         showProgressIndicator: progressIndicator,
         msgID: msgID,
-        icon: icon
+        icon: icon,
+        cancelID: cancelID
     }
 }
 
@@ -250,13 +281,19 @@ export const policyUpdate = (file, retry, timeout) => {
     }
 }
 
-export const getURLS = (urls) => {
+export const setURLS = (urls) => {
     return {
-        type: Actions.GET_URLS,
+        type: Actions.SET_URLS,
         urls: urls
     }
 }
 
+export const setPTUWithModem = (enabled) => {
+    return {
+        type: Actions.SET_PTU_WITH_MODEM,
+        enabled: enabled
+    }
+}
 
 export const updateColorScheme = (appID, dayColorScheme, nightColorScheme) => {
     return {
@@ -302,9 +339,75 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
+<<<<<<< HEAD
 export const setDDState = (ddState) => {
     return {
         type: Actions.SET_DD_STATE,
         dd: ddState
+=======
+export const setGlobalProperties = (appID, menuLayout) => {
+    return {
+        type: Actions.SET_GLOBAL_PROPERTIES,
+        appID: appID,
+        menuLayout: menuLayout
+    }
+}
+
+export const updateAppStoreConnectionStatus = (isConnected) => {
+    return {
+        type: Actions.UPDATE_APPSTORE_CONNECTION_STATUS,
+        isConnected: isConnected 
+    }
+}
+
+export const updateAvailableAppStoreApps = (availableApps) => {
+    return {
+        type: Actions.UPDATE_AVAILABLE_APPSTORE_APPS,
+        availableApps: availableApps
+    };
+}
+
+export const updateInstalledAppStoreApps = (installedApp) => {
+    return {
+        type: Actions.UPDATE_INSTALLED_APPSTORE_APPS,
+        installedApp: installedApp
+    };
+}
+
+export const addAppPendingSetAppProperties = (app, enable) => {
+    return {
+        type: Actions.ADD_APP_PENDING_SET_APP_PROPERTIES,
+        app: app,
+        enable: enable
+    }
+}
+
+export const appStoreAppInstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_INSTALLED,
+        success: success
+    }
+}
+
+export const appStoreAppUninstalled = (success) => {
+    return {
+        type: Actions.APPSTORE_APP_UNINSTALLED,
+        success: success
+    }
+}
+
+export const webEngineAppLaunch = (policyAppID, appID) => {
+    return {
+        type: Actions.WEBENGINE_APP_LAUNCH,
+        policyAppID: policyAppID,
+        appID: appID
+    }
+}
+
+export const appStoreBeginInstall = (policyAppID) => {
+    return {
+        type: Actions.APPSTORE_BEGIN_INSTALL,
+        policyAppID: policyAppID
+>>>>>>> origin/develop
     }
 }

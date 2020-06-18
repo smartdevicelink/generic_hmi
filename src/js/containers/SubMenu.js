@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
+import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction, activateSubMenu } from '../actions'
 import '../polyfill_find'
@@ -36,7 +37,13 @@ const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp]
     var theme = state.theme
+
+    if (!activeApp || !app) {
+        return {data: [], isPerformingInteraction: false, theme: theme}
+    }
+    
     var link =  state.ui[activeApp].displayLayout
+<<<<<<< HEAD
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepthLimit = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth - 1;
     if (app.isPerformingInteraction) {
@@ -45,6 +52,11 @@ const mapStateToProps = (state) => {
             if (ddState === true && index >= menuLength) { 
                 hidden = true;
             }
+=======
+    var data = null;
+    if (app.isPerformingInteraction) {
+        data = app.choices.map((choice) => {
+>>>>>>> origin/develop
             return {
                 appID: activeApp,
                 cmdID: choice.choiceID,
@@ -66,6 +78,7 @@ const mapStateToProps = (state) => {
     // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
+<<<<<<< HEAD
     var ddState = state.ddState;
     var data = SubmenuDeepFind(menu, activeSubMenu, 0).subMenu.subMenu.map((command, index) => {
         // Check DD state and set hidden param
@@ -80,6 +93,14 @@ const mapStateToProps = (state) => {
         if (command.subMenu) {
             link = '/inapplist'
         }
+=======
+    if (!activeSubMenu || !menu) {
+        return {data: [], isPerformingInteraction: false, theme: theme}
+    }
+    data = menu.find((test) => {
+        return test.menuID === activeSubMenu
+    }).subMenu.map((command) => {
+>>>>>>> origin/develop
         return {
             appID: activeApp,
             cmdID: command.cmdID,
@@ -114,9 +135,14 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const SubMenu = connect(
+export const VSubMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(VScrollMenu)
 
-export default SubMenu
+export const HSubMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HScrollMenu)
+
+export default VSubMenu

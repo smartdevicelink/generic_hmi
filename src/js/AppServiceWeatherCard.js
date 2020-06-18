@@ -1,14 +1,7 @@
 import React from 'react';
-import weatherIcon from "../img/app_services/weather.svg";
-import WeatherButton from "./WeatherButton";
 import WeatherServiceImage from './WeatherServiceImage';
 
 export default class AppServiceWeatherCard extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         if (!this.props.weatherActive || !this.props.weatherData) {
             return null;
@@ -37,7 +30,7 @@ export default class AppServiceWeatherCard extends React.Component {
         var precipProbabilityLine = weatherData.precipProbability ? (
             <div className="weather-line">
                 <p className="t-medium t-large">
-                    {weatherData.precipProbability}
+                    {weatherData.precipProbability.toFixed(0)}
                 </p>
                 <p className="t-light t-small">
                     % prec.

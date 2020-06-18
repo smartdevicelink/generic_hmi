@@ -4,10 +4,6 @@ import AppHeader from '../../containers/Header';
 import { SoftButtons } from '../../containers/Buttons';
 
 class TextButtonsOnly extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

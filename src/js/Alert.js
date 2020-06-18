@@ -1,20 +1,18 @@
 import React from 'react';
 
-import AlertHeader from './containers/Header';
 import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
 import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 
 export default class Alert extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
-        var icon = (this.props.icon.imageType === "STATIC")
-                 ? (<StaticIcon class="alert-icon" image={this.props.icon.value} />)
-                 : (<div className="alert-icon"><Image class="icon" image={this.props.icon.value} /></div>);
+        var fill = this.props.theme ? "#FFFFFF" : "#000000";
+        var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }
+
+        var iconElement = (icon.imageType === "STATIC")
+                 ? (<StaticIcon class="alert-icon" image={icon.value} />)
+                 : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
 
         return (
             <div className="alert">
@@ -25,7 +23,7 @@ export default class Alert extends React.Component {
                 </div>
                 <div className="alert-top">
                     <AlertStrings/>
-                    { icon }
+                    { iconElement }
                 </div>
                 <AlertButtons class="alert-softbuttons-container"/>
             </div>

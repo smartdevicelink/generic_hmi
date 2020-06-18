@@ -5,13 +5,6 @@ import SoftButtonsBody from '../Templates/Shared/SoftButtons'
 import AlertButtonsBody from '../AlertButtons'
 import uiController from '../Controllers/UIController'
 
-import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
-import iconSeekRight from '../../img/icons/icon-seek-right.svg';
-import iconPlay from '../../img/icons/icon-play.svg';
-import iconPause from '../../img/icons/icon-pause.svg';
-import iconPlayPause from '../../img/icons/icon-play-pause.svg';
-import iconStop from '../../img/icons/icon-stop.svg';
-
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var subscribedButtons = {}
@@ -41,7 +34,7 @@ const mapStateToProps = (state) => {
         buttons.push({
             class: "secondary",
             name: "SEEKLEFT",
-            icon: iconSeekLeft
+            icon: "iconSeekLeft"
         })
     }
     if (subscribedButtons.OK === true || subscribedButtons.PLAY_PAUSE === true) {
@@ -56,31 +49,31 @@ const mapStateToProps = (state) => {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPlay
+                    icon: "iconPlay"
                 })
             } else if (app.audioStreamingIndicator === "PAUSE") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                
             } else if (app.audioStreamingIndicator === "STOP") {
                 buttons.push({
                     class: "square",
                     name: buttonName,
-                    icon: iconStop
+                    icon: "iconStop"
                 })                
             } else if (app.audioStreamingIndicator === "PLAY_PAUSE") {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                
             } else {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                    
             }
         } 
@@ -89,38 +82,38 @@ const mapStateToProps = (state) => {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "COUNTDOWN") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "RESUME") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "PAUSE") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPlay
+                    icon: "iconPlay"
                 })                    
             } else {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                    
             }
         } else {
             buttons.push({
                 class: "double",
                 name: buttonName,
-                icon: iconPlayPause
+                icon: "iconPlayPause"
             })                    
         }
     }
@@ -128,7 +121,7 @@ const mapStateToProps = (state) => {
         buttons.push({
             class: "secondary",
             name: "SEEKRIGHT",
-            icon: iconSeekRight
+            icon: "iconSeekRight"
         })
     }
     if (softButtons.length > 1) {
@@ -184,8 +177,45 @@ const mapStateToProps = (state) => {
     return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
+var buttonPressMap = {};
+
+const onLongButtonPress = (appID, buttonID, buttonName) => {
+    // int cast to string to index json object
+    var appIDStr = appID.toString();
+    var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+    if (buttonPressMap[appIDStr][buttonIDStr].hasOwnProperty(buttonName) 
+        && buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+        buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
+        uiController.onLongButtonPress(appID, buttonID, buttonName);
+    }    
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
+        onButtonDown: (appID, buttonID, buttonName) => {
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+            buttonPressMap[appIDStr] = buttonPressMap[appIDStr] ? buttonPressMap[appIDStr] : {};
+            buttonPressMap[appIDStr][buttonIDStr] = buttonPressMap[appIDStr][buttonIDStr] ? buttonPressMap[appIDStr][buttonIDStr] : {};
+            // Save timeout to clear later
+            buttonPressMap[appIDStr][buttonIDStr][buttonName] = setTimeout(onLongButtonPress, 3000, appID, buttonID, buttonName);
+            uiController.onButtonEventDown(appID, buttonID, buttonName);
+        },
+        onButtonUp: (appID, buttonID, buttonName) => {
+            // int cast to string to index json object
+            var appIDStr = appID.toString();
+            var buttonIDStr = buttonID ? buttonID.toString() : "HARD_BUTTON";
+            if (buttonPressMap[appIDStr][buttonIDStr][buttonName]) {
+                // Short press, clear long press timeout
+                clearTimeout(buttonPressMap[appIDStr][buttonIDStr][buttonName]);
+                buttonPressMap[appIDStr][buttonIDStr][buttonName] = null;
+                uiController.onShortButtonPress(appID, buttonID, buttonName)
+            }
+            uiController.onButtonEventUp(appID, buttonID, buttonName);
+            delete buttonPressMap[appIDStr][buttonIDStr][buttonName];
+            
+        },
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },

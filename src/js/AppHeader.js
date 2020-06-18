@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import MenuIcon from './containers/MenuIcon';
@@ -7,14 +7,41 @@ import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
 import {resetShowAppMenu} from './actions'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
 
+import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
+import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
 
+class AppStoreIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstore">
+                    <div className="app-icon">
+                        <div className="static-icon">
+                            <span className="svg-wrap">
+                                <IconCart/>
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            </div>);
+    }
+}
+
+class AppStoreMenuIcon extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/appstoremenu">
+                    <span className="svg-wrap">
+                        <IconMenu/>
+                    </span>
+                </Link>
+            </div>);
+    }
+}
 
 class AppHeader extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     getColorScheme() {
         if (this.props.colorScheme) {
@@ -33,6 +60,7 @@ class AppHeader extends React.Component {
 
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
+<<<<<<< HEAD
         var modalClass = themeClass + " alertOverlay";
         var isShowingMenu = this.props.router.isActive('/inappmenu');
         var isShowingSubMenu = this.props.router.isActive('/inapplist');
@@ -40,6 +68,20 @@ class AppHeader extends React.Component {
         const icon = this.props.appIcon == 'false' ? (<div />) 
             : <MenuIcon isShowingMenu={isShowingMenu || isShowingSubMenu} 
                         activeSubMenu={this.props.activeSubMenu ? true : false}/> ;
+=======
+        var modalClass = themeClass + " alertOverlay"
+        var isShowingMenu = this.props.location.pathname === '/inappmenu';
+        var icon = this.props.icon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+
+        if (this.props.icon === 'store') {
+            if (this.props.isAppStoreConnected) {
+                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+            }
+            else{
+                icon = (<div />)
+            }
+        }
+>>>>>>> origin/develop
 
         var colorScheme = null;
         colorScheme = this.getColorScheme();
@@ -62,7 +104,7 @@ class AppHeader extends React.Component {
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
                 >
-                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon}/>
+                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>
                 </Modal>
             </div>
             
@@ -71,42 +113,46 @@ class AppHeader extends React.Component {
     componentWillReceiveProps (nextProps) {
         // TODO: this will not allow performInteraction while browsing a submenu
         // not sure if that's okay
-        if (nextProps.isDisconnected) {
-            this.props.router.push("/")
+        if (!this.props.isDisconnected 
+            && nextProps.isDisconnected 
+            && nextProps.location.pathname !== "/" 
+            && nextProps.location.pathname !== "/appstore" 
+            && nextProps.location.pathname !== "/appstoremenu") {
+            this.props.history.push("/")
         }
-        else if (!nextProps.router.isActive("/inapplist")
+        else if (nextProps.location.pathname !== "/inapplist"
             && nextProps.isPerformingInteraction) {
-                this.props.router.push("/inapplist")
+                this.props.history.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
         // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
-        else if (nextProps.router.isActive("/inapplist")
+        else if (nextProps.location.pathname === "/inapplist"
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)                
         }
-        else if (this.props.displayLayout != nextProps.displayLayout) {
+        else if (this.props.displayLayout !== nextProps.displayLayout) {
             if(nextProps.activeApp) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)                
             }
         }
    
-        else if(this.props.activeApp != nextProps.activeApp) {            
+        else if(this.props.activeApp !== nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
-                this.props.router.push("/" + nextProps.displayLayout)
+                this.props.history.push("/" + nextProps.displayLayout)
             }
         }
         else if(nextProps.triggerShowAppMenu){
             if(nextProps.activeSubMenu){
                 // If menuID is specified, activate that sub menu
-                if(!this.props.router.isActive("/inapplist")){
-                    this.props.router.push('/inapplist')    
+                if(this.props.location.pathname !== "/inapplist"){
+                    this.props.history.push('/inapplist')    
                 }
             }
             else{
                 // If NO menuID is specifed, show menu 
-                if(!this.props.router.isActive("/inappmenu")){
-                    this.props.router.push('/inappmenu')    
+                if(this.props.location.pathname !== "/inappmenu"){
+                    this.props.history.push('/inappmenu')    
                 }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))
@@ -114,5 +160,12 @@ class AppHeader extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isAppStoreConnected: state.appStore.isConnected
+    }
+}
+AppHeader = connect(mapStateToProps)(AppHeader)
 
 export default withRouter(AppHeader)

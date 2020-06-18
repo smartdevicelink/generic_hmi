@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+	 viewBox="6 6 38 38" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st0_1F{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	.st1_1F{fill:currentColor;stroke:#000000;stroke-width:1;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
 		<g>
-			<path class="st0" d="M16.6,19.7c2.8,6.1,7.7,11,13.8,13.8l4.5-4.5l6.9,6.9l-5.4,5.4c-1,1-2.6,1.4-4,0.8
+			<path class="st0_1F svg-stroke" d="M16.6,19.7c2.8,6.1,7.7,11,13.8,13.8l4.5-4.5l6.9,6.9l-5.4,5.4c-1,1-2.6,1.4-4,0.8
 				C21.2,37.7,12.4,28.9,8,17.7c-0.5-1.4-0.2-2.9,0.8-4l5.4-5.4l6.9,6.9L16.6,19.7z"/>
 		</g>
 	</g>
 </g>
 <g>
-	<polygon points="33,9.8 31.6,14.2 27,14.2 30.7,16.8 29.3,21.2 33,18.5 36.7,21.2 35.3,16.8 39,14.2 34.4,14.2 33,9.8 	"/>
+	<polygon class="st1_1F svg-stroke" points="33,9.8 31.6,14.2 27,14.2 30.7,16.8 29.3,21.2 33,18.5 36.7,21.2 35.3,16.8 39,14.2 34.4,14.2 33,9.8 	"/>
 </g>
 </svg>

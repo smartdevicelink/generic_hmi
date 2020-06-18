@@ -66,6 +66,7 @@
     }
 
     .svg-stroke {
+        color: color($accent-color) !important;
         stroke: color($accent-color) !important;
     }
     
@@ -151,6 +152,7 @@
     }
 
     .svg-stroke{
+        color: color(black) !important;
         stroke: color(black) !important;
     }
 

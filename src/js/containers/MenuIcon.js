@@ -2,17 +2,17 @@ import { connect } from 'react-redux'
 import uiController from '../Controllers/UIController'
 import AppIcon from '../AppIcon'
 import '../polyfill_find'
+<<<<<<< HEAD
 import {deactivateSubMenu} from '../actions'
+=======
+import { deactivateSubMenu } from '../actions';
+>>>>>>> origin/develop
 
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-    var app = state.appList.find((app) => {
-        return app.appID === activeApp
-    })
     var link =  activeApp ? state.ui[activeApp].displayLayout : "/"
     var icon = activeApp ? state.ui[activeApp].icon : null
-    app = app ? app : {}
     return {
         icon: icon ? icon.value : null,
         appID: activeApp,
@@ -24,8 +24,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+<<<<<<< HEAD
         onSelection: (appID, path, activeSubMenu) => {
             if (path == "/inappmenu") {
+=======
+        onSelection: (appID, path) => {
+            dispatch(deactivateSubMenu(appID))
+
+            if (path === "/inappmenu") {
+>>>>>>> origin/develop
                 uiController.onSystemContext("MENU", appID)
             } else { //user exited menu
                 uiController.onSystemContext("MAIN", appID)

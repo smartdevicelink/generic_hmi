@@ -1,13 +1,7 @@
 import React from 'react';
-import mediaIcon from "../img/app_services/media.svg";
 import MediaServiceDataImage from "./MediaServiceDataImage";
 
 export default class AppServiceMediaCard extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         if (!this.props.mediaActive || !this.props.mediaData) {
             return null;

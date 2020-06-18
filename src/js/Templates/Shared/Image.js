@@ -81,12 +81,12 @@ export default class Image extends React.Component {
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
-                        <img ref="image" style={hidden} src={this.props.image} />
+                        <img ref="image" style={hidden} src={this.props.image} alt="SDL_Image"/>
                     </div>
                 )
             } else {
                 return (
-                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} />
+                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
                 )
             }
 

@@ -45,20 +45,33 @@ body {
     }    
 }
 
+<<<<<<< HEAD
 .driver-distraction-button {
     margin-top: 20px;
     margin-left: 20px;
     width: 140px;
     border: 1px solid color(black);
+=======
+.toggle-ptu-with-modem-button{
+    margin-top: 22px;
+    margin-left: 20px;
+    width: 210px;
+>>>>>>> origin/develop
     border-radius: 2px;
     text-align: center;
     padding: 10px 0;
     float: left;
+<<<<<<< HEAD
     &:hover {
         cursor: pointer;
         background: color(black);
         color: color(white);
     }    
+=======
+    input{
+        margin-right: 10px;
+    }  
+>>>>>>> origin/develop
 }
 
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);

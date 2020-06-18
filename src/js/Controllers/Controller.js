@@ -1,5 +1,3 @@
-let url = "ws://localhost:8087"
-let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -10,6 +8,9 @@ import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
 import {flags} from '../Flags';
+
+let url = `ws://${flags.CoreHost}:${flags.CorePort}`
+let file_access_base_url = "";
 
 export default class Controller {
     constructor () {
@@ -160,6 +161,18 @@ export default class Controller {
         rpc = this.sanitizeRPC(rpc)
 
         if (rpc.error) {
+            if (rpc.error.data && rpc.error.data.method) {
+                componentName = rpc.error.data.method.split(".")[0];
+
+                switch (componentName) {
+                    case "SDL":
+                        sdlController.handleRPCError(rpc);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
             return;
         }
 
@@ -174,6 +187,8 @@ export default class Controller {
                     break;
                 case "SDL":
                     sdlController.handleRPCResponse(rpc);
+                    break;
+                default:
                     break;
             }
             
@@ -206,6 +221,9 @@ export default class Controller {
                 break;
             case "AppService":
                 response = appServicesController.handleRPC(rpc);
+                break;
+            default: 
+                response = false;
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
@@ -243,6 +261,8 @@ export default class Controller {
                     case "icon":
                     case "value":
                         obj[prop] = file_access_base_url + obj[prop]
+                        break;
+                    default:
                         break;
                 }
             }

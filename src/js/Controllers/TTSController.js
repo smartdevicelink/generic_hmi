@@ -10,7 +10,7 @@ class TTSController {
     }
 
     playAudio() {
-        if(this.filePlaylist.length == 0) {
+        if(this.filePlaylist.length === 0) {
             this.audioPlayer.onended = null;
             if(!this.audioPlayer.paused) {
                 this.audioPlayer.pause();
@@ -49,7 +49,7 @@ class TTSController {
     }
 
     speak() {
-        if(this.filePlaylist.length == 0) {
+        if(this.filePlaylist.length === 0) {
             return;
         }
 
@@ -92,6 +92,10 @@ class TTSController {
         switch(methodName) {
             case "IsReady":
                 return {rpc: RpcFactory.IsReadyResponse(rpc, true)}
+            case "GetSupportedLanguages":
+                return { rpc: RpcFactory.GetSupportedLanguagesResponse(rpc) }
+            case "GetLanguage":
+                return { rpc: RpcFactory.GetLanguageResponse(rpc) }
             case "GetCapabilities":
                 return {"rpc": RpcFactory.TTSGetCapabilitiesResponse(rpc)}
             case "ChangeRegistration":
@@ -116,6 +120,8 @@ class TTSController {
                 }
                 
                 return true;
+            default:
+                return false;
         }
     }
 }

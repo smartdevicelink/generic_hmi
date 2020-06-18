@@ -5,10 +5,6 @@ import { LargeGraphic } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
 
 class TextButtonswithGraphic extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

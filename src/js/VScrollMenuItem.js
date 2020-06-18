@@ -1,17 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage'
-import iconArrowRight from '../img/icons/icon-arrow-right.svg';
+import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.svg';
 
 export default class VScrollMenuItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
+        let subMenuIndicator = this.props.menuID ? (
+                <span className="vscrollmenu-item__arrow svg-wrap" > 
+                    <IconArrowRight/>
+                </span>
+            ) : null;
+
         return (
             <Link
                 to={this.props.menuItem.link}
                 className="vscrollmenu-item th-b-color th-bb-color-secondary"
+<<<<<<< HEAD
                 onClick={(e) => (this.props.enabled === false) ? e.preventDefault() : 
                     this.props.onSelection(this.props.appID, this.props.cmdID, 
                                             this.props.menuID, this.props.enabled, 
@@ -25,11 +29,20 @@ export default class VScrollMenuItem extends React.Component {
                             isTemplate={this.props.isTemplate ? this.props.isTemplate : null}
                             theme={this.props.theme}
                         />   
+=======
+                onClick={() => this.props.onSelection(this.props.appID, this.props.cmdID, this.props.menuID, this.props.isPerformingInteraction, this.props.interactionId)}>
+                <div className="vscrollmenu-item__primary">
+                    <SoftButtonImage class="vscrollmenu-item__image" image={this.props.image ? this.props.image : null} 
+                        imageType={this.props.imageType ? this.props.imageType : null}
+                        isTemplate={this.props.isTemplate ? this.props.isTemplate : null}
+                        theme={this.props.theme}
+                    />
+                    <div className="vscrollmenu-item__name">
+                        <p className="t-large t-light th-f-color">{this.props.menuItem.name}</p>
+                        <p className="t-large t-light th-f-color-secondary">{this.props.menuItem.info}</p>
+>>>>>>> origin/develop
                     </div>
-                    <p className="t-large t-light th-f-color-secondary">{this.props.menuItem.info}</p>
-                </div>
-                <div>
-                    <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconArrowRight}} />
+                    {subMenuIndicator}
                 </div>
             </Link>
         )

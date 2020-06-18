@@ -5,10 +5,6 @@ import { DoubleGraphic } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
 
 class DoubleGraphicWithSoftbuttons extends React.Component {
-    constructor() {
-        super();
-    }
-
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;

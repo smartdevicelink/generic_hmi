@@ -3,10 +3,6 @@ import ControlBarItem from './ControlBarItem'
 
 
 export default class ControlBar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     getColorScheme() {
         if (this.props.colorScheme && this.props.colorScheme.secondary) {
             var redInt = this.props.colorScheme.secondary.red;
@@ -23,7 +19,7 @@ export default class ControlBar extends React.Component {
 
     intToHexString(value) {
         var str = value.toString(16);
-        if (str.length == 1) {
+        if (str.length === 1) {
             return "0" + str;
         } else {
             return str
@@ -64,6 +60,8 @@ export default class ControlBar extends React.Component {
                 id={button.id}
                 appID={this.props.appID}
                 onButtonPress={this.props.onButtonPress}
+                onButtonDown={this.props.onButtonDown}
+                onButtonUp={this.props.onButtonUp}
                 theme={this.props.theme}
                 isTemplate={button.isTemplate}
                 highlightColor={this.getHighlightColor(button)}/>)

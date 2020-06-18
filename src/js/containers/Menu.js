@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
 import VScrollMenu from '../VScrollMenu'
+import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 import capabilities from '../Controllers/DisplayCapabilities'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
+<<<<<<< HEAD
     var ddState = state.ddState;
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepth = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth;
@@ -23,6 +25,11 @@ const mapStateToProps = (state) => {
         if (command.cmdIcon) {
             dataClass = 'with-icon'
         }
+=======
+    var menu = state.ui[activeApp] ? state.ui[activeApp].menu : []
+    var theme = state.theme
+    var data = menu.map((command) => {
+>>>>>>> origin/develop
         var link =  state.ui[activeApp].displayLayout
         var enabled = true
         if (command.subMenu) {
@@ -33,7 +40,6 @@ const mapStateToProps = (state) => {
         }
         return {
             cmdID: command.cmdID,
-            class: dataClass,
             name: command.menuName,
             image: command.cmdIcon ? command.cmdIcon.value : undefined,
             imageType: command.cmdIcon ? command.cmdIcon.imageType : undefined,
@@ -65,9 +71,14 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const Menu = connect(
+export const VMenu = connect(
     mapStateToProps,
     mapDispatchToProps
 )(VScrollMenu)
 
-export default Menu
+export const HMenu = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HScrollMenu)
+
+export default VMenu

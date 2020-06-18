@@ -1,6 +1,28 @@
-import capabilities from './DisplayCapabilities.js'
+import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
 class RpcFactory {
+    static SetAppProperties(properties) {
+        return {
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "BasicCommunication.SetAppProperties",
+            "params": {
+                "properties": properties
+            }
+        }
+    }
+    static GetAppProperties(policyAppID) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "BasicCommunication.GetAppProperties",
+            "params": {}
+        }
+        if (policyAppID) {
+            msg.params.policyAppID = policyAppID
+        }
+        return msg;
+    }
     static UnsupportedResourceResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",
@@ -24,6 +46,19 @@ class RpcFactory {
             }
         })
     }
+    static AlertAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Alert"
+                }
+            }
+        })
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -33,6 +68,7 @@ class RpcFactory {
                 "code": 0,
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
+                "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
                 "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
@@ -63,6 +99,19 @@ class RpcFactory {
                 "isAppRevoked": false,
                 "isPermissionsConsentNeeded": false,
                 "isSDLAllowed": true
+            }
+        })
+    }
+    static UIPerformInteractionAbortedResponse(msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
             }
         })
     }
@@ -102,7 +151,7 @@ class RpcFactory {
             }
         })
     }
-    static UIGetSupportedLanguagesResponse(rpc) {
+    static GetSupportedLanguagesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
@@ -113,14 +162,14 @@ class RpcFactory {
             }
         })        
     }
-    static UIGetLanguageResponse(rpc, language) {
+    static GetLanguageResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "language": language
+                "language": "EN-US"
             }
         })
     }
@@ -218,8 +267,21 @@ class RpcFactory {
             "jsonrpc": "2.0",
             "id": msgID,
             "error": {
-                "code": 22,
-                "message": "UI.PerformInteraction Failed",
+                "code": 5,
+                "message": "UI.PerformInteraction Aborted",
+                "data": {
+                    "method": "UI.PerformInteraction"
+                }
+            }
+        })
+    }
+    static UIPerformInteractionTimeout (msgID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": msgID,
+            "error": {
+                "code": 10,
+                "message": "UI.PerformInteraction Timed Out",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -339,27 +401,33 @@ class RpcFactory {
             }           
         })
     }
-    static GetURLS(serviceType) {
-         return ({
-            'jsonrpc': '2.0',
-            "id": rpcFactory_msgId++,
-            'method': 'SDL.GetURLS',
-            'params': {
-                'service' : serviceType
-            }           
-        })       
-    }
-    static OnSystemRequestNotification(policyFile, url, appID) {
+    static GetPolicyConfigurationData(type, property) {
         return ({
+           'jsonrpc': '2.0',
+           "id": rpcFactory_msgId++,
+           'method': 'SDL.GetPolicyConfigurationData',
+           'params': {
+               'policyType' : type,
+               'property' : property
+           }           
+       })       
+   }
+    static OnSystemRequestNotification(policyFile, url, appID) {
+        var msg = {
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnSystemRequest',
             'params': {
                 'requestType': 'PROPRIETARY',
-                'url': url,
-                'fileName': policyFile,
-                'appID': appID
+                'fileName': policyFile
             }
-        })        
+        }
+        if (url) {
+            msg.params.url = url
+        }
+        if (appID) {
+            msg.params.appID = appID
+        }
+        return (msg)       
     }
     static OnReceivedPolicyUpdate(policyFile) {
         return ({
@@ -439,7 +507,7 @@ class RpcFactory {
         "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
         "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
         if (supportedTemplates.includes(layout)) {
-            if (layout == "DEFAULT") {
+            if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
             var response = {
@@ -474,6 +542,33 @@ class RpcFactory {
             })            
         }
 
+    }
+    static UICancelInteractionIgnoredResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 6,
+                "message": "Request is ignored, because the intended result is already in effect.",
+                "data": {
+                    "method": "UI.CancelInteraction"
+                }
+            }
+        })
+    }
+    static OnSystemCapabilityDisplay(template, appID) {
+        var systemCapability = {
+            systemCapabilityType: "DISPLAYS",
+            displayCapabilities: [getDisplayCapability(template)]
+        }
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": systemCapability,
+                "appID": appID
+            }
+        })
     }
 }
 

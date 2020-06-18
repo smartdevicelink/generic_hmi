@@ -3,6 +3,7 @@ import HScrollMenuItem from './HScrollMenuItem'
 import MenuFooter from './MenuFooter'
 
 export default class HScrollMenu extends React.Component {
+<<<<<<< HEAD
     constructor(props) {
         super(props);
         this.hiddenNames = [];
@@ -15,6 +16,8 @@ export default class HScrollMenu extends React.Component {
     pushHiddenName(name) {
         this.hiddenNames.push(name)
     }
+=======
+>>>>>>> origin/develop
 
     render() {
         this.clearHiddenNames();
@@ -26,10 +29,8 @@ export default class HScrollMenu extends React.Component {
             return (<div className="hscrollmenu-block"
                 key={menuItem.cmdID + menuItem.name}>
                     <HScrollMenuItem
-                        appID={menuItem.appID}
-                        cmdID={menuItem.cmdID}
-                        menuID={menuItem.menuID}
-                        menuItem={menuItem} 
+                        menuItem={menuItem}
+                        theme={this.props.theme}
                         onSelection={this.props.onSelection}/>
                 </div>)
         });

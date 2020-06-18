@@ -1,6 +1,5 @@
 if (!Array.prototype.find) {
   Array.prototype.find = function(predicate) {
-    'use strict';
     if (this == null) {
       throw new TypeError('Array.prototype.find called on null or undefined');
     }

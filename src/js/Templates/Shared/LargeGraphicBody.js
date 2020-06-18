@@ -4,10 +4,6 @@ import Image from './Image'
 
 
 export default class LargeGraphicBody extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     fillColor() {
         var fillColor = null;
         if (this.props.theme) {

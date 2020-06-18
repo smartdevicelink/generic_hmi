@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import AppName from '../AppName'
 import '../polyfill_find'
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state) => {
     }
     if(state.ui[activeApp] && state.ui[activeApp].menu && state.ui[activeApp].activeSubMenu){
         let submenu = state.ui[activeApp].menu.find(
-            (entry) => {return entry.menuID && entry.menuID == state.ui[activeApp].activeSubMenu}
+            (entry) => {return entry.menuID && entry.menuID === state.ui[activeApp].activeSubMenu}
         )
         subMenuName = (submenu) ? submenu.menuName : "";
     }

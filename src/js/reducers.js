@@ -13,7 +13,11 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
+<<<<<<< HEAD
         activeMenuDepth: 0,
+=======
+        menuLayout: "LIST",
+>>>>>>> origin/develop
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -25,8 +29,9 @@ function newAppState () {
             seconds: 0
         },
         updateMode: "CLEAR",
+        countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
-        pauseTime: new Date().getTime(),
+        pauseTime: null,
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -47,7 +52,6 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
-            break
         default:
             return state
     }
@@ -65,7 +69,27 @@ function ddState(state = false, action) {
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
-            return action.appList
+            return action.appList.map((app) => {
+                var existingApp = state.find(x => x.appID === app.appID);
+                return {
+                    ...app,
+                    isRegistered: existingApp ? existingApp.isRegistered : false
+                };
+            });
+        case Actions.REGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = true;
+                }
+                return app;
+            });
+        case Actions.UNREGISTER_APPLICATION:
+            return state.map((app) => {
+                if (app.appID === action.appID) {
+                    app.isRegistered = false;
+                }
+                return app;
+            });
         case Actions.SET_APP_ICON:
             var newState = state.map((app, index) => {
                 if (app.appID === action.appID) {
@@ -96,6 +120,8 @@ function systemCapability( state = {}, action) {
                 capability = action.capability.remoteControlCapability
             } else if (type === "APP_SERVICES") {
                 capability = action.capability.appServicesCapabilities
+            } else if (type === "DISPLAYS"){
+                capability = action.capability.displayCapabilities
             }
             newState[type] = capability
             return newState
@@ -148,7 +174,7 @@ function parseActionBearing(action, bearing) {
 function parseNavDistance (distance) {
     var gt0 = distance > 0;
     var parsedDistance = distance.toFixed(1);
-    if (gt0 && parsedDistance == 0) {
+    if (gt0 && parsedDistance === 0) {
         return "<0.1"
     }
     if (parsedDistance > 0 && parsedDistance < 10) {
@@ -232,7 +258,17 @@ function activeApp(state = null, action) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
         case Actions.DEACTIVATE_APP:
-            return action.appID == state ? null : state;
+            return action.appID === state ? null : state;
+        default:
+            return state
+    }
+}
+function pendingAppLaunch(state = null, action) {
+    switch (action.type) {
+        case Actions.SET_PENDING_APP_LAUNCH:
+            return action.appID
+        case Actions.CLEAR_PENDING_APP_LAUNCH:
+            return null
         default:
             return state
     }
@@ -320,13 +356,16 @@ function FindAndDeleteSubMenu(menu, menuID) {
 }*/
 
 function ui(state = {}, action) {
+    var newState = { ...state }
+    var app = newState[action.appID] ? newState[action.appID] : newAppState();
+    newState[action.appID] = app;
+    var menu = app.menu;
+    var menuItem = null;
+    var i = 0;
     switch (action.type) {
-        case Actions.SHOW:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
+        case Actions.SHOW:           
             if (action.showStrings && action.showStrings.length > 0) {
-                for (var i=0; i < action.showStrings.length; i++) {
+                for (i=0; i < action.showStrings.length; i++) {
                     var fieldName = action.showStrings[i].fieldName
                     var fieldText = action.showStrings[i].fieldText
                     app.showStrings[fieldName] = fieldText
@@ -343,20 +382,13 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SET_APP_ICON:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.icon = action.icon
             return newState
         case Actions.ADD_COMMAND:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
-            var menuItem = {
+            menuItem = {
                 cmdID: cmdID,
                 parentID: menuParams.parentID,
                 position: menuParams.position,
@@ -382,24 +414,18 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.DELETE_COMMAND:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            app.menu = deleteCommand(app.menu, action.cmdID)
+            menu = deleteCommand(menu, action.cmdID)
             return newState
         case Actions.ADD_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
             var position = action.menuParams.position
-            var menuItem = {
+            menuItem = {
                 menuID: action.menuID,
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
                 cmdIcon: action.subMenuIcon,
-                subMenu: []
+                subMenu: [],
+                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
 
             if (menuItem.parentID) {
@@ -418,91 +444,96 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.DELETE_SUB_MENU:
+<<<<<<< HEAD
             var newState = { ...state }
             var app = newState[action.appID] ? newState[action.appID] : newAppState()
             newState[action.appID] = app
             var menu = app.menu
             app.menu = deleteSubMenu(menu, action.menuID);
+=======
+            i = menu.findIndex((command) => {
+                return command.menuID === action.menuID
+            })
+            menu.splice(i, 1)
+>>>>>>> origin/develop
             return newState
         case Actions.SHOW_APP_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.triggerShowAppMenu = true
             // If action has menuID, activate submenu otherwise deactivate sub menu
             app.activeSubMenu = (action.menuID) ? action.menuID : null;
-            newState[action.appID] = app
             return newState
         case Actions.SUBSCRIBE_BUTTON:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             var buttons = app.subscribedButtons
             buttons[action.buttonName] = action.isSubscribed
             return newState
         case Actions.ACTIVATE_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.activeSubMenu = action.menuID
             app.activeMenuDepth += action.depth
             return newState
         case Actions.DEACTIVATE_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.activeSubMenu = null
             app.activeMenuDepth = 0
             return newState
         case Actions.PERFORM_INTERACTION:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isPerformingInteraction = true
             app.interactionText = action.text
             app.choices = action.choices
             app.interactionId = action.msgID
+            app.interactionCancelId = action.cancelID
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isPerformingInteraction = false
             app.interactionText = ""
             app.choices = []
             return newState
         case Actions.SET_MEDIA_CLOCK_TIMER:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             if (action.startTime) {
                 app.startTime = action.startTime
             }
             if (action.endTime) {
                 app.endTime = action.endTime
             }
+
             if (action.updateMode === "COUNTUP") {
+                if (action.updateMode !== app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
+                app.updateTime = new Date().getTime()
+            }
+            else if (action.updateMode === "COUNTDOWN") {
+                if (action.updateMode !== app.countDirection) {
+                    app.endTime = action.endTime ? action.endTime : null
+                }
+                app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.pauseTime = new Date().getTime()
                 app.updateTime = app.pauseTime
             }
-            else if (action.updateMode === "PAUSE") {
+            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
                 app.pauseTime = new Date().getTime()
             }
-            else if (action.updateMode === "RESUME") {
+            else if (action.updateMode === "RESUME" && app.pauseTime) {
                 var now = new Date().getTime()
                 app.updateTime = app.updateTime + now - app.pauseTime
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
+                app.startTime = null
+                app.endTime = null
             }
             app.updateMode = action.updateMode
             if(action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
+            if (action.updateMode !== "PAUSE") {
+                app.pauseTime = null
+            }
             return newState
-        case Actions.SET_DISPLAY_LAYOUT:
-            var newState = {...state}
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+        case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
                 case "DEFAULT":
                     app.displayLayout = "media"
@@ -549,27 +580,19 @@ function ui(state = {}, action) {
 
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
-            }            
+            }          
             return newState
-        case Actions.REGISTER_APPLICATION:
-            var newState = { ...state }         
-            if (!newState[action.appID]) {
-              newState[action.appID] = newAppState()
-            }
-            var app = newState[action.appID]
-            if (app.displayLayout == null) {
+        case Actions.REGISTER_APPLICATION:        
+            if (!app.displayLayout) {
               app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
             }
             return newState
         case Actions.UNREGISTER_APPLICATION:
-            var newState = { ...state }
             if (newState[action.appID]) {
                 delete newState[action.appID]
             }
             return newState
         case Actions.ALERT:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.alert.showAlert = true
             app.alert.alertStrings = action.alertStrings
             app.alert.duration = action.duration
@@ -578,10 +601,9 @@ function ui(state = {}, action) {
             app.alert.showProgressIndicator = action.showProgressIndicator
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
+            app.alert.cancelID = action.cancelID
             return newState
         case Actions.CLOSE_ALERT:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.alert =  {
                 showAlert: false,
                 alertStrings: [],
@@ -593,8 +615,6 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.UPDATE_COLOR_SCHEME:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             if (action.dayColorScheme) {
                 app.dayColorScheme = action.dayColorScheme
             }
@@ -604,19 +624,17 @@ function ui(state = {}, action) {
             }
             return newState   
         case Actions.SET_APP_IS_CONNECTED:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = false
             return newState
         case Actions.ON_PUT_FILE:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             return newState
         case Actions.RESET_SHOW_APP_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            app.triggerShowAppMenu = false
-            newState[action.appID] = app        
+            app.triggerShowAppMenu = false     
+            return newState
+        case Actions.SET_GLOBAL_PROPERTIES:
+            if (action.menuLayout && action.menuLayout.length) {
+                app.menuLayout = action.menuLayout
+            }
             return newState
         default:
             return state
@@ -624,20 +642,88 @@ function ui(state = {}, action) {
 }
 
 function system(state = {}, action) {
+    var newState = { ...state }
     switch(action.type) {
-        case Actions.POLICY_UPDATE:
-            var newState = { ...state }
+        case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry
             newState.policyTimeout = action.timeout
             return newState
-        case Actions.GET_URLS:
-            var newState = { ...state }
+        case Actions.SET_URLS:
             newState.urls = action.urls
+            return newState
+        case Actions.SET_PTU_WITH_MODEM:
+            newState.ptuWithModemEnabled = action.enabled
             return newState
         default:
             return state
 
+    }
+}
+
+function appStore(state = {
+    isConnected: false,
+    availableApps: [],
+    installedApps: [],
+    appsPendingSetAppProperties: []
+}, action) {
+    var newState = { ...state };
+    switch (action.type) {
+        case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
+            newState.isConnected = action.isConnected
+            return newState;
+        case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
+            newState.availableApps = action.availableApps;
+            newState.installedApps = state.installedApps.map((app) => {
+                var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
+                return appDirEntry ? Object.assign(appDirEntry, app) : app;
+            });
+            return newState;
+        case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
+            let existingApp = newState.installedApps.find(app => app.policyAppID === action.installedApp.policyAppID)
+
+            if (!existingApp) {
+                let appDirEntry = newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID);
+                newState.installedApps.push(
+                    appDirEntry ? Object.assign(appDirEntry, action.installedApp) : action.installedApp
+                );
+                return newState;
+            }
+            // Update the existing app's properties
+            existingApp = Object.assign(existingApp, action.installedApp);
+            return newState;
+        case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
+            newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
+            return newState;
+        case Actions.APPSTORE_APP_INSTALLED:
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            var pendingAppInstall = newState.appsPendingSetAppProperties.shift()['app'];
+            if (!action.success) { return newState; }
+            var newInstalled = [ pendingAppInstall ].concat(newState.installedApps);
+            newState.installedApps = newInstalled;
+            var appStoreAppInstalled = newState.availableApps.find(app => app.policyAppID === pendingAppInstall.policyAppID);
+            if (appStoreAppInstalled) { appStoreAppInstalled.pendingInstall = false; }
+            return newState;
+        case Actions.APPSTORE_APP_UNINSTALLED:
+            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
+            let pendingAppUninstall = newState.appsPendingSetAppProperties.shift()['app'];
+            if (!action.success) { return newState; }
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID !== pendingAppUninstall.policyAppID);
+            return newState;
+        case Actions.WEBENGINE_APP_LAUNCH:
+            var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
+            launchedApp.runningAppId = action.appID;
+            return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            var unregisteredApp = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (unregisteredApp) { unregisteredApp.runningAppId = 0; }
+            return newState;
+        case Actions.APPSTORE_BEGIN_INSTALL:
+            let appStoreAppToInstall = newState.availableApps.find(app => app.policyAppID === action.policyAppID);
+            if (appStoreAppToInstall) { appStoreAppToInstall.pendingInstall = true; }
+            return newState;
+        default:
+            return state;
     }
 }
 
@@ -647,7 +733,9 @@ export const hmi = combineReducers({
     appList,
     appServiceData,
     activeApp,
+    pendingAppLaunch,
     ui,
     system,
-    systemCapability
+    systemCapability,
+    appStore
 })
