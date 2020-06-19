@@ -312,9 +312,11 @@ function SubmenuDeepFind(menu, parentID, depth) {
         }
         return command.menuID === parentID
     });
+
     if (deepSubMenu) {
         return deepSubMenu;
     }
+    
     if (subMenu) {
         return {
             subMenu: subMenu,

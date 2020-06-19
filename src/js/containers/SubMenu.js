@@ -110,6 +110,7 @@ const mapDispatchToProps = (dispatch) => {
                 uiController.onChoiceSelection(cmdID, appID, interactionID)
                 dispatch(deactivateInteraction(appID))
             } else if (menuID && enabled === true) {
+                console.log("SubMenu.js ActivateSubMenu: ", menuID)
                 dispatch(activateSubMenu(appID, menuID, 1));
             } else {
                 uiController.onSystemContext("MAIN", appID)

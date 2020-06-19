@@ -12,7 +12,9 @@ export default class AppIcon extends React.Component {
             fillColor = "#000000"
         }
         //While viewing menu, pressing menu button takes user back to app screen
+        console.log("is showing menu: ", this.props.isShowingMenu)
         var path = this.props.isShowingMenu ? this.props.backLink : "/inappmenu" 
+        console.log(path)
         var icon = this.props.icon ?
             (<Image class="app-icon" image={this.props.icon} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
             : (<span className="app-icon"></span>)

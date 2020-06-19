@@ -62,9 +62,10 @@ class AppHeader extends React.Component {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
         var modalClass = themeClass + " alertOverlay"
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
+        var isShowingSubMenu = this.props.location.pathname === '/inapplist';
         var icon = this.props.icon === 'false' ? (<div />) 
             : <MenuIcon 
-                isShowingMenu={isShowingMenu}
+                isShowingMenu={isShowingMenu || isShowingSubMenu}
                 activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
