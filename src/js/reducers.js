@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
 import './polyfill_find'
+import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
 
 function newAppState () {
@@ -296,36 +297,6 @@ function deleteSubMenu(commands, menuID) {
     return commands
 }
 
-// Depth First Search Recursive Function
-function SubmenuDeepFind(menu, parentID, depth) { 
-    if (!menu || !parentID) {
-        return null;
-    }
-    var deepSubMenu = null;
-    var subMenu = menu.find((command) => {
-        if (command.subMenu) { 
-            var result = SubmenuDeepFind(command.subMenu, parentID, depth++)
-            if (result && result.subMenu) {
-                deepSubMenu = result;
-                return true;
-            }
-        }
-        return command.menuID === parentID
-    });
-
-    if (deepSubMenu) {
-        return deepSubMenu;
-    }
-    
-    if (subMenu) {
-        return {
-            subMenu: subMenu,
-            depth: depth
-        }
-    }
-    return null;
-}
-
 function ui(state = {}, action) {
     var newState = { ...state }
     var app = newState[action.appID] ? newState[action.appID] : newAppState();
@@ -422,6 +393,11 @@ function ui(state = {}, action) {
             app.triggerShowAppMenu = true
             // If action has menuID, activate submenu otherwise deactivate sub menu
             app.activeSubMenu = (action.menuID) ? action.menuID : null;
+            var searchResult = SubmenuDeepFind(app.menu, action.menuID, 0)
+            if (searchResult) {
+                // Menu depth is incremented by one since the submenu is being shown.
+                app.activeMenuDepth = searchResult.depth + 1;
+            }            
             return newState
         case Actions.SUBSCRIBE_BUTTON:
             var buttons = app.subscribedButtons

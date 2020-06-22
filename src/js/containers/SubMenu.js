@@ -5,33 +5,7 @@ import uiController from '../Controllers/UIController'
 import { deactivateSubMenu, deactivateInteraction, activateSubMenu } from '../actions'
 import '../polyfill_find'
 import {capabilities} from '../Controllers/DisplayCapabilities'
-
-function SubmenuDeepFind(menu, parentID, depth) { 
-    if (!menu || !parentID) {
-        return null;
-    }
-    var deepSubMenu = null;
-    var subMenu = menu.find((command) => {
-        if (command.subMenu) { 
-            var result = SubmenuDeepFind(command.subMenu, parentID, depth++)
-            if (result && result.subMenu) {
-                deepSubMenu = result;
-                return true;
-            }
-        }
-        return command.menuID === parentID
-    });
-    if (deepSubMenu) {
-        return deepSubMenu;
-    }
-    if (subMenu) {
-        return {
-            subMenu: subMenu,
-            depth: depth
-        }
-    }
-    return null;
-}
+import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -110,7 +84,6 @@ const mapDispatchToProps = (dispatch) => {
                 uiController.onChoiceSelection(cmdID, appID, interactionID)
                 dispatch(deactivateInteraction(appID))
             } else if (menuID && enabled === true) {
-                console.log("SubMenu.js ActivateSubMenu: ", menuID)
                 dispatch(activateSubMenu(appID, menuID, 1));
             } else {
                 uiController.onSystemContext("MAIN", appID)
