@@ -1,4 +1,7 @@
 import React from 'react';
+import store from '../../store'
+import path from 'path'
+import UIController from '../../Controllers/UIController'
 
 export default class Image extends React.Component {
     constructor(props) {
@@ -67,6 +70,12 @@ export default class Image extends React.Component {
     }
 
     onError(event) {
+        const state = store.getState();
+        const activeApp = state.activeApp;
+        if (activeApp) {
+            const fileName = path.basename(this.props.image);
+            UIController.onUpdateFile(activeApp, fileName);
+        }
         this.setState({error: true});
     }
 

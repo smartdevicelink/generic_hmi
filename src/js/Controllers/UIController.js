@@ -358,6 +358,14 @@ class UIController {
     onResetTimeout(appID, methodName) {
         this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
     }
+
+    onUpdateFile(appID, fileName) {
+        this.listener.send(RpcFactory.OnUpdateFile(appID, fileName));
+    }
+
+    onUpdateSubMenu(appID, menuID) {
+        this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
+    }
 }
 
 let controller = new UIController ()

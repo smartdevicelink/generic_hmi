@@ -570,6 +570,29 @@ class RpcFactory {
             }
         })
     }
+
+    static OnUpdateFile(appID, fileName) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateFile",
+            "params": {
+                "appID": appID,
+                "fileName": fileName
+            }
+        })
+    }
+
+    static OnUpdateSubMenu(appID, menuID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateSubMenu",
+            "params": {
+                "appID": appID,
+                "menuID": menuID,
+                "updateSubCells": true
+            }
+        })
+    }
 }
 
 export default RpcFactory

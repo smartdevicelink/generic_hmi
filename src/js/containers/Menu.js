@@ -4,6 +4,7 @@ import HScrollMenu from '../HScrollMenu'
 import uiController from '../Controllers/UIController'
 import { activateSubMenu } from '../actions'
 import {capabilities}  from '../Controllers/DisplayCapabilities'
+import UIController from '../Controllers/UIController'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -21,6 +22,11 @@ const mapStateToProps = (state) => {
             link = '/inapplist'
             if (ddState === true && menuDepth === 1) {
                 enabled = false;
+            }
+
+            if (command.subMenu.length === 0) {
+                // Found and empty submenu, ask app to send add commands
+                UIController.onUpdateSubMenu(activeApp, command.menuID);
             }
         }
         return {
