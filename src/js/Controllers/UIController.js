@@ -194,6 +194,25 @@ class UIController {
                 }
 
                 return null
+            case "SubtleAlert":
+                store.dispatch(alert(
+                    rpc.params.appID,
+                    rpc.params.alertStrings,
+                    rpc.params.duration,
+                    rpc.params.softButtons,
+                    rpc.params.alertType,
+                    rpc.params.progressIndicator,
+                    rpc.id,
+                    rpc.params.alertIcon,
+                    rpc.params.cancelID,
+                    true
+                ))
+
+                var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
+                this.timers[rpc.id] = setTimeout(this.onSubtleAlertTimeout, alertTimeout, rpc.id);
+                this.appsWithTimers[rpc.id] = rpc.params.appID
+
+                return null
             case "CancelInteraction":
 
                 const state2 = store.getState()
@@ -213,6 +232,13 @@ class UIController {
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     return true
+                } else if (rpc.params.functionID === 64 && app.alert.showAlert
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                   clearTimeout(this.timers[app.alert.msgID])
+                   delete this.timers[app.alert.msgID]
+                   this.listener.send(RpcFactory.SubtleAlertResponse(app.alert.msgID, 5))
+                   store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                   return true
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
@@ -242,6 +268,12 @@ class UIController {
         }
         this.onSystemContext("MAIN", context)
     }
+    onSubtleAlertTimeout(msgID) {
+        console.log('onSubtleAlertTimeout', msgID) // debug
+        delete this.timers[msgID];
+        store.dispatch(closeAlert(alert.msgID, alert.appID));
+        this.listener.send(RpcFactory.SubtleAlertResponse(msgID, 10));
+    }
     onStealFocus(alert, context) {        
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
@@ -258,7 +290,22 @@ class UIController {
         }
         this.onSystemContext("MAIN", alert.appID)
         sdlController.onAppActivated(alert.appID)
+    }
+    onSubtleAlertStealFocus(alert) {
+        console.log('onSubtleAlertStealFocus', alert) // debug
+        clearTimeout(this.timers[alert.msgID]);
+        delete this.timers[alert.msgID];
         
+        if (alert.buttonID) { // can be invoked by clicking alert modal
+            this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
+        }
+        
+        store.dispatch(closeAlert(alert.msgID, alert.appID));
+        this.listener.send(RpcFactory.SubtleAlertResponse(alert.msgID));
+        this.listener.send(RpcFactory.OnSubtleAlertPressed(alert.appID));
+        
+        this.onSystemContext("MAIN", alert.appID);
+        sdlController.onAppActivated(alert.appID);
     }
     onKeepContext(alert) {
         clearTimeout(this.timers[alert.msgID])
@@ -269,6 +316,14 @@ class UIController {
         
         this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID)
         this.onResetTimeout(alert.appID, "UI.Alert")
+    }
+    onSubtleAlertKeepContext(alert) {
+        console.log('onSubtleAlertKeepContext', alert) // debug
+        clearTimeout(this.timers[alert.msgID]);
+        this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
+        var timeout = alert.duration ? alert.duration : 10000;
+        this.timers[alert.msgID] = setTimeout(this.onSubtleAlertTimeout, timeout, alert.msgID);
+        this.onResetTimeout(alert.appID, "UI.Alert");
     }
     onDefaultAction(alert, context) {
         if (!alert.msgID) {
@@ -288,6 +343,22 @@ class UIController {
         } else {
             this.onSystemContext("MENU")//Viewing App List
         }
+    }
+    onSubtleDefaultAction(alert) {
+        console.log('onSubtleDefaultAction', alert) // debug
+        if (!alert.msgID) {
+            // This was a system alert, do not send a response to Core
+            return;
+        }
+
+        clearTimeout(this.timers[alert.msgID]);
+        delete this.timers[alert.msgID];
+        if (alert.buttonID) { // can be invoked by clicking outside of modal
+            this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
+        }
+        
+        store.dispatch(closeAlert(alert.msgID, alert.appID));
+        this.listener.send(RpcFactory.SubtleAlertResponse(alert.msgID));
     }
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])

@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
+import SubtleAlert from './SubtleAlert';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -9,6 +10,7 @@ import store from './store'
 import {resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import uiController from './Controllers/UIController'
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
@@ -43,6 +45,19 @@ class AppStoreMenuIcon extends React.Component {
 
 class AppHeader extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        if (this.props.alertIsSubtle) {
+            this.props.showAlert = false;
+            this.forceUpdate();
+            uiController.onSubtleDefaultAction(this.props.alertMsgId);
+        }
+    }
+
     getColorScheme() {
         if (this.props.colorScheme) {
             var redInt = this.props.colorScheme.red;
@@ -76,6 +91,11 @@ class AppHeader extends React.Component {
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
+        console.log(`AppHeader::render() this.props.alertIsSubtle: ${this.props.alertIsSubtle}`);
+        var alertHtml = this.props.alertIsSubtle
+                            ? (<SubtleAlert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>)
+                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>);
+
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
@@ -83,11 +103,12 @@ class AppHeader extends React.Component {
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
-                className="alertModal app-body"
+                className={`app-body ${this.props.alertIsSubtle ? 'subtleA' : 'a'}lertModal`}
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
+                onRequestClose={this.closeModal}
                 >
-                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>
+                    {alertHtml}
                 </Modal>
             </div>
             

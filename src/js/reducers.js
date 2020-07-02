@@ -32,6 +32,7 @@ function newAppState () {
         displayLayout:  null,
         alert: {
             showAlert: false,
+            subtle: false,
             alertStrings: [],
             duration: null,
             softButtons: [],
@@ -484,6 +485,7 @@ function ui(state = {}, action) {
             return newState
         case Actions.ALERT:
             app.alert.showAlert = true
+            app.alert.subtle = action.subtle
             app.alert.alertStrings = action.alertStrings
             app.alert.duration = action.duration
             app.alert.softButtons = action.softButtons
@@ -496,6 +498,7 @@ function ui(state = {}, action) {
         case Actions.CLOSE_ALERT:
             app.alert =  {
                 showAlert: false,
+                subtle: false,
                 alertStrings: [],
                 duration: null,
                 softButtons: [],
