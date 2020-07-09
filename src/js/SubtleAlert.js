@@ -31,9 +31,9 @@ class SubtleAlert extends React.Component {
         var textFields = [];
 
         for (var alertString of this.props.context.alertStrings) {
-            if (alertString.fieldName === 'alertText1') { // subtleAlertText1
+            if (alertString.fieldName === 'subtleAlertText1') {
                 textFields.push(<h4 className="t-large t-medium th-f-color">{alertString.fieldText}</h4>)
-            } else if (alertString.fieldName === 'alertText2') { // subtleAlertText2
+            } else if (alertString.fieldName === 'subtleAlertText2') {
                 textFields.push(<p className="t-small t-light th-f-color">{alertString.fieldText}</p>)
             }
         }

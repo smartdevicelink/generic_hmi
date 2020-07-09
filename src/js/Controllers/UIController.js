@@ -318,12 +318,11 @@ class UIController {
         this.onResetTimeout(alert.appID, "UI.Alert")
     }
     onSubtleAlertKeepContext(alert) {
-        console.log('onSubtleAlertKeepContext', alert) // debug
         clearTimeout(this.timers[alert.msgID]);
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         var timeout = alert.duration ? alert.duration : 10000;
         this.timers[alert.msgID] = setTimeout(this.onSubtleAlertTimeout, timeout, alert.msgID);
-        this.onResetTimeout(alert.appID, "UI.Alert");
+        this.onResetTimeout(alert.appID, "UI.SubtleAlert");
     }
     onDefaultAction(alert, context) {
         if (!alert.msgID) {
