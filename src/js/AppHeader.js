@@ -75,7 +75,7 @@ class AppHeader extends React.Component {
 
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
-        var modalClass = themeClass + " alertOverlay"
+        var modalClass = themeClass + " " + (this.props.alertIsSubtle ? "subtleAlertOverlay" : "alertOverlay");
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
         var icon = this.props.icon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
 
@@ -91,7 +91,6 @@ class AppHeader extends React.Component {
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
-        console.log(`AppHeader::render() this.props.alertIsSubtle: ${this.props.alertIsSubtle}`);
         var alertHtml = this.props.alertIsSubtle
                             ? (<SubtleAlert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>)
                             : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>);

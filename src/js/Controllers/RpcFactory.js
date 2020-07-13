@@ -36,13 +36,26 @@ class RpcFactory {
             }            
         })
     }
-    static SubtleAlertResponse(rpcID, code=0) {
+    static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
             "id": rpcID,
             "result": {
-                "code": code,
+                "code": 0,
                 "method": "UI.SubtleAlert"
+            }
+        })
+    }
+    static SubtleAlertErrorResponse(rpcID, code, info) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": code,
+                "message": info,
+                "data": {
+                    "method": "UI.SubtleAlert"
+                }
             }
         })
     }

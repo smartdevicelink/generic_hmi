@@ -26,11 +26,16 @@ class UIController {
         this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
         this.onAlertTimeout = this.onAlertTimeout.bind(this)
+        this.onSubtleAlertTimeout = this.onSubtleAlertTimeout.bind(this)
         this.onDefaultAction = this.onDefaultAction.bind(this)
+        this.onSubtleDefaultAction = this.onSubtleDefaultAction.bind(this)
         this.onKeepContext = this.onKeepContext.bind(this)
+        this.onSubtleAlertKeepContext = this.onSubtleAlertKeepContext.bind(this)
         this.onStealFocus = this.onStealFocus.bind(this)
+        this.onSubtleAlertStealFocus = this.onSubtleAlertStealFocus.bind(this)
         this.timers = {}
         this.appsWithTimers = {}
+        this.endTimes = {}
     }
     addListener(listener) {
         this.listener = listener
@@ -139,6 +144,7 @@ class UIController {
                     rpc.params.cancelID
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
+                this.endTimes[rpc.id] = Date.now() + timeout;
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
@@ -184,6 +190,7 @@ class UIController {
                 const state = store.getState()
                 const context = state.activeApp
 
+                this.endTimes[rpc.id] = Date.now() + alertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
@@ -195,6 +202,28 @@ class UIController {
 
                 return null
             case "SubtleAlert":
+
+                var tryAgainInfo = undefined;
+                var activeInteractionId = undefined;
+                const state3 = store.getState()
+                for (var appId in state3.ui) {
+                    var app = state3.ui[appId];
+                    if (app.isPerformingInteraction) {
+                        tryAgainInfo = 'A PerformInteraction is active';
+                        activeInteractionId = app.interactionId;
+                    } else if (app.alert.showAlert) {
+                        tryAgainInfo = (app.alert.subtle ? 'Another SubtleAlert' : 'An Alert') + ' is active';
+                        activeInteractionId = app.alert.msgID;
+                    }
+                }
+
+                if (activeInteractionId) {
+                    var tryAgainTime = this.endTimes[activeInteractionId] - Date.now();
+                    var rpc = RpcFactory.SubtleAlertErrorResponse(rpc.id, 4, tryAgainInfo);
+                    rpc.error.data.tryAgainTime = tryAgainTime;
+                    return { rpc: rpc };
+                }
+
                 store.dispatch(alert(
                     rpc.params.appID,
                     rpc.params.alertStrings,
@@ -209,7 +238,8 @@ class UIController {
                 ))
 
                 var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
-                this.timers[rpc.id] = setTimeout(this.onSubtleAlertTimeout, alertTimeout, rpc.id);
+                this.endTimes[rpc.id] = Date.now() + alertTimeout;
+                this.timers[rpc.id] = setTimeout(this.onSubtleAlertTimeout, alertTimeout, rpc.id, rpc.params.appID);
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 return null
@@ -236,7 +266,7 @@ class UIController {
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
                    clearTimeout(this.timers[app.alert.msgID])
                    delete this.timers[app.alert.msgID]
-                   this.listener.send(RpcFactory.SubtleAlertResponse(app.alert.msgID, 5))
+                   this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                    return true
                 }
@@ -268,11 +298,10 @@ class UIController {
         }
         this.onSystemContext("MAIN", context)
     }
-    onSubtleAlertTimeout(msgID) {
-        console.log('onSubtleAlertTimeout', msgID) // debug
+    onSubtleAlertTimeout(msgID, appID) {
         delete this.timers[msgID];
-        store.dispatch(closeAlert(alert.msgID, alert.appID));
-        this.listener.send(RpcFactory.SubtleAlertResponse(msgID, 10));
+        store.dispatch(closeAlert(msgID, appID));
+        this.listener.send(RpcFactory.SubtleAlertErrorResponse(msgID, 10, 'subtle alert timed out'));
     }
     onStealFocus(alert, context) {        
         clearTimeout(this.timers[alert.msgID])
@@ -292,17 +321,17 @@ class UIController {
         sdlController.onAppActivated(alert.appID)
     }
     onSubtleAlertStealFocus(alert) {
-        console.log('onSubtleAlertStealFocus', alert) // debug
         clearTimeout(this.timers[alert.msgID]);
         delete this.timers[alert.msgID];
         
         if (alert.buttonID) { // can be invoked by clicking alert modal
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
+        } else {
+            this.listener.send(RpcFactory.OnSubtleAlertPressed(alert.appID));
         }
         
         store.dispatch(closeAlert(alert.msgID, alert.appID));
         this.listener.send(RpcFactory.SubtleAlertResponse(alert.msgID));
-        this.listener.send(RpcFactory.OnSubtleAlertPressed(alert.appID));
         
         this.onSystemContext("MAIN", alert.appID);
         sdlController.onAppActivated(alert.appID);
@@ -321,7 +350,7 @@ class UIController {
         clearTimeout(this.timers[alert.msgID]);
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         var timeout = alert.duration ? alert.duration : 10000;
-        this.timers[alert.msgID] = setTimeout(this.onSubtleAlertTimeout, timeout, alert.msgID);
+        this.timers[alert.msgID] = setTimeout(this.onSubtleAlertTimeout, timeout, alert.msgID, alert.appID);
         this.onResetTimeout(alert.appID, "UI.SubtleAlert");
     }
     onDefaultAction(alert, context) {
@@ -344,7 +373,6 @@ class UIController {
         }
     }
     onSubtleDefaultAction(alert) {
-        console.log('onSubtleDefaultAction', alert) // debug
         if (!alert.msgID) {
             // This was a system alert, do not send a response to Core
             return;

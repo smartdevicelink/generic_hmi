@@ -15,18 +15,16 @@ class SubtleAlert extends React.Component {
     }
 
     clickHandler() {
-        console.log('SubtleAlert WAS CLICKED!!');
         uiController.onSubtleAlertStealFocus(this.props.context);
     }
 
     render() {
-        console.log('SubtleAlert.props: ', this.props);
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }
 
         var iconElement = (icon.imageType === "STATIC")
-                 ? (<StaticIcon class="subtleAlert-icon" image={icon.value} />)
-                 : (<div className="subtleAlert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
+                 ? (<StaticIcon class="subtleAlert-icon" image={icon.value} onClick={this.clickHandler} />)
+                 : (<div className="subtleAlert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} onClick={this.clickHandler} /></div>);
 
         var textFields = [];
 
@@ -39,9 +37,9 @@ class SubtleAlert extends React.Component {
         }
 
         return (
-            <div className="subtleAlert" onClick={this.clickHandler}>
+            <div className="subtleAlert">
                 { iconElement }
-                <div className="subtleAlert-text">
+                <div className="subtleAlert-text" onClick={this.clickHandler}>
                     { textFields }
                 </div>
                 <AlertButtons classPrefix="subtleAlert"/>
