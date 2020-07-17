@@ -55,11 +55,24 @@ class AppStore extends React.Component {
                     return;
                 }
 
+                var style = {};
+                if (manifest.category === 'WEB_VIEW') {
+                    style = {
+                        width: '960px',
+                        height: '600px',
+                        top: '100px',
+                        left: '25px'
+                    } // todo: set display to none when closing
+                } else {
+                    style.display = 'none';
+                }
+
                 store.dispatch(addAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
                     entrypoint: manifest.entrypoint,
-                    appUrl: params.appUrl
+                    appUrl: params.appUrl,
+                    style: style
                 }), true));
 
                 let addIfExists = (key) => {

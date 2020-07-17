@@ -7,6 +7,7 @@ import './css/main.scss';
 // import react and js
 import MediaPlayer from './js/MediaPlayer';
 import NonMedia from './js/Templates/NonMedia/NonMedia'
+import WebView from './js/Templates/WebView/WebView'
 import LargeGraphicOnly from './js/Templates/LargeGraphicOnly/LargeGraphicOnly'
 import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
@@ -78,7 +79,10 @@ class HMIApp extends React.Component {
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
-                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + app.entrypoint + query} />);
+                        return (<WebEngineAppContainer key={app.policyAppID} 
+                            style={app.style}
+                            policyAppID={app.policyAppID} 
+                            iframeUrl={app.appUrl + app.entrypoint + query} />);
                     })
                 }
             </div>
@@ -138,6 +142,7 @@ ReactDOM.render((
             <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
+            <Route path="/webview" component={WebView} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
