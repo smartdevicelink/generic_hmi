@@ -475,10 +475,8 @@ function ui(state = {}, action) {
                 app.nightColorScheme = action.nightColorScheme
             }          
             return newState
-        case Actions.REGISTER_APPLICATION:        
-            if (!app.displayLayout) {
-              app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
-            }
+        case Actions.REGISTER_APPLICATION:
+            app.displayLayout = action.displayLayout;
             return newState
         case Actions.UNREGISTER_APPLICATION:
             if (newState[action.appID]) {

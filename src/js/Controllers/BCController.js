@@ -38,7 +38,6 @@ class BCController {
                 store.dispatch(deactivateApp(rpc.params.appID))
                 return true
             case "OnAppRegistered":
-                store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
                     store.dispatch(updateColorScheme(
                         rpc.params.application.appID,
@@ -46,8 +45,14 @@ class BCController {
                         rpc.params.application.nightColorScheme ? rpc.params.application.nightColorScheme : null
                     ));
                 }
-                var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
-                this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
+                if (rpc.params.application.appType.includes("WEB_VIEW")) {
+                    store.dispatch(registerApplication(rpc.params.application.appID, "webview"));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
+                } else {
+                    var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
+                    store.dispatch(registerApplication(rpc.params.application.appID, template.toLowerCase()));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
+                }
                 return null
             case "OnAppUnregistered":
                 store.dispatch(deactivateApp(rpc.params.appID))

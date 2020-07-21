@@ -221,11 +221,11 @@ export const setTemplateConfiguration = (displayLayout, appID, dayColorScheme, n
     }
 }
 
-export const registerApplication = (appID, isMediaApplication) => {
+export const registerApplication = (appID, displayLayout) => {
   return {
       type: Actions.REGISTER_APPLICATION,
       appID: appID,
-      isMediaApplication: isMediaApplication
+      displayLayout: displayLayout
   }
 }
 

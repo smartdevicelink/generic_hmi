@@ -58,11 +58,12 @@ class AppStore extends React.Component {
                 var style = {};
                 if (manifest.category === 'WEB_VIEW') {
                     style = {
+                        position: 'absolute',
                         width: '960px',
                         height: '600px',
-                        top: '100px',
-                        left: '25px'
-                    } // todo: set display to none when closing
+                        top: '75px',
+                        left: '0px'
+                    } // todo: set display to none when leaving /webview
                 } else {
                     style.display = 'none';
                 }
