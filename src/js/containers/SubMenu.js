@@ -59,6 +59,8 @@ const mapStateToProps = (state) => {
         }
         if (command.subMenu) {
             link = '/inapplist'
+        } else {
+            link = state.ui[activeApp].displayLayout
         }
         return {
             appID: activeApp,
