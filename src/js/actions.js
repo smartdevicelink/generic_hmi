@@ -41,7 +41,9 @@ export const Actions = {
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
-    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
+    SHOW_WEB_VIEW: "SHOW_WEB_VIEW",
+    HIDE_WEB_VIEW: "HIDE_WEB_VIEW"
 }
 
 export const updateAppList = (applications) => {
@@ -397,5 +399,17 @@ export const appStoreBeginInstall = (policyAppID) => {
     return {
         type: Actions.APPSTORE_BEGIN_INSTALL,
         policyAppID: policyAppID
+    }
+}
+
+export const appStoreShowWebView = () => {
+    return {
+        type: Actions.SHOW_WEB_VIEW
+    }
+}
+
+export const appStoreHideWebView = () => {
+    return {
+        type: Actions.HIDE_WEB_VIEW
     }
 }

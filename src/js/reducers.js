@@ -554,6 +554,7 @@ function system(state = {}, action) {
 
 function appStore(state = {
     isConnected: false,
+    showWebView: false,
     availableApps: [],
     installedApps: [],
     appsPendingSetAppProperties: []
@@ -609,6 +610,12 @@ function appStore(state = {
         case Actions.APPSTORE_BEGIN_INSTALL:
             let appStoreAppToInstall = newState.availableApps.find(app => app.policyAppID === action.policyAppID);
             if (appStoreAppToInstall) { appStoreAppToInstall.pendingInstall = true; }
+            return newState;
+        case Actions.SHOW_WEB_VIEW:
+            newState.showWebView = true;
+            return newState;
+        case Actions.HIDE_WEB_VIEW:
+            newState.showWebView = false;
             return newState;
         default:
             return state;
