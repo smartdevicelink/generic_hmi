@@ -63,7 +63,7 @@ class AppStore extends React.Component {
                         height: '600px',
                         top: '75px',
                         left: '0px'
-                    } // todo: set display to none when leaving /webview
+                    }
                 } else {
                     style.display = 'none';
                 }

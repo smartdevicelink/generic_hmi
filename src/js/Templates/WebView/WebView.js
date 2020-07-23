@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
 
 class WebView extends React.Component {
@@ -12,10 +11,4 @@ class WebView extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => { 
-    return {
-        
-    };
-};
-
-export default connect(mapStateToProps)(WebView);
+export default WebView;

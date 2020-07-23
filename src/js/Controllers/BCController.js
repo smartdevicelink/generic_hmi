@@ -160,6 +160,9 @@ class BCController {
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())
     }
+    onExitApplication(reason, appID) {
+        this.listener.send(RpcFactory.OnExitApplicationNotification(reason, appID))
+    }
     onExitAllApplications(reason) {
         this.listener.send(RpcFactory.OnExitAllApplicationsNotification(reason))
     }

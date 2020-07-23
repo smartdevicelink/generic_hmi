@@ -94,6 +94,18 @@ class HMIApp extends React.Component {
     }
     componentDidMount() {
         this.sdl.connectToSDL()
+        if (window.performance.memory) { // chromium --enable-precise-memory-info
+            this.memoryUsageInterval = setInterval(function(app) {
+                var mem = window.performance.memory;
+                if (mem.usedJSHeapSize / mem.jsHeapSizeLimit > 0.75) {
+                    for (var app of this.webEngineApps) {
+                        if (app.runningAppId && app.style.position === 'absolute') {
+                            bcController.onExitApplication('RESOURCE_CONSTRAINT', app.runningAppId);
+                        }
+                    }
+                }
+            }, 10000, this);
+        }
 
         FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
@@ -127,6 +139,7 @@ class HMIApp extends React.Component {
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
+        clearInterval(this.memoryUsageInterval);
     }
 }
 

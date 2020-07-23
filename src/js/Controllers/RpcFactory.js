@@ -383,6 +383,16 @@ class RpcFactory {
             'method': 'BasicCommunication.OnIgnitionCycleOver'
         })
     }
+    static OnExitApplicationNotification(reason, appID){
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnExitApplication',
+            'params': {
+                'reason': reason,
+                'appID': appID
+            }
+        })
+    }
     static OnExitAllApplicationsNotification(reason){
         return ({
             'jsonrpc': '2.0',
