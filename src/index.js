@@ -95,10 +95,10 @@ class HMIApp extends React.Component {
     componentDidMount() {
         this.sdl.connectToSDL()
         if (window.performance.memory) { // chromium --enable-precise-memory-info
-            this.memoryUsageInterval = setInterval(function(app) {
+            this.memoryUsageInterval = setInterval(function(self) {
                 var mem = window.performance.memory;
                 if (mem.usedJSHeapSize / mem.jsHeapSizeLimit > 0.75) {
-                    for (var app of this.webEngineApps) {
+                    for (var app of self.props.webEngineApps) {
                         if (app.runningAppId && app.style.position === 'absolute') {
                             bcController.onExitApplication('RESOURCE_CONSTRAINT', app.runningAppId);
                         }

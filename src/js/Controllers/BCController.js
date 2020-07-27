@@ -49,9 +49,9 @@ class BCController {
                     store.dispatch(registerApplication(rpc.params.application.appID, "webview"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
                 } else {
-                    var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
-                    store.dispatch(registerApplication(rpc.params.application.appID, template.toLowerCase()));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
+                    var templates = rpc.params.application.isMediaApplication ? ["media","MEDIA"] : ["nonmedia","NON-MEDIA"];
+                    store.dispatch(registerApplication(rpc.params.application.appID, templates[0]));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templates[1], rpc.params.application.appID));
                 }
                 return null
             case "OnAppUnregistered":
