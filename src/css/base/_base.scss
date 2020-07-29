@@ -58,4 +58,13 @@ body {
     }  
 }
 
+.webengine-app-container {
+    iframe {
+        width: $master-width;
+        height: calc(#{$master-height} - 75px);
+        top: 75px;
+        left: 0px;
+    }
+}
+
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);

@@ -57,13 +57,7 @@ class AppStore extends React.Component {
 
                 var style = {};
                 if (manifest.category === 'WEB_VIEW') {
-                    style = {
-                        position: 'absolute',
-                        width: '960px',
-                        height: '600px',
-                        top: '75px',
-                        left: '0px'
-                    }
+                    style.position = 'absolute';
                 } else {
                     style.display = 'none';
                 }
