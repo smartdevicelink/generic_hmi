@@ -147,7 +147,7 @@ const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
-        showWebView: state.appStore.showWebViewApp && state.appStore.webViewActive,
+        showWebView: state.appStore.webViewActive,
         activeAppId: state.activeApp
     }
 }

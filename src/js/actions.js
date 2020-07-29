@@ -403,18 +403,6 @@ export const appStoreBeginInstall = (policyAppID) => {
     }
 }
 
-export const appStoreShowWebViewApp = () => {
-    return {
-        type: Actions.SHOW_WEB_VIEW_APP
-    }
-}
-
-export const appStoreHideWebViewApp = () => {
-    return {
-        type: Actions.HIDE_WEB_VIEW_APP
-    }
-}
-
 export const appStoreWebViewActive = () => {
     return {
         type: Actions.WEB_VIEW_ACTIVE,
