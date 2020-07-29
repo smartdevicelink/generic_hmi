@@ -16,8 +16,8 @@ import {
     setGlobalProperties,
     deactivateInteraction,
     showAppMenu,
-    appStoreShowWebView,
-    appStoreHideWebView
+    appStoreShowWebViewApp,
+    appStoreHideWebViewApp
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -298,9 +298,9 @@ class UIController {
     }
     onSystemContext(context, appID) {
         if (context === 'MAIN' || context === 'ALERT') {
-            store.dispatch(appStoreShowWebView());
+            store.dispatch(appStoreShowWebViewApp());
         } else {
-            store.dispatch(appStoreHideWebView());
+            store.dispatch(appStoreHideWebViewApp());
         }
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
     }

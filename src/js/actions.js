@@ -42,8 +42,9 @@ export const Actions = {
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
     APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
-    SHOW_WEB_VIEW: "SHOW_WEB_VIEW",
-    HIDE_WEB_VIEW: "HIDE_WEB_VIEW"
+    SHOW_WEB_VIEW_APP: "SHOW_WEB_VIEW_APP",
+    HIDE_WEB_VIEW_APP: "HIDE_WEB_VIEW_APP",
+    WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE"
 }
 
 export const updateAppList = (applications) => {
@@ -402,14 +403,28 @@ export const appStoreBeginInstall = (policyAppID) => {
     }
 }
 
-export const appStoreShowWebView = () => {
+export const appStoreShowWebViewApp = () => {
     return {
-        type: Actions.SHOW_WEB_VIEW
+        type: Actions.SHOW_WEB_VIEW_APP
     }
 }
 
-export const appStoreHideWebView = () => {
+export const appStoreHideWebViewApp = () => {
     return {
-        type: Actions.HIDE_WEB_VIEW
+        type: Actions.HIDE_WEB_VIEW_APP
+    }
+}
+
+export const appStoreWebViewActive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: true
+    }
+}
+
+export const appStoreWebViewInactive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: false
     }
 }
