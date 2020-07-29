@@ -435,7 +435,7 @@ function ui(state = {}, action) {
                     app.displayLayout = "nonmedia"
                     break
                 case "WEB_VIEW":
-                    app.displayLayout = "webview"
+                    app.displayLayout = "web-view"
                     break
                 case "LARGE_GRAPHIC_ONLY":
                     app.displayLayout = "large-graphic-only"

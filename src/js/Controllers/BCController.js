@@ -46,7 +46,7 @@ class BCController {
                     ));
                 }
                 if (rpc.params.application.appType.includes("WEB_VIEW")) {
-                    store.dispatch(registerApplication(rpc.params.application.appID, "webview"));
+                    store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
                 } else {
                     var templates = rpc.params.application.isMediaApplication ? ["media","MEDIA"] : ["nonmedia","NON-MEDIA"];
