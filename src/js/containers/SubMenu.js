@@ -54,7 +54,7 @@ const mapStateToProps = (state) => {
         if (ddState === true && index >= menuLength) { 
             hidden = true;
         }
-        if (ddState === true && command.subMenu && command.menuDepth >= menuDepthLimit) { 
+        if (ddState === true && command.subMenu && command.menuDepth >= menuDepthLimit - 1) { 
             enabled = false;
         }
         if (command.subMenu) {
