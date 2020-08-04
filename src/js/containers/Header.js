@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
-            alertIsSubtle = state.ui[prop].alert.subtle
+            alertIsSubtle = state.ui[prop].alert.isSubtle
             alertMsgId = state.ui[prop].alert.msgID
 
             var alertApp = state.appList.find((key) => {

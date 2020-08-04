@@ -184,7 +184,8 @@ class UIController {
                     rpc.params.progressIndicator,
                     rpc.id,
                     rpc.params.alertIcon,
-                    rpc.params.cancelID
+                    rpc.params.cancelID,
+                    false
                 ))
                 var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
                 const state = store.getState()
@@ -212,7 +213,7 @@ class UIController {
                         tryAgainInfo = 'A PerformInteraction is active';
                         activeInteractionId = app.interactionId;
                     } else if (app.alert.showAlert) {
-                        tryAgainInfo = (app.alert.subtle ? 'Another SubtleAlert' : 'An Alert') + ' is active';
+                        tryAgainInfo = (app.alert.isSubtle ? 'Another SubtleAlert' : 'An Alert') + ' is active';
                         activeInteractionId = app.alert.msgID;
                     }
                 }
