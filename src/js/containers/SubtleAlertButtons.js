@@ -18,19 +18,43 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {alertButtons: alertButtons, theme: state.theme}
+    var app = state.ui[state.activeApp];
+    var colorScheme = null;
+    if (state.theme === true) { //Dark theme
+        if(app.nightColorScheme) {
+            colorScheme = {}
+            if(app.nightColorScheme.primaryColor) {
+                colorScheme["primary"] = app.nightColorScheme.primaryColor
+            }
+            if(app.nightColorScheme.secondaryColor) {
+                colorScheme["secondary"] = app.nightColorScheme.secondaryColor
+            }
+        }
+    } else {
+        if(app.dayColorScheme) { //Light theme
+            colorScheme = {}
+            if(app.dayColorScheme.primaryColor) {
+                colorScheme["primary"] = app.dayColorScheme.primaryColor
+            }
+            if(app.dayColorScheme.secondaryColor) {
+                colorScheme["secondary"] = app.dayColorScheme.secondaryColor
+            }
+        }
+    }
+
+    return {alertButtons: alertButtons, theme: state.theme, colorScheme: colorScheme}
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onStealFocus:(alert, context) =>{
-            uiController.onSubtleAlertStealFocus(alert, context)
+            uiController.onStealFocus(alert, context, true);
         },
         onKeepContext:(alert) =>{
-            uiController.onSubtleAlertKeepContext(alert)
+            uiController.onKeepContext(alert, true);
         },
-        onDefaultAction:(alert) =>{
-            uiController.onSubtleDefaultAction(alert)
+        onDefaultAction:(alert, context) =>{
+            uiController.onDefaultAction(alert, context, true);
         }
     }
 }

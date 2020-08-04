@@ -54,7 +54,7 @@ class AppHeader extends React.Component {
         if (this.props.alertIsSubtle) {
             this.props.showAlert = false;
             this.forceUpdate();
-            uiController.onSubtleDefaultAction(this.props.alertMsgId);
+            uiController.onDefaultAction({ msgID: this.props.alertMsgId }, this.props.activeApp, true);
         }
     }
 

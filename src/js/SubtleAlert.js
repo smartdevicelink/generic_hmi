@@ -15,7 +15,7 @@ class SubtleAlert extends React.Component {
     }
 
     clickHandler() {
-        uiController.onSubtleAlertStealFocus(this.props.context);
+        uiController.onStealFocus(this.props.context, this.props.context.appID, true);
     }
 
     render() {
