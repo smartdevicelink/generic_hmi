@@ -102,7 +102,7 @@ class AppHeader extends React.Component {
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
-                className={`app-body ${this.props.alertIsSubtle ? 'subtleA' : 'a'}lertModal`}
+                className={`app-body ${this.props.alertIsSubtle ? 'subtleAlertModal' : 'alertModal'}`}
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
                 onRequestClose={this.closeModal}
