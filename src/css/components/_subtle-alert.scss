@@ -80,14 +80,22 @@
     }
 }
 
-.subtleAlert-buttons{
+.h-subtleAlert-buttons{
     @include display(flex);
     @include justify-content(space-around);
     @include flex-direction(row);
     @include align-items(center);
 }
 
-.subtleAlert-button-1 {
+.v-subtleAlert-buttons{
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(column);
+    @include align-items(center);
+    flex: 10;
+}
+
+.h-subtleAlert-button-1 {
     height: 100px;
     width: 100px;
     text-align: center;
@@ -102,7 +110,7 @@
     @include justify-content(center);
 }
 
-.subtleAlert-button-2 {
+.h-subtleAlert-button-2 {
     height: 100px;
     width: 100px;
     text-align: center;
@@ -114,4 +122,56 @@
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);
+} 
+
+.v-subtleAlert-button-1 {
+    height: 60%;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 4px 0px;
+    padding: 2px;
+
+    @include display(flex);
+    @include flex-direction(row-reverse);
+    @include align-items(center);
+    @include justify-content(center);
+
+    .soft-button-image-static {
+        max-height: 37.5px;
+        max-width: 100%;
+        min-width: 37.5px;
+
+        div svg {
+            max-height: 37.5px;
+        }
+    }
+}
+
+.v-subtleAlert-button-2 {
+    height: 40%;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 4px 0px;
+    padding: 2px;
+
+    @include display(flex);
+    @include flex-direction(row-reverse);
+    @include align-items(center);
+    @include justify-content(center);
+
+    .soft-button-image-static {
+        max-height: 37.5px;
+        max-width: 100%;
+        min-width: 37.5px;
+
+        div svg {
+            max-height: 37.5px;
+        }
+    }
 }

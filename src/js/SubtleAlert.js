@@ -36,13 +36,21 @@ class SubtleAlert extends React.Component {
             }
         }
 
+        var buttonsClassPrefix = 'h-subtleAlert';
+        for (var button of this.props.context.softButtons) {
+            if (button.type !== 'IMAGE') {
+                buttonsClassPrefix = 'v-subtleAlert';
+                break;
+            }
+        }
+
         return (
             <div className="subtleAlert">
                 { iconElement }
-                <div className="subtleAlert-text" onClick={this.clickHandler}>
+                <div className="subtleAlert-text" onClick={this.clickHandler} >
                     { textFields }
                 </div>
-                <AlertButtons classPrefix="subtleAlert"/>
+                <AlertButtons classPrefix={buttonsClassPrefix} />
             </div>
         )
     }
