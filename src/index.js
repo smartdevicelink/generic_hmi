@@ -81,7 +81,7 @@ class HMIApp extends React.Component {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
                         var style = { display: 'none' };
                         if (this.props.showWebView && app.runningAppId === this.props.activeAppId) {
-                            style = app.style;
+                            style = {};
                         }
                         return (<WebEngineAppContainer key={app.policyAppID}
                             style={style}
@@ -99,7 +99,7 @@ class HMIApp extends React.Component {
                 var mem = window.performance.memory;
                 if (mem.usedJSHeapSize / mem.jsHeapSizeLimit > 0.75) {
                     for (var app of self.props.webEngineApps) {
-                        if (app.runningAppId && app.style.position === 'absolute') {
+                        if (app.runningAppId) {
                             bcController.onExitApplication('RESOURCE_CONSTRAINT', app.runningAppId);
                         }
                     }
@@ -132,9 +132,18 @@ class HMIApp extends React.Component {
                 });
             });
     
-            FileSystemController.sendJSONMessage({
-                method: 'GetInstalledApps', params: {}
-            });
+            var sdlSocket = this.sdl.socket
+            var waitCoreInterval = setInterval(function() {
+                 // cant send rpc before core is connected
+                if (sdlSocket.readyState === sdlSocket.OPEN) {
+                    setTimeout(function () { // give time to reply to IsReady
+                        FileSystemController.sendJSONMessage({
+                            method: 'GetInstalledApps', params: {}
+                        });
+                    }, 500);
+                    clearInterval(waitCoreInterval);
+                }
+            }, 500);
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {

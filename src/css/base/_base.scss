@@ -60,6 +60,7 @@ body {
 
 .webengine-app-container {
     iframe {
+        position: absolute;
         width: $master-width;
         height: calc(#{$master-height} - 75px);
         top: 75px;

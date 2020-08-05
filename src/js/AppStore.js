@@ -55,19 +55,11 @@ class AppStore extends React.Component {
                     return;
                 }
 
-                var style = {};
-                if (manifest.category === 'WEB_VIEW') {
-                    style.position = 'absolute';
-                } else {
-                    style.display = 'none';
-                }
-
                 store.dispatch(addAppPendingSetAppProperties(Object.assign(appDirEntry, { 
                     policyAppID: manifest.appId,
                     version: manifest.appVersion,
                     entrypoint: manifest.entrypoint,
-                    appUrl: params.appUrl,
-                    style: style
+                    appUrl: params.appUrl
                 }), true));
 
                 let addIfExists = (key) => {
