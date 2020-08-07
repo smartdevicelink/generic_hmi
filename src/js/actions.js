@@ -41,7 +41,8 @@ export const Actions = {
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
-    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
+    SET_DD_STATE: "SET_DD_STATE"
 }
 
 export const updateAppList = (applications) => {
@@ -130,11 +131,12 @@ export const subscribeButton = (appID, buttonName, isSubscribed) => {
     }
 }
 
-export const activateSubMenu = (appID, menuID) => {
+export const activateSubMenu = (appID, menuID, depth) => {
     return {
         type: Actions.ACTIVATE_SUB_MENU,
         menuID: menuID,
-        appID: appID
+        appID: appID,
+        depth: depth
     }
 }
 
@@ -397,5 +399,12 @@ export const appStoreBeginInstall = (policyAppID) => {
     return {
         type: Actions.APPSTORE_BEGIN_INSTALL,
         policyAppID: policyAppID
+    }
+}
+
+export const setDDState = (ddState) => {
+    return {
+        type: Actions.SET_DD_STATE,
+        dd: ddState
     }
 }

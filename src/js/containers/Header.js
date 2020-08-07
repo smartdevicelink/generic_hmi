@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import AppHeader from '../AppHeader'
+import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -49,6 +50,17 @@ const mapStateToProps = (state) => {
             }
         }
     }
+
+    var subMenu = null;
+    var parentID = null;
+    if (app.activeSubMenu) {
+        subMenu = SubmenuDeepFind(app.menu, app.activeSubMenu, 0);
+    }
+
+    if (subMenu) {
+        parentID = subMenu.subMenu.parentID;
+    }
+
     return {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
@@ -60,7 +72,10 @@ const mapStateToProps = (state) => {
         colorScheme: colorScheme,
         triggerShowAppMenu: triggerShowAppMenu,
         activeSubMenu: activeSubMenu,
-        alertIcon: alertIcon
+        alertIcon: alertIcon,
+        activeMenuDepth: app.activeMenuDepth,
+        parentID: parentID,
+        activeLayout: app.displayLayout        
     }
 }
 

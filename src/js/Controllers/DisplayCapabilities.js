@@ -494,6 +494,10 @@ let capabilities = {
 			},
 			"phoneCapability": {
 				"dialNumberEnabled": false
+			},
+			"driverDistractionCapability": {
+				"menuLength": 3,
+				"subMenuDepth": 2
 			}
 		}
 	}

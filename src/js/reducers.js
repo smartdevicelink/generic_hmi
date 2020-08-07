@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
 import './polyfill_find'
+import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
 
 function newAppState () {
@@ -13,6 +14,7 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
+        activeMenuDepth: 0,
         menuLayout: "LIST",
         subscribedButtons: {},
         isPerformingInteraction: false,
@@ -48,6 +50,15 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
+        default:
+            return state
+    }
+}
+
+function ddState(state = false, action) {
+    switch (action.type) {
+        case Actions.SET_DD_STATE:
+            return action.dd
         default:
             return state
     }
@@ -272,12 +283,27 @@ function deleteCommand(commands, cmdID) {
     }
     return commands
 }
+
+function deleteSubMenu(commands, menuID) {
+    for (var i = 0; i < commands.length; i++) {
+        if (commands[i].menuID === menuID) {
+            commands.splice(i, 1)
+            return commands
+        }
+        else if (commands[i].subMenu) {
+            commands[i].subMenu = deleteSubMenu(commands[i].subMenu, menuID)
+        }
+    }
+    return commands
+}
+
 function ui(state = {}, action) {
     var newState = { ...state }
     var app = newState[action.appID] ? newState[action.appID] : newAppState();
     newState[action.appID] = app;
     var menu = app.menu;
     var menuItem = null;
+    var result = null;
     var i = 0;
     switch (action.type) {
         case Actions.SHOW:           
@@ -313,12 +339,17 @@ function ui(state = {}, action) {
                 cmdIcon: cmdIcon
             }
             if (menuParams.parentID) {
-                var subMenu = menu.find((command) => {
+                /*var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
-                });
+                });*/
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
                 (menuParams.position || menuParams.position === 0) ? 
-                    subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
-                    subMenu.subMenu.push(menuItem);
+                    result.subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
+                    result.subMenu.subMenu.push(menuItem);
             } else {
                 (menuParams.position || menuParams.position === 0) ? 
                     menu.splice(menuParams.position, 0, menuItem) : 
@@ -339,20 +370,34 @@ function ui(state = {}, action) {
                 subMenu: [],
                 menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
-            (position || position === 0) ? 
-                menu.splice(position, 0, menuItem) : 
-                menu.push(menuItem);
+
+            if (menuItem.parentID) {
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
+                (position || position === 0) ? 
+                result.subMenu.subMenu.splice(position, 0, menuItem) : 
+                result.subMenu.subMenu.push(menuItem);
+            } else {
+                (position || position === 0) ? 
+                    menu.splice(position, 0, menuItem) : 
+                    menu.push(menuItem);
+            }
             return newState
         case Actions.DELETE_SUB_MENU:
-            i = menu.findIndex((command) => {
-                return command.menuID === action.menuID
-            })
-            menu.splice(i, 1)
+            app.menu = deleteSubMenu(menu, action.menuID);
             return newState
         case Actions.SHOW_APP_MENU:
             app.triggerShowAppMenu = true
             // If action has menuID, activate submenu otherwise deactivate sub menu
             app.activeSubMenu = (action.menuID) ? action.menuID : null;
+            var searchResult = SubmenuDeepFind(app.menu, action.menuID, 0)
+            if (searchResult) {
+                // Menu depth is incremented by one since the submenu is being shown.
+                app.activeMenuDepth = searchResult.depth + 1;
+            }            
             return newState
         case Actions.SUBSCRIBE_BUTTON:
             var buttons = app.subscribedButtons
@@ -360,9 +405,11 @@ function ui(state = {}, action) {
             return newState
         case Actions.ACTIVATE_SUB_MENU:
             app.activeSubMenu = action.menuID
+            app.activeMenuDepth += action.depth
             return newState
         case Actions.DEACTIVATE_SUB_MENU:
             app.activeSubMenu = null
+            app.activeMenuDepth = 0
             return newState
         case Actions.PERFORM_INTERACTION:
             app.isPerformingInteraction = true
@@ -619,6 +666,7 @@ function appStore(state = {
 
 export const hmi = combineReducers({
     theme,
+    ddState,
     appList,
     appServiceData,
     activeApp,
