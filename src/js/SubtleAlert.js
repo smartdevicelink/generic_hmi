@@ -37,10 +37,12 @@ class SubtleAlert extends React.Component {
         }
 
         var buttonsClassPrefix = 'h-subtleAlert';
-        for (var button of this.props.context.softButtons) {
-            if (button.type !== 'IMAGE') {
-                buttonsClassPrefix = 'v-subtleAlert';
-                break;
+        if (this.props.context.softButtons && this.props.context.softButtons.length) {
+            for (var button of this.props.context.softButtons) {
+                if (button.type !== 'IMAGE') {
+                    buttonsClassPrefix = 'v-subtleAlert';
+                    break;
+                }
             }
         }
 
