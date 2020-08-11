@@ -44,9 +44,10 @@
 
     h4 {
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
         max-width: 100%;
+        line-height: 1.5em;
+        height: 1.5em;
         //max-width: calc(#{$master-width} * 0.55);
     }
 
