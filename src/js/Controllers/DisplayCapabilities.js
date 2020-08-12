@@ -496,15 +496,9 @@ let capabilities = {
 				"dialNumberEnabled": false
 			},
 			"driverDistractionCapability": {
-<<<<<<< HEAD
-                "menuLength": 3,
-                "subMenuDepth": 2
-            }
-=======
 				"menuLength": 3,
 				"subMenuDepth": 2
 			}
->>>>>>> origin/develop
 		}
 	}
 }

@@ -23,11 +23,7 @@ export default class VScrollMenuItem extends React.Component {
         return (
             <Link
                 to={this.props.menuItem.link}
-<<<<<<< HEAD
-                className="vscrollmenu-item th-b-color th-bb-color-secondary"
-=======
                 className={classString}
->>>>>>> origin/develop
                 onClick={(e) => (this.props.enabled === false) ? e.preventDefault() : 
                     this.props.onSelection(this.props.appID, this.props.cmdID, 
                                             this.props.menuID, this.props.enabled, 

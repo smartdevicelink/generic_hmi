@@ -34,11 +34,7 @@ export default class HScrollMenu extends React.Component {
 
         var hiddenCommands = null;
         if (this.hiddenNames.length) {
-<<<<<<< HEAD
-            hiddenCommands = <MenuFooter/>
-=======
             hiddenCommands = <MenuFooter textAlign="center"/>
->>>>>>> origin/develop
         }
 
         return (
