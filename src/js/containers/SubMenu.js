@@ -54,11 +54,20 @@ const mapStateToProps = (state) => {
         if (ddState === true && index >= menuLength) { 
             hidden = true;
         }
+<<<<<<< HEAD
         if (ddState === true && command.subMenu && command.menuDepth >= menuDepthLimit) { 
+=======
+        if (ddState === true && command.subMenu && command.menuDepth >= menuDepthLimit - 1) { 
+>>>>>>> origin/develop
             enabled = false;
         }
         if (command.subMenu) {
             link = '/inapplist'
+<<<<<<< HEAD
+=======
+        } else {
+            link = state.ui[activeApp].displayLayout
+>>>>>>> origin/develop
         }
         return {
             appID: activeApp,

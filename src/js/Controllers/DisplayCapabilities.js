@@ -472,6 +472,11 @@ let capabilities = {
 			"bitsPerSample": "8_BIT",
 			"audioType": "PCM"
 		}],
+		"pcmStreamCapabilities": {
+			"samplingRate": "16KHZ",
+			"bitsPerSample": "16_BIT",
+			"audioType": "PCM"
+		},
 		"speechCapabilities": [
 			"FILE"
 		],
@@ -491,9 +496,15 @@ let capabilities = {
 				"dialNumberEnabled": false
 			},
 			"driverDistractionCapability": {
+<<<<<<< HEAD
                 "menuLength": 3,
                 "subMenuDepth": 2
             }
+=======
+				"menuLength": 3,
+				"subMenuDepth": 2
+			}
+>>>>>>> origin/develop
 		}
 	}
 }
