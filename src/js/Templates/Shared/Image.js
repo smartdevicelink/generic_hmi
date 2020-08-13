@@ -90,7 +90,13 @@ export default class Image extends React.Component {
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
-                        <img ref="image" style={hidden} src={this.props.image} alt="SDL_Image"/>
+                        <img 
+                            ref="image" 
+                            style={hidden} 
+                            src={this.props.image} 
+                            alt="SDL_Image" 
+                            onError={e => this.onError(e)} 
+                        />
                     </div>
                 )
             } else {
