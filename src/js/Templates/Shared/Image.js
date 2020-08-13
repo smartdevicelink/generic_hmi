@@ -73,8 +73,7 @@ export default class Image extends React.Component {
         const state = store.getState();
         const activeApp = state.activeApp;
         if (activeApp) {
-            const fileName = path.basename(this.props.image);
-            UIController.onUpdateFile(activeApp, fileName);
+            UIController.onUpdateFile(activeApp, this.props.image);
         }
         this.setState({error: true});
     }
