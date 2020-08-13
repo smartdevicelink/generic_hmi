@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
     var ddState = state.ddState;
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepth = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth;
-    var menu = state.ui[activeApp].menu
+    var menu = activeApp ? state.ui[activeApp].menu : [];
     var theme = state.theme
     var data = menu.map((command, index) => {
         // Check DD state and set hidden param
