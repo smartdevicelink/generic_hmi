@@ -58,7 +58,11 @@ const mapStateToProps = (state) => {
             enabled = false;
         }
         if (command.subMenu) {
-            link = '/inapplist'
+            link = '/inapplist';
+            if (command.subMenu.length === 0) {
+                // Found and empty submenu, ask app to send add commands
+                uiController.onUpdateSubMenu(activeApp, command.menuID);
+            }
         } else {
             link = state.ui[activeApp].displayLayout
         }
