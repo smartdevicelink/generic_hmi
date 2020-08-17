@@ -37,7 +37,7 @@ export default class AlertButtons extends React.Component {
                 return (<div className={`${this.props.classPrefix}-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -50,7 +50,7 @@ export default class AlertButtons extends React.Component {
                 return (<div className={`${this.props.classPrefix}-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -63,7 +63,7 @@ export default class AlertButtons extends React.Component {
                 return (<div className={`${this.props.classPrefix}-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -76,7 +76,7 @@ export default class AlertButtons extends React.Component {
                 return (<div className={`${this.props.classPrefix}-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
