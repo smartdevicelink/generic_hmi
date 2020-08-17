@@ -18,7 +18,7 @@ export default class AppIcon extends React.Component {
             : (<span className="app-icon"></span>)
         return (
             <div>
-                <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path)}>
+                <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path, this.props.activeSubMenu)}>
                     <div className="app-icon">
                         {icon}
                     </div>

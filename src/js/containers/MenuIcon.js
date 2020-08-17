@@ -20,13 +20,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSelection: (appID, path) => {
-            dispatch(deactivateSubMenu(appID))
-
+        onSelection: (appID, path, activeSubMenu) => {
+            //dispatch(deactivateSubMenu(appID))
             if (path === "/inappmenu") {
                 uiController.onSystemContext("MENU", appID)
             } else { //user exited menu
                 uiController.onSystemContext("MAIN", appID)
+            }
+
+            if (activeSubMenu) {
+                dispatch(deactivateSubMenu(appID))
             }
             uiController.failInteractions()
         }
