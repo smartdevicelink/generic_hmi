@@ -67,6 +67,9 @@ let textWithGraphicCapabilities = {
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
 			textField("menuName"),
 			textField("secondaryText"),
 			textField("tertiaryText"),
@@ -78,7 +81,8 @@ let textWithGraphicCapabilities = {
 			imageField("cmdIcon", 150),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
-			imageField("alertIcon", 225)
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
 		],
 		"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
 		"graphicSupported": true,
@@ -97,6 +101,9 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
 			textField("templateTitle", 50),
 			textField("menuName"),
 			textField("secondaryText"),
@@ -115,7 +122,8 @@ let textbuttonsWithGraphicCapabilities = {
 			imageField("cmdIcon", 150),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
-			imageField("alertIcon", 225)
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
 		],
 		"mediaClockFormats": [],
 		"graphicSupported": true,
@@ -154,6 +162,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText"),
@@ -167,7 +178,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 360),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
 			"graphicSupported": true,
@@ -219,6 +231,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText"),
@@ -236,7 +251,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 410),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -262,6 +278,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
@@ -280,7 +299,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -306,6 +326,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
@@ -325,7 +348,8 @@ let capabilities = {
 				imageField("appIcon", 50),
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -351,6 +375,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
@@ -363,7 +390,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -381,6 +409,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
@@ -398,7 +429,8 @@ let capabilities = {
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -424,6 +456,9 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
@@ -441,7 +476,8 @@ let capabilities = {
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
