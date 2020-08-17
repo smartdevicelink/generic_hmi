@@ -140,6 +140,12 @@
     @include align-items(center);
     @include justify-content(center);
 
+    .soft-button-image {
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+    }
+
     .soft-button-image-static {
         max-height: 37.5px;
         max-width: 100%;
@@ -171,6 +177,12 @@
     @include flex-direction(row-reverse);
     @include align-items(center);
     @include justify-content(center);
+
+    .soft-button-image {
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+    }
 
     .soft-button-image-static {
         max-height: 37.5px;
