@@ -32,12 +32,10 @@ let screenParams = {
 	}
 }
 
-function textField(name, width, rows) {
-	width = width ? width : 500
-	rows = rows ? rows : 1
+function textField(name, width=500, rows=1, characterSet="UTF_8") {
 	return {
 		"name": name,
-		"characterSet": "TYPE2SET",
+		"characterSet": characterSet,
 		"width": width,
 		"rows": rows
 	}
