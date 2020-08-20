@@ -11,11 +11,18 @@ const mapStateToProps = (state) => {
     }
 
     var showAlert = false
+    var alertIsSubtle = false
+    var alertMsgId = null
+    var alertAppId = null
     var alertAppName = ""
     var alertIcon = null
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
+            alertIsSubtle = state.ui[prop].alert.isSubtle
+            alertMsgId = state.ui[prop].alert.msgID
+            alertAppId = parseInt(prop)
+
             var alertApp = state.appList.find((key) => {
                 return key.appID === parseInt(prop)
             })
@@ -66,6 +73,9 @@ const mapStateToProps = (state) => {
         isDisconnected: app.isDisconnected,
         displayLayout: app.displayLayout,
         showAlert: showAlert,
+        alertIsSubtle: alertIsSubtle,
+        alertMsgId: alertMsgId,
+        alertAppId: alertAppId,
         alertName: alertAppName,
         theme: theme,
         activeApp: activeApp,

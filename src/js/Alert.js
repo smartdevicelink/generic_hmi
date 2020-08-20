@@ -25,7 +25,7 @@ export default class Alert extends React.Component {
                     <AlertStrings/>
                     { iconElement }
                 </div>
-                <AlertButtons class="alert-softbuttons-container"/>
+                <AlertButtons classPrefix="alert"/>
             </div>
         )
     }

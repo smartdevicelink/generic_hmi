@@ -36,6 +36,7 @@ class RpcFactory {
             }            
         })
     }
+<<<<<<< HEAD
     static InvalidIDResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",
@@ -47,6 +48,38 @@ class RpcFactory {
                     "method": rpc.method
                 }
             }            
+=======
+    static SubtleAlertResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 0,
+                "method": "UI.SubtleAlert"
+            }
+        })
+    }
+    static SubtleAlertErrorResponse(rpcID, code, info) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": code,
+                "message": info,
+                "data": {
+                    "method": "UI.SubtleAlert"
+                }
+            }
+        })
+    }
+    static OnSubtleAlertPressed(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnSubtleAlertPressed",
+            "params": {
+                "appID": appID
+            }
+>>>>>>> origin/develop
         })
     }
     static AlertResponse(rpcID) {
