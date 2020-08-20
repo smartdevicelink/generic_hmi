@@ -542,6 +542,11 @@ const mainWindowTypeCapability = {
 	maximumNumberOfWindows: 1
 }
 
+const dynamicUpdateCapabilities = {
+	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon"],
+	supportsDynamicSubMenus: true
+}
+
 const getWindowCapability = (template) => {
 	if (!template || !capabilities[template]) {
 		return null;
@@ -555,7 +560,8 @@ const getWindowCapability = (template) => {
 		templatesAvailable: templateDisplayCapability.templatesAvailable,
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
-		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
+		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
+		dynamicUpdateCapabilities: dynamicUpdateCapabilities
 	}
 	return capability;
 }

@@ -306,6 +306,7 @@ function ui(state = {}, action) {
     var menuItem = null;
     var result = null;
     var i = 0;
+    app.refresh = false;
     switch (action.type) {
         case Actions.SHOW:           
             if (action.showStrings && action.showStrings.length > 0) {
@@ -567,6 +568,7 @@ function ui(state = {}, action) {
             app.isDisconnected = false
             return newState
         case Actions.ON_PUT_FILE:
+            app.refresh = true
             return newState
         case Actions.RESET_SHOW_APP_MENU:
             app.triggerShowAppMenu = false     

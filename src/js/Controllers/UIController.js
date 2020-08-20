@@ -19,6 +19,7 @@ import {
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
+import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
 class UIController {
     constructor () {
@@ -96,6 +97,16 @@ class UIController {
                 ))
                 return true
             case "AddSubMenu":
+                if (appUIState) {
+                    var menu = appUIState.menu;
+                    var result = SubmenuDeepFind(menu, rpc.params.menuID, 0)
+                    if (result) {
+                        // Duplicate menuID, reject
+                        return {
+                            rpc: RpcFactory.InvalidIDResponse(rpc, "Sub menu ID already exists")
+                        }
+                    }
+                }
                 store.dispatch(addSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID,
@@ -434,6 +445,14 @@ class UIController {
     }
     onResetTimeout(appID, methodName) {
         this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
+    }
+
+    onUpdateFile(appID, fileName) {
+        this.listener.send(RpcFactory.OnUpdateFile(appID, fileName));
+    }
+
+    onUpdateSubMenu(appID, menuID) {
+        this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
     }
 }
 

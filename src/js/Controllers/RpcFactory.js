@@ -36,6 +36,19 @@ class RpcFactory {
             }            
         })
     }
+    static InvalidIDResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 13,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }            
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -600,6 +613,29 @@ class RpcFactory {
             "params": {
                 "systemCapability": systemCapability,
                 "appID": appID
+            }
+        })
+    }
+
+    static OnUpdateFile(appID, fileName) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateFile",
+            "params": {
+                "appID": appID,
+                "fileName": fileName
+            }
+        })
+    }
+
+    static OnUpdateSubMenu(appID, menuID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateSubMenu",
+            "params": {
+                "appID": appID,
+                "menuID": menuID,
+                "updateSubCells": true
             }
         })
     }

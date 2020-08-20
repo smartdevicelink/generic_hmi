@@ -1,6 +1,10 @@
 import React from 'react';
+import store from '../../store'
+import path from 'path'
+import UIController from '../../Controllers/UIController'
+import { connect } from 'react-redux';
 
-export default class Image extends React.Component {
+class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = {error: false};
@@ -67,10 +71,20 @@ export default class Image extends React.Component {
     }
 
     onError(event) {
+        const state = store.getState();
+        const activeApp = state.activeApp;
+        if (activeApp) {
+            UIController.onUpdateFile(activeApp, this.props.image);
+        }
         this.setState({error: true});
     }
 
     render() {
+        // Refresh image after onPutFile in case of error
+        if (this.state.error && this.props.refresh) {
+            this.setState({error: false});
+            return (null)
+        }
         if(this.props.image && !this.state.error) {
             if(this.props.isTemplate) {
                 var hidden = {display:'none'};
@@ -81,7 +95,13 @@ export default class Image extends React.Component {
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
-                        <img ref="image" style={hidden} src={this.props.image} alt="SDL_Image"/>
+                        <img 
+                            ref="image" 
+                            style={hidden} 
+                            src={this.props.image} 
+                            alt="SDL_Image" 
+                            onError={e => this.onError(e)} 
+                        />
                     </div>
                 )
             } else {
@@ -95,3 +115,18 @@ export default class Image extends React.Component {
         }
     }
 }
+
+const mapStateToProps = (state) => {
+    var activeApp = state.activeApp;
+    var app = state.ui[activeApp] ? state.ui[activeApp] : null;
+    if (!app) {
+        return {}
+    }
+    return {
+        refresh: app.refresh
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(Image)
