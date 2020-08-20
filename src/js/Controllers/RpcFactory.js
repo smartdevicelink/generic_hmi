@@ -36,7 +36,6 @@ class RpcFactory {
             }            
         })
     }
-<<<<<<< HEAD
     static InvalidIDResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",
@@ -47,8 +46,9 @@ class RpcFactory {
                 "data": {
                     "method": rpc.method
                 }
-            }            
-=======
+            }
+        })
+    }            
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -79,7 +79,6 @@ class RpcFactory {
             "params": {
                 "appID": appID
             }
->>>>>>> origin/develop
         })
     }
     static AlertResponse(rpcID) {
