@@ -36,6 +36,19 @@ class RpcFactory {
             }            
         })
     }
+    static InvalidIDResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 13,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }            
+        })
+    }
     static AlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
