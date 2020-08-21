@@ -34,10 +34,10 @@ export default class AlertButtons extends React.Component {
 
         if(softButtons.length === 1) {
             items = softButtons.map((softButton, index) => {               
-                return (<div className="alert-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className={`${this.props.classPrefix}-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -47,10 +47,10 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 2) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className={`${this.props.classPrefix}-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -60,10 +60,10 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 3) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className={`${this.props.classPrefix}-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -73,10 +73,10 @@ export default class AlertButtons extends React.Component {
             })            
         } else if (softButtons.length === 4) {
             items = softButtons.map((softButton, index) => {
-                return (<div className="alert-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons" 
+                return (<div className={`${this.props.classPrefix}-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
-                                {softButton.text}
+                                <p>{softButton.text}</p>
                                 <SoftButtonImage image={softButton.image ? softButton.image.value : null} 
                                     imageType={softButton.image ? softButton.image.imageType : null}
                                     isTemplate={softButton.image ? softButton.image.isTemplate : null}
@@ -87,7 +87,7 @@ export default class AlertButtons extends React.Component {
         }
 
         return (
-            <div className="alert-buttons">
+            <div className={`${this.props.classPrefix}-buttons`}>
                 {items}
             </div>
         )        

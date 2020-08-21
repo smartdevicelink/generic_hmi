@@ -59,6 +59,19 @@
             @include t-large();
         }
     }
+
+    &__arrow {
+        float: right;
+        transform: translateY(-166%);
+        margin-right: 10px;
+
+        svg {
+            display: block;
+            width: 17px;
+            height: 44px;
+            margin: auto;
+        }
+    }
 }
 
 .hscrollmenu-item-disabled {

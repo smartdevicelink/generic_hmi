@@ -36,7 +36,13 @@ import store from './js/store'
 import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
-import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './js/actions'
+import {
+    setTheme, 
+    setPTUWithModem, 
+    updateAppStoreConnectionStatus, 
+    updateInstalledAppStoreApps, 
+    setDDState
+} from './js/actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -46,6 +52,7 @@ class HMIApp extends React.Component {
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
+        this.handleDDToggle = this.handleDDToggle.bind(this);
     }
     handleClick() {
         var theme = !this.state.dark
@@ -58,6 +65,9 @@ class HMIApp extends React.Component {
     }
     togglePTUWithModem(){
         store.dispatch(setPTUWithModem(!this.props.ptuWithModemEnabled))
+    }
+    handleDDToggle(){
+        store.dispatch(setDDState(!this.props.dd));
     }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
@@ -74,6 +84,10 @@ class HMIApp extends React.Component {
                     <div className="toggle-ptu-with-modem-button" >
                         <input type="checkbox" onClick={this.togglePTUWithModem} checked={this.props.ptuWithModemEnabled}/>
                         <label>PTU using in-vehicle modem</label>
+                    </div>
+                    <div className="driver-distraction-button" >
+                        <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
+                        <label>Driver Distraction</label>
                     </div>
                 </div>
                 {
@@ -157,7 +171,8 @@ const mapStateToProps = (state) => {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
         showWebView: state.appStore.webViewActive,
-        activeAppId: state.activeApp
+        activeAppId: state.activeApp,
+        dd: state.ddState
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)

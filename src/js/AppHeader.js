@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
+import SubtleAlert from './SubtleAlert';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -9,6 +10,7 @@ import store from './store'
 import {resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import uiController from './Controllers/UIController'
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
@@ -43,6 +45,19 @@ class AppStoreMenuIcon extends React.Component {
 
 class AppHeader extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal() {
+        if (this.props.alertIsSubtle) {
+            this.props.showAlert = false;
+            this.forceUpdate();
+            uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
+        }
+    }
+
     getColorScheme() {
         if (this.props.colorScheme) {
             var redInt = this.props.colorScheme.red;
@@ -60,9 +75,13 @@ class AppHeader extends React.Component {
 
     render() {
         const themeClass = this.props.theme ? 'dark-theme' : 'light-theme';
-        var modalClass = themeClass + " alertOverlay"
+        var modalClass = themeClass + " " + (this.props.alertIsSubtle ? "subtleAlertOverlay" : "alertOverlay");
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
-        var icon = this.props.icon === 'false' ? (<div />) : <MenuIcon isShowingMenu={isShowingMenu}/> ;
+        var isShowingSubMenu = this.props.location.pathname === '/inapplist';
+        var icon = this.props.icon === 'false' ? (<div />) 
+            : <MenuIcon 
+                isShowingMenu={isShowingMenu || isShowingSubMenu}
+                activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
             if (this.props.isAppStoreConnected) {
@@ -76,18 +95,31 @@ class AppHeader extends React.Component {
         var colorScheme = null;
         colorScheme = this.getColorScheme();
 
+        var alertHtml = this.props.alertIsSubtle
+                            ? (<SubtleAlert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>)
+                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>);
+
+        // Determine backLink for special case when showing submenu
+        var backLink = this.props.backLink;
+        if (this.props.activeSubMenu) {
+            backLink = (this.props.activeMenuDepth > 1) ? "/inapplist" : "/inappmenu";
+        } else if (isShowingMenu) {
+            backLink = this.props.activeLayout;
+        }
+
         return (
             <div className="app__header" style={colorScheme}>
-                <MenuLink menuName={this.props.menuName} backLink={this.props.backLink}/>
+                <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
                 <Name />
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
-                className="alertModal app-body"
+                className={`app-body ${this.props.alertIsSubtle ? 'subtleAlertModal' : 'alertModal'}`}
                 overlayClassName={modalClass}
                 contentLabel="Example Modal"
+                onRequestClose={this.closeModal}
                 >
-                    <Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>
+                    {alertHtml}
                 </Modal>
             </div>
             
