@@ -42,6 +42,7 @@ export const Actions = {
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
     APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
+    WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE",
     SET_DD_STATE: "SET_DD_STATE"
 }
 
@@ -223,11 +224,11 @@ export const setTemplateConfiguration = (displayLayout, appID, dayColorScheme, n
     }
 }
 
-export const registerApplication = (appID, isMediaApplication) => {
+export const registerApplication = (appID, displayLayout) => {
   return {
       type: Actions.REGISTER_APPLICATION,
       appID: appID,
-      isMediaApplication: isMediaApplication
+      displayLayout: displayLayout
   }
 }
 
@@ -400,6 +401,20 @@ export const appStoreBeginInstall = (policyAppID) => {
     return {
         type: Actions.APPSTORE_BEGIN_INSTALL,
         policyAppID: policyAppID
+    }
+}
+
+export const appStoreWebViewActive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: true
+    }
+}
+
+export const appStoreWebViewInactive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: false
     }
 }
 

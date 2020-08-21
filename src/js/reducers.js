@@ -483,6 +483,9 @@ function ui(state = {}, action) {
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break
+                case "WEB_VIEW":
+                    app.displayLayout = "web-view"
+                    break
                 case "LARGE_GRAPHIC_ONLY":
                     app.displayLayout = "large-graphic-only"
                     break
@@ -521,10 +524,8 @@ function ui(state = {}, action) {
                 app.nightColorScheme = action.nightColorScheme
             }          
             return newState
-        case Actions.REGISTER_APPLICATION:        
-            if (!app.displayLayout) {
-              app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
-            }
+        case Actions.REGISTER_APPLICATION:
+            app.displayLayout = action.displayLayout;
             return newState
         case Actions.UNREGISTER_APPLICATION:
             if (newState[action.appID]) {
@@ -605,6 +606,7 @@ function system(state = {}, action) {
 
 function appStore(state = {
     isConnected: false,
+    webViewActive: false,
     availableApps: [],
     installedApps: [],
     appsPendingSetAppProperties: []
@@ -631,14 +633,12 @@ function appStore(state = {
                 );
                 return newState;
             }
-            // Update the existing app's properties
             existingApp = Object.assign(existingApp, action.installedApp);
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
             newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
-            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
             var pendingAppInstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
             var newInstalled = [ pendingAppInstall ].concat(newState.installedApps);
@@ -647,7 +647,6 @@ function appStore(state = {
             if (appStoreAppInstalled) { appStoreAppInstalled.pendingInstall = false; }
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
-            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
             let pendingAppUninstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
             newState.installedApps = state.installedApps.filter(app => app.policyAppID !== pendingAppUninstall.policyAppID);
@@ -663,6 +662,9 @@ function appStore(state = {
         case Actions.APPSTORE_BEGIN_INSTALL:
             let appStoreAppToInstall = newState.availableApps.find(app => app.policyAppID === action.policyAppID);
             if (appStoreAppToInstall) { appStoreAppToInstall.pendingInstall = true; }
+            return newState;
+        case Actions.WEB_VIEW_ACTIVE:
+            newState.webViewActive = action.active;
             return newState;
         default:
             return state;

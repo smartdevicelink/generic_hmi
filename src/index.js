@@ -7,6 +7,7 @@ import './css/main.scss';
 // import react and js
 import MediaPlayer from './js/MediaPlayer';
 import NonMedia from './js/Templates/NonMedia/NonMedia'
+import WebView from './js/Templates/WebView/WebView'
 import LargeGraphicOnly from './js/Templates/LargeGraphicOnly/LargeGraphicOnly'
 import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbuttons/LargeGraphicWithSoftbuttons'
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
@@ -92,7 +93,14 @@ class HMIApp extends React.Component {
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
-                        return (<WebEngineAppContainer key={app.policyAppID} policyAppID={app.policyAppID} iframeUrl={app.appUrl + app.entrypoint + query} />);
+                        var style = { display: 'none' };
+                        if (this.props.showWebView && app.runningAppId === this.props.activeAppId) {
+                            style = {};
+                        }
+                        return (<WebEngineAppContainer key={app.policyAppID}
+                            style={style}
+                            policyAppID={app.policyAppID}
+                            iframeUrl={app.appUrl + app.entrypoint + query} />);
                     })
                 }
             </div>
@@ -100,6 +108,18 @@ class HMIApp extends React.Component {
     }
     componentDidMount() {
         this.sdl.connectToSDL()
+        if (window.performance.memory) { // chromium --enable-precise-memory-info
+            this.memoryUsageInterval = setInterval(function(self) {
+                var mem = window.performance.memory;
+                if (mem.usedJSHeapSize / mem.jsHeapSizeLimit > 0.75) {
+                    for (var app of self.props.webEngineApps) {
+                        if (app.runningAppId) {
+                            bcController.onExitApplication('RESOURCE_CONSTRAINT', app.runningAppId);
+                        }
+                    }
+                }
+            }, 10000, this);
+        }
 
         FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
@@ -126,13 +146,23 @@ class HMIApp extends React.Component {
                 });
             });
     
-            FileSystemController.sendJSONMessage({
-                method: 'GetInstalledApps', params: {}
-            });
+            var sdlSocket = this.sdl.socket
+            var waitCoreInterval = setInterval(function() {
+                 // cant send rpc before core is connected
+                if (sdlSocket.readyState === sdlSocket.OPEN) {
+                    setTimeout(function () { // give time to reply to IsReady
+                        FileSystemController.sendJSONMessage({
+                            method: 'GetInstalledApps', params: {}
+                        });
+                    }, 500);
+                    clearInterval(waitCoreInterval);
+                }
+            }, 500);
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
+        clearInterval(this.memoryUsageInterval);
     }
 }
 
@@ -140,6 +170,8 @@ const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
+        showWebView: state.appStore.webViewActive,
+        activeAppId: state.activeApp,
         dd: state.ddState
     }
 }
@@ -153,6 +185,7 @@ ReactDOM.render((
             <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
+            <Route path="/web-view" component={WebView} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />

@@ -17,7 +17,7 @@ let imageOnlySoftButtonCapability = {
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
-	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"
+	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW"
 ]
 
 let screenParams = {
@@ -269,6 +269,27 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		]
+	},
+	"WEB_VIEW": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("templateTitle", 50),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+			],
+			"imageFields": [
+				imageField("appIcon", 50),
+				imageField("alertIcon", 225)
+			],
+			"mediaClockFormats": [],
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		}
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {

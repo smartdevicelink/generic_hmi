@@ -151,7 +151,6 @@ class AppHeader extends React.Component {
                 this.props.history.push("/" + nextProps.displayLayout)                
             }
         }
-   
         else if(this.props.activeApp !== nextProps.activeApp) {            
             if(!this.props.activeApp && nextProps.activeApp) {
                 this.props.history.push("/" + nextProps.displayLayout)
