@@ -26,7 +26,6 @@ import WebEngineAppContainer from './js/WebEngineAppContainer'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
-import { flags } from './js/Flags'
 
 import { Route, HashRouter } from 'react-router-dom'
 
@@ -92,7 +91,7 @@ class HMIApp extends React.Component {
                 </div>
                 {
                     this.props.webEngineApps.map((app) => {
-                        let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
+                        let query = `?sdl-host=${window.flags.CoreHost}&sdl-port=${window.flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
                         var style = { display: 'none' };
                         if (this.props.showWebView && app.runningAppId === this.props.activeAppId) {
                             style = {};
@@ -121,7 +120,7 @@ class HMIApp extends React.Component {
             }, 10000, this);
         }
 
-        FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
+        FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
             store.dispatch(updateAppStoreConnectionStatus(true));
             FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });

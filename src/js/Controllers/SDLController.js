@@ -5,7 +5,6 @@ import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
 
-import {flags} from '../Flags'
 var activatingApplication = 0
 class SDLController {
     constructor () {
@@ -21,7 +20,7 @@ class SDLController {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
         this.externalConsentStatus = [];
-        store.dispatch(setPTUWithModem(flags.PTUWithModemEnabled))
+        store.dispatch(setPTUWithModem(window.flags.PTUWithModemEnabled))
     }
     addListener(listener) {
         this.listener = listener
@@ -31,7 +30,7 @@ class SDLController {
         switch (methodName) {
             case "OnStatusUpdate":
                 if(rpc.params.status === "UP_TO_DATE") {
-                    if(flags.ExternalPolicies) {
+                    if(window.flags.ExternalPolicies) {
                         externalPolicies.stopUpdateRetry();
                     }                    
                 }
@@ -80,7 +79,7 @@ class SDLController {
                 var state = store.getState()
                 
                 let regular_ptu_flow = () => {
-                    if(flags.ExternalPolicies) {
+                    if(window.flags.ExternalPolicies) {
                         externalPolicies.pack({            
                             requestType: 'PROPRIETARY',
                             fileName: state.system.policyFile,

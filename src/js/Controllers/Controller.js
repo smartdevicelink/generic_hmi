@@ -7,9 +7,7 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
-import {flags} from '../Flags';
 
-let url = `ws://${flags.CoreHost}:${flags.CorePort}`
 let file_access_base_url = "";
 
 export default class Controller {
@@ -25,7 +23,7 @@ export default class Controller {
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
-        this.socket = new WebSocket(url)
+        this.socket = new WebSocket(`ws://${window.flags.CoreHost}:${window.flags.CorePort}`)
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)
@@ -46,8 +44,8 @@ export default class Controller {
         if (this.retry) {
             clearInterval(this.retry)
         }
-        if(flags.ExternalPolicies) {
-            externalPolicyManager.connectPolicyManager(flags.ExternalPoliciesPackUrl, flags.ExternalPoliciesUnpackUrl)
+        if(window.flags.ExternalPolicies) {
+            externalPolicyManager.connectPolicyManager(window.flags.ExternalPoliciesPackUrl, window.flags.ExternalPoliciesUnpackUrl)
         }
         this.registerComponents()
     }
