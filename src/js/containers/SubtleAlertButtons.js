@@ -8,41 +8,19 @@ const mapStateToProps = (state) => {
     for(var key in state.ui) {
         if(state.ui[key].alert.showAlert) {
             alertButtons = state.ui[key].alert.softButtons
+            var alertAppId = parseInt(key)
             if(alertButtons) {
                 for (var i in alertButtons) {
-                    alertButtons[i].appID = parseInt(key)
+                    alertButtons[i].appID = alertAppId
                     alertButtons[i].msgID = state.ui[key].alert.msgID
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
-            }   
+            }
+            break;
         }
     }
 
-    var app = state.ui[state.activeApp];
-    var colorScheme = null;
-    if (state.theme === true) { //Dark theme
-        if(app.nightColorScheme) {
-            colorScheme = {}
-            if(app.nightColorScheme.primaryColor) {
-                colorScheme["primary"] = app.nightColorScheme.primaryColor
-            }
-            if(app.nightColorScheme.secondaryColor) {
-                colorScheme["secondary"] = app.nightColorScheme.secondaryColor
-            }
-        }
-    } else {
-        if(app.dayColorScheme) { //Light theme
-            colorScheme = {}
-            if(app.dayColorScheme.primaryColor) {
-                colorScheme["primary"] = app.dayColorScheme.primaryColor
-            }
-            if(app.dayColorScheme.secondaryColor) {
-                colorScheme["secondary"] = app.dayColorScheme.secondaryColor
-            }
-        }
-    }
-
-    return {alertButtons: alertButtons, theme: state.theme, colorScheme: colorScheme}
+    return {alertButtons: alertButtons, theme: state.theme}
 }
 
 const mapDispatchToProps = (dispatch) => {
