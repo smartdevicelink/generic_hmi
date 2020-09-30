@@ -46,6 +46,9 @@ const mapStateToProps = (state) => {
     // The app isn't performing an interaction, so pass the sub menu items 
     var menu = app.menu
     var activeSubMenu = app.activeSubMenu
+    if (!activeSubMenu) { // Perform Interaction timed out
+        return {data: [], isPerformingInteraction: false, theme: theme}
+    }
     var ddState = state.ddState;
     var subMenuData = SubmenuDeepFind(menu, activeSubMenu, 0).subMenu.subMenu.map((command, index) => {
         // Check DD state and set hidden param
