@@ -16,6 +16,7 @@ function newAppState () {
         activeSubMenu: null,
         activeMenuDepth: 0,
         menuLayout: "LIST",
+        menuIcon: null,
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -328,6 +329,7 @@ function ui(state = {}, action) {
             return newState
         case Actions.SET_APP_ICON:
             app.icon = action.icon
+            app.refresh = true
             return newState
         case Actions.ADD_COMMAND:
             var menuParams = action.menuParams
@@ -577,6 +579,10 @@ function ui(state = {}, action) {
         case Actions.SET_GLOBAL_PROPERTIES:
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
+            }
+            if (action.menuIcon) {
+                app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
+                app.refresh = true
             }
             return newState
         default:

@@ -338,11 +338,12 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
-export const setGlobalProperties = (appID, menuLayout) => {
+export const setGlobalProperties = (appID, menuLayout, menuIcon) => {
     return {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
-        menuLayout: menuLayout
+        menuLayout: menuLayout,
+        menuIcon: menuIcon
     }
 }
 
