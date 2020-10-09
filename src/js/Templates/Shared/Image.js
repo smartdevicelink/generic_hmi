@@ -83,6 +83,7 @@ class Image extends React.Component {
         // Refresh image after onPutFile in case of error
         if (this.state.error && this.props.refresh) {
             this.setState({error: false});
+            this.props.refresh = false
             return (null)
         }
         if(this.props.image && !this.state.error) {
