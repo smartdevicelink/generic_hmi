@@ -125,7 +125,6 @@ class HMIApp extends React.Component {
             var sdlSocket = this.sdl.socket
             if (sdlSocket.readyState === sdlSocket.OPEN) {
                 setTimeout(() => { // give time to reply to IsReady
-                    console.log("do file controller stuff")
                     FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
                         console.log('Connected to FileSystemController');
                         store.dispatch(updateAppStoreConnectionStatus(true));
