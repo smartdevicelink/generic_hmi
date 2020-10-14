@@ -516,13 +516,16 @@ class RpcFactory {
         }
         return (msg)         
     }
-    static OnAppPermissionConsent(consentedFunctions, externalConsentStatus) {
+    static OnAppPermissionConsent(appID, consentedFunctions, externalConsentStatus) {
         var msg = {
           'jsonrpc': '2.0',
           'method': 'SDL.OnAppPermissionConsent',
           'params': {
             'source': 'GUI'
           }
+        }
+        if(appID) {
+            msg.params.appID = appID
         }
         if(consentedFunctions) {
             msg.params.consentedFunctions = consentedFunctions
