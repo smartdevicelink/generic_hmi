@@ -268,6 +268,7 @@ class UIController {
                     delete this.timers[app.interactionId]
                     this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
+                    this.onSystemContext("MAIN", rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -275,6 +276,7 @@ class UIController {
                     delete this.timers[app.alert.msgID]
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    this.onSystemContext("MAIN", rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -282,6 +284,7 @@ class UIController {
                    delete this.timers[app.alert.msgID]
                    this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                   this.onSystemContext("MAIN", rpc.params.appID)
                    return true
                 }
                 
