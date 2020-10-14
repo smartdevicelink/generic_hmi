@@ -121,8 +121,7 @@ class HMIApp extends React.Component {
             }, 10000, this);
         }
 
-        var waitCoreInterval = setInterval(() => {
-            var sdlSocket = this.sdl.socket
+        var waitCoreInterval = setInterval((sdlSocket) => {
             if (sdlSocket.readyState === sdlSocket.OPEN) {
                 setTimeout(() => { // give time to reply to IsReady
                     FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
@@ -157,7 +156,7 @@ class HMIApp extends React.Component {
                 }, 500); // setTimeout
                 clearInterval(waitCoreInterval);
             }
-        }, 500); // setInterval
+        }, 500, this.sdl.socket); // setInterval
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
