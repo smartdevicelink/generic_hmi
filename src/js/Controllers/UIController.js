@@ -82,7 +82,7 @@ class UIController {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
                     }                    
                 }
-                return true
+                return {"rpc": RpcFactory.UIShowResponse(rpc)}
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
                 return true
