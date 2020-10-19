@@ -45,12 +45,19 @@
     margin-bottom: 0px !important;
     margin-right: 20px;
     min-width: 0;
+    height: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 .double-graphic-with-softbuttons-template .soft-button p {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 5px;
+}
+
+.double-graphic-with-softbuttons-template .soft-button .soft-button-image-static {
     padding: 5px;
 }
 
