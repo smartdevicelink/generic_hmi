@@ -21,6 +21,20 @@ import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
+const getNextSystemContext = () => {
+    const state = store.getState();
+    const activeApp = state.activeApp;
+    const pathName = window.location.hash;
+    const inMenuContext = (pathName.includes("/inappmenu") 
+        || pathName.includes("/inapplist")) 
+        && activeApp && state.ui[activeApp] 
+        && !state.ui[activeApp].isPerformingInteraction;
+    if (inMenuContext) {
+        return "MENU"
+    }
+    return "MAIN"
+}
+
 class UIController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -269,6 +283,7 @@ class UIController {
                     delete this.timers[app.interactionId]
                     this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
+                    this.onSystemContext("MAIN", rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -276,6 +291,8 @@ class UIController {
                     delete this.timers[app.alert.msgID]
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    const context = getNextSystemContext();
+                    this.onSystemContext(context, rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -283,6 +300,8 @@ class UIController {
                    delete this.timers[app.alert.msgID]
                    this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                   const context = getNextSystemContext();
+                   this.onSystemContext(context, rpc.params.appID)
                    return true
                 }
                 
@@ -311,10 +330,11 @@ class UIController {
             : RpcFactory.AlertResponse(msgID, appID);
         this.listener.send(rpc)
 
+        const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext("MAIN", appID)
+            this.onSystemContext(systemContext, appID)
         }
-        this.onSystemContext("MAIN", context)
+        this.onSystemContext(systemContext, context)
     }
     onStealFocus(alert, context, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])
