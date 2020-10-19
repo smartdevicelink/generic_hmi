@@ -151,8 +151,7 @@ class RpcFactory {
     static UIShowResponse(rpc) {
         var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
-        const templateExists = templateConfiguration 
-            && templateConfiguration.template ? true : false;
+        const templateExists = templateConfiguration && templateConfiguration.template;
         // Calculated bool val if the request only tried to change the template layout
         const onlyChangeTemplate = templateConfiguration !== undefined 
             && Object.keys(rpc.params).length === 3 //appID, showStrings, templateConfiguration 
