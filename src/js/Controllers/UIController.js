@@ -24,7 +24,7 @@ import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 const getNextSystemContext = () => {
     const state = store.getState();
     const activeApp = state.activeApp;
-    const pathName = window.location.href;
+    const pathName = window.location.hash;
     const inMenuContext = (pathName.includes("/inappmenu") 
         || pathName.includes("/inapplist")) 
         && activeApp && state.ui[activeApp] 
