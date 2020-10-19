@@ -159,6 +159,53 @@ class RpcFactory {
             }
         })
     }
+    static UIShowResponse(rpc) {
+        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+        const templateConfiguration = rpc.params.templateConfiguration;
+        const templateParamExists = templateConfiguration && templateConfiguration.template;
+
+        if (!templateParamExists || supportedTemplates.includes(templateConfiguration.template)) {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "result": {
+                    "code": 0,
+                    "method": rpc.method
+                }
+            })
+        }
+
+        // Calculated bool value if request only tried to set an unsupported template
+        const unsupportedRequest = Object.keys(rpc.params).length === 3 //appID, showStrings, templateConfiguration 
+            && rpc.params.showStrings.length === 0
+            && Object.keys(templateConfiguration).length === 1; // Template config does not include day/night color schemes
+        
+        if (unsupportedRequest) {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "error": {
+                    "code": 1,
+                    "message": "The requested layout is not supported on this HMI",
+                    "data": {
+                        "method": rpc.method
+                    }
+                }
+            })    
+        }
+
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "data": {
+                    "method": rpc.method
+                },                    
+                "code": 21, // Warnings
+                "message" : "Unsupported Template. Remaining data in request was processed."
+            }
+        })
+    }
     static UIPerformInteractionAbortedResponse(msgID) {
         return ({
             "jsonrpc": "2.0",
