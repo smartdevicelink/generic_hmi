@@ -178,7 +178,8 @@ class UIController {
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,
-                    rpc.params.menuLayout
+                    rpc.params.menuLayout,
+                    rpc.params.menuIcon
                 ))
                 return true
             case "Alert":

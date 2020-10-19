@@ -1,13 +1,12 @@
 import React from 'react';
 import store from '../../store'
-import path from 'path'
 import UIController from '../../Controllers/UIController'
 import { connect } from 'react-redux';
 
 class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {error: false};
+        this.state = {error: false, refreshed: false};
     }
 
     scaleImage(ogDimension, parentDimension) {
@@ -76,15 +75,24 @@ class Image extends React.Component {
         if (activeApp) {
             UIController.onUpdateFile(activeApp, this.props.image);
         }
-        this.setState({error: true});
+        this.setState({error: true, refreshed: this.props.image === this.props.refreshImage});
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        var newState = prevState;
+        // Reset refreshed flag if refreshImage has changed
+        if (nextProps.image !== nextProps.refreshImage) {
+            newState.refreshed = false
+        }
+        // Reset error flag when the image is newly refreshed
+        // checking the refreshed flag prevents multiple refreshes
+        else if (!prevState.refreshed) {
+            newState.error = false
+        }
+        return newState;
     }
 
     render() {
-        // Refresh image after onPutFile in case of error
-        if (this.state.error && this.props.refresh) {
-            this.setState({error: false});
-            return (null)
-        }
         if(this.props.image && !this.state.error) {
             if(this.props.isTemplate) {
                 var hidden = {display:'none'};
@@ -123,7 +131,7 @@ const mapStateToProps = (state) => {
         return {}
     }
     return {
-        refresh: app.refresh
+        refreshImage: app.refreshImage
     }
 }
 

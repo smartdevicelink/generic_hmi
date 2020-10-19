@@ -16,6 +16,7 @@ function newAppState () {
         activeSubMenu: null,
         activeMenuDepth: 0,
         menuLayout: "LIST",
+        menuIcon: null,
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -306,7 +307,7 @@ function ui(state = {}, action) {
     var menuItem = null;
     var result = null;
     var i = 0;
-    app.refresh = false;
+    app.refreshImage = null;
     switch (action.type) {
         case Actions.SHOW:           
             if (action.showStrings && action.showStrings.length > 0) {
@@ -328,6 +329,7 @@ function ui(state = {}, action) {
             return newState
         case Actions.SET_APP_ICON:
             app.icon = action.icon
+            app.refreshImage = action.icon
             return newState
         case Actions.ADD_COMMAND:
             var menuParams = action.menuParams
@@ -569,7 +571,7 @@ function ui(state = {}, action) {
             app.isDisconnected = false
             return newState
         case Actions.ON_PUT_FILE:
-            app.refresh = true
+            app.refreshImage = action.fileName
             return newState
         case Actions.RESET_SHOW_APP_MENU:
             app.triggerShowAppMenu = false     
@@ -577,6 +579,10 @@ function ui(state = {}, action) {
         case Actions.SET_GLOBAL_PROPERTIES:
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
+            }
+            if (action.menuIcon) {
+                app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
+                app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
             }
             return newState
         default:

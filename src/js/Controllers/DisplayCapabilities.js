@@ -72,8 +72,7 @@ let textWithGraphicCapabilities = {
 			textField("subtleAlertSoftButtonText"),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText")
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -107,8 +106,7 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("templateTitle", 50),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText")
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -167,8 +165,7 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -236,8 +233,7 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -305,8 +301,7 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -353,8 +348,7 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -402,8 +396,7 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -436,8 +429,7 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -483,8 +475,7 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
