@@ -24,7 +24,7 @@ import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 const getNextSystemContext = () => {
     const state = store.getState();
     const activeApp = state.activeApp;
-    const pathName = window.location.pathname;
+    const pathName = window.location.href;
     const inMenuContext = (pathName.includes("/inappmenu") 
         || pathName.includes("/inapplist")) 
         && activeApp && state.ui[activeApp] 
@@ -329,10 +329,11 @@ class UIController {
             : RpcFactory.AlertResponse(msgID, appID);
         this.listener.send(rpc)
 
+        const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext("MAIN", appID)
+            this.onSystemContext(systemContext, appID)
         }
-        this.onSystemContext("MAIN", context)
+        this.onSystemContext(systemContext, context)
     }
     onStealFocus(alert, context, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])
