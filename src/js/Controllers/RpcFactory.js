@@ -133,7 +133,18 @@ class RpcFactory {
                 "prerecordedSpeechCapabilities": capabilities["COMMON"].prerecordedSpeechCapabilities,
             }
         })
-    }        
+    }
+    static VRGetCapabilitiesResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                'vrCapabilities': ['TEXT']
+            }
+        })
+    }
     static activateAppResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
