@@ -151,22 +151,23 @@ class RpcFactory {
     static UIShowResponse(rpc) {
         var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
-        const templateExists = templateConfiguration && templateConfiguration.template;
-        // Calculated bool val if the request only tried to change the template layout
-        const onlyChangeTemplate = templateConfiguration !== undefined 
-            && Object.keys(rpc.params).length === 3 //appID, showStrings, templateConfiguration 
-            && rpc.params.showStrings.length === 0
-            && templateExists 
-            && Object.keys(templateConfiguration).length === 1;
+        const templateParamExists = templateConfiguration && templateConfiguration.template;
+
+        if (!templateParamExists || supportedTemplates.includes(templateConfiguration.template)) {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "result": {
+                    "code": 0,
+                    "method": rpc.method
+                }
+            })
+        }
+
         // Calculated bool value if request only tried to set an unsupported template
-        const unsupportedRequest = templateExists 
-            && onlyChangeTemplate 
-            && !supportedTemplates.includes(templateConfiguration.template);
-        // Calculated bool value if request sets unsupported template value, but other show information was present.
-        const partialSuccess = !unsupportedRequest 
-            && templateExists 
-            && !onlyChangeTemplate 
-            && !supportedTemplates.includes(templateConfiguration.template);
+        const unsupportedRequest = Object.keys(rpc.params).length === 3 //appID, showStrings, templateConfiguration 
+            && rpc.params.showStrings.length === 0
+            && Object.keys(templateConfiguration).length === 1; // Template config does not include day/night color schemes
         
         if (unsupportedRequest) {
             return ({
@@ -182,29 +183,17 @@ class RpcFactory {
             })    
         }
 
-        if (partialSuccess) {
-            return ({
-                "jsonrpc": "2.0",
-                "id": rpc.id,
-                "error": {
-                    "data": {
-                        "method": rpc.method
-                    },                    
-                    "code": 21, // Warnings
-                    "message" : "Unsupported Template. Remaining data in request was processed."
-                }
-            })
-        }
-
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
-            "result": {
-                "code": 0,
-                "method": rpc.method
+            "error": {
+                "data": {
+                    "method": rpc.method
+                },                    
+                "code": 21, // Warnings
+                "message" : "Unsupported Template. Remaining data in request was processed."
             }
         })
-
     }
     static UIPerformInteractionAbortedResponse(msgID) {
         return ({
