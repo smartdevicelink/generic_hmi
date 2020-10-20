@@ -20,7 +20,7 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
-import ValidateImages from '../Utils/ValidateImages'
+import { ValidateImages, AddImageValidationRequest, RemoveImageValidationRequest, GetValidationResult } from '../Utils/ValidateImages'
 
 const getNextSystemContext = () => {
     const state = store.getState();
@@ -243,6 +243,7 @@ class UIController {
                 if ((context !== rpc.params.appID) && context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
+                AddImageValidationRequest(rpc.id, [rpc.params.alertIcon])
 
                 return null
             case "SubtleAlert":
@@ -291,6 +292,7 @@ class UIController {
                 this.endTimes[rpc.id] = Date.now() + subtleAlertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
+                AddImageValidationRequest(rpc.id, [rpc.params.alertIcon])
 
                 return null
             case "CancelInteraction":
@@ -333,6 +335,8 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
+        RemoveImageValidationRequest(msgID)
+
         this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
@@ -342,6 +346,8 @@ class UIController {
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
+        RemoveImageValidationRequest(msgID)
+
         store.dispatch(closeAlert(
             msgID,
             appID
@@ -361,6 +367,9 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
+        let imageValidationSuccess = GetValidationResult(alert.msgID)
+        RemoveImageValidationRequest(alert.msgID)
+
         if (alert.buttonID) {
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         } else { // can be invoked by clicking subtle alert modal
@@ -372,7 +381,7 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(alert.msgID)
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
-        this.listener.send(rpc);
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
         if(context){
             this.onSystemContext("MAIN", context)
@@ -402,6 +411,9 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
+        let imageValidationSuccess = GetValidationResult(alert.msgID);
+        RemoveImageValidationRequest(alert.msgID)
+
         if (alert.buttonID) { // can be invoked by clicking outside of subtle alert
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         }
@@ -411,7 +423,8 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(alert.msgID)
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
-        this.listener.send(rpc);
+
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
         if(context){
             this.onSystemContext("MAIN", context)
@@ -422,7 +435,16 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
+
+        let imageValidationSuccess = GetValidationResult(alert.msgID)
+        RemoveImageValidationRequest(alert.msgID)
+
+        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
+        if(!imageValidationSuccess){
+            rpc = RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method });
+            rpc.error.data.choiceID = choiceID;
+        }
+        this.listener.send(rpc)
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
@@ -478,6 +500,7 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
+            RemoveImageValidationRequest(msgID)
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
