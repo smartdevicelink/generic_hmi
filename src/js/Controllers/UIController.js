@@ -20,6 +20,7 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
+import ValidateImages from '../Utils/ValidateImages'
 
 const getNextSystemContext = () => {
     const state = store.getState();
@@ -96,7 +97,12 @@ class UIController {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
                     }                    
                 }
-                return {"rpc": RpcFactory.UIShowResponse(rpc)}
+
+                ValidateImages([rpc.params.graphic, rpc.params.secondaryGraphic]).then(
+                    () => {this.listener.send(RpcFactory.UIShowResponse(rpc))},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
                 return true
@@ -109,7 +115,12 @@ class UIController {
                     rpc.params.menuParams,
                     rpc.params.cmdIcon
                 ))
-                return true
+                
+                ValidateImages([rpc.params.cmdIcon]).then(
+                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "AddSubMenu":
                 if (appUIState) {
                     var menu = appUIState.menu;
@@ -128,7 +139,12 @@ class UIController {
                     rpc.params.menuIcon,
                     rpc.params.menuLayout
                 ))
-                return true
+
+                ValidateImages([rpc.params.menuIcon]).then(
+                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "DeleteCommand":
                 store.dispatch(deleteCommand(
                     rpc.params.appID,
@@ -195,7 +211,12 @@ class UIController {
                     rpc.params.menuLayout,
                     rpc.params.menuIcon
                 ))
-                return true
+                
+                ValidateImages([rpc.params.menuIcon]).then(
+                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "Alert":
                 store.dispatch(alert(
                     rpc.params.appID,

@@ -49,6 +49,19 @@ class RpcFactory {
             }
         })
     }            
+    static InvalidImageResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 21,
+                "message": "Requested image(s) not found",
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
