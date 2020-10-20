@@ -98,7 +98,14 @@ class UIController {
                     }                    
                 }
 
-                ValidateImages([rpc.params.graphic, rpc.params.secondaryGraphic]).then(
+                let showImages = [rpc.params.graphic, rpc.params.secondaryGraphic];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { showImages.push(softBtn.image); }
+                    });
+                }
+
+                ValidateImages(showImages).then(
                     () => {this.listener.send(RpcFactory.UIShowResponse(rpc))},
                     () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
                 );
@@ -243,7 +250,14 @@ class UIController {
                 if ((context !== rpc.params.appID) && context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
-                AddImageValidationRequest(rpc.id, [rpc.params.alertIcon])
+
+                let alertImages = [rpc.params.alertIcon];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { alertImages.push(softBtn.image); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, alertImages);
 
                 return null
             case "SubtleAlert":
@@ -292,7 +306,14 @@ class UIController {
                 this.endTimes[rpc.id] = Date.now() + subtleAlertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
-                AddImageValidationRequest(rpc.id, [rpc.params.alertIcon])
+
+                let subtleAlertImages = [rpc.params.alertIcon];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { subtleAlertImages.push(softBtn.image); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, subtleAlertImages)
 
                 return null
             case "CancelInteraction":
