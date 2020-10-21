@@ -37,7 +37,6 @@ function AddImageValidationRequest(msgID, imageList){
         return
     }
 
-    console.log("[!] Image list: ", imageList)
     ValidateImages(imageList).then(
         () => { validationRequestsSuccess[msgID] = true; },
         () => { validationRequestsSuccess[msgID] = false; }
@@ -45,10 +44,7 @@ function AddImageValidationRequest(msgID, imageList){
 }
 
 function RemoveImageValidationRequest(msgID){
-    console.log("[!] Before: ", validationRequestsSuccess)
     delete validationRequestsSuccess[msgID];
-    console.log("[!] After: ", validationRequestsSuccess)
-
 }
 
 function GetValidationResult(msgID){

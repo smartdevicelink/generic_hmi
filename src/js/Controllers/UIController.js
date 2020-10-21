@@ -192,6 +192,15 @@ class UIController {
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
+
+                let performInteractionImages = [];
+                if (rpc.params.choiceSet) {
+                    rpc.params.choiceSet.forEach (choice => {
+                        if (choice.image) { performInteractionImages.push(choice.image); }
+                        if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, performInteractionImages);
                 break
             case "SetMediaClockTimer":
                 store.dispatch(setMediaClockTimer(
@@ -457,14 +466,11 @@ class UIController {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
 
-        let imageValidationSuccess = GetValidationResult(alert.msgID)
-        RemoveImageValidationRequest(alert.msgID)
+        let imageValidationSuccess = GetValidationResult(msgID)
+        RemoveImageValidationRequest(msgID)
 
-        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
-        if(!imageValidationSuccess){
-            rpc = RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method });
-            rpc.error.data.choiceID = choiceID;
-        }
+        const rpc = (imageValidationSuccess) ? RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
+            : RpcFactory.InvalidImageResponse({ id: msgID, method: "UI.PerformInteraction" });
         this.listener.send(rpc)
     }
     onSystemContext(context, appID) {
