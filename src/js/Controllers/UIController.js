@@ -376,6 +376,8 @@ class UIController {
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
+
+        let imageValidationSuccess = GetValidationResult(msgID)
         RemoveImageValidationRequest(msgID)
 
         store.dispatch(closeAlert(
@@ -383,9 +385,9 @@ class UIController {
             appID
         ))
         const rpc = isSubtle
-            ? RpcFactory.SubtleAlertErrorResponse(msgID, 10, 'subtle alert timed out')
+            ? RpcFactory.SubtleAlertResponse(msgID)
             : RpcFactory.AlertResponse(msgID, appID);
-        this.listener.send(rpc)
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }))
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
