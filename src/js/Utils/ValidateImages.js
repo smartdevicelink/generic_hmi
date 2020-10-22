@@ -43,21 +43,18 @@ function AddImageValidationRequest(msgID, imageList){
     )
 }
 
-function RemoveImageValidationRequest(msgID){
-    delete validationRequestsSuccess[msgID];
-}
-
-function GetValidationResult(msgID){
+function RemoveImageValidationResult(msgID){
     if(!(msgID in validationRequestsSuccess)){
         return true
     }
 
-    return validationRequestsSuccess[msgID];
+    const success = validationRequestsSuccess[msgID];
+    delete validationRequestsSuccess[msgID];
+    return success
 }
 
 export {
     ValidateImages,
     AddImageValidationRequest,
-    RemoveImageValidationRequest,
-    GetValidationResult
+    RemoveImageValidationResult
 }

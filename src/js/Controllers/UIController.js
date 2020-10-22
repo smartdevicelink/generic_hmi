@@ -20,7 +20,7 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
-import { ValidateImages, AddImageValidationRequest, RemoveImageValidationRequest, GetValidationResult } from '../Utils/ValidateImages'
+import { ValidateImages, AddImageValidationRequest, RemoveImageValidationResult } from '../Utils/ValidateImages'
 
 const getNextSystemContext = () => {
     const state = store.getState();
@@ -369,7 +369,7 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
-        RemoveImageValidationRequest(msgID)
+        RemoveImageValidationResult(msgID)
 
         this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
@@ -381,8 +381,7 @@ class UIController {
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
 
-        let imageValidationSuccess = GetValidationResult(msgID)
-        RemoveImageValidationRequest(msgID)
+        let imageValidationSuccess = RemoveImageValidationResult(msgID)
 
         store.dispatch(closeAlert(
             msgID,
@@ -403,8 +402,7 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
-        let imageValidationSuccess = GetValidationResult(alert.msgID)
-        RemoveImageValidationRequest(alert.msgID)
+        let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
 
         if (alert.buttonID) {
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
@@ -447,8 +445,7 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
-        let imageValidationSuccess = GetValidationResult(alert.msgID);
-        RemoveImageValidationRequest(alert.msgID)
+        let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
 
         if (alert.buttonID) { // can be invoked by clicking outside of subtle alert
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
@@ -472,8 +469,7 @@ class UIController {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
 
-        let imageValidationSuccess = GetValidationResult(msgID)
-        RemoveImageValidationRequest(msgID)
+        let imageValidationSuccess = RemoveImageValidationResult(msgID)
 
         const rpc = (imageValidationSuccess) ? RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
             : RpcFactory.InvalidImageResponse({ id: msgID, method: "UI.PerformInteraction" });
@@ -533,7 +529,7 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            RemoveImageValidationRequest(msgID)
+            RemoveImageValidationResult(msgID)
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
