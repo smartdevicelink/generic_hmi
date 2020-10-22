@@ -105,9 +105,13 @@ class UIController {
                     });
                 }
 
+                const showResponse = RpcFactory.UIShowResponse(rpc)
                 ValidateImages(showImages).then(
-                    () => {this.listener.send(RpcFactory.UIShowResponse(rpc))},
-                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                    () => {this.listener.send(showResponse)},
+                    () => {
+                        const invalidImgResponse = RpcFactory.InvalidImageResponse(rpc)
+                        this.listener.send(RpcFactory.CombineWithWarningsResponse(showResponse, invalidImgResponse))
+                    }
                 );
                 break;
             case "SetAppIcon":

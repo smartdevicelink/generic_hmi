@@ -55,7 +55,7 @@ class RpcFactory {
             "id": rpc.id,
             "error": {
                 "code": 21,
-                "message": "Requested image(s) not found",
+                "message": "Requested image(s) not found.",
                 "data": {
                     "method": rpc.method
                 }
@@ -722,6 +722,18 @@ class RpcFactory {
                 "updateSubCells": true
             }
         })
+    }
+
+    static CombineWithWarningsResponse(response, warningsResponse){
+        if (response.hasOwnProperty('result')) { // SUCCESS
+            return warningsResponse;
+        }
+        else if (response.hasOwnProperty('error') && response.error.code === 21) { // WARNINGS
+            response.error.message += (!warningsResponse.error.message) ? "" : ` ${warningsResponse.error.message}`;
+            return response;
+        }
+        // Error response
+        return response;
     }
 }
 
