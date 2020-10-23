@@ -728,9 +728,8 @@ class RpcFactory {
         if (response.hasOwnProperty('result')) { // SUCCESS
             return warningsResponse;
         }
-        else if (response.hasOwnProperty('error') && response.error.code === 21) { // WARNINGS
-            response.error.message += (!warningsResponse.error.message) ? "" : ` ${warningsResponse.error.message}`;
-            return response;
+        else if (response.error.code === 21 && warningsResponse.error.message) { // WARNINGS
+            response.error.message += ` ${warningsResponse.error.message}`;
         }
         // Error response
         return response;
