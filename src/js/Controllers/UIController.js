@@ -514,7 +514,6 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            RemoveImageValidationResult(msgID)
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
