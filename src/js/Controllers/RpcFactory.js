@@ -49,6 +49,19 @@ class RpcFactory {
             }
         })
     }            
+    static InvalidImageResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 21,
+                "message": "Requested image(s) not found.",
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -709,6 +722,17 @@ class RpcFactory {
                 "updateSubCells": true
             }
         })
+    }
+
+    static CombineWithWarningsResponse(response, warningsResponse){
+        if (response.hasOwnProperty('result')) { // SUCCESS
+            return warningsResponse;
+        }
+        else if (response.error.code === 21 && warningsResponse.error.message) { // WARNINGS
+            response.error.message += ` ${warningsResponse.error.message}`;
+        }
+        // Error response
+        return response;
     }
 }
 
