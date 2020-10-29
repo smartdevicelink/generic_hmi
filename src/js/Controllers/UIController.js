@@ -196,6 +196,16 @@ class UIController {
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
+
+                let performInteractionImages = [];
+                if (rpc.params.choiceSet) {
+                    rpc.params.choiceSet.forEach (choice => {
+                        if (choice.image) { performInteractionImages.push(choice.image); }
+                        if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, performInteractionImages);
+
                 break
             case "SetMediaClockTimer":
                 store.dispatch(setMediaClockTimer(
@@ -360,6 +370,7 @@ class UIController {
     }
     onPerformInteractionTimeout(msgID, appID) {
         delete this.timers[msgID]
+        RemoveImageValidationResult(msgID)
 
         this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
@@ -458,7 +469,14 @@ class UIController {
     onChoiceSelection(choiceID, appID, msgID) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
+
+        let imageValidationSuccess = RemoveImageValidationResult(msgID)
+        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
+        if(!imageValidationSuccess){
+            rpc.result.code = 21; // WARNINGS
+        }
+
+        this.listener.send(rpc)
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
@@ -514,6 +532,7 @@ class UIController {
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
+            RemoveImageValidationResult(msgID)
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
