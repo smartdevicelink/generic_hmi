@@ -8,12 +8,12 @@
 <g>
 	<g>
 		<g>
-			<rect x="12" y="20" class="st0_55" width="26" height="20"/>
-			<polygon class="st0_55" points="25,8 8,20 42,20 			"/>
+			<rect x="12" y="20" class="st0_55 svg-stroke" width="26" height="20"/>
+			<polygon class="st0_55 svg-stroke" points="25,8 8,20 42,20 			"/>
 		</g>
 	</g>
 </g>
-<rect x="22" y="34" class="st0_55" width="6" height="6"/>
-<rect x="16" y="25" class="st0_55" width="4" height="4"/>
-<rect x="30" y="25" class="st0_55" width="4" height="4"/>
+<rect x="22" y="34" class="st0_55 svg-stroke" width="6" height="6"/>
+<rect x="16" y="25" class="st0_55 svg-stroke" width="4" height="4"/>
+<rect x="30" y="25" class="st0_55 svg-stroke" width="4" height="4"/>
 </svg>

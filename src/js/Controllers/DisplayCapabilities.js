@@ -17,7 +17,7 @@ let imageOnlySoftButtonCapability = {
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
-	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"
+	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW"
 ]
 
 let screenParams = {
@@ -32,12 +32,10 @@ let screenParams = {
 	}
 }
 
-function textField(name, width, rows) {
-	width = width ? width : 500
-	rows = rows ? rows : 1
+function textField(name, width=500, rows=1, characterSet="UTF_8") {
 	return {
 		"name": name,
-		"characterSet": "TYPE2SET",
+		"characterSet": characterSet,
 		"width": width,
 		"rows": rows
 	}
@@ -69,10 +67,12 @@ let textWithGraphicCapabilities = {
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText")
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -80,7 +80,8 @@ let textWithGraphicCapabilities = {
 			imageField("cmdIcon", 150),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
-			imageField("alertIcon", 225)
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
 		],
 		"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
 		"graphicSupported": true,
@@ -99,11 +100,13 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
 			textField("templateTitle", 50),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText")
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -117,7 +120,8 @@ let textbuttonsWithGraphicCapabilities = {
 			imageField("cmdIcon", 150),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
-			imageField("alertIcon", 225)
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
 		],
 		"mediaClockFormats": [],
 		"graphicSupported": true,
@@ -151,15 +155,16 @@ let capabilities = {
 				textField("mainField3"),
 				textField("statusBar"),
 				textField("mediaClock"),
-				textField("mediaTrack"),
 				textField("templateTitle", 50),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -169,7 +174,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 360),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
 			"graphicSupported": true,
@@ -221,10 +227,12 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -238,7 +246,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 410),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -256,6 +265,27 @@ let capabilities = {
 			softButtonCapability
 		]
 	},
+	"WEB_VIEW": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("templateTitle", 50),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+			],
+			"imageFields": [
+				imageField("appIcon", 50),
+				imageField("alertIcon", 225)
+			],
+			"mediaClockFormats": [],
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		}
+	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -264,11 +294,13 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -282,7 +314,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -308,11 +341,13 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -327,7 +362,8 @@ let capabilities = {
 				imageField("appIcon", 50),
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -353,11 +389,13 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -365,7 +403,8 @@ let capabilities = {
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -383,11 +422,13 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -400,7 +441,8 @@ let capabilities = {
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -426,11 +468,13 @@ let capabilities = {
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText")
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -443,7 +487,8 @@ let capabilities = {
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -472,6 +517,11 @@ let capabilities = {
 			"bitsPerSample": "8_BIT",
 			"audioType": "PCM"
 		}],
+		"pcmStreamCapabilities": {
+			"samplingRate": "16KHZ",
+			"bitsPerSample": "16_BIT",
+			"audioType": "PCM"
+		},
 		"speechCapabilities": [
 			"FILE"
 		],
@@ -489,6 +539,10 @@ let capabilities = {
 			},
 			"phoneCapability": {
 				"dialNumberEnabled": false
+			},
+			"driverDistractionCapability": {
+				"menuLength": 3,
+				"subMenuDepth": 2
 			}
 		}
 	}
@@ -497,6 +551,11 @@ let capabilities = {
 const mainWindowTypeCapability = {
 	type: "MAIN",
 	maximumNumberOfWindows: 1
+}
+
+const dynamicUpdateCapabilities = {
+	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon"],
+	supportsDynamicSubMenus: true
 }
 
 const getWindowCapability = (template) => {
@@ -512,7 +571,8 @@ const getWindowCapability = (template) => {
 		templatesAvailable: templateDisplayCapability.templatesAvailable,
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
-		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable
+		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
+		dynamicUpdateCapabilities: dynamicUpdateCapabilities
 	}
 	return capability;
 }

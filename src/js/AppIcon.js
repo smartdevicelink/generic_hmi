@@ -1,13 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Image from './Templates/Shared/Image'
-import iconMenu from '../img/icons/icon-menu.svg';
+import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg';
 
 export default class AppIcon extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         var fillColor = null;
         if (this.props.theme) {
@@ -22,11 +18,13 @@ export default class AppIcon extends React.Component {
             : (<span className="app-icon"></span>)
         return (
             <div>
-                <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path)}>
+                <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path, this.props.activeSubMenu)}>
                     <div className="app-icon">
                         {icon}
                     </div>
-                    <span className="svg-wrap" dangerouslySetInnerHTML={{__html: iconMenu}} />
+                    <span className="svg-wrap">
+                        <IconMenu/>
+                    </span>
                 </Link>
             </div>
         )

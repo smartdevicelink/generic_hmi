@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
-import weatherIcon from "../img/app_services/weather.svg";
+import { withRouter } from 'react-router';
 import WeatherButton from "./WeatherButton";
-import mediaIcon from "../img/app_services/media.svg";
 import MediaServiceDataImage from "./MediaServiceDataImage";
 import NavInstructionImage from "./NavInstructionImage";
-import iconMenu from '../img/icons/icon-menu.svg';
-import expandIcon from '../img/app_services/expand.svg';
-import collapseIcon from '../img/app_services/collapse.svg';
+import {ReactComponent as ExpandIcon} from '../img/app_services/expand.svg';
+import {ReactComponent as CollapseIcon} from '../img/app_services/collapse.svg';
 import AppServiceMediumModal from './AppServiceMediumModal';
 import Modal from 'react-modal';
 
@@ -27,7 +24,7 @@ class AppServicesNav extends React.Component {
 
     setActive(type) {
         var active = this.state.activeServiceTab
-        if (type == active) {
+        if (type === active) {
             this.setState({activeServiceTab : ""});
         } else {
             this.setState({activeServiceTab : type});
@@ -41,7 +38,6 @@ class AppServicesNav extends React.Component {
         hours = (hours < 10) ? ("0" + hours) : hours;
         minutes = (minutes < 10) ? ("0" + minutes) : minutes;
 
-        var offset = d.getTimezoneOffset();
         return hours + ":" + minutes + " pm";
     }
 
@@ -81,11 +77,11 @@ class AppServicesNav extends React.Component {
         var navMissingData = false;
         var mediaMissingData = false;
         var weatherMissingData = false;
-
+        var serviceData = null;
         for (const key of activeTypes) {
-            if (key == "NAVIGATION") {
+            if (key === "NAVIGATION") {
                 navActive = true
-                var serviceData = activeServices["NAVIGATION"].serviceData
+                serviceData = activeServices["NAVIGATION"].serviceData
                 if (!serviceData) {
                     // Service published, but no data available
                     navMissingData = true;
@@ -100,7 +96,7 @@ class AppServicesNav extends React.Component {
                 }
             } else if (key === "MEDIA") {
                 mediaActive = true
-                var serviceData = activeServices["MEDIA"].serviceData
+                serviceData = activeServices["MEDIA"].serviceData
                 if (!serviceData) {
                     // Service published, but no data available
                     mediaMissingData = true;
@@ -114,7 +110,7 @@ class AppServicesNav extends React.Component {
                 }
             } else if (key === "WEATHER") {
                 weatherActive = true
-                var serviceData = activeServices["WEATHER"].serviceData
+                serviceData = activeServices["WEATHER"].serviceData
                 if (!serviceData || !serviceData.currentForecast) {
                     weatherMissingData = true;
                     continue;
@@ -150,11 +146,11 @@ class AppServicesNav extends React.Component {
                 </div>
                 <div className="app-services-button-group">
                     <div className={"app-services-tab " + 
-                        ((activeServiceTab == "nav") ? "tab-wide__nav" : "") + 
+                        ((activeServiceTab === "nav") ? "tab-wide__nav" : "") + 
                         (navActive ? "" : " hide-tab")}
                         onClick={() => this.setActive("nav")}>
                         <NavInstructionImage image={navData.image} theme={undefined} parent="nav-bar"/>
-                        <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab == "nav") ? "" : "hide-tab")}>
+                        <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab === "nav") ? "" : "hide-tab")}>
                             <p className={navMissingData ? "waiting-message" : "hide-tab"}>
                                 {navMissingData ? waitingMessage : null}
                             </p>
@@ -173,11 +169,11 @@ class AppServicesNav extends React.Component {
                         </div>
                     </div>
                     <div className={"app-services-tab " + 
-                        ((activeServiceTab == "media") ? "tab-wide__media" : "") + 
+                        ((activeServiceTab === "media") ? "tab-wide__media" : "") + 
                         (mediaActive ? "" : " hide-tab")}
                         onClick={() => this.setActive("media")}>
                         <MediaServiceDataImage image={mediaData.mediaImage} />
-                        <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab == "media") ? "" : "hide-tab")}>
+                        <div className={"t-small t-medium th-f-color tab-text " + ((activeServiceTab === "media") ? "" : "hide-tab")}>
                             <p className={mediaMissingData ? "waiting-message" : "hide-tab"}>
                                 {mediaMissingData ? waitingMessage : null}
                             </p>
@@ -190,11 +186,11 @@ class AppServicesNav extends React.Component {
                         </div>
                     </div>
                     <div className={"app-services-tab " + 
-                        ((activeServiceTab == "weather") ? "tab-wide__weather" : "") + 
+                        ((activeServiceTab === "weather") ? "tab-wide__weather" : "") + 
                         (weatherActive ? "" : " hide-tab")}
                         onClick={() => this.setActive("weather")}>
                         <WeatherButton temp={weatherData.currentTemperature} weatherIcon={weatherData.weatherIcon}/>
-                        <div className={"t-small t-medium th-f-color tab-text even-spacing " + ((activeServiceTab == "weather") ? "" : "hide-tab")}>
+                        <div className={"t-small t-medium th-f-color tab-text even-spacing " + ((activeServiceTab === "weather") ? "" : "hide-tab")}>
                             <p className={weatherMissingData ? "waiting-message" : "hide-tab"}>
                                 {weatherMissingData ? waitingMessage : null}
                             </p>
@@ -229,8 +225,9 @@ class AppServicesNav extends React.Component {
                 </div>
                 <div className="clock">
                     <div className={hideExpandButton ? "hide-tab" : "app-service-modal-button"} onClick={() =>this.toggleModal()}>
-                        <span className={hideExpandButton ? "hide-tab" : "svg-size"} 
-                        dangerouslySetInnerHTML={this.state.showModal ? {__html: collapseIcon} : {__html: expandIcon}} /> 
+                        <span className={hideExpandButton ? "hide-tab" : "svg-size"} >
+                            {this.state.showModal ? <CollapseIcon/> : <ExpandIcon/>}
+                        </span> 
                     </div>
                 </div>
                 <Modal 

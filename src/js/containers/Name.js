@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import AppName from '../AppName'
 import '../polyfill_find'
+import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -17,10 +18,10 @@ const mapStateToProps = (state) => {
         templateTitle = state.ui[activeApp].showStrings.templateTitle;
     }
     if(state.ui[activeApp] && state.ui[activeApp].menu && state.ui[activeApp].activeSubMenu){
-        let submenu = state.ui[activeApp].menu.find(
-            (entry) => {return entry.menuID && entry.menuID == state.ui[activeApp].activeSubMenu}
-        )
-        subMenuName = (submenu) ? submenu.menuName : "";
+        var menu = state.ui[activeApp].menu;
+        var activeSubMenu = state.ui[activeApp].activeSubMenu;
+        var subMenu = SubmenuDeepFind(menu, activeSubMenu, 0).subMenu;
+        subMenuName = (subMenu) ? subMenu.menuName : "";
     }
 
     if(activeApp && app) {

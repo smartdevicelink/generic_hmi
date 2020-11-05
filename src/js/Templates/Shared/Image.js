@@ -1,9 +1,12 @@
 import React from 'react';
+import store from '../../store'
+import UIController from '../../Controllers/UIController'
+import { connect } from 'react-redux';
 
-export default class Image extends React.Component {
+class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {error: false};
+        this.state = {error: false, refreshed: false};
     }
 
     scaleImage(ogDimension, parentDimension) {
@@ -67,7 +70,26 @@ export default class Image extends React.Component {
     }
 
     onError(event) {
-        this.setState({error: true});
+        const state = store.getState();
+        const activeApp = state.activeApp;
+        if (activeApp) {
+            UIController.onUpdateFile(activeApp, this.props.image);
+        }
+        this.setState({error: true, refreshed: this.props.image === this.props.refreshImage});
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        var newState = prevState;
+        // Reset refreshed flag if refreshImage has changed
+        if (nextProps.image !== nextProps.refreshImage) {
+            newState.refreshed = false
+        }
+        // Reset error flag when the image is newly refreshed
+        // checking the refreshed flag prevents multiple refreshes
+        else if (!prevState.refreshed) {
+            newState.error = false
+        }
+        return newState;
     }
 
     render() {
@@ -81,12 +103,18 @@ export default class Image extends React.Component {
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
-                        <img ref="image" style={hidden} src={this.props.image} />
+                        <img 
+                            ref="image" 
+                            style={hidden} 
+                            src={this.props.image} 
+                            alt="SDL_Image" 
+                            onError={e => this.onError(e)} 
+                        />
                     </div>
                 )
             } else {
                 return (
-                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} />
+                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
                 )
             }
 
@@ -95,3 +123,18 @@ export default class Image extends React.Component {
         }
     }
 }
+
+const mapStateToProps = (state) => {
+    var activeApp = state.activeApp;
+    var app = state.ui[activeApp] ? state.ui[activeApp] : null;
+    if (!app) {
+        return {}
+    }
+    return {
+        refreshImage: app.refreshImage
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(Image)

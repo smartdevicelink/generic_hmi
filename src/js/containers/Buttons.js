@@ -5,13 +5,6 @@ import SoftButtonsBody from '../Templates/Shared/SoftButtons'
 import AlertButtonsBody from '../AlertButtons'
 import uiController from '../Controllers/UIController'
 
-import iconSeekLeft from '../../img/icons/icon-seek-left.svg';
-import iconSeekRight from '../../img/icons/icon-seek-right.svg';
-import iconPlay from '../../img/icons/icon-play.svg';
-import iconPause from '../../img/icons/icon-pause.svg';
-import iconPlayPause from '../../img/icons/icon-play-pause.svg';
-import iconStop from '../../img/icons/icon-stop.svg';
-
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var subscribedButtons = {}
@@ -41,7 +34,7 @@ const mapStateToProps = (state) => {
         buttons.push({
             class: "secondary",
             name: "SEEKLEFT",
-            icon: iconSeekLeft
+            icon: "iconSeekLeft"
         })
     }
     if (subscribedButtons.OK === true || subscribedButtons.PLAY_PAUSE === true) {
@@ -56,31 +49,31 @@ const mapStateToProps = (state) => {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPlay
+                    icon: "iconPlay"
                 })
             } else if (app.audioStreamingIndicator === "PAUSE") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                
             } else if (app.audioStreamingIndicator === "STOP") {
                 buttons.push({
                     class: "square",
                     name: buttonName,
-                    icon: iconStop
+                    icon: "iconStop"
                 })                
             } else if (app.audioStreamingIndicator === "PLAY_PAUSE") {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                
             } else {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                    
             }
         } 
@@ -89,38 +82,38 @@ const mapStateToProps = (state) => {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "COUNTDOWN") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "RESUME") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPause
+                    icon: "iconPause"
                 })                    
             } else if (app.updateMode === "PAUSE") {
                 buttons.push({
                     class: "primary",
                     name: buttonName,
-                    icon: iconPlay
+                    icon: "iconPlay"
                 })                    
             } else {
                 buttons.push({
                     class: "double",
                     name: buttonName,
-                    icon: iconPlayPause
+                    icon: "iconPlayPause"
                 })                    
             }
         } else {
             buttons.push({
                 class: "double",
                 name: buttonName,
-                icon: iconPlayPause
+                icon: "iconPlayPause"
             })                    
         }
     }
@@ -128,7 +121,7 @@ const mapStateToProps = (state) => {
         buttons.push({
             class: "secondary",
             name: "SEEKRIGHT",
-            icon: iconSeekRight
+            icon: "iconSeekRight"
         })
     }
     if (softButtons.length > 1) {
@@ -227,13 +220,13 @@ const mapDispatchToProps = (dispatch) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
         onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null)
+            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
         },
         onKeepContext:(alert) =>{
-            uiController.onKeepContext(alert)
+            uiController.onKeepContext(alert, false)
         },
         onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null)
+            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
         }
     }
 }

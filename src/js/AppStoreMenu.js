@@ -12,15 +12,12 @@ import BCController from './Controllers/BCController';
 import FileSystemController from './Controllers/FileSystemController';
 
 class AppStoreMenuItem extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return (
             <div className="appstore-menu-item th-b-color th-bb-color-secondary" key={this.props.appName} >
                 <div className="appstore-menu-item__image" >
-                    <img src={this.props.appIcon} />
+                    <img src={this.props.appIcon} alt=""/>
                 </div>
                 <h2 className="t-large t-medium">{this.props.appName}</h2>
                 <h4 className="t-large t-light">{this.props.appSize}</h4>

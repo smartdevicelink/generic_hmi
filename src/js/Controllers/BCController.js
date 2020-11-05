@@ -5,13 +5,9 @@ import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
 import FileSystemController from './FileSystemController';
-var activatingApplication = 0
 class BCController {
     constructor () {
         this.addListener = this.addListener.bind(this)
-        var incrementedRpcId = 5012
-        var rpcAppIdMap = {}
-        var getUserFriendlyMessageCallback={}
     }
     addListener(listener) {
         this.listener = listener
@@ -23,7 +19,14 @@ class BCController {
                 return {"rpc": RpcFactory.BCGetSystemInfoResponse(rpc)}
             case "UpdateAppList":
                 store.dispatch(updateAppList(rpc.params.applications))
-                rpc.params.applications.map((app, index) => {
+                rpc.params.applications.forEach((app) => {
+                    if (app.dayColorScheme || app.nightColorScheme) {
+                        store.dispatch(updateColorScheme(
+                            app.appID,
+                            app.dayColorScheme ? app.dayColorScheme : null,
+                            app.nightColorScheme ? app.nightColorScheme : null
+                        ));
+                    }
                     store.dispatch(setAppIsConnected(app.appID))
                 });
                 return true
@@ -35,7 +38,6 @@ class BCController {
                 store.dispatch(deactivateApp(rpc.params.appID))
                 return true
             case "OnAppRegistered":
-                store.dispatch(registerApplication(rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
                     store.dispatch(updateColorScheme(
                         rpc.params.application.appID,
@@ -43,8 +45,14 @@ class BCController {
                         rpc.params.application.nightColorScheme ? rpc.params.application.nightColorScheme : null
                     ));
                 }
-                var template = rpc.params.application.isMediaApplication ? "MEDIA" : "NON-MEDIA";
-                this.listener.send(RpcFactory.OnSystemCapabilityDisplay(template, rpc.params.application.appID));
+                if (rpc.params.application.appType.includes("WEB_VIEW")) {
+                    store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
+                } else {
+                    var templates = rpc.params.application.isMediaApplication ? ["media","MEDIA"] : ["nonmedia","NON-MEDIA"];
+                    store.dispatch(registerApplication(rpc.params.application.appID, templates[0]));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templates[1], rpc.params.application.appID));
+                }
                 return null
             case "OnAppUnregistered":
                 store.dispatch(deactivateApp(rpc.params.appID))
@@ -79,7 +87,7 @@ class BCController {
                         fileName: rpc.params.fileName
                       })
                 } else {
-                    if (rpc.params.requestType != "PROPRIETARY") {
+                    if (rpc.params.requestType !== "PROPRIETARY") {
                         // Generic HMI can only process PROPRIETARY System Requests
                         return true
                     }
@@ -90,15 +98,17 @@ class BCController {
             case "GetSystemTime":
                 this.listener.send(RpcFactory.GetSystemTime(rpc.id))
                 return null
+            default:
+                return false;
         }
     }
     handleRPCResponse(rpc) {
         let methodName = rpc.result.method.split(".")[1]
         switch (methodName) {
             case "SetAppProperties":
-                let success = (rpc.result.code == 0)
+                let success = (rpc.result.code === 0)
                 let appsPendingSetAppProperties = store.getState().appStore.appsPendingSetAppProperties;
-                if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length == 0) {
+                if (!appsPendingSetAppProperties || appsPendingSetAppProperties.length === 0) {
                     console.error("SetAppProperties Response: no apps in pending queue");
                     return;
                 }
@@ -126,14 +136,17 @@ class BCController {
                 }
                 return;
             case "GetAppProperties":
-                if (rpc.result.code != 0 ||  !rpc.result.properties) {
+                if (rpc.result.code !== 0 ||  !rpc.result.properties) {
                     console.error('Failed to GetAppProperties');
                     return;
                 }
-                rpc.result.properties.map((app_properties)=>{
+                rpc.result.properties.map((app_properties) => {
                     store.dispatch(updateInstalledAppStoreApps(app_properties))
+                    return true;
                 });
 
+                return;
+            default:
                 return;
             /*case "ActivateApp":
                 store.dispatch(activateApp(activatingApplication))
@@ -146,6 +159,9 @@ class BCController {
     }
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())
+    }
+    onExitApplication(reason, appID) {
+        this.listener.send(RpcFactory.OnExitApplicationNotification(reason, appID))
     }
     onExitAllApplications(reason) {
         this.listener.send(RpcFactory.OnExitAllApplicationsNotification(reason))

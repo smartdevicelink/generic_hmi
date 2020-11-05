@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
                 activeServices[type].manifest = manifest.navigationServiceManifest
             } else if (type === "MEDIA") {
                 activeServices[type].manifest = manifest.mediaServiceManifest
-            } else if (type == "WEATHER") {
+            } else if (type === "WEATHER") {
                 activeServices[type].manifest = manifest.weatherServiceManifest
             }
 

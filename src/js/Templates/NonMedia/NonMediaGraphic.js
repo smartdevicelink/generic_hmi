@@ -3,10 +3,6 @@ import StaticIcon from '../Shared/StaticIcon'
 import Image from '../Shared/Image'
 
 export default class NonMediaGraphic extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     fillColor() {
         var fillColor = null;
         if (this.props.theme) {

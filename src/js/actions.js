@@ -41,7 +41,9 @@ export const Actions = {
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
-    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL"
+    APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
+    WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE",
+    SET_DD_STATE: "SET_DD_STATE"
 }
 
 export const updateAppList = (applications) => {
@@ -130,11 +132,12 @@ export const subscribeButton = (appID, buttonName, isSubscribed) => {
     }
 }
 
-export const activateSubMenu = (appID, menuID) => {
+export const activateSubMenu = (appID, menuID, depth) => {
     return {
         type: Actions.ACTIVATE_SUB_MENU,
         menuID: menuID,
-        appID: appID
+        appID: appID,
+        depth: depth
     }
 }
 
@@ -221,11 +224,11 @@ export const setTemplateConfiguration = (displayLayout, appID, dayColorScheme, n
     }
 }
 
-export const registerApplication = (appID, isMediaApplication) => {
+export const registerApplication = (appID, displayLayout) => {
   return {
       type: Actions.REGISTER_APPLICATION,
       appID: appID,
-      isMediaApplication: isMediaApplication
+      displayLayout: displayLayout
   }
 }
 
@@ -237,7 +240,7 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
-export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon, cancelID) => {
+export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon, cancelID, isSubtle=false) => {
     return {
         type: Actions.ALERT,
         appID: appID,
@@ -248,7 +251,8 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         showProgressIndicator: progressIndicator,
         msgID: msgID,
         icon: icon,
-        cancelID: cancelID
+        cancelID: cancelID,
+        isSubtle: isSubtle
     }
 }
 
@@ -334,11 +338,12 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
-export const setGlobalProperties = (appID, menuLayout) => {
+export const setGlobalProperties = (appID, menuLayout, menuIcon) => {
     return {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
-        menuLayout: menuLayout
+        menuLayout: menuLayout,
+        menuIcon: menuIcon
     }
 }
 
@@ -397,5 +402,26 @@ export const appStoreBeginInstall = (policyAppID) => {
     return {
         type: Actions.APPSTORE_BEGIN_INSTALL,
         policyAppID: policyAppID
+    }
+}
+
+export const appStoreWebViewActive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: true
+    }
+}
+
+export const appStoreWebViewInactive = () => {
+    return {
+        type: Actions.WEB_VIEW_ACTIVE,
+        active: false
+    }
+}
+
+export const setDDState = (ddState) => {
+    return {
+        type: Actions.SET_DD_STATE,
+        dd: ddState
     }
 }

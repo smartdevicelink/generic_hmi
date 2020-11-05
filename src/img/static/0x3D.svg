@@ -5,11 +5,11 @@
 <style type="text/css">
 	.st0_3D{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<path class="st0_3D" d="M14,15c0,6.1,4.9,11,11,11s11-4.9,11-11"/>
-<line class="st0_3D" x1="10" y1="15" x2="40" y2="15"/>
-<line class="st0_3D" x1="25" y1="29" x2="25" y2="35"/>
-<line class="st0_3D" x1="18" y1="27" x2="15" y2="32.3"/>
-<line class="st0_3D" x1="13" y1="22" x2="7.7" y2="25"/>
-<line class="st0_3D" x1="42.3" y1="25" x2="37" y2="22"/>
-<line class="st0_3D" x1="35" y1="32.3" x2="32" y2="27"/>
+<path class="st0_3D svg-stroke" d="M14,15c0,6.1,4.9,11,11,11s11-4.9,11-11"/>
+<line class="st0_3D svg-stroke" x1="10" y1="15" x2="40" y2="15"/>
+<line class="st0_3D svg-stroke" x1="25" y1="29" x2="25" y2="35"/>
+<line class="st0_3D svg-stroke" x1="18" y1="27" x2="15" y2="32.3"/>
+<line class="st0_3D svg-stroke" x1="13" y1="22" x2="7.7" y2="25"/>
+<line class="st0_3D svg-stroke" x1="42.3" y1="25" x2="37" y2="22"/>
+<line class="st0_3D svg-stroke" x1="35" y1="32.3" x2="32" y2="27"/>
 </svg>

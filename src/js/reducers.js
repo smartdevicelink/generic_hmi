@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Actions } from './actions';
 import './polyfill_find'
+import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
 
 function newAppState () {
@@ -13,7 +14,9 @@ function newAppState () {
         menu: [],
         triggerShowAppMenu: false,
         activeSubMenu: null,
+        activeMenuDepth: 0,
         menuLayout: "LIST",
+        menuIcon: null,
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -32,6 +35,7 @@ function newAppState () {
         displayLayout:  null,
         alert: {
             showAlert: false,
+            isSubtle: false,
             alertStrings: [],
             duration: null,
             softButtons: [],
@@ -48,7 +52,15 @@ function theme(state = true, action) {
     switch (action.type) {
         case Actions.SET_THEME:
             return action.theme
-            break
+        default:
+            return state
+    }
+}
+
+function ddState(state = false, action) {
+    switch (action.type) {
+        case Actions.SET_DD_STATE:
+            return action.dd
         default:
             return state
     }
@@ -162,7 +174,7 @@ function parseActionBearing(action, bearing) {
 function parseNavDistance (distance) {
     var gt0 = distance > 0;
     var parsedDistance = distance.toFixed(1);
-    if (gt0 && parsedDistance == 0) {
+    if (gt0 && parsedDistance === 0) {
         return "<0.1"
     }
     if (parsedDistance > 0 && parsedDistance < 10) {
@@ -246,7 +258,7 @@ function activeApp(state = null, action) {
         case Actions.ACTIVATE_APP:
             return action.activeApp
         case Actions.DEACTIVATE_APP:
-            return action.appID == state ? null : state;
+            return action.appID === state ? null : state;
         default:
             return state
     }
@@ -273,14 +285,33 @@ function deleteCommand(commands, cmdID) {
     }
     return commands
 }
+
+function deleteSubMenu(commands, menuID) {
+    for (var i = 0; i < commands.length; i++) {
+        if (commands[i].menuID === menuID) {
+            commands.splice(i, 1)
+            return commands
+        }
+        else if (commands[i].subMenu) {
+            commands[i].subMenu = deleteSubMenu(commands[i].subMenu, menuID)
+        }
+    }
+    return commands
+}
+
 function ui(state = {}, action) {
+    var newState = { ...state }
+    var app = newState[action.appID] ? newState[action.appID] : newAppState();
+    newState[action.appID] = app;
+    var menu = app.menu;
+    var menuItem = null;
+    var result = null;
+    var i = 0;
+    app.refreshImage = null;
     switch (action.type) {
-        case Actions.SHOW:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
+        case Actions.SHOW:           
             if (action.showStrings && action.showStrings.length > 0) {
-                for (var i=0; i < action.showStrings.length; i++) {
+                for (i=0; i < action.showStrings.length; i++) {
                     var fieldName = action.showStrings[i].fieldName
                     var fieldText = action.showStrings[i].fieldText
                     app.showStrings[fieldName] = fieldText
@@ -297,20 +328,14 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SET_APP_ICON:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.icon = action.icon
+            app.refreshImage = action.icon
             return newState
         case Actions.ADD_COMMAND:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
-            var menuItem = {
+            menuItem = {
                 cmdID: cmdID,
                 parentID: menuParams.parentID,
                 position: menuParams.position,
@@ -318,12 +343,17 @@ function ui(state = {}, action) {
                 cmdIcon: cmdIcon
             }
             if (menuParams.parentID) {
-                var subMenu = menu.find((command) => {
+                /*var subMenu = menu.find((command) => {
                     return command.menuID === menuParams.parentID
-                });
+                });*/
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
                 (menuParams.position || menuParams.position === 0) ? 
-                    subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
-                    subMenu.subMenu.push(menuItem);
+                    result.subMenu.subMenu.splice(menuParams.position, 0, menuItem) : 
+                    result.subMenu.subMenu.push(menuItem);
             } else {
                 (menuParams.position || menuParams.position === 0) ? 
                     menu.splice(menuParams.position, 0, menuItem) : 
@@ -331,18 +361,11 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.DELETE_COMMAND:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            app.menu = deleteCommand(app.menu, action.cmdID)
+            menu = deleteCommand(menu, action.cmdID)
             return newState
         case Actions.ADD_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
             var position = action.menuParams.position
-            var menuItem = {
+            menuItem = {
                 menuID: action.menuID,
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
@@ -351,50 +374,48 @@ function ui(state = {}, action) {
                 subMenu: [],
                 menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
-            (position || position === 0) ? 
-                menu.splice(position, 0, menuItem) : 
-                menu.push(menuItem);
+
+            if (menuItem.parentID) {
+                result = SubmenuDeepFind(menu, menuItem.parentID, 0);
+                if (!result) {
+                    return newState
+                }
+                menuItem.menuDepth = result.depth;
+                (position || position === 0) ? 
+                result.subMenu.subMenu.splice(position, 0, menuItem) : 
+                result.subMenu.subMenu.push(menuItem);
+            } else {
+                (position || position === 0) ? 
+                    menu.splice(position, 0, menuItem) : 
+                    menu.push(menuItem);
+            }
             return newState
         case Actions.DELETE_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
-            var menu = app.menu
-            var i = menu.findIndex((command) => {
-                return command.menuID === action.menuID
-            })
-            menu.splice(i, 1)
+            app.menu = deleteSubMenu(menu, action.menuID);
             return newState
         case Actions.SHOW_APP_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.triggerShowAppMenu = true
             // If action has menuID, activate submenu otherwise deactivate sub menu
             app.activeSubMenu = (action.menuID) ? action.menuID : null;
-            newState[action.appID] = app
+            var searchResult = SubmenuDeepFind(app.menu, action.menuID, 0)
+            if (searchResult) {
+                // Menu depth is incremented by one since the submenu is being shown.
+                app.activeMenuDepth = searchResult.depth + 1;
+            }            
             return newState
         case Actions.SUBSCRIBE_BUTTON:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             var buttons = app.subscribedButtons
             buttons[action.buttonName] = action.isSubscribed
             return newState
         case Actions.ACTIVATE_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.activeSubMenu = action.menuID
+            app.activeMenuDepth += action.depth
             return newState
         case Actions.DEACTIVATE_SUB_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            newState[action.appID] = app
             app.activeSubMenu = null
+            app.activeMenuDepth = 0
             return newState
         case Actions.PERFORM_INTERACTION:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isPerformingInteraction = true
             app.interactionText = action.text
             app.choices = action.choices
@@ -403,15 +424,11 @@ function ui(state = {}, action) {
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isPerformingInteraction = false
             app.interactionText = ""
             app.choices = []
             return newState
         case Actions.SET_MEDIA_CLOCK_TIMER:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             if (action.startTime) {
                 app.startTime = action.startTime
             }
@@ -420,14 +437,14 @@ function ui(state = {}, action) {
             }
 
             if (action.updateMode === "COUNTUP") {
-                if (action.updateMode != app.countDirection) {
+                if (action.updateMode !== app.countDirection) {
                     app.endTime = action.endTime ? action.endTime : null
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "COUNTDOWN") {
-                if (action.updateMode != app.countDirection) {
+                if (action.updateMode !== app.countDirection) {
                     app.endTime = action.endTime ? action.endTime : null
                 }
                 app.countDirection = action.updateMode
@@ -458,8 +475,6 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
-            var newState = {...state}
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             switch(action.displayLayout) {
                 case "DEFAULT":
                     app.displayLayout = "media"
@@ -469,6 +484,9 @@ function ui(state = {}, action) {
                     break
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
+                    break
+                case "WEB_VIEW":
+                    app.displayLayout = "web-view"
                     break
                 case "LARGE_GRAPHIC_ONLY":
                     app.displayLayout = "large-graphic-only"
@@ -506,28 +524,19 @@ function ui(state = {}, action) {
 
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
-            }            
+            }          
             return newState
         case Actions.REGISTER_APPLICATION:
-            var newState = { ...state }         
-            if (!newState[action.appID]) {
-              newState[action.appID] = newAppState()
-            }
-            var app = newState[action.appID]
-            if (app.displayLayout == null) {
-              app.displayLayout = action.isMediaApplication ? "media" : "nonmedia"
-            }
+            app.displayLayout = action.displayLayout;
             return newState
         case Actions.UNREGISTER_APPLICATION:
-            var newState = { ...state }
             if (newState[action.appID]) {
                 delete newState[action.appID]
             }
             return newState
         case Actions.ALERT:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.alert.showAlert = true
+            app.alert.isSubtle = action.isSubtle
             app.alert.alertStrings = action.alertStrings
             app.alert.duration = action.duration
             app.alert.softButtons = action.softButtons
@@ -538,10 +547,9 @@ function ui(state = {}, action) {
             app.alert.cancelID = action.cancelID
             return newState
         case Actions.CLOSE_ALERT:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.alert =  {
                 showAlert: false,
+                isSubtle: false,
                 alertStrings: [],
                 duration: null,
                 softButtons: [],
@@ -551,8 +559,6 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.UPDATE_COLOR_SCHEME:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             if (action.dayColorScheme) {
                 app.dayColorScheme = action.dayColorScheme
             }
@@ -562,27 +568,22 @@ function ui(state = {}, action) {
             }
             return newState   
         case Actions.SET_APP_IS_CONNECTED:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             app.isDisconnected = false
             return newState
         case Actions.ON_PUT_FILE:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
+            app.refreshImage = action.fileName
             return newState
         case Actions.RESET_SHOW_APP_MENU:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
-            app.triggerShowAppMenu = false
-            newState[action.appID] = app        
+            app.triggerShowAppMenu = false     
             return newState
         case Actions.SET_GLOBAL_PROPERTIES:
-            var newState = { ...state }
-            var app = newState[action.appID] ? newState[action.appID] : newAppState()
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
             }
-            newState[action.appID] = app
+            if (action.menuIcon) {
+                app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
+                app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
+            }
             return newState
         default:
             return state
@@ -590,19 +591,17 @@ function ui(state = {}, action) {
 }
 
 function system(state = {}, action) {
+    var newState = { ...state }
     switch(action.type) {
-        case Actions.POLICY_UPDATE:
-            var newState = { ...state }
+        case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry
             newState.policyTimeout = action.timeout
             return newState
         case Actions.SET_URLS:
-            var newState = { ...state }
             newState.urls = action.urls
             return newState
         case Actions.SET_PTU_WITH_MODEM:
-            var newState ={ ...state }
             newState.ptuWithModemEnabled = action.enabled
             return newState
         default:
@@ -613,17 +612,17 @@ function system(state = {}, action) {
 
 function appStore(state = {
     isConnected: false,
+    webViewActive: false,
     availableApps: [],
     installedApps: [],
     appsPendingSetAppProperties: []
 }, action) {
+    var newState = { ...state };
     switch (action.type) {
         case Actions.UPDATE_APPSTORE_CONNECTION_STATUS:
-            var newState = { ...state };
             newState.isConnected = action.isConnected
             return newState;
         case Actions.UPDATE_AVAILABLE_APPSTORE_APPS:
-            var newState = { ...state };
             newState.availableApps = action.availableApps;
             newState.installedApps = state.installedApps.map((app) => {
                 var appDirEntry = action.availableApps.find(x => x.policyAppID === app.policyAppID);
@@ -631,9 +630,7 @@ function appStore(state = {
             });
             return newState;
         case Actions.UPDATE_INSTALLED_APPSTORE_APPS:
-            var newState = { ...state };
-
-            let existingApp = newState.installedApps.find(app => app.policyAppID == action.installedApp.policyAppID)
+            let existingApp = newState.installedApps.find(app => app.policyAppID === action.installedApp.policyAppID)
 
             if (!existingApp) {
                 let appDirEntry = newState.availableApps.find(x => x.policyAppID === action.installedApp.policyAppID);
@@ -642,44 +639,38 @@ function appStore(state = {
                 );
                 return newState;
             }
-            // Update the existing app's properties
             existingApp = Object.assign(existingApp, action.installedApp);
             return newState;
         case Actions.ADD_APP_PENDING_SET_APP_PROPERTIES:
-            var newState = { ...state };
             newState.appsPendingSetAppProperties.push({ app: action.app, enable: action.enable});
             return newState;
         case Actions.APPSTORE_APP_INSTALLED:
-            var newState = { ...state };
-            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
-            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
+            var pendingAppInstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
-            var newInstalled = [ pendingApp ].concat(newState.installedApps);
+            var newInstalled = [ pendingAppInstall ].concat(newState.installedApps);
             newState.installedApps = newInstalled;
-            var appStoreApp = newState.availableApps.find(app => app.policyAppID == pendingApp.policyAppID);
-            if (appStoreApp) { appStoreApp.pendingInstall = false; }
+            var appStoreAppInstalled = newState.availableApps.find(app => app.policyAppID === pendingAppInstall.policyAppID);
+            if (appStoreAppInstalled) { appStoreAppInstalled.pendingInstall = false; }
             return newState;
         case Actions.APPSTORE_APP_UNINSTALLED:
-            var newState = { ...state };
-            // @shobhit, should we add a length check here like we did in SetAppProperties RPC?
-            var pendingApp = newState.appsPendingSetAppProperties.shift()['app'];
+            let pendingAppUninstall = newState.appsPendingSetAppProperties.shift()['app'];
             if (!action.success) { return newState; }
-            newState.installedApps = state.installedApps.filter(app => app.policyAppID != pendingApp.policyAppID);
+            newState.installedApps = state.installedApps.filter(app => app.policyAppID !== pendingAppUninstall.policyAppID);
             return newState;
         case Actions.WEBENGINE_APP_LAUNCH:
-            var newState = { ...state };
             var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
             launchedApp.runningAppId = action.appID;
             return newState;
         case Actions.UNREGISTER_APPLICATION:
-            var newState = { ...state };
-            var launchedApp = newState.installedApps.find(x => x.runningAppId === action.appID);
-            if (launchedApp) { launchedApp.runningAppId = 0; }
+            var unregisteredApp = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (unregisteredApp) { unregisteredApp.runningAppId = 0; }
             return newState;
         case Actions.APPSTORE_BEGIN_INSTALL:
-            var newState = { ...state };
-            var appStoreApp = newState.availableApps.find(app => app.policyAppID == action.policyAppID);
-            if (appStoreApp) { appStoreApp.pendingInstall = true; }
+            let appStoreAppToInstall = newState.availableApps.find(app => app.policyAppID === action.policyAppID);
+            if (appStoreAppToInstall) { appStoreAppToInstall.pendingInstall = true; }
+            return newState;
+        case Actions.WEB_VIEW_ACTIVE:
+            newState.webViewActive = action.active;
             return newState;
         default:
             return state;
@@ -688,6 +679,7 @@ function appStore(state = {
 
 export const hmi = combineReducers({
     theme,
+    ddState,
     appList,
     appServiceData,
     activeApp,

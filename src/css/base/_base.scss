@@ -45,7 +45,7 @@ body {
     }    
 }
 
-.toggle-ptu-with-modem-button{
+.toggle-ptu-with-modem-button {
     margin-top: 22px;
     margin-left: 20px;
     width: 210px;
@@ -55,7 +55,29 @@ body {
     float: left;
     input{
         margin-right: 10px;
-    }  
+    }
+}
+
+.driver-distraction-button {
+    margin-top: 22px;
+    margin-left: 20px;
+    width: 210px;
+    border-radius: 2px;
+    padding: 10px 0;
+    float: left;
+    input{
+        margin-right: 10px;
+    }
+}
+
+.webengine-app-container {
+    iframe {
+        position: absolute;
+        width: $master-width;
+        height: calc(#{$master-height} - 75px);
+        top: 75px;
+        left: 0px;
+    }
 }
 
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
