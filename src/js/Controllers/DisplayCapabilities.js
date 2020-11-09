@@ -155,6 +155,7 @@ let capabilities = {
 				textField("mainField3"),
 				textField("statusBar"),
 				textField("mediaClock"),
+				textField("mediaTrack"),
 				textField("templateTitle", 50),
 				textField("alertText1"),
 				textField("alertText2"),
