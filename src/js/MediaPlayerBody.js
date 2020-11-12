@@ -4,10 +4,6 @@ import AlbumArt from './AlbumArt';
 import MediaTrackInfo from './containers/MediaTrackInfo_c'
 
 export default class MediaPlayerBody extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     getColorScheme() {
         if (this.props.colorScheme) {
             var redInt = this.props.colorScheme.red;

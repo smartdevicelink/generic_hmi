@@ -36,6 +36,64 @@ class RpcFactory {
             }            
         })
     }
+    static InvalidIDResponse(rpc, message) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 13,
+                "message": message,
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }            
+    static InvalidImageResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": 21,
+                "message": "Requested image(s) not found.",
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }
+    static SubtleAlertResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 0,
+                "method": "UI.SubtleAlert"
+            }
+        })
+    }
+    static SubtleAlertErrorResponse(rpcID, code, info) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": code,
+                "message": info,
+                "data": {
+                    "method": "UI.SubtleAlert"
+                }
+            }
+        })
+    }
+    static OnSubtleAlertPressed(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnSubtleAlertPressed",
+            "params": {
+                "appID": appID
+            }
+        })
+    }
     static AlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -69,6 +127,7 @@ class RpcFactory {
                 "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
+                "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
                 "hmiZoneCapabilities": capabilities["COMMON"].hmiZoneCapabilities,
                 "softButtonCapabilities": capabilities["MEDIA"].softButtonCapabilities,
                 "hmiCapabilities": capabilities["COMMON"].hmiCapabilities,
@@ -87,7 +146,18 @@ class RpcFactory {
                 "prerecordedSpeechCapabilities": capabilities["COMMON"].prerecordedSpeechCapabilities,
             }
         })
-    }        
+    }
+    static VRGetCapabilitiesResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "method": rpc.method,
+                "code": 0,
+                'vrCapabilities': ['TEXT']
+            }
+        })
+    }
     static activateAppResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
@@ -99,6 +169,53 @@ class RpcFactory {
                 "isAppRevoked": false,
                 "isPermissionsConsentNeeded": false,
                 "isSDLAllowed": true
+            }
+        })
+    }
+    static UIShowResponse(rpc) {
+        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+        const templateConfiguration = rpc.params.templateConfiguration;
+        const templateParamExists = templateConfiguration && templateConfiguration.template;
+
+        if (!templateParamExists || supportedTemplates.includes(templateConfiguration.template)) {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "result": {
+                    "code": 0,
+                    "method": rpc.method
+                }
+            })
+        }
+
+        // Calculated bool value if request only tried to set an unsupported template
+        const unsupportedRequest = Object.keys(rpc.params).length === 3 //appID, showStrings, templateConfiguration 
+            && rpc.params.showStrings.length === 0
+            && Object.keys(templateConfiguration).length === 1; // Template config does not include day/night color schemes
+        
+        if (unsupportedRequest) {
+            return ({
+                "jsonrpc": "2.0",
+                "id": rpc.id,
+                "error": {
+                    "code": 1,
+                    "message": "The requested layout is not supported on this HMI",
+                    "data": {
+                        "method": rpc.method
+                    }
+                }
+            })    
+        }
+
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "data": {
+                    "method": rpc.method
+                },                    
+                "code": 21, // Warnings
+                "message" : "Unsupported Template. Remaining data in request was processed."
             }
         })
     }
@@ -151,7 +268,7 @@ class RpcFactory {
             }
         })
     }
-    static UIGetSupportedLanguagesResponse(rpc) {
+    static GetSupportedLanguagesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
@@ -162,14 +279,14 @@ class RpcFactory {
             }
         })        
     }
-    static UIGetLanguageResponse(rpc, language) {
+    static GetLanguageResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "language": language
+                "language": "EN-US"
             }
         })
     }
@@ -382,6 +499,16 @@ class RpcFactory {
             'method': 'BasicCommunication.OnIgnitionCycleOver'
         })
     }
+    static OnExitApplicationNotification(reason, appID){
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'BasicCommunication.OnExitApplication',
+            'params': {
+                'reason': reason,
+                'appID': appID
+            }
+        })
+    }
     static OnExitAllApplicationsNotification(reason){
         return ({
             'jsonrpc': '2.0',
@@ -460,13 +587,16 @@ class RpcFactory {
         }
         return (msg)         
     }
-    static OnAppPermissionConsent(consentedFunctions, externalConsentStatus) {
+    static OnAppPermissionConsent(appID, consentedFunctions, externalConsentStatus) {
         var msg = {
           'jsonrpc': '2.0',
           'method': 'SDL.OnAppPermissionConsent',
           'params': {
             'source': 'GUI'
           }
+        }
+        if(appID) {
+            msg.params.appID = appID
         }
         if(consentedFunctions) {
             msg.params.consentedFunctions = consentedFunctions
@@ -507,7 +637,7 @@ class RpcFactory {
         "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
         "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
         if (supportedTemplates.includes(layout)) {
-            if (layout == "DEFAULT") {
+            if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
             var response = {
@@ -586,6 +716,40 @@ class RpcFactory {
                 "appID": appID
             }
         })
+    }
+
+    static OnUpdateFile(appID, fileName) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateFile",
+            "params": {
+                "appID": appID,
+                "fileName": fileName
+            }
+        })
+    }
+
+    static OnUpdateSubMenu(appID, menuID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "UI.OnUpdateSubMenu",
+            "params": {
+                "appID": appID,
+                "menuID": menuID,
+                "updateSubCells": true
+            }
+        })
+    }
+
+    static CombineWithWarningsResponse(response, warningsResponse){
+        if (response.hasOwnProperty('result')) { // SUCCESS
+            return warningsResponse;
+        }
+        else if (response.error.code === 21 && warningsResponse.error.message) { // WARNINGS
+            response.error.message += ` ${warningsResponse.error.message}`;
+        }
+        // Error response
+        return response;
     }
 }
 

@@ -4,6 +4,10 @@
     @include flex-direction(column);
 }
 
+.non-media {
+    height: 0;
+}
+
 .non-media-meta-data {
     @include display(flex);
     @include flex-direction(row);

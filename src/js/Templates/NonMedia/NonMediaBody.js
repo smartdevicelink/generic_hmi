@@ -3,10 +3,6 @@ import React from 'react';
 import Graphic from './NonMediaGraphic';
 
 export default class NonMediaBody extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
 
         var textFields = [];
@@ -18,9 +14,9 @@ export default class NonMediaBody extends React.Component {
             textFields.push({text: this.props.mainField3, className: null});
         if(this.props.mainField4)
             textFields.push({text: this.props.mainField4, className: null});     
-
+        var i = 0;
         if(textFields.length > 2) {
-            for(var i=0; i<textFields.length; i++) {
+            for(i=0; i<textFields.length; i++) {
                 if(i < 2) {
                     textFields[i].className = "t-large t-light th-f-color non-media-text-4"; 
                 } else {
@@ -35,14 +31,18 @@ export default class NonMediaBody extends React.Component {
                 textFields[1].className = "t-small t-light th-f-color-secondary non-media-text-2";
             }           
         }        
-        var softButtonsDiv = "";
-        for (var i=0; i<textFields.length; i++) {
-            softButtonsDiv += '<p class="' + textFields[i].className + '"> ' + textFields[i].text + '</p>';
+        var softButtonsDiv = [];
+        for (i=0; i<textFields.length; i++) {
+            softButtonsDiv.push(
+                <p className={textFields[i].className}>{textFields[i].text}</p>
+            );
         }
         return (
             <div>
                 <div className="non-media-body">               
-                    <div className="non-media-meta-data" dangerouslySetInnerHTML={{__html: softButtonsDiv}}/>
+                    <div className="non-media-meta-data">
+                        {softButtonsDiv}
+                    </div>
                     <Graphic image={this.props.graphic} theme={this.props.theme} />
                 </div>
             </div>

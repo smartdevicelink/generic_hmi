@@ -6,7 +6,7 @@ Note: This requires you to use Ubuntu 16.04 or 18.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
-## Start the HMI
+### Build and Run the HMI
 
 Once SDL Core is running, follow these steps to set up the Generic HMI.
 
@@ -18,9 +18,30 @@ git submodule update
 ```
 Alternatively, you can clone this repository with the --recurse-submodules flag.
 
-After initializing the git submodules for this project, you can launch the Generic HMI in a web browser:
+The build directory is not included in the github repository. In order to use the generic HMI you must build the application yourself.
+
+Note: These instructions are written for Node version 12
+
+Install NVM and use node version 12
 ```
-chromium-browser index.html
+nvm use 12
+```
+
+Install dependencies (you might need to clean the `node_modules` folder):
+```
+npm install
+```
+
+
+Build the project:
+```
+npm run build
+```
+Note: This command must be run before launching the HMI in the browser.
+
+After running the build command, you can launch the Generic HMI in a web browser:
+```
+chromium-browser generic_hmi/build/index.html
 ```
 
 ### PTU with vehicle modem (optional)
@@ -35,32 +56,9 @@ In order to get policy table updates using the vehicle modem, some additional se
 
 The main third-party technologies we use to develop this HMI are React, React-Redux, and React-Router. The HMI component of SDL is responsible for processing and responding to RPCs which are received from a connected SDL Core instance.
 
-### Building the HMI
-
-Before any changes can be made to the HMI, you will first need to set up your environment to allow for building the Generic HMI.
-
-Note: These instructions are written for Node version 7.2 
-
-Install webpack:
-```
-npm install -g webpack@1.11
-```
-
-Install dependencies (you might need to clean the `node_modules` folder):
-```
-npm install
-```
-
-
-Run webpack:
-```
-webpack
-```
-Note: This command must be run before relaunching the HMI in the browser to see any changes made.
-
 ### Key Files
 
-#### entry.js
+#### src/index.js
 
 This is the main entry point for the entire application. It sets up the routes and highest level components in the React app. Once the application is loaded, it attempts to connect to an instance of SDL Core.
 
@@ -301,9 +299,50 @@ import { withRouter } from 'react-router';
 ...
     componentWillReceiveProps (nextProps) {
         if (nextProps.isDisconnected) {
-            this.props.router.push("/") // The app got disconnected so we force a change back to the menu
+            this.props.history.push("/") // The app got disconnected so we force a change back to the menu
         }
     }
 ...
 export default withRouter(AppHeader) // Hook this component up with router.
 ```
+
+## Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.

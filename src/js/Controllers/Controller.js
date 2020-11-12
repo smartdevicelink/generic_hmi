@@ -1,6 +1,3 @@
-import {flags} from '../Flags';
-let url = `ws://${flags.CoreHost}:${flags.CorePort}`
-let file_access_base_url = "";
 import bcController from './BCController';
 import uiController from './UIController';
 import vrController from './VRController';
@@ -15,6 +12,10 @@ import RpcFactory from './RpcFactory';
 import {
     timeoutPerformInteraction,
 } from '../actions'
+import {flags} from '../Flags';
+
+let url = `ws://${flags.CoreHost}:${flags.CorePort}`
+let file_access_base_url = "";
 
 export default class Controller {
     constructor (setThemeFunc) {
@@ -173,6 +174,8 @@ export default class Controller {
                     case "SDL":
                         sdlController.handleRPCError(rpc);
                         break;
+                    default:
+                        break;
                 }
             }
             
@@ -205,6 +208,8 @@ export default class Controller {
                 case "SDL":
                     sdlController.handleRPCResponse(rpc);
                     break;
+                default:
+                    break;
             }
             
             return
@@ -236,6 +241,9 @@ export default class Controller {
                 break;
             case "AppService":
                 response = appServicesController.handleRPC(rpc);
+                break;
+            default: 
+                response = false;
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
@@ -273,6 +281,8 @@ export default class Controller {
                     case "icon":
                     case "value":
                         obj[prop] = file_access_base_url + obj[prop]
+                        break;
+                    default:
                         break;
                 }
             }

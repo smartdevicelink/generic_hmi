@@ -1,11 +1,5 @@
 import React from 'react';
-import mediaIcon from "../img/app_services/media.svg";
 export default class Divider extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     render() {
         var cardCount = 0;
         var actives = [this.props.navActive, this.props.mediaActive, this.props.weatherActive];

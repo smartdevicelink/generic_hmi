@@ -1,19 +1,18 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, alert } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
 
 import {flags} from '../Flags'
 var activatingApplication = 0
+var permissionsPendingApps = {}
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
         this.handleRPCError = this.handleRPCError.bind(this)
-        var incrementedRpcId = 5012
-        var rpcAppIdMap = {}
-        
+                
         //ToDo: Add ExternalConsentStatus View
         //Sample struct used below
         /*this.externalConsentStatus = [{
@@ -22,7 +21,7 @@ class SDLController {
         {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
-        this.externalConsentStatus = [];
+        this.externalConsentStatus = null;
         store.dispatch(setPTUWithModem(flags.PTUWithModemEnabled))
     }
     addListener(listener) {
@@ -47,10 +46,25 @@ class SDLController {
         switch (methodName) {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch());
-                if(rpc.result.isPermissionsConsentNeeded) {
+                if (rpc.result.isPermissionsConsentNeeded) {
                     this.getListOfPermissions(activatingApplication)
                 }
-                if(!rpc.result.isSDLAllowed) {
+                if (rpc.result.isAppRevoked) {
+                    // NOTE: Alert text should be populated using GetUserFriendlyMessage, 
+                    // but this RPC is not implemented in the Generic HMI as of yet
+                    const app = store.getState().appList.find(x => x.appID === activatingApplication);
+                    store.dispatch(alert(activatingApplication,
+                        [
+                            {fieldName: "alertText1", fieldText: app.appName},
+                            {fieldName: "alertText2", fieldText: "is disabled by policies"}
+                        ],
+                        5000,
+                        [
+                            {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
+                        ],
+                        "BOTH")
+                    )
+                } else if (!rpc.result.isSDLAllowed) {
                     //bcController.getUserFriendlyMessages("DataConsent", "AllowSDL", activatingApplication)
                     bcController.onAllowSDLFunctionality(true, "GUI")
                 } else {
@@ -112,8 +126,12 @@ class SDLController {
                         allowedFunctions[index].allowed = true
                     }
                 }
-                this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
+                var appID = permissionsPendingApps[rpc.id];
+                this.onAppPermissionConsent(appID, allowedFunctions, this.externalConsentStatus)
+                permissionsPendingApps[rpc.id] = null;
                 return;
+            default:
+                return false;
         }
     }
     handleRPCError(rpc) {
@@ -121,6 +139,8 @@ class SDLController {
         switch (methodName) {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch())
+                return;
+            default:
                 return;
         }
     }
@@ -136,7 +156,9 @@ class SDLController {
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
     }
     getListOfPermissions(appID) {
-         this.listener.send(RpcFactory.GetListOfPermissions(appID))
+        var request = RpcFactory.GetListOfPermissions(appID);
+        permissionsPendingApps[request.id] = appID;
+        this.listener.send(request)
     }
     onAppPermissionConsent(allowedFunctions, externalConsentStatus) {
         this.listener.send(RpcFactory.OnAppPermissionConsent(allowedFunctions, externalConsentStatus))

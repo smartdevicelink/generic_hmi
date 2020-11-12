@@ -1,14 +1,9 @@
 import React from 'react';
-import mediaIcon from "../img/app_services/media.svg";
+import {ReactComponent as MediaIcon} from "../img/app_services/media.svg";
 import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
 export default class MediaServiceDataImage extends React.Component {
-
-    constructor() {
-        super();
-    }
-
     fillColor() {
         var fillColor = null;
         if (this.props.theme) {
@@ -39,8 +34,9 @@ export default class MediaServiceDataImage extends React.Component {
             }
         } else {
             return (
-                <span className="svg-size  media-color " 
-                    dangerouslySetInnerHTML={{__html: mediaIcon}} /> 
+                <span className="svg-size  media-color ">
+                    <MediaIcon/>
+                </span> 
             );
         }
     }

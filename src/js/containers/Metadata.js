@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     props.theme = state.theme
 
     if(metadata) {
-        Object.keys(metadata.showStrings).map((fieldName) => {
+        Object.keys(metadata.showStrings).forEach((fieldName) => {
             switch (fieldName) {
                 case "mainField1":
                     props.mainField1 = metadata.showStrings[fieldName]
@@ -40,6 +40,8 @@ const mapStateToProps = (state) => {
                 case "mainField4":
                     props.mainField4 = metadata.showStrings[fieldName]
                     break
+                default:
+                    break;
             }
         })
         props.graphic = metadata.graphic ? metadata.graphic : null
@@ -48,7 +50,7 @@ const mapStateToProps = (state) => {
 
     for(var app in state.ui) {
         if(state.ui[app].alert.showAlert) {
-            state.ui[app].alert.alertStrings.map((textField) => {
+            state.ui[app].alert.alertStrings.forEach((textField) => {
                 switch (textField.fieldName) {
                     case "alertText1":
                         props.alertText1 = textField.fieldText
@@ -58,6 +60,8 @@ const mapStateToProps = (state) => {
                         break
                     case "alertText3":
                         props.alertText3 = textField.fieldText
+                        break
+                    default:
                         break
                 }
             })
@@ -71,7 +75,6 @@ const mapStateToProps = (state) => {
 
     //Assign color scheme to props
     var theme = state.theme
-    var colorScheme = null;
     if (theme === true) { //Dark theme
         if(state.ui[activeApp].nightColorScheme) {
             if(state.ui[activeApp].nightColorScheme.backgroundColor) {

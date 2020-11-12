@@ -1,11 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default class AppMenuLink extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>
@@ -13,7 +9,7 @@ export default class AppMenuLink extends React.Component {
                     to={this.props.backLink}
                     href=""
                     className="t-small t-medium th-f-color t-ls1"
-                    onClick={() => this.props.onSelection(this.props.appID)}>
+                    onClick={() => this.props.onSelection(this.props.appID, this.props.backLink, this.props.parentID)}>
                     {this.props.menuName}
                 </Link>
             </div>

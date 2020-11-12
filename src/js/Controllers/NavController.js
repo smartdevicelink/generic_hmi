@@ -9,20 +9,21 @@ class NavController {
     }
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
+        var message = "";
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, false)}
             case "StartStream":
-                var message = "This system does not support video streaming."
+                message = "This system does not support video streaming."
                 return {"rpc": RpcFactory.UnsupportedResourceResponse(rpc, message)};
             case "StartAudioStream":
-                var message = "This system does not support audio streaming."
+                message = "This system does not support audio streaming."
                 return {"rpc": RpcFactory.UnsupportedResourceResponse(rpc, message)};
             case "SetVideoConfig":
-                var message = "This system does not support video streaming."
+                message = "This system does not support video streaming."
                 return {"rpc": RpcFactory.UnsupportedResourceResponse(rpc, message)};
             default:
-                var message = "This RPC is not supported."
+                message = "This RPC is not supported."
                 return {"rpc": RpcFactory.UnsupportedResourceResponse(rpc, message)};
         }
     }

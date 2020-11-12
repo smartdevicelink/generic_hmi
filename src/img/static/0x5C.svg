@@ -8,9 +8,9 @@
 <g>
 	<g>
 		<g>
-			<circle class="st0_5C" cx="25" cy="18" r="10"/>
+			<circle class="st0_5C svg-stroke" cx="25" cy="18" r="10"/>
 		</g>
 	</g>
 </g>
-<path class="st0_5C" d="M10,43c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15"/>
+<path class="st0_5C svg-stroke" d="M10,43c0-8.3,6.7-15,15-15c8.3,0,15,6.7,15,15"/>
 </svg>

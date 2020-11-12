@@ -16,15 +16,9 @@ import DoubleGraphicWithSoftbuttons from './Templates/DoubleGraphicWithSoftbutto
 import HMIMenu from './HMIMenu';
 import InAppMenu from './InAppMenu';
 import InAppList from './InAppList';
-import AppStore from './AppStore';
-import AppStoreMenu from './AppStoreMenu';
-import WebEngineAppContainer from './WebEngineAppContainer'
 import Alert from './Alert'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux'
-import { flags } from './Flags'
-
 import { Router, Route, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
@@ -32,18 +26,19 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import Controller from './Controllers/Controller'
-import FileSystemController from './Controllers/FileSystemController';
 import bcController from './Controllers/BCController'
-import {setTheme, setPTUWithModem, updateAppStoreConnectionStatus, updateInstalledAppStoreApps} from './actions'
+import {setTheme, setDDState} from './actions'
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dark: true
+            dark: true,
+            dd: false // Driver Distraction State
         }
         this.handleClick = this.handleClick.bind(this);
         this.sdl = new Controller(this.handleClick)
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
+        this.handleDDToggle = this.handleDDToggle.bind(this);
     }
     handleClick(newState) {
         var theme = newState
@@ -54,8 +49,10 @@ class HMIApp extends React.Component {
         bcController.onIgnitionCycleOver()
         bcController.onExitAllApplications("IGNITION_OFF")
     }
-    togglePTUWithModem(){
-        store.dispatch(setPTUWithModem(!this.props.ptuWithModemEnabled))
+    handleDDToggle(){
+        var ddState = !this.state.dd;
+        this.setState({dd: ddState});
+        store.dispatch(setDDState(ddState));
     }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
@@ -77,34 +74,6 @@ class HMIApp extends React.Component {
     }
     componentDidMount() {
         this.sdl.connectToSDL()
-
-        FileSystemController.connect(flags.FileSystemApiUrl).then(() => {
-            console.log('Connected to FileSystemController');
-            store.dispatch(updateAppStoreConnectionStatus(true));
-            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-
-            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                if (!success || !params.apps) {
-                    console.error('error encountered when retrieving installed apps');
-                    return;
-                }
-
-                params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) =>{
-                        let appEntry = Object.assign(app, {
-                            entrypoint: manifest.entrypoint,
-                            version: manifest.appVersion
-                        });
-                        store.dispatch(updateInstalledAppStoreApps(appEntry));
-                        bcController.getAppProperties(app.policyAppID);
-                    });
-                });
-            });
-    
-            FileSystemController.sendJSONMessage({
-                method: 'GetInstalledApps', params: {}
-            });
-        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {
         // this.sdl.disconnectFromSDL()
@@ -140,8 +109,6 @@ ReactDOM.render((
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
-            <Route path="/appstore" component={AppStore} />
-            <Route path="/appstoremenu" component={AppStoreMenu} />
         </Router>
     </HMIApp>
     </Provider>
