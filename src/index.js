@@ -77,18 +77,6 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div> 
-                    <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
-                    <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
-                    <div className="toggle-ptu-with-modem-button" >
-                        <input type="checkbox" onClick={this.togglePTUWithModem} checked={this.props.ptuWithModemEnabled}/>
-                        <label>PTU using in-vehicle modem</label>
-                    </div>
-                    <div className="driver-distraction-button" >
-                        <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
-                        <label>Driver Distraction</label>
-                    </div>
-                </div>
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${window.flags.CoreHost}&sdl-port=${window.flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
