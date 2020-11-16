@@ -29,7 +29,7 @@ export default class Controller {
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
-        this.socket = new WebSocket(`ws://${window.flags.CoreHost}:${window.flags.CorePort}`)
+        this.socket = new WebSocket(`${window.flags.CoreProtocol}://${window.flags.CoreHost}:${window.flags.CorePort}`)
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)

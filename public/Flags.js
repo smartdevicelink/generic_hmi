@@ -6,6 +6,7 @@ window.flags = {
     FileSystemApiUrl: 'ws://127.0.0.1:8081',
     CoreHost: '127.0.0.1',
     CorePort: 8087,
+    CoreProtocol: 'ws',
     CoreWebEngineAppPort: 2020,
     AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json'
 };
