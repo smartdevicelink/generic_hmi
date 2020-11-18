@@ -73,6 +73,10 @@ class FileSystemController extends SimpleRPCClient {
         }, timeout);
 
         let ptu_saved_callback = (success, params) => {
+          console.log("result");
+          console.log(success);
+          console.log(params);
+          
           clearTimeout(ptu_save_timer);
           that.unsubscribeFromEvent('SavePTUToFile')
           
