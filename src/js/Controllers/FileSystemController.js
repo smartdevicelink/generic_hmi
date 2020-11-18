@@ -113,6 +113,9 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     requestPTUFromEndpoint(pts_file_name, url){
+      console.log("generic HMI requesting endpoint");
+      console.log(pts_file_name, url);
+
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
