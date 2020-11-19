@@ -75,6 +75,10 @@ class FileSystemController extends SimpleRPCClient {
         let ptu_saved_callback = (success, params) => {
           clearTimeout(ptu_save_timer);
           that.unsubscribeFromEvent('SavePTUToFile')
+
+          console.log("what happened?");
+          console.log(success);
+          console.log(params);
           
           if(!success){
             console.error('PTU: PTU save was not successful')
@@ -127,7 +131,7 @@ class FileSystemController extends SimpleRPCClient {
             let ptu_file_name = that.generatePTUFilePath()
             console.log("whats this?");
             console.log(ptu_file_name);
-            
+
             that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
               resolve(ptu_file_name)
             })
