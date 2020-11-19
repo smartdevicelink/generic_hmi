@@ -37,6 +37,7 @@ export default class MediaPlayerBody extends React.Component {
                         <p className="t-small t-medium th-f-color">{this.props.mainField3}</p>
                         <p className="t-large t-light th-f-color">{this.props.mainField1}</p>
                         <p className="t-large t-light th-f-color-secondary">{this.props.mainField2}</p>
+                        <p className="t-small t-light th-f-color-secondary">{this.props.mediaTrack}</p>
                     </div>
                     <MediaTrackInfo />
                 </div>
