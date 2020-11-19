@@ -73,10 +73,6 @@ class FileSystemController extends SimpleRPCClient {
         }, timeout);
 
         let ptu_saved_callback = (success, params) => {
-          console.log("result");
-          console.log(success);
-          console.log(params);
-          
           clearTimeout(ptu_save_timer);
           that.unsubscribeFromEvent('SavePTUToFile')
           
@@ -117,10 +113,6 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     requestPTUFromEndpoint(pts_file_name, url){
-      console.log("generic HMI requesting endpoint");
-      console.log(pts_file_name, url);
-      pts_file_name = "/usr/web/policy/ptu.json";
-
       var that = this;
       return new Promise((resolve, reject) => {
         let ptu_failed_callback = function(){
