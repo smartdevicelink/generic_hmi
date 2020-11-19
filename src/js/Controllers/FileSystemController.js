@@ -51,6 +51,10 @@ class FileSystemController extends SimpleRPCClient {
         xhr.onload = () => {
           // Received PTU response from endpoint
           const ptu_content = JSON.stringify(JSON.parse(xhr.response).data[0])
+
+          console.log("did we get data???");
+          console.log(ptu_content)
+
           resolve(ptu_content);
         };
         xhr.onerror = (err) => {
