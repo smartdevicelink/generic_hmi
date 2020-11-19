@@ -51,10 +51,6 @@ class FileSystemController extends SimpleRPCClient {
         xhr.onload = () => {
           // Received PTU response from endpoint
           const ptu_content = JSON.stringify(JSON.parse(xhr.response).data[0])
-
-          console.log("did we get data???");
-          console.log(ptu_content)
-
           resolve(ptu_content);
         };
         xhr.onerror = (err) => {
@@ -129,6 +125,9 @@ class FileSystemController extends SimpleRPCClient {
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
+            console.log("whats this?");
+            console.log(ptu_file_name);
+            
             that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
               resolve(ptu_file_name)
             })
