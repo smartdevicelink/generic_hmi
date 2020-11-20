@@ -104,7 +104,10 @@ class SDLController {
 
                     var that = this;
                     if(FileSystemController.isConnected()){
-                        FileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
+                        // /usr/web/python/tools
+                        console.log("SAVE HERE");
+                        console.log("/usr/web/python/tools" + state.system.policyFile);
+                        FileSystemController.requestPTUFromEndpoint("/usr/web/python/tools" + state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
                             that.onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
                     }
