@@ -110,7 +110,7 @@ class FileSystemController extends SimpleRPCClient {
       let current_date = new Date();
       let timestamp = `${current_date.getFullYear()}${current_date.getMonth()+1}${current_date.getDate()}_` +
       `${current_date.getHours()}${current_date.getMinutes()}${current_date.getSeconds()}`
-
+      path = "/usr/web/policy";
       return `${path}/PTU_${timestamp}.json`
     }
 
@@ -127,7 +127,7 @@ class FileSystemController extends SimpleRPCClient {
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
-            that.savePTUToFile("." + ptu_file_name, ptu_content, 10000).then(() => {
+            that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
               resolve(ptu_file_name)
             })
           }, ptu_failed_callback)
