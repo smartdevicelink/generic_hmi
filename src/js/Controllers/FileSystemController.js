@@ -110,7 +110,6 @@ class FileSystemController extends SimpleRPCClient {
       `${current_date.getHours()}${current_date.getMinutes()}${current_date.getSeconds()}`
 
       path = '';
-      console.log("PATH GENERATED: ", `${path}/PTU_${timestamp}.json`)
       return `${path}/PTU_${timestamp}.json`
     }
 
@@ -123,9 +122,7 @@ class FileSystemController extends SimpleRPCClient {
           //Return to regular PT flow
           reject()
         };
-        console.log("FILE NAME ORIGINAL");
-        console.log(pts_file_name);
-        that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
+        that.downloadPTSFromFile('/usr/web/policy/ptu.json', 10000).then((pts_content) => {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
             that.savePTUToFile("." + ptu_file_name, ptu_content, 10000).then(() => {
