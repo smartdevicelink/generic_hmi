@@ -7,7 +7,8 @@ var flags = {
     CoreHost: '127.0.0.1',
     CorePort: 8087,
     CoreWebEngineAppPort: 2020,
-    AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json'
+    AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json',
+    PTUPath: null
 };
 
 export {flags};

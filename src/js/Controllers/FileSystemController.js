@@ -1,4 +1,5 @@
 import SimpleRPCClient from '../SimpleRPCClient'
+import { flags } from '../Flags'
 
 class FileSystemController extends SimpleRPCClient {
     connect(url) {
@@ -99,7 +100,8 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     generatePTUFilePath(){
-      let path = document.location.pathname;
+
+      let path =  flags.PTUPath ? flags.PTUPath : document.location.pathname;
       let index = path.lastIndexOf('/');
       if (index >= 0) {
         path = path.slice(0, index);
