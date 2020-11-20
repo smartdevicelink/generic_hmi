@@ -123,7 +123,8 @@ class FileSystemController extends SimpleRPCClient {
           //Return to regular PT flow
           reject()
         };
-
+        console.log("FILE NAME ORIGINAL");
+        console.log(pts_file_name);
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
