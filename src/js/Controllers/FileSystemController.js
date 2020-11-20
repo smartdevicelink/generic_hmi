@@ -20,6 +20,8 @@ class FileSystemController extends SimpleRPCClient {
         }, timeout);
 
         let pts_received_callback = function(success, params){
+          console.log("RESULT: ", success, params);
+
           clearTimeout(pts_receive_timer)
           that.unsubscribeFromEvent('GetPTSFileContent')
           if(!success){
