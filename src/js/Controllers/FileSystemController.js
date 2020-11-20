@@ -66,6 +66,8 @@ class FileSystemController extends SimpleRPCClient {
     savePTUToFile(file_name, ptu_data, timeout){
       var that = this;
       return new Promise((resolve, reject) => {
+        return resolve();
+
         let ptu_save_timer = setTimeout(() => {
           console.error('PTU: Timeout for saving PTU expired')
           that.unsubscribeFromEvent('SavePTUToFile')
@@ -75,10 +77,6 @@ class FileSystemController extends SimpleRPCClient {
         let ptu_saved_callback = (success, params) => {
           clearTimeout(ptu_save_timer);
           that.unsubscribeFromEvent('SavePTUToFile')
-
-          console.log("what happened?");
-          console.log(success);
-          console.log(params);
           
           if(!success){
             console.error('PTU: PTU save was not successful')
