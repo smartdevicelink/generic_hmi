@@ -99,7 +99,7 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     generatePTUFilePath(){
-      let path =  window.flags.PTUPath ? window.flags.PTUPath : document.location.pathname;
+      let path = document.location.pathname;
       let index = path.lastIndexOf('/');
       if (index >= 0) {
         path = path.slice(0, index);
@@ -125,7 +125,7 @@ class FileSystemController extends SimpleRPCClient {
         that.downloadPTSFromFile(pts_file_name, 10000).then((pts_content) => {
           that.sendPTSToEndpoint(url, pts_content).then((ptu_content) => {
             let ptu_file_name = that.generatePTUFilePath()
-            that.savePTUToFile(ptu_file_name, ptu_content, 10000).then(() => {
+            that.savePTUToFile("." + ptu_file_name, ptu_content, 10000).then(() => {
               resolve(ptu_file_name)
             })
           }, ptu_failed_callback)
