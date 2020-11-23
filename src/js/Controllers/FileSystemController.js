@@ -109,6 +109,7 @@ class FileSystemController extends SimpleRPCClient {
       let timestamp = `${current_date.getFullYear()}${current_date.getMonth()+1}${current_date.getDate()}_` +
       `${current_date.getHours()}${current_date.getMinutes()}${current_date.getSeconds()}`
 
+      path = "/usr/web/python/tools";
       return `${path}/PTU_${timestamp}.json`
     }
 
