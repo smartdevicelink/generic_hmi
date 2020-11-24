@@ -65,19 +65,13 @@ class Image extends React.Component {
 
                 ctx.clearRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
 
-                var x, y;
-
-                if (this.canvasStyle.x && this.canvasStyle.y) {
-                    x = this.canvasStyle.x;
-                    y = this.canvasStyle.y;
-                } else {
-                    x = (canvas.width / 2) - (scaledDimensions.width / 2);
-                    y = (canvas.height / 2) - (scaledDimensions.height / 2);
-                    this.canvasStyle.x = x;
-                    this.canvasStyle.y = y;
+                if (!this.canvasStyle.x || !this.canvasStyle.y) {
+                    this.canvasStyle.x = (canvas.width / 2) - (scaledDimensions.width / 2);
+                    this.canvasStyle.y = (canvas.height / 2) - (scaledDimensions.height / 2);
+                }
                 }
 
-                ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
+                ctx.drawImage(img, this.canvasStyle.x, this.canvasStyle.y, scaledDimensions.width, scaledDimensions.height);
 
                 ctx.globalCompositeOperation = "source-atop";
                 ctx.globalAlpha = 1.0;
