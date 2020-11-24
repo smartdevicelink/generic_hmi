@@ -69,7 +69,6 @@ class Image extends React.Component {
                     this.canvasStyle.x = (canvas.width / 2) - (scaledDimensions.width / 2);
                     this.canvasStyle.y = (canvas.height / 2) - (scaledDimensions.height / 2);
                 }
-                }
 
                 ctx.drawImage(img, this.canvasStyle.x, this.canvasStyle.y, scaledDimensions.width, scaledDimensions.height);
 
