@@ -7,6 +7,13 @@ class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = {error: false, refreshed: false};
+        this.canvasStyle = {
+            height: null,
+            width: null,
+            scaledDimensions: null,
+            x: null,
+            y: null
+        };
     }
 
     scaleImage(ogDimension, parentDimension) {
@@ -30,28 +37,45 @@ class Image extends React.Component {
             const canvas = this.refs.canvas
             const ctx = canvas.getContext("2d")
             const img = this.refs.image
-            canvas.width = canvasContainer.clientWidth
-            canvas.height = canvasContainer.clientHeight
+
+            if (this.canvasStyle.height && this.canvasStyle.width) {
+                canvas.width = this.canvasStyle.width
+                canvas.height = this.canvasStyle.height
+            } else {
+                canvas.width = canvasContainer.clientWidth
+                canvas.height = canvasContainer.clientHeight
+                this.canvasStyle.width = canvasContainer.clientWidth
+                this.canvasStyle.height = canvasContainer.clientHeight
+            }
+
             img.onload = () => {
-                var scaledDimensions = this.scaleImage({
-                        "width": img.width,
-                        "height": img.height
-                    }, {
-                        "width": canvas.width,
-                        "height": canvas.height
-                    }
-                );
+                var scaledDimensions;
+                if (this.canvasStyle.scaledDimensions) {
+                    scaledDimensions = this.canvasStyle.scaledDimensions
+                } else {
+                    scaledDimensions= this.scaleImage({
+                            "width": img.width,
+                            "height": img.height
+                        }, {
+                            "width": this.canvasStyle.width,
+                            "height": this.canvasStyle.height
+                        }
+                    );
+                }
 
-                ctx.clearRect(0, 0, canvasContainer.clientWidth, canvasContainer.clientHeight);
+                ctx.clearRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
 
-                var x = (canvas.width / 2) - (scaledDimensions.width / 2);
-                var y = (canvas.height / 2) - (scaledDimensions.height / 2);
-                ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
+                if (!this.canvasStyle.x || !this.canvasStyle.y) {
+                    this.canvasStyle.x = (canvas.width / 2) - (scaledDimensions.width / 2);
+                    this.canvasStyle.y = (canvas.height / 2) - (scaledDimensions.height / 2);
+                }
+
+                ctx.drawImage(img, this.canvasStyle.x, this.canvasStyle.y, scaledDimensions.width, scaledDimensions.height);
 
                 ctx.globalCompositeOperation = "source-atop";
                 ctx.globalAlpha = 1.0;
                 ctx.fillStyle = fillColor;
-                ctx.fillRect(0, 0, canvasContainer.clientWidth, canvasContainer.clientHeight);
+                ctx.fillRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
 
                 ctx.globalCompositeOperation = "source-over";
                 ctx.globalAlpha = 1.0;
@@ -67,6 +91,30 @@ class Image extends React.Component {
 
     componentDidUpdate(){
         this.drawImage();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // Check if any props changed
+        if (this.props.fillColor != nextProps.fillColor) {
+            return true;
+        }
+        if (this.props.image != nextProps.image) {
+            return true;
+        }
+        if (this.props.isTemplate != nextProps.isTemplate) {
+            return true;
+        }
+        if (this.props.class != nextProps.class) {
+            return true;
+        }
+
+        // Check if next image is to be refreshed
+        if (nextProps.refreshImage == nextProps.image) {
+            return true;
+        }
+        
+        // No updates required
+        return false;
     }
 
     onError(event) {
@@ -96,10 +144,19 @@ class Image extends React.Component {
         if(this.props.image && !this.state.error) {
             if(this.props.isTemplate) {
                 var hidden = {display:'none'};
-                var size = {
-                    height: "100%",
-                    width: "100%"
+                var size;
+                if (this.canvasStyle.height && this.canvasStyle.width) {
+                    size = {
+                        height: this.canvasStyle.height,
+                        width: this.canvasStyle.width
+                    }
+                } else {
+                    size = {
+                        height: "100%",
+                        width: "100%"
+                    }
                 }
+
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
