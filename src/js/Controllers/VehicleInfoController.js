@@ -7,8 +7,6 @@ class VehicleInfoController {
                 return {rpc: RpcFactory.IsReadyResponse(rpc, true)}
             case "GetVehicleType":
                 return {rpc: RpcFactory.GetVehicleType(rpc)}
-            default:
-                return false;
         }
     }
 }
