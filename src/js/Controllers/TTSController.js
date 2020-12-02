@@ -120,8 +120,6 @@ class TTSController {
                 }
                 
                 return true;
-            default:
-                return false;
         }
     }
 }

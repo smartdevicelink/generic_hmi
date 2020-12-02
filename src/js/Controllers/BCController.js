@@ -97,8 +97,6 @@ class BCController {
             case "GetSystemTime":
                 this.listener.send(RpcFactory.GetSystemTime(rpc.id))
                 return null
-            default:
-                return false;
         }
     }
     handleRPCResponse(rpc) {

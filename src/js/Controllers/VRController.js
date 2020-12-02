@@ -19,8 +19,6 @@ class VRController {
                 return true
             case "PerformInteraction":
                 return undefined
-            default: 
-                return false
         }
     }
 }

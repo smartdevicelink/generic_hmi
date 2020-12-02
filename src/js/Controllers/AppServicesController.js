@@ -16,8 +16,6 @@ class AppServicesController {
             case "OnAppServiceData":
                 store.dispatch(onAppServiceData(rpc.params.serviceData))
                 return null;
-            default:
-                return false;
         }
     }
 }

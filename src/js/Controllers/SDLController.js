@@ -129,8 +129,6 @@ class SDLController {
                 this.onAppPermissionConsent(appID, allowedFunctions, this.externalConsentStatus)
                 permissionsPendingApps[rpc.id] = null;
                 return;
-            default:
-                return false;
         }
     }
     handleRPCError(rpc) {
