@@ -240,9 +240,6 @@ export default class Controller {
             case "AppService":
                 response = appServicesController.handleRPC(rpc);
                 break;
-            default: 
-                response = false;
-                break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail
         if (response === null) {
