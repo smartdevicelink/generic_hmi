@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
     var link =  state.ui[activeApp].displayLayout
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepthLimit = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth - 1;
-    if (app.isPerformingInteraction) {
+    if (app.isPerformingInteraction && app.choices) {
         var piData = app.choices.map((choice, index) => {
             var hidden = false;
             if (ddState === true && index >= menuLength) { 

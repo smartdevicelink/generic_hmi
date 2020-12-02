@@ -183,6 +183,9 @@ class UIController {
                 ))
                 return null
             case "PerformInteraction":
+                if (!rpc.params.choiceSet) {
+                    return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
+                }
                 store.dispatch(performInteraction(
                     rpc.params.appID,
                     rpc.params.initialText,
@@ -198,12 +201,11 @@ class UIController {
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
 
                 let performInteractionImages = [];
-                if (rpc.params.choiceSet) {
-                    rpc.params.choiceSet.forEach (choice => {
-                        if (choice.image) { performInteractionImages.push(choice.image); }
-                        if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
-                    });
-                }
+                rpc.params.choiceSet.forEach (choice => {
+                    if (choice.image) { performInteractionImages.push(choice.image); }
+                    if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
+                });
+                
                 AddImageValidationRequest(rpc.id, performInteractionImages);
 
                 break

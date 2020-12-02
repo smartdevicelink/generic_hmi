@@ -23,6 +23,19 @@ class RpcFactory {
         }
         return msg;
     }
+    static ErrorResponse(rpc, code, info) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "error": {
+                "code": code,
+                "message": info,
+                "data": {
+                    "method": rpc.method
+                }
+            }
+        })
+    }
     static UnsupportedResourceResponse(rpc, message) {
         return ({
             "jsonrpc": "2.0",
