@@ -115,6 +115,8 @@ export default class Controller {
         this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "BasicCommunication";
         this.send(JSON.parse(JSON.stringify(JSONMessage)));
+        JSONMessage.params.componentName = "RC";
+        this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "Buttons";
         this.send(JSON.parse(JSON.stringify(JSONMessage)));
         JSONMessage.params.componentName = "VR";
