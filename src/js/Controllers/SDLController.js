@@ -104,6 +104,10 @@ class SDLController {
 
                     var that = this;
                     if(FileSystemController.isConnected()){
+                        console.log("Requesting from endpoint:")
+                        console.log(urls)
+                        console.log(state.system.urls[0]['url'])
+                        
                         FileSystemController.requestPTUFromEndpoint(state.system.policyFile, state.system.urls[0]['url']).then((policyFile) => {
                             that.onReceivedPolicyUpdate(policyFile);
                         }, switch_to_regular_ptu_flow);
