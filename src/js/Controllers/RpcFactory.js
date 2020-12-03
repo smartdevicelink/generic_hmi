@@ -232,7 +232,7 @@ class RpcFactory {
             }
         })
     }
-    static UIPerformInteractionAbortedResponse(msgID) {
+    static UIPerformInteractionCancelledResponse(msgID) {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,
@@ -392,7 +392,7 @@ class RpcFactory {
             }
         })
     }
-    static UIPerformInteractionFailure (msgID) {
+    static UIPerformInteractionAborted (msgID) {
         return ({
             "jsonrpc": "2.0",
             "id": msgID,

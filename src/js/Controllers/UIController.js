@@ -341,7 +341,7 @@ class UIController {
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
                     clearTimeout(this.timers[app.interactionId])
                     delete this.timers[app.interactionId]
-                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
+                    this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     this.onSystemContext("MAIN", rpc.params.appID)
                     return true
@@ -535,7 +535,7 @@ class UIController {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
             RemoveImageValidationResult(msgID)
-            this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
+            this.listener.send(RpcFactory.UIPerformInteractionAborted(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
                 this.appsWithTimers[msgID]
