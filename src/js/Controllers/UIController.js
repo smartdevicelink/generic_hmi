@@ -371,7 +371,6 @@ class UIController {
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
-        console.log("interaction timeout")
         const state = store.getState()
         var activeApp = state.activeApp
         var app = state.ui[activeApp]
@@ -561,13 +560,10 @@ class UIController {
     }
 
     onResetInteractionTimeout(appID, msgID) {
-        console.log("reset interaction id: ", msgID)
-        console.log("app id: ", appID)
         clearTimeout(this.timers[msgID])
         const state = store.getState()
         const app = state.ui[appID]
         var timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
-        console.log("new timeout: ", timeout)
         this.endTimes[msgID] = Date.now() + timeout;
         this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
         this.appsWithTimers[msgID] = appID
