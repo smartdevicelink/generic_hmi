@@ -183,7 +183,7 @@ export const deactivateInteraction = (appID) => {
     }
 }
 
-export const performInteraction = (appID, text, choices, layout, msgID, cancelID) => {
+export const performInteraction = (appID, text, choices, layout, msgID, cancelID, timeout) => {
     return {
         type: Actions.PERFORM_INTERACTION,
         appID: appID,
@@ -191,7 +191,8 @@ export const performInteraction = (appID, text, choices, layout, msgID, cancelID
         choices: choices,
         layout: layout,
         msgID: msgID,
-        cancelID: cancelID
+        cancelID: cancelID,
+        timeout: timeout
     }
 }
 
@@ -338,12 +339,13 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
-export const setGlobalProperties = (appID, menuLayout, menuIcon) => {
+export const setGlobalProperties = (appID, menuLayout, menuIcon, keyboardProperties) => {
     return {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
         menuLayout: menuLayout,
-        menuIcon: menuIcon
+        menuIcon: menuIcon,
+        keyboardProperties
     }
 }
 

@@ -22,7 +22,8 @@ import InAppMenu from './js/InAppMenu';
 import InAppList from './js/InAppList';
 import AppStore from './js/AppStore';
 import AppStoreMenu from './js/AppStoreMenu';
-import WebEngineAppContainer from './js/WebEngineAppContainer'
+import WebEngineAppContainer from './js/WebEngineAppContainer';
+import Keyboard from './js/Keyboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
@@ -198,6 +199,7 @@ ReactDOM.render((
             <Route path="/inapplist" component={InAppList} />
             <Route path="/appstore" component={AppStore} />
             <Route path="/appstoremenu" component={AppStoreMenu} />
+            <Route path="/keyboard" component={Keyboard} />
         </HashRouter>
     </HMIApp>
     </Provider>

@@ -17,6 +17,7 @@ function newAppState () {
         activeMenuDepth: 0,
         menuLayout: "LIST",
         menuIcon: null,
+        keyboardProperties: {},
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -421,6 +422,8 @@ function ui(state = {}, action) {
             app.choices = action.choices
             app.interactionId = action.msgID
             app.interactionCancelId = action.cancelID
+            app.interactionLayout = action.layout
+            app.interactionTimeout = action.timeout
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -583,6 +586,9 @@ function ui(state = {}, action) {
             if (action.menuIcon) {
                 app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
                 app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
+            }
+            if (action.keyboardProperties) {
+                app.keyboardProperties = action.keyboardProperties
             }
             return newState
         default:

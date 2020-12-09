@@ -223,7 +223,7 @@ export default class Controller {
                 response = appServicesController.handleRPC(rpc);
                 break;
             default: 
-                response = false;
+                response = null;
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail

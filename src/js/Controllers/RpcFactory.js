@@ -233,15 +233,18 @@ class RpcFactory {
         })
     }
     static UIPerformInteractionResponse(choiceID, appID, msgID) {
-        return ({
+        var msg = {
             "jsonrpc": "2.0",
             "id": msgID,
             "result": {
                 "method": "UI.PerformInteraction",
-                "code": 0,
-                "choiceID": choiceID
+                "code": 0
             }
-        })
+        }
+        if (choiceID) { //Keyboard PI does not have a choice id response
+            msg.result["choiceID"] = choiceID;
+        }
+        return msg
     }
     static VRPerformInteractionResponse(choiceID, appID, msgID) {
         return ({
@@ -733,6 +736,17 @@ class RpcFactory {
         }
         // Error response
         return response;
+    }
+
+    static OnKeyboardInput (value, event) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnKeyboardInput',
+            'params': {
+              'data': value,
+              'event': event
+            }
+        })
     }
 }
 
