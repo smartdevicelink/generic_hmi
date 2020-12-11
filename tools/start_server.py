@@ -43,6 +43,7 @@ import socketserver
 from http.server import SimpleHTTPRequestHandler
 import threading
 import argparse
+import re
 
 class Flags():
   """Used to define global properties"""
@@ -104,7 +105,7 @@ class WebengineFileServer():
           return
 
         # Get path relative to current working directory
-        app_dir_path = app_dir_mapping[key].lstrip(os.path.commonpath([app_dir_mapping[key], os.getcwd()]))
+        app_dir_path = re.sub('^' + os.path.commonpath([app_dir_mapping[key], os.getcwd()]), '', app_dir_mapping[key])
 
         # Check if requested path is a directory
         if os.path.isdir(os.path.join(os.getcwd(), app_dir_path, file_path)):
