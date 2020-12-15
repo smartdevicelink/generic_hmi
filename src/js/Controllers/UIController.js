@@ -376,7 +376,7 @@ class UIController {
         var app = state.ui[activeApp]
         var interactionId = app ? app.interactionId : null
         var interactionLayout = app ? app.interactionLayout : null
-        if (msgID === interactionId && interactionLayout === "KEYBOARD") {
+        if (msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
             this.onKeyboardInput("", "ENTRY_ABORTED")
         }
 
@@ -548,7 +548,7 @@ class UIController {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
             RemoveImageValidationResult(msgID)
-            if (msgID === interactionId && app.interactionLayout === "KEYBOARD") {
+            if (msgID === interactionId.toString() && app.interactionLayout === "KEYBOARD") {
                 this.onKeyboardInput("", "ENTRY_CANCELLED")
             }
             this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
