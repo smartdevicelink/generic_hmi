@@ -477,12 +477,12 @@ class UIController {
             this.onSystemContext("MENU")//Viewing App List
         }
     }
-    onChoiceSelection(choiceID, appID, msgID) {
+    onChoiceSelection(choiceID, appID, msgID, manualTextEntry) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
 
         let imageValidationSuccess = RemoveImageValidationResult(msgID)
-        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
+        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID, manualTextEntry)
         if(!imageValidationSuccess){
             rpc.result.code = 21; // WARNINGS
         }

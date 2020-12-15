@@ -35,7 +35,7 @@ export default class Keyboard extends Component {
     } else if (button === "{enter}")  {
       uiController.onKeyboardInput(this.state.input, 'ENTRY_SUBMITTED');
       uiController.onSystemContext("MAIN", this.appID)
-      uiController.onChoiceSelection(null, this.appID, this.interactionId)
+      uiController.onChoiceSelection(null, this.appID, this.interactionId, this.state.input)
       store.dispatch(deactivateInteraction(this.appID))
     } else if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
       if (button === "{bksp}") {

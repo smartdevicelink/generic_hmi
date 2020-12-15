@@ -232,7 +232,7 @@ class RpcFactory {
             }
         })
     }
-    static UIPerformInteractionResponse(choiceID, appID, msgID) {
+    static UIPerformInteractionResponse(choiceID, appID, msgID, manualTextEntry) {
         var msg = {
             "jsonrpc": "2.0",
             "id": msgID,
@@ -243,6 +243,9 @@ class RpcFactory {
         }
         if (choiceID) { //Keyboard PI does not have a choice id response
             msg.result["choiceID"] = choiceID;
+        }
+        if (manualTextEntry) {
+            msg.result["manualTextEntry"] = manualTextEntry;
         }
         return msg
     }
