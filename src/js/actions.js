@@ -345,7 +345,7 @@ export const setGlobalProperties = (appID, menuLayout, menuIcon, keyboardPropert
         appID: appID,
         menuLayout: menuLayout,
         menuIcon: menuIcon,
-        keyboardProperties
+        keyboardProperties: keyboardProperties
     }
 }
 
