@@ -47,7 +47,7 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 2) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-2 btn-type-${softButton.type} th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>
@@ -60,7 +60,7 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 3) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-3 btn-type-${softButton.type} th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>
@@ -73,7 +73,7 @@ export default class AlertButtons extends React.Component {
             })            
         } else if (softButtons.length === 4) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-4 btn-type-${softButton.type} th-f-color t-small t-light th-bg-color th-soft-buttons`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>

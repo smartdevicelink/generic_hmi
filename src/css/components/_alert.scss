@@ -131,6 +131,10 @@
     @include justify-content(center);
 }
 
+.btn-type-BOTH .soft-button-image {
+    max-width: 50%;
+}
+
 .alert-button-3 {
     //height: 123.333333334px;
     height: 75px;
