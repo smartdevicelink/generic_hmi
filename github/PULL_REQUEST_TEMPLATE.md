@@ -6,7 +6,6 @@ Fixes #[issue number]
 
 ### Testing Plan
 - [ ] I have verified that I have not introduced new warnings in this PR (or explain why below)
-- [ ] I have run the unit tests with this PR
 - [ ] I have tested this PR against Core and verified behavior (if applicable, if not applicable, explain why below).
 
 #### Unit Tests
