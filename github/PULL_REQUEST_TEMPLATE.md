@@ -4,9 +4,6 @@ Delete the above section when you've read it.]
 
 Fixes #[issue number]
 
-### Risk
-This PR makes **[no / minor / major]** API changes.
-
 ### Testing Plan
 - [ ] I have verified that I have not introduced new warnings in this PR (or explain why below)
 - [ ] I have run the unit tests with this PR
