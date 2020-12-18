@@ -18,7 +18,7 @@
 * Browser and Version:[What browser is being used including its version are you using when the bug occurred]
 * RPC Sent: [Exact RPC you were sending when you saw this issue]
 * Output Received: [What response did you receive from the RPC sent]
-* Generic HMI Version: [What version of the library has this bug been seen on]
+* Generic HMI Version: [What version of the HMI has this bug been seen on]
 * Testing Against: [What you tested with to observe this behavior]
 
 ##### Test Case, Sample Code, and / or Example App
