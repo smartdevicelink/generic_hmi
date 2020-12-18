@@ -26,8 +26,3 @@ We use <a href="http://nvie.com/posts/a-successful-git-branching-model/">Gitflow
 ### Contributor's License Agreement (CLA)
 
 In order to accept Pull Requests from contributors, you must first sign [the Contributor's License Agreement](https://docs.google.com/forms/d/1VNR8EUd5b46cQ7uNbCq1fJmnu0askNpUp5dudLKRGpU/viewform). If you need to make a change to information that you entered, [please contact us](mailto:theresa@livio.io).
-
-### Repository Specific Guidelines
-
-* Please follow all the guidelines defined in the [Architecture & Contribution Guidelines](../GUIDELINES.md)
-
