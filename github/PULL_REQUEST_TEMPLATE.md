@@ -8,9 +8,6 @@ Fixes #[issue number]
 - [ ] I have verified that I have not introduced new warnings in this PR (or explain why below)
 - [ ] I have tested this PR against Core and verified behavior (if applicable, if not applicable, explain why below).
 
-#### Unit Tests
-[Describe the unit tests and behaviors added in this PR]
-
 #### Core Tests
 [List of tests performed against Core and behaviors verified]
 
