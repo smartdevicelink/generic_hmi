@@ -15,7 +15,7 @@ Fixes #[issue number]
 [List of tests performed against Core and behaviors verified]
 
 Core version / branch / commit hash / module tested against: [INSERT]
-HMI name / version / branch / commit hash / module tested against: [INSERT]
+Proxy+Test App name / version / branch / commit hash / module tested against: [INSERT]
 
 ### Summary
 [Summary of PR changes]
