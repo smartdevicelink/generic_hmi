@@ -1,3 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="75" height="54" viewBox="0 0 75 54">
-  <path fill="#000000" fill-rule="evenodd" d="M656,936 L656,990 L692,963 L656,936 Z M617,936 L617,990 L653,963 L617,936 Z" transform="matrix(-1 0 0 1 692 -936)"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 54" width="75" height="54" xml:space="preserve">
+<style type="text/css">
+	.st0_07{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+</style>
+<path class="st0_07 svg-stroke" d="
+M25.2,37.8
+c-5.8-6.3-5.6-16,0.5-22.1
+c6.2-6.2,16.4-6.2,22.6,0
+s6.2,16.4,0,22.6"/>
+<polyline class="st0_07 svg-stroke" points="19,36 25.2,37.8 27,32 "/>
 </svg>

@@ -31,10 +31,11 @@ const mapStateToProps = (state) => {
         })
     }
     if (subscribedButtons.SEEKLEFT === true) {
+        let icon = (app.backSeekIndicator.type === "TIME") ? "iconSeekLeft" : "iconSkipLeft"
         buttons.push({
             class: "secondary",
             name: "SEEKLEFT",
-            icon: "iconSeekLeft"
+            icon: icon
         })
     }
     if (subscribedButtons.OK === true || subscribedButtons.PLAY_PAUSE === true) {
@@ -118,10 +119,11 @@ const mapStateToProps = (state) => {
         }
     }
     if (subscribedButtons.SEEKRIGHT === true) {
+        let icon = (app.forwardSeekIndicator.type === "TIME") ? "iconSeekRight" : "iconSkipRight"
         buttons.push({
             class: "secondary",
             name: "SEEKRIGHT",
-            icon: "iconSeekRight"
+            icon: icon
         })
     }
     if (softButtons.length > 1) {

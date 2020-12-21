@@ -4,6 +4,8 @@ import Image from './Templates/Shared/Image'
 
 import {ReactComponent as IconSeekLeft} from '../img/icons/icon-seek-left.svg';
 import {ReactComponent as IconSeekRight} from '../img/icons/icon-seek-right.svg';
+import {ReactComponent as IconSkipLeft} from '../img/icons/icon-skip-left.svg';
+import {ReactComponent as IconSkipRight} from '../img/icons/icon-skip-right.svg';
 import {ReactComponent as IconPlay} from '../img/icons/icon-play.svg';
 import {ReactComponent as IconPause} from '../img/icons/icon-pause.svg';
 import {ReactComponent as IconPlayPause} from '../img/icons/icon-play-pause.svg';
@@ -22,6 +24,10 @@ export default class ControlBar extends React.Component {
 
     getIcon(icon) {
         switch(icon) {
+            case "iconSkipLeft":
+                return <IconSkipLeft/>
+            case "iconSkipRight":
+                return <IconSkipRight/>
             case "iconSeekLeft":
                 return <IconSeekLeft/>
             case "iconSeekRight":

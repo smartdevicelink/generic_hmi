@@ -31,6 +31,8 @@ function newAppState () {
         countDirection: "COUNTUP",
         updateTime: new Date().getTime(),
         pauseTime: null,
+        forwardSeekIndicator: {type: "TRACK", seekTime: null},
+        backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -473,6 +475,20 @@ function ui(state = {}, action) {
             if (action.updateMode !== "PAUSE") {
                 app.pauseTime = null
             }
+            app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null}
+            app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null}
+
+            console.log("backSeekIndicator:", action.backSeekIndicator);
+            console.log("forwardSeekIndicator:", action.forwardSeekIndicator);
+
+
+            if (app.forwardSeekIndicator.type != app.backSeekIndicator.type) {
+                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
+                app.backSeekIndicator = {type: "TRACK", seekTime: null}
+            }
+
+
+            console.log(newState);
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
