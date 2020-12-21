@@ -477,18 +477,10 @@ function ui(state = {}, action) {
             }
             app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null}
             app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null}
-
-            console.log("backSeekIndicator:", action.backSeekIndicator);
-            console.log("forwardSeekIndicator:", action.forwardSeekIndicator);
-
-
             if (app.forwardSeekIndicator.type != app.backSeekIndicator.type) {
                 app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
                 app.backSeekIndicator = {type: "TRACK", seekTime: null}
             }
-
-
-            console.log(newState);
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
