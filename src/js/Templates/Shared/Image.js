@@ -7,12 +7,20 @@ class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = {error: false, refreshed: false};
-        this.canvasStyle = {
+        this.customCanvasStyle = {
             height: null,
             width: null,
             scaledDimensions: null,
             x: null,
             y: null
+        };
+        this.canvasDimensions = {
+            height: null,
+            width: null
+        };
+        this.initialCanvasDimensions = {
+            height: null,
+            width: null
         };
     }
 
@@ -23,7 +31,7 @@ class Image extends React.Component {
         }
         var widthRatio = parentDimension.width / ogDimension.width
         var heightRatio = parentDimension.height / ogDimension.height
-        var minScale = Math.min(widthRatio , heightRatio)
+        var minScale = Math.min(widthRatio, heightRatio)
         scaledDimensions.width = ogDimension.width * minScale
         scaledDimensions.height = ogDimension.height * minScale
 
@@ -37,45 +45,58 @@ class Image extends React.Component {
             const canvas = this.refs.canvas
             const ctx = canvas.getContext("2d")
             const img = this.refs.image
-
-            if (this.canvasStyle.height && this.canvasStyle.width) {
-                canvas.width = this.canvasStyle.width
-                canvas.height = this.canvasStyle.height
-            } else {
-                canvas.width = canvasContainer.clientWidth
-                canvas.height = canvasContainer.clientHeight
-                this.canvasStyle.width = canvasContainer.clientWidth
-                this.canvasStyle.height = canvasContainer.clientHeight
+            if (!this.initialCanvasDimensions.height || !this.initialCanvasDimensions.width) {
+                this.initialCanvasDimensions.width = canvasContainer.clientWidth
+                this.initialCanvasDimensions.height = canvasContainer.clientHeight
             }
 
+            canvas.width = this.initialCanvasDimensions.width
+            canvas.height = this.initialCanvasDimensions.height
+            if (this.customCanvasStyle.width && this.customCanvasStyle.height) {
+                this.canvasDimensions.width = this.customCanvasStyle.width
+                this.canvasDimensions.height = this.customCanvasStyle.height
+            }
+            else {
+                this.canvasDimensions.width = this.initialCanvasDimensions.width
+                this.canvasDimensions.height = this.initialCanvasDimensions.height
+            }
             img.onload = () => {
                 var scaledDimensions;
-                if (this.canvasStyle.scaledDimensions) {
-                    scaledDimensions = this.canvasStyle.scaledDimensions
+                if (this.customCanvasStyle.scaledDimensions) {
+                    scaledDimensions = this.customCanvasStyle.scaledDimensions
                 } else {
-                    scaledDimensions= this.scaleImage({
+                    scaledDimensions = this.scaleImage({
                             "width": img.width,
                             "height": img.height
                         }, {
-                            "width": this.canvasStyle.width,
-                            "height": this.canvasStyle.height
+                            "width": this.canvasDimensions.width,
+                            "height": this.canvasDimensions.height
                         }
                     );
                 }
+                canvas.width = scaledDimensions.width
+                canvas.height = scaledDimensions.height
+                this.canvasDimensions.width = scaledDimensions.width
+                this.canvasDimensions.height = scaledDimensions.height
 
-                ctx.clearRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                if (!this.canvasStyle.x || !this.canvasStyle.y) {
-                    this.canvasStyle.x = (canvas.width / 2) - (scaledDimensions.width / 2);
-                    this.canvasStyle.y = (canvas.height / 2) - (scaledDimensions.height / 2);
+                var x, y;
+                if (this.customCanvasStyle.x && this.customCanvasStyle.y) {
+                    x = this.customCanvasStyle.x;
+                    y = this.customCanvasStyle.y;
+                }
+                else {
+                    x = (canvas.width / 2) - (scaledDimensions.width / 2);
+                    y = (canvas.height / 2) - (scaledDimensions.height / 2);
                 }
 
-                ctx.drawImage(img, this.canvasStyle.x, this.canvasStyle.y, scaledDimensions.width, scaledDimensions.height);
+                ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
 
                 ctx.globalCompositeOperation = "source-atop";
                 ctx.globalAlpha = 1.0;
                 ctx.fillStyle = fillColor;
-                ctx.fillRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.globalCompositeOperation = "source-over";
                 ctx.globalAlpha = 1.0;
@@ -142,13 +163,13 @@ class Image extends React.Component {
 
     render() {
         if(this.props.image && !this.state.error) {
-            if(this.props.isTemplate) {
+            if (this.props.isTemplate) {
                 var hidden = {display:'none'};
                 var size;
-                if (this.canvasStyle.height && this.canvasStyle.width) {
+                if (this.customCanvasStyle.height && this.customCanvasStyle.width) {
                     size = {
-                        height: this.canvasStyle.height,
-                        width: this.canvasStyle.width
+                        height: this.customCanvasStyle.height,
+                        width: this.customCanvasStyle.width
                     }
                 } else {
                     size = {
