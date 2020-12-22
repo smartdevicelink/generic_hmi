@@ -81,7 +81,7 @@ class Image extends React.Component {
                 ctx.globalAlpha = 1.0;
             }
             //Refresh image to trigger onload
-            img.src = this.props.image;
+            img.src = this.props.image + "?m=" + new Date().getTime();
         }
     }
 
@@ -163,7 +163,7 @@ class Image extends React.Component {
                         <img 
                             ref="image" 
                             style={hidden} 
-                            src={this.props.image} 
+                            src={this.props.image + "?m=" + new Date().getTime()} 
                             alt="SDL_Image" 
                             onError={e => this.onError(e)} 
                         />
