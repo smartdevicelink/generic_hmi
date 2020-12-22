@@ -95,21 +95,21 @@ class Image extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         // Check if any props changed
-        if (this.props.fillColor != nextProps.fillColor) {
+        if (this.props.fillColor !== nextProps.fillColor) {
             return true;
         }
-        if (this.props.image != nextProps.image) {
+        if (this.props.image !== nextProps.image) {
             return true;
         }
-        if (this.props.isTemplate != nextProps.isTemplate) {
+        if (this.props.isTemplate !== nextProps.isTemplate) {
             return true;
         }
-        if (this.props.class != nextProps.class) {
+        if (this.props.class !== nextProps.class) {
             return true;
         }
 
         // Check if next image is to be refreshed
-        if (nextProps.refreshImage == nextProps.image) {
+        if (nextProps.refreshImage === nextProps.image) {
             return true;
         }
         
