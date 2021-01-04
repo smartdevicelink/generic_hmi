@@ -183,6 +183,9 @@ class UIController {
                 ))
                 return null
             case "PerformInteraction":
+                if (!rpc.params.choiceSet) {
+                    return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
+                }
                 store.dispatch(performInteraction(
                     rpc.params.appID,
                     rpc.params.initialText,
@@ -199,12 +202,11 @@ class UIController {
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
 
                 let performInteractionImages = [];
-                if (rpc.params.choiceSet) {
-                    rpc.params.choiceSet.forEach (choice => {
-                        if (choice.image) { performInteractionImages.push(choice.image); }
-                        if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
-                    });
-                }
+                rpc.params.choiceSet.forEach (choice => {
+                    if (choice.image) { performInteractionImages.push(choice.image); }
+                    if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
+                });
+                
                 AddImageValidationRequest(rpc.id, performInteractionImages);
 
                 break
@@ -341,7 +343,7 @@ class UIController {
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
                     clearTimeout(this.timers[app.interactionId])
                     delete this.timers[app.interactionId]
-                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
+                    this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
                     this.onSystemContext("MAIN", rpc.params.appID)
                     return true
@@ -551,7 +553,7 @@ class UIController {
             if (msgID === interactionId.toString() && app.interactionLayout === "KEYBOARD") {
                 this.onKeyboardInput("", "ENTRY_CANCELLED")
             }
-            this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
+            this.listener.send(RpcFactory.UIPerformInteractionAborted(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
                 this.appsWithTimers[msgID]
