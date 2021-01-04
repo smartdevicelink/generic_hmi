@@ -192,7 +192,8 @@ class UIController {
                     rpc.params.choiceSet,
                     rpc.params.interactionLayout,
                     rpc.id,
-                    rpc.params.cancelID
+                    rpc.params.cancelID,
+                    rpc.params.timeout
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
@@ -232,7 +233,8 @@ class UIController {
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,
                     rpc.params.menuLayout,
-                    rpc.params.menuIcon
+                    rpc.params.menuIcon,
+                    rpc.params.keyboardProperties
                 ))
                 
                 ValidateImages([rpc.params.menuIcon]).then(
@@ -371,6 +373,15 @@ class UIController {
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
+        const state = store.getState()
+        var activeApp = state.activeApp
+        var app = state.ui[activeApp]
+        var interactionId = app ? app.interactionId : null
+        var interactionLayout = app ? app.interactionLayout : null
+        if (msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
+            this.onKeyboardInput("", "ENTRY_ABORTED")
+        }
+
         delete this.timers[msgID]
         RemoveImageValidationResult(msgID)
 
@@ -468,12 +479,12 @@ class UIController {
             this.onSystemContext("MENU")//Viewing App List
         }
     }
-    onChoiceSelection(choiceID, appID, msgID) {
+    onChoiceSelection(choiceID, appID, msgID, manualTextEntry) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
 
         let imageValidationSuccess = RemoveImageValidationResult(msgID)
-        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID)
+        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID, manualTextEntry)
         if(!imageValidationSuccess){
             rpc.result.code = 21; // WARNINGS
         }
@@ -531,10 +542,17 @@ class UIController {
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
     failInteractions() {
+        const state = store.getState()
+        var activeApp = state.activeApp
+        var app = state.ui[activeApp]
+        var interactionId = app.interactionId
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
             RemoveImageValidationResult(msgID)
+            if (msgID === interactionId.toString() && app.interactionLayout === "KEYBOARD") {
+                this.onKeyboardInput("", "ENTRY_CANCELLED")
+            }
             this.listener.send(RpcFactory.UIPerformInteractionAborted(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
@@ -542,6 +560,18 @@ class UIController {
             ))
         }
     }
+
+    onResetInteractionTimeout(appID, msgID) {
+        clearTimeout(this.timers[msgID])
+        const state = store.getState()
+        const app = state.ui[appID]
+        var timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
+        this.endTimes[msgID] = Date.now() + timeout;
+        this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
+        this.appsWithTimers[msgID] = appID
+        this.onResetTimeout("appID", "UI.OnPerformInteraction")
+    }
+
     onResetTimeout(appID, methodName) {
         this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
     }
@@ -552,6 +582,10 @@ class UIController {
 
     onUpdateSubMenu(appID, menuID) {
         this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
+    }
+
+    onKeyboardInput(value, event) {
+        this.listener.send(RpcFactory.OnKeyboardInput(value, event))
     }
 }
 

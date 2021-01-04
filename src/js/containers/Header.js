@@ -85,7 +85,8 @@ const mapStateToProps = (state) => {
         alertIcon: alertIcon,
         activeMenuDepth: app.activeMenuDepth,
         parentID: parentID,
-        activeLayout: app.displayLayout        
+        activeLayout: app.displayLayout,
+        interactionLayout: app.interactionLayout
     }
 }
 

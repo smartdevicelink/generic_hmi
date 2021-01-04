@@ -135,13 +135,17 @@ class AppHeader extends React.Component {
             && nextProps.location.pathname !== "/appstoremenu") {
             this.props.history.push("/")
         }
-        else if (nextProps.location.pathname !== "/inapplist"
+        else if (nextProps.location.pathname !== "/keyboard"
+            && nextProps.isPerformingInteraction && nextProps.interactionLayout === "KEYBOARD") {
+                this.props.history.push("/keyboard")
+        }
+        else if (nextProps.location.pathname !== "/inapplist" && nextProps.interactionLayout !== "KEYBOARD"
             && nextProps.isPerformingInteraction) {
                 this.props.history.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out
         // this happens currently when the perform interaction times out, the prop isPerformingInteraction goes to false
-        else if (nextProps.location.pathname === "/inapplist"
+        else if ((nextProps.location.pathname === "/inapplist" || nextProps.location.pathname === "/keyboard")
             && this.props.isPerformingInteraction
             && !nextProps.isPerformingInteraction) {
                 this.props.history.push("/" + nextProps.displayLayout)                
