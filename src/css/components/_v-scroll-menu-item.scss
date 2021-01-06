@@ -28,6 +28,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
 
         img {
             margin:auto;
@@ -56,6 +57,8 @@
     &__name {
         flex: 6;
         margin-left: 2%;
+        display: flex;
+        flex-direction: column;
     }
 
     &__arrow {
