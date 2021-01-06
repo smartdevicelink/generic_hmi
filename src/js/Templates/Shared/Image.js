@@ -133,6 +133,10 @@ class Image extends React.Component {
         if (nextProps.refreshImage === nextProps.image) {
             return true;
         }
+
+        if (nextState.error) {
+            return true;
+        }
         
         // No updates required
         return false;
