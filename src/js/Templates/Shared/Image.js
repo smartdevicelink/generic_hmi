@@ -7,17 +7,6 @@ class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = {error: false, refreshed: false};
-        this.customCanvasStyle = {
-            height: null,
-            width: null,
-            scaledDimensions: null,
-            x: null,
-            y: null
-        };
-        this.canvasDimensions = {
-            height: null,
-            width: null
-        };
         this.initialCanvasDimensions = {
             height: null,
             width: null
@@ -52,44 +41,22 @@ class Image extends React.Component {
 
             canvas.width = this.initialCanvasDimensions.width
             canvas.height = this.initialCanvasDimensions.height
-            if (this.customCanvasStyle.width && this.customCanvasStyle.height) {
-                this.canvasDimensions.width = this.customCanvasStyle.width
-                this.canvasDimensions.height = this.customCanvasStyle.height
-            }
-            else {
-                this.canvasDimensions.width = this.initialCanvasDimensions.width
-                this.canvasDimensions.height = this.initialCanvasDimensions.height
-            }
             img.onload = () => {
-                var scaledDimensions;
-                if (this.customCanvasStyle.scaledDimensions) {
-                    scaledDimensions = this.customCanvasStyle.scaledDimensions
-                } else {
-                    scaledDimensions = this.scaleImage({
-                            "width": img.width,
-                            "height": img.height
-                        }, {
-                            "width": this.canvasDimensions.width,
-                            "height": this.canvasDimensions.height
-                        }
-                    );
-                }
+                var scaledDimensions = this.scaleImage({
+                        "width": img.width,
+                        "height": img.height
+                    }, {
+                        "width": this.initialCanvasDimensions.width,
+                        "height": this.initialCanvasDimensions.height
+                    }
+                );
                 canvas.width = scaledDimensions.width
                 canvas.height = scaledDimensions.height
-                this.canvasDimensions.width = scaledDimensions.width
-                this.canvasDimensions.height = scaledDimensions.height
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                var x, y;
-                if (this.customCanvasStyle.x && this.customCanvasStyle.y) {
-                    x = this.customCanvasStyle.x;
-                    y = this.customCanvasStyle.y;
-                }
-                else {
-                    x = (canvas.width / 2) - (scaledDimensions.width / 2);
-                    y = (canvas.height / 2) - (scaledDimensions.height / 2);
-                }
+                
+                var x = (canvas.width / 2) - (scaledDimensions.width / 2);
+                var y = (canvas.height / 2) - (scaledDimensions.height / 2);
 
                 ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
 
@@ -169,19 +136,10 @@ class Image extends React.Component {
         if(this.props.image && !this.state.error) {
             if (this.props.isTemplate) {
                 var hidden = {display:'none'};
-                var size;
-                if (this.customCanvasStyle.height && this.customCanvasStyle.width) {
-                    size = {
-                        height: this.customCanvasStyle.height,
-                        width: this.customCanvasStyle.width
-                    }
-                } else {
-                    size = {
-                        height: "100%",
-                        width: "100%"
-                    }
+                var size = {
+                    height: "100%",
+                    width: "100%"
                 }
-
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
