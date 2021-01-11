@@ -475,11 +475,11 @@ function ui(state = {}, action) {
             if (action.updateMode !== "PAUSE") {
                 app.pauseTime = null
             }
-            app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null}
-            app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null}
-            if (app.forwardSeekIndicator.type != app.backSeekIndicator.type) {
-                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
-                app.backSeekIndicator = {type: "TRACK", seekTime: null}
+            if (action.forwardSeekIndicator) {
+                app.forwardSeekIndicator = action.forwardSeekIndicator
+            }
+            if (app.backSeekIndicator) {
+                app.backSeekIndicator = action.backSeekIndicator
             }
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
