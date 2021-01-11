@@ -330,6 +330,7 @@ class RpcFactory {
                 "ccpu_version": "0.0.1",
                 "language": "EN-US",
                 "wersCountryCode": "WAEGB",
+                "systemHardwareVersion": "123.456.789",
             }
         })
     }
