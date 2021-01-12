@@ -37,6 +37,7 @@ import store from './js/store'
 import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
+import uiController from './js/Controllers/UIController'
 import {
     setTheme, 
     setPTUWithModem, 
@@ -48,12 +49,18 @@ class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dark: true
+            dark: true,
+            resolution: "960x600"
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
         this.handleDDToggle = this.handleDDToggle.bind(this);
+        this.pickResolution = this.pickResolution.bind(this);
+        this.onTouchBegin = this.onTouchBegin.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
+        this.onTouchEvent = this.onTouchEvent.bind(this);
     }
     handleClick() {
         var theme = !this.state.dark
@@ -70,8 +77,89 @@ class HMIApp extends React.Component {
     handleDDToggle(){
         store.dispatch(setDDState(!this.props.dd));
     }
+    pickResolution(event) {
+        this.setState({ resolution: event.target.value });
+
+        var match = event.target.value.match('(\d+)x(\d+) Scale (\d+.?\d*)');
+        console.log('pickResolution regexp: ', match)
+
+        var capability = {
+            systemCapabilityType: 'VIDEO_STREAMING',
+            videoStreamingCapability: {
+                scale: match[2],
+                preferredResolution: {
+                    width: match[0],
+                    height: match[1]
+                }
+            }
+        }
+
+        bcController.onSystemCapabilityUpdated(capability, this.props.activeAppId);
+    }
+
+    onTouchEvent(type, event) {
+        if (!this.videoRect) {
+            var video = document.getElementById('navi_stream');
+            this.videoRect = video.getBoundingClientRect();
+        }
+
+        if (event.pageX < this.videoRect.left
+            || event.pageX > this.videoRect.right
+            || event.pageY < this.videoRect.top
+            || event.pageY > this.videoRect.bottom) {
+            return;
+        }
+
+        uiController.onTouchEvent(type, [{
+            id: 0,
+            ts: [ parseInt(event.timeStamp) ],
+            c: [{
+                x: event.pageX - this.videoRect.x,
+                y: event.pageY - this.videoRect.y
+            }]
+        }]);
+    }
+
+    onTouchBegin(event) {
+        this.touchInProgress = true;
+        this.onTouchEvent('BEGIN', event);
+    }
+
+    onTouchMove(event) {
+        if (!this.touchInProgress) {
+            return;
+        }
+
+        this.onTouchEvent('MOVE', event);
+    }
+
+    onTouchEnd(event) {
+        if (!this.touchInProgress) {
+            return;
+        }
+
+        this.touchInProgress = false;
+        this.onTouchEvent('END', event);
+    }
+
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
+        var videoStyle = { position: 'absolute', width: 960, height: 600, top: 75, left: 0, backgroundColor: 'transparent' };
+        if (!this.props.videoStreamVisible || !this.props.videoStreamUrl) {
+            videoStyle.display = 'none';
+        }
+
+        var resolutionSelector = undefined;
+        if (this.props.activeAppState) {
+            resolutionSelector = (<div className="resolution-selector">
+                <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
+                <select value={this.state.resolution} onChange={this.pickResolution}>
+                    { this.props.activeAppState.videoStreamingCapabilities.map((vsc => (<option>`${vsc.preferredResolution.width}x${vsc.preferredResolution.height} Scale: ${vsc.scale}`</option>))) }
+                </select>
+                <label>Video Resolution</label>
+            </div>);
+        }
+
         return(
             <div>
                 <div className={themeClass}>
@@ -90,7 +178,12 @@ class HMIApp extends React.Component {
                         <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
                         <label>Driver Distraction</label>
                     </div>
+                    { resolutionSelector }
                 </div>
+                <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl} /*autoPlay muted*/
+                    onTouchStart={this.onTouchBegin} onMouseDown={this.onTouchBegin}
+                    onTouchMove={this.onTouchMove} onMouseMove={this.onTouchMove}
+                    onTouchEnd={this.onTouchEnd} onMouseUp={this.onTouchEnd}></video>
                 {
                     this.props.webEngineApps.map((app) => {
                         let query = `?sdl-host=${flags.CoreHost}&sdl-port=${flags.CoreWebEngineAppPort}&sdl-transport-role=${app.transportType.toLowerCase()}-server`;
@@ -172,7 +265,10 @@ const mapStateToProps = (state) => {
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
         showWebView: state.appStore.webViewActive,
         activeAppId: state.activeApp,
-        dd: state.ddState
+        dd: state.ddState,
+        videoStreamUrl: state.system.videoStreamUrl,
+        videoStreamVisible: state.system.nonMediaActive && state.activeApp === state.system.videoStreamingApp,
+        activeAppState: state.ui[state.activeApp]
     }
 }
 HMIApp = connect(mapStateToProps)(HMIApp)

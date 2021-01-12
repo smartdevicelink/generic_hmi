@@ -531,7 +531,7 @@ let capabilities = {
 		"hmiCapabilities": {
 			"navigation": false,
 			"phoneCall": false,
-			"videoStreaming": false
+			"videoStreaming": true
 		},
 		"systemCapabilities": {
 			"navigationCapability": {
@@ -544,6 +544,64 @@ let capabilities = {
 			"driverDistractionCapability": {
 				"menuLength": 3,
 				"subMenuDepth": 2
+			},
+			videoStreamingCapability: {
+				additionalVideoStreamingCapabilities: [
+					{
+						preferredResolution: {
+							resolutionWidth: 960,
+							resolutionHeight: 600
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 96,
+						scale: 1
+					},
+					{
+						preferredResolution: {
+							resolutionWidth: 480,
+							resolutionHeight: 300
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 48,
+						scale: 2
+					},
+					{
+						preferredResolution: {
+							resolutionWidth: 720,
+							resolutionHeight: 450
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 72,
+						scale: 1.5
+					}
+				]
 			}
 		}
 	}

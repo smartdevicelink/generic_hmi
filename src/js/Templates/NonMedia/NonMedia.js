@@ -3,8 +3,18 @@ import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
 import { NonMediaMetadata } from '../../containers/Metadata';
 import { SoftButtons } from '../../containers/Buttons';
+import store from '../../store';
+import { systemNonMediaViewActive, systemNonMediaViewInctive } from '../../actions';
 
 class NonMedia extends React.Component {
+    componentWillMount() {
+        store.dispatch(systemNonMediaViewActive());
+    }
+
+    componentWillUnmount() {
+        store.dispatch(systemNonMediaViewInctive());
+    }
+
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;
@@ -48,7 +58,7 @@ const mapStateToProps = (state) => {
     return { 
         activeApp: state.activeApp,
         theme: state.theme,
-        ui: state.ui     
+        ui: state.ui
     };
 };
 

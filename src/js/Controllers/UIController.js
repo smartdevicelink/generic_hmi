@@ -587,6 +587,10 @@ class UIController {
     onKeyboardInput(value, event) {
         this.listener.send(RpcFactory.OnKeyboardInput(value, event))
     }
+
+    onTouchEvent(type, events) {
+        this.listener.send(RpcFactory.OnTouchEvent(type, events));
+    }
 }
 
 let controller = new UIController ()

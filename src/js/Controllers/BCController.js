@@ -146,6 +146,13 @@ class BCController {
                 });
 
                 return;
+
+            case "OnAppCapabilityUpdated":
+                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING') {
+                    console.log("OnAppCapabilityUpdated VSC", rpc.params.appCapability.videoStreamingCapability);
+                    store.dispatch(setVideoStreamingCapability(rpc.params.appCapability.videoStreamingCapability))
+                }
+                return;
             default:
                 return;
             /*case "ActivateApp":
@@ -177,6 +184,9 @@ class BCController {
     }
     getAppProperties(policyAppID){
         this.listener.send(RpcFactory.GetAppProperties(policyAppID))
+    }
+    onSystemCapabilityUpdated(capability, appID) {
+        this.listener.send(RpcFactory.OnSystemCapabilityUpdated(capability, appID));
     }
 }
 
