@@ -50,7 +50,7 @@ class HMIApp extends React.Component {
         super(props);
         this.state = {
             dark: true,
-            resolution: "960x600"
+            resolution: "960x600 Scale 1"
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
