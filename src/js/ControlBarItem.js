@@ -2,8 +2,6 @@ import React from 'react';
 import StaticIcon from './Templates/Shared/StaticIcon'
 import Image from './Templates/Shared/Image'
 
-import {ReactComponent as IconSeekLeft} from '../img/icons/icon-seek-left.svg';
-import {ReactComponent as IconSeekRight} from '../img/icons/icon-seek-right.svg';
 import {ReactComponent as IconSkipLeft} from '../img/icons/icon-skip-left.svg';
 import {ReactComponent as IconSkipRight} from '../img/icons/icon-skip-right.svg';
 import {ReactComponent as IconPlay} from '../img/icons/icon-play.svg';
