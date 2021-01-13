@@ -720,7 +720,7 @@ class RpcFactory {
         })
     }
 
-    static OnSystemCapability(capability, appID) {
+    static OnSystemCapabilityUpdated(capability, appID) {
         return ({
             "jsonrpc": "2.0",
             "method": "BasicCommunication.OnSystemCapabilityUpdated",

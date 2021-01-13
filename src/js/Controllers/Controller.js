@@ -137,6 +137,7 @@ export default class Controller {
         this.subscribeToNotification("SDL.OnStatusUpdate")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
         this.subscribeToNotification("AppService.OnAppServiceData")
+        this.subscribeToNotification("BasicCommunication.OnAppCapabilityUpdated")
 
         var onSystemTimeReady = {
             "jsonrpc": "2.0",

@@ -50,7 +50,8 @@ class HMIApp extends React.Component {
         super(props);
         this.state = {
             dark: true,
-            resolution: "960x600 Scale 1"
+            resolution: "960x600 Scale 1",
+            scale: 1
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
@@ -78,21 +79,18 @@ class HMIApp extends React.Component {
         store.dispatch(setDDState(!this.props.dd));
     }
     pickResolution(event) {
-        this.setState({ resolution: event.target.value });
-
-        var match = event.target.value.match('(\d+)x(\d+) Scale (\d+.?\d*)');
-        console.log('pickResolution regexp: ', match)
-
+        var match = event.target.value.match(/(\d+)x(\d+) Scale (\d+.?\d*)/);
         var capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
-                scale: match[2],
+                scale: parseFloat(match[3]),
                 preferredResolution: {
-                    width: match[0],
-                    height: match[1]
+                    resolutionWidth: parseInt(match[1]),
+                    resolutionHeight: parseInt(match[2])
                 }
             }
         }
+        this.setState({ resolution: event.target.value, scale: match[3] });
 
         bcController.onSystemCapabilityUpdated(capability, this.props.activeAppId);
     }
@@ -144,7 +142,7 @@ class HMIApp extends React.Component {
 
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
-        var videoStyle = { position: 'absolute', width: 960, height: 600, top: 75, left: 0, backgroundColor: 'transparent' };
+        var videoStyle = { position: 'absolute', width: 960, height: 600, top: 75, left: 0, backgroundColor: 'transparent', objectFit: 'fill' };
         if (!this.props.videoStreamVisible || !this.props.videoStreamUrl) {
             videoStyle.display = 'none';
         }
@@ -152,11 +150,10 @@ class HMIApp extends React.Component {
         var resolutionSelector = undefined;
         if (this.props.activeAppState) {
             resolutionSelector = (<div className="resolution-selector">
-                <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
+                <label>Video Resolution</label><br/>
                 <select value={this.state.resolution} onChange={this.pickResolution}>
-                    { this.props.activeAppState.videoStreamingCapabilities.map((vsc => (<option>`${vsc.preferredResolution.width}x${vsc.preferredResolution.height} Scale: ${vsc.scale}`</option>))) }
+                    { this.props.activeAppState.videoStreamingCapability.map((vsc => (<option>{`${vsc.preferredResolution.resolutionWidth}x${vsc.preferredResolution.resolutionHeight} Scale ${vsc.scale}`}</option>))) }
                 </select>
-                <label>Video Resolution</label>
             </div>);
         }
 

@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled, setVideoStreamingCapability } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import {flags} from '../Flags'
@@ -98,6 +98,19 @@ class BCController {
             case "GetSystemTime":
                 this.listener.send(RpcFactory.GetSystemTime(rpc.id))
                 return null
+
+            case "OnAppCapabilityUpdated":
+                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING') {
+                    var vsc = rpc.params.appCapability.videoStreamingCapability;
+                    var caps = [ vsc ];
+                    if (vsc.additionalVideoStreamingCapabilities) {
+                        caps.concat(vsc.additionalVideoStreamingCapabilities);
+                        delete vsc.additionalVideoStreamingCapabilities;
+                    }
+                    console.log('setting video streaming capabilities: ', caps);
+                    store.dispatch(setVideoStreamingCapability(caps));
+                }
+                return null;
             default:
                 return false;
         }
@@ -145,13 +158,6 @@ class BCController {
                     return true;
                 });
 
-                return;
-
-            case "OnAppCapabilityUpdated":
-                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING') {
-                    console.log("OnAppCapabilityUpdated VSC", rpc.params.appCapability.videoStreamingCapability);
-                    store.dispatch(setVideoStreamingCapability(rpc.params.appCapability.videoStreamingCapability))
-                }
                 return;
             default:
                 return;

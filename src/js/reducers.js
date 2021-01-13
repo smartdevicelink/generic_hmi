@@ -67,8 +67,8 @@ function newAppState () {
             },
             {
                 preferredResolution: {
-                    resolutionWidth: 480,
-                    resolutionHeight: 300
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
                 },
                 maxBitrate: 400000,
                 supportedFormats: [
@@ -85,8 +85,8 @@ function newAppState () {
             },
             {
                 preferredResolution: {
-                    resolutionWidth: 720,
-                    resolutionHeight: 450
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
                 },
                 maxBitrate: 400000,
                 supportedFormats: [
@@ -648,7 +648,7 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SET_VIDEO_STREAM_CAPABILITY:
-            app.videoStreamingCapability = capability
+            app.videoStreamingCapability = action.capability
             return newState
         default:
             return state
