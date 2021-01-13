@@ -559,6 +559,31 @@ const dynamicUpdateCapabilities = {
 	supportsDynamicSubMenus: true
 }
 
+const keyboardCapabilities = {
+	maskInputCharactersSupported: true,
+	supportedKeyboardLayouts: [
+	  "QWERTY","QWERTZ","AZERTY","NUMERIC"
+	],
+	configurableKeys: [
+		{
+		  keyboardLayout: "QWERTY",
+		  numConfigurableKeys: 12
+		},
+		{
+			keyboardLayout: "QWERTZ",
+			numConfigurableKeys: 14
+		},
+		{
+		  keyboardLayout: "AZERTY",
+		  numConfigurableKeys: 23
+		},
+		{
+		  keyboardLayout: "NUMERIC",
+		  numConfigurableKeys: 1
+		}
+	]
+  },
+
 const getWindowCapability = (template) => {
 	if (!template || !capabilities[template]) {
 		return null;
@@ -573,7 +598,8 @@ const getWindowCapability = (template) => {
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
-		dynamicUpdateCapabilities: dynamicUpdateCapabilities
+		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
+		key
 	}
 	return capability;
 }

@@ -9,7 +9,8 @@ import { deactivateInteraction } from './actions'
 export default class Keyboard extends Component {
   state = {
     layoutName: "default",
-    input: ""
+    input: "",
+    userMaskedInput: false
   };
 
   keyboardProperties = {};
@@ -67,25 +68,78 @@ export default class Keyboard extends Component {
     });
   };
 
+  handleUserMask = () => {
+    const toggleMask = !this.state.userMaskedInput
+    this.setState({
+      userMaskedInput: toggleMask
+    })
+    const event = toggleMask ? "INPUT_KEY_MASK_ENABLED" : "INPUT_KEY_MASK_DISABLED"
+    uiController.onKeyboardInput(null, event);
+  }
+
+  replaceSpecialCharacters(keyboardLayout, characters) {
+    var layout = keyboardLayout.default;
+    //Special characters on root level of supported keyboards
+    var replaceableChars = '`-=[]\\;\',./^+#<&(_)=$:!@'
+    var newCharArray = characters.split("")
+    for (var rowIndex = 0; rowIndex < layout.length; rowIndex++) {
+      // Loop through rows
+      var row = layout[rowIndex];
+      for (var charIndex = 0; (charIndex < row.length) && newCharArray.length > 0; charIndex++) {
+        // Loop through characters
+        var char = row.charAt(charIndex);
+        // todo check how charAt handles special characters like \u00DF
+        console.log(char)
+        if (char === " " ) continue;
+        if (replaceableChars.includes(char)) {
+          // Replace special character with next custom character
+          var subStr1 = row.substr(0, charIndex);
+          var subStr2 = row.substr(charIndex + 1);            
+          row = subStr1 + newCharArray.shift() + subStr2;
+        }
+      }
+      layout[rowIndex] = row;
+    }
+    keyboardLayout.default = layout;
+    return keyboardLayout;
+  }
+
   render() {
     const state = store.getState()
     const app = state.ui[state.activeApp]
     var keyboardLayout = QWERTY
+    var maskedInput = false
+    var showUserMaskOption = false
     if (app) {
       this.appID = state.activeApp;
       this.interactionId = app.interactionId;
       this.keyboardProperties = app.keyboardProperties;
-      if (this.keyboardProperties && this.keyboardProperties.keyboardLayout) {
-        switch(this.keyboardProperties.keyboardLayout) {
-          case "QWERTY":
-            break
-          case "QWERTZ":
-            keyboardLayout = QWERTZ
-            break
-          case "AZERTY":
-            keyboardLayout = AZERTY
-          default:
-            break
+      if (this.keyboardProperties) {
+        if (this.keyboardProperties.keyboardLayout) {
+          switch(this.keyboardProperties.keyboardLayout) {
+            case "QWERTY":
+              break
+            case "QWERTZ":
+              keyboardLayout = QWERTZ
+              break
+            case "AZERTY":
+              keyboardLayout = AZERTY
+            case "NUMERIC":
+              keyboardLayout = NUMERIC
+            default:
+              break
+          }
+        }
+        if (this.keyboardProperties.customizeKeys && 
+            this.keyboardProperties.customizeKeys.length) {
+          keyboardLayout = this.replaceSpecialCharacters(
+            keyboardLayout, this.keyboardProperties.customizeKeys)
+        }
+        if (this.keyboardProperties.maskInputCharacters === "ENABLE_INPUT_KEY_MASK") {
+          maskedInput = true
+        } else if (this.keyboardProperties.maskInputCharacters === "USER_CHOICE_INPUT_KEY_MASK") {
+          maskedInput = this.state.userMaskedInput
+          showUserMaskOption = true
         }
       }
     }
@@ -100,9 +154,13 @@ export default class Keyboard extends Component {
             <div className="keyboard">
                 <input
                     value={this.state.input}
+                    type={maskedInput ? "password" : "text"}
                     placeholder={"Tap on the virtual keyboard to start"}
                     onChange={this.onChangeInput}
                 />
+                <input 
+                  type={showUserMaskOption ? "checkbox" : "hidden"} 
+                  onClick={this.handleUserMask}/>
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}
@@ -167,4 +225,9 @@ const AZERTY = {
     "{shift} > W X C V B N ? . / \u00A7 {shift}",
     ".com @ {space}"
   ]
+};
+
+const NUMERIC = {
+  default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 _", "{bksp}"],
+  shift: ["! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"]
 };
