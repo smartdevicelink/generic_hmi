@@ -78,6 +78,7 @@ let textWithGraphicCapabilities = {
 			imageField("choiceImage", 40),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
+			imageField("secondaryImage", 40),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
 			imageField("alertIcon", 225),
@@ -118,6 +119,7 @@ let textbuttonsWithGraphicCapabilities = {
 			imageField("softButtonImage", 50),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
+			imageField("secondaryImage", 40),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
 			imageField("alertIcon", 225),
@@ -173,6 +175,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 360),
 				imageField("alertIcon", 225),
@@ -245,6 +248,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 410),
 				imageField("alertIcon", 225),
@@ -313,6 +317,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -360,6 +365,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
@@ -402,6 +408,7 @@ let capabilities = {
 				imageField("choiceImage", 40),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -441,6 +448,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -487,6 +495,7 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -555,7 +564,7 @@ const mainWindowTypeCapability = {
 }
 
 const dynamicUpdateCapabilities = {
-	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon"],
+	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon", "secondaryImage"],
 	supportsDynamicSubMenus: true
 }
 
