@@ -562,6 +562,7 @@ let capabilities = {
 				diagonalScreenSize: 7,
 				pixelPerInch: 96,
 				scale: 1,
+				preferredFPS: 30,
 				additionalVideoStreamingCapabilities: [
 					{
 						preferredResolution: {
@@ -579,7 +580,8 @@ let capabilities = {
 						hapticSpatialDataSupported: true,
 						diagonalScreenSize: 7,
 						pixelPerInch: 72,
-						scale: 1.5
+						scale: 1.5,
+						preferredFPS: 30
 					},
 					{
 						preferredResolution: {
@@ -597,7 +599,8 @@ let capabilities = {
 						hapticSpatialDataSupported: true,
 						diagonalScreenSize: 7,
 						pixelPerInch: 48,
-						scale: 2
+						scale: 2,
+						preferredFPS: 30
 					}
 				]
 			}
