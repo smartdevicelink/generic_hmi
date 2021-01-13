@@ -478,7 +478,7 @@ function ui(state = {}, action) {
             if (action.forwardSeekIndicator) {
                 app.forwardSeekIndicator = action.forwardSeekIndicator
             }
-            if (app.backSeekIndicator) {
+            if (action.backSeekIndicator) {
                 app.backSeekIndicator = action.backSeekIndicator
             }
             return newState
