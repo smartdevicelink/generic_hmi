@@ -460,9 +460,10 @@ export const systemNonMediaViewInctive = () => {
     }
 }
 
-export const setVideoStreamingCapability = (capability) => {
+export const setVideoStreamingCapability = (appID, capability) => {
     return {
         type: Actions.SET_VIDEO_STREAM_CAPABILITY,
+        appID: appID,
         capability: capability
     }
 }

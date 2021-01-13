@@ -107,8 +107,7 @@ class BCController {
                         caps.concat(vsc.additionalVideoStreamingCapabilities);
                         delete vsc.additionalVideoStreamingCapabilities;
                     }
-                    console.log('setting video streaming capabilities: ', caps);
-                    store.dispatch(setVideoStreamingCapability(caps));
+                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, caps));
                 }
                 return null;
             default:
