@@ -30,6 +30,8 @@ function newAppState () {
         },
         updateMode: "CLEAR",
         countDirection: "COUNTUP",
+        audioStreamingIndicator: "PLAY_PAUSE",
+        countRate: 1.0,
         updateTime: new Date().getTime(),
         pauseTime: null,
         isDisconnected: false,
@@ -470,9 +472,10 @@ function ui(state = {}, action) {
                 app.endTime = null
             }
             app.updateMode = action.updateMode
-            if(action.audioStreamingIndicator) {
+            if (action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
+            app.countRate = action.countRate ? action.countRate : 1.0
             if (action.updateMode !== "PAUSE") {
                 app.pauseTime = null
             }

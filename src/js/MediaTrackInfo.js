@@ -3,7 +3,7 @@ import React from 'react';
 export default class MediaTrackInfo extends React.Component {
     componentDidMount() {
         clearInterval(this.interval)
-        this.interval = setInterval(this.forceUpdate.bind(this), 1000)
+        this.interval = setInterval(this.forceUpdate.bind(this), 10)
     }
     componentWillUnmount() {
         clearInterval(this.interval)
@@ -32,7 +32,7 @@ export default class MediaTrackInfo extends React.Component {
             case "COUNTUP":
             case "COUNTDOWN":
                 clearInterval(this.interval)
-                this.interval = setInterval(this.forceUpdate.bind(this), 1000)
+                this.interval = setInterval(this.forceUpdate.bind(this), 1000 / this.props.countRate)
                 break
             case "CLEAR":
                 return null
@@ -42,7 +42,7 @@ export default class MediaTrackInfo extends React.Component {
         if (startDate) {
             var timeSince = null;
             if (this.props.countDirection === "COUNTDOWN") {
-                timeSince = new Date(now - this.props.updateTime)
+                timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
                 var position = new Date(startDate - timeSince)
 
                 // Clamp position to timer bounds
@@ -50,7 +50,7 @@ export default class MediaTrackInfo extends React.Component {
                 var endTime = ""
             }
             else {
-                timeSince = new Date(startDate.getTime() + now - this.props.updateTime)
+                timeSince = new Date(startDate.getTime() + ((now - this.props.updateTime) * this.props.countRate))
                 // Clamp position to timer bounds
                 position = endDate && timeSince > endDate ? endDate : timeSince
 
