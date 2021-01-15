@@ -571,18 +571,18 @@ const keyboardCapabilities = {
 		},
 		{
 			keyboardLayout: "QWERTZ",
-			numConfigurableKeys: 14
+			numConfigurableKeys: 7
 		},
 		{
 		  keyboardLayout: "AZERTY",
-		  numConfigurableKeys: 23
+		  numConfigurableKeys: 15
 		},
 		{
 		  keyboardLayout: "NUMERIC",
-		  numConfigurableKeys: 1
+		  numConfigurableKeys: 0
 		}
 	]
-  },
+}
 
 const getWindowCapability = (template) => {
 	if (!template || !capabilities[template]) {
@@ -599,7 +599,7 @@ const getWindowCapability = (template) => {
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
 		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
-		key
+		keyboardCapabilities: keyboardCapabilities
 	}
 	return capability;
 }

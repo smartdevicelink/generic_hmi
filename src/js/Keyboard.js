@@ -79,23 +79,22 @@ export default class Keyboard extends Component {
 
   replaceSpecialCharacters(keyboardLayout, characters) {
     var layout = keyboardLayout.default;
+    var customCharacters = characters;
     //Special characters on root level of supported keyboards
-    var replaceableChars = '`-=[]\\;\',./^+#<&(_)=$:!@'
-    var newCharArray = characters.split("")
+    var replaceableChars = '`-=[]\\;\',./^+#<&(_)=$:!@';
     for (var rowIndex = 0; rowIndex < layout.length; rowIndex++) {
       // Loop through rows
       var row = layout[rowIndex];
-      for (var charIndex = 0; (charIndex < row.length) && newCharArray.length > 0; charIndex++) {
+      for (var charIndex = 0; (charIndex < row.length) && customCharacters.length > 0; charIndex++) {
         // Loop through characters
         var char = row.charAt(charIndex);
         // todo check how charAt handles special characters like \u00DF
-        console.log(char)
         if (char === " " ) continue;
         if (replaceableChars.includes(char)) {
           // Replace special character with next custom character
           var subStr1 = row.substr(0, charIndex);
           var subStr2 = row.substr(charIndex + 1);            
-          row = subStr1 + newCharArray.shift() + subStr2;
+          row = subStr1 + customCharacters.shift() + subStr2;
         }
       }
       layout[rowIndex] = row;
@@ -152,15 +151,28 @@ export default class Keyboard extends Component {
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
-                <input
-                    value={this.state.input}
-                    type={maskedInput ? "password" : "text"}
-                    placeholder={"Tap on the virtual keyboard to start"}
-                    onChange={this.onChangeInput}
-                />
-                <input 
-                  type={showUserMaskOption ? "checkbox" : "hidden"} 
-                  onClick={this.handleUserMask}/>
+                <div className="input-row">
+                  <input
+                      className="input-text"
+                      value={this.state.input}
+                      type={maskedInput ? "password" : "text"}
+                      placeholder={"Tap on the virtual keyboard to start"}
+                      onChange={this.onChangeInput}
+                  />
+                  <input 
+                    className="mask-checkbox"
+                    id="maskOption"
+                    type={showUserMaskOption ? "checkbox" : "hidden"} 
+                    onClick={this.handleUserMask}
+                  />
+                  <label 
+                    for="maskOption" 
+                    className="mask-checkbox mask-option-label"
+                    style={{display: showUserMaskOption ? 'inline' : 'none' }}
+                  >
+                    Mask Input
+                  </label>
+                </div>
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}
@@ -228,6 +240,6 @@ const AZERTY = {
 };
 
 const NUMERIC = {
-  default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 _", "{bksp}"],
+  default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 {enter}", "{bksp}"],
   shift: ["! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"]
 };
