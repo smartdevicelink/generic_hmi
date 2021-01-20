@@ -589,6 +589,10 @@ function ui(state = {}, action) {
                 app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
             }
             return newState
+        case Actions.DEACTIVATE_APP:
+            app.backSeekIndicator = {type: "TRACK", seekTime: null}
+            app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
+            return newState
         default:
             return state
     }
