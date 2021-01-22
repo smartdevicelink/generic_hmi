@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
         var hidden = (ddState === true && index >= menuLength) ? true : false;
         var link =  state.ui[activeApp].displayLayout
         var enabled = true
-        var secondaryImage = undefined;
+        var secondaryImage;
         if (command.subMenu) {
             link = '/inapplist'
             if (ddState === true && menuDepth === 1) {

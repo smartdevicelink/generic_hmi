@@ -21,8 +21,7 @@ export default class VScrollMenuItem extends React.Component {
             "Driver Distraction Disabled" : this.props.menuItem.info ? 
             this.props.menuItem.info : this.props.menuItem.secondaryText;
         
-        var tertiaryText = this.props.enabled === false ? 
-            "" : this.props.menuItem.tertiaryText;
+        var tertiaryText = this.props.enabled ? this.props.menuItem.tertiaryText : "" ;
 
         return (
             <Link
