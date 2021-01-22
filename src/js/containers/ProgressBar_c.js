@@ -18,7 +18,6 @@ const mapStateToProps = (state) => {
     }
     var startDate = new Date(0, 0, 0, startTime.hours, startTime.minutes, startTime.seconds, 0)
     var endDate = new Date(0, 0, 0, endTime.hours, endTime.minutes, endTime.seconds, 0)
-    var offset = app.timerOffset
 
     //Assign color scheme to props
     var theme = state.theme
@@ -50,7 +49,7 @@ const mapStateToProps = (state) => {
         countDirection: app.countDirection,
         countRate: app.countRate,
         updateTime: app.updateTime,
-        offset: offset,
+        offset: app.timerOffset,
         paused: app.paused,
         colorScheme: colorScheme
     }
