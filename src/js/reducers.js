@@ -33,7 +33,7 @@ function newAppState () {
         audioStreamingIndicator: "PLAY_PAUSE",
         countRate: 1.0,
         updateTime: new Date().getTime(),
-        timerOffset: null,
+        timerOffset: 0,
         paused: false,
         isDisconnected: false,
         displayLayout:  null,
@@ -448,7 +448,7 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
-                app.timerOffset = null
+                app.timerOffset = 0
             }
             else if (action.updateMode === "COUNTDOWN") {
                 if (action.updateMode !== app.countDirection) {
@@ -456,30 +456,28 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
-                app.timerOffset = null
+                app.timerOffset = 0
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "PAUSE" && !app.paused) {
                 var now = new Date().getTime()
-                var offset = app.timerOffset ? app.timerOffset : 0
-                app.timerOffset = new Date(offset + (now - app.updateTime) * app.countRate).getTime()
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
             }
             else if (action.updateMode === "RESUME" && app.paused) {
                 app.updateTime = new Date().getTime()
             }
             else if (action.updateMode === "RESUME" && !app.paused) {
                 now = new Date().getTime()
-                offset = app.timerOffset ? app.timerOffset : 0
-                app.timerOffset = new Date(offset + (now - app.updateTime) * app.countRate).getTime()
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
                 app.updateTime = now
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
                 app.startTime = null
                 app.endTime = null
-                app.timerOffset = null
+                app.timerOffset = 0
             }
             app.updateMode = action.updateMode
             if (action.audioStreamingIndicator) {
