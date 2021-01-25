@@ -576,7 +576,8 @@ function ui(state = {}, action) {
                     break
                 case "NAV_FULLSCREEN_MAP":
                     app.displayLayout = "nav-fullscreen-map"
-                default: 
+                    break
+                default:
                     break
             }
             if (action.dayColorScheme) {
