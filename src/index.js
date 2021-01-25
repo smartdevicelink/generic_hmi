@@ -126,20 +126,16 @@ class HMIApp extends React.Component {
     }
 
     onTouchMove(event) {
-        if (!this.touchInProgress) {
-            return;
+        if (this.touchInProgress) {
+            this.onTouchEvent('MOVE', event);
         }
-
-        this.onTouchEvent('MOVE', event);
     }
 
     onTouchEnd(event) {
-        if (!this.touchInProgress) {
-            return;
+        if (this.touchInProgress) {
+            this.touchInProgress = false;
+            this.onTouchEvent('END', event);
         }
-
-        this.touchInProgress = false;
-        this.onTouchEvent('END', event);
     }
 
     render() {
