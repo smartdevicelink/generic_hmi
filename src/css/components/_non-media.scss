@@ -6,7 +6,6 @@
 
 .non-media {
     height: 0;
-    z-index: 1;
 }
 
 .non-media-meta-data {
@@ -24,7 +23,6 @@
     @include display(flex);
     @include flex-direction(row-reverse);
     @include flex-wrap(wrap);
-    z-index: 1;
 }
 
 .non-media-text-2 { 
