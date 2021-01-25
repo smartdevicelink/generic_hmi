@@ -705,20 +705,6 @@ class RpcFactory {
             }
         })
     }
-    static OnSystemCapabilityDisplay(template, appID) {
-        var systemCapability = {
-            systemCapabilityType: "DISPLAYS",
-            displayCapabilities: [getDisplayCapability(template)]
-        }
-        return ({
-            "jsonrpc": "2.0",
-            "method": "BasicCommunication.OnSystemCapabilityUpdated",
-            "params": {
-                "systemCapability": systemCapability,
-                "appID": appID
-            }
-        })
-    }
 
     static OnSystemCapabilityUpdated(capability, appID) {
         return ({
@@ -729,6 +715,14 @@ class RpcFactory {
                 "appID": appID
             }
         })
+    }
+    
+    static OnSystemCapabilityDisplay(template, appID) {
+        var systemCapability = {
+            systemCapabilityType: "DISPLAYS",
+            displayCapabilities: [getDisplayCapability(template)]
+        }
+        return OnSystemCapabilityUpdated(systemCapability, appID);
     }
 
     static OnUpdateFile(appID, fileName) {
