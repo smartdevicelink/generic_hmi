@@ -150,7 +150,8 @@ class HMIApp extends React.Component {
             resolutionSelector = (<div className="resolution-selector">
                 <label>Video Resolution</label><br/>
                 <select value={this.state.resolution} onChange={this.pickResolution}>
-                    { this.props.activeAppState.videoStreamingCapability.map((vsc => (<option>{`${vsc.preferredResolution.resolutionWidth}x${vsc.preferredResolution.resolutionHeight} Scale ${vsc.scale}`}</option>))) }
+                    { this.props.activeAppState.videoStreamingCapability.map(vsc => 
+                    <option>{`${vsc.preferredResolution.resolutionWidth}x${vsc.preferredResolution.resolutionHeight} Scale ${vsc.scale}`}</option>) }
                 </select>
             </div>);
         }
@@ -175,7 +176,7 @@ class HMIApp extends React.Component {
                     </div>
                     { resolutionSelector }
                 </div>
-                <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl} /*autoPlay muted*/
+                <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl}
                     onTouchStart={this.onTouchBegin} onMouseDown={this.onTouchBegin}
                     onTouchMove={this.onTouchMove} onMouseMove={this.onTouchMove}
                     onTouchEnd={this.onTouchEnd} onMouseUp={this.onTouchEnd}></video>
@@ -262,7 +263,7 @@ const mapStateToProps = (state) => {
         activeAppId: state.activeApp,
         dd: state.ddState,
         videoStreamUrl: state.system.videoStreamUrl,
-        videoStreamVisible: state.system.nonMediaActive && state.activeApp === state.system.videoStreamingApp,
+        videoStreamVisible: state.system.navigationActive && state.activeApp === state.system.videoStreamingApp,
         activeAppState: state.ui[state.activeApp]
     }
 }

@@ -681,7 +681,7 @@ function system(state = {}, action) {
             newState.videoStreamingApp = action.appID;
             return newState;
         case Actions.NAVIGATION_VIEW_ACTIVE:
-            newState.nonMediaActive = action.active
+            newState.navigationActive = action.active
             return newState
         default:
             return state
