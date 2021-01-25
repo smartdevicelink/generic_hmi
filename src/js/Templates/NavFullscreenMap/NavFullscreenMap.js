@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
 import store from '../../store';
-import { systemNavigationViewActive, systemNavigationViewInctive } from '../../actions';
+import { systemNavigationViewActive, systemNavigationViewInactive } from '../../actions';
 
 class NavFullscreenMap extends React.Component {
     componentWillMount() {
@@ -10,7 +10,7 @@ class NavFullscreenMap extends React.Component {
     }
 
     componentWillUnmount() {
-        store.dispatch(systemNavigationViewInctive());
+        store.dispatch(systemNavigationViewInactive());
     }
 
     getColorScheme() {

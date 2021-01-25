@@ -453,7 +453,7 @@ export const systemNavigationViewActive = () => {
     }
 }
 
-export const systemNavigationViewInctive = () => {
+export const systemNavigationViewInactive = () => {
     return {
         type: Actions.NAVIGATION_VIEW_ACTIVE,
         active: false
