@@ -686,17 +686,7 @@ const getDisplayCapability = (template) => {
 		displayName: templateCapability.displayCapabilities.displayName,
 		windowTypeSupported: [mainWindowTypeCapability],
 		windowCapabilities: [getWindowCapability(template)],
-		screenParams: {
-			resolution: {
-				resolutionWidth: masterWidth,
-				resolutionHeight: masterHeight
-			},
-			touchEventAvailable: {
-				pressAvailable: true,
-				multiTouchAvailable: true,
-				doublePressAvailable: false
-			}
-		}
+		screenParams: screenParams
 	}
 	return capability;
 	
