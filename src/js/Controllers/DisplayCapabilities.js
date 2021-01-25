@@ -1,4 +1,4 @@
-import config from './css/_config.scss';
+import config from '../../css/_config.scss';
 const masterWidth = parseInt(config.masterWidth);
 const masterHeight = parseInt(config.masterHeight);
 const templateHeight = masterHeight - 75;
@@ -22,7 +22,8 @@ let imageOnlySoftButtonCapability = {
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
-	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW"
+	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
+	"NAV_FULLSCREEN_MAP"
 ]
 
 let screenParams = {
@@ -511,6 +512,39 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		]
+	},
+	"NAV_FULLSCREEN_MAP": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("templateTitle", 50),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
+				textField("menuName"),
+				textField("secondaryText"),
+				textField("tertiaryText")
+			],
+			"imageFields": [
+				imageField("choiceImage", 40),
+				imageField("menuIcon", 40),
+				imageField("cmdIcon", 150),
+				imageField("appIcon", 50),
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
+			],
+			"mediaClockFormats": [],
+			"graphicSupported": false,
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		},
+		"softButtonCapabilities": []
 	},
 	"COMMON": {
 		"audioPassThruCapabilities": {

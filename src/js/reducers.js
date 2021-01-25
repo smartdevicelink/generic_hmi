@@ -574,6 +574,8 @@ function ui(state = {}, action) {
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
                     break
+                case "NAV_FULLSCREEN_MAP":
+                    app.displayLayout = "nav-fullscreen-map"
                 default: 
                     break
             }
@@ -678,7 +680,7 @@ function system(state = {}, action) {
         case Actions.SET_VIDEO_STREAM_APP:
             newState.videoStreamingApp = action.appID;
             return newState;
-        case Actions.NON_MEDIA_VIEW_ACTIVE:
+        case Actions.NAVIGATION_VIEW_ACTIVE:
             newState.nonMediaActive = action.active
             return newState
         default:

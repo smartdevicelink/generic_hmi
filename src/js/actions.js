@@ -46,7 +46,7 @@ export const Actions = {
     SET_DD_STATE: "SET_DD_STATE",
     SET_VIDEO_STREAM_URL: "SET_VIDEO_STREAM_URL",
     SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
-    NON_MEDIA_VIEW_ACTIVE: "NON_MEDIA_VIEW_ACTIVE",
+    NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
     SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY"
 }
 
@@ -446,16 +446,16 @@ export const setVideoStreamingApp = (appID) => {
     }
 }
 
-export const systemNonMediaViewActive = () => {
+export const systemNavigationViewActive = () => {
     return {
-        type: Actions.NON_MEDIA_VIEW_ACTIVE,
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
         active: true
     }
 }
 
-export const systemNonMediaViewInctive = () => {
+export const systemNavigationViewInctive = () => {
     return {
-        type: Actions.NON_MEDIA_VIEW_ACTIVE,
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
         active: false
     }
 }
