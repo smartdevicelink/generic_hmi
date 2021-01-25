@@ -1,3 +1,8 @@
+import config from './css/_config.scss';
+const masterWidth = parseInt(config.masterWidth);
+const masterHeight = parseInt(config.masterHeight);
+const templateHeight = masterHeight - 75;
+
 let softButtonCapability = {
 	"shortPressAvailable": true,
 	"longPressAvailable": true,
@@ -22,8 +27,8 @@ let templatesAvailable = [
 
 let screenParams = {
 	"resolution": {
-		"resolutionWidth": 960,
-		"resolutionHeight": 675
+		"resolutionWidth": masterWidth,
+		"resolutionHeight": masterHeight
 	},
 	"touchEventAvailable": {
 		"pressAvailable": true,
@@ -547,8 +552,8 @@ let capabilities = {
 			},
 			videoStreamingCapability: {
 				preferredResolution: {
-					resolutionWidth: 960,
-					resolutionHeight: 600
+					resolutionWidth: masterWidth,
+					resolutionHeight: templateHeight
 				},
 				maxBitrate: 400000,
 				supportedFormats: [
@@ -566,8 +571,8 @@ let capabilities = {
 				additionalVideoStreamingCapabilities: [
 					{
 						preferredResolution: {
-							resolutionWidth: 960,
-							resolutionHeight: 600
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
 						},
 						maxBitrate: 400000,
 						supportedFormats: [
@@ -585,8 +590,8 @@ let capabilities = {
 					},
 					{
 						preferredResolution: {
-							resolutionWidth: 960,
-							resolutionHeight: 600
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
 						},
 						maxBitrate: 400000,
 						supportedFormats: [
@@ -649,8 +654,8 @@ const getDisplayCapability = (template) => {
 		windowCapabilities: [getWindowCapability(template)],
 		screenParams: {
 			resolution: {
-				resolutionWidth: 960,
-				resolutionHeight: 600
+				resolutionWidth: masterWidth,
+				resolutionHeight: masterHeight
 			},
 			touchEventAvailable: {
 				pressAvailable: true,

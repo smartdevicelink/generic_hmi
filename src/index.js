@@ -3,6 +3,7 @@ import * as serviceWorker from './serviceWorker';
 
 // import css
 import './css/main.scss';
+import config from './css/_config.scss';
 
 // import react and js
 import MediaPlayer from './js/MediaPlayer';
@@ -142,7 +143,7 @@ class HMIApp extends React.Component {
 
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
-        var videoStyle = { position: 'absolute', width: 960, height: 600, top: 75, left: 0, backgroundColor: 'transparent', objectFit: 'fill' };
+        var videoStyle = { position: 'absolute', width: config.masterWidth, height: config.masterHeight, top: 75, left: 0, backgroundColor: 'transparent', objectFit: 'fill' };
         if (!this.props.videoStreamVisible || !this.props.videoStreamUrl) {
             videoStyle.display = 'none';
         }
