@@ -23,7 +23,8 @@ export default class MediaTrackInfo extends React.Component {
     render() {
         var startDate = this.props.startDate
         var endDate = this.props.endDate
-        var now = this.props.pauseTime ? this.props.pauseTime : new Date().getTime()
+        var offset = this.props.offset
+        var now = new Date().getTime()
         switch (this.props.updateMode) {
             case "PAUSE":
                 clearInterval(this.interval)
@@ -42,15 +43,17 @@ export default class MediaTrackInfo extends React.Component {
         if (startDate) {
             var timeSince = null;
             if (this.props.countDirection === "COUNTDOWN") {
+                var startPosition = new Date(startDate.getTime() - offset)
                 timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
-                var position = new Date(startDate - timeSince)
+                var position = new Date(startPosition - timeSince)
 
                 // Clamp position to timer bounds
                 position = endDate && position < endDate ? endDate : position
                 var endTime = ""
             }
             else {
-                timeSince = new Date(startDate.getTime() + ((now - this.props.updateTime) * this.props.countRate))
+                startPosition = new Date(startDate.getTime() + offset)
+                timeSince = new Date(startPosition.getTime() + ((now - this.props.updateTime) * this.props.countRate))
                 // Clamp position to timer bounds
                 position = endDate && timeSince > endDate ? endDate : timeSince
 
@@ -62,6 +65,10 @@ export default class MediaTrackInfo extends React.Component {
                 if(endHours === "00" && endMins === "00" && endSecs === "00") {
                     endTime = ""
                 }
+            }
+
+            if (this.props.paused) {
+                position = startPosition
             }
 
             var startHours = position.getHours() < 10 ? "0" + position.getHours() : position.getHours()

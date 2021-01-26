@@ -49,7 +49,8 @@ const mapStateToProps = (state) => {
         countDirection: app.countDirection,
         countRate: app.countRate,
         updateTime: app.updateTime,
-        pauseTime: app.pauseTime,
+        offset: app.timerOffset,
+        paused: app.paused,
         colorScheme: colorScheme
     }
 }
