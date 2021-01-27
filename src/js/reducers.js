@@ -35,6 +35,8 @@ function newAppState () {
         updateTime: new Date().getTime(),
         timerOffset: 0,
         paused: false,
+        forwardSeekIndicator: {type: "TRACK", seekTime: null},
+        backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -485,6 +487,8 @@ function ui(state = {}, action) {
             }
             app.countRate = action.countRate ? action.countRate : 1.0
             app.paused = (action.updateMode === "PAUSE")
+            app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
+            app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null};
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
@@ -599,6 +603,10 @@ function ui(state = {}, action) {
             if (action.keyboardProperties) {
                 app.keyboardProperties = action.keyboardProperties
             }
+            return newState
+        case Actions.DEACTIVATE_APP:
+            app.backSeekIndicator = {type: "TRACK", seekTime: null}
+            app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             return newState
         default:
             return state

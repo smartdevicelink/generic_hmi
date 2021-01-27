@@ -217,6 +217,8 @@ class UIController {
                     rpc.params.endTime,
                     rpc.params.updateMode,
                     rpc.params.audioStreamingIndicator,
+                    rpc.params.forwardSeekIndicator,
+                    rpc.params.backSeekIndicator,
                     rpc.params.countRate
                 ))
                 return true
