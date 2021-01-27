@@ -17,6 +17,7 @@ function newAppState () {
         activeMenuDepth: 0,
         menuLayout: "LIST",
         menuIcon: null,
+        keyboardProperties: {},
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -29,8 +30,11 @@ function newAppState () {
         },
         updateMode: "CLEAR",
         countDirection: "COUNTUP",
+        audioStreamingIndicator: "PLAY_PAUSE",
+        countRate: 1.0,
         updateTime: new Date().getTime(),
-        pauseTime: null,
+        timerOffset: 0,
+        paused: false,
         forwardSeekIndicator: {type: "TRACK", seekTime: null},
         backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
@@ -423,6 +427,8 @@ function ui(state = {}, action) {
             app.choices = action.choices
             app.interactionId = action.msgID
             app.interactionCancelId = action.cancelID
+            app.interactionLayout = action.layout
+            app.interactionTimeout = action.timeout
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -444,6 +450,7 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
+                app.timerOffset = 0
             }
             else if (action.updateMode === "COUNTDOWN") {
                 if (action.updateMode !== app.countDirection) {
@@ -451,30 +458,35 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
+                app.timerOffset = 0
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
-                app.pauseTime = new Date().getTime()
-                app.updateTime = app.pauseTime
+                app.updateTime = new Date().getTime()
             }
-            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
-                app.pauseTime = new Date().getTime()
-            }
-            else if (action.updateMode === "RESUME" && app.pauseTime) {
+            else if (action.updateMode === "PAUSE" && !app.paused) {
                 var now = new Date().getTime()
-                app.updateTime = app.updateTime + now - app.pauseTime
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
+            }
+            else if (action.updateMode === "RESUME" && app.paused) {
+                app.updateTime = new Date().getTime()
+            }
+            else if (action.updateMode === "RESUME" && !app.paused) {
+                now = new Date().getTime()
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
+                app.updateTime = now
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
                 app.startTime = null
                 app.endTime = null
+                app.timerOffset = 0
             }
             app.updateMode = action.updateMode
-            if(action.audioStreamingIndicator) {
+            if (action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
-            if (action.updateMode !== "PAUSE") {
-                app.pauseTime = null
-            }
+            app.countRate = action.countRate ? action.countRate : 1.0
+            app.paused = (action.updateMode === "PAUSE")
             app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
             app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null};
             return newState
@@ -587,6 +599,9 @@ function ui(state = {}, action) {
             if (action.menuIcon) {
                 app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
                 app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
+            }
+            if (action.keyboardProperties) {
+                app.keyboardProperties = action.keyboardProperties
             }
             return newState
         case Actions.DEACTIVATE_APP:
