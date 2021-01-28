@@ -123,8 +123,10 @@ export default class Keyboard extends Component {
               break
             case "AZERTY":
               keyboardLayout = AZERTY
+              break
             case "NUMERIC":
               keyboardLayout = NUMERIC
+              break
             default:
               break
           }
