@@ -561,10 +561,7 @@ const dynamicUpdateCapabilities = {
 
 const keyboardCapabilities = {
 	maskInputCharactersSupported: true,
-	supportedKeyboardLayouts: [
-	  "QWERTY","QWERTZ","AZERTY","NUMERIC"
-	],
-	configurableKeys: [
+	supportedKeyboards: [
 		{
 		  keyboardLayout: "QWERTY",
 		  numConfigurableKeys: 12

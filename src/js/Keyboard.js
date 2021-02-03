@@ -131,10 +131,10 @@ export default class Keyboard extends Component {
               break
           }
         }
-        if (this.keyboardProperties.customizeKeys && 
-            this.keyboardProperties.customizeKeys.length) {
+        if (this.keyboardProperties.customKeys && 
+            this.keyboardProperties.customKeys.length) {
           keyboardLayout = this.replaceSpecialCharacters(
-            keyboardLayout, this.keyboardProperties.customizeKeys)
+            keyboardLayout, this.keyboardProperties.customKeys)
         }
         if (this.keyboardProperties.maskInputCharacters === "ENABLE_INPUT_KEY_MASK") {
           maskedInput = true
