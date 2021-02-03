@@ -48,7 +48,8 @@ class BCController {
                 if (rpc.params.application.appType.includes("WEB_VIEW")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
-                } else if (rpc.params.application.appType.includes("NAVIGATION")) {
+                } else if (rpc.params.application.appType.includes("NAVIGATION")
+                    || rpc.params.application.appType.includes("PROJECTION")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "nav-fullscreen-map"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay("NAV_FULLSCREEN_MAP", rpc.params.application.appID));
                 } else {
