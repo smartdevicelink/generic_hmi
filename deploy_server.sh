@@ -39,7 +39,7 @@ DeployServer() {
 
 StartServer() {
     cp ${SOURCE_DIR}/${TARGET_SCRIPT} ${TARGET_DIR}
-    python3 ${TARGET_DIR}/${TARGET_SCRIPT} --host 127.0.0.1 --ws-port 8081 --ff-port 8085
+    python3 ${TARGET_DIR}/${TARGET_SCRIPT} --host 127.0.0.1 --ws-port 8081
     rm ${TARGET_DIR}/${TARGET_SCRIPT}
 }
 

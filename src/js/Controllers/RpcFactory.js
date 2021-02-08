@@ -792,6 +792,17 @@ class RpcFactory {
         };
     }
 
+    static StartAudioStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StartAudioStream"
+            }
+        };
+    }
+
     static StopStreamSuccess(id) {
         return {
             "jsonrpc": "2.0",

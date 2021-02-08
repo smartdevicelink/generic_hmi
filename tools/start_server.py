@@ -51,8 +51,8 @@ class Flags():
   FILE_SERVER_HOST = '127.0.0.1'
   FILE_SERVER_PORT = 4000
   FILE_SERVER_URI = 'http://127.0.0.1:4000'
-  FFMPEG_SERVER_HOST = '127.0.0.1'
-  FFMPEG_SERVER_PORT = 8085
+  VIDEO_SERVER_PORT = 8085
+  AUDIO_SERVER_PORT = 8086
 
 class WebengineFileServer():
   """Used to handle routing file server requests for webengine apps.
@@ -179,6 +179,7 @@ class RPCService(WSServer.SampleRPCService):
       "GetInstalledApps": RPCService.webengine_manager.handle_get_installed_apps,
       "UninstallApp": RPCService.webengine_manager.handle_uninstall_app,
       "StartVideoStream": self.handle_start_video_stream,
+      "StartAudioStream": self.handle_start_audio_stream,
     }
 
   async def send(self, _msg):
@@ -272,8 +273,22 @@ class RPCService(WSServer.SampleRPCService):
     if 'url' not in _params:
       return self.gen_error_msg('Missing mandatory param \'url\'')
 
-    server_endpoint = 'http://' + Flags.FFMPEG_SERVER_HOST + ':' + str(Flags.FFMPEG_SERVER_PORT)
+    server_endpoint = 'http://' + Flags.FILE_SERVER_HOST + ':' + str(Flags.VIDEO_SERVER_PORT)
     ffmpeg_process = ffmpeg.input(_params['url']).output(server_endpoint, vcodec='vp8', format='webm', listen=1, multiple_requests=1).run_async(pipe_stderr=True)
+    o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
+    index = o.expect(["Input", pexpect.EOF, pexpect.TIMEOUT])
+
+    if index != 0:
+      return self.gen_error_msg('Streaming data not available from SDL')
+
+    return { 'success': True, 'params': { 'endpoint': server_endpoint } }
+
+  def handle_start_audio_stream(self, _method, _params):
+    if 'url' not in _params:
+      return self.gen_error_msg('Missing mandatory param \'url\'')
+
+    server_endpoint = 'http://' + Flags.FILE_SERVER_HOST + ':' + str(Flags.AUDIO_SERVER_PORT)
+    ffmpeg_process = ffmpeg.input(_params['url'], ar='16000', ac='1', f='s16le').output(server_endpoint, format="wav", listen=1, multiple_requests=1).run_async(pipe_stderr=True)
     o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
     index = o.expect(["Input", pexpect.EOF, pexpect.TIMEOUT])
 
@@ -428,7 +443,8 @@ def main():
   parser =  argparse.ArgumentParser(description="Handle backend operations for the hmi")
   parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
   parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
-  parser.add_argument('--ff-port', type=int, default=8085, help="Video streaming server port number")
+  parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
+  parser.add_argument('--audio-port', type=int, default=8086, help="Video streaming server port number")
   parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
   parser.add_argument('--fs-uri', type=str, help="File server's URI (to be sent back to the client hmi)")
 
@@ -436,8 +452,8 @@ def main():
   Flags.FILE_SERVER_HOST = args.host
   Flags.FILE_SERVER_PORT = args.fs_port
   Flags.FILE_SERVER_URI = args.fs_uri if args.fs_uri else 'http://%s:%s' % (Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT)
-  Flags.FFMPEG_SERVER_HOST = args.host
-  Flags.FFMPEG_SERVER_PORT = args.ff_port
+  Flags.VIDEO_SERVER_PORT = args.video_port
+  Flags.AUDIO_SERVER_PORT = args.audio_port
 
   backend_server = WSServer(args.host, args.ws_port, RPCService)
 
