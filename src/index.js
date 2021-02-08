@@ -37,6 +37,8 @@ import store from './js/store'
 import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
+import uiController from './js/Controllers/UIController'
+
 import {
     setTheme, 
     setPTUWithModem, 
@@ -68,7 +70,9 @@ class HMIApp extends React.Component {
         store.dispatch(setPTUWithModem(!this.props.ptuWithModemEnabled))
     }
     handleDDToggle(){
-        store.dispatch(setDDState(!this.props.dd));
+        let newDDState = !this.props.dd;
+        store.dispatch(setDDState(newDDState));
+        uiController.onDriverDistraction((newDDState) ? "DD_ON" : "DD_OFF");
     }
     render() {
         const themeClass = this.state.dark ? 'dark-theme' : 'light-theme';
