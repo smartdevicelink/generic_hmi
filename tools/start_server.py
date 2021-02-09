@@ -444,7 +444,7 @@ def main():
   parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
   parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
-  parser.add_argument('--audio-port', type=int, default=8086, help="Video streaming server port number")
+  parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
   parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
   parser.add_argument('--fs-uri', type=str, help="File server's URI (to be sent back to the client hmi)")
 
