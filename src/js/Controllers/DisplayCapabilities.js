@@ -563,20 +563,20 @@ const keyboardCapabilities = {
 	maskInputCharactersSupported: true,
 	supportedKeyboards: [
 		{
-		  keyboardLayout: "QWERTY",
-		  numConfigurableKeys: 12
+			keyboardLayout: "QWERTY",
+			numConfigurableKeys: 10
 		},
 		{
 			keyboardLayout: "QWERTZ",
 			numConfigurableKeys: 7
 		},
 		{
-		  keyboardLayout: "AZERTY",
-		  numConfigurableKeys: 15
+			keyboardLayout: "AZERTY",
+			numConfigurableKeys: 10
 		},
 		{
-		  keyboardLayout: "NUMERIC",
-		  numConfigurableKeys: 0
+			keyboardLayout: "NUMERIC",
+			numConfigurableKeys: 0
 		}
 	]
 }
