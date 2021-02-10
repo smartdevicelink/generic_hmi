@@ -14,6 +14,9 @@ export default class Keyboard extends Component {
   };
 
   keyboardProperties = {};
+  keyboardLayout = QWERTY
+  maskedInput = false
+  showUserMaskOption = false
 
   onChange = input => {
     // Changes from button presses
@@ -108,10 +111,8 @@ export default class Keyboard extends Component {
   render() {
     const state = store.getState()
     const app = state.ui[state.activeApp]
-    var keyboardLayout = QWERTY
-    var maskedInput = false
-    var showUserMaskOption = false
-    if (app) {
+    // Assign keyboard properties once so they do not change while in view
+    if (app && Object.keys(this.keyboardProperties).length === 0) {
       this.appID = state.activeApp;
       this.interactionId = app.interactionId;
       this.keyboardProperties = app.keyboardProperties;
@@ -121,13 +122,13 @@ export default class Keyboard extends Component {
             case "QWERTY":
               break
             case "QWERTZ":
-              keyboardLayout = QWERTZ
+              this.keyboardLayout = QWERTZ
               break
             case "AZERTY":
-              keyboardLayout = AZERTY
+              this.keyboardLayout = AZERTY
               break
             case "NUMERIC":
-              keyboardLayout = NUMERIC
+              this.keyboardLayout = NUMERIC
               break
             default:
               break
@@ -135,14 +136,13 @@ export default class Keyboard extends Component {
         }
         if (this.keyboardProperties.customKeys && 
             this.keyboardProperties.customKeys.length) {
-          keyboardLayout = this.replaceSpecialCharacters(
-            keyboardLayout, this.keyboardProperties.customKeys)
+          this.keyboardLayout = this.replaceSpecialCharacters(
+            this.keyboardLayout, this.keyboardProperties.customKeys)
         }
         if (this.keyboardProperties.maskInputCharacters === "ENABLE_INPUT_KEY_MASK") {
-          maskedInput = true
+          this.maskedInput = true
         } else if (this.keyboardProperties.maskInputCharacters === "USER_CHOICE_INPUT_KEY_MASK") {
-          maskedInput = this.state.userMaskedInput
-          showUserMaskOption = true
+          this.showUserMaskOption = true
         }
       }
     }
@@ -159,20 +159,20 @@ export default class Keyboard extends Component {
                     <input
                         className="input-text"
                         value={this.state.input}
-                        type={maskedInput ? "password" : "text"}
+                        type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
                         placeholder={"Tap on the virtual keyboard to start"}
                         onChange={this.onChangeInput}
                     />
                     <input 
                         className="mask-checkbox"
                         id="maskOption"
-                        type={showUserMaskOption ? "checkbox" : "hidden"} 
+                        type={this.showUserMaskOption ? "checkbox" : "hidden"} 
                         onClick={this.handleUserMask}
                     />
                     <label 
                         for="maskOption" 
                         className="mask-checkbox mask-option-label"
-                        style={{display: showUserMaskOption ? 'inline' : 'none' }}
+                        style={{display: this.showUserMaskOption ? 'inline' : 'none' }}
                     >
                         Mask Input
                     </label>
@@ -180,7 +180,7 @@ export default class Keyboard extends Component {
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}
-                    layout={keyboardLayout}
+                    layout={this.keyboardLayout}
                     onChange={this.onChange}
                     onKeyPress={this.onKeyPress}
                     theme={"hg-theme-default hg-layout-default custom-keyboard"}
