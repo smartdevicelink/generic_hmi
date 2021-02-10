@@ -17,6 +17,7 @@ export default class Keyboard extends Component {
   keyboardLayout = QWERTY
   maskedInput = false
   showUserMaskOption = false
+  keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
 
   onChange = input => {
     // Changes from button presses
@@ -129,6 +130,7 @@ export default class Keyboard extends Component {
               break
             case "NUMERIC":
               this.keyboardLayout = NUMERIC
+              this.keyboardClass += " numeric"
               break
             default:
               break
@@ -183,7 +185,7 @@ export default class Keyboard extends Component {
                     layout={this.keyboardLayout}
                     onChange={this.onChange}
                     onKeyPress={this.onKeyPress}
-                    theme={"hg-theme-default hg-layout-default custom-keyboard"}
+                    theme={this.keyboardClass}
                 />
             </div>
         </div>
