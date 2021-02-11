@@ -53,7 +53,9 @@ class NavController {
                     FileSystemController.sendJSONMessage({
                         method: 'StartVideoStream',
                         params: {
-                            url: this.videoStreamUrl
+                            url: this.videoStreamUrl,
+                            config: this.videoConfig,
+                            webm: this.webmSupport
                         }
                     });
                 } else {
@@ -73,6 +75,13 @@ class NavController {
                 this.audioStreamUrl = rpc.params.url;
                 return {"rpc": RpcFactory.StartAudioStreamSuccess(rpc.id)};
             case "SetVideoConfig":
+                this.videoConfig = rpc.params.config;
+
+                if (this.webmSupport === undefined) {
+                    var video = document.getElementById('navi_stream');
+                    this.webmSupport = 'probably' === video.canPlayType('video/webm; codecs="vp8"');
+                }
+
                 return { "rpc": RpcFactory.SetVideoConfigSuccess(rpc.id) };
             default:
                 return {"rpc": RpcFactory.UnsupportedResourceResponse(rpc, "This RPC is not supported.")};
