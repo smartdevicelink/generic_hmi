@@ -250,7 +250,6 @@ class UIController {
                         } else {
                             this.listener.respondSuccess(rpc.method, rpc.id)
                         }
-
                     },
                     () => {
                         this.listener.send(RpcFactory.InvalidImageResponse(rpc, warningsString))
