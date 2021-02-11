@@ -61,8 +61,7 @@ class NavController {
                         }
                     });
                 } else {
-                    var video = document.getElementById('navi_stream');
-                    video.pause();
+                    document.getElementById('navi_stream').pause();
                     store.dispatch(setVideoStreamUrl(null));
                 }
                 return null
