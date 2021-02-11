@@ -767,7 +767,7 @@ class RpcFactory {
             }
         };
         if (value) {
-            message["data"] = value;
+            message["params"]["data"] = value;
         }
         return message; 
     }
