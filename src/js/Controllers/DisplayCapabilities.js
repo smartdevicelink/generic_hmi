@@ -618,25 +618,6 @@ let capabilities = {
 						],
 						hapticSpatialDataSupported: true,
 						diagonalScreenSize: 7,
-						pixelPerInch: 96,
-						scale: 1,
-						preferredFPS: 30
-					},
-					{
-						preferredResolution: {
-							resolutionWidth: masterWidth,
-							resolutionHeight: templateHeight
-						},
-						maxBitrate: 400000,
-						supportedFormats: [
-							{ protocol:  "RAW", codec: "H264" },
-							{ protocol:  "RTP", codec: "H264" },
-							{ protocol:  "RTSP", codec: "Theora" },
-							{ protocol:  "RTMP", codec: "VP8" },
-							{ protocol:  "WEBM", codec: "VP9" }
-						],
-						hapticSpatialDataSupported: true,
-						diagonalScreenSize: 7,
 						pixelPerInch: 72,
 						scale: 1.5,
 						preferredFPS: 30
