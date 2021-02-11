@@ -65,7 +65,7 @@ class RpcFactory {
     static InvalidImageResponse(rpc, info) {
         var message = "Requested image(s) not found."
         if (info) {
-            message += " " + info
+            message += "\n" + info
         }
         return ({
             "jsonrpc": "2.0",
