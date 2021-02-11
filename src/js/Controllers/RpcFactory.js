@@ -62,13 +62,17 @@ class RpcFactory {
             }
         })
     }            
-    static InvalidImageResponse(rpc) {
+    static InvalidImageResponse(rpc, info) {
+        var message = "Requested image(s) not found."
+        if (info) {
+            message += " " + info
+        }
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "error": {
                 "code": 21,
-                "message": "Requested image(s) not found.",
+                "message": message,
                 "data": {
                     "method": rpc.method
                 }

@@ -236,10 +236,25 @@ class UIController {
                     rpc.params.menuIcon,
                     rpc.params.keyboardProperties
                 ))
+
+                var warningsString;
+
+                if (appUIState && appUIState.isPerformingInteraction && appUIState.interactionLayout === "KEYBOARD" && rpc.params.keyboardProperties) {
+                    warningsString = "Keyboard properties are not applied while keyboard is in view."
+                }
                 
                 ValidateImages([rpc.params.menuIcon]).then(
-                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
-                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                    () => {
+                        if (warningsString) {
+                            this.listener.send(RpcFactory.ErrorResponse(rpc, 21, warningsString))
+                        } else {
+                            this.listener.respondSuccess(rpc.method, rpc.id)
+                        }
+
+                    },
+                    () => {
+                        this.listener.send(RpcFactory.InvalidImageResponse(rpc, warningsString))
+                    }
                 );
                 break;
             case "Alert":
