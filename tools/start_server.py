@@ -277,7 +277,7 @@ class RPCService(WSServer.SampleRPCService):
       return self.gen_error_msg('Missing mandatory param \'config\'')
 
     if _params['config']['protocol'] == 'RTP':
-      print('\033[33mFFMpeg does not support RTP video\033[0m')
+      print('\033[33mSDL does not support RTP video in browser\033[0m')
       if _params['config']['codec'] == 'H264':
         print('\033[1mYou may view your video with gstreamer:\033[0m')
         print('gst-launch-1.0 souphttpsrc location=' + _params['url'] + ' ! "application/x-rtp-stream" ! rtpstreamdepay ! "application/x-rtp,media=(string)video,clock-rate=90000,encoding-name=(string)H264" ! rtph264depay ! "video/x-h264, stream-format=(string)avc, alignment=(string)au" ! avdec_h264 ! videoconvert ! ximagesink sync=false')
