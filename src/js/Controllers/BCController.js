@@ -104,7 +104,8 @@ class BCController {
                 return null
 
             case "OnAppCapabilityUpdated":
-                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING') {
+                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING'
+                    && rpc.params.appCapability.videoStreamingCapability) {
                     var vsc = rpc.params.appCapability.videoStreamingCapability;
                     if (!vsc.additionalVideoStreamingCapabilities) {
                         vsc.additionalVideoStreamingCapabilities = [];
