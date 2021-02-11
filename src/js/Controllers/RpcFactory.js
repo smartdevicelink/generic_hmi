@@ -759,14 +759,17 @@ class RpcFactory {
     }
 
     static OnKeyboardInput (value, event) {
-        return ({
+        var message = {
             'jsonrpc': '2.0',
             'method': 'UI.OnKeyboardInput',
             'params': {
-              'data': value,
               'event': event
             }
-        })
+        };
+        if (value) {
+            message["data"] = value;
+        }
+        return message; 
     }
 }
 
