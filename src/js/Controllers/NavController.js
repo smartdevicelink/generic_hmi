@@ -40,14 +40,16 @@ class NavController {
             case "OnVideoDataStreaming":
                 if (rpc.params.available) {
                     FileSystemController.subscribeToEvent('StartVideoStream', (success, params) => {
-                        if (!success || !params.endpoint) {
+                        if (!success) {
                             console.error('Error encountered while starting video stream');
                             return;
                         }
 
-                        store.dispatch(setVideoStreamUrl(params.endpoint));
-                        var video = document.getElementById('navi_stream');
-                        video.play();
+                        if (params.endpoint) {
+                            store.dispatch(setVideoStreamUrl(params.endpoint));
+                            var video = document.getElementById('navi_stream');
+                            video.play();
+                        }
                     });
 
                     FileSystemController.sendJSONMessage({

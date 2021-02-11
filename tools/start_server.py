@@ -273,15 +273,32 @@ class RPCService(WSServer.SampleRPCService):
     if 'url' not in _params:
       return self.gen_error_msg('Missing mandatory param \'url\'')
 
-    server_endpoint = 'http://' + Flags.FILE_SERVER_HOST + ':' + str(Flags.VIDEO_SERVER_PORT)
-    ffmpeg_process = ffmpeg.input(_params['url']).output(server_endpoint, vcodec='vp8', format='webm', listen=1, multiple_requests=1).run_async(pipe_stderr=True)
-    o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
-    index = o.expect(["Input", pexpect.EOF, pexpect.TIMEOUT])
+    if 'config' not in _params:
+      return self.gen_error_msg('Missing mandatory param \'config\'')
 
-    if index != 0:
-      return self.gen_error_msg('Streaming data not available from SDL')
+    if _params['config']['protocol'] == 'RTP':
+      print('\033[33mFFMpeg does not support RTP video\033[0m')
+      if _params['config']['codec'] == 'H264':
+        print('\033[1mYou may view your video with gstreamer:\033[0m')
+        print('gst-launch-1.0 souphttpsrc location=' + _params['url'] + ' ! "application/x-rtp-stream" ! rtpstreamdepay ! "application/x-rtp,media=(string)video,clock-rate=90000,encoding-name=(string)H264" ! rtph264depay ! "video/x-h264, stream-format=(string)avc, alignment=(string)au" ! avdec_h264 ! videoconvert ! ximagesink sync=false')
 
-    return { 'success': True, 'params': { 'endpoint': server_endpoint } }
+    elif not _params['webm']:
+      print('\033[33mYour browser does not support WEBM video\033[0m')
+      if _params['config']['protocol'] == 'RAW' and _params['config']['protocol'] == 'H264':
+        print('\033[1mYou may view your video with gstreamer:\033[0m')
+        print('gst-launch-1.0 souphttpsrc location=' + _params['url'] + ' ! decodebin ! videoconvert ! xvimagesink sync=false')
+
+    else:
+      server_endpoint = 'http://' + Flags.FILE_SERVER_HOST + ':' + str(Flags.VIDEO_SERVER_PORT)
+      ffmpeg_process = ffmpeg.input(_params['url']).output(server_endpoint, vcodec='vp8', format='webm', listen=1, multiple_requests=1).run_async(pipe_stderr=True)
+      o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
+      index = o.expect(["Input", pexpect.EOF, pexpect.TIMEOUT])
+
+      if index != 0:
+        return self.gen_error_msg('Streaming data not available from SDL')
+      return { 'success': True, 'params': { 'endpoint': server_endpoint } }
+
+    return { 'success': True }
 
   def handle_start_audio_stream(self, _method, _params):
     if 'url' not in _params:
