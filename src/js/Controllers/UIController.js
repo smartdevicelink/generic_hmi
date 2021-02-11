@@ -124,7 +124,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.cmdID,
                     rpc.params.menuParams,
-                    rpc.params.cmdIcon
+                    rpc.params.cmdIcon,
+                    rpc.params.secondaryImage
                 ))
                 
                 ValidateImages([rpc.params.cmdIcon]).then(
@@ -148,7 +149,8 @@ class UIController {
                     rpc.params.menuID,
                     rpc.params.menuParams,
                     rpc.params.menuIcon,
-                    rpc.params.menuLayout
+                    rpc.params.menuLayout,
+                    rpc.params.secondaryImage
                 ))
 
                 ValidateImages([rpc.params.menuIcon]).then(

@@ -341,12 +341,16 @@ function ui(state = {}, action) {
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
+            var secondaryImage = action.secondaryImage
             menuItem = {
                 cmdID: cmdID,
                 parentID: menuParams.parentID,
                 position: menuParams.position,
                 menuName: menuParams.menuName,
-                cmdIcon: cmdIcon
+                secondaryText: menuParams.secondaryText,
+                tertiaryText: menuParams.tertiaryText,
+                cmdIcon: cmdIcon,
+                secondaryImage: secondaryImage
             }
             if (menuParams.parentID) {
                 /*var subMenu = menu.find((command) => {
@@ -376,7 +380,10 @@ function ui(state = {}, action) {
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
+                secondaryText: action.menuParams.secondaryText,
+                tertiaryText: action.menuParams.tertiaryText,
                 cmdIcon: action.subMenuIcon,
+                secondaryImage: action.secondaryImage,
                 subMenu: [],
                 menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
