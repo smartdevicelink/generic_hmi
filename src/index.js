@@ -146,7 +146,7 @@ class HMIApp extends React.Component {
         }
 
         var resolutionSelector = undefined;
-        if (this.props.activeAppState) {
+        if (this.props.activeAppState && this.props.activeAppState.videoStreamingCapability.length) {
             resolutionSelector = (<div className="resolution-selector">
                 <label>Video Resolution</label><br/>
                 <select value={this.state.resolution} onChange={this.pickResolution}>

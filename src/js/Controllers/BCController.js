@@ -106,6 +106,9 @@ class BCController {
             case "OnAppCapabilityUpdated":
                 if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING') {
                     var vsc = rpc.params.appCapability.videoStreamingCapability;
+                    if (!vsc.additionalVideoStreamingCapabilities) {
+                        vsc.additionalVideoStreamingCapabilities = [];
+                    }
                     store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsc.additionalVideoStreamingCapabilities));
                 }
                 return null;
