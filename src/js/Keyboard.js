@@ -181,7 +181,7 @@ export default class Keyboard extends Component {
                     />
                     <label 
                         for="maskOption" 
-                        defaultChecked={this.state.userMaskedInput}
+                        defaultChecked={this.state.showUserMaskOption}
                         className="mask-checkbox mask-option-label"
                         style={{display: this.showUserMaskOption ? 'inline' : 'none' }}
                     >
