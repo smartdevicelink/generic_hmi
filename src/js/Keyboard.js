@@ -120,7 +120,7 @@ export default class Keyboard extends Component {
     if (app && Object.keys(this.keyboardProperties).length === 0) {
       this.appID = state.activeApp;
       this.interactionId = app.interactionId;
-      this.keyboardProperties = app.keyboardProperties;
+      this.keyboardProperties = JSON.parse(JSON.stringify(app.keyboardProperties));
       if (this.keyboardProperties) {
         if (this.keyboardProperties.keyboardLayout) {
           switch(this.keyboardProperties.keyboardLayout) {
@@ -178,10 +178,10 @@ export default class Keyboard extends Component {
                         id="maskOption"
                         type={this.showUserMaskOption ? "checkbox" : "hidden"} 
                         onClick={this.handleUserMask}
+                        defaultChecked={this.showUserMaskOption}
                     />
                     <label 
                         for="maskOption" 
-                        defaultChecked={this.showUserMaskOption}
                         className="mask-checkbox mask-option-label"
                         style={{display: this.showUserMaskOption ? 'inline' : 'none' }}
                     >
