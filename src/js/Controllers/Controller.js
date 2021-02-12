@@ -134,9 +134,11 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("BasicCommunication.OnPutFile")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
+        this.subscribeToNotification("Navigation.OnAudioDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
         this.subscribeToNotification("AppService.OnAppServiceData")
+        this.subscribeToNotification("BasicCommunication.OnAppCapabilityUpdated")
 
         var onSystemTimeReady = {
             "jsonrpc": "2.0",

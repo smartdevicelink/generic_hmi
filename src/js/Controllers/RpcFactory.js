@@ -710,19 +710,24 @@ class RpcFactory {
             }
         })
     }
+
+    static OnSystemCapabilityUpdated(capability, appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": capability,
+                "appID": appID
+            }
+        })
+    }
+
     static OnSystemCapabilityDisplay(template, appID) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
             displayCapabilities: [getDisplayCapability(template)]
         }
-        return ({
-            "jsonrpc": "2.0",
-            "method": "BasicCommunication.OnSystemCapabilityUpdated",
-            "params": {
-                "systemCapability": systemCapability,
-                "appID": appID
-            }
-        })
+        return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
 
     static OnUpdateFile(appID, fileName) {
@@ -781,6 +786,61 @@ class RpcFactory {
             message["params"]["data"] = value;
         }
         return message; 
+    }
+
+    static OnTouchEvent(type, events) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnTouchEvent',
+            'params': {
+              'type': type,
+              'event': events
+            }
+        })
+    }
+
+    static StartStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StartStream"
+            }
+        };
+    }
+
+    static StartAudioStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StartAudioStream"
+            }
+        };
+    }
+
+    static StopStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StopStream"
+            }
+        };
+    }
+
+    static SetVideoConfigSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.SetVideoConfig"
+            }
+        };
     }
 }
 

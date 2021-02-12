@@ -1,3 +1,8 @@
+import config from '../../css/_config.scss';
+const masterWidth = parseInt(config.masterWidth);
+const masterHeight = parseInt(config.masterHeight);
+const templateHeight = masterHeight - 75;
+
 let softButtonCapability = {
 	"shortPressAvailable": true,
 	"longPressAvailable": true,
@@ -15,16 +20,16 @@ let imageOnlySoftButtonCapability = {
 }
 
 let templatesAvailable = [
-	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS",
-	"LARGE_GRAPHIC_ONLY", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC",
-	"TEXTBUTTONS_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", 
-	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "TILES_ONLY", "WEB_VIEW"
+	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
+	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
+	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
+	"NAV_FULLSCREEN_MAP", "TILES_ONLY"
 ]
 
 let screenParams = {
 	"resolution": {
-		"resolutionWidth": 960,
-		"resolutionHeight": 675
+		"resolutionWidth": masterWidth,
+		"resolutionHeight": masterHeight
 	},
 	"touchEventAvailable": {
 		"pressAvailable": true,
@@ -571,6 +576,39 @@ let capabilities = {
 			softButtonCapability
 		]
 	},
+	"NAV_FULLSCREEN_MAP": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("templateTitle", 50),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
+				textField("menuName"),
+				textField("secondaryText"),
+				textField("tertiaryText")
+			],
+			"imageFields": [
+				imageField("choiceImage", 40),
+				imageField("menuIcon", 40),
+				imageField("cmdIcon", 150),
+				imageField("appIcon", 50),
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
+			],
+			"mediaClockFormats": [],
+			"graphicSupported": false,
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		},
+		"softButtonCapabilities": []
+	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
 			"samplingRate": "44KHZ",
@@ -595,7 +633,7 @@ let capabilities = {
 		"hmiCapabilities": {
 			"navigation": false,
 			"phoneCall": false,
-			"videoStreaming": false
+			"videoStreaming": true
 		},
 		"systemCapabilities": {
 			"navigationCapability": {
@@ -608,6 +646,65 @@ let capabilities = {
 			"driverDistractionCapability": {
 				"menuLength": 3,
 				"subMenuDepth": 2
+			},
+			videoStreamingCapability: {
+				preferredResolution: {
+					resolutionWidth: masterWidth,
+					resolutionHeight: templateHeight
+				},
+				maxBitrate: 400000,
+				supportedFormats: [
+					{ protocol:  "RAW", codec: "H264" },
+					{ protocol:  "RTP", codec: "H264" },
+					{ protocol:  "RTSP", codec: "Theora" },
+					{ protocol:  "RTMP", codec: "VP8" },
+					{ protocol:  "WEBM", codec: "VP9" }
+				],
+				hapticSpatialDataSupported: true,
+				diagonalScreenSize: 7,
+				pixelPerInch: 96,
+				scale: 1,
+				preferredFPS: 30,
+				additionalVideoStreamingCapabilities: [
+					{
+						preferredResolution: {
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 72,
+						scale: 1.5,
+						preferredFPS: 30
+					},
+					{
+						preferredResolution: {
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 48,
+						scale: 2,
+						preferredFPS: 30
+					}
+				]
 			}
 		}
 	}
@@ -674,7 +771,8 @@ const getDisplayCapability = (template) => {
 	var capability = {
 		displayName: templateCapability.displayCapabilities.displayName,
 		windowTypeSupported: [mainWindowTypeCapability],
-		windowCapabilities: [getWindowCapability(template)]
+		windowCapabilities: [getWindowCapability(template)],
+		screenParams: screenParams
 	}
 	return capability;
 	

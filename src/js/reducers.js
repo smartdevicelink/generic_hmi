@@ -50,7 +50,63 @@ function newAppState () {
             msgID: null
         },
         dayColorScheme: null,
-        nightColorScheme: null
+        nightColorScheme: null,
+        videoStreamingCapability: [
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 96,
+                scale: 1
+            },
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 48,
+                scale: 2
+            },
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 72,
+                scale: 1.5
+            }
+        ]
     }
 }
 
@@ -538,7 +594,10 @@ function ui(state = {}, action) {
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
                     break
-                default: 
+                case "NAV_FULLSCREEN_MAP":
+                    app.displayLayout = "nav-fullscreen-map"
+                    break
+                default:
                     break
             }
             if (action.dayColorScheme) {
@@ -613,6 +672,9 @@ function ui(state = {}, action) {
                     app.keyboardProperties, action.keyboardProperties);
             }
             return newState
+        case Actions.SET_VIDEO_STREAM_CAPABILITY:
+            app.videoStreamingCapability = action.capability
+            return newState
         case Actions.DEACTIVATE_APP:
             app.backSeekIndicator = {type: "TRACK", seekTime: null}
             app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
@@ -635,6 +697,18 @@ function system(state = {}, action) {
             return newState
         case Actions.SET_PTU_WITH_MODEM:
             newState.ptuWithModemEnabled = action.enabled
+            return newState
+        case Actions.SET_VIDEO_STREAM_URL:
+            if (state.videoStreamUrl === action.url) {
+                return state;
+            }
+            newState.videoStreamUrl = action.url
+            return newState
+        case Actions.SET_VIDEO_STREAM_APP:
+            newState.videoStreamingApp = action.appID;
+            return newState;
+        case Actions.NAVIGATION_VIEW_ACTIVE:
+            newState.navigationActive = action.active
             return newState
         default:
             return state

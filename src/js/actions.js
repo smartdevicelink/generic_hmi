@@ -43,7 +43,11 @@ export const Actions = {
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
     APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
     WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE",
-    SET_DD_STATE: "SET_DD_STATE"
+    SET_DD_STATE: "SET_DD_STATE",
+    SET_VIDEO_STREAM_URL: "SET_VIDEO_STREAM_URL",
+    SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
+    NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
+    SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY"
 }
 
 export const updateAppList = (applications) => {
@@ -430,5 +434,41 @@ export const setDDState = (ddState) => {
     return {
         type: Actions.SET_DD_STATE,
         dd: ddState
+    }
+}
+
+export const setVideoStreamUrl = (url) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_URL,
+        url: url
+    }
+}
+
+export const setVideoStreamingApp = (appID) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_APP,
+        appID: appID
+    }
+}
+
+export const systemNavigationViewActive = () => {
+    return {
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
+        active: true
+    }
+}
+
+export const systemNavigationViewInactive = () => {
+    return {
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
+        active: false
+    }
+}
+
+export const setVideoStreamingCapability = (appID, capability) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_CAPABILITY,
+        appID: appID,
+        capability: capability
     }
 }
