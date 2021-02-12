@@ -153,6 +153,9 @@ export default class Keyboard extends Component {
     if (app && app.isPerformingInteraction) {
         backLink = app.displayLayout;
     }
+
+    var interactionText = app && app.interactionText ? 
+      app.interactionText : "Tap on the virtual keyboard to start";
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
@@ -162,7 +165,7 @@ export default class Keyboard extends Component {
                         className="input-text"
                         value={this.state.input}
                         type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
-                        placeholder={"Tap on the virtual keyboard to start"}
+                        placeholder={interactionText}
                         onChange={this.onChangeInput}
                     />
                     <input 
