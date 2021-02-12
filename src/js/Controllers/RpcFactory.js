@@ -736,6 +736,16 @@ class RpcFactory {
         })
     }
 
+    static OnDriverDistraction(ddState) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnDriverDistraction',
+            'params': {
+              'state': ddState,
+            }
+        })
+    }
+
     static OnUpdateSubMenu(appID, menuID) {
         return ({
             "jsonrpc": "2.0",

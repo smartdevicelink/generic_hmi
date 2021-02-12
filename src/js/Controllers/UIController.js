@@ -603,6 +603,10 @@ class UIController {
         this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
     }
 
+    onDriverDistraction(ddState) {
+        this.listener.send(RpcFactory.OnDriverDistraction(ddState))
+    }
+
     onKeyboardInput(value, event) {
         this.listener.send(RpcFactory.OnKeyboardInput(value, event))
     }
