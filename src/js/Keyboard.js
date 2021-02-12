@@ -9,10 +9,15 @@ import { deactivateInteraction } from './actions'
 export default class Keyboard extends Component {
   state = {
     layoutName: "default",
-    input: ""
+    input: "",
+    userMaskedInput: false
   };
 
   keyboardProperties = {};
+  keyboardLayout = QWERTY
+  maskedInput = false
+  showUserMaskOption = false
+  keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
 
   onChange = input => {
     // Changes from button presses
@@ -67,25 +72,79 @@ export default class Keyboard extends Component {
     });
   };
 
+  handleUserMask = () => {
+    const toggleMask = !this.state.userMaskedInput
+    this.setState({
+      userMaskedInput: toggleMask
+    })
+    const event = toggleMask ? "INPUT_KEY_MASK_ENABLED" : "INPUT_KEY_MASK_DISABLED"
+    uiController.onKeyboardInput(null, event);
+  }
+
+  replaceSpecialCharacters(keyboardLayout, characters) {
+    var layout = keyboardLayout.default;
+    var customCharacters = characters;
+    //Special characters on root level of supported keyboards
+    var replaceableChars = '`-=[]\\;\',./^+#<&(_)$:!@';
+    for (var rowIndex = 0; rowIndex < layout.length; rowIndex++) {
+      // Loop through rows
+      var row = layout[rowIndex];
+      for (var charIndex = 0; (charIndex < row.length) && customCharacters.length > 0; charIndex++) {
+        // Loop through characters
+        var char = row.charAt(charIndex);
+        // todo check how charAt handles special characters like \u00DF
+        if (char === " ") {
+          continue;
+        }
+        if (replaceableChars.includes(char)) {
+          // Replace special character with next custom character
+          var subStr1 = row.substr(0, charIndex);
+          var subStr2 = row.substr(charIndex + 1);            
+          row = subStr1 + customCharacters.shift() + subStr2;
+        }
+      }
+      layout[rowIndex] = row;
+    }
+    keyboardLayout.default = layout;
+    return keyboardLayout;
+  }
+
   render() {
     const state = store.getState()
     const app = state.ui[state.activeApp]
-    var keyboardLayout = QWERTY
-    if (app) {
+    // Assign keyboard properties once so they do not change while in view
+    if (app && Object.keys(this.keyboardProperties).length === 0) {
       this.appID = state.activeApp;
       this.interactionId = app.interactionId;
       this.keyboardProperties = app.keyboardProperties;
-      if (this.keyboardProperties && this.keyboardProperties.keyboardLayout) {
-        switch(this.keyboardProperties.keyboardLayout) {
-          case "QWERTY":
-            break
-          case "QWERTZ":
-            keyboardLayout = QWERTZ
-            break
-          case "AZERTY":
-            keyboardLayout = AZERTY
-          default:
-            break
+      if (this.keyboardProperties) {
+        if (this.keyboardProperties.keyboardLayout) {
+          switch(this.keyboardProperties.keyboardLayout) {
+            case "QWERTY":
+              break
+            case "QWERTZ":
+              this.keyboardLayout = QWERTZ
+              break
+            case "AZERTY":
+              this.keyboardLayout = AZERTY
+              break
+            case "NUMERIC":
+              this.keyboardLayout = NUMERIC
+              this.keyboardClass += " numeric"
+              break
+            default:
+              break
+          }
+        }
+        if (this.keyboardProperties.customKeys && 
+            this.keyboardProperties.customKeys.length) {
+          this.keyboardLayout = this.replaceSpecialCharacters(
+            this.keyboardLayout, this.keyboardProperties.customKeys)
+        }
+        if (this.keyboardProperties.maskInputCharacters === "ENABLE_INPUT_KEY_MASK") {
+          this.maskedInput = true
+        } else if (this.keyboardProperties.maskInputCharacters === "USER_CHOICE_INPUT_KEY_MASK") {
+          this.showUserMaskOption = true
         }
       }
     }
@@ -98,18 +157,35 @@ export default class Keyboard extends Component {
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
-                <input
-                    value={this.state.input}
-                    placeholder={"Tap on the virtual keyboard to start"}
-                    onChange={this.onChangeInput}
-                />
+                <div className="input-row">
+                    <input
+                        className="input-text"
+                        value={this.state.input}
+                        type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
+                        placeholder={"Tap on the virtual keyboard to start"}
+                        onChange={this.onChangeInput}
+                    />
+                    <input 
+                        className="mask-checkbox"
+                        id="maskOption"
+                        type={this.showUserMaskOption ? "checkbox" : "hidden"} 
+                        onClick={this.handleUserMask}
+                    />
+                    <label 
+                        for="maskOption" 
+                        className="mask-checkbox mask-option-label"
+                        style={{display: this.showUserMaskOption ? 'inline' : 'none' }}
+                    >
+                        Mask Input
+                    </label>
+                </div>
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}
-                    layout={keyboardLayout}
+                    layout={this.keyboardLayout}
                     onChange={this.onChange}
                     onKeyPress={this.onKeyPress}
-                    theme={"hg-theme-default hg-layout-default custom-keyboard"}
+                    theme={this.keyboardClass}
                 />
             </div>
         </div>
@@ -167,4 +243,9 @@ const AZERTY = {
     "{shift} > W X C V B N ? . / \u00A7 {shift}",
     ".com @ {space}"
   ]
+};
+
+const NUMERIC = {
+  default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 {enter}", "{bksp}"],
+  shift: ["! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"]
 };

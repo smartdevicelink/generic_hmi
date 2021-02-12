@@ -608,7 +608,9 @@ function ui(state = {}, action) {
                 app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
             }
             if (action.keyboardProperties) {
-                app.keyboardProperties = action.keyboardProperties
+                // Merge keyboard properties
+                app.keyboardProperties = Object.assign(
+                    app.keyboardProperties, action.keyboardProperties);
             }
             return newState
         case Actions.DEACTIVATE_APP:

@@ -62,13 +62,17 @@ class RpcFactory {
             }
         })
     }            
-    static InvalidImageResponse(rpc) {
+    static InvalidImageResponse(rpc, info) {
+        var message = "Requested image(s) not found."
+        if (info) {
+            message += "\n" + info
+        }
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "error": {
                 "code": 21,
-                "message": "Requested image(s) not found.",
+                "message": message,
                 "data": {
                     "method": rpc.method
                 }
@@ -756,14 +760,17 @@ class RpcFactory {
     }
 
     static OnKeyboardInput (value, event) {
-        return ({
+        var message = {
             'jsonrpc': '2.0',
             'method': 'UI.OnKeyboardInput',
             'params': {
-              'data': value,
               'event': event
             }
-        })
+        };
+        if (value) {
+            message["params"]["data"] = value;
+        }
+        return message; 
     }
 }
 
