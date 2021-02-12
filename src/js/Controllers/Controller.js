@@ -147,15 +147,7 @@ export default class Controller {
 
         this.send(onSystemTimeReady);
 
-        var onDriverDistraction = {
-            "jsonrpc": "2.0",
-            "method": "UI.OnDriverDistraction",
-            "params": {
-                "state": "DD_OFF"
-            }
-        }
-
-        this.send(onDriverDistraction);
+        uiController.onDriverDistraction("DD_OFF");
     }
     handleRPC(rpc) {
         var response = undefined

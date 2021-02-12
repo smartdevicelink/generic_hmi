@@ -90,13 +90,14 @@ export const setAppIcon = (appID, icon) => {
     }
 }
 
-export const addCommand = (appID, cmdID, menuParams, cmdIcon) => {
+export const addCommand = (appID, cmdID, menuParams, cmdIcon, secondaryImage) => {
     return {
         type: Actions.ADD_COMMAND,
         appID: appID,
         cmdID: cmdID,
         menuParams: menuParams,
-        cmdIcon: cmdIcon
+        cmdIcon: cmdIcon,
+        secondaryImage: secondaryImage
     }
 }
 
@@ -108,14 +109,15 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout) => {
+export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout, secondaryImage) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
         menuParams: menuParams,
         subMenuIcon: icon,
-        menuLayout: menuLayout
+        menuLayout: menuLayout,
+        secondaryImage: secondaryImage
     }
 }
 

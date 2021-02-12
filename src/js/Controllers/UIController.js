@@ -124,7 +124,8 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.cmdID,
                     rpc.params.menuParams,
-                    rpc.params.cmdIcon
+                    rpc.params.cmdIcon,
+                    rpc.params.secondaryImage
                 ))
                 
                 ValidateImages([rpc.params.cmdIcon]).then(
@@ -148,7 +149,8 @@ class UIController {
                     rpc.params.menuID,
                     rpc.params.menuParams,
                     rpc.params.menuIcon,
-                    rpc.params.menuLayout
+                    rpc.params.menuLayout,
+                    rpc.params.secondaryImage
                 ))
 
                 ValidateImages([rpc.params.menuIcon]).then(
@@ -239,10 +241,24 @@ class UIController {
                     rpc.params.menuIcon,
                     rpc.params.keyboardProperties
                 ))
+
+                var warningsString;
+
+                if (appUIState && appUIState.isPerformingInteraction && appUIState.interactionLayout === "KEYBOARD" && rpc.params.keyboardProperties) {
+                    warningsString = "Keyboard properties are not applied while keyboard is in view."
+                }
                 
                 ValidateImages([rpc.params.menuIcon]).then(
-                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
-                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                    () => {
+                        if (warningsString) {
+                            this.listener.send(RpcFactory.ErrorResponse(rpc, 21, warningsString))
+                        } else {
+                            this.listener.respondSuccess(rpc.method, rpc.id)
+                        }
+                    },
+                    () => {
+                        this.listener.send(RpcFactory.InvalidImageResponse(rpc, warningsString))
+                    }
                 );
                 break;
             case "Alert":
@@ -585,6 +601,10 @@ class UIController {
 
     onUpdateSubMenu(appID, menuID) {
         this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
+    }
+
+    onDriverDistraction(ddState) {
+        this.listener.send(RpcFactory.OnDriverDistraction(ddState))
     }
 
     onKeyboardInput(value, event) {

@@ -62,13 +62,17 @@ class RpcFactory {
             }
         })
     }            
-    static InvalidImageResponse(rpc) {
+    static InvalidImageResponse(rpc, info) {
+        var message = "Requested image(s) not found."
+        if (info) {
+            message += "\n" + info
+        }
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "error": {
                 "code": 21,
-                "message": "Requested image(s) not found.",
+                "message": message,
                 "data": {
                     "method": rpc.method
                 }
@@ -330,6 +334,7 @@ class RpcFactory {
                 "ccpu_version": "0.0.1",
                 "language": "EN-US",
                 "wersCountryCode": "WAEGB",
+                "systemHardwareVersion": "123.456.789"
             }
         })
     }
@@ -736,6 +741,16 @@ class RpcFactory {
         })
     }
 
+    static OnDriverDistraction(ddState) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnDriverDistraction',
+            'params': {
+              'state': ddState,
+            }
+        })
+    }
+
     static OnUpdateSubMenu(appID, menuID) {
         return ({
             "jsonrpc": "2.0",
@@ -760,14 +775,17 @@ class RpcFactory {
     }
 
     static OnKeyboardInput (value, event) {
-        return ({
+        var message = {
             'jsonrpc': '2.0',
             'method': 'UI.OnKeyboardInput',
             'params': {
-              'data': value,
               'event': event
             }
-        })
+        };
+        if (value) {
+            message["params"]["data"] = value;
+        }
+        return message; 
     }
 
     static OnTouchEvent(type, events) {
