@@ -7,17 +7,21 @@ import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
 export default class Keyboard extends Component {
-  state = {
-    layoutName: "default",
-    input: "",
-    userMaskedInput: false
-  };
 
-  keyboardProperties = {};
-  keyboardLayout = QWERTY
-  maskedInput = false
-  showUserMaskOption = false
-  keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+  constructor(props) {
+    super(props);
+    this.keyboardProperties = {};
+    this.keyboardLayout = JSON.parse(JSON.stringify(QWERTY));
+    this.maskedInput = false
+    this.showUserMaskOption = false
+    this.keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+
+    this.state = {
+      layoutName: "default",
+      input: "",
+      userMaskedInput: false
+    };
+  }
 
   onChange = input => {
     // Changes from button presses
@@ -116,20 +120,20 @@ export default class Keyboard extends Component {
     if (app && Object.keys(this.keyboardProperties).length === 0) {
       this.appID = state.activeApp;
       this.interactionId = app.interactionId;
-      this.keyboardProperties = app.keyboardProperties;
+      this.keyboardProperties = JSON.parse(JSON.stringify(app.keyboardProperties));
       if (this.keyboardProperties) {
         if (this.keyboardProperties.keyboardLayout) {
           switch(this.keyboardProperties.keyboardLayout) {
             case "QWERTY":
               break
             case "QWERTZ":
-              this.keyboardLayout = QWERTZ
+              this.keyboardLayout = JSON.parse(JSON.stringify(QWERTZ));
               break
             case "AZERTY":
-              this.keyboardLayout = AZERTY
+              this.keyboardLayout = JSON.parse(JSON.stringify(AZERTY));
               break
             case "NUMERIC":
-              this.keyboardLayout = NUMERIC
+              this.keyboardLayout = JSON.parse(JSON.stringify(NUMERIC));
               this.keyboardClass += " numeric"
               break
             default:
@@ -145,6 +149,7 @@ export default class Keyboard extends Component {
           this.maskedInput = true
         } else if (this.keyboardProperties.maskInputCharacters === "USER_CHOICE_INPUT_KEY_MASK") {
           this.showUserMaskOption = true
+          this.setState({userMaskedInput: true});
         }
       }
     }
@@ -153,6 +158,9 @@ export default class Keyboard extends Component {
     if (app && app.isPerformingInteraction) {
         backLink = app.displayLayout;
     }
+
+    var interactionText = app && app.interactionText && app.interactionText.fieldText ? 
+      app.interactionText.fieldText : "Tap on the virtual keyboard to start";
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
@@ -162,7 +170,7 @@ export default class Keyboard extends Component {
                         className="input-text"
                         value={this.state.input}
                         type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
-                        placeholder={"Tap on the virtual keyboard to start"}
+                        placeholder={interactionText}
                         onChange={this.onChangeInput}
                     />
                     <input 
@@ -170,6 +178,7 @@ export default class Keyboard extends Component {
                         id="maskOption"
                         type={this.showUserMaskOption ? "checkbox" : "hidden"} 
                         onClick={this.handleUserMask}
+                        defaultChecked={this.showUserMaskOption}
                     />
                     <label 
                         for="maskOption" 
