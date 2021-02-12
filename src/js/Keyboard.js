@@ -7,17 +7,21 @@ import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
 export default class Keyboard extends Component {
-  state = {
-    layoutName: "default",
-    input: "",
-    userMaskedInput: false
-  };
 
-  keyboardProperties = {};
-  keyboardLayout = QWERTY
-  maskedInput = false
-  showUserMaskOption = false
-  keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+  constructor(props) {
+    super(props);
+    this.keyboardProperties = {};
+    this.keyboardLayout = JSON.parse(JSON.stringify(QWERTY));
+    this.maskedInput = false
+    this.showUserMaskOption = false
+    this.keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+
+    this.state = {
+      layoutName: "default",
+      input: "",
+      userMaskedInput: false
+    };
+  }
 
   onChange = input => {
     // Changes from button presses
@@ -123,13 +127,13 @@ export default class Keyboard extends Component {
             case "QWERTY":
               break
             case "QWERTZ":
-              this.keyboardLayout = QWERTZ
+              this.keyboardLayout = JSON.parse(JSON.stringify(QWERTZ));
               break
             case "AZERTY":
-              this.keyboardLayout = AZERTY
+              this.keyboardLayout = JSON.parse(JSON.stringify(AZERTY));
               break
             case "NUMERIC":
-              this.keyboardLayout = NUMERIC
+              this.keyboardLayout = JSON.parse(JSON.stringify(NUMERIC));
               this.keyboardClass += " numeric"
               break
             default:
