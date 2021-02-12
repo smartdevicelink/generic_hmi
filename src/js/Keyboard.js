@@ -149,6 +149,7 @@ export default class Keyboard extends Component {
           this.maskedInput = true
         } else if (this.keyboardProperties.maskInputCharacters === "USER_CHOICE_INPUT_KEY_MASK") {
           this.showUserMaskOption = true
+          this.setState({userMaskedInput: true});
         }
       }
     }
@@ -180,6 +181,7 @@ export default class Keyboard extends Component {
                     />
                     <label 
                         for="maskOption" 
+                        checked={this.state.userMaskedInput}
                         className="mask-checkbox mask-option-label"
                         style={{display: this.showUserMaskOption ? 'inline' : 'none' }}
                     >
