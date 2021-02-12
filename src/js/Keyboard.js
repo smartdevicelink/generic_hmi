@@ -154,8 +154,8 @@ export default class Keyboard extends Component {
         backLink = app.displayLayout;
     }
 
-    var interactionText = app && app.interactionText ? 
-      app.interactionText : "Tap on the virtual keyboard to start";
+    var interactionText = app && app.interactionText && app.interactionText.fieldText ? 
+      app.interactionText.fieldText : "Tap on the virtual keyboard to start";
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
