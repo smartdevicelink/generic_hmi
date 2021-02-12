@@ -276,15 +276,18 @@ class RPCService(WSServer.SampleRPCService):
     if 'config' not in _params:
       return self.gen_error_msg('Missing mandatory param \'config\'')
 
-    if _params['config']['protocol'] == 'RTP':
+    if 'webm' not in _params:
+      return self.gen_error_msg('Missing mandatory param \'webm\'')
+
+    if _params['config'].get('protocol') == 'RTP':
       print('\033[33mSDL does not support RTP video in browser\033[0m')
-      if _params['config']['codec'] == 'H264':
+      if _params['config'].get('codec') == 'H264':
         print('\033[1mYou may view your video with gstreamer:\033[0m')
         print('gst-launch-1.0 souphttpsrc location=' + _params['url'] + ' ! "application/x-rtp-stream" ! rtpstreamdepay ! "application/x-rtp,media=(string)video,clock-rate=90000,encoding-name=(string)H264" ! rtph264depay ! "video/x-h264, stream-format=(string)avc, alignment=(string)au" ! avdec_h264 ! videoconvert ! ximagesink sync=false')
 
     elif not _params['webm']:
       print('\033[33mYour browser does not support WEBM video\033[0m')
-      if _params['config']['protocol'] == 'RAW' and _params['config']['protocol'] == 'H264':
+      if _params['config'].get('protocol') == 'RAW' and _params['config'].get('codec') == 'H264':
         print('\033[1mYou may view your video with gstreamer:\033[0m')
         print('gst-launch-1.0 souphttpsrc location=' + _params['url'] + ' ! decodebin ! videoconvert ! xvimagesink sync=false')
 
