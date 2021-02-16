@@ -5,11 +5,9 @@ import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.sv
 
 export default class VScrollMenuItem extends React.Component {
     render() {
-        let subMenuIndicator = this.props.menuID ? (
-                <span className="vscrollmenu-item__arrow svg-wrap" > 
-                    <IconArrowRight/>
-                </span>
-            ) : null;
+        let subMenuIndicatorStyle = this.props.menuID ? null : ({
+            display: "none"
+        });
         
         var classString = "vscrollmenu-item th-b-color th-bb-color-secondary";
 
@@ -52,7 +50,9 @@ export default class VScrollMenuItem extends React.Component {
                         <p className="t-small t-light th-f-color-secondary t-oneline">{tertiaryText}</p>
                     </div>
 
-                    {subMenuIndicator}
+                    <span className="vscrollmenu-item__arrow svg-wrap" > 
+                        <IconArrowRight style={subMenuIndicatorStyle}/>
+                    </span>
                 </div>
             </Link>
         )
