@@ -672,11 +672,17 @@ function ui(state = {}, action) {
                 if (!keyboardProperties.autoCompleteList) {
                     keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
                 }
-                if (!action.keyboardProperties.keyboardLayout) {
+                if (!keyboardProperties.keyboardLayout) {
                     keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
                 }
-                if (!action.keyboardProperties.language) {
+                if (!keyboardProperties.language) {
                     keyboardProperties.language = app.keyboardProperties.language;
+                }
+                if (!keyboardProperties.maskInputCharacters) {
+                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
+                }
+                if (!keyboardProperties.keypressMode) {
+                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
                 }
                 app.keyboardProperties = keyboardProperties
             }
