@@ -668,7 +668,7 @@ function ui(state = {}, action) {
             }
             if (action.keyboardProperties) {
                 // Merge keyboard properties
-                var keyboardProperties = action.keyboardProperties;
+                var keyboardProperties = Object.assign({}, action.keyboardProperties);
                 if (!keyboardProperties.autoCompleteList) {
                     keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
                 }
