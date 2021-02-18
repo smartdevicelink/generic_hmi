@@ -668,8 +668,23 @@ function ui(state = {}, action) {
             }
             if (action.keyboardProperties) {
                 // Merge keyboard properties
-                app.keyboardProperties = Object.assign(
-                    app.keyboardProperties, action.keyboardProperties);
+                var keyboardProperties = Object.assign({}, action.keyboardProperties);
+                if (!keyboardProperties.autoCompleteList) {
+                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                }
+                if (!keyboardProperties.keyboardLayout) {
+                    keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
+                }
+                if (!keyboardProperties.language) {
+                    keyboardProperties.language = app.keyboardProperties.language;
+                }
+                if (!keyboardProperties.maskInputCharacters) {
+                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
+                }
+                if (!keyboardProperties.keypressMode) {
+                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
+                }
+                app.keyboardProperties = keyboardProperties
             }
             return newState
         case Actions.SET_VIDEO_STREAM_CAPABILITY:
