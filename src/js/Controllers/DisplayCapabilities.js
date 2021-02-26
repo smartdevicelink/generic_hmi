@@ -78,11 +78,11 @@ let textWithGraphicCapabilities = {
 			textField("subtleAlertSoftButtonText"),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
+			textField("tertiaryText", 20),
 			textField("menuCommandSecondaryText"),
-			textField("menuCommandTertiaryText"),
+			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText")
+			textField("menuSubMenuTertiaryText", 20)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -119,11 +119,11 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("templateTitle", 50),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
+			textField("tertiaryText", 20),
 			textField("menuCommandSecondaryText"),
-			textField("menuCommandTertiaryText"),
+			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText")
+			textField("menuSubMenuTertiaryText", 20)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -185,11 +185,11 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -260,11 +260,11 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -335,11 +335,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -389,11 +389,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -444,11 +444,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -484,11 +484,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -537,11 +537,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
+				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
-				textField("menuCommandTertiaryText"),
+				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText")
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -590,7 +590,11 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
