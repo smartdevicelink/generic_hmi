@@ -842,6 +842,16 @@ class RpcFactory {
             }
         };
     }
+    static UISendHapticDataSuccess(rpc) {
+        return ({
+            jsonrpc: '2.0',
+            id: rpc.id,
+            result: {
+                code: 0,
+                method: 'UI.SendHapticData'
+            }
+        });
+    }
 }
 
 export default RpcFactory

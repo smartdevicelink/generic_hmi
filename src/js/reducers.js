@@ -694,6 +694,9 @@ function ui(state = {}, action) {
             app.backSeekIndicator = {type: "TRACK", seekTime: null}
             app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             return newState
+        case Actions.SET_HAPTIC_DATA:
+            app.hapticRects = action.hapticRects;
+            return newState;
         default:
             return state
     }
