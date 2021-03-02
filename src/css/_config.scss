@@ -10,3 +10,8 @@ $secondary-accent-color: bright-blue;
 
 $font-primary-color: white;
 $font-secondary-color: slate;
+
+:export {
+  masterWidth: $master-width;
+  masterHeight: $master-height;
+}

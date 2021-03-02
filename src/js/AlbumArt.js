@@ -29,11 +29,12 @@ export default class AlbumArt extends React.Component {
 
                 return (
                     <div className="album-art">
-                        <div style={style} className="th-box-shadow">
+                        <div style={style}>
                             <Image
                                 image={this.props.image} 
                                 isTemplate={this.props.isTemplate}
-                                fillColor={fillColor}/>
+                                fillColor={fillColor}
+                                class="th-box-shadow"/>
                         </div>    
                     </div>
                 )

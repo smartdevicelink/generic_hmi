@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
         mainField2: null,
         mainField3: null,
         mainField4: null,
+        mediaTrack: null,
         alertText1: null,
         alertText2: null,
         alertText3: null,
@@ -39,6 +40,9 @@ const mapStateToProps = (state) => {
                     break
                 case "mainField4":
                     props.mainField4 = metadata.showStrings[fieldName]
+                    break
+                case "mediaTrack":
+                    props.mediaTrack = metadata.showStrings[fieldName]
                     break
                 default:
                     break;

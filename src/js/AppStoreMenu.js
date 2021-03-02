@@ -114,17 +114,20 @@ class AppStoreMenu extends React.Component {
                     {this.props.apps.map((app) => {
 
                         var postFixIndex = 0;
-                        while (app.package.size_decompressed_bytes > postFixSizes[postFixIndex + 1]) {
-                            postFixIndex++;
+                        var size;
+                        if (app.package && app.package.size_decompressed_bytes) {
+                            while (app.package.size_decompressed_bytes > postFixSizes[postFixIndex + 1]) {
+                                postFixIndex++;
+                            }    
+                            size = app.package.size_decompressed_bytes / postFixSizes[postFixIndex];
                         }
-
-                        var size = app.package.size_decompressed_bytes / postFixSizes[postFixIndex];
+                        var appSize = size ? size.toFixed(1).toString() + " " + postFixes[postFixIndex] : null;
 
                         return <AppStoreMenuItem key={app.policyAppID}
                             onSelect={() => this.onSelection(app.policyAppID, app.name, app.iconUrl, app.description)}
                             appIcon={app.iconUrl}
                             appName={app.name}
-                            appSize={`${size.toFixed(1)} ${postFixes[postFixIndex]}`}
+                            appSize={appSize}
                         />
                     })}
                 </div>

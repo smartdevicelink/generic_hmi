@@ -4,11 +4,11 @@
     @if $calc-width <= $calc-height {
         $size: $calc-width + ($calc-width / 6.5);
         @include size($size);
-        @include transform(translateY(1%));
+        @include transform(translateY(2%));
     } @else {
         $size: $calc-height + ($calc-height / 6.5);
         @include size($size);
-        @include transform(translateY(1%));
+        @include transform(translateY(2%));
     }
 }
 

@@ -132,9 +132,11 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("BasicCommunication.OnPutFile")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
+        this.subscribeToNotification("Navigation.OnAudioDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
         this.subscribeToNotification("AppService.OnAppServiceData")
+        this.subscribeToNotification("BasicCommunication.OnAppCapabilityUpdated")
 
         var onSystemTimeReady = {
             "jsonrpc": "2.0",
@@ -143,15 +145,7 @@ export default class Controller {
 
         this.send(onSystemTimeReady);
 
-        var onDriverDistraction = {
-            "jsonrpc": "2.0",
-            "method": "UI.OnDriverDistraction",
-            "params": {
-                "state": "DD_OFF"
-            }
-        }
-
-        this.send(onDriverDistraction);
+        uiController.onDriverDistraction("DD_OFF");
     }
     handleRPC(rpc) {
         var response = undefined
@@ -221,7 +215,7 @@ export default class Controller {
                 response = appServicesController.handleRPC(rpc);
                 break;
             default: 
-                response = false;
+                response = null;
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail

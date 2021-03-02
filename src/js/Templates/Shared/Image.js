@@ -1,13 +1,16 @@
 import React from 'react';
 import store from '../../store'
-import path from 'path'
 import UIController from '../../Controllers/UIController'
 import { connect } from 'react-redux';
 
 class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {error: false};
+        this.state = {error: false, refreshed: false};
+        this.initialCanvasDimensions = {
+            height: null,
+            width: null
+        };
     }
 
     scaleImage(ogDimension, parentDimension) {
@@ -17,7 +20,7 @@ class Image extends React.Component {
         }
         var widthRatio = parentDimension.width / ogDimension.width
         var heightRatio = parentDimension.height / ogDimension.height
-        var minScale = Math.min(widthRatio , heightRatio)
+        var minScale = Math.min(widthRatio, heightRatio)
         scaledDimensions.width = ogDimension.width * minScale
         scaledDimensions.height = ogDimension.height * minScale
 
@@ -31,34 +34,42 @@ class Image extends React.Component {
             const canvas = this.refs.canvas
             const ctx = canvas.getContext("2d")
             const img = this.refs.image
-            canvas.width = canvasContainer.clientWidth
-            canvas.height = canvasContainer.clientHeight
+            if (!this.initialCanvasDimensions.height || !this.initialCanvasDimensions.width) {
+                this.initialCanvasDimensions.width = canvasContainer.clientWidth
+                this.initialCanvasDimensions.height = canvasContainer.clientHeight
+            }
+
+            canvas.width = this.initialCanvasDimensions.width
+            canvas.height = this.initialCanvasDimensions.height
             img.onload = () => {
                 var scaledDimensions = this.scaleImage({
                         "width": img.width,
                         "height": img.height
                     }, {
-                        "width": canvas.width,
-                        "height": canvas.height
+                        "width": this.initialCanvasDimensions.width,
+                        "height": this.initialCanvasDimensions.height
                     }
                 );
+                canvas.width = scaledDimensions.width
+                canvas.height = scaledDimensions.height
 
-                ctx.clearRect(0, 0, canvasContainer.clientWidth, canvasContainer.clientHeight);
-
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
                 var x = (canvas.width / 2) - (scaledDimensions.width / 2);
                 var y = (canvas.height / 2) - (scaledDimensions.height / 2);
+
                 ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
 
                 ctx.globalCompositeOperation = "source-atop";
                 ctx.globalAlpha = 1.0;
                 ctx.fillStyle = fillColor;
-                ctx.fillRect(0, 0, canvasContainer.clientWidth, canvasContainer.clientHeight);
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.globalCompositeOperation = "source-over";
                 ctx.globalAlpha = 1.0;
             }
             //Refresh image to trigger onload
-            img.src = this.props.image;
+            img.src = this.props.image + "?m=" + new Date().getTime();
         }
     }
 
@@ -70,23 +81,60 @@ class Image extends React.Component {
         this.drawImage();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        // Check if any props changed
+        if (this.props.fillColor !== nextProps.fillColor) {
+            return true;
+        }
+        if (this.props.image !== nextProps.image) {
+            return true;
+        }
+        if (this.props.isTemplate !== nextProps.isTemplate) {
+            return true;
+        }
+        if (this.props.class !== nextProps.class) {
+            return true;
+        }
+
+        // Check if next image is to be refreshed
+        if (nextProps.refreshImage === nextProps.image) {
+            return true;
+        }
+
+        if (nextState.error) {
+            return true;
+        }
+        
+        // No updates required
+        return false;
+    }
+
     onError(event) {
         const state = store.getState();
         const activeApp = state.activeApp;
         if (activeApp) {
             UIController.onUpdateFile(activeApp, this.props.image);
         }
-        this.setState({error: true});
+        this.setState({error: true, refreshed: this.props.image === this.props.refreshImage});
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        var newState = prevState;
+        // Reset refreshed flag if refreshImage has changed
+        if (nextProps.image !== nextProps.refreshImage) {
+            newState.refreshed = false
+        }
+        // Reset error flag when the image is newly refreshed
+        // checking the refreshed flag prevents multiple refreshes
+        else if (!prevState.refreshed) {
+            newState.error = false
+        }
+        return newState;
     }
 
     render() {
-        // Refresh image after onPutFile in case of error
-        if (this.state.error && this.props.refresh) {
-            this.setState({error: false});
-            return (null)
-        }
         if(this.props.image && !this.state.error) {
-            if(this.props.isTemplate) {
+            if (this.props.isTemplate) {
                 var hidden = {display:'none'};
                 var size = {
                     height: "100%",
@@ -98,7 +146,7 @@ class Image extends React.Component {
                         <img 
                             ref="image" 
                             style={hidden} 
-                            src={this.props.image} 
+                            src={this.props.image + "?m=" + new Date().getTime()} 
                             alt="SDL_Image" 
                             onError={e => this.onError(e)} 
                         />
@@ -123,7 +171,7 @@ const mapStateToProps = (state) => {
         return {}
     }
     return {
-        refresh: app.refresh
+        refreshImage: app.refreshImage
     }
 }
 

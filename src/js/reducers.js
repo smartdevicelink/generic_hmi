@@ -16,6 +16,8 @@ function newAppState () {
         activeSubMenu: null,
         activeMenuDepth: 0,
         menuLayout: "LIST",
+        menuIcon: null,
+        keyboardProperties: {},
         subscribedButtons: {},
         isPerformingInteraction: false,
         interactionText: "",
@@ -28,8 +30,13 @@ function newAppState () {
         },
         updateMode: "CLEAR",
         countDirection: "COUNTUP",
+        audioStreamingIndicator: "PLAY_PAUSE",
+        countRate: 1.0,
         updateTime: new Date().getTime(),
-        pauseTime: null,
+        timerOffset: 0,
+        paused: false,
+        forwardSeekIndicator: {type: "TRACK", seekTime: null},
+        backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
         alert: {
@@ -43,7 +50,63 @@ function newAppState () {
             msgID: null
         },
         dayColorScheme: null,
-        nightColorScheme: null
+        nightColorScheme: null,
+        videoStreamingCapability: [
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 96,
+                scale: 1
+            },
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 48,
+                scale: 2
+            },
+            {
+                preferredResolution: {
+                    resolutionWidth: 960,
+                    resolutionHeight: 600
+                },
+                maxBitrate: 400000,
+                supportedFormats: [
+                    { protocol:  "RAW", codec: "H264" },
+                    { protocol:  "RTP", codec: "H264" },
+                    { protocol:  "RTSP", codec: "Theora" },
+                    { protocol:  "RTMP", codec: "VP8" },
+                    { protocol:  "WEBM", codec: "VP9" }
+                ],
+                hapticSpatialDataSupported: true,
+                diagonalScreenSize: 7,
+                pixelPerInch: 72,
+                scale: 1.5
+            }
+        ]
     }
 }
 
@@ -306,7 +369,7 @@ function ui(state = {}, action) {
     var menuItem = null;
     var result = null;
     var i = 0;
-    app.refresh = false;
+    app.refreshImage = null;
     switch (action.type) {
         case Actions.SHOW:           
             if (action.showStrings && action.showStrings.length > 0) {
@@ -328,17 +391,22 @@ function ui(state = {}, action) {
             return newState
         case Actions.SET_APP_ICON:
             app.icon = action.icon
+            app.refreshImage = action.icon
             return newState
         case Actions.ADD_COMMAND:
             var menuParams = action.menuParams
             var cmdID = action.cmdID
             var cmdIcon = action.cmdIcon
+            var secondaryImage = action.secondaryImage
             menuItem = {
                 cmdID: cmdID,
                 parentID: menuParams.parentID,
                 position: menuParams.position,
                 menuName: menuParams.menuName,
-                cmdIcon: cmdIcon
+                secondaryText: menuParams.secondaryText,
+                tertiaryText: menuParams.tertiaryText,
+                cmdIcon: cmdIcon,
+                secondaryImage: secondaryImage
             }
             if (menuParams.parentID) {
                 /*var subMenu = menu.find((command) => {
@@ -368,7 +436,10 @@ function ui(state = {}, action) {
                 parentID: action.menuParams.parentID,
                 position: action.menuParams.position,
                 menuName: action.menuParams.menuName,
+                secondaryText: action.menuParams.secondaryText,
+                tertiaryText: action.menuParams.tertiaryText,
                 cmdIcon: action.subMenuIcon,
+                secondaryImage: action.secondaryImage,
                 subMenu: [],
                 menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
             };
@@ -419,6 +490,8 @@ function ui(state = {}, action) {
             app.choices = action.choices
             app.interactionId = action.msgID
             app.interactionCancelId = action.cancelID
+            app.interactionLayout = action.layout
+            app.interactionTimeout = action.timeout
             return newState
         case Actions.DEACTIVATE_INTERACTION:
         case Actions.TIMEOUT_PERFORM_INTERACTION:
@@ -440,6 +513,7 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
+                app.timerOffset = 0
             }
             else if (action.updateMode === "COUNTDOWN") {
                 if (action.updateMode !== app.countDirection) {
@@ -447,30 +521,37 @@ function ui(state = {}, action) {
                 }
                 app.countDirection = action.updateMode
                 app.updateTime = new Date().getTime()
+                app.timerOffset = 0
             }
             else if (action.updateMode === "PAUSE" && action.startTime) {
-                app.pauseTime = new Date().getTime()
-                app.updateTime = app.pauseTime
+                app.updateTime = new Date().getTime()
             }
-            else if (action.updateMode === "PAUSE" && !app.pauseTime) {
-                app.pauseTime = new Date().getTime()
-            }
-            else if (action.updateMode === "RESUME" && app.pauseTime) {
+            else if (action.updateMode === "PAUSE" && !app.paused) {
                 var now = new Date().getTime()
-                app.updateTime = app.updateTime + now - app.pauseTime
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
+            }
+            else if (action.updateMode === "RESUME" && app.paused) {
+                app.updateTime = new Date().getTime()
+            }
+            else if (action.updateMode === "RESUME" && !app.paused) {
+                now = new Date().getTime()
+                app.timerOffset = new Date(app.timerOffset + (now - app.updateTime) * app.countRate).getTime()
+                app.updateTime = now
             }
             else if (action.updateMode === "CLEAR") {
                 app.updateTime = new Date().getTime()
                 app.startTime = null
                 app.endTime = null
+                app.timerOffset = 0
             }
             app.updateMode = action.updateMode
-            if(action.audioStreamingIndicator) {
+            if (action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
-            if (action.updateMode !== "PAUSE") {
-                app.pauseTime = null
-            }
+            app.countRate = action.countRate ? action.countRate : 1.0
+            app.paused = (action.updateMode === "PAUSE")
+            app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
+            app.backSeekIndicator = (action.backSeekIndicator) ? action.backSeekIndicator : {type: "TRACK", seekTime: null};
             return newState
         case Actions.SET_TEMPLATE_CONFIGURATION:
             switch(action.displayLayout) {
@@ -513,7 +594,10 @@ function ui(state = {}, action) {
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
                     break
-                default: 
+                case "NAV_FULLSCREEN_MAP":
+                    app.displayLayout = "nav-fullscreen-map"
+                    break
+                default:
                     break
             }
             if (action.dayColorScheme) {
@@ -569,7 +653,7 @@ function ui(state = {}, action) {
             app.isDisconnected = false
             return newState
         case Actions.ON_PUT_FILE:
-            app.refresh = true
+            app.refreshImage = action.fileName
             return newState
         case Actions.RESET_SHOW_APP_MENU:
             app.triggerShowAppMenu = false     
@@ -578,6 +662,37 @@ function ui(state = {}, action) {
             if (action.menuLayout && action.menuLayout.length) {
                 app.menuLayout = action.menuLayout
             }
+            if (action.menuIcon) {
+                app.menuIcon = action.menuIcon.value.length ? action.menuIcon : null
+                app.refreshImage = action.menuIcon.value.length ? action.menuIcon.value : null
+            }
+            if (action.keyboardProperties) {
+                // Merge keyboard properties
+                var keyboardProperties = Object.assign({}, action.keyboardProperties);
+                if (!keyboardProperties.autoCompleteList) {
+                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                }
+                if (!keyboardProperties.keyboardLayout) {
+                    keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
+                }
+                if (!keyboardProperties.language) {
+                    keyboardProperties.language = app.keyboardProperties.language;
+                }
+                if (!keyboardProperties.maskInputCharacters) {
+                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
+                }
+                if (!keyboardProperties.keypressMode) {
+                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
+                }
+                app.keyboardProperties = keyboardProperties
+            }
+            return newState
+        case Actions.SET_VIDEO_STREAM_CAPABILITY:
+            app.videoStreamingCapability = action.capability
+            return newState
+        case Actions.DEACTIVATE_APP:
+            app.backSeekIndicator = {type: "TRACK", seekTime: null}
+            app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             return newState
         default:
             return state
@@ -597,6 +712,18 @@ function system(state = {}, action) {
             return newState
         case Actions.SET_PTU_WITH_MODEM:
             newState.ptuWithModemEnabled = action.enabled
+            return newState
+        case Actions.SET_VIDEO_STREAM_URL:
+            if (state.videoStreamUrl === action.url) {
+                return state;
+            }
+            newState.videoStreamUrl = action.url
+            return newState
+        case Actions.SET_VIDEO_STREAM_APP:
+            newState.videoStreamingApp = action.appID;
+            return newState;
+        case Actions.NAVIGATION_VIEW_ACTIVE:
+            newState.navigationActive = action.active
             return newState
         default:
             return state

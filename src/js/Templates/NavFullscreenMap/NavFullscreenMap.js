@@ -1,10 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import AppHeader from '../../containers/Header';
-import { NonMediaMetadata } from '../../containers/Metadata';
-import { SoftButtons } from '../../containers/Buttons';
+import store from '../../store';
+import { systemNavigationViewActive, systemNavigationViewInactive } from '../../actions';
 
-class NonMedia extends React.Component {
+class NavFullscreenMap extends React.Component {
+    componentWillMount() {
+        store.dispatch(systemNavigationViewActive());
+    }
+
+    componentWillUnmount() {
+        store.dispatch(systemNavigationViewInactive());
+    }
+
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;
@@ -35,10 +43,8 @@ class NonMedia extends React.Component {
 
     render() {
         return (
-            <div className="non-media-template" style={this.getColorScheme()}>
+            <div className="nav-template" style={this.getColorScheme()}>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <NonMediaMetadata />
-                <SoftButtons class="non-media"/>
             </div>
         )
     }
@@ -52,4 +58,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(NonMedia);
+export default connect(mapStateToProps)(NavFullscreenMap);

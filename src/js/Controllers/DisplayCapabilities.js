@@ -1,3 +1,8 @@
+import config from '../../css/_config.scss';
+const masterWidth = parseInt(config.masterWidth);
+const masterHeight = parseInt(config.masterHeight);
+const templateHeight = masterHeight - 75;
+
 let softButtonCapability = {
 	"shortPressAvailable": true,
 	"longPressAvailable": true,
@@ -17,13 +22,14 @@ let imageOnlySoftButtonCapability = {
 let templatesAvailable = [
 	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
-	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW"
+	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
+	"NAV_FULLSCREEN_MAP", "TILES_ONLY"
 ]
 
 let screenParams = {
 	"resolution": {
-		"resolutionWidth": 960,
-		"resolutionHeight": 675
+		"resolutionWidth": masterWidth,
+		"resolutionHeight": masterHeight
 	},
 	"touchEventAvailable": {
 		"pressAvailable": true,
@@ -72,13 +78,19 @@ let textWithGraphicCapabilities = {
 			textField("subtleAlertSoftButtonText"),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText", 20),
+			textField("menuCommandSecondaryText"),
+			textField("menuCommandTertiaryText", 20),
+			textField("menuSubMenuSecondaryText"),
+			textField("menuSubMenuTertiaryText", 20)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
+			imageField("secondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 40),
+			imageField("menuSubMenuSecondaryImage", 40),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
 			imageField("alertIcon", 225),
@@ -107,8 +119,11 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("templateTitle", 50),
 			textField("menuName"),
 			textField("secondaryText"),
-			textField("tertiaryText"),
-			textField("menuTitle")
+			textField("tertiaryText", 20),
+			textField("menuCommandSecondaryText"),
+			textField("menuCommandTertiaryText", 20),
+			textField("menuSubMenuSecondaryText"),
+			textField("menuSubMenuTertiaryText", 20)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -120,6 +135,9 @@ let textbuttonsWithGraphicCapabilities = {
 			imageField("softButtonImage", 50),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
+			imageField("secondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 40),
+			imageField("menuSubMenuSecondaryImage", 40),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
 			imageField("alertIcon", 225),
@@ -167,8 +185,11 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -176,6 +197,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 360),
 				imageField("alertIcon", 225),
@@ -236,8 +260,11 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -249,6 +276,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 410),
 				imageField("alertIcon", 225),
@@ -305,8 +335,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -318,6 +351,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -353,8 +389,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -366,6 +405,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
@@ -402,13 +444,19 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -436,8 +484,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -449,6 +500,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -483,8 +537,11 @@ let capabilities = {
 				textField("templateTitle", 50),
 				textField("menuName"),
 				textField("secondaryText"),
-				textField("tertiaryText"),
-				textField("menuTitle")
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -496,6 +553,9 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 40),
+				imageField("menuSubMenuSecondaryImage", 40),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -515,6 +575,43 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		]
+	},
+	"NAV_FULLSCREEN_MAP": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("templateTitle", 50),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
+				textField("menuName"),
+				textField("secondaryText"),
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20)
+			],
+			"imageFields": [
+				imageField("choiceImage", 40),
+				imageField("menuIcon", 40),
+				imageField("cmdIcon", 150),
+				imageField("appIcon", 50),
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
+			],
+			"mediaClockFormats": [],
+			"graphicSupported": false,
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"]
+		},
+		"softButtonCapabilities": []
 	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
@@ -540,7 +637,7 @@ let capabilities = {
 		"hmiCapabilities": {
 			"navigation": false,
 			"phoneCall": false,
-			"videoStreaming": false
+			"videoStreaming": true
 		},
 		"systemCapabilities": {
 			"navigationCapability": {
@@ -553,6 +650,65 @@ let capabilities = {
 			"driverDistractionCapability": {
 				"menuLength": 3,
 				"subMenuDepth": 2
+			},
+			videoStreamingCapability: {
+				preferredResolution: {
+					resolutionWidth: masterWidth,
+					resolutionHeight: templateHeight
+				},
+				maxBitrate: 400000,
+				supportedFormats: [
+					{ protocol:  "RAW", codec: "H264" },
+					{ protocol:  "RTP", codec: "H264" },
+					{ protocol:  "RTSP", codec: "Theora" },
+					{ protocol:  "RTMP", codec: "VP8" },
+					{ protocol:  "WEBM", codec: "VP9" }
+				],
+				hapticSpatialDataSupported: true,
+				diagonalScreenSize: 7,
+				pixelPerInch: 96,
+				scale: 1,
+				preferredFPS: 30,
+				additionalVideoStreamingCapabilities: [
+					{
+						preferredResolution: {
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 72,
+						scale: 1.5,
+						preferredFPS: 30
+					},
+					{
+						preferredResolution: {
+							resolutionWidth: masterWidth,
+							resolutionHeight: templateHeight
+						},
+						maxBitrate: 400000,
+						supportedFormats: [
+							{ protocol:  "RAW", codec: "H264" },
+							{ protocol:  "RTP", codec: "H264" },
+							{ protocol:  "RTSP", codec: "Theora" },
+							{ protocol:  "RTMP", codec: "VP8" },
+							{ protocol:  "WEBM", codec: "VP9" }
+						],
+						hapticSpatialDataSupported: true,
+						diagonalScreenSize: 7,
+						pixelPerInch: 48,
+						scale: 2,
+						preferredFPS: 30
+					}
+				]
 			}
 		}
 	}
@@ -564,8 +720,30 @@ const mainWindowTypeCapability = {
 }
 
 const dynamicUpdateCapabilities = {
-	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon"],
+	supportedDynamicImageFieldNames: ["subMenuIcon", "menuIcon", "secondaryImage"],
 	supportsDynamicSubMenus: true
+}
+
+const keyboardCapabilities = {
+	maskInputCharactersSupported: true,
+	supportedKeyboards: [
+		{
+			keyboardLayout: "QWERTY",
+			numConfigurableKeys: 10
+		},
+		{
+			keyboardLayout: "QWERTZ",
+			numConfigurableKeys: 7
+		},
+		{
+			keyboardLayout: "AZERTY",
+			numConfigurableKeys: 10
+		},
+		{
+			keyboardLayout: "NUMERIC",
+			numConfigurableKeys: 0
+		}
+	]
 }
 
 const getWindowCapability = (template) => {
@@ -582,7 +760,8 @@ const getWindowCapability = (template) => {
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
-		dynamicUpdateCapabilities: dynamicUpdateCapabilities
+		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
+		keyboardCapabilities: keyboardCapabilities
 	}
 	return capability;
 }
@@ -596,7 +775,8 @@ const getDisplayCapability = (template) => {
 	var capability = {
 		displayName: templateCapability.displayCapabilities.displayName,
 		windowTypeSupported: [mainWindowTypeCapability],
-		windowCapabilities: [getWindowCapability(template)]
+		windowCapabilities: [getWindowCapability(template)],
+		screenParams: screenParams
 	}
 	return capability;
 	

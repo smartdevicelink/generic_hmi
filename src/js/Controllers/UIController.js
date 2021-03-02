@@ -20,6 +20,21 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
+import { ValidateImages, AddImageValidationRequest, RemoveImageValidationResult } from '../Utils/ValidateImages'
+
+const getNextSystemContext = () => {
+    const state = store.getState();
+    const activeApp = state.activeApp;
+    const pathName = window.location.hash;
+    const inMenuContext = (pathName.includes("/inappmenu") 
+        || pathName.includes("/inapplist")) 
+        && activeApp && state.ui[activeApp] 
+        && !state.ui[activeApp].isPerformingInteraction;
+    if (inMenuContext) {
+        return "MENU"
+    }
+    return "MAIN"
+}
 
 class UIController {
     constructor () {
@@ -82,7 +97,23 @@ class UIController {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
                     }                    
                 }
-                return true
+
+                let showImages = [rpc.params.graphic, rpc.params.secondaryGraphic];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { showImages.push(softBtn.image); }
+                    });
+                }
+
+                const showResponse = RpcFactory.UIShowResponse(rpc)
+                ValidateImages(showImages).then(
+                    () => {this.listener.send(showResponse)},
+                    () => {
+                        const invalidImgResponse = RpcFactory.InvalidImageResponse(rpc)
+                        this.listener.send(RpcFactory.CombineWithWarningsResponse(showResponse, invalidImgResponse))
+                    }
+                );
+                break;
             case "SetAppIcon":
                 store.dispatch(setAppIcon(rpc.params.appID, rpc.params.syncFileName))
                 return true
@@ -93,9 +124,15 @@ class UIController {
                     rpc.params.appID,
                     rpc.params.cmdID,
                     rpc.params.menuParams,
-                    rpc.params.cmdIcon
+                    rpc.params.cmdIcon,
+                    rpc.params.secondaryImage
                 ))
-                return true
+                
+                ValidateImages([rpc.params.cmdIcon]).then(
+                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "AddSubMenu":
                 if (appUIState) {
                     var menu = appUIState.menu;
@@ -112,9 +149,15 @@ class UIController {
                     rpc.params.menuID,
                     rpc.params.menuParams,
                     rpc.params.menuIcon,
-                    rpc.params.menuLayout
+                    rpc.params.menuLayout,
+                    rpc.params.secondaryImage
                 ))
-                return true
+
+                ValidateImages([rpc.params.menuIcon]).then(
+                    () => {this.listener.respondSuccess(rpc.method, rpc.id)},
+                    () => {this.listener.send(RpcFactory.InvalidImageResponse(rpc))}
+                );
+                break;
             case "DeleteCommand":
                 store.dispatch(deleteCommand(
                     rpc.params.appID,
@@ -142,19 +185,32 @@ class UIController {
                 ))
                 return null
             case "PerformInteraction":
+                if (!rpc.params.choiceSet) {
+                    return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
+                }
                 store.dispatch(performInteraction(
                     rpc.params.appID,
                     rpc.params.initialText,
                     rpc.params.choiceSet,
                     rpc.params.interactionLayout,
                     rpc.id,
-                    rpc.params.cancelID
+                    rpc.params.cancelID,
+                    rpc.params.timeout
                 ))
                 var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
+
+                let performInteractionImages = [];
+                rpc.params.choiceSet.forEach (choice => {
+                    if (choice.image) { performInteractionImages.push(choice.image); }
+                    if (choice.secondaryImage) { performInteractionImages.push(choice.secondaryImage); }
+                });
+                
+                AddImageValidationRequest(rpc.id, performInteractionImages);
+
                 break
             case "SetMediaClockTimer":
                 store.dispatch(setMediaClockTimer(
@@ -162,7 +218,10 @@ class UIController {
                     rpc.params.startTime,
                     rpc.params.endTime,
                     rpc.params.updateMode,
-                    rpc.params.audioStreamingIndicator
+                    rpc.params.audioStreamingIndicator,
+                    rpc.params.forwardSeekIndicator,
+                    rpc.params.backSeekIndicator,
+                    rpc.params.countRate
                 ))
                 return true
             case "SetDisplayLayout":
@@ -178,9 +237,30 @@ class UIController {
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,
-                    rpc.params.menuLayout
+                    rpc.params.menuLayout,
+                    rpc.params.menuIcon,
+                    rpc.params.keyboardProperties
                 ))
-                return true
+
+                var warningsString;
+
+                if (appUIState && appUIState.isPerformingInteraction && appUIState.interactionLayout === "KEYBOARD" && rpc.params.keyboardProperties) {
+                    warningsString = "Keyboard properties are not applied while keyboard is in view."
+                }
+                
+                ValidateImages([rpc.params.menuIcon]).then(
+                    () => {
+                        if (warningsString) {
+                            this.listener.send(RpcFactory.ErrorResponse(rpc, 21, warningsString))
+                        } else {
+                            this.listener.respondSuccess(rpc.method, rpc.id)
+                        }
+                    },
+                    () => {
+                        this.listener.send(RpcFactory.InvalidImageResponse(rpc, warningsString))
+                    }
+                );
+                break;
             case "Alert":
                 store.dispatch(alert(
                     rpc.params.appID,
@@ -207,6 +287,14 @@ class UIController {
                 if ((context !== rpc.params.appID) && context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
+
+                let alertImages = [rpc.params.alertIcon];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { alertImages.push(softBtn.image); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, alertImages);
 
                 return null
             case "SubtleAlert":
@@ -256,6 +344,14 @@ class UIController {
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
+                let subtleAlertImages = [rpc.params.alertIcon];
+                if (rpc.params.softButtons) {
+                    rpc.params.softButtons.forEach (softBtn => {
+                        if (softBtn.image) { subtleAlertImages.push(softBtn.image); }
+                    });
+                }
+                AddImageValidationRequest(rpc.id, subtleAlertImages)
+
                 return null
             case "CancelInteraction":
 
@@ -266,8 +362,9 @@ class UIController {
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
                     clearTimeout(this.timers[app.interactionId])
                     delete this.timers[app.interactionId]
-                    this.listener.send(RpcFactory.UIPerformInteractionAbortedResponse(app.interactionId))
+                    this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
                     store.dispatch(deactivateInteraction(rpc.params.appID))
+                    this.onSystemContext("MAIN", rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
                      && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -275,6 +372,8 @@ class UIController {
                     delete this.timers[app.alert.msgID]
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    const context = getNextSystemContext();
+                    this.onSystemContext(context, rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -282,6 +381,8 @@ class UIController {
                    delete this.timers[app.alert.msgID]
                    this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                   const context = getNextSystemContext();
+                   this.onSystemContext(context, rpc.params.appID)
                    return true
                 }
                 
@@ -291,7 +392,18 @@ class UIController {
         }
     }
     onPerformInteractionTimeout(msgID, appID) {
+        const state = store.getState()
+        var activeApp = state.activeApp
+        var app = state.ui[activeApp]
+        var interactionId = app ? app.interactionId : null
+        var interactionLayout = app ? app.interactionLayout : null
+        if (msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
+            this.onKeyboardInput("", "ENTRY_ABORTED")
+        }
+
         delete this.timers[msgID]
+        RemoveImageValidationResult(msgID)
+
         this.listener.send(RpcFactory.UIPerformInteractionTimeout(msgID))
         store.dispatch(timeoutPerformInteraction(
             msgID,
@@ -301,23 +413,29 @@ class UIController {
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
+
+        let imageValidationSuccess = RemoveImageValidationResult(msgID)
+
         store.dispatch(closeAlert(
             msgID,
             appID
         ))
         const rpc = isSubtle
-            ? RpcFactory.SubtleAlertErrorResponse(msgID, 10, 'subtle alert timed out')
+            ? RpcFactory.SubtleAlertResponse(msgID)
             : RpcFactory.AlertResponse(msgID, appID);
-        this.listener.send(rpc)
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }))
 
+        const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext("MAIN", appID)
+            this.onSystemContext(systemContext, appID)
         }
-        this.onSystemContext("MAIN", context)
+        this.onSystemContext(systemContext, context)
     }
     onStealFocus(alert, context, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
+
+        let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
 
         if (alert.buttonID) {
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
@@ -330,7 +448,7 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(alert.msgID)
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
-        this.listener.send(rpc);
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
         if(context){
             this.onSystemContext("MAIN", context)
@@ -360,6 +478,8 @@ class UIController {
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
+        let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
+
         if (alert.buttonID) { // can be invoked by clicking outside of subtle alert
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         }
@@ -369,7 +489,8 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(alert.msgID)
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
-        this.listener.send(rpc);
+
+        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
         if(context){
             this.onSystemContext("MAIN", context)
@@ -377,10 +498,17 @@ class UIController {
             this.onSystemContext("MENU")//Viewing App List
         }
     }
-    onChoiceSelection(choiceID, appID, msgID) {
+    onChoiceSelection(choiceID, appID, msgID, manualTextEntry) {
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
-        this.listener.send(RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID))
+
+        let imageValidationSuccess = RemoveImageValidationResult(msgID)
+        let rpc = RpcFactory.UIPerformInteractionResponse(choiceID, appID, msgID, manualTextEntry)
+        if(!imageValidationSuccess){
+            rpc.result.code = 21; // WARNINGS
+        }
+
+        this.listener.send(rpc)
     }
     onSystemContext(context, appID) {
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
@@ -433,16 +561,36 @@ class UIController {
         this.listener.send(RpcFactory.OnButtonPressNotification(appID, button))
     }
     failInteractions() {
+        const state = store.getState()
+        var activeApp = state.activeApp
+        var app = state.ui[activeApp]
+        var interactionId = app.interactionId
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
-            this.listener.send(RpcFactory.UIPerformInteractionFailure(parseInt(msgID)))
+            RemoveImageValidationResult(msgID)
+            if (msgID === interactionId.toString() && app.interactionLayout === "KEYBOARD") {
+                this.onKeyboardInput("", "ENTRY_CANCELLED")
+            }
+            this.listener.send(RpcFactory.UIPerformInteractionAborted(parseInt(msgID)))
             store.dispatch(timeoutPerformInteraction(
                 parseInt(msgID),
                 this.appsWithTimers[msgID]
             ))
         }
     }
+
+    onResetInteractionTimeout(appID, msgID) {
+        clearTimeout(this.timers[msgID])
+        const state = store.getState()
+        const app = state.ui[appID]
+        var timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
+        this.endTimes[msgID] = Date.now() + timeout;
+        this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
+        this.appsWithTimers[msgID] = appID
+        this.onResetTimeout("appID", "UI.OnPerformInteraction")
+    }
+
     onResetTimeout(appID, methodName) {
         this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
     }
@@ -453,6 +601,18 @@ class UIController {
 
     onUpdateSubMenu(appID, menuID) {
         this.listener.send(RpcFactory.OnUpdateSubMenu(appID, menuID))
+    }
+
+    onDriverDistraction(ddState) {
+        this.listener.send(RpcFactory.OnDriverDistraction(ddState))
+    }
+
+    onKeyboardInput(value, event) {
+        this.listener.send(RpcFactory.OnKeyboardInput(value, event))
+    }
+
+    onTouchEvent(type, events) {
+        this.listener.send(RpcFactory.OnTouchEvent(type, events));
     }
 }
 

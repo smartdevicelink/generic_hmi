@@ -8,11 +8,13 @@ export default class HScrollMenuItem extends React.Component {
     render() {
         const { menuItem } = this.props;
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
-        var deviceName = menuItem.devicename;
         var warningText = "Driver Distraction Disabled";
-        var headerText = menuItem.enabled === false ? warningText : deviceName
-        var header = menuItem.enabled === false || deviceName;
-        var header_html = (header) ? 
+        var deviceName = menuItem.devicename;
+        var tertiaryText = menuItem.tertiaryText;
+        var useHeader = menuItem.enabled === false || deviceName || tertiaryText;
+        var headerText = menuItem.enabled === false ? warningText 
+            : tertiaryText ? tertiaryText : deviceName;
+        var header_html = (useHeader) ? 
             (<div className="hscrollmenu-item__header">
                 <p className="t-light th-f-color-secondary t-oneline">{ headerText }</p>
             </div>)
@@ -38,6 +40,29 @@ export default class HScrollMenuItem extends React.Component {
             </span>
         ) : null;
 
+        let secondaryImage = menuItem.secondaryImage ? (
+            (menuItem.secondaryImage.imageType === "STATIC")
+                 ? <StaticIcon 
+                    image={menuItem.secondaryImage.value} 
+                    class="hscrollmenu-item__secondary-image" />
+                 : <Image 
+                    image={menuItem.secondaryImage.value} 
+                    isTemplate={menuItem.secondaryImage.isTemplate} 
+                    fillColor={fill} 
+                    class="hscrollmenu-item__secondary-image"/>
+        ) : null;
+
+        let secondaryText = menuItem.secondaryText ? (
+            <p className="t-light th-f-color">{menuItem.secondaryText}</p>
+        ) : null;
+
+        let secondaryTextAndGraphic = (secondaryImage || secondaryText) ? (
+            <div className="hscrollmenu-item__secondary-info">
+                { secondaryText }
+                { secondaryImage }
+            </div>
+        ) : null;
+
         return (
             <Link
                 to={menuItem.link}
@@ -52,6 +77,7 @@ export default class HScrollMenuItem extends React.Component {
                     </div>
                     <div className="hscrollmenu-item__name">
                         <p className="t-small t-light th-f-color">{menuItem.name}</p>
+                        { secondaryTextAndGraphic }
                     </div>
                     {subMenuIndicator}
                 </div>

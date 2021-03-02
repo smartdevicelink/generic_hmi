@@ -6,6 +6,7 @@ import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
 
 var activatingApplication = 0
+var permissionsPendingApps = {}
 class SDLController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -19,8 +20,8 @@ class SDLController {
         {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
-        this.externalConsentStatus = [];
-        store.dispatch(setPTUWithModem(window.flags.PTUWithModemEnabled))
+        this.externalConsentStatus = null;
+        store.dispatch(setPTUWithModem(window.flags.PTUWithModemEnabled));
     }
     addListener(listener) {
         this.listener = listener
@@ -124,7 +125,9 @@ class SDLController {
                         allowedFunctions[index].allowed = true
                     }
                 }
-                this.onAppPermissionConsent(allowedFunctions, this.externalConsentStatus)
+                var appID = permissionsPendingApps[rpc.id];
+                this.onAppPermissionConsent(appID, allowedFunctions, this.externalConsentStatus)
+                permissionsPendingApps[rpc.id] = null;
                 return;
             default:
                 return false;
@@ -152,7 +155,9 @@ class SDLController {
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
     }
     getListOfPermissions(appID) {
-         this.listener.send(RpcFactory.GetListOfPermissions(appID))
+        var request = RpcFactory.GetListOfPermissions(appID);
+        permissionsPendingApps[request.id] = appID;
+        this.listener.send(request)
     }
     onAppPermissionConsent(allowedFunctions, externalConsentStatus) {
         this.listener.send(RpcFactory.OnAppPermissionConsent(allowedFunctions, externalConsentStatus))

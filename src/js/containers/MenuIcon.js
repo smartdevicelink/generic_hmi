@@ -7,8 +7,13 @@ import { deactivateSubMenu } from '../actions';
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
-    var link =  activeApp ? state.ui[activeApp].displayLayout : "/"
-    var icon = activeApp ? state.ui[activeApp].icon : null
+    var link = activeApp ? state.ui[activeApp].displayLayout : "/"
+    var icon = null
+    if (activeApp) {
+        icon = state.ui[activeApp].menuIcon ? 
+            state.ui[activeApp].menuIcon : 
+            state.ui[activeApp].icon
+    }
     return {
         icon: icon ? icon.value : null,
         appID: activeApp,

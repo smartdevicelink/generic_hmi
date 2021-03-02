@@ -6,6 +6,21 @@ Note: This requires you to use Ubuntu 16.04 or 18.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
+### Dependencies
+
+- nvm
+- chromium-browser
+- python3 and pip
+- ffmpeg
+- ffmpeg-python
+
+```
+sudo apt install chromium-browser ffmpeg python3 python3-pip -y
+python3 -m pip install ffmpeg-python
+```
+
+Check out [nvm on github](https://github.com/nvm-sh/nvm#installing-and-updating) to learn how to install and use nvm!
+
 ### Build and Run the HMI
 
 Once SDL Core is running, follow these steps to set up the Generic HMI.

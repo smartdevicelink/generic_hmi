@@ -5,6 +5,8 @@ class VRController {
         switch(methodName) {
             case "IsReady":
                 return {rpc: RpcFactory.IsReadyResponse(rpc, true)}
+            case "GetCapabilities":
+                return {rpc: RpcFactory.VRGetCapabilitiesResponse(rpc)}
             case "GetSupportedLanguages":
                 return { rpc: RpcFactory.GetSupportedLanguagesResponse(rpc) }
             case "GetLanguage":

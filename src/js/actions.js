@@ -43,7 +43,11 @@ export const Actions = {
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
     APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
     WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE",
-    SET_DD_STATE: "SET_DD_STATE"
+    SET_DD_STATE: "SET_DD_STATE",
+    SET_VIDEO_STREAM_URL: "SET_VIDEO_STREAM_URL",
+    SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
+    NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
+    SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY"
 }
 
 export const updateAppList = (applications) => {
@@ -86,13 +90,14 @@ export const setAppIcon = (appID, icon) => {
     }
 }
 
-export const addCommand = (appID, cmdID, menuParams, cmdIcon) => {
+export const addCommand = (appID, cmdID, menuParams, cmdIcon, secondaryImage) => {
     return {
         type: Actions.ADD_COMMAND,
         appID: appID,
         cmdID: cmdID,
         menuParams: menuParams,
-        cmdIcon: cmdIcon
+        cmdIcon: cmdIcon,
+        secondaryImage: secondaryImage
     }
 }
 
@@ -104,14 +109,15 @@ export const deleteCommand = (appID, cmdID) => {
     }
 }
 
-export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout) => {
+export const addSubMenu = (appID, menuID, menuParams, icon, menuLayout, secondaryImage) => {
     return {
         type: Actions.ADD_SUB_MENU,
         appID: appID,
         menuID: menuID,
         menuParams: menuParams,
         subMenuIcon: icon,
-        menuLayout: menuLayout
+        menuLayout: menuLayout,
+        secondaryImage: secondaryImage
     }
 }
 
@@ -183,7 +189,7 @@ export const deactivateInteraction = (appID) => {
     }
 }
 
-export const performInteraction = (appID, text, choices, layout, msgID, cancelID) => {
+export const performInteraction = (appID, text, choices, layout, msgID, cancelID, timeout) => {
     return {
         type: Actions.PERFORM_INTERACTION,
         appID: appID,
@@ -191,7 +197,8 @@ export const performInteraction = (appID, text, choices, layout, msgID, cancelID
         choices: choices,
         layout: layout,
         msgID: msgID,
-        cancelID: cancelID
+        cancelID: cancelID,
+        timeout: timeout
     }
 }
 
@@ -203,14 +210,17 @@ export const timeoutPerformInteraction = (msgID, appID) => {
     }
 }
 
-export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioStreamingIndicator) => {
+export const setMediaClockTimer = (appID, startTime, endTime, updateMode, audioStreamingIndicator, forwardSeekIndicator, backSeekIndicator, countRate) => {
     return {
         type: Actions.SET_MEDIA_CLOCK_TIMER,
         appID: appID,
         startTime: startTime,
         endTime: endTime,
         updateMode: updateMode,
-        audioStreamingIndicator: audioStreamingIndicator
+        audioStreamingIndicator: audioStreamingIndicator,
+        forwardSeekIndicator: forwardSeekIndicator,
+        backSeekIndicator: backSeekIndicator,
+        countRate: countRate
     }
 }
 
@@ -338,11 +348,13 @@ export const onPutFile = (appID, fileName, fileType, fileSize, offset, length, i
     }
 }
 
-export const setGlobalProperties = (appID, menuLayout) => {
+export const setGlobalProperties = (appID, menuLayout, menuIcon, keyboardProperties) => {
     return {
         type: Actions.SET_GLOBAL_PROPERTIES,
         appID: appID,
-        menuLayout: menuLayout
+        menuLayout: menuLayout,
+        menuIcon: menuIcon,
+        keyboardProperties: keyboardProperties
     }
 }
 
@@ -422,5 +434,41 @@ export const setDDState = (ddState) => {
     return {
         type: Actions.SET_DD_STATE,
         dd: ddState
+    }
+}
+
+export const setVideoStreamUrl = (url) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_URL,
+        url: url
+    }
+}
+
+export const setVideoStreamingApp = (appID) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_APP,
+        appID: appID
+    }
+}
+
+export const systemNavigationViewActive = () => {
+    return {
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
+        active: true
+    }
+}
+
+export const systemNavigationViewInactive = () => {
+    return {
+        type: Actions.NAVIGATION_VIEW_ACTIVE,
+        active: false
+    }
+}
+
+export const setVideoStreamingCapability = (appID, capability) => {
+    return {
+        type: Actions.SET_VIDEO_STREAM_CAPABILITY,
+        appID: appID,
+        capability: capability
     }
 }
