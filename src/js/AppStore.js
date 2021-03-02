@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from 'react-modal'
 import { connect } from 'react-redux';
 import store from './store';
-import { flags } from './Flags'
 
 import AppHeader from './containers/Header';
 import HScrollMenu from './HScrollMenu';
@@ -104,7 +103,7 @@ class AppStore extends React.Component {
     }
 
     componentDidMount() {
-        fetch(flags.AppStoreDirectoryUrl).then((res) => {
+        fetch(window.flags.AppStoreDirectoryUrl).then((res) => {
             if (!res.ok) {
                 console.error('could not contact app store server');
                 return [];

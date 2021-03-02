@@ -3,7 +3,6 @@ import store from '../store'
 import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled, setVideoStreamingCapability } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
-import {flags} from '../Flags'
 import FileSystemController from './FileSystemController';
 class BCController {
     constructor () {
@@ -76,7 +75,7 @@ class BCController {
             case "PolicyUpdate":
                 store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
                 var state = store.getState()
-                if(flags.ExternalPolicies || state.system.ptuWithModemEnabled) {
+                if(window.flags.ExternalPolicies || state.system.ptuWithModemEnabled) {
                     sdlController.getPolicyConfiguration("module_config", "endpoints");
                 }
                 else {
@@ -84,7 +83,7 @@ class BCController {
                 }
                 return true;
             case "SystemRequest":
-                if(flags.ExternalPolicies) {
+                if(window.flags.ExternalPolicies) {
                     externalPolicies.unpack({
                         requestType: rpc.params.requestType,
                         requestSubType: rpc.params.requestSubType,
