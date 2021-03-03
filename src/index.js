@@ -213,12 +213,13 @@ class HMIApp extends React.Component {
             }, 10000, this);
         }
 
-        var waitCoreInterval = setInterval(() => {
-            var sdlSocket = this.sdl.socket
-            if (sdlSocket.readyState === sdlSocket.OPEN) {
-                setTimeout(() => { // give time to reply to IsReady
-                    FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
-                        console.log('Connected to FileSystemController');
+        var sdlSocket = this.sdl.socket
+        FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
+            console.log('Connected to FileSystemController');
+
+            var waitCoreInterval = setInterval(() => {
+                if (sdlSocket.readyState === sdlSocket.OPEN) {
+                    setTimeout(() => { // give time to reply to IsReady
                         store.dispatch(updateAppStoreConnectionStatus(true));
                         FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
             
@@ -245,11 +246,11 @@ class HMIApp extends React.Component {
                         FileSystemController.sendJSONMessage({
                             method: 'GetInstalledApps', params: {}
                         });
-                    }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-                }, 500); // setTimeout
-                clearInterval(waitCoreInterval);
-            }
-        }, 500); // setInterval
+                    }, 500); // setTimeout
+                    clearInterval(waitCoreInterval);
+                }
+            }, 500); // setInterval
+        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
