@@ -511,6 +511,9 @@ class UIController {
         this.listener.send(rpc)
     }
     onSystemContext(context, appID) {
+        if (context !== 'MAIN' && appID && appID === store.getState().activeApp) {
+            this.onTouchCancel();
+        }
         this.listener.send(RpcFactory.OnSystemContextNotification(context, appID))
     }
     onCommand(cmdID, appID) {
@@ -613,6 +616,20 @@ class UIController {
 
     onTouchEvent(type, events) {
         this.listener.send(RpcFactory.OnTouchEvent(type, events));
+    }
+
+    onTouchCancel() {
+        if (window.touchInProgress) {
+            window.touchInProgress = false;
+            this.onTouchEvent('CANCEL', [{
+                id: 0,
+                ts: [ parseInt(performance.now()) ],
+                c: [{
+                    x: 0,
+                    y: 0
+                }]
+            }]);
+        }
     }
 }
 
