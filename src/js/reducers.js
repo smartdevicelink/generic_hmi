@@ -22,6 +22,7 @@ function newAppState () {
         isPerformingInteraction: false,
         interactionText: "",
         choices: [],
+        hapticRects: [],
         startTime: null,
         endTime: {
             hours: 0,

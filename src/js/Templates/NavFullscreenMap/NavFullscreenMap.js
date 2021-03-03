@@ -13,38 +13,55 @@ class NavFullscreenMap extends React.Component {
         store.dispatch(systemNavigationViewInactive());
     }
 
+    colorForCss(color) {
+        return `rgb(${color.red}, ${color.green}, ${color.blue})`
+    }
+
     getColorScheme() {
         var activeApp = this.props.activeApp
-        var colorScheme = null;
+        var colorScheme = {};
         if (activeApp) {
             if (this.props.theme === true) { //Dark Theme
-                if (this.props.ui[activeApp].nightColorScheme && this.props.ui[activeApp].nightColorScheme.backgroundColor) {
-                    colorScheme = this.props.ui[activeApp].nightColorScheme.backgroundColor
+                if (this.props.ui[activeApp].nightColorScheme) {
+                    if (this.props.ui[activeApp].nightColorScheme.backgroundColor) {
+                        colorScheme.css = { backgroundColor: this.colorForCss(this.props.ui[activeApp].nightColorScheme.backgroundColor) };
+                    }
+                    if (this.props.ui[activeApp].nightColorScheme.secondaryColor) {
+                        colorScheme.secondary = this.colorForCss(this.props.ui[activeApp].nightColorScheme.secondaryColor);
+                    }
                 }
-            } else { //Light Theme
-                if (this.props.ui[activeApp].dayColorScheme && this.props.ui[activeApp].dayColorScheme.backgroundColor) {
-                    colorScheme = this.props.ui[activeApp].dayColorScheme.backgroundColor
+            } else if (this.props.ui[activeApp].dayColorScheme) { //Light Theme
+                if (this.props.ui[activeApp].dayColorScheme.backgroundColor) {
+                    colorScheme.css = { backgroundColor: this.colorForCss(this.props.ui[activeApp].dayColorScheme.backgroundColor) };
+                }
+                if (this.props.ui[activeApp].dayColorScheme.secondaryColor) {
+                    colorScheme.secondary = this.colorForCss(this.props.ui[activeApp].dayColorScheme.secondaryColor);
                 }
             }
         }
 
-        if (colorScheme) {
-            var redInt = colorScheme.red;
-            var blueInt = colorScheme.blue;
-            var greenInt = colorScheme.green;
-            var cssColorScheme = {
-                backgroundColor: `rgb(${redInt}, ${greenInt}, ${blueInt})`
-            }
-            return cssColorScheme;
-        } else {
-            return null;
-        }
+        return colorScheme;
     }
 
     render() {
+        const colors = this.getColorScheme();
         return (
-            <div className="nav-template" style={this.getColorScheme()}>
+            <div className="nav-template" style={colors.css}>
                 <AppHeader backLink="/" menuName="Apps"/>
+                {
+                    this.props.ui[this.props.activeApp].hapticRects.map((h) => (
+                        <div style={{
+                            position: 'absolute',
+                            left: h.rect.x,
+                            top: h.rect.y,
+                            width: h.rect.width,
+                            height: h.rect.height,
+                            zIndex: 1002,
+                            borderStyle: 'solid',
+                            borderRadius: 1,
+                            borderColor: colors.secondary ?? '#ff0000'
+                        }}></div>))
+                }
             </div>
         )
     }
