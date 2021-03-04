@@ -15,7 +15,8 @@ import {
     closeAlert,
     setGlobalProperties,
     deactivateInteraction,
-    showAppMenu
+    showAppMenu,
+    setHapticData
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -387,6 +388,9 @@ class UIController {
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            case 'SendHapticData':
+                store.dispatch(setHapticData(rpc.params.appID, rpc.params.hapticRectData));
+                return { rpc: RpcFactory.UISendHapticDataSuccess(rpc) }
             default:
                 return false;
         }

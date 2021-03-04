@@ -47,7 +47,8 @@ export const Actions = {
     SET_VIDEO_STREAM_URL: "SET_VIDEO_STREAM_URL",
     SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
     NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
-    SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY"
+    SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY",
+    SET_HAPTIC_DATA: "SET_HAPTIC_DATA"
 }
 
 export const updateAppList = (applications) => {
@@ -472,3 +473,9 @@ export const setVideoStreamingCapability = (appID, capability) => {
         capability: capability
     }
 }
+
+export const setHapticData = (appID, hapticRects) => ({
+    type: Actions.SET_HAPTIC_DATA,
+    appID: appID,
+    hapticRects: hapticRects
+});
