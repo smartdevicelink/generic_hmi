@@ -53,7 +53,7 @@ class NavFullscreenMap extends React.Component {
                         <div style={{
                             position: 'absolute',
                             left: h.rect.x,
-                            top: h.rect.y,
+                            top: h.rect.y + 75,
                             width: h.rect.width,
                             height: h.rect.height,
                             zIndex: 1002,
