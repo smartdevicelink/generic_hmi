@@ -224,7 +224,6 @@ class HMIApp extends React.Component {
                     return;
                 }
 
-                console.error('We got a GetInstalledApps response');
                 params.apps.map((app) => {
                     FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
                         let appEntry = Object.assign(app, {
