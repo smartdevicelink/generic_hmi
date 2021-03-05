@@ -213,44 +213,47 @@ class HMIApp extends React.Component {
             }, 10000, this);
         }
 
-        var sdlSocket = this.sdl.socket
         FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
+            store.dispatch(updateAppStoreConnectionStatus(true));
+            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
 
-            var waitCoreInterval = setInterval(() => {
-                if (sdlSocket.readyState === sdlSocket.OPEN) {
-                    setTimeout(() => { // give time to reply to IsReady
-                        store.dispatch(updateAppStoreConnectionStatus(true));
-                        FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-            
-                        FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                            if (!success || !params.apps) {
-                                console.error('error encountered when retrieving installed apps');
-                                return;
-                            }
-            
-                            params.apps.map((app) => {
-                                FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
-                                    let appEntry = Object.assign(app, {
-                                        entrypoint: manifest.entrypoint,
-                                        version: manifest.appVersion
-                                    });
-                                    store.dispatch(updateInstalledAppStoreApps(appEntry));
-                                    bcController.getAppProperties(app.policyAppID);
-                                    return true;
-                                });
-                                return true;
-                            });
+            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
+                if (!success || !params.apps) {
+                    console.error('error encountered when retrieving installed apps');
+                    return;
+                }
+
+                console.error('We got a GetInstalledApps response');
+                params.apps.map((app) => {
+                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
+                        let appEntry = Object.assign(app, {
+                            entrypoint: manifest.entrypoint,
+                            version: manifest.appVersion
                         });
-            
+                        store.dispatch(updateInstalledAppStoreApps(appEntry));
+                        bcController.getAppProperties(app.policyAppID);
+                        return true;
+                    });
+                    return true;
+                });
+            });
+        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+        
+        var waitCoreInterval = setInterval(() => {
+            var sdlSocket = this.sdl.socket
+            if (sdlSocket.readyState === sdlSocket.OPEN) {
+                setTimeout(() => { // give time to reply to IsReady
+                    if (FileSystemController.isConnected()) {
                         FileSystemController.sendJSONMessage({
                             method: 'GetInstalledApps', params: {}
                         });
-                    }, 500); // setTimeout
-                    clearInterval(waitCoreInterval);
-                }
-            }, 500); // setInterval
-        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+                    }
+                }, 500); // setTimeout
+                clearInterval(waitCoreInterval);
+            }
+        }, 500); // setInterval
+
     }
     componentWillUnmount() {
         this.sdl.disconnectFromSDL()
