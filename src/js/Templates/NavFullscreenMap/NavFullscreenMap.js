@@ -49,18 +49,20 @@ class NavFullscreenMap extends React.Component {
             <div className="nav-template" style={colors.css}>
                 <AppHeader backLink="/" menuName="Apps"/>
                 {
-                    this.props.ui[this.props.activeApp].hapticRects.map((h) => (
-                        <div style={{
-                            position: 'absolute',
-                            left: h.rect.x,
-                            top: h.rect.y + 75,
-                            width: h.rect.width,
-                            height: h.rect.height,
-                            zIndex: 1002,
-                            borderStyle: 'solid',
-                            borderRadius: 1,
-                            borderColor: colors.secondary ?? '#ff0000'
-                        }}></div>))
+                    this.props.ui[this.props.activeApp] ? 
+                        this.props.ui[this.props.activeApp].hapticRects.map((h) => (
+                            <div style={{
+                                position: 'absolute',
+                                left: h.rect.x,
+                                top: h.rect.y + 75,
+                                width: h.rect.width,
+                                height: h.rect.height,
+                                zIndex: 1002,
+                                borderStyle: 'solid',
+                                borderRadius: 1,
+                                borderColor: colors.secondary ?? '#ff0000'
+                            }}></div>)) 
+                        : null
                 }
             </div>
         )
