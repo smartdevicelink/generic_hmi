@@ -59,13 +59,15 @@ After running the build command, you can launch the Generic HMI in a web browser
 chromium-browser generic_hmi/build/index.html
 ```
 
-### PTU with vehicle modem (optional)
+### PTU w/ Vehicle Modem & Video Streaming
 
-In order to get policy table updates using the vehicle modem, some additional setup is required
+The generic_hmi includes an additional component that is required for in browser video streaming or policy table updates using the vehicle modem.
 
 1. Run `deploy_server.sh` in the root folder
 2. Run the HMI normally
 3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+
+Video streaming also requires you to have all the [aforementioned dependencies](#dependencies) installed.
 
 ## Developing/Modifying the HMI
 
