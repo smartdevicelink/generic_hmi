@@ -59,9 +59,9 @@ After running the build command, you can launch the Generic HMI in a web browser
 chromium-browser generic_hmi/build/index.html
 ```
 
-### PTU w/ Vehicle Modem & Video Streaming
+### HMI Backend
 
-The generic_hmi includes an additional component that is required for in browser video streaming or policy table updates using the vehicle modem.
+The generic_hmi includes an additional backend component that is required for some features, such as in-browser video streaming and policy table updates using the vehicle modem.
 
 1. Run `deploy_server.sh` in the root folder
 2. Run the HMI normally
