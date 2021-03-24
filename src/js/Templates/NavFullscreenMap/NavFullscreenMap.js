@@ -60,7 +60,8 @@ class NavFullscreenMap extends React.Component {
                                 zIndex: 1002,
                                 borderStyle: 'solid',
                                 borderRadius: 1,
-                                borderColor: colors.secondary ?? '#ff0000'
+                                borderColor: colors.secondary ?? '#ff0000',
+                                pointerEvents: 'none',
                             }}></div>)) 
                         : null
                 }
