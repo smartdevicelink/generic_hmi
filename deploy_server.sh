@@ -32,9 +32,40 @@ TARGET_SCRIPT="start_server.py"
 TARGET_DIR="./python_websocket/src"
 SOURCE_DIR="./tools"
 
+SwitchSubmoduleVersion(){
+    version=$1
+    if [ -z "$version"]; then
+        echo "Version number required"
+        return
+    fi
+
+    cwd=$(pwd)
+    cd ${TARGET_DIR}
+    git checkout tags/$version -b release/$version > /dev/null
+    echo "Using websockets version $version"
+    cd $cwd
+}
+
 DeployServer() {
     git submodule init
     git submodule update
+    ubuntu_version=$(lsb_release -r | awk '{print $2}' | awk -F. '{print $1}')
+    if [ $? -ne 0 ]; then # Version check failed
+        ubuntu_version=20
+    fi
+
+    case $ubuntu_version in
+      16)
+        SwitchSubmoduleVersion "7.0"
+        ;;
+    #   18)
+    #     ;;
+    #   20)
+    #     ;;
+      *)
+        ;;
+    esac
+
 }
 
 StartServer() {
