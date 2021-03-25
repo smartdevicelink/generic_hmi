@@ -34,14 +34,14 @@ SOURCE_DIR="./tools"
 
 SwitchSubmoduleVersion(){
     version=$1
-    if [ -z "$version"]; then
+    if [ -z "$version" ]; then
         echo "Version number required"
         return
     fi
 
     cwd=$(pwd)
     cd ${TARGET_DIR}
-    git checkout tags/$version -b release/$version > /dev/null
+    git checkout tags/$version -b v$version > /dev/null
     echo "Using websockets version $version"
     cd $cwd
 }
@@ -58,10 +58,6 @@ DeployServer() {
       16)
         SwitchSubmoduleVersion "7.0"
         ;;
-    #   18)
-    #     ;;
-    #   20)
-    #     ;;
       *)
         ;;
     esac
