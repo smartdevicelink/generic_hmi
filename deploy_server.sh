@@ -41,27 +41,16 @@ SwitchSubmoduleVersion(){
 
     cwd=$(pwd)
     cd ${TARGET_DIR}
-    git checkout tags/$version -b v$version > /dev/null
-    echo "Using websockets version $version"
+    if [ -z $(git branch --list "v$version") ]; then
+        git checkout tags/$version -b v$version > /dev/null
+        echo "Using websockets version $version"
+    fi
     cd $cwd
 }
 
-DeployServer() {
+InitSubmodules() {
     git submodule init
     git submodule update
-    ubuntu_version=$(lsb_release -r | awk '{print $2}' | awk -F. '{print $1}')
-    if [ $? -ne 0 ]; then # Version check failed
-        ubuntu_version=20
-    fi
-
-    case $ubuntu_version in
-      16)
-        SwitchSubmoduleVersion "7.0"
-        ;;
-      *)
-        ;;
-    esac
-
 }
 
 StartServer() {
@@ -72,8 +61,14 @@ StartServer() {
 
 if ! find $TARGET_DIR -mindepth 1 | read; then
     echo "Fetching HMI dependencies..."
-    DeployServer
+    InitSubmodules
 fi
+
+python_version=$(python3 -V | awk '{print $2}')
+if [[ $? == 0 && "$python_version" < "3.6.0" ]]; then
+    SwitchSubmoduleVersion "7.0"
+fi
+
 echo "Starting HMI Backend service..."
 StartServer
 echo "HMI Backend service was stopped"
