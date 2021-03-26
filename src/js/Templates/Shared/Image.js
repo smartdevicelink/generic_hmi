@@ -115,7 +115,7 @@ class Image extends React.Component {
         if (activeApp) {
             UIController.onUpdateFile(activeApp, this.props.image);
         }
-        this.setState({error: true, refreshed: this.props.image === this.props.refreshImage});
+        this.setState({error: this.props.image, refreshed: this.props.image === this.props.refreshImage});
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -128,6 +128,11 @@ class Image extends React.Component {
         // checking the refreshed flag prevents multiple refreshes
         else if (!prevState.refreshed) {
             newState.error = false
+        }
+        // If there was an error loading image but image path has changed,
+        // remove error flag
+        if (prevState.error && prevState.error !== nextProps.image) {
+            newState.error = false;
         }
         return newState;
     }
