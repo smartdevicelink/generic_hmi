@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {error: false, refreshed: false};
+        this.state = {errorPath: null, refreshed: false};
         this.initialCanvasDimensions = {
             height: null,
             width: null
@@ -101,7 +101,7 @@ class Image extends React.Component {
             return true;
         }
 
-        if (nextState.error) {
+        if (nextState.errorPath) {
             return true;
         }
         
@@ -115,7 +115,7 @@ class Image extends React.Component {
         if (activeApp) {
             UIController.onUpdateFile(activeApp, this.props.image);
         }
-        this.setState({error: this.props.image, refreshed: this.props.image === this.props.refreshImage});
+        this.setState({errorPath: this.props.image, refreshed: this.props.image === this.props.refreshImage});
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -127,18 +127,18 @@ class Image extends React.Component {
         // Reset error flag when the image is newly refreshed
         // checking the refreshed flag prevents multiple refreshes
         else if (!prevState.refreshed) {
-            newState.error = false
+            newState.errorPath = null
         }
         // If there was an error loading image but image path has changed,
         // remove error flag
-        if (prevState.error && prevState.error !== nextProps.image) {
-            newState.error = false;
+        if (prevState.errorPath && prevState.errorPath !== nextProps.image) {
+            newState.errorPath = null;
         }
         return newState;
     }
 
     render() {
-        if(this.props.image && !this.state.error) {
+        if(this.props.image && !this.state.errorPath) {
             if (this.props.isTemplate) {
                 var hidden = {display:'none'};
                 var size = {
