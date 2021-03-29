@@ -786,6 +786,10 @@ function appStore(state = {
             var launchedApp = newState.installedApps.find(x => x.policyAppID === action.policyAppID);
             launchedApp.runningAppId = action.appID;
             return newState;
+        case Actions.WEBENGINE_APP_LAUNCH_FAILED:
+            var app = newState.installedApps.find(x => x.runningAppId === action.appID);
+            if (app) { app.runningAppId = 0; }
+            return newState;
         case Actions.UNREGISTER_APPLICATION:
             var unregisteredApp = newState.installedApps.find(x => x.runningAppId === action.appID);
             if (unregisteredApp) { unregisteredApp.runningAppId = 0; }

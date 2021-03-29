@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import store from '../store'
 import HScrollMenu from '../HScrollMenu'
-import { webEngineAppLaunch, setPendingAppLaunch } from '../actions'
+import { webEngineAppLaunch, webEngineAppLaunchFailed, setPendingAppLaunch, clearPendingAppLaunch, alert } from '../actions'
 import sdlController from '../Controllers/SDLController'
 
 const mapStateToProps = (state) => {
@@ -66,12 +66,31 @@ const mapDispatchToProps = (dispatch) => {
             }
 
             dispatch(webEngineAppLaunch(app.policyAppID, appID));
-
+            
+            var attempts = 0;
             var activateAppOnceRegistered = setInterval(() => {
-                if (!app.isRegistered) {
+                if (attempts > 20) {
+                    store.dispatch(clearPendingAppLaunch());
+                    store.dispatch(webEngineAppLaunchFailed(appID));
+                    store.dispatch(alert(appID,
+                        [
+                            {fieldName: "alertText1", fieldText: "Unable to register app"}
+                        ],
+                        null,
+                        [
+                            {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
+                        ],
+                        "BOTH",
+                        0)
+                    )
+                    clearInterval(activateAppOnceRegistered);
                     return;
                 }
-                
+                else if (!app.isRegistered) {
+                    attempts++;
+                    return;
+                }
+
                 sdlController.onAppActivated(app.appID);
                 clearInterval(activateAppOnceRegistered);
             }, 250);

@@ -41,6 +41,7 @@ export const Actions = {
     APPSTORE_APP_INSTALLED: "APPSTORE_APP_INSTALLED",
     APPSTORE_APP_UNINSTALLED: "APPSTORE_APP_UNINSTALLED",
     WEBENGINE_APP_LAUNCH: "WEBENGINE_APP_LAUNCH",
+    WEBENGINE_APP_LAUNCH_FAILED: "WEBENGINE_APP_LAUNCH_FAILED",
     APPSTORE_BEGIN_INSTALL: "APPSTORE_BEGIN_INSTALL",
     WEB_VIEW_ACTIVE: "WEB_VIEW_ACTIVE",
     SET_DD_STATE: "SET_DD_STATE",
@@ -409,6 +410,14 @@ export const webEngineAppLaunch = (policyAppID, appID) => {
         appID: appID
     }
 }
+
+export const webEngineAppLaunchFailed = (appID) => {
+    return {
+        type: Actions.WEBENGINE_APP_LAUNCH_FAILED,
+        appID: appID
+    }
+}
+
 
 export const appStoreBeginInstall = (policyAppID) => {
     return {

@@ -615,13 +615,13 @@ let capabilities = {
 	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
-			"samplingRate": "44KHZ",
-			"bitsPerSample": "8_BIT",
+			"samplingRate": "22KHZ",
+			"bitsPerSample": "16_BIT",
 			"audioType": "PCM"
 		},
 		"audioPassThruCapabilitiesList": [{
-			"samplingRate": "44KHZ",
-			"bitsPerSample": "8_BIT",
+			"samplingRate": "22KHZ",
+			"bitsPerSample": "16_BIT",
 			"audioType": "PCM"
 		}],
 		"pcmStreamCapabilities": {
