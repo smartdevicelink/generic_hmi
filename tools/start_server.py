@@ -143,7 +143,10 @@ class WSServer():
     loop.add_signal_handler(signal.SIGINT, stop.set_result, None)
 
     # Run the server until the stop condition is met.
-    loop.run_until_complete(self.serve(stop))
+    try:
+      loop.run_until_complete(self.serve(stop))
+    finally:
+      loop.close()
 
   async def on_connect(self, _websocket, _path):
       print('\033[1;2mClient %s connected\033[0m' % str(_websocket.remote_address))
