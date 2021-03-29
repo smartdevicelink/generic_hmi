@@ -80,8 +80,7 @@ const mapDispatchToProps = (dispatch) => {
                         [
                             {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
                         ],
-                        "BOTH",
-                        0)
+                        "BOTH")
                     )
                     clearInterval(activateAppOnceRegistered);
                     return;

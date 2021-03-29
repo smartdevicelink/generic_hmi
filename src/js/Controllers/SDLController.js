@@ -57,7 +57,7 @@ class SDLController {
                             {fieldName: "alertText1", fieldText: app.appName},
                             {fieldName: "alertText2", fieldText: "is disabled by policies"}
                         ],
-                        5000,
+                        null,
                         [
                             {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
                         ],
