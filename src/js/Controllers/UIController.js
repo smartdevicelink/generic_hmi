@@ -482,7 +482,7 @@ class UIController {
         }
 
         clearTimeout(this.timers[alert.msgID])
-        delete this.timers[alert.msgID]        
+        delete this.timers[alert.msgID]
 
         let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
 
