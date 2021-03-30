@@ -112,13 +112,16 @@ class HMIApp extends React.Component {
             return;
         }
 
+        var point = {
+            x: event.pageX - this.videoRect.x,
+            y: event.pageY - this.videoRect.y
+        };
+
+        window.lastTouch = point;
         uiController.onTouchEvent(type, [{
             id: 0,
             ts: [ parseInt(event.timeStamp) ],
-            c: [{
-                x: event.pageX - this.videoRect.x,
-                y: event.pageY - this.videoRect.y
-            }]
+            c: [ point ]
         }]);
     }
 

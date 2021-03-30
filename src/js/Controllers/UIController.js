@@ -628,10 +628,7 @@ class UIController {
             this.onTouchEvent('CANCEL', [{
                 id: 0,
                 ts: [ parseInt(performance.now()) ],
-                c: [{
-                    x: 0,
-                    y: 0
-                }]
+                c: [ window.lastTouch ]
             }]);
         }
     }
