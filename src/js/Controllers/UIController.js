@@ -474,15 +474,15 @@ class UIController {
         this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
     }
     onDefaultAction(alert, context, isSubtle) {
-        clearTimeout(this.timers[alert.msgID])
-        delete this.timers[alert.msgID]
-        
         store.dispatch(closeAlert(alert.msgID, alert.appID));
 
         if (!alert.msgID) {
             // This was a system alert, do not send a response to Core
             return
         }
+
+        clearTimeout(this.timers[alert.msgID])
+        delete this.timers[alert.msgID]        
 
         let imageValidationSuccess = RemoveImageValidationResult(alert.msgID)
 
