@@ -474,6 +474,8 @@ class UIController {
         this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
     }
     onDefaultAction(alert, context, isSubtle) {
+        store.dispatch(closeAlert(alert.msgID, alert.appID));
+
         if (!alert.msgID) {
             // This was a system alert, do not send a response to Core
             return
@@ -487,8 +489,6 @@ class UIController {
         if (alert.buttonID) { // can be invoked by clicking outside of subtle alert
             this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName);
         }
-
-        store.dispatch(closeAlert(alert.msgID, alert.appID));
 
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(alert.msgID)
