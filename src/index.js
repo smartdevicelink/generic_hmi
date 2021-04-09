@@ -86,9 +86,10 @@ class HMIApp extends React.Component {
     }
     pickResolution(event) {
         var match = event.target.value.match(/(\d+)x(\d+) Scale (\d+.?\d*)/);
-        var allResolutions = [JSON.parse(JSON.stringify(capabilities.COMMON.videoStreamingCapability))];
+        console.log(capabilities.COMMON)
+        var allResolutions = [JSON.parse(JSON.stringify(capabilities.COMMON.systemCapabilities.videoStreamingCapability))];
         delete allResolutions[0].additionalVideoStreamingCapabilities;
-        allResolutions.concat(capabilities.COMMON.videoStreamingCapability.additionalVideoStreamingCapabilities);
+        allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
         for (var i=0; i<allResolutions.length; i++) {
             var capability = allResolutions[i];
             var preferredResolution = capability.preferredResolution;
