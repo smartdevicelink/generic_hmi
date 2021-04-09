@@ -40,6 +40,8 @@ import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
 import uiController from './js/Controllers/UIController'
 
+import { capabilities } from './js/Controllers/DisplayCapabilities.js'
+
 import {
     setTheme, 
     setPTUWithModem, 
@@ -84,6 +86,21 @@ class HMIApp extends React.Component {
     }
     pickResolution(event) {
         var match = event.target.value.match(/(\d+)x(\d+) Scale (\d+.?\d*)/);
+        var allResolutions = [JSON.parse(JSON.stringify(capabilities.COMMON.systemCapabilities.videoStreamingCapability))];
+        delete allResolutions[0].additionalVideoStreamingCapabilities;
+        allResolutions = allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
+        for (var i=0; i<allResolutions.length; i++) {
+            var capability = allResolutions[i];
+            var preferredResolution = capability.preferredResolution;
+            if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
+                preferredResolution.resolutionHeight == parseInt(match[2]) &&
+                capability.scale == parseInt(match[3]) 
+                ) {
+                allResolutions.splice(i, 1)
+                break
+            }
+        }
+
         var capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
@@ -91,7 +108,9 @@ class HMIApp extends React.Component {
                 preferredResolution: {
                     resolutionWidth: parseInt(match[1]),
                     resolutionHeight: parseInt(match[2])
-                }
+                },
+                additionalVideoStreamingCapabilities:
+                    allResolutions
             }
         }
         this.setState({ resolution: event.target.value, scale: match[3] });
