@@ -34,7 +34,7 @@ class BCController {
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
             case "CloseApplication":
-                store.dispatch(deactivateApp(rpc.params.appID))
+                store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))
                 return true
             case "OnAppRegistered":
                 if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
@@ -58,7 +58,7 @@ class BCController {
                 }
                 return null
             case "OnAppUnregistered":
-                store.dispatch(deactivateApp(rpc.params.appID))
+                store.dispatch(deactivateApp(rpc.params.appID, "APP_UNREGISTERED"))
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
                 return null
             case "OnSystemCapabilityUpdated":
@@ -169,7 +169,7 @@ class BCController {
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
-        store.dispatch(deactivateApp(appID))
+        store.dispatch(deactivateApp(appID, "APP_DEACTIVATED"))
     }
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())

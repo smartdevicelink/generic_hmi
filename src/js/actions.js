@@ -66,10 +66,11 @@ export const activateApp = (appID) => {
     }
 }
 
-export const deactivateApp = (appID) => {
+export const deactivateApp = (appID, reason) => {
     return {
         type: Actions.DEACTIVATE_APP,
-        appID: appID
+        appID: appID,
+        reason: reason
     }
 }
 
