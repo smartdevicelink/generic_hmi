@@ -40,7 +40,7 @@ import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
 import uiController from './js/Controllers/UIController'
 
-import { capabilities } from './DisplayCapabilities.js'
+import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
 import {
     setTheme, 
