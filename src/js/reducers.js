@@ -692,8 +692,10 @@ function ui(state = {}, action) {
             app.videoStreamingCapability = action.capability
             return newState
         case Actions.DEACTIVATE_APP:
-            app.backSeekIndicator = {type: "TRACK", seekTime: null}
-            app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
+            if (action.reason === "APP_CLOSED" || action.reason === "APP_UNREGISTERED"){
+                app.backSeekIndicator = {type: "TRACK", seekTime: null}
+                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}    
+            }
             return newState
         case Actions.SET_HAPTIC_DATA:
             app.hapticRects = action.hapticRects;
