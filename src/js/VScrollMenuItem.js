@@ -5,11 +5,9 @@ import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.sv
 
 export default class VScrollMenuItem extends React.Component {
     render() {
-        let subMenuIndicator = this.props.menuID ? (
-                <span className="vscrollmenu-item__arrow svg-wrap" > 
-                    <IconArrowRight/>
-                </span>
-            ) : null;
+        let subMenuIndicatorStyle = this.props.menuID ? null : ({
+            display: "none"
+        });
         
         var classString = "vscrollmenu-item th-b-color th-bb-color-secondary";
 
@@ -18,7 +16,10 @@ export default class VScrollMenuItem extends React.Component {
         }
 
         var secondaryText = this.props.enabled === false ? 
-            "Driver Distraction Disabled" : this.props.menuItem.info;
+            "Driver Distraction Disabled" : this.props.menuItem.info ? 
+            this.props.menuItem.info : this.props.menuItem.secondaryText;
+        
+        var tertiaryText = this.props.enabled ? this.props.menuItem.tertiaryText : "" ;
 
         return (
             <Link
@@ -39,7 +40,19 @@ export default class VScrollMenuItem extends React.Component {
                         <p className="t-large t-light th-f-color">{this.props.menuItem.name}</p>
                         <p className="t-small t-light th-f-color-secondary">{secondaryText}</p>
                     </div>
-                    {subMenuIndicator}
+                    <div class="vscrollmenu-item__image mw-100px">
+                        <SoftButtonImage 
+                            image={this.props.menuItem.secondaryImage ? this.props.menuItem.secondaryImage.value : null} 
+                            imageType={this.props.menuItem.secondaryImage ? this.props.menuItem.secondaryImage.imageType : null}
+                            isTemplate={this.props.menuItem.secondaryImage ? this.props.menuItem.secondaryImage.isTemplate : null}
+                            theme={this.props.theme}
+                        />
+                        <p className="t-small t-light th-f-color-secondary t-oneline">{tertiaryText}</p>
+                    </div>
+
+                    <span className="vscrollmenu-item__arrow svg-wrap" > 
+                        <IconArrowRight style={subMenuIndicatorStyle}/>
+                    </span>
                 </div>
             </Link>
         )

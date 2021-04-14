@@ -19,11 +19,19 @@ const mapStateToProps = (state) => {
     var link =  state.ui[activeApp].displayLayout
     var menuLength = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.menuLength;
     var menuDepthLimit = capabilities["COMMON"].systemCapabilities.driverDistractionCapability.subMenuDepth - 1;
-    if (app.isPerformingInteraction) {
+    if (app.isPerformingInteraction && app.choices) {
         var piData = app.choices.map((choice, index) => {
             var hidden = false;
+            var secondaryImage = undefined;
             if (ddState === true && index >= menuLength) { 
                 hidden = true;
+            }
+            if (choice.secondaryImage && choice.secondaryImage.value) {
+                secondaryImage = {
+                    value: choice.secondaryImage.value,
+                    imageType: choice.secondaryImage.imageType,
+                    isTemplate: choice.secondaryImage.isTemplate
+                }
             }
             return {
                 appID: activeApp,
@@ -33,7 +41,10 @@ const mapStateToProps = (state) => {
                 imageType: choice.image ? choice.image.imageType : undefined,
                 isTemplate: choice.image ? choice.image.isTemplate : undefined,
                 link: link,
-                hidden: hidden
+                hidden: hidden,
+                secondaryText: choice.secondaryText,
+                tertiaryText: choice.tertiaryText,
+                secondaryImage: secondaryImage
             }
         })
         return {
@@ -54,6 +65,7 @@ const mapStateToProps = (state) => {
         // Check DD state and set hidden param
         var hidden = false;
         var enabled = true;
+        var secondaryImage = undefined;
         if (ddState === true && index >= menuLength) { 
             hidden = true;
         }
@@ -69,6 +81,14 @@ const mapStateToProps = (state) => {
         } else {
             link = state.ui[activeApp].displayLayout
         }
+        if (command.secondaryImage && command.secondaryImage.value) {
+            secondaryImage = {
+                value: command.secondaryImage.value,
+                imageType: command.secondaryImage.imageType,
+                isTemplate: command.secondaryImage.isTemplate
+            }
+        }
+        
         return {
             appID: activeApp,
             cmdID: command.cmdID,
@@ -79,7 +99,10 @@ const mapStateToProps = (state) => {
             link: link,
             hidden: hidden,
             enabled: enabled,
-            menuID: command.menuID
+            menuID: command.menuID,
+            secondaryText: command.secondaryText,
+            tertiaryText: command.tertiaryText,
+            secondaryImage: secondaryImage
         }
     })
     return {data: subMenuData, isPerformingInteraction: false, theme: theme}

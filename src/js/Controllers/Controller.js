@@ -7,9 +7,7 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
-import {flags} from '../Flags';
 
-let url = `ws://${flags.CoreHost}:${flags.CorePort}`
 let file_access_base_url = "";
 
 export default class Controller {
@@ -25,7 +23,7 @@ export default class Controller {
         // this.vehicleInfoController = new VehicleInfoController;
     }
     connectToSDL() {
-        this.socket = new WebSocket(url)
+        this.socket = new WebSocket(`ws://${window.flags.CoreHost}:${window.flags.CorePort}`)
         this.socket.onopen = this.onopen.bind(this)
         this.socket.onclose = this.onclose.bind(this)
         this.socket.onmessage = this.onmessage.bind(this)
@@ -46,8 +44,8 @@ export default class Controller {
         if (this.retry) {
             clearInterval(this.retry)
         }
-        if(flags.ExternalPolicies) {
-            externalPolicyManager.connectPolicyManager(flags.ExternalPoliciesPackUrl, flags.ExternalPoliciesUnpackUrl)
+        if(window.flags.ExternalPolicies) {
+            externalPolicyManager.connectPolicyManager(window.flags.ExternalPoliciesPackUrl, window.flags.ExternalPoliciesUnpackUrl)
         }
         this.registerComponents()
     }
@@ -134,9 +132,11 @@ export default class Controller {
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("BasicCommunication.OnPutFile")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
+        this.subscribeToNotification("Navigation.OnAudioDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
         this.subscribeToNotification("AppService.OnAppServiceData")
+        this.subscribeToNotification("BasicCommunication.OnAppCapabilityUpdated")
 
         var onSystemTimeReady = {
             "jsonrpc": "2.0",
@@ -145,15 +145,7 @@ export default class Controller {
 
         this.send(onSystemTimeReady);
 
-        var onDriverDistraction = {
-            "jsonrpc": "2.0",
-            "method": "UI.OnDriverDistraction",
-            "params": {
-                "state": "DD_OFF"
-            }
-        }
-
-        this.send(onDriverDistraction);
+        uiController.onDriverDistraction("DD_OFF");
     }
     handleRPC(rpc) {
         var response = undefined
@@ -223,7 +215,7 @@ export default class Controller {
                 response = appServicesController.handleRPC(rpc);
                 break;
             default: 
-                response = false;
+                response = null;
                 break;
         }
         // TODO: going to require one type of response which info is passed to App to determine success/fail

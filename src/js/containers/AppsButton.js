@@ -14,15 +14,20 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSelection: (appID, backLink, parentID) => {
-             if (backLink === "/inapplist" && parentID) { // submenu -> submenu
+            if (backLink === "/appstore") {
+                // Navigating back from app store menu
+                return;
+            } else if (backLink === "/inapplist" && parentID) { // submenu -> submenu
                 dispatch(activateSubMenu(appID, parentID, -1));
             } else if (backLink === "/inappmenu") { // submenu -> menu
                 dispatch(deactivateSubMenu(appID))
                 uiController.onSystemContext("MENU", appID)
             } else if (backLink === "/") { // app view -> app list
-                uiController.onSystemContext("MAIN", appID)
-                uiController.failInteractions()
-                bcController.onAppDeactivated("GENERAL", appID)
+                if (appID) {
+                    uiController.onSystemContext("MAIN", appID)
+                    uiController.failInteractions()
+                    bcController.onAppDeactivated("GENERAL", appID)
+                }
             } else { // menu -> app view (backLink is any of the layout names)
                 uiController.onSystemContext("MAIN", appID)
                 uiController.failInteractions()

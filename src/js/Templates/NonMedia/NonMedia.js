@@ -48,7 +48,7 @@ const mapStateToProps = (state) => {
     return { 
         activeApp: state.activeApp,
         theme: state.theme,
-        ui: state.ui     
+        ui: state.ui
     };
 };
 

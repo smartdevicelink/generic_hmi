@@ -17,6 +17,7 @@ const mapStateToProps = (state) => {
         var hidden = (ddState === true && index >= menuLength) ? true : false;
         var link =  state.ui[activeApp].displayLayout
         var enabled = true
+        var secondaryImage;
         if (command.subMenu) {
             link = '/inapplist'
             if (ddState === true && menuDepth === 1) {
@@ -26,6 +27,13 @@ const mapStateToProps = (state) => {
             if (command.subMenu.length === 0) {
                 // Found and empty submenu, ask app to send add commands
                 uiController.onUpdateSubMenu(activeApp, command.menuID);
+            }
+        }
+        if (command.secondaryImage && command.secondaryImage.value) {
+            secondaryImage = {
+                value: command.secondaryImage.value,
+                imageType: command.secondaryImage.imageType,
+                isTemplate: command.secondaryImage.isTemplate
             }
         }
         return {
@@ -38,7 +46,10 @@ const mapStateToProps = (state) => {
             link: link,
             menuID: command.menuID,
             hidden: hidden,
-            enabled: enabled
+            enabled: enabled,
+            secondaryText: command.secondaryText,
+            tertiaryText: command.tertiaryText,
+            secondaryImage: secondaryImage
         }
     })
     return {data: data, theme: theme}
