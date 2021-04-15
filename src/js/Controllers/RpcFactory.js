@@ -62,13 +62,17 @@ class RpcFactory {
             }
         })
     }            
-    static InvalidImageResponse(rpc) {
+    static InvalidImageResponse(rpc, info) {
+        var message = "Requested image(s) not found."
+        if (info) {
+            message += "\n" + info
+        }
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "error": {
                 "code": 21,
-                "message": "Requested image(s) not found.",
+                "message": message,
                 "data": {
                     "method": rpc.method
                 }
@@ -245,16 +249,22 @@ class RpcFactory {
             }
         })
     }
-    static UIPerformInteractionResponse(choiceID, appID, msgID) {
-        return ({
+    static UIPerformInteractionResponse(choiceID, appID, msgID, manualTextEntry) {
+        var msg = {
             "jsonrpc": "2.0",
             "id": msgID,
             "result": {
                 "method": "UI.PerformInteraction",
-                "code": 0,
-                "choiceID": choiceID
+                "code": 0
             }
-        })
+        }
+        if (choiceID) { //Keyboard PI does not have a choice id response
+            msg.result["choiceID"] = choiceID;
+        }
+        if (manualTextEntry) {
+            msg.result["manualTextEntry"] = manualTextEntry;
+        }
+        return msg
     }
     static VRPerformInteractionResponse(choiceID, appID, msgID) {
         return ({
@@ -324,6 +334,7 @@ class RpcFactory {
                 "ccpu_version": "0.0.1",
                 "language": "EN-US",
                 "wersCountryCode": "WAEGB",
+                "systemHardwareVersion": "123.456.789"
             }
         })
     }
@@ -716,19 +727,24 @@ class RpcFactory {
             }
         })
     }
+
+    static OnSystemCapabilityUpdated(capability, appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnSystemCapabilityUpdated",
+            "params": {
+                "systemCapability": capability,
+                "appID": appID
+            }
+        })
+    }
+
     static OnSystemCapabilityDisplay(template, appID) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
             displayCapabilities: [getDisplayCapability(template)]
         }
-        return ({
-            "jsonrpc": "2.0",
-            "method": "BasicCommunication.OnSystemCapabilityUpdated",
-            "params": {
-                "systemCapability": systemCapability,
-                "appID": appID
-            }
-        })
+        return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
 
     static OnUpdateFile(appID, fileName) {
@@ -738,6 +754,16 @@ class RpcFactory {
             "params": {
                 "appID": appID,
                 "fileName": fileName
+            }
+        })
+    }
+
+    static OnDriverDistraction(ddState) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnDriverDistraction',
+            'params': {
+              'state': ddState,
             }
         })
     }
@@ -763,6 +789,85 @@ class RpcFactory {
         }
         // Error response
         return response;
+    }
+
+    static OnKeyboardInput (value, event) {
+        var message = {
+            'jsonrpc': '2.0',
+            'method': 'UI.OnKeyboardInput',
+            'params': {
+              'event': event
+            }
+        };
+        if (value) {
+            message["params"]["data"] = value;
+        }
+        return message; 
+    }
+
+    static OnTouchEvent(type, events) {
+        return ({
+            'jsonrpc': '2.0',
+            'method': 'UI.OnTouchEvent',
+            'params': {
+              'type': type,
+              'event': events
+            }
+        })
+    }
+
+    static StartStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StartStream"
+            }
+        };
+    }
+
+    static StartAudioStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StartAudioStream"
+            }
+        };
+    }
+
+    static StopStreamSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.StopStream"
+            }
+        };
+    }
+
+    static SetVideoConfigSuccess(id) {
+        return {
+            "jsonrpc": "2.0",
+            "id": id,
+            "result": {
+                "code": 0,
+                "method": "Navigation.SetVideoConfig"
+            }
+        };
+    }
+    static UISendHapticDataSuccess(rpc) {
+        return ({
+            jsonrpc: '2.0',
+            id: rpc.id,
+            result: {
+                code: 0,
+                method: 'UI.SendHapticData'
+            }
+        });
     }
 }
 

@@ -6,6 +6,21 @@ Note: This requires you to use Ubuntu 16.04 or 18.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
+### Dependencies
+
+- nvm
+- chromium-browser
+- python3 and pip
+- ffmpeg
+- ffmpeg-python
+
+```
+sudo apt install chromium-browser ffmpeg python3 python3-pip -y
+python3 -m pip install ffmpeg-python
+```
+
+Check out [nvm on github](https://github.com/nvm-sh/nvm#installing-and-updating) to learn how to install and use nvm!
+
 ### Build and Run the HMI
 
 Once SDL Core is running, follow these steps to set up the Generic HMI.
@@ -44,13 +59,15 @@ After running the build command, you can launch the Generic HMI in a web browser
 chromium-browser generic_hmi/build/index.html
 ```
 
-### PTU with vehicle modem (optional)
+### HMI Backend
 
-In order to get policy table updates using the vehicle modem, some additional setup is required
+The generic_hmi includes an additional backend component that is required for some features, such as in-browser video streaming and policy table updates using the vehicle modem.
 
 1. Run `deploy_server.sh` in the root folder
 2. Run the HMI normally
 3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+
+Video streaming also requires you to have all the [aforementioned dependencies](#dependencies) installed.
 
 ## Developing/Modifying the HMI
 

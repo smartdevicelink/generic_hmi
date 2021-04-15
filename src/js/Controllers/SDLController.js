@@ -20,8 +20,8 @@ class SDLController {
         {
             entityType: 1, entityID: 2, status: "OFF"
         }];*/
-        this.externalConsentStatus = [];
-        store.dispatch(setPTUWithModem(window.flags.PTUWithModemEnabled))
+        this.externalConsentStatus = null;
+        store.dispatch(setPTUWithModem(window.flags.PTUWithModemEnabled));
     }
     addListener(listener) {
         this.listener = listener
@@ -57,7 +57,7 @@ class SDLController {
                             {fieldName: "alertText1", fieldText: app.appName},
                             {fieldName: "alertText2", fieldText: "is disabled by policies"}
                         ],
-                        5000,
+                        null,
                         [
                             {type: "TEXT", text: "Dismiss", systemAction: "DEFAULT_ACTION", softButtonID: 1000}
                         ],

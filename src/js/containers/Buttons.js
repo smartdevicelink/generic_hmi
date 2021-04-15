@@ -31,10 +31,16 @@ const mapStateToProps = (state) => {
         })
     }
     if (subscribedButtons.SEEKLEFT === true) {
+        let icon = (app.backSeekIndicator.type === "TIME") ? "iconSeekLeft" : "iconSkipLeft"
+        let iconProps = {}
+        if (app.backSeekIndicator.seekTime) {
+            iconProps.seekTime = app.backSeekIndicator.seekTime.toString().padStart(2, '0')
+        }
         buttons.push({
             class: "secondary",
             name: "SEEKLEFT",
-            icon: "iconSeekLeft"
+            icon: icon,
+            iconProps: iconProps
         })
     }
     if (subscribedButtons.OK === true || subscribedButtons.PLAY_PAUSE === true) {
@@ -118,10 +124,16 @@ const mapStateToProps = (state) => {
         }
     }
     if (subscribedButtons.SEEKRIGHT === true) {
+        let icon = (app.forwardSeekIndicator.type === "TIME") ? "iconSeekRight" : "iconSkipRight"
+        let iconProps = {}
+        if (app.forwardSeekIndicator.seekTime) {
+            iconProps.seekTime = app.forwardSeekIndicator.seekTime.toString().padStart(2, '0')
+        }
         buttons.push({
             class: "secondary",
             name: "SEEKRIGHT",
-            icon: "iconSeekRight"
+            icon: icon,
+            iconProps: iconProps
         })
     }
     if (softButtons.length > 1) {

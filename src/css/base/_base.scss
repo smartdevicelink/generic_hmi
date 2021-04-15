@@ -60,13 +60,20 @@ body {
 .driver-distraction-button {
     margin-top: 22px;
     margin-left: 20px;
-    width: 210px;
+    width: 150px;
     border-radius: 2px;
     padding: 10px 0;
     float: left;
     input{
         margin-right: 10px;
     }
+}
+
+.resolution-selector {
+    margin-top: 18px;
+    margin-left: 20px;
+    border-radius: 2px;
+    float: left;
 }
 
 .webengine-app-container {

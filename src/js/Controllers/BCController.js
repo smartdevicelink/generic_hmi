@@ -1,6 +1,6 @@
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled } from '../actions'
+import { updateAppList, activateApp, deactivateApp, registerApplication, unregisterApplication, policyUpdate, onPutFile,  updateColorScheme, setAppIsConnected, onSystemCapabilityUpdated, updateInstalledAppStoreApps, appStoreAppInstalled, appStoreAppUninstalled, setVideoStreamingCapability } from '../actions'
 import sdlController from './SDLController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController';
@@ -34,7 +34,7 @@ class BCController {
                 store.dispatch(activateApp(rpc.params.appID))
                 return true
             case "CloseApplication":
-                store.dispatch(deactivateApp(rpc.params.appID))
+                store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))
                 return true
             case "OnAppRegistered":
                 if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
@@ -47,6 +47,10 @@ class BCController {
                 if (rpc.params.application.appType.includes("WEB_VIEW")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
+                } else if (rpc.params.application.appType.includes("NAVIGATION")
+                    || rpc.params.application.appType.includes("PROJECTION")) {
+                    store.dispatch(registerApplication(rpc.params.application.appID, "nav-fullscreen-map"));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay("NAV_FULLSCREEN_MAP", rpc.params.application.appID));
                 } else {
                     var templates = rpc.params.application.isMediaApplication ? ["media","MEDIA"] : ["nonmedia","NON-MEDIA"];
                     store.dispatch(registerApplication(rpc.params.application.appID, templates[0]));
@@ -54,7 +58,7 @@ class BCController {
                 }
                 return null
             case "OnAppUnregistered":
-                store.dispatch(deactivateApp(rpc.params.appID))
+                store.dispatch(deactivateApp(rpc.params.appID, "APP_UNREGISTERED"))
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
                 return null
             case "OnSystemCapabilityUpdated":
@@ -97,6 +101,19 @@ class BCController {
             case "GetSystemTime":
                 this.listener.send(RpcFactory.GetSystemTime(rpc.id))
                 return null
+
+            case "OnAppCapabilityUpdated":
+                if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING'
+                    && rpc.params.appCapability.videoStreamingCapability) {
+                    var vsc = rpc.params.appCapability.videoStreamingCapability;
+                    if (!vsc.additionalVideoStreamingCapabilities) {
+                        vsc.additionalVideoStreamingCapabilities = [];
+                    }
+                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsc.additionalVideoStreamingCapabilities));
+                }
+                return null;
+            default:
+                return false;
         }
     }
     handleRPCResponse(rpc) {
@@ -152,7 +169,7 @@ class BCController {
     }
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
-        store.dispatch(deactivateApp(appID))
+        store.dispatch(deactivateApp(appID, "APP_DEACTIVATED"))
     }
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())
@@ -174,6 +191,9 @@ class BCController {
     }
     getAppProperties(policyAppID){
         this.listener.send(RpcFactory.GetAppProperties(policyAppID))
+    }
+    onSystemCapabilityUpdated(capability, appID) {
+        this.listener.send(RpcFactory.OnSystemCapabilityUpdated(capability, appID));
     }
 }
 

@@ -6,13 +6,10 @@ import { connect } from 'react-redux';
 class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {error: false, refreshed: false};
-        this.canvasStyle = {
+        this.state = {errorPath: null, refreshed: false};
+        this.initialCanvasDimensions = {
             height: null,
-            width: null,
-            scaledDimensions: null,
-            x: null,
-            y: null
+            width: null
         };
     }
 
@@ -23,7 +20,7 @@ class Image extends React.Component {
         }
         var widthRatio = parentDimension.width / ogDimension.width
         var heightRatio = parentDimension.height / ogDimension.height
-        var minScale = Math.min(widthRatio , heightRatio)
+        var minScale = Math.min(widthRatio, heightRatio)
         scaledDimensions.width = ogDimension.width * minScale
         scaledDimensions.height = ogDimension.height * minScale
 
@@ -37,51 +34,42 @@ class Image extends React.Component {
             const canvas = this.refs.canvas
             const ctx = canvas.getContext("2d")
             const img = this.refs.image
-
-            if (this.canvasStyle.height && this.canvasStyle.width) {
-                canvas.width = this.canvasStyle.width
-                canvas.height = this.canvasStyle.height
-            } else {
-                canvas.width = canvasContainer.clientWidth
-                canvas.height = canvasContainer.clientHeight
-                this.canvasStyle.width = canvasContainer.clientWidth
-                this.canvasStyle.height = canvasContainer.clientHeight
+            if (!this.initialCanvasDimensions.height || !this.initialCanvasDimensions.width) {
+                this.initialCanvasDimensions.width = canvasContainer.clientWidth
+                this.initialCanvasDimensions.height = canvasContainer.clientHeight
             }
 
+            canvas.width = this.initialCanvasDimensions.width
+            canvas.height = this.initialCanvasDimensions.height
             img.onload = () => {
-                var scaledDimensions;
-                if (this.canvasStyle.scaledDimensions) {
-                    scaledDimensions = this.canvasStyle.scaledDimensions
-                } else {
-                    scaledDimensions= this.scaleImage({
-                            "width": img.width,
-                            "height": img.height
-                        }, {
-                            "width": this.canvasStyle.width,
-                            "height": this.canvasStyle.height
-                        }
-                    );
-                }
+                var scaledDimensions = this.scaleImage({
+                        "width": img.width,
+                        "height": img.height
+                    }, {
+                        "width": this.initialCanvasDimensions.width,
+                        "height": this.initialCanvasDimensions.height
+                    }
+                );
+                canvas.width = scaledDimensions.width
+                canvas.height = scaledDimensions.height
 
-                ctx.clearRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                var x = (canvas.width / 2) - (scaledDimensions.width / 2);
+                var y = (canvas.height / 2) - (scaledDimensions.height / 2);
 
-                if (!this.canvasStyle.x || !this.canvasStyle.y) {
-                    this.canvasStyle.x = (canvas.width / 2) - (scaledDimensions.width / 2);
-                    this.canvasStyle.y = (canvas.height / 2) - (scaledDimensions.height / 2);
-                }
-
-                ctx.drawImage(img, this.canvasStyle.x, this.canvasStyle.y, scaledDimensions.width, scaledDimensions.height);
+                ctx.drawImage(img, x, y, scaledDimensions.width, scaledDimensions.height);
 
                 ctx.globalCompositeOperation = "source-atop";
                 ctx.globalAlpha = 1.0;
                 ctx.fillStyle = fillColor;
-                ctx.fillRect(0, 0, this.canvasStyle.width, this.canvasStyle.height);
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.globalCompositeOperation = "source-over";
                 ctx.globalAlpha = 1.0;
             }
             //Refresh image to trigger onload
-            img.src = this.props.image;
+            img.src = this.props.image + "?m=" + new Date().getTime();
         }
     }
 
@@ -95,21 +83,25 @@ class Image extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         // Check if any props changed
-        if (this.props.fillColor != nextProps.fillColor) {
+        if (this.props.fillColor !== nextProps.fillColor) {
             return true;
         }
-        if (this.props.image != nextProps.image) {
+        if (this.props.image !== nextProps.image) {
             return true;
         }
-        if (this.props.isTemplate != nextProps.isTemplate) {
+        if (this.props.isTemplate !== nextProps.isTemplate) {
             return true;
         }
-        if (this.props.class != nextProps.class) {
+        if (this.props.class !== nextProps.class) {
             return true;
         }
 
         // Check if next image is to be refreshed
-        if (nextProps.refreshImage == nextProps.image) {
+        if (nextProps.refreshImage === nextProps.image) {
+            return true;
+        }
+
+        if (nextState.errorPath) {
             return true;
         }
         
@@ -123,7 +115,7 @@ class Image extends React.Component {
         if (activeApp) {
             UIController.onUpdateFile(activeApp, this.props.image);
         }
-        this.setState({error: true, refreshed: this.props.image === this.props.refreshImage});
+        this.setState({errorPath: this.props.image, refreshed: this.props.image === this.props.refreshImage});
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -135,35 +127,31 @@ class Image extends React.Component {
         // Reset error flag when the image is newly refreshed
         // checking the refreshed flag prevents multiple refreshes
         else if (!prevState.refreshed) {
-            newState.error = false
+            newState.errorPath = null
+        }
+        // If there was an error loading image but image path has changed,
+        // remove error flag
+        if (prevState.errorPath && prevState.errorPath !== nextProps.image) {
+            newState.errorPath = null;
         }
         return newState;
     }
 
     render() {
-        if(this.props.image && !this.state.error) {
-            if(this.props.isTemplate) {
+        if(this.props.image && !this.state.errorPath) {
+            if (this.props.isTemplate) {
                 var hidden = {display:'none'};
-                var size;
-                if (this.canvasStyle.height && this.canvasStyle.width) {
-                    size = {
-                        height: this.canvasStyle.height,
-                        width: this.canvasStyle.width
-                    }
-                } else {
-                    size = {
-                        height: "100%",
-                        width: "100%"
-                    }
+                var size = {
+                    height: "100%",
+                    width: "100%"
                 }
-
                 return (
                     <div style={size} ref="canvasContainer">
                         <canvas ref="canvas" className={this.props.class}/>
                         <img 
                             ref="image" 
                             style={hidden} 
-                            src={this.props.image} 
+                            src={this.props.image + "?m=" + new Date().getTime()} 
                             alt="SDL_Image" 
                             onError={e => this.onError(e)} 
                         />
