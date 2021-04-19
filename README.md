@@ -2,7 +2,7 @@
 
 ## Get an instance of SDL Core running
 
-Note: This requires you to use Ubuntu 16.04 or 18.04.
+Note: This requires you to use Ubuntu 16.04, 18.04, or 20.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
