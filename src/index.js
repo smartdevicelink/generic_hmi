@@ -57,8 +57,8 @@ class HMIApp extends React.Component {
             resolution: "960x600 Scale 1",
             scale: 1
         }
-        this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
+        this.sdl = new Controller(this.handleClick);
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
         this.handleDDToggle = this.handleDDToggle.bind(this);
         this.pickResolution = this.pickResolution.bind(this);
