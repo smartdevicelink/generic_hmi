@@ -67,8 +67,8 @@ class HMIApp extends React.Component {
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
     }
-    handleClick() {
-        var theme = !this.state.dark
+    handleClick(newState) {
+        var theme = newState
         this.setState({ dark: theme})
         store.dispatch(setTheme(theme))
     }
