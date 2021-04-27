@@ -95,6 +95,8 @@ class UIController {
                         templateConfiguration.dayColorScheme, 
                         templateConfiguration.nightColorScheme
                     ));
+                    // inform other HMIs of the display change
+                    this.listener.send(RpcFactory.ChangeDisplayLayout(templateConfiguration.template, rpc.params.appID));
                     
                     if (prevDisplayLayout !== templateConfiguration.template) {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
@@ -232,6 +234,8 @@ class UIController {
                 const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
 
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                // inform other HMIs of the display change
+                this.listener.send(RpcFactory.ChangeDisplayLayout(rpc.params.displayLayout, rpc.params.appID));
                 
                 if (prevDisplayLayout !== rpc.params.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));

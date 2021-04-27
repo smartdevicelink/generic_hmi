@@ -712,6 +712,17 @@ class RpcFactory {
         })
     }
 
+    static ChangeDisplayLayout(layout, appID) {
+        return ({
+            notRpc: true,
+            type: "CHANGE_DISPLAY_LAYOUT",
+            data: {
+                layout, 
+                appID
+            }
+        })
+    }
+
     //END OF NON-RPC MESSAGES
 
     static UICancelInteractionIgnoredResponse(rpc) {
