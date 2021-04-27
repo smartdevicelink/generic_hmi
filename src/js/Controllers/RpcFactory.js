@@ -712,7 +712,7 @@ class RpcFactory {
         })
     }
 
-    static ChangeDisplayLayout(layout, appID) {
+    static NonSdlChangeDisplayLayout(layout, appID) {
         return ({
             notRpc: true,
             type: "CHANGE_DISPLAY_LAYOUT",
