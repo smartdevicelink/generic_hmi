@@ -6,9 +6,8 @@ import { appStoreWebViewActive, appStoreWebViewInactive } from '../../actions';
 
 class WebView extends React.Component {
     componentWillMount() {
-        console.log("web view mounted");
+        console.log("web view mounted")
         console.log(this.props);
-        console.log(this.props.controller);
 
         store.dispatch(appStoreWebViewActive());
     }

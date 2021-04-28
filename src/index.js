@@ -304,7 +304,7 @@ ReactDOM.render((
             <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
-            <Route path="/web-view" render={(props) => <WebView controller={this.sdl} {...props} /> }/>
+            <Route path="/web-view" component={WebView} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
