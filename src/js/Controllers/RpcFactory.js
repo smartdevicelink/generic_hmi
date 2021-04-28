@@ -723,6 +723,16 @@ class RpcFactory {
         })
     }
 
+    static NonSdlUpdateWebViewVisible(visible) {
+        return ({
+            notRpc: true,
+            type: "UPDATE_WEBVIEW_VISIBLE",
+            data: {
+                visible,
+            }
+        })
+    }
+
     //END OF NON-RPC MESSAGES
 
     static UICancelInteractionIgnoredResponse(rpc) {

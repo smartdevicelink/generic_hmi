@@ -49,6 +49,9 @@ import {
     updateInstalledAppStoreApps, 
     setDDState
 } from './js/actions'
+
+let sdlController;
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -59,6 +62,7 @@ class HMIApp extends React.Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.sdl = new Controller(this.handleClick);
+        sdlController = this.sdl;
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
         this.handleDDToggle = this.handleDDToggle.bind(this);
         this.pickResolution = this.pickResolution.bind(this);
@@ -304,7 +308,9 @@ ReactDOM.render((
             <Route path="/" exact component={HMIMenu} />
             <Route path="/media" component={MediaPlayer} />
             <Route path="/nonmedia" component={NonMedia} />
-            <Route path="/web-view" component={WebView} />
+            <Route path="/web-view" render={(props) => (
+                <WebView {...props} controller={sdlController} />
+            )} />
             <Route path="/large-graphic-only" component={LargeGraphicOnly} />
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
