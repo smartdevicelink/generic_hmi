@@ -32,9 +32,11 @@ class BCController {
             case "ActivateApp":
                 store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
+                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(true, rpc.params.appID));
                 return true
             case "CloseApplication":
                 store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))
+                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(false, rpc.params.appID));
                 return true
             case "OnAppRegistered":
                 if (rpc.params.application.dayColorScheme || rpc.params.application.nightColorScheme) {
@@ -60,6 +62,7 @@ class BCController {
             case "OnAppUnregistered":
                 store.dispatch(deactivateApp(rpc.params.appID, "APP_UNREGISTERED"))
                 store.dispatch(unregisterApplication(rpc.params.appID, rpc.params.unexpectedDisconnect))                
+                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(false, rpc.params.appID));
                 return null
             case "OnSystemCapabilityUpdated":
                 store.dispatch(onSystemCapabilityUpdated(rpc.params.systemCapability))
@@ -170,6 +173,7 @@ class BCController {
     onAppDeactivated(reason, appID) {
         this.listener.send(RpcFactory.OnAppDeactivatedNotification(reason, appID))
         store.dispatch(deactivateApp(appID, "APP_DEACTIVATED"))
+        this.listener.send(RpcFactory.NonSdlUpdateActiveApp(false, rpc.params.appID));
     }
     onIgnitionCycleOver() {
         this.listener.send(RpcFactory.OnIgnitionCycleOverNotification())

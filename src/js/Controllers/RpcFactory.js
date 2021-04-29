@@ -733,6 +733,17 @@ class RpcFactory {
         })
     }
 
+    static NonSdlUpdateActiveApp(activated, appID) {
+        return ({
+            notRpc: true,
+            type: "UPDATE_ACTIVE_APP",
+            data: {
+                activated,
+                appID,
+            }
+        })
+    }
+
     //END OF NON-RPC MESSAGES
 
     static UICancelInteractionIgnoredResponse(rpc) {
