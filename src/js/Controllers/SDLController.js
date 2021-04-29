@@ -69,7 +69,7 @@ class SDLController {
                 } else {
                     store.dispatch(activateApp(activatingApplication))
                 } 
-                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(true, rpc.params.appID));
+                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(true, activatingApplication));
                 return;
             case "GetPolicyConfigurationData":
                 var urls = JSON.parse(rpc.result.value[0])["0x07"]["default"];
