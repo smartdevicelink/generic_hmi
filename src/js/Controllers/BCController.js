@@ -32,7 +32,6 @@ class BCController {
             case "ActivateApp":
                 store.dispatch(setAppIsConnected(rpc.params.appID))
                 store.dispatch(activateApp(rpc.params.appID))
-                this.listener.send(RpcFactory.NonSdlUpdateActiveApp(true, rpc.params.appID));
                 return true
             case "CloseApplication":
                 store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))
