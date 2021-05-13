@@ -86,6 +86,7 @@ let textWithGraphicCapabilities = {
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
+			imageField("choiceSecondaryImage", 40),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
 			imageField("secondaryImage", 40),
@@ -127,6 +128,7 @@ let textbuttonsWithGraphicCapabilities = {
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
+			imageField("choiceSecondaryImage", 40),
 			imageField("softButtonImage", 50),
 			imageField("softButtonImage", 50),
 			imageField("softButtonImage", 50),
@@ -193,6 +195,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
@@ -268,6 +271,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -343,6 +347,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -397,6 +402,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -452,6 +458,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("secondaryImage", 40),
@@ -492,6 +499,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -545,6 +553,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -598,6 +607,7 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
+				imageField("choiceSecondaryImage", 40),
 				imageField("menuIcon", 40),
 				imageField("cmdIcon", 150),
 				imageField("appIcon", 50),
