@@ -102,6 +102,10 @@
     padding: 15px;
 }
 
+.alert-buttons .soft-button-image-static {
+    padding: 5px;
+}
+
 .alert-button-1 {
     height: 75px;
     width: 100%;
@@ -158,4 +162,9 @@
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);
+}
+
+.alert-button-4 .soft-button-image-static {
+    max-height: 50px;
+    min-width: 50px;
 }
