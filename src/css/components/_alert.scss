@@ -100,10 +100,9 @@
     @include flex-wrap(wrap);
     @include align-items(stretch);
     padding: 15px;
-}
-
-.alert-buttons .soft-button-image-static {
-    padding: 5px;
+    .soft-button-image, .soft-button-image-static {
+        padding: 5px;
+    }
 }
 
 .alert-button-1 {
@@ -158,13 +157,12 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    .soft-button-image, .soft-button-image-static {
+        max-height: 50px;
+        min-width: 50px;
+    }
 
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);
-}
-
-.alert-button-4 .soft-button-image-static {
-    max-height: 50px;
-    min-width: 50px;
 }
