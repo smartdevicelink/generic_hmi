@@ -5,9 +5,12 @@ export default class AppName extends React.Component {
     render () {
         let isShowingMenu = this.props.location.pathname === '/inappmenu'
         let isShowingSubMenu = (this.props.location.pathname === '/inapplist' && this.props.subMenuName)
+        let isPerformingInteraction = (this.props.location.pathname === '/inapplist' && this.props.interactionText)
+
         let subTitle = this.props.templateTitle
         subTitle = (isShowingMenu) ? "Menu" : subTitle
-        subTitle = (isShowingSubMenu) ? this.props.subMenuName : subTitle 
+        subTitle = (isShowingSubMenu) ? this.props.subMenuName : subTitle
+        subTitle = (isPerformingInteraction) ? this.props.interactionText : subTitle
         
         let name = this.props.location.pathname ==='/appstore' ? 'App Store' : this.props.location.pathname ==='/appstoremenu' ? 'Installed Apps' : this.props.name;
         let appName_html = <span className="t-small t-medium th-f-color">{name}</span>
