@@ -258,7 +258,7 @@ class RpcFactory {
                 "code": 0
             }
         }
-        if (choiceID || choiceID === 0) { //Keyboard PI does not have a choice id response
+        if ('number' === typeof choiceID) { //Keyboard PI does not have a choice id response
             msg.result["choiceID"] = choiceID;
         }
         if (manualTextEntry) {
