@@ -24,7 +24,10 @@ export default class HScrollMenuItem extends React.Component {
                  : <Image image={menuItem.image} isTemplate={menuItem.isTemplate} fillColor={fill} />;
 
         var buttonClass = "hscrollmenu-item th-b-color th-tile-background-color";
-        var clickHandler = () => this.props.onSelection(menuItem.appID, menuItem.cmdID, menuItem.menuID, menuItem.enabled);
+        var clickHandler = () => this.props.onSelection(menuItem.appID, menuItem.cmdID, 
+                                                        menuItem.menuID, menuItem.enabled,
+                                                        this.props.isPerformingInteraction,
+                                                        this.props.interactionId);
         
         if (menuItem.greyOut) {
             clickHandler = undefined;
