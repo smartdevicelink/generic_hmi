@@ -94,7 +94,7 @@
     @include flex-direction(column);
     @include align-items(center);
     flex: 10;
-    max-height: calc((#{$master-height} - 75px) / 5);
+    height: calc((#{$master-height} - 75px) / 5);
 }
 
 .h-subtleAlert-button-1 {
@@ -141,18 +141,20 @@
     @include justify-content(center);
 
     .soft-button-image {
+        max-height: 72px;
         display: flex;
         align-items: center;
-        padding: 0 5px;
+        padding: 5px;
     }
 
     .soft-button-image-static {
-        max-height: 37.5px;
+        max-height: 72px;
         max-width: 100%;
-        min-width: 37.5px;
+        min-width: 72px;
+        padding: 5px;
 
         div svg {
-            max-height: 37.5px;
+            max-height: 72px;
         }
     }
 
@@ -179,18 +181,20 @@
     @include justify-content(center);
 
     .soft-button-image {
+        max-height: 48px;
         display: flex;
         align-items: center;
-        padding: 0 5px;
+        padding: 5px;
     }
 
     .soft-button-image-static {
-        max-height: 37.5px;
+        max-height: 48px;
         max-width: 100%;
-        min-width: 37.5px;
+        min-width: 48px;
+        padding: 5px;
 
         div svg {
-            max-height: 37.5px;
+            max-height: 48px;
         }
     }
 

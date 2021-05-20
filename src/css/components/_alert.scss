@@ -100,6 +100,11 @@
     @include flex-wrap(wrap);
     @include align-items(stretch);
     padding: 15px;
+    .soft-button-image, .soft-button-image-static {
+        padding: 5px;
+        max-height: 75px;
+        min-width: 75px;
+    }
 }
 
 .alert-button-1 {
@@ -154,6 +159,10 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    .soft-button-image, .soft-button-image-static {
+        max-height: 50px;
+        min-width: 50px;
+    }
 
     @include display(flex);
     @include align-items(center);
