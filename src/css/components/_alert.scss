@@ -102,6 +102,8 @@
     padding: 15px;
     .soft-button-image, .soft-button-image-static {
         padding: 5px;
+        max-height: 75px;
+        min-width: 75px;
     }
 }
 

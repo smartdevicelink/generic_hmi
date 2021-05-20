@@ -181,20 +181,20 @@
     @include justify-content(center);
 
     .soft-button-image {
-        max-height: 55px;
+        max-height: 48px;
         display: flex;
         align-items: center;
         padding: 5px;
     }
 
     .soft-button-image-static {
-        max-height: 55px;
+        max-height: 48px;
         max-width: 100%;
-        min-width: 55px;
+        min-width: 48px;
         padding: 5px;
 
         div svg {
-            max-height: 55px;
+            max-height: 48px;
         }
     }
 
