@@ -549,6 +549,10 @@ function ui(state = {}, action) {
             if (action.audioStreamingIndicator) {
                 app.audioStreamingIndicator = action.audioStreamingIndicator
             }
+            else if (app.audioStreamingIndicator != "PLAY_PAUSE") {
+                app.audioStreamingIndicator = "PLAY_PAUSE"
+            }
+
             app.countRate = action.countRate ? action.countRate : 1.0
             app.paused = (action.updateMode === "PAUSE")
             app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
