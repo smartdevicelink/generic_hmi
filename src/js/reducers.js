@@ -692,8 +692,9 @@ function ui(state = {}, action) {
             return newState
         case Actions.DEACTIVATE_APP:
             if (action.reason === "APP_CLOSED" || action.reason === "APP_UNREGISTERED"){
+                app.audioStreamingIndicator = "PLAY_PAUSE"
                 app.backSeekIndicator = {type: "TRACK", seekTime: null}
-                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}    
+                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             }
             return newState
         case Actions.SET_HAPTIC_DATA:
