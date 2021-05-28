@@ -546,9 +546,8 @@ function ui(state = {}, action) {
                 app.timerOffset = 0
             }
             app.updateMode = action.updateMode
-            if (action.audioStreamingIndicator) {
-                app.audioStreamingIndicator = action.audioStreamingIndicator
-            }
+            app.audioStreamingIndicator = (action.audioStreamingIndicator) ? action.audioStreamingIndicator : "PLAY_PAUSE";
+
             app.countRate = action.countRate ? action.countRate : 1.0
             app.paused = (action.updateMode === "PAUSE")
             app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
@@ -693,8 +692,9 @@ function ui(state = {}, action) {
             return newState
         case Actions.DEACTIVATE_APP:
             if (action.reason === "APP_CLOSED" || action.reason === "APP_UNREGISTERED"){
+                app.audioStreamingIndicator = "PLAY_PAUSE"
                 app.backSeekIndicator = {type: "TRACK", seekTime: null}
-                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}    
+                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             }
             return newState
         case Actions.SET_HAPTIC_DATA:
