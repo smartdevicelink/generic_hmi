@@ -685,6 +685,12 @@ function ui(state = {}, action) {
                 if (!keyboardProperties.keypressMode) {
                     keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
                 }
+                if (!keyboardProperties.limitedCharacterList) {
+                    keyboardProperties.limitedCharacterList = "";
+                }
+                if (!keyboardProperties.autoCompleteList) {
+                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                }
                 app.keyboardProperties = keyboardProperties
             }
             return newState

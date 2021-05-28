@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
 import SimpleKeyboard from "react-simple-keyboard";
 import AppHeader from './containers/Header';
 import "react-simple-keyboard/build/css/index.css";
@@ -6,7 +7,7 @@ import store from './store';
 import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
-export default class Keyboard extends Component {
+class Keyboard extends Component {
 
   constructor(props) {
     super(props);
@@ -23,6 +24,18 @@ export default class Keyboard extends Component {
     };
   }
 
+  handleAutoComplete = append => {
+    var completedWord = this.state.input + append + " ";
+    this.setState({
+      input: completedWord
+    });
+    this.keyboard.setInput(completedWord);
+    this.handleInput(completedWord);
+    if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
+      uiController.onKeyboardInput(append, 'KEYPRESS');
+    }
+  }
+
   onChange = input => {
     // Changes from button presses
     this.setState({ input });
@@ -34,7 +47,7 @@ export default class Keyboard extends Component {
     const input = event.target.value;
     this.setState({ input });
     this.keyboard.setInput(input);
-    this.handleInput(input)    
+    this.handleInput(input);
   };
 
   onKeyPress = button => {
@@ -153,6 +166,24 @@ export default class Keyboard extends Component {
         }
       }
     }
+
+    // These keyboard properties must change while keyboard is in view
+    var limitedCharacterList = "";
+    if (this.props.limitedCharacterList) {
+      limitedCharacterList = this.props.limitedCharacterList.join(" ");
+    }
+
+    var autoCompleteWord = "";
+    if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
+      const currentWord = this.state.input.split(" ").pop();
+      for (const word of this.props.autoCompleteList) {
+        if (currentWord.length > 0 && word.substr(0, currentWord.length) === currentWord) {
+          // Matched a potential autocomplete
+          autoCompleteWord = word.substr(currentWord.length)
+          break;
+        }
+      }
+    }
     
     var backLink = "/";
     if (app && app.isPerformingInteraction) {
@@ -166,13 +197,22 @@ export default class Keyboard extends Component {
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
                 <div className="input-row">
-                    <input
-                        className="input-text"
-                        value={this.state.input}
-                        type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
-                        placeholder={interactionText}
-                        onChange={this.onChangeInput}
-                    />
+                    <div className="input-text">
+                      <input
+                          value={this.state.input}
+                          type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
+                          placeholder={interactionText}
+                          onChange={this.onChangeInput}
+                          size={this.state.input ? this.state.input.length : interactionText.length}
+                      />
+                      <div 
+                        className="input-autocomplete"
+                        onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
+                      >
+                        {autoCompleteWord}
+                      </div>
+                    </div>
+
                     <input 
                         className="mask-checkbox"
                         id="maskOption"
@@ -195,6 +235,12 @@ export default class Keyboard extends Component {
                     onChange={this.onChange}
                     onKeyPress={this.onKeyPress}
                     theme={this.keyboardClass}
+                    buttonTheme={limitedCharacterList && [
+                      {
+                        class: "hg-button-disabled",
+                        buttons: limitedCharacterList
+                      }
+                    ]}
                 />
             </div>
         </div>
@@ -258,3 +304,19 @@ const NUMERIC = {
   default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 {enter}", "{bksp}"],
   shift: ["! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"]
 };
+
+const mapStateToProps = (state) => {
+  var activeApp = state.activeApp;
+  var app = state.ui[activeApp] ? state.ui[activeApp] : null;
+  if (!app || !app.keyboardProperties) {
+    return {}
+  }
+  return {
+    limitedCharacterList: app.keyboardProperties.limitedCharacterList,
+    autoCompleteList: app.keyboardProperties.autoCompleteList
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Keyboard)
