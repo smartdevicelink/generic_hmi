@@ -50,6 +50,14 @@ function newAppState () {
             showProgressIndicator: null,
             msgID: null
         },
+        slider: {
+            showSlider: false,
+            numTicks: null,
+            position: null,
+            header: "",
+            footer: [],
+            timeout: null
+        },
         dayColorScheme: null,
         nightColorScheme: null,
         videoStreamingCapability: [
@@ -638,6 +646,26 @@ function ui(state = {}, action) {
                 alertType: null,
                 showProgressIndicator: null,
                 msgID: null
+            }
+            return newState
+        case Actions.SLIDER:
+            console.log("[!] Handling slider action")
+            app.slider.showSlider = true
+            app.slider.numTicks = action.numTicks
+            app.slider.position = action.position
+            app.slider.header = action.sliderHeader
+            app.slider.footer = action.sliderFooter
+            app.slider.timeout = action.timeout
+            return newState
+        case Actions.CLOSE_SLIDER:
+            console.log("[!] Handling close slider action")
+            app.slider = {
+                showSlider: false,
+                numTicks: null,
+                position: null,
+                header: "",
+                footer: [],
+                timeout: null
             }
             return newState
         case Actions.UPDATE_COLOR_SCHEME:

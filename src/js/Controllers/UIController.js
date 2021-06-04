@@ -13,6 +13,8 @@ import {
     setTemplateConfiguration,
     alert,
     closeAlert,
+    slider,
+    closeSlider,
     setGlobalProperties,
     deactivateInteraction,
     showAppMenu,
@@ -43,6 +45,7 @@ class UIController {
         this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
         this.onAlertTimeout = this.onAlertTimeout.bind(this)
+        this.onSliderTimeout = this.onSliderTimeout.bind(this)
         this.onDefaultAction = this.onDefaultAction.bind(this)
         this.onKeepContext = this.onKeepContext.bind(this)
         this.onStealFocus = this.onStealFocus.bind(this)
@@ -354,6 +357,34 @@ class UIController {
                 AddImageValidationRequest(rpc.id, subtleAlertImages)
 
                 return null
+            case "Slider":
+                console.log("[!] Handling UI.Slider request")
+
+                store.dispatch(slider(
+                    rpc.params.appID,
+                    rpc.params.numTicks,
+                    rpc.params.position,
+                    rpc.params.sliderHeader,
+                    rpc.params.sliderFooter,
+                    rpc.params.timeout,
+                    rpc.params.cancelID
+                ))
+                
+                // var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
+                const state4 = store.getState()
+                const context3 = state4.activeApp
+
+                this.endTimes[rpc.id] = Date.now() + rpc.params.timeout;
+                this.timers[rpc.id] = setTimeout(this.onSliderTimeout, rpc.params.timeout, rpc.id, rpc.params.appID, context3 ? context3 : rpc.params.appID)
+                this.appsWithTimers[rpc.id] = rpc.params.appID
+
+                // this.onSystemContext("ALERT", rpc.params.appID)
+
+                if ((context3 !== rpc.params.appID) && context3) {
+                    this.onSystemContext("HMI_OBSCURED", context3)
+                }
+
+                return null
             case "CancelInteraction":
 
                 const state2 = store.getState()
@@ -434,6 +465,24 @@ class UIController {
             this.onSystemContext(systemContext, appID)
         }
         this.onSystemContext(systemContext, context)
+    }
+    onSliderTimeout(msgID, appID, context) {
+        delete this.timers[msgID]
+
+        store.dispatch(closeSlider(
+            msgID,
+            appID, 
+            null
+        ))
+
+        this.listener.send(RpcFactory.SliderResponse(msgID, null))
+
+        // const systemContext = getNextSystemContext();
+        // if (appID !== context) {
+        //     this.onSystemContext(systemContext, appID)
+        // }
+        // this.onSystemContext(systemContext, context)
+
     }
     onStealFocus(alert, context, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
+import Slider from './Slider';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -51,10 +52,16 @@ class AppHeader extends React.Component {
     }
 
     closeModal() {
+        console.log("[!] Closing modal")
         if (this.props.alertIsSubtle) {
             this.props.showAlert = false;
             this.forceUpdate();
             uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
+        }
+        if (this.props.showSlider){
+            console.log("[!] Disabling slider")
+
+            this.props.showSlider = false;
         }
     }
 
@@ -107,6 +114,7 @@ class AppHeader extends React.Component {
             backLink = this.props.activeLayout;
         }
 
+        console.log("[!] AppHeader showSlider: ", this.props )
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
@@ -120,6 +128,15 @@ class AppHeader extends React.Component {
                 onRequestClose={this.closeModal}
                 >
                     {alertHtml}
+                </Modal>
+                <Modal
+                isOpen={this.props.showSlider}
+                className={`app-body sliderModal`}
+                overlayClassName={`${themeClass} sliderOverlay`}
+                contentLabel="Slider Modal"
+                onRequestClose={this.closeModal}
+                >
+                    <Slider theme={this.props.theme} sliderData={this.props.sliderData}/>
                 </Modal>
             </div>
             

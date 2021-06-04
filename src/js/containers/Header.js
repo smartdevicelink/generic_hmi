@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { slider } from '../actions'
 import AppHeader from '../AppHeader'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
@@ -11,6 +12,8 @@ const mapStateToProps = (state) => {
     }
 
     var showAlert = false
+    var showSlider = false
+    var sliderData = {}
     var alertIsSubtle = false
     var alertMsgId = null
     var alertAppId = null
@@ -35,6 +38,12 @@ const mapStateToProps = (state) => {
                 alertIcon = state.ui[prop].alert.icon
             }
 
+            break
+        }
+        if(state.ui[prop].slider.showSlider){
+            console.log("[!] Enabling slider")
+            showSlider = true
+            sliderData = state.ui[prop].slider
             break
         }
     }
@@ -73,6 +82,8 @@ const mapStateToProps = (state) => {
         isDisconnected: app.isDisconnected,
         displayLayout: app.displayLayout,
         showAlert: showAlert,
+        showSlider: showSlider,
+        sliderData: sliderData,
         alertIsSubtle: alertIsSubtle,
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,

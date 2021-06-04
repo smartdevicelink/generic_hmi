@@ -134,6 +134,22 @@ class RpcFactory {
             }
         })
     }
+    static SliderResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 0,
+                "method": "UI.Slider"
+            }
+        }
+
+        if (sliderPosition){
+            msg.result.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",

@@ -24,6 +24,8 @@ export const Actions = {
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
+    SLIDER: "SLIDER",
+    CLOSE_SLIDER: "CLOSE_SLIDER",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     SET_URLS: "SET_URLS",
@@ -276,6 +278,29 @@ export const closeAlert = (msgID, appID) => {
         appID: appID
     }
 }
+
+export const slider = (appID, numTicks, position, sliderHeader, sliderFooter, timeout, cancelID) => {
+    return {
+        type: Actions.SLIDER,
+        appID: appID,
+        numTicks: numTicks,
+        position: position,
+        sliderHeader: sliderHeader,
+        sliderFooter: sliderFooter,
+        timeout: timeout,
+        cancelID: cancelID
+    }
+}
+
+export const closeSlider = (msgID, appID, sliderPosition) => {
+    return {
+        type: Actions.CLOSE_SLIDER,
+        msgID: msgID,
+        appID: appID,
+        sliderPosition: sliderPosition
+    }
+}
+
 
 export const setTheme = (theme) => {
     return {
