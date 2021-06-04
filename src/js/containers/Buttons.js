@@ -3,6 +3,7 @@ import ControlBar from '../ControlBar'
 //import SoftButtons from '../SoftButtons'
 import SoftButtonsBody from '../Templates/Shared/SoftButtons'
 import AlertButtonsBody from '../AlertButtons'
+import ScrollableMessageButtons from '../ScrollableMessageButtons'
 import uiController from '../Controllers/UIController'
 
 const mapStateToProps = (state) => {
@@ -10,6 +11,7 @@ const mapStateToProps = (state) => {
     var subscribedButtons = {}
     var softButtons = []
     var alertButtons = []
+    var scrollableMessageButtons = [];
     var app = {}
     var graphicPresent
     if (activeApp) {
@@ -159,6 +161,16 @@ const mapStateToProps = (state) => {
                 }
             }   
         }
+        if (state.ui[key].scrollableMessage.active) {
+            scrollableMessageButtons = state.ui[key].scrollableMessage.softButtons;
+            if (scrollableMessageButtons) {
+                for (var i in scrollableMessageButtons) {
+                    scrollableMessageButtons[i].appID = parseInt(key);
+                    scrollableMessageButtons[i].msgID = state.ui[key].scrollableMessage.msgID;
+                    scrollableMessageButtons[i].duration = state.ui[key].scrollableMessage.duration;
+                }
+            }
+        }
     }
 
     //Assign color scheme to props
@@ -186,7 +198,7 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, scrollableMessageButtons: scrollableMessageButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
 var buttonPressMap = {};
@@ -247,6 +259,11 @@ export const Buttons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(ControlBar)
+
+export const ScrollableButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ScrollableMessageButtons)
 
 export const SoftButtons = connect(
     mapStateToProps,

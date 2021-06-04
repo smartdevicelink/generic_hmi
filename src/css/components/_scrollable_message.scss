@@ -1,0 +1,114 @@
+.scrollableMessageOverlay {
+    position          : fixed;
+    top               : 0;
+    left              : 0;
+    right             : 0;
+    bottom            : 0;
+    background-color   : rgba(0, 0, 0, 0.75);
+    width: $master-width;
+    height: $master-height;
+    margin: 25px;
+    z-index:1001;
+}
+
+.scrollableMessageModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    @include transform(translate(-50%, -50%));
+    border: 1px solid #ccc;
+    overflow: hidden;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    width: 85%;
+    height: calc(#{$master-height} / 5 * 4);
+}
+
+.scrollableMessage {
+    @include display(flex);
+    @include flex-direction(column);
+    overflow: hidden;
+    height: calc(#{$master-height} / 5 * 4);
+}
+
+.scrollableTitle {
+    text-align: center;
+
+    p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.scrollableBody {
+    @include display(flex);
+    @include flex-direction(row);
+    height: 80%;
+    max-height: 80%;
+}
+
+.scrollableMessage-buttons {
+    @include display(flex);
+    @include flex-direction(column);
+    width: 30%;
+    padding-right: 16px;
+}
+
+.scrollableMessage-button {
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 0.154px;
+    border-style: solid;
+    margin: 4px 4px;
+    height: 40px;
+    padding: 1px 4px;
+
+    @include display(flex);
+    @include flex-direction(row);
+    @include align-items(center);
+    @include justify-content(left);
+
+    .soft-button-image {
+        max-height: 36px;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .soft-button-image-static {
+        max-height: 36px;
+        max-width: 100%;
+        min-width: 36px;
+        padding: 5px;
+
+        div svg {
+            max-height: 36px;
+        }
+    }
+
+    p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+}
+
+.scrollableText {
+    width: 70%;
+    max-width: 70%;
+    height: 100%;
+
+    p {
+        height: 100%;
+        overflow-y: auto;
+        word-wrap: normal;
+        white-space: pre-wrap;
+    }
+}
