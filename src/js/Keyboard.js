@@ -170,7 +170,17 @@ class Keyboard extends Component {
     // These keyboard properties must change while keyboard is in view
     var limitedCharacterList = "";
     if (this.props.limitedCharacterList) {
-      limitedCharacterList = this.props.limitedCharacterList.join(" ");
+      const constKeys = ["{bksp}", "{tab}", "{lock}", "{shift}", "{space}", "{enter}"];
+      var concatLayouts = this.keyboardLayout.default.concat(this.keyboardLayout.shift);
+      limitedCharacterList = concatLayouts.join(" ");
+      // Prevent important keys from being disabled
+      for (const key of constKeys) {
+        limitedCharacterList = limitedCharacterList.replaceAll(key, "");
+      }
+      // Apply app requested character set
+      for (const letter of this.props.limitedCharacterList) {
+        limitedCharacterList = limitedCharacterList.replaceAll(letter, "");
+      }
     }
 
     var autoCompleteWord = "";
