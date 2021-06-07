@@ -294,9 +294,10 @@ export const slider = (appID, numTicks, position, sliderHeader, sliderFooter, ti
     }
 }
 
-export const updateSliderPosition = (newPosition) =>{
+export const updateSliderPosition = (appID, newPosition) =>{
     return {
         type: Actions.UPDATE_SLIDER_POSITION,
+        appID: appID,
         newPosition: newPosition
     }
 }

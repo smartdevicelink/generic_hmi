@@ -662,9 +662,11 @@ function ui(state = {}, action) {
             return newState
         case Actions.UPDATE_SLIDER_POSITION:
             console.log("[!] Handling update slider position")
-            if (action.newPosition){
+            if (action.newPosition) {
                 app.slider.position = action.newPosition
             }
+            console.log("[!] Post update position", JSON.parse(JSON.stringify(newState)))
+
             return newState
         case Actions.CLOSE_SLIDER:
             console.log("[!] Handling close slider action")

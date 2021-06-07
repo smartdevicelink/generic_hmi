@@ -3,6 +3,8 @@ import ReactSlider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import store from './store'
 import { updateSliderPosition } from './actions'
+import uiController from './Controllers/UIController'
+
 
 export default class Slider extends React.Component {
     constructor(props){
@@ -18,7 +20,8 @@ export default class Slider extends React.Component {
         console.log("[!] OnSliderChange", value)
         this.setState({ value }, () => {
             console.log("[!]Slider callback", this.state)
-            store.dispatch(updateSliderPosition(value))
+            uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId)
+            store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
         })
     }
 
