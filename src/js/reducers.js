@@ -56,7 +56,8 @@ function newAppState () {
             position: null,
             header: "",
             footer: [],
-            timeout: null
+            timeout: null,
+            msgID: null
         },
         dayColorScheme: null,
         nightColorScheme: null,
@@ -656,6 +657,14 @@ function ui(state = {}, action) {
             app.slider.header = action.sliderHeader
             app.slider.footer = action.sliderFooter
             app.slider.timeout = action.timeout
+            app.slider.msgID = action.msgID
+            app.slider.cancelID = action.cancelID
+            return newState
+        case Actions.UPDATE_SLIDER_POSITION:
+            console.log("[!] Handling update slider position")
+            if (action.newPosition){
+                app.slider.position = action.newPosition
+            }
             return newState
         case Actions.CLOSE_SLIDER:
             console.log("[!] Handling close slider action")
@@ -665,7 +674,8 @@ function ui(state = {}, action) {
                 position: null,
                 header: "",
                 footer: [],
-                timeout: null
+                timeout: null,
+                msgID: null
             }
             return newState
         case Actions.UPDATE_COLOR_SCHEME:

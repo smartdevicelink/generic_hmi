@@ -45,7 +45,9 @@ class UIController {
         this.failInteractions = this.failInteractions.bind(this)
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
         this.onAlertTimeout = this.onAlertTimeout.bind(this)
-        this.onSliderTimeout = this.onSliderTimeout.bind(this)
+        this.onSliderClose = this.onSliderClose.bind(this)
+        this.onSliderStealFocus = this.onSliderStealFocus.bind(this)
+        this.onSliderKeepContext = this.onSliderKeepContext.bind(this)
         this.onDefaultAction = this.onDefaultAction.bind(this)
         this.onKeepContext = this.onKeepContext.bind(this)
         this.onStealFocus = this.onStealFocus.bind(this)
@@ -367,21 +369,21 @@ class UIController {
                     rpc.params.sliderHeader,
                     rpc.params.sliderFooter,
                     rpc.params.timeout,
+                    rpc.id,
                     rpc.params.cancelID
                 ))
                 
-                // var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
-                const state4 = store.getState()
-                const context3 = state4.activeApp
+                const slider_state = store.getState()
+                const slider_context = slider_state.activeApp
 
-                this.endTimes[rpc.id] = Date.now() + rpc.params.timeout;
-                this.timers[rpc.id] = setTimeout(this.onSliderTimeout, rpc.params.timeout, rpc.id, rpc.params.appID, context3 ? context3 : rpc.params.appID)
+                let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
+
+                this.endTimes[rpc.id] = Date.now() + sliderTimeout;
+                this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, slider_context ? slider_context : rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
-                // this.onSystemContext("ALERT", rpc.params.appID)
-
-                if ((context3 !== rpc.params.appID) && context3) {
-                    this.onSystemContext("HMI_OBSCURED", context3)
+                if ((slider_context !== rpc.params.appID) && slider_context) {
+                    this.onSystemContext("HMI_OBSCURED", slider_context)
                 }
 
                 return null
@@ -466,22 +468,29 @@ class UIController {
         }
         this.onSystemContext(systemContext, context)
     }
-    onSliderTimeout(msgID, appID, context) {
+
+    onSliderClose(msgID, appID, context) {
+        console.log("[!] On Slider close")
+        clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
+
+        const state = store.getState()
+        const app = state.ui[appID]
+        const sliderPosition = app.slider?.position
 
         store.dispatch(closeSlider(
             msgID,
-            appID, 
-            null
+            appID
         ))
 
-        this.listener.send(RpcFactory.SliderResponse(msgID, null))
+        console.log('[!] Final Slider position', sliderPosition)
+        this.listener.send(RpcFactory.SliderResponse(msgID, sliderPosition))
 
-        // const systemContext = getNextSystemContext();
-        // if (appID !== context) {
-        //     this.onSystemContext(systemContext, appID)
-        // }
-        // this.onSystemContext(systemContext, context)
+        const systemContext = getNextSystemContext();
+        if (appID !== context) {
+            this.onSystemContext(systemContext, appID)
+        }
+        this.onSystemContext(systemContext, context)
 
     }
     onStealFocus(alert, context, isSubtle) {        
@@ -512,6 +521,14 @@ class UIController {
         this.onSystemContext("MAIN", alert.appID)
         sdlController.onAppActivated(alert.appID)
     }
+    onSliderStealFocus(msgID, appID) {
+        console.log("[!] On Slider Steal focus")
+
+        this.onSliderClose(msgID, appID)
+
+        this.onSystemContext("MAIN", appID)
+        sdlController.onAppActivated(appID)
+    }
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
@@ -521,6 +538,19 @@ class UIController {
         
         this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
         this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
+    }
+    onSliderKeepContext(msgID, appID, duration) {
+        console.log("[!] On Slider Keep context")
+
+        clearTimeout(this.timers[msgID])
+        
+        let timeout = duration ? duration : 10000
+        const state = store.getState();
+        const context = state.activeApp
+
+        this.timers[msgID] = setTimeout(this.onSliderClose, timeout, msgID, appID, context);
+        this.onResetTimeout(appID, "UI.Slider")
+
     }
     onDefaultAction(alert, context, isSubtle) {
         store.dispatch(closeAlert(alert.msgID, alert.appID));

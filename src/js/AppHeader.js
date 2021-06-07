@@ -49,6 +49,7 @@ class AppHeader extends React.Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
+        this.closeSlider = this.closeSlider.bind(this);
     }
 
     closeModal() {
@@ -58,11 +59,11 @@ class AppHeader extends React.Component {
             this.forceUpdate();
             uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
         }
-        if (this.props.showSlider){
-            console.log("[!] Disabling slider")
+    }
 
-            this.props.showSlider = false;
-        }
+    closeSlider() {
+        console.log("[!] Disabling slider")
+        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp);
     }
 
     getColorScheme() {
@@ -134,9 +135,9 @@ class AppHeader extends React.Component {
                 className={`app-body sliderModal`}
                 overlayClassName={`${themeClass} sliderOverlay`}
                 contentLabel="Slider Modal"
-                onRequestClose={this.closeModal}
+                onRequestClose={this.closeSlider}
                 >
-                    <Slider theme={this.props.theme} sliderData={this.props.sliderData}/>
+                    <Slider sliderName={this.props.sliderName} theme={this.props.theme} sliderData={this.props.sliderData}/>
                 </Modal>
             </div>
             

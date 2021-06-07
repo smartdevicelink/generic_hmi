@@ -150,6 +150,24 @@ class RpcFactory {
 
         return msg
     }
+    static SliderAbortedResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.result.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",

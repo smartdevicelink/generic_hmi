@@ -12,13 +12,15 @@ const mapStateToProps = (state) => {
     }
 
     var showAlert = false
-    var showSlider = false
-    var sliderData = {}
     var alertIsSubtle = false
     var alertMsgId = null
     var alertAppId = null
     var alertAppName = ""
     var alertIcon = null
+    var showSlider = false
+    var sliderAppId = null
+    var sliderAppName = ""
+    var sliderData = {}
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -43,6 +45,16 @@ const mapStateToProps = (state) => {
         if(state.ui[prop].slider.showSlider){
             console.log("[!] Enabling slider")
             showSlider = true
+
+            sliderAppId = parseInt(prop)
+            var sliderApp = state.appList.find((key) => {
+                return key.appID === parseInt(prop)
+            })
+
+            if(sliderApp.appName) {
+                sliderAppName = sliderApp.appName
+            }
+
             sliderData = state.ui[prop].slider
             break
         }
@@ -82,12 +94,14 @@ const mapStateToProps = (state) => {
         isDisconnected: app.isDisconnected,
         displayLayout: app.displayLayout,
         showAlert: showAlert,
-        showSlider: showSlider,
-        sliderData: sliderData,
         alertIsSubtle: alertIsSubtle,
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,
         alertName: alertAppName,
+        showSlider: showSlider,
+        sliderAppId: sliderAppId,
+        sliderName: sliderAppName,
+        sliderData: sliderData,
         theme: theme,
         activeApp: activeApp,
         colorScheme: colorScheme,

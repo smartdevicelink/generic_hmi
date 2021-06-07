@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactSlider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import store from './store'
+import { updateSliderPosition } from './actions'
 
 export default class Slider extends React.Component {
     constructor(props){
@@ -14,7 +16,10 @@ export default class Slider extends React.Component {
 
     onSliderChange(value) {
         console.log("[!] OnSliderChange", value)
-        this.setState({ value }, () => {console.log("[!]Slider callback", this.state)})
+        this.setState({ value }, () => {
+            console.log("[!]Slider callback", this.state)
+            store.dispatch(updateSliderPosition(value))
+        })
     }
 
     onButtonPress(offset){
@@ -26,9 +31,6 @@ export default class Slider extends React.Component {
     render() {
         console.log("[!] Slider props", this.props)
         const sliderData = this.props.sliderData
-        // this.setState({ 
-        //     value: sliderData.position 
-        // })
 
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         // slider: {
@@ -36,14 +38,13 @@ export default class Slider extends React.Component {
         //     numTicks: null,
         //     position: null,
         //     header: "",
-        //     footer: [],
-        //     timeout: null
+        //     footer: [], -- optional
+        //     timeout: null --optional
         // },
         return (
             <div className="slider">
                 <div className="slider-header">
                     <p className="t-small t-light th-f-color">
-                        {/* {this.props.sliderHeader} */}
                         {sliderData.header}
                     </p>
                 </div>
@@ -63,10 +64,18 @@ export default class Slider extends React.Component {
                                 <p>+</p>
                     </div>
                 </div>
-                <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons`}
-                            onClick={() => console.log("[!] Submitting", this.state.value)}>
-                    <p>Submit</p>
+                
+                <div className="slider-footer">
+                    <p className="t-small t-light th-f-color">
+                        {(sliderData.footer && sliderData.footer.length > this.state.value - 1) ? sliderData.footer[this.state.value - 1] : null}
+                    </p>
+                    <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                                onClick={() => console.log("[!] Submitting", this.state.value)}>
+                        <p>Submit</p>
+                    </div>
                 </div>
+
+
 
             </div>
         )
