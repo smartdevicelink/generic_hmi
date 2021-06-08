@@ -599,7 +599,7 @@ class UIController {
     }
 
     onResetTimeout(appID, methodName) {
-        this.listener.send(RpcFactory.OnResetTimeout(appID, methodName))
+        this.listener.send(RpcFactory.OnResetTimeout(appID, "UI", methodName))
     }
 
     onUpdateFile(appID, fileName) {
