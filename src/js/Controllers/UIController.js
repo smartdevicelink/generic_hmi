@@ -419,6 +419,15 @@ class UIController {
                    const context = getNextSystemContext();
                    this.onSystemContext(context, rpc.params.appID)
                    return true
+                } else if (rpc.params.functionID === 26 && app.slider.showSlider
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.slider.cancelID)) {
+                   clearTimeout(this.timers[app.slider.msgID])
+                   delete this.timers[app.slider.msgID]
+                   this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
+                   store.dispatch(closeSlider(app.alert.msgID, rpc.params.appID))
+                   const context = getNextSystemContext();
+                   this.onSystemContext(context, rpc.params.appID)
+                   return true
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
