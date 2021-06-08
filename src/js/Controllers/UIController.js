@@ -595,7 +595,7 @@ class UIController {
         this.endTimes[msgID] = Date.now() + timeout;
         this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
         this.appsWithTimers[msgID] = appID
-        this.onResetTimeout("appID", "UI.OnPerformInteraction")
+        this.onResetTimeout(appID, "UI.OnPerformInteraction")
     }
 
     onResetTimeout(appID, methodName) {
