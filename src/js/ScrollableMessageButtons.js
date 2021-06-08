@@ -8,10 +8,11 @@ export default class ScrollableMessageButtons extends React.Component {
         this.getAction = this.getAction.bind(this);
     }
     getAction(softButton) {
+        uiController.onButtonPress(softButton.appID, softButton.buttonID, 'CUSTOM_BUTTON');
         if(softButton.systemAction === "STEAL_FOCUS") {
             uiController.onScrollableMessageStealFocus(softButton.msgID, softButton.appID);
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
-            uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, softButton.buttonID, softButton.duration);
+            uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, softButton.duration);
         } else {
             uiController.onCloseScrollableMessage(softButton.msgID, softButton.appID, this.props.appID);
         }

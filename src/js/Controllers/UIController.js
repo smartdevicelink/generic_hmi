@@ -541,9 +541,8 @@ class UIController {
         this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
         this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
     }
-    onScrollableMessageKeepContext(msgID, appID, buttonID, duration) {
+    onScrollableMessageKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID]);
-        this.onButtonPress(appID, buttonID, 'CUSTOM_BUTTON');
         var timeout = duration ?? 10000;
         const state = store.getState();
         const context = state.activeApp;
