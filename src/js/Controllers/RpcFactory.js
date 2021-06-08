@@ -163,7 +163,25 @@ class RpcFactory {
             }
         }
         if (sliderPosition){
-            msg.result.sliderPosition = sliderPosition
+            msg.error.data.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
+    static SliderTimeoutResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 10,
+                "message": "The Interaction timed out",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.error.data.sliderPosition = sliderPosition
         }
 
         return msg

@@ -379,7 +379,8 @@ class UIController {
                 let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
 
                 this.endTimes[rpc.id] = Date.now() + sliderTimeout;
-                this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, slider_context ? slider_context : rpc.params.appID)
+                this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, 
+                                            slider_context ? slider_context : rpc.params.appID, "TIMEOUT")
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 if ((slider_context !== rpc.params.appID) && slider_context) {
@@ -469,7 +470,7 @@ class UIController {
         this.onSystemContext(systemContext, context)
     }
 
-    onSliderClose(msgID, appID, context) {
+    onSliderClose(msgID, appID, context, reason) {
         console.log("[!] On Slider close")
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
@@ -483,8 +484,25 @@ class UIController {
             appID
         ))
 
+        console.log("[!] Close reason: ", reason)
         console.log('[!] Final Slider position', sliderPosition)
-        this.listener.send(RpcFactory.SliderResponse(msgID, sliderPosition))
+
+        let response;
+        switch(reason){
+            case "SUBMIT":
+                response = RpcFactory.SliderResponse(msgID, sliderPosition) 
+                break;
+            case "ABORTED":
+                response = RpcFactory.SliderAbortedResponse(msgID, sliderPosition)
+                break;
+            case "TIMEOUT":
+                response = RpcFactory.SliderTimeoutResponse(msgID, sliderPosition)
+                break;
+            default:
+                console.error("Unhandled response case for slider close")
+                return;
+        }
+        this.listener.send(response)
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
@@ -548,7 +566,7 @@ class UIController {
         const state = store.getState();
         const context = state.activeApp
 
-        this.timers[msgID] = setTimeout(this.onSliderClose, timeout, msgID, appID, context);
+        this.timers[msgID] = setTimeout(this.onSliderClose, timeout, msgID, appID, context, "TIMEOUT");
         this.onResetTimeout(appID, "UI.Slider")
 
     }

@@ -73,7 +73,7 @@ export default class Slider extends React.Component {
                         {(sliderData.footer && sliderData.footer.length > this.state.value - 1) ? sliderData.footer[this.state.value - 1] : null}
                     </p>
                     <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons`}
-                                onClick={() => console.log("[!] Submitting", this.state.value)}>
+                                onClick={() => this.props.submitCallback()}>
                         <p>Submit</p>
                     </div>
                 </div>

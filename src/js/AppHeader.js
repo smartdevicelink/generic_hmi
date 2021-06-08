@@ -61,9 +61,10 @@ class AppHeader extends React.Component {
         }
     }
 
-    closeSlider() {
-        console.log("[!] Disabling slider")
-        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp);
+    closeSlider(options) {
+        console.log("[!] Disabling slider", options)
+        let closeReason = options?.closeReason ?? "ABORTED"
+        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
     }
 
     getColorScheme() {
@@ -137,7 +138,13 @@ class AppHeader extends React.Component {
                 contentLabel="Slider Modal"
                 onRequestClose={this.closeSlider}
                 >
-                    <Slider sliderName={this.props.sliderName} sliderAppId={this.props.sliderAppId} theme={this.props.theme} sliderData={this.props.sliderData}/>
+                    <Slider 
+                        sliderName={this.props.sliderName} 
+                        sliderAppId={this.props.sliderAppId} 
+                        sliderData={this.props.sliderData}
+                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                        theme={this.props.theme}
+                    />
                 </Modal>
             </div>
             
