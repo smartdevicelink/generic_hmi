@@ -29,7 +29,6 @@
 
 }
 
-
 .slider{
     height: 100%;
     @include display(flex);
@@ -37,14 +36,12 @@
 }
 
 .slider-header {
-
     h1 {
         text-align: center;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-
     p {
         overflow: hidden;
         white-space: nowrap;
@@ -60,24 +57,20 @@
 
     padding: 30px;
     max-height: calc((#{$master-height} - 75px) * 0.6);
-
-    h4 {
-        overflow: scroll;
-    }
-
 }
 
 .slider-components {
     @include display(flex);
     @include flex-direction(row);
 }
+
 .slider-component-container {
-    border-width: 0.75px; 
+    border-width: 0.25px; 
     border-style: solid;
-    border-color: white;
     padding: 8px 0px;
 
 }
+
 .slider-react-component {
     margin: 0px 15px;
     padding-top: 15px;
@@ -88,7 +81,7 @@
 }
 
 .slider-footer {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .slider-submit {

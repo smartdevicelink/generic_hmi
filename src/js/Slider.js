@@ -35,15 +35,12 @@ export default class Slider extends React.Component {
         console.log("[!] Slider props", this.props)
         const sliderData = this.props.sliderData
 
-        var fill = this.props.theme ? "#FFFFFF" : "#000000";
-        // slider: {
-        //     showSlider: false,
-        //     numTicks: null,
-        //     position: null,
-        //     header: "",
-        //     footer: [], -- optional
-        //     timeout: null --optional
-        // },
+        let markerColors = {
+            active: this.props.theme ? "#E6E6E6" : "#666666",
+            inactive: this.props.theme ? "#4D4D4D" : "#FFFFFF",
+            selected: this.props.theme ? "#FFFFFF" : "#000000"
+        }
+        console.log("[!] Colors", markerColors)
         return (
             <div className="slider">
                 <div className="slider-header">
@@ -60,7 +57,7 @@ export default class Slider extends React.Component {
                                 onClick={() => this.onButtonPress(-1)}>
                                     <p>-</p>
                         </div>
-                        <div className="slider-component-container">
+                        <div className="slider-component-container" style={{borderColor: markerColors.active}}>
                             <div className="slider-react-component" style={{width: sliderData.numTicks * 10}}>
                                 <ReactSlider
                                     dots
@@ -80,15 +77,15 @@ export default class Slider extends React.Component {
                                         width: 3,
                                         marginLeft: -2,
                                         marginTop: -19,
-                                        borderColor: "red"
+                                        borderColor: `${markerColors.selected}`
                                     }}
                                     dotStyle={{
-                                        borderColor: "black",
+                                        borderColor: `${markerColors.inactive}`,
                                         height: 25,
                                         width: 3
                                     }}
                                     activeDotStyle={{
-                                        borderColor: "gray"
+                                        borderColor: `${markerColors.active}`
                                     }}
                                     
                                 />
