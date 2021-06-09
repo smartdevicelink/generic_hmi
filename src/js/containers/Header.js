@@ -43,7 +43,6 @@ const mapStateToProps = (state) => {
             break
         }
         if(state.ui[prop].slider.showSlider){
-            console.log("[!] Enabling slider")
             showSlider = true
 
             sliderAppId = parseInt(prop)

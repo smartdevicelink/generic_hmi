@@ -650,7 +650,6 @@ function ui(state = {}, action) {
             }
             return newState
         case Actions.SLIDER:
-            console.log("[!] Handling slider action")
             app.slider.showSlider = true
             app.slider.numTicks = action.numTicks
             app.slider.position = action.position
@@ -661,15 +660,11 @@ function ui(state = {}, action) {
             app.slider.cancelID = action.cancelID
             return newState
         case Actions.UPDATE_SLIDER_POSITION:
-            console.log("[!] Handling update slider position")
             if (action.newPosition) {
                 app.slider.position = action.newPosition
             }
-            console.log("[!] Post update position", JSON.parse(JSON.stringify(newState)))
-
             return newState
         case Actions.CLOSE_SLIDER:
-            console.log("[!] Handling close slider action")
             app.slider = {
                 showSlider: false,
                 numTicks: null,

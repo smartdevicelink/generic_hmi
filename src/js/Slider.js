@@ -17,9 +17,7 @@ export default class Slider extends React.Component {
     }
 
     onSliderChange(value) {
-        console.log("[!] OnSliderChange", value)
         this.setState({ value }, () => {
-            console.log("[!]Slider callback", this.state)
             uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId)
             store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
         })
@@ -32,15 +30,13 @@ export default class Slider extends React.Component {
     }
 
     render() {
-        console.log("[!] Slider props", this.props)
         const sliderData = this.props.sliderData
-
         let markerColors = {
             active: this.props.theme ? "#E6E6E6" : "#666666",
             inactive: this.props.theme ? "#4D4D4D" : "#FFFFFF",
             selected: this.props.theme ? "#FFFFFF" : "#000000"
         }
-        console.log("[!] Colors", markerColors)
+        
         return (
             <div className="slider">
                 <div className="slider-header">

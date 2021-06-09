@@ -360,8 +360,6 @@ class UIController {
 
                 return null
             case "Slider":
-                console.log("[!] Handling UI.Slider request")
-
                 store.dispatch(slider(
                     rpc.params.appID,
                     rpc.params.numTicks,
@@ -480,7 +478,6 @@ class UIController {
     }
 
     onSliderClose(msgID, appID, context, reason) {
-        console.log("[!] On Slider close")
         clearTimeout(this.timers[msgID])
         delete this.timers[msgID]
 
@@ -492,9 +489,6 @@ class UIController {
             msgID,
             appID
         ))
-
-        console.log("[!] Close reason: ", reason)
-        console.log('[!] Final Slider position', sliderPosition)
 
         let response;
         switch(reason){
@@ -549,8 +543,6 @@ class UIController {
         sdlController.onAppActivated(alert.appID)
     }
     onSliderStealFocus(msgID, appID) {
-        console.log("[!] On Slider Steal focus")
-
         this.onSliderClose(msgID, appID)
 
         this.onSystemContext("MAIN", appID)
@@ -567,8 +559,6 @@ class UIController {
         this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
     }
     onSliderKeepContext(msgID, appID, duration) {
-        console.log("[!] On Slider Keep context")
-
         clearTimeout(this.timers[msgID])
         
         let timeout = duration ? duration : 10000

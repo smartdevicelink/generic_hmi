@@ -53,7 +53,6 @@ class AppHeader extends React.Component {
     }
 
     closeModal() {
-        console.log("[!] Closing modal")
         if (this.props.alertIsSubtle) {
             this.props.showAlert = false;
             this.forceUpdate();
@@ -62,7 +61,6 @@ class AppHeader extends React.Component {
     }
 
     closeSlider(options) {
-        console.log("[!] Disabling slider", options)
         let closeReason = options?.closeReason ?? "ABORTED"
         uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
     }
@@ -116,7 +114,6 @@ class AppHeader extends React.Component {
             backLink = this.props.activeLayout;
         }
 
-        console.log("[!] AppHeader showSlider: ", this.props )
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
