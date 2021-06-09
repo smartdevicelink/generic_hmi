@@ -47,35 +47,66 @@ export default class Slider extends React.Component {
         return (
             <div className="slider">
                 <div className="slider-header">
+                    <h1 className="t-small t-medium th-f-color">
+                        {this.props.sliderName}
+                    </h1>
                     <p className="t-small t-light th-f-color">
                         {sliderData.header}
                     </p>
                 </div>
-                <div className="slider-top">
-                    <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons`}
-                            onClick={() => this.onButtonPress(-1)}>
-                                <p>-</p>
+                <div className="slider-body">
+                    <div className="slider-components">
+                        <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
+                                onClick={() => this.onButtonPress(-1)}>
+                                    <p>-</p>
+                        </div>
+                        <div className="slider-component-container">
+                            <div className="slider-react-component" style={{width: sliderData.numTicks * 10}}>
+                                <ReactSlider
+                                    dots
+                                    min={1}
+                                    max={sliderData.numTicks}
+                                    step={1}
+                                    value={this.state.value}
+                                    onChange={this.onSliderChange}
+                                    railStyle={{
+                                        background: "none"
+                                    }}
+                                    trackStyle={{
+                                        background: "none"
+                                    }}
+                                    handleStyle={{
+                                        height: 25,
+                                        width: 3,
+                                        marginLeft: -2,
+                                        marginTop: -19,
+                                        borderColor: "red"
+                                    }}
+                                    dotStyle={{
+                                        borderColor: "black",
+                                        height: 25,
+                                        width: 3
+                                    }}
+                                    activeDotStyle={{
+                                        borderColor: "gray"
+                                    }}
+                                    
+                                />
+                            </div>
+                        </div>
+                        <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
+                                onClick={() => this.onButtonPress(1)}>
+                                    <p>+</p>
+                        </div>
                     </div>
-                    <ReactSlider
-                        min={0}
-                        max={sliderData.numTicks}
-                        value={this.state.value}
-                        onChange={this.onSliderChange}
-                    />
-                    <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons`}
-                            onClick={() => this.onButtonPress(1)}>
-                                <p>+</p>
-                    </div>
-                </div>
-                
-                <div className="slider-footer">
-                    <p className="t-small t-light th-f-color">
+                    <p className="t-small t-light th-f-color slider-footer">
                         {(sliderData.footer && sliderData.footer.length > this.state.value - 1) ? sliderData.footer[this.state.value - 1] : null}
                     </p>
-                    <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons`}
-                                onClick={() => this.props.submitCallback()}>
-                        <p>Submit</p>
-                    </div>
+                </div>
+                
+                <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
+                            onClick={() => this.props.submitCallback()}>
+                    <p>Submit</p>
                 </div>
 
 

@@ -25,7 +25,7 @@
     border-radius: 4px;
     outline: none;
     padding: 20px;
-    width: 85%;
+    width: 75%;
 
 }
 
@@ -37,7 +37,13 @@
 }
 
 .slider-header {
-    text-align: center;
+
+    h1 {
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
     p {
         overflow: hidden;
@@ -47,7 +53,11 @@
 }
 
 .slider-body {
-    display: flex;
+    @include display(flex);
+    @include justify-content(center);
+    @include align-items(center);
+    @include flex-direction(column);
+
     padding: 30px;
     max-height: calc((#{$master-height} - 75px) * 0.6);
 
@@ -57,108 +67,33 @@
 
 }
 
-// .alert-icon{
-//     width: 50%;
-//     height: calc((#{$master-height} - 75px) / 2);
-//     @include display(flex);
-//     @include justify-content(center);
-//     @include align-items(center);
-//     .icon{
-//         max-height:75%;
-//         max-width: 75%;
-//         height: auto;
-//         width: auto;
-//     }
-//     #Layer_1 {
-//         max-height:75%;
-//         max-width: 75%;
-//         height: auto;
-//         width: 75%;
-//     }
-// }
+.slider-components {
+    @include display(flex);
+    @include flex-direction(row);
+}
+.slider-component-container {
+    border-width: 0.75px; 
+    border-style: solid;
+    border-color: white;
+    padding: 8px 0px;
 
-// .alert-text-fields{
-//     @include display(flex);
-//     @include flex-direction(column);
-//     @include justify-content(center);
-//     @include align-items(center);
-//     height: calc((#{$master-height} - 75px) / 2);
-//     width: 50%;
-//     text-align: center;
-// }
+}
+.slider-react-component {
+    margin: 0px 15px;
+    padding-top: 15px;
+}
 
-// .alert-buttons{
-//     @include display(flex);
-//     @include justify-content(space-around);
-//     @include flex-direction(row);
-//     @include flex-wrap(wrap);
-//     @include align-items(stretch);
-//     padding: 15px;
-//     .soft-button-image, .soft-button-image-static {
-//         padding: 5px;
-//         max-height: 75px;
-//         min-width: 75px;
-//     }
-// }
+.slider-button {
+    padding: 0px 20px;
+}
 
-// .alert-button-1 {
-//     height: 75px;
-//     width: 100%;
-//     text-align: center;
-//     border-radius: 8px;
-//     border-width: 0.154px;
-//     border-style: solid;
-//     margin: 15px;
-//     //align-self: flex-start;
+.slider-footer {
+    padding-top: 20px;
+}
 
-//     @include display(flex);
-//     @include align-items(center);
-//     @include justify-content(center);
-// }
-
-// .alert-button-2 {
-//     height: 75px;
-//     width: 45%;
-//     text-align: center;
-//     border-radius: 8px;
-//     border-width: 0.154px;
-//     border-style: solid;
-//     margin: 15px;
-
-//     @include display(flex);
-//     @include align-items(center);
-//     @include justify-content(center);
-// }
-
-// .alert-button-3 {
-//     //height: 123.333333334px;
-//     height: 75px;
-//     width: 29%;
-//     text-align: center;
-//     border-radius: 8px;
-//     border-width: 0.154px;
-//     border-style: solid;
-//     margin: 15px;
-
-//     @include display(flex);
-//     @include align-items(center);
-//     @include justify-content(center);
-// }
-
-// .alert-button-4 {
-//     height: 50px;
-//     width: 45%;
-//     text-align: center;
-//     border-radius: 8px;
-//     border-width: 0.154px;
-//     border-style: solid;
-//     margin: 15px;
-//     .soft-button-image, .soft-button-image-static {
-//         max-height: 50px;
-//         min-width: 50px;
-//     }
-
-//     @include display(flex);
-//     @include align-items(center);
-//     @include justify-content(center);
-// }
+.slider-submit {
+    @include display(flex);
+    @include flex-direction(column-reverse);
+    @include align-items(center);
+    padding: 20px;
+}
