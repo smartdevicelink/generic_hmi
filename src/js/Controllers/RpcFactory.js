@@ -594,10 +594,10 @@ class RpcFactory {
             }
         })
     }
-    static OnResetTimeout(appID, methodName) {
+    static OnResetTimeout(appID, interfaceName, methodName) {
         return ({
             'jsonrpc': '2.0',
-            'method': 'BasicCommunication.OnResetTimeout',
+            'method': `${interfaceName}.OnResetTimeout`,
             'params': {
                 'appID': appID,
                 'methodName': methodName
