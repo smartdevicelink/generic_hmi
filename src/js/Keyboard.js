@@ -25,7 +25,7 @@ class Keyboard extends Component {
   }
 
   handleAutoComplete = append => {
-    var completedWord = this.state.input + append + " ";
+    var completedWord = this.state.input + append;
     this.setState({
       input: completedWord
     });
@@ -170,6 +170,9 @@ class Keyboard extends Component {
     // These keyboard properties must change while keyboard is in view
     var limitedCharacterList = "";
     if (this.props.limitedCharacterList) {
+      // limitedCharacterList is not case sensitive
+      const upperCase = this.props.limitedCharacterList.map(character => character.toUpperCase());
+      const fullSetLimitedCharacterList = this.props.limitedCharacterList.concat(upperCase);
       const constKeys = ["{bksp}", "{tab}", "{lock}", "{shift}", "{space}", "{enter}"];
       var concatLayouts = this.keyboardLayout.default.concat(this.keyboardLayout.shift);
       limitedCharacterList = concatLayouts.join(" ");
@@ -178,16 +181,18 @@ class Keyboard extends Component {
         limitedCharacterList = limitedCharacterList.replaceAll(key, "");
       }
       // Apply app requested character set
-      for (const letter of this.props.limitedCharacterList) {
+      for (const letter of fullSetLimitedCharacterList) {
         limitedCharacterList = limitedCharacterList.replaceAll(letter, "");
       }
+      // Remove extra spaces
+        limitedCharacterList = limitedCharacterList.replaceAll("  ", " ");
     }
 
     var autoCompleteWord = "";
     if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
       const currentWord = this.state.input.split(" ").pop();
       for (const word of this.props.autoCompleteList) {
-        if (currentWord.length > 0 && word.substr(0, currentWord.length) === currentWord) {
+        if (currentWord.length > 0 && word.startsWith(currentWord)) {
           // Matched a potential autocomplete
           autoCompleteWord = word.substr(currentWord.length)
           break;
@@ -317,7 +322,7 @@ const NUMERIC = {
 
 const mapStateToProps = (state) => {
   var activeApp = state.activeApp;
-  var app = state.ui[activeApp] ? state.ui[activeApp] : null;
+  var app = state.ui[activeApp];
   if (!app || !app.keyboardProperties) {
     return {}
   }
