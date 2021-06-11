@@ -391,7 +391,7 @@ class UIController {
             case "ClosePopUp":
                 const closepopup_state = store.getState()
                 let closepopup_appId = closepopup_state.activeApp
-                if(!closepopup_appId) {
+                if (!closepopup_appId) {
                     return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active app for interaction") };
                 }
 
@@ -405,7 +405,7 @@ class UIController {
                                  //TODO: Add condition for UI PerformAudioPassThru interaction
                                  null
 
-                if(!methodName){
+                if (!methodName) {
                     return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };              
                 }
 
