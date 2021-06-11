@@ -51,7 +51,7 @@ export default class Slider extends React.Component {
                     <div className="slider-components">
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
                                 onClick={() => this.onButtonPress(-1)}>
-                                    <p>-</p>
+                            <p>-</p>
                         </div>
                         <div className="slider-component-container" style={{borderColor: markerColors.active}}>
                             <div className="slider-react-component" style={{width: sliderData.numTicks * 10}}>
@@ -89,7 +89,7 @@ export default class Slider extends React.Component {
                         </div>
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
                                 onClick={() => this.onButtonPress(1)}>
-                                    <p>+</p>
+                            <p>+</p>
                         </div>
                     </div>
                     <p className="t-small t-light th-f-color slider-footer">
@@ -98,12 +98,9 @@ export default class Slider extends React.Component {
                 </div>
                 
                 <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
-                            onClick={() => this.props.submitCallback()}>
+                        onClick={() => this.props.submitCallback()}>
                     <p>Submit</p>
                 </div>
-
-
-
             </div>
         )
     }

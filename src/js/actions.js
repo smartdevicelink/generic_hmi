@@ -310,7 +310,6 @@ export const closeSlider = (msgID, appID) => {
     }
 }
 
-
 export const setTheme = (theme) => {
     return {
         type: Actions.SET_THEME,

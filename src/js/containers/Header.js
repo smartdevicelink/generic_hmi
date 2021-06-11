@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { slider } from '../actions'
 import AppHeader from '../AppHeader'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
@@ -42,7 +41,7 @@ const mapStateToProps = (state) => {
 
             break
         }
-        if(state.ui[prop].slider.showSlider){
+        if (state.ui[prop].slider.showSlider) {
             showSlider = true
 
             sliderAppId = parseInt(prop)
@@ -50,7 +49,7 @@ const mapStateToProps = (state) => {
                 return key.appID === parseInt(prop)
             })
 
-            if(sliderApp.appName) {
+            if (sliderApp.appName) {
                 sliderAppName = sliderApp.appName
             }
 
