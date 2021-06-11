@@ -13,7 +13,7 @@ export default class Slider extends React.Component {
             value: props.sliderData.position
         }
         this.onSliderChange = this.onSliderChange.bind(this)
-        this.onButtonPress = this.onButtonPress.bind(this)
+        this.onShiftSlider = this.onShiftSlider.bind(this)
     }
 
     onSliderChange(value) {
@@ -23,7 +23,7 @@ export default class Slider extends React.Component {
         })
     }
 
-    onButtonPress(offset){
+    onShiftSlider(offset){
         if(this.state.value + offset > 0 && this.state.value + offset <= this.props.sliderData.numTicks) {
             this.onSliderChange(this.state.value + offset)
         }
@@ -40,17 +40,17 @@ export default class Slider extends React.Component {
         return (
             <div className="slider">
                 <div className="slider-header">
-                    <h1 className="t-small t-medium th-f-color">
+                    <h1 className="t-small t-light th-f-color">
                         {this.props.sliderName}
                     </h1>
-                    <p className="t-small t-light th-f-color">
+                    <p className="t-small t-medium th-f-color">
                         {sliderData.header}
                     </p>
                 </div>
                 <div className="slider-body">
                     <div className="slider-components">
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
-                                onClick={() => this.onButtonPress(-1)}>
+                                onClick={() => this.onShiftSlider(-1)}>
                             <p>-</p>
                         </div>
                         <div className="slider-component-container" style={{borderColor: markerColors.active}}>
@@ -88,11 +88,11 @@ export default class Slider extends React.Component {
                             </div>
                         </div>
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
-                                onClick={() => this.onButtonPress(1)}>
+                                onClick={() => this.onShiftSlider(1)}>
                             <p>+</p>
                         </div>
                     </div>
-                    <p className="t-small t-light th-f-color slider-footer">
+                    <p className="t-small t-medium th-f-color slider-footer">
                         {(sliderData.footer && sliderData.footer.length > this.state.value - 1) ? sliderData.footer[this.state.value - 1] : null}
                     </p>
                 </div>
