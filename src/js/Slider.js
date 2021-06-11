@@ -12,8 +12,22 @@ export default class Slider extends React.Component {
         this.state = {
             value: props.sliderData.position
         }
+        this.getSliderFooter = this.getSliderFooter.bind(this)
         this.onSliderChange = this.onSliderChange.bind(this)
         this.onShiftSlider = this.onShiftSlider.bind(this)
+    }
+
+    getSliderFooter() {
+        const sliderData = this.props.sliderData
+        if (sliderData.footer) {
+            if (sliderData.footer.length == 1) { // Static Footer
+                return sliderData.footer[0]
+            }
+            else if (sliderData.footer.length > this.state.value - 1) {
+                return sliderData.footer[this.state.value - 1]
+            }
+        }
+        return null
     }
 
     onSliderChange(value) {
@@ -93,7 +107,7 @@ export default class Slider extends React.Component {
                         </div>
                     </div>
                     <p className="t-small t-medium th-f-color slider-footer">
-                        {(sliderData.footer && sliderData.footer.length > this.state.value - 1) ? sliderData.footer[this.state.value - 1] : null}
+                        {this.getSliderFooter()}
                     </p>
                 </div>
                 
