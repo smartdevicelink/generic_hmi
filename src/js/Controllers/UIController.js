@@ -388,18 +388,18 @@ class UIController {
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
-            case "ClosePopUp":
-                const closepopup_state = store.getState()
-                let closepopup_appId = closepopup_state.activeApp
-                if (!closepopup_appId) {
+            case "ClosePopUp": {
+                const state = store.getState()
+                let appID = state.activeApp
+                if (!appID) {
                     return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active app for interaction") };
                 }
 
-                let closepopup_app = closepopup_state.ui[closepopup_appId]
+                let app = state.ui[appID]
                 let methodName = rpc.params?.methodName ? rpc.params.methodName :
-                                 (closepopup_app.alert.showAlert && !closepopup_app.alert.isSubtle) ? "UI.Alert" :
-                                 (closepopup_app.alert.showAlert && closepopup_app.alert.isSubtle) ? "UI.SubtleAlert" :
-                                 (closepopup_app.isPerformingInteraction) ? "UI.PerformInteraction":
+                                 (app.alert.showAlert && !app.alert.isSubtle) ? "UI.Alert" :
+                                 (app.alert.showAlert && app.alert.isSubtle) ? "UI.SubtleAlert" :
+                                 (app.isPerformingInteraction) ? "UI.PerformInteraction":
                                  //TODO: Add condition for UI Slider interaction
                                  //TODO: Add condition for UI ScrollableMessage interaction
                                  //TODO: Add condition for UI PerformAudioPassThru interaction
@@ -411,39 +411,39 @@ class UIController {
 
                 switch(methodName) {
                     case "UI.Alert": {
-                        if(!closepopup_app.alert.showAlert || closepopup_app.alert.isSubtle){
+                        if(!app.alert.showAlert || app.alert.isSubtle){
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.Alert interaction to close") };
                         }
-                        clearTimeout(this.timers[closepopup_app.alert.msgID])
-                        delete this.timers[closepopup_app.alert.msgID]
-                        this.listener.send(RpcFactory.AlertAbortedResponse(closepopup_app.alert.msgID))
-                        store.dispatch(closeAlert(closepopup_app.alert.msgID, closepopup_appId))
+                        clearTimeout(this.timers[app.alert.msgID])
+                        delete this.timers[app.alert.msgID]
+                        this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                        store.dispatch(closeAlert(app.alert.msgID, appID))
                         const context = getNextSystemContext();
-                        this.onSystemContext(context, closepopup_appId)
+                        this.onSystemContext(context, appID)
                         return true;
                     }
                     case "UI.SubtleAlert": {
-                        if(!closepopup_app.alert.showAlert || !closepopup_app.alert.isSubtle){
+                        if(!app.alert.showAlert || !app.alert.isSubtle){
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.SubtleAlert interaction to close") };
                         }
-                        clearTimeout(this.timers[closepopup_app.alert.msgID])
-                        delete this.timers[closepopup_app.alert.msgID]
-                        this.listener.send(RpcFactory.SubtleAlertErrorResponse(closepopup_app.alert.msgID, 
+                        clearTimeout(this.timers[app.alert.msgID])
+                        delete this.timers[app.alert.msgID]
+                        this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 
                             5, 'subtle alert was cancelled'))
-                        store.dispatch(closeAlert(closepopup_app.alert.msgID, closepopup_appId))
+                        store.dispatch(closeAlert(app.alert.msgID, appID))
                         const context = getNextSystemContext();
-                        this.onSystemContext(context, closepopup_appId)
+                        this.onSystemContext(context, appID)
                         return true;
                     }
                     case "UI.PerformInteraction": {
-                        if(!closepopup_app.isPerformingInteraction){
+                        if(!app.isPerformingInteraction){
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.PerformInteraction interaction to close") };
                         }
-                        clearTimeout(this.timers[closepopup_app.interactionId])
-                        delete this.timers[closepopup_app.interactionId]
-                        this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(closepopup_app.interactionId))
-                        store.dispatch(deactivateInteraction(closepopup_appId))
-                        this.onSystemContext("MAIN", closepopup_appId)
+                        clearTimeout(this.timers[app.interactionId])
+                        delete this.timers[app.interactionId]
+                        this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
+                        store.dispatch(deactivateInteraction(appID))
+                        this.onSystemContext("MAIN", appID)
                         return true;
                     }
                     // TODO: Implement case for UI Slider Interaction
@@ -462,6 +462,7 @@ class UIController {
 
                 console.error("UI.ClosePopUp: Unhandled methodName " + methodName)
                 return false;
+            }
             case 'SendHapticData':
                 store.dispatch(setHapticData(rpc.params.appID, rpc.params.hapticRectData));
                 return { rpc: RpcFactory.UISendHapticDataSuccess(rpc) }
