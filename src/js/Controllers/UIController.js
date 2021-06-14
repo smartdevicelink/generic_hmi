@@ -409,9 +409,9 @@ class UIController {
                     return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };              
                 }
 
-                switch(methodName) {
+                switch (methodName) {
                     case "UI.Alert": {
-                        if(!app.alert.showAlert || app.alert.isSubtle){
+                        if (!app.alert.showAlert || app.alert.isSubtle) {
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.Alert interaction to close") };
                         }
                         clearTimeout(this.timers[app.alert.msgID])
@@ -423,7 +423,7 @@ class UIController {
                         return true;
                     }
                     case "UI.SubtleAlert": {
-                        if(!app.alert.showAlert || !app.alert.isSubtle){
+                        if (!app.alert.showAlert || !app.alert.isSubtle) {
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.SubtleAlert interaction to close") };
                         }
                         clearTimeout(this.timers[app.alert.msgID])
@@ -436,7 +436,7 @@ class UIController {
                         return true;
                     }
                     case "UI.PerformInteraction": {
-                        if(!app.isPerformingInteraction){
+                        if (!app.isPerformingInteraction) {
                             return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.PerformInteraction interaction to close") };
                         }
                         clearTimeout(this.timers[app.interactionId])
