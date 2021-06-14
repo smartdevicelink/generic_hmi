@@ -16,6 +16,7 @@ class Keyboard extends Component {
     this.maskedInput = false
     this.showUserMaskOption = false
     this.keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+    this.capsLock = false
 
     this.state = {
       layoutName: "default",
@@ -52,7 +53,14 @@ class Keyboard extends Component {
 
   onKeyPress = button => {
     // Special handler for reserved buttons and single keypress mode
-    if (button === "{shift}" || button === "{lock}") {
+    if (button === "{shift}") {
+      if (this.capsLock) {
+        // Cancel Caps Lock
+        this.capsLock = false;
+      }
+      this.handleShift();
+    } else if (button === "{lock}") {
+      this.capsLock = !this.capsLock;
       this.handleShift();
     } else if (button === "{enter}")  {
       uiController.onKeyboardInput(this.state.input, 'ENTRY_SUBMITTED');
@@ -67,12 +75,15 @@ class Keyboard extends Component {
       } else {
         uiController.onKeyboardInput(button, 'KEYPRESS');
       }
-
     }
   };
 
   handleInput (input) {
     uiController.onResetInteractionTimeout(this.appID, this.interactionId)
+    if (!this.capsLock && this.state.layoutName === "shift") {
+      // Return layout to normal if user is not using caps lock
+      this.handleShift();
+    }
     if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
       return;
     } else if (this.keyboardProperties.keypressMode === "QUEUE_KEYPRESS") {
