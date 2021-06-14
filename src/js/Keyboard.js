@@ -171,8 +171,9 @@ class Keyboard extends Component {
     var limitedCharacterList = "";
     if (this.props.limitedCharacterList) {
       // limitedCharacterList is not case sensitive
+      const lowerCase = this.props.limitedCharacterList.map(character => character.toLowerCase());
       const upperCase = this.props.limitedCharacterList.map(character => character.toUpperCase());
-      const fullSetLimitedCharacterList = this.props.limitedCharacterList.concat(upperCase);
+      const fullSetLimitedCharacterList = lowerCase.concat(upperCase);
       const constKeys = ["{bksp}", "{tab}", "{lock}", "{shift}", "{space}", "{enter}"];
       var concatLayouts = this.keyboardLayout.default.concat(this.keyboardLayout.shift);
       limitedCharacterList = concatLayouts.join(" ");
