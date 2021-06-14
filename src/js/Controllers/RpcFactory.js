@@ -97,7 +97,7 @@ class RpcFactory {
                 "code": 5,
                 "message": "The Scrollable Message was cancelled",
                 "data": {
-                    "method": "UI.Alert"
+                    "method": "UI.ScrollableMessage"
                 }
             }
         })

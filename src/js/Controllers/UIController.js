@@ -419,7 +419,7 @@ class UIController {
                    const context = getNextSystemContext();
                    this.onSystemContext(context, rpc.params.appID)
                    return true
-                } else if (rpc.params.functionID === 24 && app.scrollableMessage.active
+                } else if (rpc.params.functionID === 25 && app.scrollableMessage.active
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.scrollableMessage.cancelID)) {
                   clearTimeout(this.timers[app.scrollableMessage.msgID]);
                   delete this.timers[app.scrollableMessage.msgID];

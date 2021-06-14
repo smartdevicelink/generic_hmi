@@ -61,7 +61,8 @@ class AppHeader extends React.Component {
     }
 
     closeScrollable() {
-        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId, this.props.scrollableMessageAppId, this.props.activeApp);
+        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
+            this.props.scrollableMessageAppId, this.props.activeApp);
     }
 
     getColorScheme() {
@@ -134,7 +135,10 @@ class AppHeader extends React.Component {
                 contentLabel="Example Modal"
                 onRequestClose={this.closeScrollable}
                 >
-                    <ScrollableMessage theme={this.props.theme} body={this.props.scrollableMessageBody} buttons={this.props.softButtons} appName={this.props.scrollableMessageAppName}/>
+                    <ScrollableMessage theme={this.props.theme}
+                        body={this.props.scrollableMessageBody}
+                        buttons={this.props.softButtons}
+                        appName={this.props.scrollableMessageAppName}/>
                 </Modal>
             </div>
             
