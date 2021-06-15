@@ -64,19 +64,22 @@
     @include flex-direction(row);
 }
 
-.slider-component-container {
-    border-width: 0.25px; 
-    border-style: solid;
-    padding: 8px 0px;
+.slider-react-component {
+    padding-top: 25px;
+    padding-right: 8px;
+    margin: -5px 0px;
 }
 
-.slider-react-component {
-    margin: 0px 15px;
-    padding-top: 15px;
+.slider-react-component .slider-rail {
+    position: absolute;
+    top: 45.4%;
+    height: 12px;
 }
 
 .slider-button {
     padding: 0px 20px;
+    z-index: 5;
+    cursor: pointer;
 }
 
 .slider-footer {
@@ -88,4 +91,5 @@
     @include flex-direction(column-reverse);
     @include align-items(center);
     padding: 20px;
+    cursor: pointer;
 }

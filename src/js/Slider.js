@@ -31,6 +31,7 @@ export default class Slider extends React.Component {
     }
 
     onSliderChange(value) {
+        if (value < 1 || value > this.props.sliderData.numTicks) { return; }
         this.setState({ value }, () => {
             uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId)
             store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
@@ -38,18 +39,19 @@ export default class Slider extends React.Component {
     }
 
     onShiftSlider(offset){
-        if(this.state.value + offset > 0 && this.state.value + offset <= this.props.sliderData.numTicks) {
-            this.onSliderChange(this.state.value + offset)
-        }
+        this.onSliderChange(this.state.value + offset)
     }
 
     render() {
         const sliderData = this.props.sliderData
-        let markerColors = {
-            active: this.props.theme ? "#E6E6E6" : "#666666",
-            inactive: this.props.theme ? "#4D4D4D" : "#FFFFFF",
-            selected: this.props.theme ? "#FFFFFF" : "#000000"
+        let sliderColors = {
+            rail: this.props.theme ? "#000000" : "#FFFFFF",
+            track: this.props.theme ? "#D9D9D9" : "#737373",
+            handle: this.props.theme ? "#FFFFFF" : "#000000",
+            dot: this.props.theme ?  "#FFFFFF" : "#000000",
+            activeDot: this.props.theme ? "#000000" : "#FFFFFF"
         }
+        let tickWidth = 20;
         
         return (
             <div className="slider">
@@ -67,39 +69,47 @@ export default class Slider extends React.Component {
                                 onClick={() => this.onShiftSlider(-1)}>
                             <p>-</p>
                         </div>
-                        <div className="slider-component-container" style={{borderColor: markerColors.active}}>
-                            <div className="slider-react-component" style={{width: sliderData.numTicks * 10}}>
-                                <ReactSlider
-                                    dots
-                                    min={1}
-                                    max={sliderData.numTicks}
-                                    step={1}
-                                    value={this.state.value}
-                                    onChange={this.onSliderChange}
-                                    railStyle={{
-                                        background: "none"
-                                    }}
-                                    trackStyle={{
-                                        background: "none"
-                                    }}
-                                    handleStyle={{
-                                        height: 25,
-                                        width: 3,
-                                        marginLeft: -2,
-                                        marginTop: -19,
-                                        borderColor: `${markerColors.selected}`
-                                    }}
-                                    dotStyle={{
-                                        borderColor: `${markerColors.inactive}`,
-                                        height: 25,
-                                        width: 3
-                                    }}
-                                    activeDotStyle={{
-                                        borderColor: `${markerColors.active}`
-                                    }}
-                                    
-                                />
+                        <div className="slider-react-component" style={{width: sliderData.numTicks * tickWidth}}>
+                            <div className="slider-rail" 
+                                style={{width: sliderData.numTicks * tickWidth, backgroundColor: `${sliderColors.track}`}}>
                             </div>
+                            <ReactSlider
+                                dots
+                                min={0}
+                                max={sliderData.numTicks}
+                                step={1}
+                                value={this.state.value}
+                                onChange={this.onSliderChange}
+                                railStyle={{
+                                    marginTop: -7,
+                                    marginLeft: 15,
+                                    background: `${sliderColors.rail}`,
+                                    height: 12
+                                }}
+                                trackStyle={{
+                                    marginTop: -7,
+                                    background: `${sliderColors.track}`,
+                                    height: 12
+                                }}
+                                handleStyle={{
+                                    height: 20,
+                                    width: 20,
+                                    marginLeft: -3,
+                                    marginTop: -11,
+                                    background: `${sliderColors.handle}`,
+                                    borderColor: `${sliderColors.handle}`
+                                }}
+                                dotStyle={{
+                                    borderColor: `${sliderColors.dot}`,
+                                    borderWidth: "thin",
+                                    height: 13,
+                                    width: 0.05
+                                }}
+                                activeDotStyle={{
+                                    borderColor: `${sliderColors.activeDot}`
+                                }}
+                                
+                            />
                         </div>
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
                                 onClick={() => this.onShiftSlider(1)}>
