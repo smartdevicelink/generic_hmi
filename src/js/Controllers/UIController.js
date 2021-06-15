@@ -267,7 +267,7 @@ class UIController {
                     }
                 );
                 break;
-            case "ScrollableMessage":
+            case "ScrollableMessage": {
                 store.dispatch(scrollableMessage(
                     rpc.params.appID,
                     rpc.id,
@@ -277,12 +277,12 @@ class UIController {
                     rpc.params.cancelID
                 ));
 
-                const state4 = store.getState();
-                const context5 = state4.activeApp
+                const state = store.getState();
+                const context = state.activeApp
 
                 var scrollableTimeout = rpc.params.timeout ?? 10000;
                 this.endTimes[rpc.id] = Date.now() + scrollableTimeout;
-                this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context5);
+                this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
                 this.onSystemContext("HMI_OBSCURED", context)
@@ -296,6 +296,7 @@ class UIController {
                 AddImageValidationRequest(rpc.id, scrollableButtonImages);
 
                 return null
+            }
             case "Alert":
                 store.dispatch(alert(
                     rpc.params.appID,
