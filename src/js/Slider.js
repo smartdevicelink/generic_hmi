@@ -20,7 +20,7 @@ export default class Slider extends React.Component {
     getSliderFooter() {
         const sliderData = this.props.sliderData
         if (sliderData.footer) {
-            if (sliderData.footer.length == 1) { // Static Footer
+            if (sliderData.footer.length === 1) { // Static Footer
                 return sliderData.footer[0]
             }
             else if (sliderData.footer.length > this.state.value - 1) {

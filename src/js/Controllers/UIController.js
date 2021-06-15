@@ -46,7 +46,6 @@ class UIController {
         this.onPerformInteractionTimeout = this.onPerformInteractionTimeout.bind(this)
         this.onAlertTimeout = this.onAlertTimeout.bind(this)
         this.onSliderClose = this.onSliderClose.bind(this)
-        this.onSliderStealFocus = this.onSliderStealFocus.bind(this)
         this.onSliderKeepContext = this.onSliderKeepContext.bind(this)
         this.onDefaultAction = this.onDefaultAction.bind(this)
         this.onKeepContext = this.onKeepContext.bind(this)
@@ -541,12 +540,6 @@ class UIController {
 
         this.onSystemContext("MAIN", alert.appID)
         sdlController.onAppActivated(alert.appID)
-    }
-    onSliderStealFocus(msgID, appID) {
-        this.onSliderClose(msgID, appID)
-
-        this.onSystemContext("MAIN", appID)
-        sdlController.onAppActivated(appID)
     }
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
