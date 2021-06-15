@@ -54,6 +54,7 @@
     background-color: color($secondary-color);
     color: color(white);
     font-family: monospace;
+    overflow-x: scroll;
 }
 
 .dark-theme .keyboard .input-text input {
@@ -96,6 +97,7 @@
     border: none;
     box-sizing: border-box;
     font-family: monospace;
+    overflow-x: scroll;
 }
 
 .light-theme .keyboard .input-text input {

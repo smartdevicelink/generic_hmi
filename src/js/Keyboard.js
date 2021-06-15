@@ -39,7 +39,19 @@ class Keyboard extends Component {
 
   onChange = input => {
     // Changes from button presses
-    this.setState({ input });
+    let position = this.keyboard.caretPosition;
+    this.setState({ input }, () => {
+      if (position === null) {
+        position = input.length;
+      }
+      if (this.inputRef.setSelectionRange) {
+        this.inputRef.focus();
+        this.inputRef.setSelectionRange(position, position);
+        if (position === this.inputRef.value.length) {
+          this.inputRef.scrollLeft = this.inputRef.scrollWidth;
+        }
+      }
+    });
     this.handleInput(input);
   };
 
@@ -226,6 +238,7 @@ class Keyboard extends Component {
                 <div className="input-row">
                     <div className="input-text">
                       <input
+                          ref={r => (this.inputRef = r)}
                           value={this.state.input}
                           type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
                           placeholder={interactionText}
@@ -241,6 +254,7 @@ class Keyboard extends Component {
                     </div>
 
                     <input 
+
                         className="mask-checkbox"
                         id="maskOption"
                         type={this.showUserMaskOption ? "checkbox" : "hidden"} 
