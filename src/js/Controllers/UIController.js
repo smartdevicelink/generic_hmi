@@ -358,7 +358,7 @@ class UIController {
                 AddImageValidationRequest(rpc.id, subtleAlertImages)
 
                 return null
-            case "Slider":
+            case "Slider": {
                 store.dispatch(slider(
                     rpc.params.appID,
                     rpc.params.numTicks,
@@ -368,23 +368,22 @@ class UIController {
                     rpc.params.timeout,
                     rpc.id,
                     rpc.params.cancelID
-                ))
-                
-                const slider_state = store.getState()
-                const slider_context = slider_state.activeApp
+                ))                
+                const state = store.getState()
+                const context = state.activeApp
 
                 let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
-
                 this.endTimes[rpc.id] = Date.now() + sliderTimeout;
                 this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, 
-                                            slider_context ? slider_context : rpc.params.appID, "TIMEOUT")
+                                            context ? context : rpc.params.appID, "TIMEOUT")
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
-                if ((slider_context !== rpc.params.appID) && slider_context) {
-                    this.onSystemContext("HMI_OBSCURED", slider_context)
+                if ((context !== rpc.params.appID) && context) {
+                    this.onSystemContext("HMI_OBSCURED", context)
                 }
 
                 return null
+            }
             case "CancelInteraction":
 
                 const state2 = store.getState()
