@@ -42,7 +42,7 @@ class Keyboard extends Component {
     // Changes from button presses
     let position = this.keyboard.caretPosition;
     var tabPattern = /\t/g;
-    var tabCount = ((input || '').match(tabPattern) || []).length * 6;
+    var tabCount = ((input || '').match(tabPattern) || []).length * 8;
     this.setState({ input, tabCount }, () => {
       if (position === null) {
         position = input.length;
