@@ -694,23 +694,21 @@ function ui(state = {}, action) {
             }
             if (action.keyboardProperties) {
                 // Merge keyboard properties
-                var keyboardProperties = Object.assign({}, action.keyboardProperties);
-                if (!keyboardProperties.autoCompleteList) {
-                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                app.keyboardProperties = Object.assign({
+                    autoCompleteList: app.keyboardProperties.autoCompleteList,
+                    keyboardLayout: app.keyboardProperties.keyboardLayout,
+                    language: app.keyboardProperties.language,
+                    maskInputCharacters: app.keyboardProperties.maskInputCharacters,
+                    keypressMode: "RESEND_CURRENT_ENTRY",
+                    limitedCharacterList: "",
+                    autoCompleteList: app.keyboardProperties.autoCompleteList
+                }, action.keyboardProperties);
+
+                if (action.keyboardProperties.autoCompleteText && 
+                    (!action.keyboardProperties.autoCompleteList || 
+                    action.keyboardProperties.autoCompleteList.length === 0)) {
+                    app.keyboardProperties.autoCompleteList = [action.keyboardProperties.autoCompleteText];
                 }
-                if (!keyboardProperties.keyboardLayout) {
-                    keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
-                }
-                if (!keyboardProperties.language) {
-                    keyboardProperties.language = app.keyboardProperties.language;
-                }
-                if (!keyboardProperties.maskInputCharacters) {
-                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
-                }
-                if (!keyboardProperties.keypressMode) {
-                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
-                }
-                app.keyboardProperties = keyboardProperties
             }
             return newState
         case Actions.SET_VIDEO_STREAM_CAPABILITY:
