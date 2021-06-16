@@ -21,7 +21,8 @@ class Keyboard extends Component {
     this.state = {
       layoutName: "default",
       input: "",
-      userMaskedInput: false
+      userMaskedInput: false,
+      tabCount: 0
     };
   }
 
@@ -40,7 +41,9 @@ class Keyboard extends Component {
   onChange = input => {
     // Changes from button presses
     let position = this.keyboard.caretPosition;
-    this.setState({ input }, () => {
+    var tabPattern = /\t/g;
+    var tabCount = ((input || '').match(tabPattern) || []).length * 6;
+    this.setState({ input, tabCount }, () => {
       if (position === null) {
         position = input.length;
       }
@@ -48,7 +51,7 @@ class Keyboard extends Component {
         this.inputRef.focus();
         this.inputRef.setSelectionRange(position, position);
         if (position === this.inputRef.value.length) {
-          this.inputRef.scrollLeft = this.inputRef.scrollWidth;
+          this.inputRef.scrollLeft = this.inputRef.scrollWidth + this.state.tabCount;
         }
       }
     });
@@ -243,7 +246,7 @@ class Keyboard extends Component {
                           type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
                           placeholder={interactionText}
                           onChange={this.onChangeInput}
-                          size={this.state.input ? this.state.input.length : interactionText.length}
+                          size={this.state.input ? this.state.input.length + this.state.tabCount : interactionText.length}
                       />
                       <div 
                         className="input-autocomplete"
@@ -254,7 +257,6 @@ class Keyboard extends Component {
                     </div>
 
                     <input 
-
                         className="mask-checkbox"
                         id="maskOption"
                         type={this.showUserMaskOption ? "checkbox" : "hidden"} 
