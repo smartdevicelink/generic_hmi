@@ -21,6 +21,10 @@ const mapStateToProps = (state) => {
     var alertAppId = null
     var alertAppName = ""
     var alertIcon = null
+    var showSlider = false
+    var sliderAppId = null
+    var sliderAppName = ""
+    var sliderData = {}
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -41,6 +45,21 @@ const mapStateToProps = (state) => {
             }
 
             break
+        }
+        if (state.ui[prop].slider.showSlider) {
+            showSlider = true
+
+            sliderAppId = parseInt(prop)
+            var sliderApp = state.appList.find((key) => {
+                return key.appID === parseInt(prop)
+            })
+
+            if (sliderApp.appName) {
+                sliderAppName = sliderApp.appName
+            }
+
+            sliderData = state.ui[prop].slider
+            break;
         }
         if (state.ui[prop].scrollableMessage.active) {
             showScrollableMessage = true;
@@ -103,6 +122,10 @@ const mapStateToProps = (state) => {
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,
         alertName: alertAppName,
+        showSlider: showSlider,
+        sliderAppId: sliderAppId,
+        sliderName: sliderAppName,
+        sliderData: sliderData,
         theme: theme,
         activeApp: activeApp,
         colorScheme: colorScheme,

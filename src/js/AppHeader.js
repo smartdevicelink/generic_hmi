@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
+import Slider from './Slider';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -49,6 +50,7 @@ class AppHeader extends React.Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
+        this.closeSlider = this.closeSlider.bind(this);
         this.closeScrollable = this.closeScrollable.bind(this);
     }
 
@@ -58,6 +60,11 @@ class AppHeader extends React.Component {
             this.forceUpdate();
             uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
         }
+    }
+
+    closeSlider(options) {
+        let closeReason = options?.closeReason ?? "ABORTED"
+        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
     }
 
     closeScrollable() {
@@ -127,6 +134,21 @@ class AppHeader extends React.Component {
                 onRequestClose={this.closeModal}
                 >
                     {alertHtml}
+                </Modal>
+                <Modal
+                isOpen={this.props.showSlider}
+                className={`app-body sliderModal`}
+                overlayClassName={`${themeClass} sliderOverlay`}
+                contentLabel="Slider Modal"
+                onRequestClose={this.closeSlider}
+                >
+                    <Slider 
+                        sliderName={this.props.sliderName} 
+                        sliderAppId={this.props.sliderAppId} 
+                        sliderData={this.props.sliderData}
+                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                        theme={this.props.theme}
+                    />
                 </Modal>
                 <Modal
                 isOpen={this.props.showScrollableMessage}

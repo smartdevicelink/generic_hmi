@@ -50,6 +50,15 @@ function newAppState () {
             showProgressIndicator: null,
             msgID: null
         },
+        slider: {
+            showSlider: false,
+            numTicks: null,
+            position: null,
+            header: "",
+            footer: [],
+            timeout: null,
+            msgID: null
+        },
         scrollableMessage: {
             active: false,
             msgID: null,
@@ -663,6 +672,32 @@ function ui(state = {}, action) {
                 softButtons: [],
                 alertType: null,
                 showProgressIndicator: null,
+                msgID: null
+            }
+            return newState
+        case Actions.SLIDER:
+            app.slider.showSlider = true
+            app.slider.numTicks = action.numTicks
+            app.slider.position = action.position
+            app.slider.header = action.sliderHeader
+            app.slider.footer = action.sliderFooter
+            app.slider.timeout = action.timeout
+            app.slider.msgID = action.msgID
+            app.slider.cancelID = action.cancelID
+            return newState
+        case Actions.UPDATE_SLIDER_POSITION:
+            if (action.newPosition) {
+                app.slider.position = action.newPosition
+            }
+            return newState
+        case Actions.CLOSE_SLIDER:
+            app.slider = {
+                showSlider: false,
+                numTicks: null,
+                position: null,
+                header: "",
+                footer: [],
+                timeout: null,
                 msgID: null
             }
             return newState
