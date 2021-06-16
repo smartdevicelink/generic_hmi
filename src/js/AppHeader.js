@@ -11,6 +11,7 @@ import {resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
+import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
@@ -48,6 +49,7 @@ class AppHeader extends React.Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
+        this.closeScrollable = this.closeScrollable.bind(this);
     }
 
     closeModal() {
@@ -56,6 +58,11 @@ class AppHeader extends React.Component {
             this.forceUpdate();
             uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
         }
+    }
+
+    closeScrollable() {
+        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
+            this.props.scrollableMessageAppId, this.props.activeApp);
     }
 
     getColorScheme() {
@@ -120,6 +127,18 @@ class AppHeader extends React.Component {
                 onRequestClose={this.closeModal}
                 >
                     {alertHtml}
+                </Modal>
+                <Modal
+                isOpen={this.props.showScrollableMessage}
+                className={'app-body scrollableMessageModal'}
+                overlayClassName={`${themeClass} scrollableMessageOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={this.closeScrollable}
+                >
+                    <ScrollableMessage theme={this.props.theme}
+                        body={this.props.scrollableMessageBody}
+                        buttons={this.props.softButtons}
+                        appName={this.props.scrollableMessageAppName}/>
                 </Modal>
             </div>
             
