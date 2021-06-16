@@ -10,7 +10,8 @@ export default class Slider extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            value: props.sliderData.position
+            value: props.sliderData.position,
+            cursor: "auto"
         }
         this.getSliderFooter = this.getSliderFooter.bind(this)
         this.onSliderChange = this.onSliderChange.bind(this)
@@ -31,8 +32,9 @@ export default class Slider extends React.Component {
     }
 
     onSliderChange(value) {
+        this.setState({cursor: "grabbing"})
         if (value < 1 || value > this.props.sliderData.numTicks) { return; }
-        this.setState({ value }, () => {
+        this.setState({ value: value }, () => {
             uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId)
             store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
         })
@@ -51,7 +53,7 @@ export default class Slider extends React.Component {
             dot: this.props.theme ?  "#FFFFFF" : "#000000",
             activeDot: this.props.theme ? "#000000" : "#FFFFFF"
         }
-        let tickWidth = 20;
+        let tickWidth = 25;
         
         return (
             <div className="slider">
@@ -108,7 +110,8 @@ export default class Slider extends React.Component {
                                 activeDotStyle={{
                                     borderColor: `${sliderColors.activeDot}`
                                 }}
-                                
+                                style={{ cursor: `${this.state.cursor}` }}
+                                onAfterChange={ () => this.setState({cursor: "auto"}) }
                             />
                         </div>
                         <div className={`th-f-color t-large t-light th-bg-color th-soft-buttons slider-button`}
