@@ -70,6 +70,7 @@ let textWithGraphicCapabilities = {
 			textField("mainField3"),
 			textField("mainField4"),
 			textField("templateTitle", 50),
+			textField("scrollableMessageBody", 44, 15),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
@@ -114,6 +115,7 @@ let textbuttonsWithGraphicCapabilities = {
 		"displayType": "SDL_GENERIC",
 		"displayName": "GENERIC_DISPLAY",
 		"textFields": [
+			textField("scrollableMessageBody", 44, 15),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
@@ -185,6 +187,7 @@ let capabilities = {
 				textField("mediaClock"),
 				textField("mediaTrack"),
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -264,6 +267,7 @@ let capabilities = {
 				textField("mainField3"),
 				textField("mainField4"),
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -322,6 +326,7 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -345,6 +350,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -403,6 +409,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -462,6 +469,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -506,6 +514,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -563,6 +572,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -621,6 +631,7 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),

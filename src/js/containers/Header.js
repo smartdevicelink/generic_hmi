@@ -11,6 +11,11 @@ const mapStateToProps = (state) => {
     }
 
     var showAlert = false
+    var showScrollableMessage = false;
+    var scrollableMessageBody = "";
+    var scrollableMessageAppName = "Scrollable Message";
+    var scrollableMessageMsgId = null;
+    var scrollableMessageAppId = null;
     var alertIsSubtle = false
     var alertMsgId = null
     var alertAppId = null
@@ -54,7 +59,23 @@ const mapStateToProps = (state) => {
             }
 
             sliderData = state.ui[prop].slider
-            break
+            break;
+        }
+        if (state.ui[prop].scrollableMessage.active) {
+            showScrollableMessage = true;
+            scrollableMessageBody = state.ui[prop].scrollableMessage.body;
+            scrollableMessageMsgId = state.ui[prop].scrollableMessage.msgID;
+            scrollableMessageAppId = parseInt(prop);
+
+            var scrollableMessageApp = state.appList.find((key) => {
+                return key.appID === scrollableMessageAppId;
+            })
+
+            if (scrollableMessageApp.appName) {
+                scrollableMessageAppName = scrollableMessageApp.appName;
+            }
+
+            break;
         }
     }
 
@@ -91,6 +112,11 @@ const mapStateToProps = (state) => {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
         displayLayout: app.displayLayout,
+        showScrollableMessage: showScrollableMessage,
+        scrollableMessageBody: scrollableMessageBody,
+        scrollableMessageAppName: scrollableMessageAppName,
+        scrollableMessageMsgId: scrollableMessageMsgId,
+        scrollableMessageAppId: scrollableMessageAppId,
         showAlert: showAlert,
         alertIsSubtle: alertIsSubtle,
         alertMsgId: alertMsgId,

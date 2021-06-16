@@ -79,6 +79,29 @@ class RpcFactory {
             }
         })
     }
+    static ScrollableMessageResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.ScrollableMessage'
+            }
+        });
+    }
+    static ScrollableMessageAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Scrollable Message was cancelled",
+                "data": {
+                    "method": "UI.ScrollableMessage"
+                }
+            }
+        })
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",

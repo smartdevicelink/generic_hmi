@@ -22,6 +22,8 @@ export const Actions = {
     REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
+    SCROLLABLE_MESSAGE: "SCROLLABLE_MESSAGE",
+    CLOSE_SCROLLABLE_MESSAGE: "CLOSE_SCROLLABLE_MESSAGE",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
@@ -253,6 +255,26 @@ export const unregisterApplication = (appID, isUnexpected) => {
         type: Actions.UNREGISTER_APPLICATION,
         appID: appID,
         isUnexpected: isUnexpected
+    }
+}
+
+export const scrollableMessage = (appID, msgID, messageBody, softButtons, duration, cancelID) => {
+    return {
+        type: Actions.SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID,
+        messageBody: messageBody,
+        softButtons: softButtons,
+        duration: duration,
+        cancelID: cancelID
+    }
+}
+
+export const closeScrollableMessage = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID
     }
 }
 

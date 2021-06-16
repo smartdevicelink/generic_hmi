@@ -59,6 +59,14 @@ function newAppState () {
             timeout: null,
             msgID: null
         },
+        scrollableMessage: {
+            active: false,
+            msgID: null,
+            body: '',
+            softButtons: [],
+            duration: 0,
+            cancelID: null
+        },
         dayColorScheme: null,
         nightColorScheme: null,
         videoStreamingCapability: [
@@ -625,6 +633,24 @@ function ui(state = {}, action) {
                 delete newState[action.appID]
             }
             return newState
+        case Actions.SCROLLABLE_MESSAGE:
+            app.scrollableMessage.active = true;
+            app.scrollableMessage.msgID = action.msgID;
+            app.scrollableMessage.body = action.messageBody;
+            app.scrollableMessage.softButtons = action.softButtons;
+            app.scrollableMessage.duration = action.duration;
+            app.scrollableMessage.cancelID = action.cancelID;
+            return newState;
+        case Actions.CLOSE_SCROLLABLE_MESSAGE:
+            app.scrollableMessage = {
+                active: false,
+                msgID: null,
+                body: '',
+                softButtons: [],
+                duration: 0,
+                cancelID: null
+            };
+            return newState;
         case Actions.ALERT:
             app.alert.showAlert = true
             app.alert.isSubtle = action.isSubtle

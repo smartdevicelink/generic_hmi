@@ -3,7 +3,7 @@ import uiController from '../Controllers/UIController'
 import AppIcon from '../AppIcon'
 import '../polyfill_find'
 import { deactivateSubMenu } from '../actions';
-
+import CheckForSubmenuNeedUpdate from '../Utils/CheckForSubmenuNeedUpdate';
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
             //dispatch(deactivateSubMenu(appID))
             if (path === "/inappmenu") {
                 uiController.onSystemContext("MENU", appID)
+                CheckForSubmenuNeedUpdate(appID, 0);
             } else { //user exited menu
                 uiController.onSystemContext("MAIN", appID)
             }

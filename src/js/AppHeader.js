@@ -12,6 +12,7 @@ import {resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
+import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
@@ -50,6 +51,7 @@ class AppHeader extends React.Component {
         super(props);
         this.closeModal = this.closeModal.bind(this);
         this.closeSlider = this.closeSlider.bind(this);
+        this.closeScrollable = this.closeScrollable.bind(this);
     }
 
     closeModal() {
@@ -63,6 +65,11 @@ class AppHeader extends React.Component {
     closeSlider(options) {
         let closeReason = options?.closeReason ?? "ABORTED"
         uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
+    }
+
+    closeScrollable() {
+        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
+            this.props.scrollableMessageAppId, this.props.activeApp);
     }
 
     getColorScheme() {
@@ -142,6 +149,18 @@ class AppHeader extends React.Component {
                         submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
                         theme={this.props.theme}
                     />
+                </Modal>
+                <Modal
+                isOpen={this.props.showScrollableMessage}
+                className={'app-body scrollableMessageModal'}
+                overlayClassName={`${themeClass} scrollableMessageOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={this.closeScrollable}
+                >
+                    <ScrollableMessage theme={this.props.theme}
+                        body={this.props.scrollableMessageBody}
+                        buttons={this.props.softButtons}
+                        appName={this.props.scrollableMessageAppName}/>
                 </Modal>
             </div>
             
