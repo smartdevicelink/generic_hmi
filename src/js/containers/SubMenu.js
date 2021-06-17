@@ -6,6 +6,7 @@ import { deactivateSubMenu, deactivateInteraction, activateSubMenu } from '../ac
 import '../polyfill_find'
 import {capabilities} from '../Controllers/DisplayCapabilities'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
+import CheckForSubmenuNeedUpdate from '../Utils/CheckForSubmenuNeedUpdate';
 
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
@@ -74,10 +75,6 @@ const mapStateToProps = (state) => {
         }
         if (command.subMenu) {
             link = '/inapplist';
-            if (command.subMenu.length === 0) {
-                // Found and empty submenu, ask app to send add commands
-                uiController.onUpdateSubMenu(activeApp, command.menuID);
-            }
         } else {
             link = state.ui[activeApp].displayLayout
         }
@@ -117,6 +114,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(deactivateInteraction(appID))
             } else if (menuID && enabled === true) {
                 dispatch(activateSubMenu(appID, menuID, 1));
+                CheckForSubmenuNeedUpdate(appID, menuID);
             } else {
                 uiController.onSystemContext("MAIN", appID)
                 uiController.onCommand(cmdID, appID)

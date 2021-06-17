@@ -22,8 +22,13 @@ export const Actions = {
     REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
+    SCROLLABLE_MESSAGE: "SCROLLABLE_MESSAGE",
+    CLOSE_SCROLLABLE_MESSAGE: "CLOSE_SCROLLABLE_MESSAGE",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
+    SLIDER: "SLIDER",
+    UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
+    CLOSE_SLIDER: "CLOSE_SLIDER",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     SET_URLS: "SET_URLS",
@@ -253,6 +258,26 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
+export const scrollableMessage = (appID, msgID, messageBody, softButtons, duration, cancelID) => {
+    return {
+        type: Actions.SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID,
+        messageBody: messageBody,
+        softButtons: softButtons,
+        duration: duration,
+        cancelID: cancelID
+    }
+}
+
+export const closeScrollableMessage = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID
+    }
+}
+
 export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon, cancelID, isSubtle=false) => {
     return {
         type: Actions.ALERT,
@@ -272,6 +297,36 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
 export const closeAlert = (msgID, appID) => {
     return {
         type: Actions.CLOSE_ALERT,
+        msgID: msgID,
+        appID: appID
+    }
+}
+
+export const slider = (appID, numTicks, position, sliderHeader, sliderFooter, timeout, msgID, cancelID) => {
+    return {
+        type: Actions.SLIDER,
+        appID: appID,
+        numTicks: numTicks,
+        position: position,
+        sliderHeader: sliderHeader,
+        sliderFooter: sliderFooter,
+        timeout: timeout,
+        msgID: msgID,
+        cancelID: cancelID
+    }
+}
+
+export const updateSliderPosition = (appID, newPosition) =>{
+    return {
+        type: Actions.UPDATE_SLIDER_POSITION,
+        appID: appID,
+        newPosition: newPosition
+    }
+}
+
+export const closeSlider = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_SLIDER,
         msgID: msgID,
         appID: appID
     }
