@@ -485,8 +485,8 @@ class UIController {
                                  (app.alert.showAlert && !app.alert.isSubtle) ? "UI.Alert" :
                                  (app.alert.showAlert && app.alert.isSubtle) ? "UI.SubtleAlert" :
                                  (app.isPerformingInteraction) ? "UI.PerformInteraction":
-                                 //TODO: Add condition for UI Slider interaction
-                                 //TODO: Add condition for UI ScrollableMessage interaction
+                                 (app.slider.showSlider) ? "UI.Slider":
+                                 (app.scrollableMessage.active) ? "UI.ScrollableMessage":
                                  //TODO: Add condition for UI PerformAudioPassThru interaction
                                  null
 
@@ -531,14 +531,30 @@ class UIController {
                         this.onSystemContext("MAIN", appID)
                         return true;
                     }
-                    // TODO: Implement case for UI Slider Interaction
-                    // case "UI.Slider": {
-                    //     return true;
-                    // }
-                    // TODO: Implement case for UI ScrollableMessage Interaction
-                    // case "UI.ScrollableMessage": {
-                    //     return true;
-                    // }
+                    case "UI.Slider": {
+                        if (!app.slider.showSlider) {
+                            return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.Slider interaction to close") };
+                        }
+                        clearTimeout(this.timers[app.slider.msgID])
+                        delete this.timers[app.slider.msgID]
+                        this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
+                        store.dispatch(closeSlider(app.alert.msgID, appID))
+                        const context = getNextSystemContext();
+                        this.onSystemContext(context, appID)
+                        return true;
+                    }
+                    case "UI.ScrollableMessage": {
+                        if (!app.scrollableMessage.active) {
+                            return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.ScrollableMessage interaction to close") };
+                        }
+                        clearTimeout(this.timers[app.scrollableMessage.msgID]);
+                        delete this.timers[app.scrollableMessage.msgID];
+                        this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
+                        store.dispatch(closeScrollableMessage(app.alert.msgID, appID));
+                        const context = getNextSystemContext();
+                        this.onSystemContext(context, appID);
+                        return true;
+                    }
                     // TODO: Implement case for UI PerformAudioPassThru Interaction
                     // case "UI.PerformAudioPassThru": {
                     //     return true;
