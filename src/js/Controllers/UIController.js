@@ -20,7 +20,9 @@ import {
     showAppMenu,
     setHapticData,
     scrollableMessage,
-    closeScrollableMessage
+    closeScrollableMessage,
+    performAudioPassThru,
+    closePerformAudioPassThru
 } from '../actions'
 import store from '../store'
 import sdlController from './SDLController'
@@ -55,6 +57,7 @@ class UIController {
         this.onScrollableMessageStealFocus = this.onScrollableMessageStealFocus.bind(this);
         this.onCloseScrollableMessage = this.onCloseScrollableMessage.bind(this);
         this.onScrollableMessageKeepContext = this.onScrollableMessageKeepContext.bind(this);
+        this.onClosePerformAudioPassThru = this.onClosePerformAudioPassThru.bind(this);
         this.timers = {}
         this.appsWithTimers = {}
         this.endTimes = {}
@@ -300,6 +303,47 @@ class UIController {
                 AddImageValidationRequest(rpc.id, scrollableButtonImages);
 
                 return null
+            }
+            case "PerformAudioPassThru": {
+                this.aptMsgID = rpc.id;
+                this.aptAppID = rpc.params.appID;
+                store.dispatch(performAudioPassThru(
+                    rpc.params.appID,
+                    rpc.params.audioPassThruDisplayTexts,
+                    rpc.params.maxDuration,
+                    rpc.id
+                ));
+
+                const state = store.getState();
+                const context = state.activeApp
+
+                this.endTimes[rpc.id] = Date.now() + rpc.params.maxDuration;
+                this.timers[rpc.id] = setTimeout(
+                    this.onClosePerformAudioPassThru, 
+                    rpc.params.maxDuration,
+                    rpc.id,
+                    rpc.params.appID,
+                    context,
+                    "TIMED_OUT"
+                );
+                this.appsWithTimers[rpc.id] = rpc.params.appID;
+
+                this.onSystemContext("HMI_OBSCURED", context)
+                return null;
+            }
+            case "EndAudioPassThru": {
+                if (!this.aptAppID || !this.aptMsgID) {
+                    return false;
+                }
+                const state = store.getState();
+                const context = state.activeApp;
+                this.onClosePerformAudioPassThru(
+                    this.aptMsgID,
+                    this.aptAppID,
+                    context,
+                    "SUCCESS"
+                );
+                return true;
             }
             case "Alert":
                 store.dispatch(alert(
@@ -604,6 +648,50 @@ class UIController {
             this.onSystemContext(systemContext, appID)
         }
         this.onSystemContext(systemContext, context)
+    }
+    onClosePerformAudioPassThru(msgID, appID, context, resultCode) {
+        this.aptMsgID = null;
+        this.aptAppID = null;
+        if (this.timers[msgID]) {
+            clearTimeout(this.timers[msgID])
+        }
+        delete this.timers[msgID]
+        store.dispatch(closePerformAudioPassThru(
+            msgID,
+            appID
+        ));
+        if (resultCode === "SUCCESS") {
+            const rpc = RpcFactory.PerformAudioPassThruResponse(msgID);
+            this.listener.send(rpc);
+        } else {
+            var info = "";
+            var code = 22;
+            if (resultCode === "ABORTED") {
+                info = "PerformAudioPassThru was cancelled";
+                code = 5;
+            } else if (resultCode === "TIMED_OUT") {
+                info = "PerformAudioPassThru timed out";
+                code = 10;
+            } else if (resultCode === "RETRY") {
+                info = "User wanted to retry PerformAudioPassThru";
+                code = 7;
+            }
+            const rpc = RpcFactory.ErrorResponse(
+                {
+                    method: "UI.PerformAudioPassThru",
+                    id: msgID
+                }, 
+                code,
+                info
+            );
+            this.listener.send(rpc);
+        }
+        const systemContext = getNextSystemContext();
+        if (appID !== context) {
+            this.onSystemContext(systemContext, appID)
+        }
+        this.onSystemContext(systemContext, context)
+
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
