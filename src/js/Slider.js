@@ -72,9 +72,6 @@ export default class Slider extends React.Component {
                             <p>-</p>
                         </div>
                         <div className="slider-react-component" style={{width: sliderData.numTicks * tickWidth}}>
-                            <div className="slider-rail" 
-                                style={{width: sliderData.numTicks * tickWidth, backgroundColor: `${sliderColors.track}`}}>
-                            </div>
                             <ReactSlider
                                 dots
                                 min={0}
