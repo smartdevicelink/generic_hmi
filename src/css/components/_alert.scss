@@ -164,6 +164,19 @@
         min-width: 50px;
     }
 
+.alert-reset-box {
+    background-color: darkslategray;
+    border-style: solid;
+    width: 90%;
+    height: 50px;
+    .reset-button {
+        width: 120px;
+        height: 30px;
+        border-radius: 8px;
+        color: #ccc;
+    }
+}
+
     @include display(flex);
     @include align-items(center);
     @include justify-content(center);

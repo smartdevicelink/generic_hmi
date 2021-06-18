@@ -50,6 +50,9 @@ function newAppState () {
             showProgressIndicator: null,
             msgID: null
         },
+        resetTimeout: {
+            resetTimeoutValue: 10000
+        },
         dayColorScheme: null,
         nightColorScheme: null,
         videoStreamingCapability: [
@@ -627,6 +630,9 @@ function ui(state = {}, action) {
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
             app.alert.cancelID = action.cancelID
+            return newState
+        case Actions.RESET_TIMEOUT:
+            app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {

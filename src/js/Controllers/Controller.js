@@ -194,12 +194,14 @@ export default class Controller {
                 break;
             case "UI":
             case "Buttons":
+                console.log("ITS UI BUTTON");
                 response = uiController.handleRPC(rpc);
                 break;
             case "VR":
                 response = vrController.handleRPC(rpc);
                 break;
             case "TTS":
+                console.log("ITS TTS")
                 response = ttsController.handleRPC(rpc);
                 break;
             case "VehicleInfo":

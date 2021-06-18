@@ -4,6 +4,7 @@ import {AlertStrings} from './containers/Metadata'
 import {AlertButtons} from './containers/Buttons';
 import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
+import store from './store.js'
 
 export default class Alert extends React.Component {
     render() {
@@ -13,6 +14,10 @@ export default class Alert extends React.Component {
         var iconElement = (icon.imageType === "STATIC")
                  ? (<StaticIcon class="alert-icon" image={icon.value} />)
                  : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
+
+        function pressResetTimeoutButton(event) {
+            console.log(store.getState().ui[undefined].resetTimeout.resetTimeoutValue)
+        }
 
         return (
             <div className="alert">
@@ -26,6 +31,9 @@ export default class Alert extends React.Component {
                     { iconElement }
                 </div>
                 <AlertButtons classPrefix="alert"/>
+                <div className=".alert-reset-box">
+                    <button className="reset-button" onClick={pressResetTimeoutButton}>Reset Timeout</button>
+                </div>
             </div>
         )
     }

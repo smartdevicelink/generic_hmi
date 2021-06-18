@@ -23,6 +23,7 @@ export const Actions = {
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
+    RESET_TIMEOUT: "RESET_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
@@ -266,6 +267,15 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         icon: icon,
         cancelID: cancelID,
         isSubtle: isSubtle
+    }
+}
+
+export const resetTimeout = (resetPeriod) => {
+    return {
+        type: Actions.RESET_TIMEOUT,
+        payload: {
+            resetPeriod: resetPeriod
+        } 
     }
 }
 
