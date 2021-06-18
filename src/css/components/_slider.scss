@@ -75,10 +75,15 @@
 }
 
 .slider-button {
-    padding: 0px 20px;
+    padding: 0px 15px;
+    width: 60px;
     z-index: 5;
     cursor: pointer;
     user-select: none;
+
+    p {
+        text-align: center;
+    }
 }
 
 .slider-footer {
