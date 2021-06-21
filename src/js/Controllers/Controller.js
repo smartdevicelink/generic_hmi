@@ -16,9 +16,10 @@ import {
 let file_access_base_url = "";
 
 export default class Controller {
-    constructor (setThemeFunc) {
+    constructor (setThemeFunc, setDDFunc) {
         this.socket = null
         this.setTheme = setThemeFunc;
+        this.setDD = setDDFunc;
         bcController.addListener(this)
         uiController.addListener(this)
         sdlController.addListener(this)
@@ -186,6 +187,9 @@ export default class Controller {
                     rpc.data.appID
                 ))
                 uiController.onSystemContext("MAIN", rpc.data.appID)
+            }
+            if (rpc.type === "SET_DRIVER_DISTRACTION") {
+                this.setDD(rpc.data.isDistracted);
             }
             return;
         };

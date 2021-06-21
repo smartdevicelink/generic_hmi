@@ -61,10 +61,10 @@ class HMIApp extends React.Component {
             scale: 1
         }
         this.handleClick = this.handleClick.bind(this);
-        this.sdl = new Controller(this.handleClick);
+        this.handleDDToggle = this.handleDDToggle.bind(this);
+        this.sdl = new Controller(this.handleClick, this.handleDDToggle);
         sdlController = this.sdl;
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
-        this.handleDDToggle = this.handleDDToggle.bind(this);
         this.pickResolution = this.pickResolution.bind(this);
         this.onTouchBegin = this.onTouchBegin.bind(this);
         this.onTouchMove = this.onTouchMove.bind(this);
@@ -83,8 +83,8 @@ class HMIApp extends React.Component {
     togglePTUWithModem(){
         store.dispatch(setPTUWithModem(!this.props.ptuWithModemEnabled))
     }
-    handleDDToggle(){
-        let newDDState = !this.props.dd;
+    handleDDToggle(newState){
+        let newDDState = newState;
         store.dispatch(setDDState(newDDState));
         uiController.onDriverDistraction((newDDState) ? "DD_ON" : "DD_OFF");
     }
