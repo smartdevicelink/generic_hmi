@@ -18,6 +18,9 @@ const mapDispatchToProps = (dispatch) => {
             if (backLink === "/appstore") {
                 // Navigating back from app store menu
                 return;
+            } else if (backLink === "/permissions") {
+                // Navigating back from app permissions menu
+                return;
             } else if (backLink === "/inapplist" && parentID) { // submenu -> submenu
                 dispatch(activateSubMenu(appID, parentID, -1));
                 CheckForSubmenuNeedUpdate(appID, parentID);

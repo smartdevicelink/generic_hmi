@@ -135,7 +135,8 @@ const mapStateToProps = (state) => {
         activeMenuDepth: app.activeMenuDepth,
         parentID: parentID,
         activeLayout: app.displayLayout,
-        interactionLayout: app.interactionLayout
+        interactionLayout: app.interactionLayout,
+        openPermissionsView: state.system.openPermissionsView
     }
 }
 

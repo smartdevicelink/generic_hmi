@@ -25,6 +25,8 @@ import InAppList from './js/InAppList';
 import AppStore from './js/AppStore';
 import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer';
+import AppPermissions from './js/AppPermissions';
+import AppPermissionList from './js/AppPermissionList';
 import Keyboard from './js/Keyboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -34,6 +36,7 @@ import { Route, HashRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './js/store'
+import { Toaster } from 'react-hot-toast';
 
 import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
@@ -184,10 +187,31 @@ class HMIApp extends React.Component {
             <div>
                 <div className={themeClass}>
                     <div className="app-body">
+                        <Toaster position='top-center' 
+                        containerStyle={{
+                            maxHeight: config.masterHeight,
+                            overflowY: 'scroll',
+                            overflowX: 'hidden',
+                            marginTop: 10,
+                            marginLeft: 10,
+                            paddingTop: 10
+                        }} 
+                        toastOptions={{ style: {
+                            left: -16,
+                            position: 'relative',
+                            top: 0,
+                            width: config.masterWidth,
+                            backgroundColor: '#11111100',
+                            maxWidth: '100%',
+                            boxShadow: 'none',
+                            marginRight: 'auto',
+                            marginTop: 10,
+                            padding: 0
+                        } }}/>
                         {this.props.children}
                     </div>
                 </div>
-                <div> 
+                <div>
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
                     <div className="toggle-ptu-with-modem-button" >
@@ -320,6 +344,8 @@ ReactDOM.render((
             <Route path="/appstore" component={AppStore} />
             <Route path="/appstoremenu" component={AppStoreMenu} />
             <Route path="/keyboard" component={Keyboard} />
+            <Route path="/permissions" component={AppPermissionList} />
+            <Route path="/apppermissions" component={AppPermissions} />
         </HashRouter>
     </HMIApp>
     </Provider>

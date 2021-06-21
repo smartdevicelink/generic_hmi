@@ -31,6 +31,12 @@ const mapStateToProps = (state) => {
 
     if(activeApp && app) {
         name = app.appName ? app.appName : "Apps"
+    } else if (state.system.editingPermissionsAppId) {
+        var permissionsApp = state.appList.find((app) => {
+            return app.appID === state.system.editingPermissionsAppId
+        });
+
+        name = `${permissionsApp.appName} Permissions`;
     } else { 
         name = "Apps"
     }

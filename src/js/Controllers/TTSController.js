@@ -4,87 +4,81 @@ class TTSController {
         this.addListener = this.addListener.bind(this)
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
+        
+        this.currentlyPlaying = false;
+        this.playNext = this.playNext.bind(this);
     }
     addListener(listener) {
         this.listener = listener
     }
 
-    playAudio() {
-        if(this.filePlaylist.length === 0) {
-            this.audioPlayer.onended = null;
-            if(!this.audioPlayer.paused) {
-                this.audioPlayer.pause();
-                this.audioPlayer.src = "";
-                return;
-            }
-        }
-
-        var path = this.filePlaylist[0].text;
-        this.filePlaylist.shift();
-
+    playAudio(path) {
         this.audioPlayer.onerror = (event) => {
-            console.log(event);
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            }
+            console.warn(event);
+            this.playNext();
         }
 
         this.audioPlayer.onended = () => {
             this.audioPlayer.src ="";
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }
-            }
+            this.playNext();
         }
 
         this.audioPlayer.src = path;
         this.audioPlayer.play();
     }
 
-    speak() {
-        if(this.filePlaylist.length === 0) {
-            return;
-        }
-
-        var text = this.filePlaylist[0].text;
-        this.filePlaylist.shift();
-
+    speak(text) {;
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            }
+            this.playNext();
         }
 
         speechPlayer.onerror = (event) => {
-            console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            }
+            console.warn("TTS error. Make sure your browser supports SpeechSynthesisUtterance");
+            this.playNext();
         }
 
         speechPlayer.text = text;
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
-        window.speechSynthesis.speak(speechPlayer)
+        window.speechSynthesis.speak(speechPlayer);
+    }
 
+    queueTTS(text, type='TEXT') {
+        this.filePlaylist.push({
+            type: type,
+            text: text
+        });
+
+        if (!this.currentlyPlaying) {
+            this.playNext();
+        }
+    }
+
+    playNext() {
+        var file = this.filePlaylist.shift();
+        if (file !== undefined) {
+            this.currentlyPlaying = true;
+
+            if (file.type === "FILE") {
+                this.playAudio(file.text);
+            } else if (file.type === "TEXT") {
+                this.speak(file.text);
+            }
+        } else {
+            this.currentlyPlaying = false;
+            this.finishPlaying();
+        }
+    }
+
+    finishPlaying() {
+        this.audioPlayer.onended = null;
+        if (!this.audioPlayer.paused) {
+            this.audioPlayer.pause();
+            this.audioPlayer.src = "";
+        }
     }
     
     handleRPC(rpc) {
@@ -106,17 +100,12 @@ class TTSController {
                 return true
             case "Speak":
                 var ttsChunks = rpc.params.ttsChunks
-                this.filePlaylist = []
                 for (var i=0; i<ttsChunks.length; i++) {
                         this.filePlaylist.push(ttsChunks[i])
                 }
 
-                if(this.filePlaylist.length > 0) {
-                    if(this.filePlaylist[0].type === "FILE") {
-                        this.playAudio();
-                    } else if (this.filePlaylist[0].type === "TEXT"){
-                        this.speak();
-                    }
+                if (false === this.currentlyPlaying) {
+                    this.playNext();
                 }
                 
                 return true;
