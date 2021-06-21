@@ -927,6 +927,51 @@ class RpcFactory {
             }
         });
     }
+    static TTSSpeakSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.Speak'
+            }
+        });
+    }
+    static TTSStopSpeakingSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.StopSpeaking'
+            }
+        });
+    }
+    static TTSSpeakAborted(id) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": id,
+            "error": {
+                "code": 5,
+                "message": "TTS Speak was stopped",
+                "data": {
+                    "method": "TTS.Speak"
+                }
+            }
+        })
+    }
+    static TTSStartedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Started"
+        })
+    }
+    static TTSStoppedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Stopped",
+        })
+    }
 }
 
 export default RpcFactory

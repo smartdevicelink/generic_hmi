@@ -4,6 +4,8 @@ class TTSController {
         this.addListener = this.addListener.bind(this)
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
+        this.speakID = null;
+        this.currentlyPlaying = null;
     }
     addListener(listener) {
         this.listener = listener
@@ -23,13 +25,14 @@ class TTSController {
         this.filePlaylist.shift();
 
         this.audioPlayer.onerror = (event) => {
-            console.log(event);
             if(this.filePlaylist[0]) {
                 if(this.filePlaylist[0].type === "FILE") {
                     this.playAudio();
                 } else if (this.filePlaylist[0].type === "TEXT"){
                     this.speak();
                 }    
+            } else {
+                this.speakEnded();
             }
         }
 
@@ -41,9 +44,11 @@ class TTSController {
                 } else if (this.filePlaylist[0].type === "TEXT"){
                     this.speak();
                 }
+            } else {
+                this.speakEnded();
             }
         }
-
+        this.currentlyPlaying = "FILE";
         this.audioPlayer.src = path;
         this.audioPlayer.play();
     }
@@ -65,6 +70,8 @@ class TTSController {
                 } else if (this.filePlaylist[0].type === "TEXT"){
                     this.speak();
                 }    
+            } else {
+                this.speakEnded();
             }
         }
 
@@ -76,15 +83,47 @@ class TTSController {
                 } else if (this.filePlaylist[0].type === "TEXT"){
                     this.speak();
                 }    
+            } else {
+                this.speakEnded();
             }
         }
 
+        this.currentlyPlaying = "TEXT";
         speechPlayer.text = text;
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
         window.speechSynthesis.speak(speechPlayer)
 
+    }
+
+    stopSpeak(stopSpeakingID) {
+        const speakID = this.speakID;
+        this.speakID = null;
+        if (this.currentlyPlaying === "FILE") {
+            this.audioPlayer.onended = null;
+            this.audioPlayer.pause();
+            this.audioPlayer.src = "";
+        } else if (this.currentlyPlaying === "TEXT") {
+            window.speechSynthesis.pause();
+            window.speechSynthesis.cancel();
+        }
+        this.filePlaylist = [];
+        this.currentlyPlaying = null;
+        this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
+        this.listener.send(RpcFactory.TTSSpeakAborted(speakID));
+        this.listener.send(RpcFactory.TTSStoppedNotification());
+    }
+
+    speakEnded() {
+        if (!this.speakID) {
+            return;
+        }
+        this.listener.send(RpcFactory.TTSSpeakSuccess(this.speakID));
+        this.listener.send(RpcFactory.TTSStoppedNotification());
+
+        this.speakID = null;
+        this.currentlyPlaying = null;
     }
     
     handleRPC(rpc) {
@@ -110,6 +149,8 @@ class TTSController {
                 for (var i=0; i<ttsChunks.length; i++) {
                         this.filePlaylist.push(ttsChunks[i])
                 }
+                this.speakID = rpc.id;
+                this.listener.send(RpcFactory.TTSStartedNotification());
 
                 if(this.filePlaylist.length > 0) {
                     if(this.filePlaylist[0].type === "FILE") {
@@ -119,7 +160,17 @@ class TTSController {
                     }
                 }
                 
-                return true;
+                return null;
+            case "StopSpeaking":
+                if (this.currentlyPlaying) {
+                    this.stopSpeak(rpc.id);
+                    return null;
+                }
+                const infoString = "No active TTS";
+                this.listener.send(RpcFactory.ErrorResponse(rpc, 6, infoString))
+                return null;
+
+
             default:
                 return false;
         }
