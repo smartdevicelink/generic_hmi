@@ -336,7 +336,7 @@ class RPCService(WSServer.SampleRPCService):
       file_contents = open(crt_file_path, 'r').read()
       certificate = crypto.load_certificate(crypto.FILETYPE_PEM, file_contents)
       private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, file_contents,
-                      passphrase='randomPassPhrase'.encode('utf-8'))
+                      passphrase=Flags.CERT_PASS_PHRASE.encode('utf-8'))
     except Exception as e:
       return RPCService.gen_error_msg('Failed to read from certificate file {0:}'.format(e))
 
@@ -499,6 +499,7 @@ def main():
   parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
   parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
+  parser.add_argument('--cert-passphrase', type=str, default='defaultPassPhrase', help="A secret password used to decrypt the certificate from the PT")
   parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
   parser.add_argument('--fs-uri', type=str, help="File server's URI (to be sent back to the client hmi)")
 
@@ -508,6 +509,7 @@ def main():
   Flags.FILE_SERVER_URI = args.fs_uri if args.fs_uri else 'http://%s:%s' % (Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT)
   Flags.VIDEO_SERVER_PORT = args.video_port
   Flags.AUDIO_SERVER_PORT = args.audio_port
+  Flags.CERT_PASS_PHRASE = args.cert_passphrase
 
   backend_server = WSServer(args.host, args.ws_port, RPCService)
 
