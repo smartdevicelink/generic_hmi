@@ -23,6 +23,16 @@ class RpcFactory {
         }
         return msg;
     }
+    static SuccessResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "code": 0,
+                "method": rpc.method
+            }
+        })
+    }
     static ErrorResponse(rpc, code, info) {
         return ({
             "jsonrpc": "2.0",
