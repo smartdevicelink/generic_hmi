@@ -197,7 +197,7 @@ class HMIApp extends React.Component {
                             paddingTop: 10
                         }} 
                         toastOptions={{ style: {
-                            left: -16,
+                            left: 0,
                             position: 'relative',
                             top: 0,
                             width: config.masterWidth,
