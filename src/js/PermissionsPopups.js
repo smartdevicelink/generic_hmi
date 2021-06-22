@@ -24,7 +24,7 @@ export class PermissionsPopup extends React.PureComponent {
                 </div>
                 <div className="permissionsPopup-top">
                     <h3 className="t-medium th-f-color">{this.props.header}</h3>
-                    <p className="t-light th-f-color permissionsPopup-text">
+                    <p className="t-light t-small th-f-color permissionsPopup-text">
                         {this.props.body}
                     </p>
                 </div>

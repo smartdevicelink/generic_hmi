@@ -8,6 +8,8 @@ import FileSystemController from './FileSystemController'
 import { PermissionsPopup } from '../PermissionsPopups';
 import ttsController from './TTSController';
 
+import FillConsumerFriendlyMessages, { GatherLabels } from '../Utils/FillConsumerFriendlyMessages';
+
 import toast from 'react-hot-toast';
 
 var activatingApplication = 0
@@ -81,10 +83,13 @@ class SDLController {
 
                 if (rpc.params.appRevoked) {
                     this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
+                        var revokedApp = store.getState().appList.find((app) => {
+                            return app.appID === rpc.params.appID;
+                        });
                         var heading = 'App was revoked';
-                        var body = `app ${rpc.params.appID} has been revoked`;
+                        var body = `app ${revokedApp.appName} has been revoked`;
                         if (response.result.messages && response.result.messages.length === 1) {
-                            var msg = response.result.messages[0];
+                            var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
                             if (msg.tts) { ttsController.queueTTS(msg.tts); }
@@ -93,10 +98,13 @@ class SDLController {
                     });
                 } else if (rpc.params.appUnauthorized) {
                     this.getUserFriendlyMessage([ "AppUnauthorized" ], (response) => {
+                        var unauthorizedApp = store.getState().appList.find((app) => {
+                            return app.appID === rpc.params.appID;
+                        });
                         var heading = 'App is not authorized';
-                        var body = `app ${rpc.params.appID} is not authorized to run on this head unit`;
+                        var body = `app ${unauthorizedApp.appName} is not authorized to run on this head unit`;
                         if (response.result.messages && response.result.messages.length === 1) {
-                            var msg = response.result.messages[0];
+                            var msg = FillConsumerFriendlyMessages(unauthorizedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
                             if (msg.tts) { ttsController.queueTTS(msg.tts); }
@@ -109,19 +117,22 @@ class SDLController {
                     var messageCodes = rpc.params.appRevokedPermissions.map(x => x.name);
                     messageCodes.push('AppPermissionsRevoked');
                     this.getUserFriendlyMessage(messageCodes, (response) => {
-                        var revokedPermissions = [];
+                        var revokedApp = store.getState().appList.find((app) => {
+                            return app.appID === rpc.params.appID;
+                        });
+                        var labels = '';
                         if (response.result.messages) {
+                            labels = GatherLabels(response.result.messages);
                             for (var msg of response.result.messages) {
                                 if (msg.messageCode === 'AppPermissionsRevoked') {
-                                    ttsController.queueTTS(msg.tts);
-                                } else {
-                                    revokedPermissions.push(msg.label);
+                                    ttsController.queueTTS(FillConsumerFriendlyMessages(revokedApp.appName, [msg.tts], labels)[0].tts);
+                                    break;
                                 }
                             }
                         } else {
-                            revokedPermissions = messageCodes.map(code => code.name);
+                            labels = messageCodes.map(code => code.name).join(', ');
                         }
-                        toast((_toast) => (<PermissionsPopup _toast={_toast} header='App Permissions Revoked' body={revokedPermissions.join(' ')}/>), { duration: 5000 });
+                        toast((_toast) => (<PermissionsPopup _toast={_toast} header='App Permissions Revoked' body={labels}/>), { duration: 5000 });
                     });
                 }
                 return null;
@@ -139,10 +150,13 @@ class SDLController {
                     this.getListOfPermissions(activatingApplication)
                 } else if (rpc.result.isAppRevoked) {
                     this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
+                        var revokedApp = store.getState().appList.find((app) => {
+                            return app.appID === activatingApplication;
+                        });
                         var heading = 'App is revoked';
-                        var body = 'the app you tried to start does not have permission to run';
+                        var body = `${revokedApp.appName} does not have permission to run`;
                         if (response.result.messages && response.result.messages.length === 1) {
-                            var msg = response.result.messages[0];
+                            var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
                             if (msg.tts) { ttsController.queueTTS(msg.tts); }
