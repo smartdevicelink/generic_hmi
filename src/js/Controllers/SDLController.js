@@ -45,13 +45,18 @@ class SDLController {
     toastStatus(status) {
         if (!this.statusMessages[status]) {
             this.getUserFriendlyMessage([ "StatusNeeded", "StatusPending", "StatusUpToDate" ], (response) => {
-                for (var msg of response.result.messages) {
-                    this.statusMessages[this.cfmToUpdateResult[msg.messageCode]] = msg;
+                if (response.result.messages) {
+                    for (var msg of response.result.messages) {
+                        this.statusMessages[this.cfmToUpdateResult[msg.messageCode]] = msg;
+                    }
+                } else {
+                    this.statusMessages['UPDATE_NEEDED'] = 'Update Needed';
+                    this.statusMessages['UPDATING'] = 'Updating';
+                    this.statusMessages['UP_TO_DATE'] = 'Update Complete';
                 }
+                
 
-                if (this.statusMessages[status]) {
-                    this.toastStatus(status);
-                }
+                this.toastStatus(status);
             });
         } else {
             if (this.statusMessages[status].tts) { ttsController.queueTTS(this.statusMessages[status].tts); }
@@ -105,12 +110,16 @@ class SDLController {
                     messageCodes.push('AppPermissionsRevoked');
                     this.getUserFriendlyMessage(messageCodes, (response) => {
                         var revokedPermissions = [];
-                        for (var msg of response.result.messages) {
-                            if (msg.messageCode === 'AppPermissionsRevoked') {
-                                ttsController.queueTTS(msg.tts);
-                            } else {
-                                revokedPermissions.push(msg.label);
+                        if (response.result.messages) {
+                            for (var msg of response.result.messages) {
+                                if (msg.messageCode === 'AppPermissionsRevoked') {
+                                    ttsController.queueTTS(msg.tts);
+                                } else {
+                                    revokedPermissions.push(msg.label);
+                                }
                             }
+                        } else {
+                            revokedPermissions = messageCodes.map(code => code.name);
                         }
                         toast((_toast) => (<PermissionsPopup _toast={_toast} header='App Permissions Revoked' body={revokedPermissions.join(' ')}/>), { duration: 5000 });
                     });
@@ -239,12 +248,16 @@ class SDLController {
                 var allowedFunctions = rpc.result.allowedFunctions;
                 if (allowedFunctions && allowedFunctions.length) {
                     this.getUserFriendlyMessage(allowedFunctions.map(f => f.name), (response) => {
-                        for (var msg of response.result.messages) {
-                            for (var f of allowedFunctions) {
-                                if (f.name === msg.messageCode) {
-                                    f.title = msg.label;
-                                    f.body = msg.textBody;
-                                    break;
+                        for (var f of allowedFunctions) {
+                            if (!response.result.messages || response.result.messages.length === 0) {
+                                f.title = f.name;
+                            } else {
+                                for (var msg of response.result.messages) {
+                                    if (f.name === msg.messageCode) {
+                                        f.title = msg.label;
+                                        f.body = msg.textBody;
+                                        break;
+                                    }
                                 }
                             }
                         }
