@@ -144,6 +144,14 @@ class TTSController {
             case "SetGlobalProperties":
                 return true
             case "Speak":
+                if (this.speakID) {
+                    this.listener.send(RpcFactory.ErrorResponse(
+                        rpc, 
+                        4, 
+                        "Speak request already in progress"
+                    ));
+                    return null;
+                }
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
                 for (var i=0; i<ttsChunks.length; i++) {
