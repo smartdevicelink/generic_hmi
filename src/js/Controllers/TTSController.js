@@ -167,10 +167,7 @@ class TTSController {
                     return null;
                 }
                 const infoString = "No active TTS";
-                this.listener.send(RpcFactory.ErrorResponse(rpc, 6, infoString))
-                return null;
-
-
+                return { rpc: RpcFactory.ErrorResponse(rpc, 6, infoString) }
             default:
                 return false;
         }
