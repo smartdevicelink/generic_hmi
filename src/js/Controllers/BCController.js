@@ -106,10 +106,14 @@ class BCController {
                 if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING'
                     && rpc.params.appCapability.videoStreamingCapability) {
                     var vsc = rpc.params.appCapability.videoStreamingCapability;
-                    if (!vsc.additionalVideoStreamingCapabilities) {
-                        vsc.additionalVideoStreamingCapabilities = [];
+                    var vsCapabilities = []
+                    if (vsc.additionalVideoStreamingCapabilities) {
+                        vsCapabilities = vsc.additionalVideoStreamingCapabilities.filter((cap) => {
+                            var pR = cap.preferredResolution;
+                            return cap.scale && pR && pR.resolutionWidth && pR.resolutionHeight;
+                        });
                     }
-                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsc.additionalVideoStreamingCapabilities));
+                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsCapabilities));
                 }
                 return null;
             default:
