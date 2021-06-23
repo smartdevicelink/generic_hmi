@@ -1,14 +1,22 @@
 import RpcFactory from './RpcFactory'
 class TTSController {
     constructor () {
-        this.addListener = this.addListener.bind(this)
+        this.addListener = this.addListener.bind(this);
+        this.onResetTimeout = this.onResetTimeout.bind(this);
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
         this.speakID = null;
         this.currentlyPlaying = null;
+        this.timers = {};
+        this.speechSynthesisInterval = null;
+
     }
     addListener(listener) {
         this.listener = listener
+    }
+
+    onResetTimeout(appID, methodName) {
+        this.listener.send(RpcFactory.OnResetTimeout(appID, "TTS", methodName))
     }
 
     playAudio() {
@@ -88,6 +96,10 @@ class TTSController {
             }
         }
 
+        if (this.speechSynthesisInterval) {
+            clearInterval(this.speechSynthesisInterval);
+        }
+
         this.currentlyPlaying = "TEXT";
         speechPlayer.text = text;
         speechPlayer.volume = 1;
@@ -95,6 +107,16 @@ class TTSController {
         speechPlayer.pitch = 0;
         window.speechSynthesis.speak(speechPlayer)
 
+        // Workaround for chrome issue where long utterances time out
+        this.speechSynthesisInterval = setInterval(() => {
+            if (!window.speechSynthesis.speaking) {
+                clearInterval(this.speechSynthesisInterval)
+                this.speechSynthesisInterval = null;
+            } else {
+                window.speechSynthesis.pause();
+                window.speechSynthesis.resume();
+            }
+        }, 14000);
     }
 
     stopSpeak(stopSpeakingID) {
@@ -121,7 +143,7 @@ class TTSController {
         }
         this.listener.send(RpcFactory.TTSSpeakSuccess(this.speakID));
         this.listener.send(RpcFactory.TTSStoppedNotification());
-
+        clearInterval(this.timers[this.speakID]);
         this.speakID = null;
         this.currentlyPlaying = null;
     }
@@ -167,7 +189,7 @@ class TTSController {
                         this.speak();
                     }
                 }
-                
+                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
                 return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {
