@@ -69,6 +69,7 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
+        store.dispatch(resetTimeout(this.state.resetPeriodValue)); 
     }
     handleClick() {
         var theme = !this.state.dark
@@ -123,8 +124,10 @@ class HMIApp extends React.Component {
 
     changeResetPeriod(event) {
         this.setState({ resetPeriodValue: event.target.value }); 
-        store.dispatch(resetTimeout(event.target.value));   
-        console.log(store.getState().ui[undefined].resetTimeout.resetTimeoutValue)
+        store.dispatch(resetTimeout({
+            resetPeriod: event.target.value,
+            appID: store.getState().activeApp
+        }));   
     }
 
     onTouchEvent(type, event) {

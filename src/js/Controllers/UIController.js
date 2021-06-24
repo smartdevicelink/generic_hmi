@@ -12,6 +12,7 @@ import {
     setMediaClockTimer,
     setTemplateConfiguration,
     alert,
+    alertTimeoutReseted,
     closeAlert,
     setGlobalProperties,
     deactivateInteraction,
@@ -632,6 +633,34 @@ class UIController {
                 c: [ window.lastTouch ]
             }]);
         }
+    }
+
+    resetAlertTimeout() {
+        let activeApp = store.getState().activeApp;
+        let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
+        let messageId = store.getState().ui[activeApp].alert.msgID;
+
+        clearTimeout(this.timers[messageId]);
+        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod, messageId, activeApp, activeApp, false)
+
+        this.appsWithTimers[messageId] = activeApp;
+
+        this.onSystemContext("ALERT", activeApp)
+
+        if (!activeApp) {
+            this.onSystemContext("HMI_OBSCURED", activeApp)
+        }
+
+        // TODO:
+
+        // let alertImages = [rpc.params.alertIcon];
+        // if (rpc.params.softButtons) {
+        //         rpc.params.softButtons.forEach (softBtn => {
+        //             if (softBtn.image) { alertImages.push(softBtn.image); }
+        //         });
+        //     }
+        // AddImageValidationRequest(messageId, alertImages);
+
     }
 }
 

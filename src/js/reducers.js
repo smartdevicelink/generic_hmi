@@ -53,6 +53,9 @@ function newAppState () {
         resetTimeout: {
             resetTimeoutValue: 10000
         },
+        alertTimeoutReseted: {
+            isAlertTimeoutReseted: false
+        },
         dayColorScheme: null,
         nightColorScheme: null,
         videoStreamingCapability: [
@@ -633,6 +636,9 @@ function ui(state = {}, action) {
             return newState
         case Actions.RESET_TIMEOUT:
             app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
+            return newState
+        case Actions.RESET_ALERT_TIMEOUT:
+            app.alertTimeoutReseted.isAlertTimeoutReseted = action.payload.resetAlertTimeout;
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {

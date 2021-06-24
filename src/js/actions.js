@@ -24,6 +24,7 @@ export const Actions = {
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
     RESET_TIMEOUT: "RESET_TIMEOUT",
+    RESET_ALERT_TIMEOUT: "RESET_ALERT_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
@@ -270,11 +271,21 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
     }
 }
 
-export const resetTimeout = (resetPeriod) => {
+export const resetTimeout = (data) => {
     return {
         type: Actions.RESET_TIMEOUT,
         payload: {
-            resetPeriod: resetPeriod
+            resetPeriod: data.resetPeriod
+        },
+        appID: data.appID
+    }
+}
+
+export const alertTimeoutReseted = (resetAlertTimeout) => {
+    return {
+        type: Actions.RESET_ALERT_TIMEOUT,
+        payload: {
+            resetAlertTimeout: resetAlertTimeout
         } 
     }
 }
