@@ -68,6 +68,20 @@ class TTSController {
 
         var text = this.filePlaylist[0].text;
         this.filePlaylist.shift();
+        
+        // Dont allow empty strings
+        if (!text) {
+            if(this.filePlaylist[0]) {
+                if(this.filePlaylist[0].type === "FILE") {
+                    this.playAudio();
+                } else if (this.filePlaylist[0].type === "TEXT"){
+                    this.speak();
+                }    
+            } else {
+                this.speakEnded();
+            }
+            return;
+        }
 
         var speechPlayer = new SpeechSynthesisUtterance();
 
