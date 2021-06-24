@@ -794,6 +794,9 @@ function system(state = {}, action) {
             newState.openPermissionsView = true;
             newState.editingPermissionsAppId = action.appID;
             newState.allowedFunctions = action.allowedFunctions;
+            if (action.permissionsAppAwaitingActivation) {
+                newState.permissionsAppAwaitingActivation = action.permissionsAppAwaitingActivation;
+            }
             return newState;
         case Actions.RESET_OPEN_PERMISSIONS_VIEW:
             newState.openPermissionsView = false;
@@ -802,6 +805,9 @@ function system(state = {}, action) {
             newState.openPermissionsView = false;
             newState.editingPermissionsAppId = undefined;
             newState.allowedFunctions = [];
+            return newState;
+        case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
+            newState.permissionsAppAwaitingActivation = false;
             return newState;
         default:
             return state

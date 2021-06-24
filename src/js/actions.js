@@ -57,7 +57,8 @@ export const Actions = {
     SET_HAPTIC_DATA: "SET_HAPTIC_DATA",
     OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
     RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
-    CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW"
+    CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
+    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS"
 }
 
 export const updateAppList = (applications) => {
@@ -548,10 +549,11 @@ export const setHapticData = (appID, hapticRects) => ({
     hapticRects: hapticRects
 });
 
-export const openPermissionsView = (appID, allowedFunctions) => ({
+export const openPermissionsView = (appID, allowedFunctions, permissionsAppAwaitingActivation=false) => ({
     type: Actions.OPEN_PERMISSIONS_VIEW,
     appID: appID,
-    allowedFunctions: allowedFunctions
+    allowedFunctions: allowedFunctions,
+    permissionsAppAwaitingActivation: permissionsAppAwaitingActivation ? appID : false
 });
 
 export const resetOpenPermissionsView = () => ({
@@ -560,4 +562,8 @@ export const resetOpenPermissionsView = () => ({
 
 export const closePermissionsView = () => ({
     type: Actions.CLOSE_PERMISSIONS_VIEW
+});
+
+export const clearAppAwaitingPermissions = () => ({
+    type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
 });

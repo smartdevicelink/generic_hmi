@@ -146,24 +146,7 @@ class SDLController {
         switch (methodName) {
             case "ActivateApp":
                 store.dispatch(clearPendingAppLaunch());
-                if (rpc.result.isPermissionsConsentNeeded) {
-                    this.getListOfPermissions(activatingApplication)
-                } else if (rpc.result.isAppRevoked) {
-                    this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
-                        var revokedApp = store.getState().appList.find((app) => {
-                            return app.appID === activatingApplication;
-                        });
-                        var heading = 'App is revoked';
-                        var body = `${revokedApp.appName} does not have permission to run`;
-                        if (response.result.messages && response.result.messages.length === 1) {
-                            var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
-                            if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
-                            if (msg.textBody) { body = msg.textBody; }
-                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
-                        }
-                        toast((_toast) => (<PermissionsPopup _toast={_toast} header={heading} body={body}/>), { duration: 5000 });
-                    });
-                } else if (!rpc.result.isSDLAllowed) {
+                if (!rpc.result.isSDLAllowed) {
                     this.getUserFriendlyMessage([ "DataConsent" ], (response) => {
                         var header = "Allow SDL?";
                         var body = "FAILED to GetUserFriendlyMessage DataConsent, allow SDL functionality?";
@@ -180,6 +163,9 @@ class SDLController {
                                     onClick: () => { 
                                         toast.dismiss(_toast.id);
                                         bcController.onAllowSDLFunctionality(true, 'GUI');
+                                        if (rpc.result.isPermissionsConsentNeeded) {
+                                            this.getListOfPermissions(activatingApplication, true);
+                                        }
                                     } 
                                 },
                                 {
@@ -207,6 +193,23 @@ class SDLController {
                             ]}/>
                         ), { duration: 30000 });
                     });
+                } else if (rpc.result.isAppRevoked) {
+                    this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
+                        var revokedApp = store.getState().appList.find((app) => {
+                            return app.appID === activatingApplication;
+                        });
+                        var heading = 'App is revoked';
+                        var body = `${revokedApp.appName} does not have permission to run`;
+                        if (response.result.messages && response.result.messages.length === 1) {
+                            var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
+                            if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
+                            if (msg.textBody) { body = msg.textBody; }
+                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                        }
+                        toast((_toast) => (<PermissionsPopup _toast={_toast} header={heading} body={body}/>), { duration: 5000 });
+                    });
+                } else if (rpc.result.isPermissionsConsentNeeded) {
+                    this.getListOfPermissions(activatingApplication);
                 } else {
                     store.dispatch(activateApp(activatingApplication))
                 } 
@@ -258,7 +261,7 @@ class SDLController {
                 }
                 return;
             case "GetListOfPermissions":
-                var appID = permissionsPendingApps[rpc.id];
+                var { appID, pendingActivation } = permissionsPendingApps[rpc.id];
                 var allowedFunctions = rpc.result.allowedFunctions;
                 if (allowedFunctions && allowedFunctions.length) {
                     this.getUserFriendlyMessage(allowedFunctions.map(f => f.name), (response) => {
@@ -276,7 +279,7 @@ class SDLController {
                             }
                         }
 
-                        store.dispatch(openPermissionsView(appID, allowedFunctions));
+                        store.dispatch(openPermissionsView(appID, allowedFunctions, pendingActivation));
                     });
                 } else {
                     store.dispatch(openPermissionsView(appID, []));
@@ -316,9 +319,9 @@ class SDLController {
     onReceivedPolicyUpdate(policyFile) {
         this.listener.send(RpcFactory.OnReceivedPolicyUpdate(policyFile))
     }
-    getListOfPermissions(appID) {
+    getListOfPermissions(appID, pendingActivation=false) {
         var request = RpcFactory.GetListOfPermissions(appID);
-        permissionsPendingApps[request.id] = appID;
+        permissionsPendingApps[request.id] = { appID: appID, pendingActivation: pendingActivation };
         this.listener.send(request)
     }
     onAppPermissionConsent(allowedFunctions, externalConsentStatus) {

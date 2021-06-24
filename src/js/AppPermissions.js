@@ -5,19 +5,21 @@ import AppHeader from './containers/Header';
 import sdlController from './Controllers/SDLController';
 import { Link } from 'react-router-dom';
 import store from './store';
-import { closePermissionsView } from './actions'
+import { closePermissionsView, clearAppAwaitingPermissions } from './actions'
 
 const mapStateToProps = (state) => {
     var theme = state.theme
     var editingAppID = state.system.editingPermissionsAppId;
     var allowedFunctions = state.system.allowedFunctions;
+    var pendingActivation = state.system.permissionsAppAwaitingActivation;
 
     return {
         theme: theme,
         editingAppID: editingAppID,
         allowedFunctions: allowedFunctions,
         activeLayout: state.ui[editingAppID]?.displayLayout,
-        appOptions: state.appList
+        appOptions: state.appList,
+        pendingActivation: pendingActivation
     };
 }
 
@@ -45,20 +47,14 @@ class Permissions extends React.Component {
     }
 
     savePermissions() {
-        var different = []
-        for (var f_changed of this.state.allowedFunctions) {
-            for (var f_original of this.props.allowedFunctions) {
-                if (f_changed.name === f_original.name) {
-                    if (f_changed.allowed !== f_original.allowed) {
-                        different.push({ id: f_changed.id, name: f_changed.name, allowed: f_changed.allowed });
-                    }
-                    break;
-                }
-            }
-        }
+        var allowedFunctions = this.state.allowedFunctions.map((f) => ({
+            id: f.id, name: f.name, allowed: f.allowed
+        }));
+        sdlController.onAppPermissionConsent(this.props.editingAppID, allowedFunctions);
 
-        if (different.length > 0) {
-            sdlController.onAppPermissionConsent(this.props.editingAppID, different);
+        if (this.props.pendingActivation === this.props.editingAppID) {
+            sdlController.onAppActivated(this.props.editingAppID);
+            store.dispatch(clearAppAwaitingPermissions());
         }
     }
 
@@ -86,7 +82,7 @@ class Permissions extends React.Component {
             <div>
                 <AppHeader backLink={'/permissions'} menuName="Back"
                     icon='custom' 
-                    jsxIcon={<div><Link to={'/'}
+                    jsxIcon={<div><Link to={this.props.pendingActivation === this.props.editingAppID?this.props.activeLayout:'/'}
                         className="t-small t-medium th-f-color t-ls1"
                         onClick={() => { this.savePermissions(); }}>SAVE</Link></div>} />
                 <div className="vscrollmenu">
