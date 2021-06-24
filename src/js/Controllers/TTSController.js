@@ -183,12 +183,9 @@ class TTSController {
                 return true
             case "Speak":
                 if (this.speakID) {
-                    this.listener.send(RpcFactory.ErrorResponse(
-                        rpc, 
-                        4, 
-                        "Speak request already in progress"
-                    ));
-                    return null;
+                    return { 
+                        rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
+                    };
                 }
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
