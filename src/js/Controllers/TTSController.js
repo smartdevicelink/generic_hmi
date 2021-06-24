@@ -147,7 +147,7 @@ class TTSController {
         }
         this.filePlaylist = [];
         this.currentlyPlaying = null;
-        clearInterval(this.timers[this.speakID]);
+        clearInterval(this.timers[speakID]);
         this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
         this.listener.send(RpcFactory.TTSSpeakAborted(speakID));
         this.listener.send(RpcFactory.TTSStoppedNotification());
