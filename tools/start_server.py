@@ -345,7 +345,7 @@ class RPCService(WSServer.SampleRPCService):
     try:
       out_file = open(crt_file_path, 'w')
       out_file.write(cert_out + key_out)
-      out_file.close
+      out_file.close()
     except Exception as e:
       return RPCService.gen_error_msg('Failed to write to certificate file {0:}'.format(e))
 
