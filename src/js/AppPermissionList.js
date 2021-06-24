@@ -34,7 +34,7 @@ class Permissions extends React.Component {
 
         return (
             <div>
-                <AppHeader backLink={'/'} menuName="Exit" />
+                <AppHeader backLink={'/'} menuName="Exit" icon="false" />
                 <div className="vscrollmenu">
                     { options }
                 </div>
