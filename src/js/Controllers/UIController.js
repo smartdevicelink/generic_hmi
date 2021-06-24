@@ -691,7 +691,6 @@ class UIController {
             this.onSystemContext(systemContext, appID)
         }
         this.onSystemContext(systemContext, context)
-
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]

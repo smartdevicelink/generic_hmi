@@ -177,7 +177,9 @@ class AppHeader extends React.Component {
                 className={'app-body alertModal'}
                 overlayClassName={`${themeClass} alertOverlay`}
                 contentLabel="Example Modal"
-                onRequestClose={this.closeAudioPassThru}
+                onRequestClose={() => {
+                    this.closeAudioPassThru("ABORTED")
+                }}
                 >
                     <PerformAudioPassThru
                         theme={this.props.theme}
@@ -185,7 +187,7 @@ class AppHeader extends React.Component {
                         appName={this.props.aptAppName}
                         resultCallback={(result) => {
                             this.closeAudioPassThru(result)
-                        }}    
+                        }}
                     />
                 </Modal>
             </div>
