@@ -38,6 +38,7 @@ const getNextSystemContext = () => {
     return "MAIN"
 }
 
+const RESPONSE_CORRELATION_MS = 1000;
 class UIController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -281,7 +282,6 @@ class UIController {
                 const context = state.activeApp
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                const RESPONSE_CORRELATION_MS = 1000;
                 if(!('softButtons' in rpc.params))
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
                 
@@ -643,7 +643,7 @@ class UIController {
         let messageId = store.getState().ui[activeApp].alert.msgID;
 
         clearTimeout(this.timers[messageId]);
-        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod, messageId, activeApp, activeApp, false)
+        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId, activeApp, activeApp, false)
 
         this.appsWithTimers[messageId] = activeApp;
         this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
