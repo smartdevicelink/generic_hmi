@@ -542,13 +542,14 @@ class RpcFactory {
             }
         })
     }
-    static OnResetTimeout(appID, methodName) {
+    static OnResetTimeout(requestID, methodName, resetPeriod) {
         return ({
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnResetTimeout',
             'params': {
-                'appID': appID,
-                'methodName': methodName
+                'requestID': requestID,
+                'methodName': methodName,
+                'resetPeriod': resetPeriod
             }           
         })
     }

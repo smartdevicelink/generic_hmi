@@ -644,6 +644,8 @@ class UIController {
         this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod, messageId, activeApp, activeApp, false)
 
         this.appsWithTimers[messageId] = activeApp;
+        this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
+        this.onSystemContext("ALERT", activeApp);
 
         // this.onSystemContext("ALERT", activeApp)
 
