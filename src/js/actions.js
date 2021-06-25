@@ -23,6 +23,8 @@ export const Actions = {
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     ALERT: "ALERT",
+    RESET_TIMEOUT: "RESET_TIMEOUT",
+    RESET_ALERT_TIMEOUT: "RESET_ALERT_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
@@ -268,6 +270,28 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         isSubtle: isSubtle
     }
 }
+
+export const resetTimeout = (data) => {
+    return {
+        type: Actions.RESET_TIMEOUT,
+        payload: {
+            resetPeriod: data.resetPeriod
+        },
+        appID: data.appID
+    }
+}
+
+export const alertTimeoutReseted = (data) => {
+    return {
+        type: Actions.RESET_ALERT_TIMEOUT,
+        payload: {
+            resetAlertTimeout: data.resetAlertTimeout
+        },
+        appID: data.appID
+    }
+}
+
+
 
 export const closeAlert = (msgID, appID) => {
     return {
