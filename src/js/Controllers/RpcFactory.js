@@ -547,9 +547,9 @@ class RpcFactory {
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnResetTimeout',
             'params': {
-                'requestID': requestID,
+                'requestID': parseInt(requestID),
                 'methodName': methodName,
-                'resetPeriod': resetPeriod
+                'resetPeriod': parseInt(resetPeriod)
             }           
         })
     }
