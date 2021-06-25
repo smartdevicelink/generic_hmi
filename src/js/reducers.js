@@ -67,6 +67,12 @@ function newAppState () {
             duration: 0,
             cancelID: null
         },
+        audioPassThru: {
+            active: false,
+            textFields: [],
+            duration: 0,
+            msgID: null
+        },
         dayColorScheme: null,
         nightColorScheme: null,
         videoStreamingCapability: [
@@ -650,6 +656,20 @@ function ui(state = {}, action) {
                 duration: 0,
                 cancelID: null
             };
+            return newState;
+        case Actions.PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru.active = true;
+            app.audioPassThru.textFields = action.aptTextFields;
+            app.audioPassThru.duration = action.duration;
+            app.audioPassThru.msgID = action.msgID
+            return newState;
+        case Actions.CLOSE_PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru = {
+                active: false,
+                textFields: [],
+                duration: 0,
+                msgID: null
+            }
             return newState;
         case Actions.ALERT:
             app.alert.showAlert = true

@@ -102,6 +102,16 @@ class RpcFactory {
             }
         })
     }
+    static PerformAudioPassThruResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.PerformAudioPassThru'
+            }
+        });
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
