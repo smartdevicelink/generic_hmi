@@ -91,6 +91,12 @@ export default class Alert extends React.Component {
         //         <p>TTS.Speak: {this.state.speakCounter}</p>
         //     </>
         // }
+        let resetTimeoutHTML = store.getState().ui[store.getState().activeApp].alert.softButtons !== undefined ?
+        undefined :
+        <><div className="timeout-box">
+            <p>UI.Alert: {this.state.alertCounter}</p>
+            </div>
+        <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button></>
 
         return (
             <div className="alert">
@@ -107,20 +113,11 @@ export default class Alert extends React.Component {
                 <div className="alert-reset-box">
                     <div className="checkItems">
                         <p>
-                            <input
-                                name="Alert"            
-                                type="checkbox"
-                                defaultChecked={this.state.alertChecked}
-                                onChange={() => this.setState(prevState => ({alertChecked: !prevState.alertChecked}))}/>
                             <label>Alert</label>
                         </p>
                         {speakCheckbox}
                     </div>
-                    <div className="timeout-box">
-                        <p>UI.Alert: {this.state.alertCounter}</p>
-                        {/* {speakCounter} */}
-                    </div>
-                    <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button>
+                    {resetTimeoutHTML}
                 </div>
             </div>
         )
