@@ -645,11 +645,14 @@ class UIController {
 
         this.appsWithTimers[messageId] = activeApp;
 
-        this.onSystemContext("ALERT", activeApp)
+        // this.onSystemContext("ALERT", activeApp)
 
-        if (!activeApp) {
-            this.onSystemContext("HMI_OBSCURED", activeApp)
-        }
+        // if (!activeApp) {
+        //     this.onSystemContext("HMI_OBSCURED", activeApp)
+        // }
+
+        console.log(store.getState().ui[activeApp].alertTimeoutReseted.isAlertTimeoutReseted)
+      
 
         // TODO:
 

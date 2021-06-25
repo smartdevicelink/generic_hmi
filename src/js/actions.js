@@ -281,14 +281,17 @@ export const resetTimeout = (data) => {
     }
 }
 
-export const alertTimeoutReseted = (resetAlertTimeout) => {
+export const alertTimeoutReseted = (data) => {
     return {
         type: Actions.RESET_ALERT_TIMEOUT,
         payload: {
-            resetAlertTimeout: resetAlertTimeout
-        } 
+            resetAlertTimeout: data.resetAlertTimeout
+        },
+        appID: data.appID
     }
 }
+
+
 
 export const closeAlert = (msgID, appID) => {
     return {

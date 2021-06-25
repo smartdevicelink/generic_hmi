@@ -54,7 +54,7 @@ function newAppState () {
             resetTimeoutValue: 10000
         },
         alertTimeoutReseted: {
-            isAlertTimeoutReseted: false
+            isAlertTimeoutReseted: true
         },
         dayColorScheme: null,
         nightColorScheme: null,
@@ -638,7 +638,7 @@ function ui(state = {}, action) {
             app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
             return newState
         case Actions.RESET_ALERT_TIMEOUT:
-            app.alertTimeoutReseted.isAlertTimeoutReseted = action.payload.resetAlertTimeout;
+            app.alertTimeoutReseted.isAlertTimeoutReseted = !app.alertTimeoutReseted.isAlertTimeoutReseted;
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {

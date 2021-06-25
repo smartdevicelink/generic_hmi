@@ -187,7 +187,6 @@
     .checkItems {
         color: #ccc; 
         font-weight: bold;
-        @include display(flex);
     }
     @include display(flex);
     @include align-items(center);
