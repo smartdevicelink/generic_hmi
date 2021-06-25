@@ -66,20 +66,23 @@
 
 .slider-react-component {
     padding-top: 25px;
-    padding-right: 8px;
+    padding-right: 15px;
     margin: -5px 0px;
 
-    .slider-rail {
-        position: absolute;
-        top: 45.4%;
-        height: 12px;
+    .rc-slider-rail, .rc-slider-track, .rc-slider-dot {
+        border-radius: 0;
     }
 }
 
 .slider-button {
-    padding: 0px 20px;
+    width: 60px;
     z-index: 5;
     cursor: pointer;
+    user-select: none;
+
+    p {
+        text-align: center;
+    }
 }
 
 .slider-footer {
