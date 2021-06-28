@@ -61,7 +61,7 @@ class SDLController {
                 this.toastStatus(status);
             });
         } else {
-            if (this.statusMessages[status].tts) { ttsController.queueTTS(this.statusMessages[status].tts); }
+            if (this.statusMessages[status].ttsString) { ttsController.queueTTS(this.statusMessages[status].ttsString); }
             toast((_toast) => (<PermissionsPopup _toast={_toast} header={this.statusMessages[status].line1}/>), { duration: 2000 });
         }
     }
@@ -92,7 +92,7 @@ class SDLController {
                             var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
-                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                            if (msg.ttsString) { ttsController.queueTTS(msg.ttsString); }
                         }
                         toast((_toast) => (<PermissionsPopup _toast={_toast} header={heading} body={body}/>), { duration: 5000 });
                     });
@@ -107,7 +107,7 @@ class SDLController {
                             var msg = FillConsumerFriendlyMessages(unauthorizedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
-                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                            if (msg.ttsString) { ttsController.queueTTS(msg.ttsString); }
                         }
                         toast((_toast) => (<PermissionsPopup _toast={_toast} header={heading} body={body}/>), { duration: 5000 });
                     });
@@ -125,7 +125,7 @@ class SDLController {
                             labels = GatherLabels(response.result.messages);
                             for (var msg of response.result.messages) {
                                 if (msg.messageCode === 'AppPermissionsRevoked') {
-                                    ttsController.queueTTS(FillConsumerFriendlyMessages(revokedApp.appName, [msg.tts], labels)[0].tts);
+                                    ttsController.queueTTS(FillConsumerFriendlyMessages(revokedApp.appName, [msg.ttsString], labels)[0].ttsString);
                                     break;
                                 }
                             }
@@ -154,7 +154,7 @@ class SDLController {
                             var msg = response.result.messages[0];
                             if (msg.line1 || msg.line2) { header = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
-                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                            if (msg.ttsString) { ttsController.queueTTS(msg.ttsString); }
                         }
                         toast((_toast) => (
                             <PermissionsPopup header={header} body={body} buttons={[
@@ -178,7 +178,7 @@ class SDLController {
                                                 var msg = helpResponse.result.messages[0];
                                                 if (msg.line1 || msg.line2) { header2 = [msg.line1,msg.line2].join(' '); }
                                                 if (msg.textBody) { body2 = msg.textBody; }
-                                                if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                                                if (msg.ttsString) { ttsController.queueTTS(msg.ttsString); }
                                             }
                                             toast((_toast) => (<PermissionsPopup _toast={_toast} header={header2} body={body2}/>));
                                         });
@@ -204,7 +204,7 @@ class SDLController {
                             var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
                             if (msg.textBody) { body = msg.textBody; }
-                            if (msg.tts) { ttsController.queueTTS(msg.tts); }
+                            if (msg.ttsString) { ttsController.queueTTS(msg.ttsString); }
                         }
                         toast((_toast) => (<PermissionsPopup _toast={_toast} header={heading} body={body}/>), { duration: 5000 });
                     });

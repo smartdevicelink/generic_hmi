@@ -12,10 +12,10 @@ export default function FillConsumerFriendlyMessages(appName, messages, labels=u
 
     var newMessages = [];
     for (var message of messages) {
-        if ('string' === typeof message.tts) {
-            message.tts = message.tts.replace(/%appName%/g, appName);
-            message.tts = message.tts.replace(/%vehicleMake%/g, 'SDL');
-            message.tts = message.tts.replace(/%functionalGroupLabels%/g, allLabels);
+        if ('string' === typeof message.ttsString) {
+            message.ttsString = message.ttsString.replace(/%appName%/g, appName);
+            message.ttsString = message.ttsString.replace(/%vehicleMake%/g, 'SDL');
+            message.ttsString = message.ttsString.replace(/%functionalGroupLabels%/g, allLabels);
         }
 
         if ('string' === typeof message.textBody) {
