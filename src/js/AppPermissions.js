@@ -53,7 +53,6 @@ class Permissions extends React.Component {
         sdlController.onAppPermissionConsent(this.props.editingAppID, allowedFunctions);
 
         if (this.props.pendingActivation === this.props.editingAppID) {
-            sdlController.onAppActivated(this.props.editingAppID);
             store.dispatch(clearAppAwaitingPermissions());
         }
     }
