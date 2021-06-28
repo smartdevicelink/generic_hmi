@@ -473,6 +473,92 @@ class UIController {
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            case "ClosePopUp": {
+                const state = store.getState()
+                for(const appID in state.ui) {
+                    const app = state.ui[appID];
+
+                    const methodName = rpc.params?.methodName ? rpc.params.methodName :
+                                    (app.alert.showAlert && !app.alert.isSubtle) ? "UI.Alert" :
+                                    (app.alert.showAlert && app.alert.isSubtle) ? "UI.SubtleAlert" :
+                                    (app.isPerformingInteraction) ? "UI.PerformInteraction":
+                                    (app.slider.showSlider) ? "UI.Slider":
+                                    (app.scrollableMessage.active) ? "UI.ScrollableMessage":
+                                    //TODO: Add condition for UI PerformAudioPassThru interaction
+                                    null
+                    if (!methodName) {
+                        continue;
+                    }
+
+                    switch (methodName) {
+                        case "UI.Alert": {
+                            if (!app.alert.showAlert || app.alert.isSubtle) {
+                                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.Alert interaction to close") };
+                            }
+                            clearTimeout(this.timers[app.alert.msgID])
+                            delete this.timers[app.alert.msgID]
+                            this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                            store.dispatch(closeAlert(app.alert.msgID, appID))
+                            const context = getNextSystemContext();
+                            this.onSystemContext(context, appID)
+                            return true;
+                        }
+                        case "UI.SubtleAlert": {
+                            if (!app.alert.showAlert || !app.alert.isSubtle) {
+                                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.SubtleAlert interaction to close") };
+                            }
+                            clearTimeout(this.timers[app.alert.msgID])
+                            delete this.timers[app.alert.msgID]
+                            this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 
+                                5, 'subtle alert was cancelled'))
+                            store.dispatch(closeAlert(app.alert.msgID, appID))
+                            const context = getNextSystemContext();
+                            this.onSystemContext(context, appID)
+                            return true;
+                        }
+                        case "UI.PerformInteraction": {
+                            if (!app.isPerformingInteraction) {
+                                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.PerformInteraction interaction to close") };
+                            }
+                            clearTimeout(this.timers[app.interactionId])
+                            delete this.timers[app.interactionId]
+                            this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
+                            store.dispatch(deactivateInteraction(appID))
+                            this.onSystemContext("MAIN", appID)
+                            return true;
+                        }
+                        case "UI.Slider": {
+                            if (!app.slider.showSlider) {
+                                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.Slider interaction to close") };
+                            }
+                            clearTimeout(this.timers[app.slider.msgID])
+                            delete this.timers[app.slider.msgID]
+                            this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
+                            store.dispatch(closeSlider(app.alert.msgID, appID))
+                            const context = getNextSystemContext();
+                            this.onSystemContext(context, appID)
+                            return true;
+                        }
+                        case "UI.ScrollableMessage": {
+                            if (!app.scrollableMessage.active) {
+                                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active UI.ScrollableMessage interaction to close") };
+                            }
+                            clearTimeout(this.timers[app.scrollableMessage.msgID]);
+                            delete this.timers[app.scrollableMessage.msgID];
+                            this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
+                            store.dispatch(closeScrollableMessage(app.alert.msgID, appID));
+                            const context = getNextSystemContext();
+                            this.onSystemContext(context, appID);
+                            return true;
+                        }
+                        // TODO: Implement case for UI PerformAudioPassThru Interaction
+                        // case "UI.PerformAudioPassThru": {
+                        //     return true;
+                        // }
+                    }
+                }
+                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };;
+            }
             case 'SendHapticData':
                 store.dispatch(setHapticData(rpc.params.appID, rpc.params.hapticRectData));
                 return { rpc: RpcFactory.UISendHapticDataSuccess(rpc) }

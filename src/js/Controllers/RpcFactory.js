@@ -317,7 +317,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 5,
-                "message": "The Interaction was cancelled",
+                "message": "The UI Interaction was cancelled",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
