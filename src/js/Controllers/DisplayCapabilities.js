@@ -86,7 +86,9 @@ let textWithGraphicCapabilities = {
 			textField("menuCommandSecondaryText"),
 			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText", 20)
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -132,7 +134,9 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("menuCommandSecondaryText"),
 			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText", 20)
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -203,7 +207,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -283,7 +289,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -332,7 +340,9 @@ let capabilities = {
 				textField("alertText3"),
 				textField("initialInteractionText", 50),
 				textField("sliderHeader", 70),
-				textField("sliderFooter", 70)
+				textField("sliderFooter", 70),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("appIcon", 50),
@@ -367,7 +377,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -426,7 +438,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -446,7 +460,9 @@ let capabilities = {
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
 				imageField("alertIcon", 225),
-				imageField("subtleAlertIcon", 225)
+				imageField("subtleAlertIcon", 225),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -486,7 +502,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -531,7 +549,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -589,7 +609,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -647,7 +669,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),

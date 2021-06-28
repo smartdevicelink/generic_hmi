@@ -4,6 +4,7 @@ import Modal from 'react-modal'
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
 import Slider from './Slider';
+import PerformAudioPassThru from './PerformAudioPassThru';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -80,6 +81,15 @@ class AppHeader extends React.Component {
     closeScrollable() {
         uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
             this.props.scrollableMessageAppId, this.props.activeApp);
+    }
+
+    closeAudioPassThru(result) {
+        uiController.onClosePerformAudioPassThru(
+            this.props.aptMsgID, 
+            this.props.aptAppID, 
+            this.props.activeApp,
+            result
+        );
     }
 
     getColorScheme() {
@@ -173,6 +183,24 @@ class AppHeader extends React.Component {
                         body={this.props.scrollableMessageBody}
                         buttons={this.props.softButtons}
                         appName={this.props.scrollableMessageAppName}/>
+                </Modal>
+                <Modal
+                isOpen={this.props.showPerformAudioPassThru}
+                className={'app-body alertModal'}
+                overlayClassName={`${themeClass} alertOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={() => {
+                    this.closeAudioPassThru("ABORTED")
+                }}
+                >
+                    <PerformAudioPassThru
+                        theme={this.props.theme}
+                        textFields={this.props.aptTextFields}
+                        appName={this.props.aptAppName}
+                        resultCallback={(result) => {
+                            this.closeAudioPassThru(result)
+                        }}
+                    />
                 </Modal>
             </div>
             

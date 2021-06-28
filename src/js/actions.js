@@ -24,6 +24,8 @@ export const Actions = {
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     SCROLLABLE_MESSAGE: "SCROLLABLE_MESSAGE",
     CLOSE_SCROLLABLE_MESSAGE: "CLOSE_SCROLLABLE_MESSAGE",
+    PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
+    CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
@@ -277,6 +279,24 @@ export const scrollableMessage = (appID, msgID, messageBody, softButtons, durati
 export const closeScrollableMessage = (msgID, appID) => {
     return {
         type: Actions.CLOSE_SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID
+    }
+}
+
+export const performAudioPassThru = (appID, textFields, duration, msgID) => {
+    return {
+        type: Actions.PERFORM_AUDIO_PASSTHRU,
+        appID: appID,
+        aptTextFields: textFields,
+        duration: duration,
+        msgID: msgID
+    }
+}
+
+export const closePerformAudioPassThru = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_PERFORM_AUDIO_PASSTHRU,
         appID: appID,
         msgID: msgID
     }
