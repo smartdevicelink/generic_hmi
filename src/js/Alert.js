@@ -9,6 +9,8 @@ import { alertTimeoutReseted } from './actions'
 import UIController from './Controllers/UIController'
 import TTSController from './Controllers/TTSController'
 import EventEmitter from "reactjs-eventemitter";
+
+const OUT_OF_BOUND_RESET_PERIOD = 1000;
 export default class Alert extends React.Component {
     constructor(props) {
         super(props);
@@ -30,6 +32,10 @@ export default class Alert extends React.Component {
         store.dispatch(alertTimeoutReseted(true));
 
         let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
+        if(count > OUT_OF_BOUND_RESET_PERIOD) {
+            EventEmitter.emit('OUT_OF_BOUND');
+            return;
+        }
         if (this.state.speakChecked && this.state.ttsStoped === false) {
             this.setState({speakCounter: count});
             TTSController.resetSpeakTimeout(this.state.alertChecked)
