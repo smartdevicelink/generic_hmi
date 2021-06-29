@@ -8,7 +8,7 @@ import store from './store.js'
 import { alertTimeoutReseted } from './actions'
 import UIController from './Controllers/UIController'
 import TTSController from './Controllers/TTSController'
-
+import EventEmitter from "reactjs-eventemitter";
 export default class Alert extends React.Component {
     constructor(props) {
         super(props);
@@ -16,19 +16,23 @@ export default class Alert extends React.Component {
             alertChecked: true,
             alertCounter: 5,
             ifSpeak: true,
-            speakChecked: true,
-            speakCounter: 5
+            speakChecked: store.getState().ui[store.getState().activeApp].alert.alertType === "BOTH",
+            speakCounter: 5,
+            ttsStoped: false
         }
         this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
+        EventEmitter.subscribe('TTSTimeout', () => {
+            this.setState({ttsStoped: true});
+        })
     }
 
     pressResetTimeoutButton(event) { 
         store.dispatch(alertTimeoutReseted(true));
 
         let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
-        if (this.state.speakChecked) {
+        if (this.state.speakChecked && this.state.ttsStoped === false) {
             this.setState({speakCounter: count});
-            TTSController.resetSpeakTimeout()
+            TTSController.resetSpeakTimeout(this.state.alertChecked)
         }
         if (this.state.alertChecked) {
             this.setState({alertCounter: count});
@@ -72,7 +76,7 @@ export default class Alert extends React.Component {
                  : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
 
         let speakCheckbox = undefined;
-        if (store.getState().ui[store.getState().activeApp].alert.alertType == "BOTH") {
+        if (store.getState().ui[store.getState().activeApp].alert.alertType == "BOTH" && this.state.ttsStoped === false) {
             speakCheckbox = (
                 <>
                     <p>

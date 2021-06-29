@@ -198,6 +198,14 @@ class HMIApp extends React.Component {
                 <label>Reset period, ms:</label><br/>
                 <input type="text" value={this.state.resetPeriodValue} onChange={this.changeResetPeriod} />
             </div>);
+            let state = store.getState();
+            if(parseInt(this.props.activeAppState.resetTimeout.resetTimeoutValue) 
+                !== parseInt(this.state.resetPeriodValue)) {
+                store.dispatch(resetTimeout({
+                    resetPeriod: this.state.resetPeriodValue,
+                    appID: store.getState().activeApp
+                })); 
+            }
         }
 
         return(
