@@ -6,7 +6,6 @@ class TTSController {
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
         this.playNext = this.playNext.bind(this);
-        this.speakID = null;
         this.currentlyPlaying = null;
         this.timers = {};
         this.speechSynthesisInterval = null;
@@ -71,13 +70,17 @@ class TTSController {
     }
 
     stopSpeak(stopSpeakingID) {
-        const speakID = this.speakID;
-        this.speakID = null;
+        var file = null;
+        while (file = this.filePlaylist.shift()) {
+            if (file.type === 'REPLY') {
+                clearInterval(this.timers[file.id]);
+                this.listener.send(RpcFactory.TTSSpeakAborted(file.id));
+            }
+        }
+
         this.cleanup();
-        clearInterval(this.timers[speakID]);
-        this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
-        this.listener.send(RpcFactory.TTSSpeakAborted(speakID));
         this.listener.send(RpcFactory.TTSStoppedNotification());
+        this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
     }
 
     cleanup() {
@@ -91,11 +94,6 @@ class TTSController {
     }
 
     speakEnded() {
-        if (this.speakID) {
-            this.listener.send(RpcFactory.TTSSpeakSuccess(this.speakID));
-            clearInterval(this.timers[this.speakID]);
-            this.speakID = null;
-        }
         this.cleanup();
         this.listener.send(RpcFactory.TTSStoppedNotification());
     }
@@ -119,6 +117,10 @@ class TTSController {
                 this.playAudio(file.text);
             } else if (file.type === "TEXT") {
                 this.speak(file.text);
+            } else if (file.type === "REPLY") {
+                clearInterval(this.timers[file.id]);
+                this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
+                return this.playNext();
             }
         } else {
             this.speakEnded();
@@ -143,7 +145,7 @@ class TTSController {
             case "SetGlobalProperties":
                 return true
             case "Speak":
-                if (this.speakID) {
+                if (this.currentlyPlaying) {
                     return { 
                         rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
                     };
@@ -152,13 +154,10 @@ class TTSController {
                 for (var i=0; i<ttsChunks.length; i++) {
                         this.filePlaylist.push(ttsChunks[i])
                 }
-                this.speakID = rpc.id;
-                this.listener.send(RpcFactory.TTSStartedNotification());
+                this.filePlaylist.push({ type: 'REPLY', id: rpc.id });
 
-                if (!this.currentlyPlaying) {
-                    this.listener.send(RpcFactory.TTSStartedNotification());
-                    this.playNext();
-                }
+                this.listener.send(RpcFactory.TTSStartedNotification());
+                this.playNext();
                 this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
                 return null;
             case "StopSpeaking":
