@@ -200,10 +200,8 @@ class UIController {
                     rpc.params.cancelID,
                     rpc.params.timeout
                 ))
-                //var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
-                var timeout = rpc.params.timeout === 0 ? 15000 : 60000
+                const timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
-                //this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout,  - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID)
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID) 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
@@ -649,27 +647,6 @@ class UIController {
 
         this.appsWithTimers[messageId] = activeApp;
         this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
-        // this.onSystemContext("ALERT", activeApp);
-
-        // this.onSystemContext("ALERT", activeApp)
-
-        // if (!activeApp) {
-        //     this.onSystemContext("HMI_OBSCURED", activeApp)
-        // }
-
-        console.log(store.getState().ui[activeApp].alertTimeoutReseted.isAlertTimeoutReseted)
-      
-
-        // TODO:
-
-        // let alertImages = [rpc.params.alertIcon];
-        // if (rpc.params.softButtons) {
-        //         rpc.params.softButtons.forEach (softBtn => {
-        //             if (softBtn.image) { alertImages.push(softBtn.image); }
-        //         });
-        //     }
-        // AddImageValidationRequest(messageId, alertImages);
-
     }
 
     resetPerformInteractionTimeout(prefixMethod) {
