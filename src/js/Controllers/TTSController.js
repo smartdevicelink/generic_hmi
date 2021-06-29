@@ -5,6 +5,7 @@ import {
 } from '../actions'
 
 const RESPONSE_CORRELATION_MS = 1000;
+const ALERT_CORRELATION_MS = 100;
 class TTSController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -114,13 +115,14 @@ class TTSController {
         this.listener.send(RpcFactory.TTSSpeakResponse({ id: msgID, method: 'TTS.Speak' }))
     }
 
-    resetSpeakTimeout() {
+    resetSpeakTimeout(isAlertReseted = false) {
         let activeApp = store.getState().activeApp;
         let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
         let messageId = store.getState().ui[activeApp].speak.msgID;
 
         clearTimeout(this.timers[messageId]);
-        this.timers[messageId] = setTimeout(this.onSpeakTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId)
+        const finalResetPeriod = resPeriod - RESPONSE_CORRELATION_MS - (isAlertReseted ? ALERT_CORRELATION_MS : 0);
+        this.timers[messageId] = setTimeout(this.onSpeakTimeout, finalResetPeriod, messageId);
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId,'TTS.Speak',resPeriod));
     }
@@ -167,7 +169,7 @@ class TTSController {
 
                 if (rpc.params.speakType == "ALERT") {
                     clearTimeout(this.timers[rpc.id]);
-                    this.timers[rpc.id] = setTimeout(this.onSpeakTimeout, 5000 - RESPONSE_CORRELATION_MS, rpc.id)
+                    this.timers[rpc.id] = setTimeout(this.onSpeakTimeout, 5000 - RESPONSE_CORRELATION_MS - ALERT_CORRELATION_MS, rpc.id)
                 }
                 
                 return undefined;

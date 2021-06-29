@@ -28,7 +28,7 @@ export default class Alert extends React.Component {
         let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
         if (this.state.speakChecked) {
             this.setState({speakCounter: count});
-            TTSController.resetSpeakTimeout()
+            TTSController.resetSpeakTimeout(this.state.alertChecked)
         }
         if (this.state.alertChecked) {
             this.setState({alertCounter: count});
