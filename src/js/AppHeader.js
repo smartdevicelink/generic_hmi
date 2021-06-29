@@ -22,7 +22,7 @@ import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
 class AppStoreIcon extends React.Component {
     render() {
         return (<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <Link to="/permissions" style={{ marginRight: 10, marginLeft: 'auto' }}>
+                <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
                     <div className="app-icon">
                         <div className="static-icon">
                             <div className="svg-wrap">

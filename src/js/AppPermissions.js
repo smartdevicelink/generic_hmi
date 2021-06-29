@@ -79,7 +79,7 @@ class Permissions extends React.Component {
 
         return (
             <div>
-                <AppHeader backLink={'/permissions'} menuName="Back"
+                <AppHeader backLink={'/permissionapplist'} menuName="Back"
                     icon='custom' 
                     jsxIcon={<div><Link to={this.props.pendingActivation === this.props.editingAppID?this.props.activeLayout:'/'}
                         className="t-small t-medium th-f-color t-ls1"
