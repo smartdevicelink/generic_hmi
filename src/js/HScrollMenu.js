@@ -11,7 +11,7 @@ export default class HScrollMenu extends React.Component {
         this.state = {
             performInteractionCounter: 15
         }
-        //this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
+        this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
     }
 
     clearHiddenNames() {
