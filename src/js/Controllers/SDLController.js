@@ -194,12 +194,13 @@ class SDLController {
                         ), { duration: 30000 });
                     });
                 } else if (rpc.result.isAppRevoked) {
+                    var revokedApp = store.getState().appList.find((app) => {
+                        return app.appID === activatingApplication;
+                    });
+                    var revokedAppName = revokedApp ? revokedApp.appName : 'App';
                     this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
-                        var revokedApp = store.getState().appList.find((app) => {
-                            return app.appID === activatingApplication;
-                        });
                         var heading = 'App is revoked';
-                        var body = `${revokedApp.appName} does not have permission to run`;
+                        var body = `${revokedAppName} does not have permission to run`;
                         if (response.result.messages && response.result.messages.length === 1) {
                             var msg = FillConsumerFriendlyMessages(revokedApp.appName, response.result.messages)[0];
                             if (msg.line1 || msg.line2) { heading = [msg.line1,msg.line2].join(' '); }
