@@ -16,7 +16,7 @@ export default class Alert extends React.Component {
             alertChecked: true,
             alertCounter: 5,
             ifSpeak: true,
-            speakChecked: true,
+            speakChecked: store.getState().ui[store.getState().activeApp].alert.alertType === "BOTH",
             speakCounter: 5
         }
         this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
