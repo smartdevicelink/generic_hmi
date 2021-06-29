@@ -40,6 +40,12 @@ function newAppState () {
         backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
+        speak: {
+            msgID: null,
+            playTone: false,
+            speakType: "BOTH",
+            ttsChunks: []
+        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -639,6 +645,12 @@ function ui(state = {}, action) {
             return newState
         case Actions.RESET_ALERT_TIMEOUT:
             app.alertTimeoutReseted.isAlertTimeoutReseted = !app.alertTimeoutReseted.isAlertTimeoutReseted;
+            return newState
+        case Actions.ON_TTS_SPEAK:
+            app.speak.msgID = action.msgID
+            app.speak.playTone = action.playTone
+            app.speak.speakType = action.speakType
+            app.speak.ttsChunks = action.ttsChunks
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {

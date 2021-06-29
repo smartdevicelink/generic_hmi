@@ -1,22 +1,34 @@
 import RpcFactory from './RpcFactory'
+import store from '../store'
+import {
+    onSpeak
+} from '../actions'
+
+const RESPONSE_CORRELATION_MS = 1000;
 class TTSController {
     constructor () {
         this.addListener = this.addListener.bind(this)
+        this.onSpeakTimeout = this.onSpeakTimeout.bind(this)
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
+        this.timers = {}
     }
     addListener(listener) {
         this.listener = listener
     }
 
-    playAudio() {
+    playAudio(rpc) {
         if(this.filePlaylist.length === 0) {
             this.audioPlayer.onended = null;
+            if (rpc.params.speakType !== "ALERT") {
+                this.listener.send(RpcFactory.TTSSpeakResponse(rpc))
+            }
+
             if(!this.audioPlayer.paused) {
                 this.audioPlayer.pause();
                 this.audioPlayer.src = "";
                 return;
-            }
+            }            
         }
 
         var path = this.filePlaylist[0].text;
@@ -30,6 +42,9 @@ class TTSController {
                 } else if (this.filePlaylist[0].type === "TEXT"){
                     this.speak();
                 }    
+            }
+            if (rpc.params.speakType !== "ALERT") {
+                this.listener.send(RpcFactory.TTSSpeakResponse(rpc))
             }
         }
 
@@ -48,8 +63,11 @@ class TTSController {
         this.audioPlayer.play();
     }
 
-    speak() {
+    speak(rpc) {
         if(this.filePlaylist.length === 0) {
+            if (rpc.params.speakType !== "ALERT") {
+                this.listener.send(RpcFactory.TTSSpeakResponse(rpc))
+            }
             return;
         }
 
@@ -61,9 +79,9 @@ class TTSController {
         speechPlayer.onend = () => {
             if(this.filePlaylist[0]) {
                 if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
+                    this.playAudio(rpc);
                 } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
+                    this.speak(rpc);
                 }    
             }
         }
@@ -72,10 +90,13 @@ class TTSController {
             console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
             if(this.filePlaylist[0]) {
                 if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
+                    this.playAudio(rpc);
                 } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
+                    this.speak(rpc);
                 }    
+            }
+            if (rpc.params.speakType !== "ALERT") {
+                this.listener.send(RpcFactory.TTSSpeakResponse(rpc))
             }
         }
 
@@ -85,6 +106,23 @@ class TTSController {
         speechPlayer.pitch = 0;
         window.speechSynthesis.speak(speechPlayer)
 
+    }
+
+    onSpeakTimeout(msgID) {
+        delete this.timers[msgID]
+
+        this.listener.send(RpcFactory.TTSSpeakResponse({ id: msgID, method: 'TTS.Speak' }))
+    }
+
+    resetSpeakTimeout() {
+        let activeApp = store.getState().activeApp;
+        let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
+        let messageId = store.getState().ui[activeApp].speak.msgID;
+
+        clearTimeout(this.timers[messageId]);
+        this.timers[messageId] = setTimeout(this.onSpeakTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId)
+
+        this.listener.send(RpcFactory.OnResetTimeout(messageId,'TTS.Speak',resPeriod));
     }
     
     handleRPC(rpc) {
@@ -105,6 +143,14 @@ class TTSController {
             case "SetGlobalProperties":
                 return true
             case "Speak":
+                store.dispatch(onSpeak(
+                    rpc.id,
+                    rpc.params.appID,                    
+                    rpc.params.playTone,
+                    rpc.params.speakType,
+                    rpc.params.ttsChunks
+                ))
+
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
                 for (var i=0; i<ttsChunks.length; i++) {
@@ -113,13 +159,18 @@ class TTSController {
 
                 if(this.filePlaylist.length > 0) {
                     if(this.filePlaylist[0].type === "FILE") {
-                        this.playAudio();
+                        this.playAudio(rpc);
                     } else if (this.filePlaylist[0].type === "TEXT"){
-                        this.speak();
+                        this.speak(rpc);
                     }
                 }
+
+                if (rpc.params.speakType == "ALERT") {
+                    clearTimeout(this.timers[rpc.id]);
+                    this.timers[rpc.id] = setTimeout(this.onSpeakTimeout, 5000 - RESPONSE_CORRELATION_MS, rpc.id)
+                }
                 
-                return true;
+                return undefined;
             default:
                 return false;
         }

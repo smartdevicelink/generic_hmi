@@ -35,6 +35,7 @@ export const Actions = {
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
+    ON_TTS_SPEAK: "ON_TTS_SPEAK",
     SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
     UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
@@ -382,6 +383,17 @@ export const setGlobalProperties = (appID, menuLayout, menuIcon, keyboardPropert
         menuLayout: menuLayout,
         menuIcon: menuIcon,
         keyboardProperties: keyboardProperties
+    }
+}
+
+export const onSpeak = (msgID, appID, playTone, speakType, ttsChunks) => {
+    return {
+        type: Actions.ON_TTS_SPEAK,
+        appID: appID,
+        msgID: msgID,
+        playTone: playTone,
+        speakType: speakType,
+        ttsChunks: ttsChunks
     }
 }
 

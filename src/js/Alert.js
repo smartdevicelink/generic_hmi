@@ -6,7 +6,8 @@ import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 import store from './store.js'
 import { alertTimeoutReseted } from './actions'
-import Controller from './Controllers/UIController'
+import UIController from './Controllers/UIController'
+import TTSController from './Controllers/TTSController'
 
 export default class Alert extends React.Component {
     constructor(props) {
@@ -25,9 +26,15 @@ export default class Alert extends React.Component {
         store.dispatch(alertTimeoutReseted(true));
 
         let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
-        this.setState({alertCounter: count});
-        this.setState({speakCounter: ''}); 
-        Controller.resetAlertTimeout()
+        if (this.state.speakChecked) {
+            this.setState({speakCounter: count});
+            TTSController.resetSpeakTimeout()
+        }
+        if (this.state.alertChecked) {
+            this.setState({alertCounter: count});
+            UIController.resetAlertTimeout()
+        }        
+        
         // if (this.state.alertChecked && this.state.speakChecked) {
         //     this.setState({alertCounter: count});
         //     this.setState({speakCounter: count})
@@ -45,12 +52,8 @@ export default class Alert extends React.Component {
         
     }
     changeCounter() {
-        if(this.state.alertChecked) {
-            this.setState(prevState => ({alertCounter: prevState.alertCounter - 1}))
-        }
-        if(this.state.speakChecked) {
-            this.setState(prevState => ({speakCounter: prevState.speakCounter - 1}))
-        }
+        this.setState(prevState => ({alertCounter: prevState.alertCounter > 0 ? prevState.alertCounter - 1 : ''}))
+        this.setState(prevState => ({speakCounter: prevState.speakCounter > 0 ? prevState.speakCounter - 1 : ''}))
     }
     componentDidMount() {
         this.interval = setInterval(() => this.changeCounter(), 1000)
@@ -69,34 +72,53 @@ export default class Alert extends React.Component {
                  : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
 
         let speakCheckbox = undefined;
-        // if (this.state.ifSpeak) {
-        //     speakCheckbox = ( 
-        //         <>
-        //             <p>
-        //             <input
-        //                 name="Speak" 
-        //                 type="checkbox"
-        //                 defaultChecked={this.state.speakChecked}
-        //                 onChange={() => this.setState(prevState => ({speakChecked: !prevState.speakChecked}))} />
-        //             <label>Speak</label>
-        //             </p>
-        //         </>
-        //     );
-        // }
+        if (store.getState().ui[store.getState().activeApp].alert.alertType == "BOTH") {
+            speakCheckbox = (
+                <>
+                    <p>
+                    <input
+                        name="Speak" 
+                        type="checkbox"
+                        defaultChecked={this.state.speakChecked}
+                        onChange={() => this.setState(prevState => ({speakChecked: !prevState.speakChecked}))} />
+                    <label>Speak</label>
+                    </p>
+                </>
+            );
+        }
 
-        let speakCounter = undefined;
-        // if (this.state.ifSpeak) {
-        //     speakCounter =
-        //     <>
-        //         <p>TTS.Speak: {this.state.speakCounter}</p>
-        //     </>
-        // }
-        let resetTimeoutHTML = store.getState().ui[store.getState().activeApp].alert.softButtons !== undefined ?
-        undefined :
-        <><div className="timeout-box">
-            <p>UI.Alert: {this.state.alertCounter}</p>
-            </div>
-        <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button></>
+        let alertCheckbox = (
+            <>
+                <p>
+                <input
+                    name="Alert" 
+                    type="checkbox"
+                    defaultChecked={this.state.alertChecked}
+                    onChange={() => this.setState(prevState => ({alertChecked: !prevState.alertChecked}))} />
+                <label>Alert</label>
+                </p>
+            </>
+        );
+
+        let resetTimeoutHTML = undefined;        
+        if (store.getState().ui[store.getState().activeApp].alert.softButtons == undefined) {
+            let resetSpeakTimeoutHTML = undefined;
+
+            if (speakCheckbox && this.state.speakCounter > 0) {
+                resetSpeakTimeoutHTML = <>
+                    <p>TTS.Speak: {this.state.speakCounter}</p>
+                    </>
+            }
+
+            resetTimeoutHTML = undefined;
+            if (alertCheckbox && this.state.alertCounter > 0) {
+                resetTimeoutHTML = <><div className="timeout-box">
+                    <p>UI.Alert: {this.state.alertCounter}</p>
+                    {resetSpeakTimeoutHTML}
+                    </div>
+                    <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button></>
+            }
+        }        
 
         return (
             <div className="alert">
@@ -112,9 +134,7 @@ export default class Alert extends React.Component {
                 <AlertButtons classPrefix="alert"/>
                 <div className="alert-reset-box">
                     <div className="checkItems">
-                        <p>
-                            <label>Alert</label>
-                        </p>
+                        {alertCheckbox}
                         {speakCheckbox}
                     </div>
                     {resetTimeoutHTML}
