@@ -669,6 +669,10 @@ class UIController {
         // AddImageValidationRequest(messageId, alertImages);
 
     }
+
+    resetPerformInteractionTimeout(prefixMethod) {
+       
+    }
 }
 
 let controller = new UIController ()
