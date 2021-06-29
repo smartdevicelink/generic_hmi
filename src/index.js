@@ -49,7 +49,9 @@ import {
     updateInstalledAppStoreApps, 
     setDDState,
     resetTimeout
-} from './js/actions'
+} from './js/actions';
+import EventEmitter from "reactjs-eventemitter";
+const DEFAULT_RESET_TIMEOUT = 10000
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -57,7 +59,7 @@ class HMIApp extends React.Component {
             dark: true,
             resolution: "960x600 Scale 1",
             scale: 1,
-            resetPeriodValue: 10000
+            resetPeriodValue: DEFAULT_RESET_TIMEOUT
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
@@ -69,7 +71,14 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
-        store.dispatch(resetTimeout(this.state.resetPeriodValue)); 
+        store.dispatch(resetTimeout(this.state.resetPeriodValue));
+        EventEmitter.subscribe('OUT_OF_BOUND', () => {
+            this.setState({ resetPeriodValue: DEFAULT_RESET_TIMEOUT }); 
+            store.dispatch(resetTimeout({
+                resetPeriod: DEFAULT_RESET_TIMEOUT,
+                appID: store.getState().activeApp
+            }));   
+        })
     }
     handleClick() {
         var theme = !this.state.dark
