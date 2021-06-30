@@ -200,9 +200,10 @@ class UIController {
                     rpc.params.cancelID,
                     rpc.params.timeout
                 ))
-                var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
+                const defaultTimeout = 15000;
+                const timeout = rpc.params.timeout === 0 ? defaultTimeout : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
-                this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
+                this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID) 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
 
@@ -647,27 +648,18 @@ class UIController {
 
         this.appsWithTimers[messageId] = activeApp;
         this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
-        // this.onSystemContext("ALERT", activeApp);
+    }
 
-        // this.onSystemContext("ALERT", activeApp)
+    resetPerformInteractionTimeout(prefixMethod) {
+        const activeApp = store.getState().activeApp;
+        const resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
+        const messageId = store.getState().ui[activeApp].interactionId;
+        clearTimeout(this.timers[messageId]);
+        this.timers[messageId] = setTimeout(this.onPerformInteractionTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId, activeApp, activeApp, false);
 
-        // if (!activeApp) {
-        //     this.onSystemContext("HMI_OBSCURED", activeApp)
-        // }
-
-        console.log(store.getState().ui[activeApp].alertTimeoutReseted.isAlertTimeoutReseted)
-      
-
-        // TODO:
-
-        // let alertImages = [rpc.params.alertIcon];
-        // if (rpc.params.softButtons) {
-        //         rpc.params.softButtons.forEach (softBtn => {
-        //             if (softBtn.image) { alertImages.push(softBtn.image); }
-        //         });
-        //     }
-        // AddImageValidationRequest(messageId, alertImages);
-
+        const postfixMethod = '.PerformInteraction';
+        const methodName = prefixMethod + postfixMethod;
+        this.listener.send(RpcFactory.OnResetTimeout(messageId,methodName,resPeriod));
     }
 }
 
