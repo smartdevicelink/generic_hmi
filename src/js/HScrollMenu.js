@@ -67,7 +67,7 @@ export default class HScrollMenu extends React.Component {
             hiddenCommands = <MenuFooter textAlign="center"/>
         }
 
-        let resetTimeoutPInteraction = undefined;
+        let resetTimeoutPInteraction;
         if(this.props.interactionId) {
             resetTimeoutPInteraction = (<div className="performInteraction-reset-box">
             <div className="timeout-box">

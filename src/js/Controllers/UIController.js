@@ -200,7 +200,8 @@ class UIController {
                     rpc.params.cancelID,
                     rpc.params.timeout
                 ))
-                const timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
+                const defaultTimeout = 15000;
+                const timeout = rpc.params.timeout === 0 ? defaultTimeout : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID) 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
