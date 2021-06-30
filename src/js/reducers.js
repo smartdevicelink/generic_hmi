@@ -40,6 +40,18 @@ function newAppState () {
         backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
+        speak: {
+            msgID: null,
+            playTone: false,
+            speakType: "BOTH",
+            ttsChunks: []
+        },
+        resetTimeout: {
+            resetTimeoutValue: 10000
+        },
+        alertTimeoutReseted: {
+            isAlertTimeoutReseted: true
+        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -630,6 +642,18 @@ function ui(state = {}, action) {
             if (action.nightColorScheme) {
                 app.nightColorScheme = action.nightColorScheme
             }          
+            return newState
+        case Actions.RESET_TIMEOUT:
+            app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
+            return newState
+        case Actions.RESET_ALERT_TIMEOUT:
+            app.alertTimeoutReseted.isAlertTimeoutReseted = !app.alertTimeoutReseted.isAlertTimeoutReseted;
+            return newState
+        case Actions.ON_TTS_SPEAK:
+            app.speak.msgID = action.msgID
+            app.speak.playTone = action.playTone
+            app.speak.speakType = action.speakType
+            app.speak.ttsChunks = action.ttsChunks
             return newState
         case Actions.REGISTER_APPLICATION:
             app.displayLayout = action.displayLayout;
