@@ -3,13 +3,15 @@ import HScrollMenuItem from './HScrollMenuItem'
 import MenuFooter from './MenuFooter';
 import store from './store.js'
 import UIController from './Controllers/UIController';
+import EventEmitter from "reactjs-eventemitter";
 
+const OUT_OF_BOUND_RESET_PERIOD = 1000;
 export default class HScrollMenu extends React.Component {
     constructor(props) {
         super(props);
         this.hiddenNames = [];
         this.state = {
-            performInteractionCounter: 15
+            performInteractionCounter: 10
         }
         this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
     }
@@ -24,7 +26,10 @@ export default class HScrollMenu extends React.Component {
 
     pressResetTimeoutButton(event) { 
         const count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
-
+        if(count > OUT_OF_BOUND_RESET_PERIOD) {
+            EventEmitter.emit('OUT_OF_BOUND');
+            return;
+        }
         this.setState({performInteractionCounter: count});
         UIController.resetPerformInteractionTimeout('UI');      
     }
@@ -34,12 +39,16 @@ export default class HScrollMenu extends React.Component {
     }
     componentDidMount() {
         this.interval = setInterval(() => this.changeCounter(), 1000)
+        const activeApp = store.getState().activeApp;
+        if('interactionId' in this.props) {
+            this.setState({performInteractionCounter: store.getState().ui[activeApp].interactionTimeout/1000})
+        }
     }
     componentWillUnmount() {
         clearInterval(this.interval)
     }
 
-    render() {
+    render() {     
         this.clearHiddenNames();
         let menuItems = this.props.data.map((menuItem) => {
             if (menuItem.hidden) {
@@ -68,10 +77,10 @@ export default class HScrollMenu extends React.Component {
         }
 
         let resetTimeoutPInteraction;
-        if(this.props.interactionId) {
+        if('interactionId' in this.props) {
             resetTimeoutPInteraction = (<div className="performInteraction-reset-box">
             <div className="timeout-box">
-                <p>Perform Interaction: {this.state.performInteractionCounter}</p>
+                <p>UI.PerformInteraction: {this.state.performInteractionCounter}</p>
             </div>
             <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button>
         </div>);
