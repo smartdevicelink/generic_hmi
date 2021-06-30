@@ -18,7 +18,7 @@ class VRController {
             case "DeleteCommand":
                 return true
             case "PerformInteraction":
-                return true
+                return { rpc: RpcFactory.ErrorResponse(rpc, 5, "VR.PerformInteraction is not implemented") }
             default: 
                 return false
         }

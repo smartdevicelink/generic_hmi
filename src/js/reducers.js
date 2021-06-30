@@ -40,12 +40,6 @@ function newAppState () {
         backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
-        speak: {
-            msgID: null,
-            playTone: false,
-            speakType: "BOTH",
-            ttsChunks: []
-        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -56,11 +50,28 @@ function newAppState () {
             showProgressIndicator: null,
             msgID: null
         },
-        resetTimeout: {
-            resetTimeoutValue: 10000
+        slider: {
+            showSlider: false,
+            numTicks: null,
+            position: null,
+            header: "",
+            footer: [],
+            timeout: null,
+            msgID: null
         },
-        alertTimeoutReseted: {
-            isAlertTimeoutReseted: true
+        scrollableMessage: {
+            active: false,
+            msgID: null,
+            body: '',
+            softButtons: [],
+            duration: 0,
+            cancelID: null
+        },
+        audioPassThru: {
+            active: false,
+            textFields: [],
+            duration: 0,
+            msgID: null
         },
         dayColorScheme: null,
         nightColorScheme: null,
@@ -628,6 +639,38 @@ function ui(state = {}, action) {
                 delete newState[action.appID]
             }
             return newState
+        case Actions.SCROLLABLE_MESSAGE:
+            app.scrollableMessage.active = true;
+            app.scrollableMessage.msgID = action.msgID;
+            app.scrollableMessage.body = action.messageBody;
+            app.scrollableMessage.softButtons = action.softButtons;
+            app.scrollableMessage.duration = action.duration;
+            app.scrollableMessage.cancelID = action.cancelID;
+            return newState;
+        case Actions.CLOSE_SCROLLABLE_MESSAGE:
+            app.scrollableMessage = {
+                active: false,
+                msgID: null,
+                body: '',
+                softButtons: [],
+                duration: 0,
+                cancelID: null
+            };
+            return newState;
+        case Actions.PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru.active = true;
+            app.audioPassThru.textFields = action.aptTextFields;
+            app.audioPassThru.duration = action.duration;
+            app.audioPassThru.msgID = action.msgID
+            return newState;
+        case Actions.CLOSE_PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru = {
+                active: false,
+                textFields: [],
+                duration: 0,
+                msgID: null
+            }
+            return newState;
         case Actions.ALERT:
             app.alert.showAlert = true
             app.alert.isSubtle = action.isSubtle
@@ -640,18 +683,6 @@ function ui(state = {}, action) {
             app.alert.icon = action.icon
             app.alert.cancelID = action.cancelID
             return newState
-        case Actions.RESET_TIMEOUT:
-            app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
-            return newState
-        case Actions.RESET_ALERT_TIMEOUT:
-            app.alertTimeoutReseted.isAlertTimeoutReseted = !app.alertTimeoutReseted.isAlertTimeoutReseted;
-            return newState
-        case Actions.ON_TTS_SPEAK:
-            app.speak.msgID = action.msgID
-            app.speak.playTone = action.playTone
-            app.speak.speakType = action.speakType
-            app.speak.ttsChunks = action.ttsChunks
-            return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {
                 showAlert: false,
@@ -661,6 +692,32 @@ function ui(state = {}, action) {
                 softButtons: [],
                 alertType: null,
                 showProgressIndicator: null,
+                msgID: null
+            }
+            return newState
+        case Actions.SLIDER:
+            app.slider.showSlider = true
+            app.slider.numTicks = action.numTicks
+            app.slider.position = action.position
+            app.slider.header = action.sliderHeader
+            app.slider.footer = action.sliderFooter
+            app.slider.timeout = action.timeout
+            app.slider.msgID = action.msgID
+            app.slider.cancelID = action.cancelID
+            return newState
+        case Actions.UPDATE_SLIDER_POSITION:
+            if (action.newPosition) {
+                app.slider.position = action.newPosition
+            }
+            return newState
+        case Actions.CLOSE_SLIDER:
+            app.slider = {
+                showSlider: false,
+                numTicks: null,
+                position: null,
+                header: "",
+                footer: [],
+                timeout: null,
                 msgID: null
             }
             return newState
@@ -692,23 +749,21 @@ function ui(state = {}, action) {
             }
             if (action.keyboardProperties) {
                 // Merge keyboard properties
-                var keyboardProperties = Object.assign({}, action.keyboardProperties);
-                if (!keyboardProperties.autoCompleteList) {
-                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                app.keyboardProperties = Object.assign({
+                    autoCompleteList: app.keyboardProperties.autoCompleteList,
+                    keyboardLayout: app.keyboardProperties.keyboardLayout,
+                    language: app.keyboardProperties.language,
+                    maskInputCharacters: app.keyboardProperties.maskInputCharacters,
+                    keypressMode: "RESEND_CURRENT_ENTRY",
+                    limitedCharacterList: "",
+                    autoCompleteList: app.keyboardProperties.autoCompleteList
+                }, action.keyboardProperties);
+
+                if (action.keyboardProperties.autoCompleteText && 
+                    (!action.keyboardProperties.autoCompleteList || 
+                    action.keyboardProperties.autoCompleteList.length === 0)) {
+                    app.keyboardProperties.autoCompleteList = [action.keyboardProperties.autoCompleteText];
                 }
-                if (!keyboardProperties.keyboardLayout) {
-                    keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
-                }
-                if (!keyboardProperties.language) {
-                    keyboardProperties.language = app.keyboardProperties.language;
-                }
-                if (!keyboardProperties.maskInputCharacters) {
-                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
-                }
-                if (!keyboardProperties.keypressMode) {
-                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
-                }
-                app.keyboardProperties = keyboardProperties
             }
             return newState
         case Actions.SET_VIDEO_STREAM_CAPABILITY:

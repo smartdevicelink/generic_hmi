@@ -2,6 +2,13 @@ import { connect } from 'react-redux'
 import AppHeader from '../AppHeader'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
+const getAppByAppID = (list, appID) => {
+    var app = list.find(key => {
+        return key.appID === appID
+    });
+    return app;
+}
+
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp] ? state.ui[activeApp] : {
@@ -11,11 +18,25 @@ const mapStateToProps = (state) => {
     }
 
     var showAlert = false
+    var showScrollableMessage = false;
+    var showPerformAudioPassThru = false;
+    var aptTextFields = [];
+    var aptAppID = null;
+    var aptMsgID = null;
+    var aptAppName = "Microphone Listening";
+    var scrollableMessageBody = "";
+    var scrollableMessageAppName = "Scrollable Message";
+    var scrollableMessageMsgId = null;
+    var scrollableMessageAppId = null;
     var alertIsSubtle = false
     var alertMsgId = null
     var alertAppId = null
     var alertAppName = ""
     var alertIcon = null
+    var showSlider = false
+    var sliderAppId = null
+    var sliderAppName = ""
+    var sliderData = {}
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -36,6 +57,51 @@ const mapStateToProps = (state) => {
             }
 
             break
+        }
+        if (state.ui[prop].slider.showSlider) {
+            showSlider = true
+
+            sliderAppId = parseInt(prop)
+            var sliderApp = state.appList.find((key) => {
+                return key.appID === parseInt(prop)
+            })
+
+            if (sliderApp.appName) {
+                sliderAppName = sliderApp.appName
+            }
+
+            sliderData = state.ui[prop].slider
+            break;
+        }
+        if (state.ui[prop].scrollableMessage.active) {
+            showScrollableMessage = true;
+            scrollableMessageBody = state.ui[prop].scrollableMessage.body;
+            scrollableMessageMsgId = state.ui[prop].scrollableMessage.msgID;
+            scrollableMessageAppId = parseInt(prop);
+
+            var scrollableMessageApp = state.appList.find((key) => {
+                return key.appID === scrollableMessageAppId;
+            })
+
+            if (scrollableMessageApp.appName) {
+                scrollableMessageAppName = scrollableMessageApp.appName;
+            }
+
+            break;
+        }
+        if (state.ui[prop].audioPassThru.active) {
+            showPerformAudioPassThru = true;
+            aptTextFields = state.ui[prop].audioPassThru.textFields;
+            aptAppID = parseInt(prop);
+            aptMsgID = state.ui[prop].audioPassThru.msgID
+
+            var aptApp = getAppByAppID(state.appList, aptAppID);
+
+            if (aptApp.appName) {
+                aptAppName = aptApp.appName;
+            }
+
+            break;
         }
     }
 
@@ -72,11 +138,20 @@ const mapStateToProps = (state) => {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
         displayLayout: app.displayLayout,
+        showScrollableMessage: showScrollableMessage,
+        scrollableMessageBody: scrollableMessageBody,
+        scrollableMessageAppName: scrollableMessageAppName,
+        scrollableMessageMsgId: scrollableMessageMsgId,
+        scrollableMessageAppId: scrollableMessageAppId,
         showAlert: showAlert,
         alertIsSubtle: alertIsSubtle,
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,
         alertName: alertAppName,
+        showSlider: showSlider,
+        sliderAppId: sliderAppId,
+        sliderName: sliderAppName,
+        sliderData: sliderData,
         theme: theme,
         activeApp: activeApp,
         colorScheme: colorScheme,
@@ -86,7 +161,12 @@ const mapStateToProps = (state) => {
         activeMenuDepth: app.activeMenuDepth,
         parentID: parentID,
         activeLayout: app.displayLayout,
-        interactionLayout: app.interactionLayout
+        interactionLayout: app.interactionLayout,
+        showPerformAudioPassThru: showPerformAudioPassThru,
+        aptTextFields: aptTextFields,
+        aptAppID: aptAppID,
+        aptMsgID: aptMsgID,
+        aptAppName: aptAppName
     }
 }
 

@@ -1,0 +1,98 @@
+.sliderOverlay {
+    position          : fixed;
+    top               : 0;
+    left              : 0;
+    right             : 0;
+    bottom            : 0;
+    background-color   : rgba(0, 0, 0, 0.75);
+    width: $master-width;
+    height: $master-height;
+    margin: 25px;
+    z-index:1001;
+}
+
+.sliderModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    @include transform(translate(-50%, -50%));
+    border: 1px solid #ccc;
+    overflow: auto;
+    -webkit-overflow-scrolling: 'touch';
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    min-width: 50%;
+    max-width: 90%;
+}
+
+.slider{
+    height: 100%;
+    @include display(flex);
+    @include flex-direction(column);
+}
+
+.slider-header {
+    h1 {
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    p {
+        padding-top: 30px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.slider-body {
+    @include display(flex);
+    @include justify-content(center);
+    @include align-items(center);
+    @include flex-direction(column);
+
+    padding: 30px;
+    max-height: calc((#{$master-height} - 75px) * 0.6);
+}
+
+.slider-components {
+    @include display(flex);
+    @include flex-direction(row);
+}
+
+.slider-react-component {
+    padding-top: 25px;
+    padding-right: 15px;
+    margin: -5px 0px;
+
+    .rc-slider-rail, .rc-slider-track, .rc-slider-dot {
+        border-radius: 0;
+    }
+}
+
+.slider-button {
+    width: 60px;
+    z-index: 5;
+    cursor: pointer;
+    user-select: none;
+
+    p {
+        text-align: center;
+    }
+}
+
+.slider-footer {
+    padding-top: 10px;
+}
+
+.slider-submit {
+    @include display(flex);
+    @include flex-direction(column-reverse);
+    @include align-items(center);
+    padding: 20px;
+    cursor: pointer;
+}
