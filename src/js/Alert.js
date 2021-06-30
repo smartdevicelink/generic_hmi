@@ -66,7 +66,8 @@ export default class Alert extends React.Component {
         this.setState(prevState => ({speakCounter: prevState.speakCounter > 0 ? prevState.speakCounter - 1 : ''}))
     }
     componentDidMount() {
-        this.interval = setInterval(() => this.changeCounter(), 1000)
+        this.setState({alertCounter: store.getState().ui[store.getState().activeApp].alert.duration/1000});
+        this.interval = setInterval(() => this.changeCounter(), 1000);
     }
     componentWillUnmount() {
         clearInterval(this.interval)
