@@ -4,7 +4,8 @@ import 'rc-slider/assets/index.css';
 import store from './store'
 import { updateSliderPosition } from './actions'
 import uiController from './Controllers/UIController'
-
+import EventEmitter from "reactjs-eventemitter"
+const OUT_OF_BOUND_RESET_PERIOD = 1000000;
 
 export default class Slider extends React.Component {
     constructor(props){
@@ -35,7 +36,12 @@ export default class Slider extends React.Component {
         this.setState({cursor: "grabbing"})
         if (value < 1 || value > this.props.sliderData.numTicks) { return; }
         this.setState({ value: value }, () => {
-            uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, this.props.sliderData.timeout)
+            const timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+            if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
+                EventEmitter.emit('OUT_OF_BOUND');
+                return;
+            }
+            uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, timeout)
             store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
         })
     }
