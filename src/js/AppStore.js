@@ -158,7 +158,7 @@ class AppStore extends React.Component {
                         description={pendingInstallApp.description} iconUrl={pendingInstallApp.iconUrl}
                         leftText="Cancel" leftCallback={() => this.cancelInstall()} rightText="Download" rightCallback={() => this.confirmInstall()} />
                 </Modal>
-                <AppHeader icon='store' backLink="/" menuName="APPS"/>
+                <AppHeader icon='store' backLink="" />
                 {<HScrollMenu data={menuData}
                         theme={this.props.theme}
                         onSelection={this.onSelection}

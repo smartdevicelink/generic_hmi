@@ -49,6 +49,7 @@ import {
     updateInstalledAppStoreApps, 
     setDDState
 } from './js/actions'
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -182,8 +183,8 @@ class HMIApp extends React.Component {
 
         return(
             <div>
-                <div className={themeClass}>
-                    <div className="app-body">
+                <div className={themeClass} >
+                    <div className="app-body" id="main-body">
                         {this.props.children}
                     </div>
                 </div>

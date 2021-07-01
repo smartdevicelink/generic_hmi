@@ -14,25 +14,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
 import ScrollableMessage from './ScrollableMessage';
+import ScreenMenu from './ScreenMenu';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
-import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
-
-class AppStoreIcon extends React.Component {
-    render() {
-        return (<div>
-                <Link to="/appstore">
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <span className="svg-wrap">
-                                <IconCart/>
-                            </span>
-                        </div>
-                    </div>
-                </Link>
-            </div>);
-    }
-}
 
 class AppStoreMenuIcon extends React.Component {
     render() {
@@ -109,7 +93,7 @@ class AppHeader extends React.Component {
 
         if (this.props.icon === 'store') {
             if (this.props.isAppStoreConnected) {
-                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<div />);
             }
             else{
                 icon = (<div />)
@@ -132,66 +116,68 @@ class AppHeader extends React.Component {
         }
 
         return (
-            <div className="app__header" style={colorScheme}>
-                <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
-                <Name />
-                { icon }
-                <Modal
-                isOpen={this.props.showAlert}
-                className={`app-body ${this.props.alertIsSubtle ? 'subtleAlertModal' : 'alertModal'}`}
-                overlayClassName={modalClass}
-                contentLabel="Example Modal"
-                onRequestClose={this.closeModal}
-                >
-                    {alertHtml}
-                </Modal>
-                <Modal
-                isOpen={this.props.showSlider}
-                className={`app-body sliderModal`}
-                overlayClassName={`${themeClass} sliderOverlay`}
-                contentLabel="Slider Modal"
-                onRequestClose={this.closeSlider}
-                >
-                    <Slider 
-                        sliderName={this.props.sliderName} 
-                        sliderAppId={this.props.sliderAppId} 
-                        sliderData={this.props.sliderData}
-                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
-                        theme={this.props.theme}
-                    />
-                </Modal>
-                <Modal
-                isOpen={this.props.showScrollableMessage}
-                className={'app-body scrollableMessageModal'}
-                overlayClassName={`${themeClass} scrollableMessageOverlay`}
-                contentLabel="Example Modal"
-                onRequestClose={this.closeScrollable}
-                >
-                    <ScrollableMessage theme={this.props.theme}
-                        body={this.props.scrollableMessageBody}
-                        buttons={this.props.softButtons}
-                        appName={this.props.scrollableMessageAppName}/>
-                </Modal>
-                <Modal
-                isOpen={this.props.showPerformAudioPassThru}
-                className={'app-body alertModal'}
-                overlayClassName={`${themeClass} alertOverlay`}
-                contentLabel="Example Modal"
-                onRequestClose={() => {
-                    this.closeAudioPassThru("ABORTED")
-                }}
-                >
-                    <PerformAudioPassThru
-                        theme={this.props.theme}
-                        textFields={this.props.aptTextFields}
-                        appName={this.props.aptAppName}
-                        resultCallback={(result) => {
-                            this.closeAudioPassThru(result)
-                        }}
-                    />
-                </Modal>
+            <div>
+                { !backLink && <ScreenMenu /> }
+                <div className="app__header" style={colorScheme}>
+                    <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
+                    <Name value={ this.props.title ? this.props.title : '' } />
+                    { icon }
+                    <Modal
+                    isOpen={this.props.showAlert}
+                    className={`app-body ${this.props.alertIsSubtle ? 'subtleAlertModal' : 'alertModal'}`}
+                    overlayClassName={modalClass}
+                    contentLabel="Example Modal"
+                    onRequestClose={this.closeModal}
+                    >
+                        {alertHtml}
+                    </Modal>
+                    <Modal
+                    isOpen={this.props.showSlider}
+                    className={`app-body sliderModal`}
+                    overlayClassName={`${themeClass} sliderOverlay`}
+                    contentLabel="Slider Modal"
+                    onRequestClose={this.closeSlider}
+                    >
+                        <Slider 
+                            sliderName={this.props.sliderName} 
+                            sliderAppId={this.props.sliderAppId} 
+                            sliderData={this.props.sliderData}
+                            submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                            theme={this.props.theme}
+                        />
+                    </Modal>
+                    <Modal
+                    isOpen={this.props.showScrollableMessage}
+                    className={'app-body scrollableMessageModal'}
+                    overlayClassName={`${themeClass} scrollableMessageOverlay`}
+                    contentLabel="Example Modal"
+                    onRequestClose={this.closeScrollable}
+                    >
+                        <ScrollableMessage theme={this.props.theme}
+                            body={this.props.scrollableMessageBody}
+                            buttons={this.props.softButtons}
+                            appName={this.props.scrollableMessageAppName}/>
+                    </Modal>
+                    <Modal
+                    isOpen={this.props.showPerformAudioPassThru}
+                    className={'app-body alertModal'}
+                    overlayClassName={`${themeClass} alertOverlay`}
+                    contentLabel="Example Modal"
+                    onRequestClose={() => {
+                        this.closeAudioPassThru("ABORTED")
+                    }}
+                    >
+                        <PerformAudioPassThru
+                            theme={this.props.theme}
+                            textFields={this.props.aptTextFields}
+                            appName={this.props.aptAppName}
+                            resultCallback={(result) => {
+                                this.closeAudioPassThru(result)
+                            }}
+                        />
+                    </Modal>
+                </div>
             </div>
-            
         )
     }
     componentWillReceiveProps (nextProps) {

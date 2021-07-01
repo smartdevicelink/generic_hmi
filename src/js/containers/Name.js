@@ -4,7 +4,11 @@ import AppName from '../AppName'
 import '../polyfill_find'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+    if (ownProps.value && ownProps.value.length) {
+        return {name: ownProps.value, templateTitle: "", subMenuName: "", interactionText: ""}
+    }
+
     var activeApp = state.activeApp
     var app = state.appList.find((app) => {
         return app.appID === activeApp

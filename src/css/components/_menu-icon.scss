@@ -1,0 +1,10 @@
+.menu-icon {
+    @include size(30px);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1em;
+}
+
+.menu-item {
+    display: flex;
+}
