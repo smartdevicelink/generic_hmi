@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
+import Slider from './Slider';
+import PerformAudioPassThru from './PerformAudioPassThru';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
@@ -11,6 +13,7 @@ import {resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
+import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
@@ -48,6 +51,8 @@ class AppHeader extends React.Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
+        this.closeSlider = this.closeSlider.bind(this);
+        this.closeScrollable = this.closeScrollable.bind(this);
     }
 
     closeModal() {
@@ -56,6 +61,25 @@ class AppHeader extends React.Component {
             this.forceUpdate();
             uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
         }
+    }
+
+    closeSlider(options) {
+        let closeReason = options?.closeReason ?? "ABORTED"
+        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
+    }
+
+    closeScrollable() {
+        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
+            this.props.scrollableMessageAppId, this.props.activeApp);
+    }
+
+    closeAudioPassThru(result) {
+        uiController.onClosePerformAudioPassThru(
+            this.props.aptMsgID, 
+            this.props.aptAppID, 
+            this.props.activeApp,
+            result
+        );
     }
 
     getColorScheme() {
@@ -120,6 +144,51 @@ class AppHeader extends React.Component {
                 onRequestClose={this.closeModal}
                 >
                     {alertHtml}
+                </Modal>
+                <Modal
+                isOpen={this.props.showSlider}
+                className={`app-body sliderModal`}
+                overlayClassName={`${themeClass} sliderOverlay`}
+                contentLabel="Slider Modal"
+                onRequestClose={this.closeSlider}
+                >
+                    <Slider 
+                        sliderName={this.props.sliderName} 
+                        sliderAppId={this.props.sliderAppId} 
+                        sliderData={this.props.sliderData}
+                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                        theme={this.props.theme}
+                    />
+                </Modal>
+                <Modal
+                isOpen={this.props.showScrollableMessage}
+                className={'app-body scrollableMessageModal'}
+                overlayClassName={`${themeClass} scrollableMessageOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={this.closeScrollable}
+                >
+                    <ScrollableMessage theme={this.props.theme}
+                        body={this.props.scrollableMessageBody}
+                        buttons={this.props.softButtons}
+                        appName={this.props.scrollableMessageAppName}/>
+                </Modal>
+                <Modal
+                isOpen={this.props.showPerformAudioPassThru}
+                className={'app-body alertModal'}
+                overlayClassName={`${themeClass} alertOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={() => {
+                    this.closeAudioPassThru("ABORTED")
+                }}
+                >
+                    <PerformAudioPassThru
+                        theme={this.props.theme}
+                        textFields={this.props.aptTextFields}
+                        appName={this.props.aptAppName}
+                        resultCallback={(result) => {
+                            this.closeAudioPassThru(result)
+                        }}
+                    />
                 </Modal>
             </div>
             

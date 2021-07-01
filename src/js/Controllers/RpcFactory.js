@@ -79,6 +79,39 @@ class RpcFactory {
             }
         })
     }
+    static ScrollableMessageResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.ScrollableMessage'
+            }
+        });
+    }
+    static ScrollableMessageAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Scrollable Message was cancelled",
+                "data": {
+                    "method": "UI.ScrollableMessage"
+                }
+            }
+        })
+    }
+    static PerformAudioPassThruResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.PerformAudioPassThru'
+            }
+        });
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -133,6 +166,58 @@ class RpcFactory {
                 }
             }
         })
+    }
+    static SliderResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 0,
+                "method": "UI.Slider"
+            }
+        }
+
+        if (sliderPosition){
+            msg.result.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
+    static SliderAbortedResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.error.data.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
+    static SliderTimeoutResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 10,
+                "message": "The Interaction timed out",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.error.data.sliderPosition = sliderPosition
+        }
+
+        return msg
     }
     static UIGetCapabilitiesResponse(rpc) {
         return ({
@@ -252,7 +337,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 5,
-                "message": "The Interaction was cancelled",
+                "message": "The UI Interaction was cancelled",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -862,6 +947,51 @@ class RpcFactory {
                 method: 'UI.SendHapticData'
             }
         });
+    }
+    static TTSSpeakSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.Speak'
+            }
+        });
+    }
+    static TTSStopSpeakingSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.StopSpeaking'
+            }
+        });
+    }
+    static TTSSpeakAborted(id) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": id,
+            "error": {
+                "code": 5,
+                "message": "TTS Speak was stopped",
+                "data": {
+                    "method": "TTS.Speak"
+                }
+            }
+        })
+    }
+    static TTSStartedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Started"
+        })
+    }
+    static TTSStoppedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Stopped",
+        })
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
 import SimpleKeyboard from "react-simple-keyboard";
 import AppHeader from './containers/Header';
 import "react-simple-keyboard/build/css/index.css";
@@ -6,7 +7,7 @@ import store from './store';
 import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
-export default class Keyboard extends Component {
+class Keyboard extends Component {
 
   constructor(props) {
     super(props);
@@ -15,17 +16,45 @@ export default class Keyboard extends Component {
     this.maskedInput = false
     this.showUserMaskOption = false
     this.keyboardClass = "hg-theme-default hg-layout-default custom-keyboard"
+    this.capsLock = false
 
     this.state = {
       layoutName: "default",
       input: "",
-      userMaskedInput: false
+      userMaskedInput: false,
+      tabCount: 0
     };
+  }
+
+  handleAutoComplete = append => {
+    var completedWord = this.state.input + append;
+    this.setState({
+      input: completedWord
+    });
+    this.keyboard.setInput(completedWord);
+    this.handleInput(completedWord);
+    if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
+      uiController.onKeyboardInput(append, 'KEYPRESS');
+    }
   }
 
   onChange = input => {
     // Changes from button presses
-    this.setState({ input });
+    let position = this.keyboard.caretPosition;
+    var tabPattern = /\t/g;
+    var tabCount = ((input || '').match(tabPattern) || []).length * 8;
+    this.setState({ input, tabCount }, () => {
+      if (position === null) {
+        position = input.length;
+      }
+      if (this.inputRef.setSelectionRange) {
+        this.inputRef.focus();
+        this.inputRef.setSelectionRange(position, position);
+        if (position === this.inputRef.value.length) {
+          this.inputRef.scrollLeft = this.inputRef.scrollWidth + this.state.tabCount;
+        }
+      }
+    });
     this.handleInput(input);
   };
 
@@ -34,12 +63,19 @@ export default class Keyboard extends Component {
     const input = event.target.value;
     this.setState({ input });
     this.keyboard.setInput(input);
-    this.handleInput(input)    
+    this.handleInput(input);
   };
 
   onKeyPress = button => {
     // Special handler for reserved buttons and single keypress mode
-    if (button === "{shift}" || button === "{lock}") {
+    if (button === "{shift}") {
+      if (this.capsLock) {
+        // Cancel Caps Lock
+        this.capsLock = false;
+      }
+      this.handleShift();
+    } else if (button === "{lock}") {
+      this.capsLock = !this.capsLock;
       this.handleShift();
     } else if (button === "{enter}")  {
       uiController.onKeyboardInput(this.state.input, 'ENTRY_SUBMITTED');
@@ -54,12 +90,15 @@ export default class Keyboard extends Component {
       } else {
         uiController.onKeyboardInput(button, 'KEYPRESS');
       }
-
     }
   };
 
   handleInput (input) {
     uiController.onResetInteractionTimeout(this.appID, this.interactionId)
+    if (!this.capsLock && this.state.layoutName === "shift") {
+      // Return layout to normal if user is not using caps lock
+      this.handleShift();
+    }
     if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
       return;
     } else if (this.keyboardProperties.keypressMode === "QUEUE_KEYPRESS") {
@@ -153,6 +192,40 @@ export default class Keyboard extends Component {
         }
       }
     }
+
+    // These keyboard properties must change while keyboard is in view
+    var limitedCharacterList = "";
+    if (this.props.limitedCharacterList) {
+      // limitedCharacterList is not case sensitive
+      const lowerCase = this.props.limitedCharacterList.map(character => character.toLowerCase());
+      const upperCase = this.props.limitedCharacterList.map(character => character.toUpperCase());
+      const fullSetLimitedCharacterList = lowerCase.concat(upperCase);
+      const constKeys = ["{bksp}", "{tab}", "{lock}", "{shift}", "{space}", "{enter}"];
+      var concatLayouts = this.keyboardLayout.default.concat(this.keyboardLayout.shift);
+      limitedCharacterList = concatLayouts.join(" ");
+      // Prevent important keys from being disabled
+      for (const key of constKeys) {
+        limitedCharacterList = limitedCharacterList.replaceAll(key, "");
+      }
+      // Apply app requested character set
+      for (const letter of fullSetLimitedCharacterList) {
+        limitedCharacterList = limitedCharacterList.replaceAll(letter, "");
+      }
+      // Remove extra spaces
+        limitedCharacterList = limitedCharacterList.replaceAll("  ", " ");
+    }
+
+    var autoCompleteWord = "";
+    if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
+      const currentWord = this.state.input.split(" ").pop();
+      for (const word of this.props.autoCompleteList) {
+        if (currentWord.length > 0 && word.startsWith(currentWord)) {
+          // Matched a potential autocomplete
+          autoCompleteWord = word.substr(currentWord.length)
+          break;
+        }
+      }
+    }
     
     var backLink = "/";
     if (app && app.isPerformingInteraction) {
@@ -166,13 +239,23 @@ export default class Keyboard extends Component {
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
                 <div className="input-row">
-                    <input
-                        className="input-text"
-                        value={this.state.input}
-                        type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
-                        placeholder={interactionText}
-                        onChange={this.onChangeInput}
-                    />
+                    <div className="input-text">
+                      <input
+                          ref={r => (this.inputRef = r)}
+                          value={this.state.input}
+                          type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
+                          placeholder={interactionText}
+                          onChange={this.onChangeInput}
+                          size={this.state.input ? this.state.input.length + this.state.tabCount : interactionText.length}
+                      />
+                      <div 
+                        className="input-autocomplete"
+                        onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
+                      >
+                        {autoCompleteWord}
+                      </div>
+                    </div>
+
                     <input 
                         className="mask-checkbox"
                         id="maskOption"
@@ -195,6 +278,12 @@ export default class Keyboard extends Component {
                     onChange={this.onChange}
                     onKeyPress={this.onKeyPress}
                     theme={this.keyboardClass}
+                    buttonTheme={limitedCharacterList && [
+                      {
+                        class: "hg-button-disabled",
+                        buttons: limitedCharacterList
+                      }
+                    ]}
                 />
             </div>
         </div>
@@ -258,3 +347,19 @@ const NUMERIC = {
   default: ["1 2 3", "4 5 6", "7 8 9", "{shift} 0 {enter}", "{bksp}"],
   shift: ["! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"]
 };
+
+const mapStateToProps = (state) => {
+  var activeApp = state.activeApp;
+  var app = state.ui[activeApp];
+  if (!app || !app.keyboardProperties) {
+    return {}
+  }
+  return {
+    limitedCharacterList: app.keyboardProperties.limitedCharacterList,
+    autoCompleteList: app.keyboardProperties.autoCompleteList
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Keyboard)

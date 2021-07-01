@@ -70,10 +70,13 @@ let textWithGraphicCapabilities = {
 			textField("mainField3"),
 			textField("mainField4"),
 			textField("templateTitle", 50),
+			textField("scrollableMessageBody", 44, 15),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
 			textField("initialInteractionText", 50),
+			textField("sliderHeader", 70),
+			textField("sliderFooter", 70),
 			textField("subtleAlertText1"),
 			textField("subtleAlertText2"),
 			textField("subtleAlertSoftButtonText"),
@@ -83,7 +86,9 @@ let textWithGraphicCapabilities = {
 			textField("menuCommandSecondaryText"),
 			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText", 20)
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -112,6 +117,7 @@ let textbuttonsWithGraphicCapabilities = {
 		"displayType": "SDL_GENERIC",
 		"displayName": "GENERIC_DISPLAY",
 		"textFields": [
+			textField("scrollableMessageBody", 44, 15),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
@@ -120,13 +126,17 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("subtleAlertSoftButtonText"),
 			textField("templateTitle", 50),
 			textField("initialInteractionText", 50),
+			textField("sliderHeader", 70),
+			textField("sliderFooter", 70),
 			textField("menuName"),
 			textField("secondaryText"),
 			textField("tertiaryText", 20),
 			textField("menuCommandSecondaryText"),
 			textField("menuCommandTertiaryText", 20),
 			textField("menuSubMenuSecondaryText"),
-			textField("menuSubMenuTertiaryText", 20)
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
 			imageField("choiceImage", 40),
@@ -181,10 +191,13 @@ let capabilities = {
 				textField("mediaClock"),
 				textField("mediaTrack"),
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("subtleAlertText1"),
 				textField("subtleAlertText2"),
 				textField("subtleAlertSoftButtonText"),
@@ -194,7 +207,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -258,10 +273,13 @@ let capabilities = {
 				textField("mainField3"),
 				textField("mainField4"),
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("subtleAlertText1"),
 				textField("subtleAlertText2"),
 				textField("subtleAlertSoftButtonText"),
@@ -271,7 +289,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -314,10 +334,15 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
-				textField("initialInteractionText", 50)
+				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("appIcon", 50),
@@ -335,6 +360,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -343,13 +369,17 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -391,6 +421,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -399,13 +430,17 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -425,7 +460,9 @@ let capabilities = {
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
 				imageField("alertIcon", 225),
-				imageField("subtleAlertIcon", 225)
+				imageField("subtleAlertIcon", 225),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -448,6 +485,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -456,13 +494,17 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -490,6 +532,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -498,13 +541,17 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -545,6 +592,7 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -553,13 +601,17 @@ let capabilities = {
 				textField("subtleAlertSoftButtonText"),
 				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
@@ -601,10 +653,13 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 15),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
 				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
 				textField("subtleAlertText1"),
 				textField("subtleAlertText2"),
 				textField("subtleAlertSoftButtonText"),
@@ -614,7 +669,9 @@ let capabilities = {
 				textField("menuCommandSecondaryText"),
 				textField("menuCommandTertiaryText", 20),
 				textField("menuSubMenuSecondaryText"),
-				textField("menuSubMenuTertiaryText", 20)
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
 				imageField("choiceImage", 40),
