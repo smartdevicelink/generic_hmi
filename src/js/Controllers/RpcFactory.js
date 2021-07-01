@@ -982,6 +982,24 @@ class RpcFactory {
             "method": "TTS.Stopped",
         })
     }
+    static PluginVRStartedMessage() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "Plugin.VR_STARTED",
+            'params': {
+              'destination': "VRPlugin"
+            }
+        })
+    }
+    static PluginVRStoppedMessage() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "Plugin.VR_STOPPED",
+            'params': {
+              'destination': "VRPlugin"
+            }
+        })
+    }
 }
 
 export default RpcFactory

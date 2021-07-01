@@ -784,6 +784,17 @@ function ui(state = {}, action) {
     }
 }
 
+function vr(state = { active: false }, action) {
+    var newState = { ...state }
+    switch(action.type) {
+        case Actions.TOGGLE_VR:
+            newState.active = !state.active;
+            return newState
+        default:
+            return state
+    }
+}
+
 function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
@@ -895,6 +906,7 @@ export const hmi = combineReducers({
     activeApp,
     pendingAppLaunch,
     ui,
+    vr,
     system,
     systemCapability,
     appStore

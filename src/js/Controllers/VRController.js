@@ -1,5 +1,23 @@
 import RpcFactory from './RpcFactory'
 class VRController {
+    constructor () {
+        this.addListener = this.addListener.bind(this)
+        this.startVR = this.startVR.bind(this)
+        this.stopVR = this.stopVR.bind(this)
+    }
+
+    addListener(listener) {
+        this.listener = listener
+    }
+
+    startVR() {
+        this.listener.send(RpcFactory.PluginVRStartedMessage())
+    }
+
+    stopVR() {
+        this.listener.send(RpcFactory.PluginVRStoppedMessage())
+    }
+
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         switch(methodName) {

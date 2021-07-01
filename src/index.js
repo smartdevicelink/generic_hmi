@@ -26,6 +26,7 @@ import AppStore from './js/AppStore';
 import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer';
 import Keyboard from './js/Keyboard';
+import VRPlugin from './js/VRPlugin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
@@ -321,6 +322,7 @@ ReactDOM.render((
             <Route path="/appstore" component={AppStore} />
             <Route path="/appstoremenu" component={AppStoreMenu} />
             <Route path="/keyboard" component={Keyboard} />
+            {window.flags.VRPlugin.MenuEnabled && <Route path="/vr" component={VRPlugin} />}
         </HashRouter>
     </HMIApp>
     </Provider>

@@ -31,6 +31,7 @@ export const Actions = {
     SLIDER: "SLIDER",
     UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
     CLOSE_SLIDER: "CLOSE_SLIDER",
+    TOGGLE_VR: "TOGGLE_VR",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     SET_URLS: "SET_URLS",
@@ -349,6 +350,12 @@ export const closeSlider = (msgID, appID) => {
         type: Actions.CLOSE_SLIDER,
         msgID: msgID,
         appID: appID
+    }
+}
+
+export const toggleVR = () => {
+    return {
+        type: Actions.TOGGLE_VR
     }
 }
 

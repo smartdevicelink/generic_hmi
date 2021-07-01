@@ -17,6 +17,7 @@ export default class Controller {
         uiController.addListener(this)
         sdlController.addListener(this)
         ttsController.addListener(this)
+        vrController.addListener(this)
         navController.addListener(this)
         appServicesController.addListener(this)
         // this.vrController = new VRController;
