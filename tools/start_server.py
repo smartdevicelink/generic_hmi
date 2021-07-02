@@ -34,6 +34,7 @@ import websockets
 import json
 import os
 import requests
+import base64
 from zipfile import ZipFile
 import subprocess
 import uuid
@@ -333,10 +334,11 @@ class RPCService(WSServer.SampleRPCService):
     certificate = None
     private_key = None
     try:
-      file_contents = open(crt_file_path, 'r').read()
-      certificate = crypto.load_certificate(crypto.FILETYPE_PEM, file_contents)
-      private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, file_contents,
-                      passphrase=Flags.CERT_PASS_PHRASE.encode('utf-8'))
+      file_contents = open(crt_file_path, 'rb').read()
+      p12 = crypto.load_pkcs12(base64.b64decode(file_contents),
+        Flags.CERT_PASS_PHRASE.encode('utf-8'))
+      certificate = p12.get_certificate()
+      private_key = p12.get_privatekey()
     except Exception as e:
       return RPCService.gen_error_msg('Failed to read from certificate file {0:}'.format(e))
 
