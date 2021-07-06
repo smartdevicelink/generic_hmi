@@ -9,7 +9,7 @@ import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-import {resetShowAppMenu} from './actions'
+import {resetOpenPermissionsView, resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
@@ -17,16 +17,26 @@ import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
+import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
 
 class AppStoreIcon extends React.Component {
     render() {
-        return (<div>
-                <Link to="/appstore">
+        return (<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
                     <div className="app-icon">
                         <div className="static-icon">
-                            <span className="svg-wrap">
+                            <div className="svg-wrap">
+                                <PermissionsIcon/>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+                <Link to="/appstore" style={{ marginRight: 0 }}>
+                    <div className="app-icon">
+                        <div className="static-icon">
+                            <div className="svg-wrap">
                                 <IconCart/>
-                            </span>
+                            </div>
                         </div>
                     </div>
                 </Link>
@@ -114,6 +124,8 @@ class AppHeader extends React.Component {
             else{
                 icon = (<div />)
             }
+        } else if (this.props.icon === 'custom') {
+            icon = this.props.jsxIcon;
         }
 
         var colorScheme = null;
@@ -243,6 +255,9 @@ class AppHeader extends React.Component {
                 }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))
+        } else if (nextProps.openPermissionsView) {
+            store.dispatch(resetOpenPermissionsView());
+            this.props.history.push('/apppermissions');
         }
 
     }

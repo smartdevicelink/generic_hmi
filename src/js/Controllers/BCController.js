@@ -31,7 +31,11 @@ class BCController {
                 return true
             case "ActivateApp":
                 store.dispatch(setAppIsConnected(rpc.params.appID))
-                store.dispatch(activateApp(rpc.params.appID))
+                if (!rpc.params.level || rpc.params.level === 'FULL') {
+                    store.dispatch(activateApp(rpc.params.appID));
+                } else {
+                    store.dispatch(deactivateApp(rpc.params.appID));
+                }
                 return true
             case "CloseApplication":
                 store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))

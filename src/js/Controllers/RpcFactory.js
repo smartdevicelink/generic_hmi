@@ -442,6 +442,29 @@ class RpcFactory {
             }
         })
     }
+    static SDLGetUserFriendlyMessage(codes) {
+        return {
+            jsonrpc: '2.0',
+            id: rpcFactory_msgId++,
+            method: 'SDL.GetUserFriendlyMessage',
+            params: {
+                language: "en-us",
+                messageCodes: codes
+            }
+        };
+    }
+    static SDLGetListOfPermissions(appID) {
+        var msg = {
+            jsonrpc: '2.0',
+            id: rpcFactory_msgId++,
+            method: 'SDL.GetListOfPermissions',
+            params: {}
+        };
+
+        if (appID) { msg.params.appID = appID; }
+
+        return msg;
+    }
     static SDLActivateApp(appID) {
         return ({
             "jsonrpc": "2.0",

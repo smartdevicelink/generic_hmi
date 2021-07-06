@@ -5,11 +5,10 @@ class TTSController {
         this.onResetTimeout = this.onResetTimeout.bind(this);
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
-        this.speakID = null;
+        this.playNext = this.playNext.bind(this);
         this.currentlyPlaying = null;
         this.timers = {};
         this.speechSynthesisInterval = null;
-
     }
     addListener(listener) {
         this.listener = listener
@@ -19,95 +18,31 @@ class TTSController {
         this.listener.send(RpcFactory.OnResetTimeout(appID, "TTS", methodName))
     }
 
-    playAudio() {
-        if(this.filePlaylist.length === 0) {
-            this.audioPlayer.onended = null;
-            if(!this.audioPlayer.paused) {
-                this.audioPlayer.pause();
-                this.audioPlayer.src = "";
-                return;
-            }
-        }
-
-        var path = this.filePlaylist[0].text;
-        this.filePlaylist.shift();
-
+    playAudio(path) {
         this.audioPlayer.onerror = (event) => {
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            } else {
-                this.speakEnded();
-            }
+            console.warn(event);
+            this.playNext();
         }
 
         this.audioPlayer.onended = () => {
             this.audioPlayer.src ="";
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }
-            } else {
-                this.speakEnded();
-            }
+            this.playNext();
         }
         this.currentlyPlaying = "FILE";
         this.audioPlayer.src = path;
         this.audioPlayer.play();
     }
 
-    speak() {
-        if(this.filePlaylist.length === 0) {
-            return;
-        }
-
-        var text = this.filePlaylist[0].text;
-        this.filePlaylist.shift();
-        
-        // Dont allow empty strings
-        if (!text) {
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            } else {
-                this.speakEnded();
-            }
-            return;
-        }
-
+    speak(text) {;
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            } else {
-                this.speakEnded();
-            }
+            this.playNext();
         }
 
         speechPlayer.onerror = (event) => {
-            console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
-            if(this.filePlaylist[0]) {
-                if(this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT"){
-                    this.speak();
-                }    
-            } else {
-                this.speakEnded();
-            }
+            console.warn("TTS error. Make sure your browser supports SpeechSynthesisUtterance");
+            this.playNext();
         }
 
         if (this.speechSynthesisInterval) {
@@ -120,7 +55,7 @@ class TTSController {
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
-        window.speechSynthesis.speak(speechPlayer)
+        window.speechSynthesis.speak(speechPlayer);
 
         // Workaround for chrome issue where long utterances time out
         this.speechSynthesisInterval = setInterval(() => {
@@ -135,33 +70,65 @@ class TTSController {
     }
 
     stopSpeak(stopSpeakingID) {
-        const speakID = this.speakID;
-        this.speakID = null;
-        if (this.currentlyPlaying === "FILE") {
-            this.audioPlayer.onended = null;
-            this.audioPlayer.pause();
-            this.audioPlayer.src = "";
-        } else if (this.currentlyPlaying === "TEXT") {
-            window.speechSynthesis.pause();
-            window.speechSynthesis.cancel();
+        var file = this.filePlaylist.shift();
+        while (file) {
+            if (file.type === 'REPLY') {
+                clearInterval(this.timers[file.id]);
+                this.listener.send(RpcFactory.TTSSpeakAborted(file.id));
+            }
+            file = this.filePlaylist.shift();
         }
+
+        this.cleanup();
+        this.listener.send(RpcFactory.TTSStoppedNotification());
+        this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
+    }
+
+    cleanup() {
+        this.audioPlayer.onended = null;
+        this.audioPlayer.pause();
+        this.audioPlayer.src = "";
+        window.speechSynthesis.pause();
+        window.speechSynthesis.cancel();
         this.filePlaylist = [];
         this.currentlyPlaying = null;
-        clearInterval(this.timers[speakID]);
-        this.listener.send(RpcFactory.TTSStopSpeakingSuccess(stopSpeakingID));
-        this.listener.send(RpcFactory.TTSSpeakAborted(speakID));
-        this.listener.send(RpcFactory.TTSStoppedNotification());
     }
 
     speakEnded() {
-        if (!this.speakID) {
-            return;
-        }
-        this.listener.send(RpcFactory.TTSSpeakSuccess(this.speakID));
+        this.cleanup();
         this.listener.send(RpcFactory.TTSStoppedNotification());
-        clearInterval(this.timers[this.speakID]);
-        this.speakID = null;
-        this.currentlyPlaying = null;
+    }
+
+    queueTTS(text, type='TEXT') {
+        this.filePlaylist.push({
+            type: type,
+            text: text
+        });
+
+        if (!this.currentlyPlaying) {
+            this.listener.send(RpcFactory.TTSStartedNotification());
+            this.playNext();
+        }
+    }
+
+    playNext() {
+        var file = this.filePlaylist.shift();
+        if (file !== undefined) {
+            if (file.type === "FILE") {
+                this.playAudio(file.text);
+            } else if (file.type === "TEXT") {
+                this.speak(file.text);
+            } else if (file.type === "REPLY") {
+                // REPLY is not an HMI_API type, it is internal used
+                // in case more things will be added to the filePlaylist,
+                // so that TTS Speak will be replied to before speaking next message
+                clearInterval(this.timers[file.id]);
+                this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
+                return this.playNext();
+            }
+        } else {
+            this.speakEnded();
+        }
     }
     
     handleRPC(rpc) {
@@ -182,26 +149,22 @@ class TTSController {
             case "SetGlobalProperties":
                 return true
             case "Speak":
-                if (this.speakID) {
+                if (this.currentlyPlaying) {
                     return { 
                         rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
                     };
                 }
                 var ttsChunks = rpc.params.ttsChunks
-                this.filePlaylist = []
                 for (var i=0; i<ttsChunks.length; i++) {
                         this.filePlaylist.push(ttsChunks[i])
                 }
-                this.speakID = rpc.id;
-                this.listener.send(RpcFactory.TTSStartedNotification());
+                // REPLY is not an HMI_API type, it is internal used
+                // in case more things will be added to the filePlaylist,
+                // so that TTS Speak will be replied to before speaking next message
+                this.filePlaylist.push({ type: 'REPLY', id: rpc.id });
 
-                if(this.filePlaylist.length > 0) {
-                    if(this.filePlaylist[0].type === "FILE") {
-                        this.playAudio();
-                    } else if (this.filePlaylist[0].type === "TEXT"){
-                        this.speak();
-                    }
-                }
+                this.listener.send(RpcFactory.TTSStartedNotification());
+                this.playNext();
                 this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
                 return null;
             case "StopSpeaking":
