@@ -38,7 +38,7 @@ class Permissions extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (false === this.state.appWasDisconnected && undefined === nextProps.editingPermissionsAppId) {
+        if (false === this.state.appWasDisconnected && undefined === nextProps.editingAppID) {
             this.setState({ appWasDisconnected: true });
             this.props.history.push("/permissionapplist");
         }
