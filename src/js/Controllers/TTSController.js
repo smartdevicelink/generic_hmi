@@ -70,12 +70,13 @@ class TTSController {
     }
 
     stopSpeak(stopSpeakingID) {
-        var file = null;
-        while (file = this.filePlaylist.shift()) {
+        var file = this.filePlaylist.shift();
+        while (file) {
             if (file.type === 'REPLY') {
                 clearInterval(this.timers[file.id]);
                 this.listener.send(RpcFactory.TTSSpeakAborted(file.id));
             }
+            file = this.filePlaylist.shift();
         }
 
         this.cleanup();
