@@ -44,3 +44,27 @@ $calc-width-1: (($box-width-1) - (($margin-size-1) / 1));
 .hscrollmenu .hscrollmenu-block {
     @include h-scroll-item-per-line();    
 }
+.resetTcontainer { 
+    margin-right: 10px;
+    @include display(flex);
+    @include justify-content(flex-end);
+}
+.performInteraction-reset-box {
+    background-color: darkslategray;
+    border-style: solid;
+    height: 50px;
+    width: 370px;
+    .timeout-box {
+        color: #ccc; 
+        font-weight: bold;
+    }
+    .reset-button {
+        width: 120px;
+        height: 30px;
+        border-radius: 8px;
+    }
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(space-around);
+    @include align-self(flex-end);
+}

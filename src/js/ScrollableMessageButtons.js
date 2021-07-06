@@ -1,7 +1,9 @@
 import React from 'react';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage';
 import uiController from './Controllers/UIController';
-
+import EventEmitter from "reactjs-eventemitter";
+import store from './store.js';
+const OUT_OF_BOUND_RESET_PERIOD = 1000000;
 export default class ScrollableMessageButtons extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,12 @@ export default class ScrollableMessageButtons extends React.Component {
         if(softButton.systemAction === "STEAL_FOCUS") {
             uiController.onScrollableMessageStealFocus(softButton.msgID, softButton.appID);
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
-            uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, softButton.duration);
+            const timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+            if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
+                EventEmitter.emit('OUT_OF_BOUND');
+                return;
+            }
+            uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
         } else {
             uiController.onCloseScrollableMessage(softButton.msgID, softButton.appID, this.props.appID);
         }

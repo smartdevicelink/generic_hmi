@@ -27,6 +27,8 @@ export const Actions = {
     PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
     CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
+    RESET_TIMEOUT: "RESET_TIMEOUT",
+    RESET_ALERT_TIMEOUT: "RESET_ALERT_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
     UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
@@ -40,6 +42,7 @@ export const Actions = {
     ON_SYSTEM_CAPABILITY_UPDATED: "ON_SYSTEM_CAPABILITY_UPDATED",
     ON_APP_SERVICE_DATA: "ON_APP_SERVICE_DATA",
     ON_PUT_FILE: "ON_PUT_FILE",
+    ON_TTS_SPEAK: "ON_TTS_SPEAK",
     SET_GLOBAL_PROPERTIES: "SET_GLOBAL_PROPERTIES",
     UPDATE_APPSTORE_CONNECTION_STATUS: "UPDATE_APPSTORE_CONNECTION_STATUS",
     UPDATE_AVAILABLE_APPSTORE_APPS: "UPDATE_AVAILABLE_APPSTORE_APPS",
@@ -314,6 +317,28 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
     }
 }
 
+export const resetTimeout = (data) => {
+    return {
+        type: Actions.RESET_TIMEOUT,
+        payload: {
+            resetPeriod: data.resetPeriod
+        },
+        appID: data.appID
+    }
+}
+
+export const alertTimeoutReseted = (data) => {
+    return {
+        type: Actions.RESET_ALERT_TIMEOUT,
+        payload: {
+            resetAlertTimeout: data.resetAlertTimeout
+        },
+        appID: data.appID
+    }
+}
+
+
+
 export const closeAlert = (msgID, appID) => {
     return {
         type: Actions.CLOSE_ALERT,
@@ -433,6 +458,17 @@ export const setGlobalProperties = (appID, menuLayout, menuIcon, keyboardPropert
         menuLayout: menuLayout,
         menuIcon: menuIcon,
         keyboardProperties: keyboardProperties
+    }
+}
+
+export const onSpeak = (msgID, appID, playTone, speakType, ttsChunks) => {
+    return {
+        type: Actions.ON_TTS_SPEAK,
+        appID: appID,
+        msgID: msgID,
+        playTone: playTone,
+        speakType: speakType,
+        ttsChunks: ttsChunks
     }
 }
 

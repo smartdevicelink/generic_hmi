@@ -47,25 +47,38 @@ import {
     setPTUWithModem, 
     updateAppStoreConnectionStatus, 
     updateInstalledAppStoreApps, 
-    setDDState
-} from './js/actions'
+    setDDState,
+    resetTimeout
+} from './js/actions';
+import EventEmitter from "reactjs-eventemitter";
+const DEFAULT_RESET_TIMEOUT = 10000
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dark: true,
             resolution: "960x600 Scale 1",
-            scale: 1
+            scale: 1,
+            resetPeriodValue: DEFAULT_RESET_TIMEOUT
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
         this.handleDDToggle = this.handleDDToggle.bind(this);
         this.pickResolution = this.pickResolution.bind(this);
+        this.changeResetPeriod = this.changeResetPeriod.bind(this);
         this.onTouchBegin = this.onTouchBegin.bind(this);
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
+        store.dispatch(resetTimeout(this.state.resetPeriodValue));
+        EventEmitter.subscribe('OUT_OF_BOUND', () => {
+            this.setState({ resetPeriodValue: DEFAULT_RESET_TIMEOUT }); 
+            store.dispatch(resetTimeout({
+                resetPeriod: DEFAULT_RESET_TIMEOUT,
+                appID: store.getState().activeApp
+            }));   
+        })
     }
     handleClick() {
         var theme = !this.state.dark
@@ -116,6 +129,14 @@ class HMIApp extends React.Component {
         this.setState({ resolution: event.target.value, scale: match[3] });
 
         bcController.onSystemCapabilityUpdated(capability, this.props.activeAppId);
+    }
+
+    changeResetPeriod(event) {
+        this.setState({ resetPeriodValue: event.target.value }); 
+        store.dispatch(resetTimeout({
+            resetPeriod: event.target.value,
+            appID: store.getState().activeApp
+        }));   
     }
 
     onTouchEvent(type, event) {
@@ -180,6 +201,22 @@ class HMIApp extends React.Component {
             </div>);
         }
 
+        var resetPeriodSelector = undefined;
+        if (this.props.activeAppState && this.props.activeAppState.videoStreamingCapability.length) {
+            resetPeriodSelector = (<div className="reset-period-selector">
+                <label>Reset period, ms:</label><br/>
+                <input type="text" value={this.state.resetPeriodValue} onChange={this.changeResetPeriod} />
+            </div>);
+            let state = store.getState();
+            if(parseInt(this.props.activeAppState.resetTimeout.resetTimeoutValue) 
+                !== parseInt(this.state.resetPeriodValue)) {
+                store.dispatch(resetTimeout({
+                    resetPeriod: this.state.resetPeriodValue,
+                    appID: store.getState().activeApp
+                })); 
+            }
+        }
+
         return(
             <div>
                 <div className={themeClass}>
@@ -199,6 +236,7 @@ class HMIApp extends React.Component {
                         <label>Driver Distraction</label>
                     </div>
                     { resolutionSelector }
+                    { resetPeriodSelector }
                 </div>
                 <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl}
                     onTouchStart={this.onTouchBegin} onMouseDown={this.onTouchBegin}
