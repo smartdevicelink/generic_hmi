@@ -125,7 +125,7 @@ class SDLController {
                             labels = GatherLabels(response.result.messages);
                             for (var msg of response.result.messages) {
                                 if (msg.messageCode === 'AppPermissionsRevoked') {
-                                    ttsController.queueTTS(FillConsumerFriendlyMessages(revokedApp.appName, [msg.ttsString], labels)[0].ttsString);
+                                    ttsController.queueTTS(FillConsumerFriendlyMessages(revokedApp.appName, [msg], labels)[0].ttsString);
                                     break;
                                 }
                             }
