@@ -826,6 +826,13 @@ function system(state = {}, action) {
             newState.editingPermissionsAppId = undefined;
             newState.allowedFunctions = [];
             return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            if (action.appID === state.editingPermissionsAppId) {
+                newState.openPermissionsView = false;
+                newState.editingPermissionsAppId = undefined;
+                newState.allowedFunctions = [];
+            }
+            return newState;
         case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
             newState.permissionsAppAwaitingActivation = false;
             return newState;

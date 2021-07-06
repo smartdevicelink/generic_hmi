@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
 import AppHeader from './containers/Header';
 import sdlController from './Controllers/SDLController';
@@ -31,7 +32,15 @@ class Permissions extends React.Component {
         this.savePermissions = this.savePermissions.bind(this);
 
         this.state = {
-            allowedFunctions: props.allowedFunctions
+            allowedFunctions: props.allowedFunctions,
+            appWasDisconnected: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (false === this.state.appWasDisconnected && undefined === nextProps.editingPermissionsAppId) {
+            this.setState({ appWasDisconnected: true });
+            this.props.history.push("/permissionapplist");
         }
     }
 
@@ -93,4 +102,4 @@ class Permissions extends React.Component {
 }
 
 const PermissionsView = connect(mapStateToProps)(Permissions);
-export default PermissionsView;
+export default withRouter(PermissionsView);
