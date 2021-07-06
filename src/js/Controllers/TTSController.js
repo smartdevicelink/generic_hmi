@@ -119,6 +119,9 @@ class TTSController {
             } else if (file.type === "TEXT") {
                 this.speak(file.text);
             } else if (file.type === "REPLY") {
+                // REPLY is not an HMI_API type, it is internal used
+                // in case more things will be added to the filePlaylist,
+                // so that TTS Speak will be replied to before speaking next message
                 clearInterval(this.timers[file.id]);
                 this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
                 return this.playNext();
@@ -155,6 +158,9 @@ class TTSController {
                 for (var i=0; i<ttsChunks.length; i++) {
                         this.filePlaylist.push(ttsChunks[i])
                 }
+                // REPLY is not an HMI_API type, it is internal used
+                // in case more things will be added to the filePlaylist,
+                // so that TTS Speak will be replied to before speaking next message
                 this.filePlaylist.push({ type: 'REPLY', id: rpc.id });
 
                 this.listener.send(RpcFactory.TTSStartedNotification());
