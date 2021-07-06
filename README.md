@@ -13,10 +13,11 @@ Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and
 - python3 and pip
 - ffmpeg
 - ffmpeg-python
+- pyopenssl
 
 ```
 sudo apt install chromium-browser ffmpeg python3 python3-pip -y
-python3 -m pip install ffmpeg-python
+python3 -m pip install ffmpeg-python pyopenssl
 ```
 
 Check out [nvm on github](https://github.com/nvm-sh/nvm#installing-and-updating) to learn how to install and use nvm!

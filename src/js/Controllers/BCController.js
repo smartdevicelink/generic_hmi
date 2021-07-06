@@ -112,6 +112,22 @@ class BCController {
                     store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsc.additionalVideoStreamingCapabilities));
                 }
                 return null;
+            
+            case "DecryptCertificate": {
+                const request = rpc
+                FileSystemController.subscribeToEvent('DecryptCertificate', (success, params) => {
+                    let response = (success) ? RpcFactory.SuccessResponse(request) :
+                        RpcFactory.ErrorResponse(request, 5, "Unable to decrypt certificate")
+                    this.listener.send(response)
+                });
+                FileSystemController.sendJSONMessage({
+                    method: 'DecryptCertificate',
+                    params: {
+                        fileName: request.params.fileName
+                    }
+                });
+                return null;
+            }
             default:
                 return false;
         }
