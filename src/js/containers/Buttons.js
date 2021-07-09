@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
     var app = {}
     var graphicPresent
     if (activeApp) {
-        subscribedButtons = state.ui[activeApp].subscribedButtons
+        subscribedButtons = state.ui[activeApp].subscribedButtons;
         softButtons = state.ui[activeApp].softButtons
         app = state.ui[activeApp]
         graphicPresent = state.ui[activeApp].graphic ? true : false

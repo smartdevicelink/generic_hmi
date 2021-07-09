@@ -190,12 +190,18 @@ class UIController {
                 ))
                 this.onSystemContext("MENU", rpc.params.appID)
                 return true
-            case "OnButtonSubscription":
+            case "SubscribeButton":
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
-                    rpc.params.name,
-                    rpc.params.isSubscribed
+                    rpc.params.buttonName,
+                    true
                 ))
+                const GENERIC_ERROR = 22;
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    this.listener.send(RpcFactory.ErrorResponse(rpc, GENERIC_ERROR, "No button provide to subscribe"));
+                    return;
+                }
+                this.listener.send(RpcFactory.SuccessResponse(rpc));
                 return null
             case "PerformInteraction":
                 if (!rpc.params.choiceSet) {

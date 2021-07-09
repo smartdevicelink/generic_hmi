@@ -7,6 +7,7 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
+import store from '../store';
 
 let file_access_base_url = "";
 
@@ -127,7 +128,6 @@ export default class Controller {
         }
         this.send(ready);
         // register for all notifications
-        this.subscribeToNotification("Buttons.OnButtonSubscription")
         this.subscribeToNotification("BasicCommunication.OnAppRegistered")
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("BasicCommunication.OnPutFile")

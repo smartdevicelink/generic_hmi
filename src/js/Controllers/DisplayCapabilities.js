@@ -260,6 +260,12 @@ let capabilities = {
 				"longPressAvailable": true,
 				"upDownAvailable": true,
 				"name": "SEEKRIGHT"
+			},
+			{
+				"shortPressAvailable": true,
+				"longPressAvailable": true,
+				"upDownAvailable": true,
+				"name": "CUSTOM_BUTTON"
 			}
 		]
 	},
