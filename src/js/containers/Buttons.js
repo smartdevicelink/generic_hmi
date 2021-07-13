@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
     }
 
     var buttons = []
-    if (softButtons.length > 0) {
+    if (softButtons.length > 0 && subscribedButtons.CUSTOM_BUTTON === true) {
         buttons.push({
             class: "tertiary",
             name: "CUSTOM_BUTTON",
@@ -138,7 +138,7 @@ const mapStateToProps = (state) => {
             iconProps: iconProps
         })
     }
-    if (softButtons.length > 1) {
+    if (softButtons.length > 1 && subscribedButtons.CUSTOM_BUTTON === true) {
         buttons.push({
             class: "tertiary",
             name: "CUSTOM_BUTTON",
