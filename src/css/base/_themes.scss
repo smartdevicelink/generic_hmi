@@ -3,6 +3,11 @@
         background: color($primary-color);
     }
 
+    .app-bg-color {
+        background: color($primary-color);
+    }
+
+
     .app__header {
         background-image: -webkit-linear-gradient(color($secondary-color), color($primary-color));
         background-image: -o-linear-gradient(color($secondary-color), color($primary-color));
@@ -85,6 +90,10 @@
 
 .light-theme {
     .app-body {
+        background: color(glass);
+    }
+
+    .app-bg-color {
         background: color(glass);
     }
 

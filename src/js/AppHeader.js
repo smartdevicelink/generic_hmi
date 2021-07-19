@@ -9,7 +9,7 @@ import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-import {resetShowAppMenu} from './actions'
+import {resetOpenPermissionsView, resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
@@ -98,6 +98,8 @@ class AppHeader extends React.Component {
             else{
                 icon = (<div />)
             }
+        } else if (this.props.icon === 'custom') {
+            icon = this.props.jsxIcon;
         }
 
         var colorScheme = null;
@@ -229,6 +231,9 @@ class AppHeader extends React.Component {
                 }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))
+        } else if (nextProps.openPermissionsView) {
+            store.dispatch(resetOpenPermissionsView());
+            this.props.history.push('/apppermissions');
         }
 
     }

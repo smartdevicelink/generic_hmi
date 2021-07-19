@@ -6,6 +6,7 @@ import { slide as Menu } from 'react-burger-menu';
 import { ReactComponent as IconHome } from '../img/static/0x55.svg'
 import { ReactComponent as IconCart } from '../img/icons/icon-cart.svg'
 import { ReactComponent as IconVR } from '../img/static/0xE8.svg'
+import { ReactComponent as PermissionsIcon } from '../img/static/0x49.svg'
 
 export default class ScreenMenu extends React.Component {
     render() {
@@ -34,6 +35,18 @@ export default class ScreenMenu extends React.Component {
                                 </div>
                             </div>
                             <p className="t-small t-light th-f-color">App Store</p>
+                        </div>
+                    </Link>
+                    <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
+                        <div className="menu-item">
+                            <div className="app-icon">
+                                <div className="static-icon">
+                                    <div className="svg-wrap">
+                                        <PermissionsIcon/>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="t-small t-light th-f-color">App Permissions</p>
                         </div>
                     </Link>
                     {window.flags.VRPlugin.MenuEnabled && <Link to="/vr">
