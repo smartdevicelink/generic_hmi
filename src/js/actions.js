@@ -146,9 +146,9 @@ export const deleteSubMenu = (appID, menuID) => {
 export const subscribeButton = (appID, buttonName, isSubscribed) => {
     return {
         type: Actions.SUBSCRIBE_BUTTON,
-        appID: appID,
-        buttonName: buttonName,
-        isSubscribed: isSubscribed
+        appID,
+        buttonName,
+        isSubscribed
     }
 }
 

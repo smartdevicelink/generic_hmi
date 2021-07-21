@@ -69,6 +69,7 @@ class UIController {
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         var appUIState = rpc.params && rpc.params.appID ? store.getState()['ui'][rpc.params.appID] : null;
+        const GENERIC_ERROR = 22;
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
@@ -190,13 +191,20 @@ class UIController {
                 ))
                 this.onSystemContext("MENU", rpc.params.appID)
                 return true
-            case "OnButtonSubscription":
+            case "SubscribeButton":
+            case "UnsubscribeButton":
+                const isSubscribed = methodName === 'SubscribeButton';
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
-                    rpc.params.name,
-                    rpc.params.isSubscribed
-                ))
-                return null
+                    rpc.params.buttonName,
+                    isSubscribed
+                ));
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    this.listener.send(RpcFactory.ErrorResponse(rpc, GENERIC_ERROR, `No button provide to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`));
+                    return;
+                };
+                this.listener.send(RpcFactory.SuccessResponse(rpc));
+                return 
             case "PerformInteraction":
                 if (!rpc.params.choiceSet) {
                     return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
