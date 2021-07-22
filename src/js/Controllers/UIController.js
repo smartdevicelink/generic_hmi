@@ -12,7 +12,6 @@ import {
     setMediaClockTimer,
     setTemplateConfiguration,
     alert,
-    alertTimeoutReseted,
     closeAlert,
     slider,
     closeSlider,

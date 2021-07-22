@@ -26,9 +26,6 @@ class Alert extends React.Component {
             ttsStoped: false
         }
         this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
-        EventEmitter.subscribe('TTSTimeout', () => {
-            this.setState({ ttsStoped: true });
-        })
     }
 
     pressResetTimeoutButton(event) {
