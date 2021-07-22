@@ -1,7 +1,7 @@
 import React from 'react';
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, openPermissionsView } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, openPermissionsView, onStatusUpdate } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
@@ -74,7 +74,11 @@ class SDLController {
                         externalPolicies.stopUpdateRetry();
                     }                    
                 }
-                this.toastStatus(rpc.params.status);
+                if (window.flags.StatusUpdateIcon) {
+                    store.dispatch(onStatusUpdate(rpc.params.status));
+                } else {
+                    this.toastStatus(rpc.params.status);
+                }
                 return null;
             case "OnAppPermissionChanged":
                 if (rpc.params.appPermissionsConsentNeeded) {

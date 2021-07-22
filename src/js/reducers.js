@@ -787,6 +787,9 @@ function ui(state = {}, action) {
 function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
+        case Actions.ON_STATUS_UPDATE:
+            newState.policyStatus = action.status
+            return newState
         case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry
