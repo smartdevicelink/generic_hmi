@@ -269,13 +269,12 @@ class TTSController {
                     }
                 }
                 this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
-                return undefined;
+                return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {
                     this.stopSpeak(rpc.id);
                     return null;
                 }
-                this.speakID = null;
                 const infoString = "No active TTS";
                 return { rpc: RpcFactory.ErrorResponse(rpc, 6, infoString) }
             default:
