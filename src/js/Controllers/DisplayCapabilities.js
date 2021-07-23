@@ -460,9 +460,7 @@ let capabilities = {
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
 				imageField("alertIcon", 225),
-				imageField("subtleAlertIcon", 225),
-				textField("audioPassThruDisplayText1", 50),
-				textField("audioPassThruDisplayText2", 50)
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
