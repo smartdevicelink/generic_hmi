@@ -34,6 +34,7 @@ import websockets
 import json
 import os
 import requests
+import base64
 from zipfile import ZipFile
 import subprocess
 import uuid
@@ -45,6 +46,7 @@ import threading
 import argparse
 import ffmpeg
 import pexpect.fdpexpect
+import OpenSSL.crypto as crypto
 
 class Flags():
   """Used to define global properties"""
@@ -183,6 +185,7 @@ class RPCService(WSServer.SampleRPCService):
       "UninstallApp": RPCService.webengine_manager.handle_uninstall_app,
       "StartVideoStream": self.handle_start_video_stream,
       "StartAudioStream": self.handle_start_audio_stream,
+      "DecryptCertificate": self.handle_decrypt_certificate
     }
 
   async def send(self, _msg):
@@ -319,6 +322,36 @@ class RPCService(WSServer.SampleRPCService):
       return self.gen_error_msg('Streaming data not available from SDL')
 
     return { 'success': True, 'params': { 'endpoint': server_endpoint } }
+
+  def handle_decrypt_certificate(self, _method_name, _params):
+    if 'fileName' not in _params:
+      return self.gen_error_msg('Missing mandatory param \'fileName\'')
+
+    crt_file_path = _params['fileName']
+    if not os.path.isfile(crt_file_path):
+      return self.gen_error_msg("File does not exist")
+
+    certificate = None
+    private_key = None
+    try:
+      file_contents = open(crt_file_path, 'rb').read()
+      p12 = crypto.load_pkcs12(base64.b64decode(file_contents),
+        Flags.CERT_PASS_PHRASE.encode('utf-8'))
+      certificate = p12.get_certificate()
+      private_key = p12.get_privatekey()
+    except Exception as e:
+      return RPCService.gen_error_msg('Failed to read from certificate file {0:}'.format(e))
+
+    cert_out = crypto.dump_certificate(crypto.FILETYPE_PEM, certificate).decode()
+    key_out = crypto.dump_privatekey(crypto.FILETYPE_PEM, private_key).decode()
+    try:
+      out_file = open(crt_file_path, 'w')
+      out_file.write(cert_out + key_out)
+      out_file.close()
+    except Exception as e:
+      return RPCService.gen_error_msg('Failed to write to certificate file {0:}'.format(e))
+
+    return { 'success': True }
 
   @staticmethod
   def gen_error_msg(_error_msg):
@@ -468,6 +501,7 @@ def main():
   parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
   parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
+  parser.add_argument('--cert-passphrase', type=str, default='defaultPassPhrase', help="A secret password used to decrypt the certificate from the PT")
   parser.add_argument('--fs-port', type=int, default=4000, help="File server port number")
   parser.add_argument('--fs-uri', type=str, help="File server's URI (to be sent back to the client hmi)")
 
@@ -477,6 +511,7 @@ def main():
   Flags.FILE_SERVER_URI = args.fs_uri if args.fs_uri else 'http://%s:%s' % (Flags.FILE_SERVER_HOST, Flags.FILE_SERVER_PORT)
   Flags.VIDEO_SERVER_PORT = args.video_port
   Flags.AUDIO_SERVER_PORT = args.audio_port
+  Flags.CERT_PASS_PHRASE = args.cert_passphrase
 
   backend_server = WSServer(args.host, args.ws_port, RPCService)
 
