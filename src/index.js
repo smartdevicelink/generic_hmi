@@ -39,6 +39,7 @@ import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
 import uiController from './js/Controllers/UIController'
+import { DEFAULT_RESET_TIMEOUT } from "./js/Alert"
 
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
@@ -48,10 +49,10 @@ import {
     updateAppStoreConnectionStatus, 
     updateInstalledAppStoreApps, 
     setDDState,
-    resetTimeout
+    resetTimeout,
+    updateResetPeriod
 } from './js/actions';
-import EventEmitter from "reactjs-eventemitter";
-const DEFAULT_RESET_TIMEOUT = 10000
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -59,7 +60,6 @@ class HMIApp extends React.Component {
             dark: true,
             resolution: "960x600 Scale 1",
             scale: 1,
-            resetPeriodValue: DEFAULT_RESET_TIMEOUT
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
@@ -71,14 +71,7 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
-        store.dispatch(resetTimeout(this.state.resetPeriodValue));
-        EventEmitter.subscribe('OUT_OF_BOUND', () => {
-            this.setState({ resetPeriodValue: DEFAULT_RESET_TIMEOUT }); 
-            store.dispatch(resetTimeout({
-                resetPeriod: DEFAULT_RESET_TIMEOUT,
-                appID: store.getState().activeApp
-            }));   
-        })
+        store.dispatch(resetTimeout(props.resetPeriodValue));
     }
     handleClick() {
         var theme = !this.state.dark
@@ -132,7 +125,8 @@ class HMIApp extends React.Component {
     }
 
     changeResetPeriod(event) {
-        this.setState({ resetPeriodValue: event.target.value }); 
+        this.props.updateResetPeriod(event.target.value); 
+
         store.dispatch(resetTimeout({
             resetPeriod: event.target.value,
             appID: store.getState().activeApp
@@ -205,13 +199,13 @@ class HMIApp extends React.Component {
         if (this.props.activeAppState && this.props.activeAppState.videoStreamingCapability.length) {
             resetPeriodSelector = (<div className="reset-period-selector">
                 <label>Reset period, ms:</label><br/>
-                <input type="text" value={this.state.resetPeriodValue} onChange={this.changeResetPeriod} />
+                <input type="text" value={this.props.resetPeriodValue} onChange={this.changeResetPeriod} />
             </div>);
             let state = store.getState();
             if(parseInt(this.props.activeAppState.resetTimeout.resetTimeoutValue) 
-                !== parseInt(this.state.resetPeriodValue)) {
+                !== parseInt(this.props.resetPeriodValue)) {
                 store.dispatch(resetTimeout({
-                    resetPeriod: this.state.resetPeriodValue,
+                    resetPeriod: this.props.resetPeriodValue,
                     appID: store.getState().activeApp
                 })); 
             }
@@ -324,6 +318,7 @@ const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
+        resetPeriodValue: state.appStore.resetPeriodValue,
         showWebView: state.appStore.webViewActive,
         activeAppId: state.activeApp,
         dd: state.ddState,
@@ -332,7 +327,7 @@ const mapStateToProps = (state) => {
         activeAppState: state.ui[state.activeApp]
     }
 }
-HMIApp = connect(mapStateToProps)(HMIApp)
+HMIApp = connect(mapStateToProps, { updateResetPeriod })(HMIApp)
 
 // render
 ReactDOM.render((

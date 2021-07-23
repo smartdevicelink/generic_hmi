@@ -8,10 +8,15 @@ import store from './store.js'
 import { alertTimeoutReseted } from './actions'
 import UIController from './Controllers/UIController'
 import TTSController from './Controllers/TTSController'
-import EventEmitter from "reactjs-eventemitter";
+import { connect } from 'react-redux'
 
+import { updateResetPeriod, resetTimeout } from './actions';
+import { DEFAULT_RESET_TIMEOUT } from "./Alert"
+
+
+export const DEFAULT_RESET_TIMEOUT = 10000
 const OUT_OF_BOUND_RESET_PERIOD = 1000;
-export default class Alert extends React.Component {
+class Alert extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +36,11 @@ export default class Alert extends React.Component {
 
         let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue / 1000;
         if (count > OUT_OF_BOUND_RESET_PERIOD) {
-            EventEmitter.emit('OUT_OF_BOUND');
+            this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
+            this.props.resetTimeout({
+                resetPeriod: DEFAULT_RESET_TIMEOUT,
+                appID: store.getState().activeApp
+            }); 
             return;
         }
         this.setState({ alertCounter: count });
@@ -90,3 +99,5 @@ export default class Alert extends React.Component {
         )
     }
 }
+
+export default connect(null, { updateResetPeriod, resetTimeout })(Alert)

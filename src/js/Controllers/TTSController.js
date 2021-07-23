@@ -3,7 +3,6 @@ import store from '../store';
 import {
     onSpeak
 } from '../actions';
-import EventEmitter from "reactjs-eventemitter";
 
 const RESPONSE_CORRELATION_MS = 1000;
 const ALERT_CORRELATION_MS = 100;
@@ -186,7 +185,6 @@ class TTSController {
         delete this.timers[msgID]
 
         this.listener.send(RpcFactory.TTSSpeakResponse({ id: msgID, method: 'TTS.Speak' }))
-        EventEmitter.emit('TTSTimeout');
     }
 
     handleRPC(rpc) {
