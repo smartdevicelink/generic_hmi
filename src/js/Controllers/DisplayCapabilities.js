@@ -688,8 +688,7 @@ let capabilities = {
 			"screenParams": screenParams,
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		},
-		"softButtonCapabilities": []
+		}
 	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
