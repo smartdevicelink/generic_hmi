@@ -36,9 +36,6 @@ class TTSController {
     playAudio(rpc) {
         if (this.filePlaylist.length === 0) {
             this.audioPlayer.onended = null;
-            if (rpc.params.speakType !== "ALERT") {
-                this.listener.send(RpcFactory.TTSSpeakResponse(rpc))
-            }
             if (!this.audioPlayer.paused) {
                 this.audioPlayer.pause();
                 this.audioPlayer.src = "";
