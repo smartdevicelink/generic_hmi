@@ -71,7 +71,7 @@ class Alert extends React.Component {
 
             resetTimeoutHTML = undefined;
             if (this.state.alertCounter > 0) {
-                resetTimeoutHTML = <><div className="alert-reset-box"><div className="timeout-box">
+                resetTimeoutHTML = <><div className="alert-reset-box th-reset-box"><div className="timeout-box">
                     <p>UI.Alert: {this.state.alertCounter}</p>
                     {resetSpeakTimeoutHTML}
                 </div>

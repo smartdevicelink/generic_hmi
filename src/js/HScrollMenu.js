@@ -84,7 +84,7 @@ class HScrollMenu extends React.Component {
 
         let resetTimeoutPInteraction;
         if('interactionId' in this.props) {
-            resetTimeoutPInteraction = (<div className="performInteraction-reset-box">
+            resetTimeoutPInteraction = (<div className="performInteraction-reset-box th-reset-box">
             <div className="timeout-box">
                 <p>UI.PerformInteraction: {this.state.performInteractionCounter}</p>
             </div>

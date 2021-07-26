@@ -50,7 +50,6 @@ $calc-width-1: (($box-width-1) - (($margin-size-1) / 1));
     @include justify-content(flex-end);
 }
 .performInteraction-reset-box {
-    background-color: darkslategray;
     border-style: solid;
     height: 50px;
     width: 370px;
