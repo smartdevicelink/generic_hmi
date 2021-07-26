@@ -39,7 +39,6 @@ import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
 import bcController from './js/Controllers/BCController'
 import uiController from './js/Controllers/UIController'
-import { DEFAULT_RESET_TIMEOUT } from "./js/Alert"
 
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 

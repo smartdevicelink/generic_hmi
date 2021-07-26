@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
-import { DEFAULT_RESET_TIMEOUT } from "./Alert"
 
 function newAppState () {
     return {
@@ -34,7 +33,6 @@ function newAppState () {
         audioStreamingIndicator: "PLAY_PAUSE",
         countRate: 1.0,
         updateTime: new Date().getTime(),
-        resetPeriodValue: DEFAULT_RESET_TIMEOUT,
         timerOffset: 0,
         paused: false,
         forwardSeekIndicator: {type: "TRACK", seekTime: null},
@@ -846,7 +844,8 @@ function appStore(state = {
     webViewActive: false,
     availableApps: [],
     installedApps: [],
-    appsPendingSetAppProperties: []
+    appsPendingSetAppProperties: [],
+    resetPeriodValue: 10000,
 }, action) {
     var newState = { ...state };
     switch (action.type) {

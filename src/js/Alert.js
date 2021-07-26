@@ -11,7 +11,6 @@ import TTSController from './Controllers/TTSController'
 import { connect } from 'react-redux'
 
 import { updateResetPeriod, resetTimeout } from './actions';
-import { DEFAULT_RESET_TIMEOUT } from "./Alert"
 
 
 export const DEFAULT_RESET_TIMEOUT = 10000
