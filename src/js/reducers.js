@@ -833,9 +833,34 @@ function system(state = {}, action) {
         case Actions.NAVIGATION_VIEW_ACTIVE:
             newState.navigationActive = action.active
             return newState
+        case Actions.OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = true;
+            newState.editingPermissionsAppId = action.appID;
+            newState.allowedFunctions = action.allowedFunctions;
+            if (action.permissionsAppAwaitingActivation) {
+                newState.permissionsAppAwaitingActivation = action.permissionsAppAwaitingActivation;
+            }
+            return newState;
+        case Actions.RESET_OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            return newState
+        case Actions.CLOSE_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            newState.editingPermissionsAppId = undefined;
+            newState.allowedFunctions = [];
+            return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            if (action.appID === state.editingPermissionsAppId) {
+                newState.openPermissionsView = false;
+                newState.editingPermissionsAppId = undefined;
+                newState.allowedFunctions = [];
+            }
+            return newState;
+        case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
+            newState.permissionsAppAwaitingActivation = false;
+            return newState;
         default:
             return state
-
     }
 }
 

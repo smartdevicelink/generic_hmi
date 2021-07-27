@@ -60,7 +60,14 @@ export const Actions = {
     NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
     SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY",
     SET_HAPTIC_DATA: "SET_HAPTIC_DATA",
+<<<<<<< HEAD
     RESET_PERIOD_VALUE: "RESET_PERIOD_VALUE"
+=======
+    OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
+    RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
+    CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
+    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS"
+>>>>>>> 1508c25dbb50af40cf0ce71101507c1bcc71ff8e
 }
 
 export const updateAppList = (applications) => {
@@ -607,4 +614,23 @@ export const setHapticData = (appID, hapticRects) => ({
     type: Actions.SET_HAPTIC_DATA,
     appID: appID,
     hapticRects: hapticRects
+});
+
+export const openPermissionsView = (appID, allowedFunctions, permissionsAppAwaitingActivation=false) => ({
+    type: Actions.OPEN_PERMISSIONS_VIEW,
+    appID: appID,
+    allowedFunctions: allowedFunctions,
+    permissionsAppAwaitingActivation: permissionsAppAwaitingActivation ? appID : false
+});
+
+export const resetOpenPermissionsView = () => ({
+    type: Actions.RESET_OPEN_PERMISSIONS_VIEW
+});
+
+export const closePermissionsView = () => ({
+    type: Actions.CLOSE_PERMISSIONS_VIEW
+});
+
+export const clearAppAwaitingPermissions = () => ({
+    type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
 });

@@ -32,24 +32,6 @@ TARGET_SCRIPT="start_server.py"
 TARGET_DIR="./python_websocket/src"
 SOURCE_DIR="./tools"
 
-SwitchSubmoduleVersion(){
-    version=$1
-    if [ -z "$version" ]; then
-        echo "Version number required"
-        return
-    fi
-
-    cwd=$(pwd)
-    cd ${TARGET_DIR}
-    if [[ -z $(git branch --list "v$version") ]]; then # Version branch does not exist
-        git checkout tags/$version -b v$version > /dev/null
-        echo "Using websockets version $version"
-    elif [[ "$(git rev-parse --abbrev-ref HEAD)" != "v$version" ]]; then # Not on version branch
-        git checkout v$version
-    fi
-    cd $cwd
-}
-
 InitSubmodules() {
     git submodule init
     git submodule update
@@ -64,11 +46,6 @@ StartServer() {
 if ! find $TARGET_DIR -mindepth 1 | read; then
     echo "Fetching HMI dependencies..."
     InitSubmodules
-fi
-
-python_version=$(python3 -V | awk '{print $2}')
-if [[ $? == 0 && "$python_version" < "3.6.0" ]]; then
-    SwitchSubmoduleVersion "7.0"
 fi
 
 echo "Starting HMI Backend service..."

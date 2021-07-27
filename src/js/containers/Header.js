@@ -162,6 +162,7 @@ const mapStateToProps = (state) => {
         parentID: parentID,
         activeLayout: app.displayLayout,
         interactionLayout: app.interactionLayout,
+        openPermissionsView: state.system.openPermissionsView,
         showPerformAudioPassThru: showPerformAudioPassThru,
         aptTextFields: aptTextFields,
         aptAppID: aptAppID,
