@@ -933,6 +933,7 @@ function appStore(state = {
             return newState;
         case Actions.RESET_PERIOD_VALUE:
             newState.resetPeriodValue = action.payload
+            return newState
         default:
             return state;
     }
