@@ -1,10 +1,13 @@
 import React from 'react';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage';
 import uiController from './Controllers/UIController';
-import EventEmitter from "reactjs-eventemitter";
+import { updateResetPeriod, resetTimeout } from './actions';
 import store from './store.js';
+import { connect } from 'react-redux'
+import { DEFAULT_RESET_TIMEOUT } from "./Alert"
+
 const OUT_OF_BOUND_RESET_PERIOD = 1000000;
-export default class ScrollableMessageButtons extends React.Component {
+class ScrollableMessageButtons extends React.Component {
     constructor(props) {
         super(props);
         this.getAction = this.getAction.bind(this);
@@ -16,7 +19,11 @@ export default class ScrollableMessageButtons extends React.Component {
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
             const timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
-                EventEmitter.emit('OUT_OF_BOUND');
+                this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
+                this.props.resetTimeout({
+                    resetPeriod: DEFAULT_RESET_TIMEOUT,
+                    appID: store.getState().activeApp
+                }); 
                 return;
             }
             uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
@@ -48,3 +55,5 @@ export default class ScrollableMessageButtons extends React.Component {
         )        
     }
 }
+
+export default connect(null, { updateResetPeriod, resetTimeout })(ScrollableMessageButtons)

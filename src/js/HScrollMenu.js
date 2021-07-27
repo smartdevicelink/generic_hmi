@@ -3,10 +3,12 @@ import HScrollMenuItem from './HScrollMenuItem'
 import MenuFooter from './MenuFooter';
 import store from './store.js'
 import UIController from './Controllers/UIController';
-import EventEmitter from "reactjs-eventemitter";
+import { connect } from 'react-redux'
+import { updateResetPeriod, resetTimeout } from './actions';
+import { DEFAULT_RESET_TIMEOUT } from "./Alert"
 
 const OUT_OF_BOUND_RESET_PERIOD = 1000;
-export default class HScrollMenu extends React.Component {
+class HScrollMenu extends React.Component {
     constructor(props) {
         super(props);
         this.hiddenNames = [];
@@ -27,7 +29,11 @@ export default class HScrollMenu extends React.Component {
     pressResetTimeoutButton(event) { 
         const count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
         if(count > OUT_OF_BOUND_RESET_PERIOD) {
-            EventEmitter.emit('OUT_OF_BOUND');
+            this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
+            this.props.resetTimeout({
+                resetPeriod: DEFAULT_RESET_TIMEOUT,
+                appID: store.getState().activeApp
+            }); 
             return;
         }
         this.setState({performInteractionCounter: count});
@@ -78,7 +84,7 @@ export default class HScrollMenu extends React.Component {
 
         let resetTimeoutPInteraction;
         if('interactionId' in this.props) {
-            resetTimeoutPInteraction = (<div className="performInteraction-reset-box">
+            resetTimeoutPInteraction = (<div className="performInteraction-reset-box th-reset-box">
             <div className="timeout-box">
                 <p>UI.PerformInteraction: {this.state.performInteractionCounter}</p>
             </div>
@@ -99,3 +105,5 @@ export default class HScrollMenu extends React.Component {
         )
     }
 }
+
+export default connect(null, { updateResetPeriod, resetTimeout })(HScrollMenu)

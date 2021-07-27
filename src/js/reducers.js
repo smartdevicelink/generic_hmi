@@ -3,7 +3,6 @@ import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
-
 function newAppState () {
     return {
         showStrings: {},
@@ -870,7 +869,8 @@ function appStore(state = {
     webViewActive: false,
     availableApps: [],
     installedApps: [],
-    appsPendingSetAppProperties: []
+    appsPendingSetAppProperties: [],
+    resetPeriodValue: 10000,
 }, action) {
     var newState = { ...state };
     switch (action.type) {
@@ -931,6 +931,9 @@ function appStore(state = {
         case Actions.WEB_VIEW_ACTIVE:
             newState.webViewActive = action.active;
             return newState;
+        case Actions.RESET_PERIOD_VALUE:
+            newState.resetPeriodValue = action.payload
+            return newState
         default:
             return state;
     }
