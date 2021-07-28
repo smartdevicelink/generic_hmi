@@ -339,18 +339,6 @@ export const resetTimeout = (data) => {
     }
 }
 
-export const alertTimeoutReseted = (data) => {
-    return {
-        type: Actions.RESET_ALERT_TIMEOUT,
-        payload: {
-            resetAlertTimeout: data.resetAlertTimeout
-        },
-        appID: data.appID
-    }
-}
-
-
-
 export const closeAlert = (msgID, appID) => {
     return {
         type: Actions.CLOSE_ALERT,
