@@ -22,11 +22,9 @@ class TTSController {
         this.listener = listener
     }
 
-    onResetTimeout(appID, methodName) {
+    onResetTimeout(messageId) {
         let activeApp = store.getState().activeApp;
         let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
-        let messageId = store.getState().ui[activeApp].speak.msgID;
-
         const finalResetPeriod = resPeriod - RESPONSE_CORRELATION_MS;
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
@@ -263,7 +261,7 @@ class TTSController {
                         this.speak(rpc);
                     }
                 }
-                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
+                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.id);
                 return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {
