@@ -48,9 +48,6 @@ function newAppState () {
         resetTimeout: {
             resetTimeoutValue: 10000
         },
-        alertTimeoutReseted: {
-            isAlertTimeoutReseted: true
-        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -644,9 +641,6 @@ function ui(state = {}, action) {
             return newState
         case Actions.RESET_TIMEOUT:
             app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
-            return newState
-        case Actions.RESET_ALERT_TIMEOUT:
-            app.alertTimeoutReseted.isAlertTimeoutReseted = !app.alertTimeoutReseted.isAlertTimeoutReseted;
             return newState
         case Actions.ON_TTS_SPEAK:
             app.speak.msgID = action.msgID

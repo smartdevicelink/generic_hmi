@@ -28,7 +28,6 @@ export const Actions = {
     CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
     RESET_TIMEOUT: "RESET_TIMEOUT",
-    RESET_ALERT_TIMEOUT: "RESET_ALERT_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
     UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
@@ -338,18 +337,6 @@ export const resetTimeout = (data) => {
         appID: data.appID
     }
 }
-
-export const alertTimeoutReseted = (data) => {
-    return {
-        type: Actions.RESET_ALERT_TIMEOUT,
-        payload: {
-            resetAlertTimeout: data.resetAlertTimeout
-        },
-        appID: data.appID
-    }
-}
-
-
 
 export const closeAlert = (msgID, appID) => {
     return {
