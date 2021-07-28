@@ -1,8 +1,5 @@
 import RpcFactory from './RpcFactory';
 import store from '../store';
-import {
-    onSpeak
-} from '../actions';
 
 const RESPONSE_CORRELATION_MS = 1000;
 const ALERT_CORRELATION_MS = 100;
@@ -238,13 +235,6 @@ class TTSController {
                         rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
                     };
                 }
-                store.dispatch(onSpeak(
-                    rpc.id,
-                    rpc.params.appID,
-                    rpc.params.playTone,
-                    rpc.params.speakType,
-                    rpc.params.ttsChunks
-                ))
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
                 for (var i = 0; i < ttsChunks.length; i++) {
