@@ -27,6 +27,7 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
+import ttsController from './TTSController';
 import { ValidateImages, AddImageValidationRequest, RemoveImageValidationResult } from '../Utils/ValidateImages'
 
 const getNextSystemContext = () => {
@@ -697,6 +698,12 @@ class UIController {
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
+        let isAlertSpeakType = store.getState().ui[appID].speak.speakType.includes('ALERT');
+        if (isAlertSpeakType && !ttsController.isSpeakFinished()) {
+            const RESET_ALERT_TIMEOUT_MS = 2000;
+            this.resetAlertTimeout(RESET_ALERT_TIMEOUT_MS);
+            return;
+        }
 
         let imageValidationSuccess = RemoveImageValidationResult(msgID)
 
@@ -975,9 +982,9 @@ class UIController {
         }
     }
 
-    resetAlertTimeout() {
+    resetAlertTimeout(timeout) {
         let activeApp = store.getState().activeApp;
-        let resPeriod = store.getState().resetTimeout.resetPeriod;
+        let resPeriod = timeout || store.getState().resetTimeout.resetPeriod;
         let messageId = store.getState().ui[activeApp].alert.msgID;
 
         clearTimeout(this.timers[messageId]);
