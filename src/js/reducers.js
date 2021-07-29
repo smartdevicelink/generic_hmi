@@ -642,12 +642,6 @@ function ui(state = {}, action) {
         case Actions.RESET_TIMEOUT:
             app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
             return newState
-        case Actions.ON_TTS_SPEAK:
-            app.speak.msgID = action.msgID
-            app.speak.playTone = action.playTone
-            app.speak.speakType = action.speakType
-            app.speak.ttsChunks = action.ttsChunks
-            return newState
         case Actions.REGISTER_APPLICATION:
             app.displayLayout = action.displayLayout;
             return newState
