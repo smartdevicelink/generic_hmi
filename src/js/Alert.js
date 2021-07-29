@@ -49,25 +49,10 @@ export default class Alert extends React.Component {
     render() {
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }
-        const { ui, activeApp } = store.getState()
 
         var iconElement = (icon.imageType === "STATIC")
             ? (<StaticIcon class="alert-icon" image={icon.value} />)
             : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
-
-        let resetTimeoutHTML = undefined;
-        if (activeApp && ui[activeApp].alert.softButtons === undefined) {
-            let resetSpeakTimeoutHTML = undefined;
-
-            resetTimeoutHTML = undefined;
-            if (this.state.alertCounter > 0) {
-                resetTimeoutHTML = <div className="alert-reset-box th-reset-box"><div className="timeout-box">
-                    <p>UI.Alert: {this.state.alertCounter}</p>
-                    {resetSpeakTimeoutHTML}
-                </div>
-                    <button className="reset-button" onClick={this.pressResetTimeoutButton}>Reset Timeout</button></div>
-            }
-        }
 
         return (
             <div className="alert">
@@ -81,7 +66,6 @@ export default class Alert extends React.Component {
                     {iconElement}
                 </div>
                 <AlertButtons classPrefix="alert" />
-                {resetTimeoutHTML}
             </div>
         )
     }
