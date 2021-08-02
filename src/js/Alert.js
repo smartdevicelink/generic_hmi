@@ -45,7 +45,11 @@ class Alert extends React.Component {
         this.setState(prevState => ({ speakCounter: prevState.speakCounter > 0 ? prevState.speakCounter - 1 : '' }))
     }
     componentDidMount() {
-        this.setState({alertCounter: store.getState().ui[store.getState().activeApp].alert.duration/1000});
+        const { activeApp, ui } = store.getState()
+
+        if (activeApp) {
+            this.setState({alertCounter: ui[activeApp].alert.duration/1000});
+        }
         this.interval = setInterval(() => this.changeCounter(), 1000);
     }
     componentWillUnmount() {
@@ -56,13 +60,14 @@ class Alert extends React.Component {
     render() {
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }
+        const { ui, activeApp } = store.getState()
 
         var iconElement = (icon.imageType === "STATIC")
             ? (<StaticIcon class="alert-icon" image={icon.value} />)
             : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
 
         let resetTimeoutHTML = undefined;
-        if (store.getState().ui[store.getState().activeApp].alert.softButtons == undefined) {
+        if (activeApp && ui[activeApp].alert.softButtons === undefined) {
             let resetSpeakTimeoutHTML = undefined;
 
             resetTimeoutHTML = undefined;
