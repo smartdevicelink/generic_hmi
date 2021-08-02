@@ -54,15 +54,7 @@ class TTSController {
 
         this.audioPlayer.onended = () => {
             this.audioPlayer.src = "";
-            if (this.filePlaylist[0]) {
-                if (this.filePlaylist[0].type === "FILE") {
-                    this.playAudio();
-                } else if (this.filePlaylist[0].type === "TEXT") {
-                    this.speak();
-                }
-            } else {
-                this.speakEnded();
-            }
+            this.playNext(rpc);
         }
         this.currentlyPlaying = "FILE";
         this.audioPlayer.src = path;
@@ -94,15 +86,7 @@ class TTSController {
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
-            if (this.filePlaylist[0]) {
-                if (this.filePlaylist[0].type === "FILE") {
-                    this.playAudio(rpc);
-                } else if (this.filePlaylist[0].type === "TEXT") {
-                    this.speak(rpc);
-                }
-            } else {
-                this.speakEnded();
-            }
+            this.playNext(rpc);
         }
 
         speechPlayer.onerror = (event) => {
@@ -184,20 +168,21 @@ class TTSController {
         }
     }
 
-    playNext() {
-        var file = this.filePlaylist.shift();
+    playNext(rpc) {
+        var file = this.filePlaylist[0];
         if (file !== undefined) {
             if (file.type === "FILE") {
-                this.playAudio(file.text);
+                this.playAudio(rpc);
             } else if (file.type === "TEXT") {
-                this.speak(file.text);
+                this.speak(rpc);
             } else if (file.type === "REPLY") {
                 // REPLY is not an HMI_API type, it is internal used
                 // in case more things will be added to the filePlaylist,
                 // so that TTS Speak will be replied to before speaking next message
+                this.filePlaylist.shift();
                 clearInterval(this.timers[file.id]);
+                this.speakEnded();
                 this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
-                return this.playNext();
             }
         } else {
             this.speakEnded();
