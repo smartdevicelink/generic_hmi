@@ -4,14 +4,11 @@ import 'rc-slider/assets/index.css';
 import store from './store'
 import { updateSliderPosition } from './actions'
 import uiController from './Controllers/UIController'
-import { connect } from 'react-redux'
-import { updateResetPeriod, resetTimeout } from './actions';
-import { DEFAULT_RESET_TIMEOUT } from "./Alert"
 
 
 const OUT_OF_BOUND_RESET_PERIOD = 1000000;
 
-class Slider extends React.Component {
+export default class Slider extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -40,17 +37,12 @@ class Slider extends React.Component {
         this.setState({cursor: "grabbing"})
         if (value < 1 || value > this.props.sliderData.numTicks) { return; }
         this.setState({ value: value }, () => {
-            const timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+            const timeout = store.getState().resetTimeout.resetPeriod;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
-                this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
-                this.props.resetTimeout({
-                    resetPeriod: DEFAULT_RESET_TIMEOUT,
-                    appID: store.getState().activeApp
-                }); 
+                uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, timeout);
+                store.dispatch(updateSliderPosition(this.props.sliderAppId, value));
                 return;
             }
-            uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, timeout)
-            store.dispatch(updateSliderPosition(this.props.sliderAppId, value))
         })
     }
 
@@ -143,5 +135,3 @@ class Slider extends React.Component {
         )
     }
 }
-
-export default connect(null, { updateResetPeriod, resetTimeout })(Slider)

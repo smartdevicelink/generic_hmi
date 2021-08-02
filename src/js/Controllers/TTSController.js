@@ -21,8 +21,7 @@ class TTSController {
 
     onResetTimeout(messageId) {
         let activeApp = store.getState().activeApp;
-        let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
-        const finalResetPeriod = resPeriod - RESPONSE_CORRELATION_MS;
+        let resPeriod = store.getState().resetTimeout.resetPeriod;
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
     }

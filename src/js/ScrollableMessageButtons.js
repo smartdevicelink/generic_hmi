@@ -1,13 +1,10 @@
 import React from 'react';
 import SoftButtonImage from './Templates/Shared/SoftButtonImage';
 import uiController from './Controllers/UIController';
-import { updateResetPeriod, resetTimeout } from './actions';
 import store from './store.js';
-import { connect } from 'react-redux'
-import { DEFAULT_RESET_TIMEOUT } from "./Alert"
 
 const OUT_OF_BOUND_RESET_PERIOD = 1000000;
-class ScrollableMessageButtons extends React.Component {
+export default class ScrollableMessageButtons extends React.Component {
     constructor(props) {
         super(props);
         this.getAction = this.getAction.bind(this);
@@ -17,16 +14,11 @@ class ScrollableMessageButtons extends React.Component {
         if(softButton.systemAction === "STEAL_FOCUS") {
             uiController.onScrollableMessageStealFocus(softButton.msgID, softButton.appID);
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
-            const timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+            const timeout = store.getState().resetTimeout.resetPeriod;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
-                this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
-                this.props.resetTimeout({
-                    resetPeriod: DEFAULT_RESET_TIMEOUT,
-                    appID: store.getState().activeApp
-                }); 
+                uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
                 return;
             }
-            uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
         } else {
             uiController.onCloseScrollableMessage(softButton.msgID, softButton.appID, this.props.appID);
         }
@@ -55,5 +47,3 @@ class ScrollableMessageButtons extends React.Component {
         )        
     }
 }
-
-export default connect(null, { updateResetPeriod, resetTimeout })(ScrollableMessageButtons)
