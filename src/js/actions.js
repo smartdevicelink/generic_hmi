@@ -58,7 +58,6 @@ export const Actions = {
     NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
     SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY",
     SET_HAPTIC_DATA: "SET_HAPTIC_DATA",
-    RESET_PERIOD_VALUE: "RESET_PERIOD_VALUE",
     OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
     RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
     CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
@@ -69,13 +68,6 @@ export const updateAppList = (applications) => {
     return {
         type: Actions.UPDATE_APP_LIST,
         appList: applications
-    }
-}
-
-export const updateResetPeriod = (payload) => {
-    return {
-        type: Actions.RESET_PERIOD_VALUE,
-        payload
     }
 }
 
@@ -327,13 +319,12 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
     }
 }
 
-export const resetTimeout = (data) => {
+export const resetTimeout = (resetPeriod) => {
     return {
         type: Actions.RESET_TIMEOUT,
         payload: {
-            resetPeriod: data.resetPeriod
-        },
-        appID: data.appID
+            resetPeriod
+        }
     }
 }
 

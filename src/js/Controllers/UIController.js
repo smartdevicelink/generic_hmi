@@ -789,7 +789,7 @@ class UIController {
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
-        var timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+        const timeout = store.getState().resetTimeout.resetPeriod;
         const state = store.getState()
         const context = state.activeApp
         
@@ -799,7 +799,7 @@ class UIController {
     onSliderKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID])
         
-        let timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+        const timeout = store.getState().resetTimeout.resetPeriod;
         const state = store.getState();
         const context = state.activeApp
 
@@ -808,7 +808,7 @@ class UIController {
     }
     onScrollableMessageKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID]);
-        var timeout = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue;
+        const timeout = store.getState().resetTimeout.resetPeriod;
         const state = store.getState();
         const context = state.activeApp;
         
@@ -933,7 +933,7 @@ class UIController {
         clearTimeout(this.timers[msgID])
         const state = store.getState()
         const app = state.ui[appID]
-        var timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
+        const timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
         this.endTimes[msgID] = Date.now() + timeout;
         this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
         this.appsWithTimers[msgID] = appID
@@ -977,7 +977,7 @@ class UIController {
 
     resetAlertTimeout() {
         let activeApp = store.getState().activeApp;
-        let resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
+        let resPeriod = store.getState().resetTimeout.resetPeriod;
         let messageId = store.getState().ui[activeApp].alert.msgID;
 
         clearTimeout(this.timers[messageId]);
@@ -989,7 +989,7 @@ class UIController {
 
     resetPerformInteractionTimeout(prefixMethod) {
         const activeApp = store.getState().activeApp;
-        const resPeriod = store.getState().ui[activeApp].resetTimeout.resetTimeoutValue;
+        const resPeriod = store.getState().resetTimeout.resetPeriod;
         const messageId = store.getState().ui[activeApp].interactionId;
         clearTimeout(this.timers[messageId]);
         this.timers[messageId] = setTimeout(this.onPerformInteractionTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId, activeApp, activeApp, false);

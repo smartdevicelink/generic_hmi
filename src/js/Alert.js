@@ -6,15 +6,10 @@ import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 import store from './store.js'
 import UIController from './Controllers/UIController'
-import TTSController from './Controllers/TTSController'
-import { connect } from 'react-redux'
-
-import { updateResetPeriod, resetTimeout } from './actions';
 
 
-export const DEFAULT_RESET_TIMEOUT = 10000
 const OUT_OF_BOUND_RESET_PERIOD = 1000;
-class Alert extends React.Component {
+export default class Alert extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,18 +22,12 @@ class Alert extends React.Component {
     }
 
     pressResetTimeoutButton(event) {
-        let count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue / 1000;
-        if (count > OUT_OF_BOUND_RESET_PERIOD) {
-            this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
-            this.props.resetTimeout({
-                resetPeriod: DEFAULT_RESET_TIMEOUT,
-                appID: store.getState().activeApp
-            }); 
+        let count = store.getState().resetTimeout.resetPeriod / 1000;
+        if (count > OUT_OF_BOUND_RESET_PERIOD/1000) {
+            this.setState({ alertCounter: count });
+            UIController.resetAlertTimeout();
             return;
         }
-        this.setState({ alertCounter: count });
-        UIController.resetAlertTimeout()
-
     }
     changeCounter() {
         this.setState(prevState => ({ alertCounter: prevState.alertCounter > 0 ? prevState.alertCounter - 1 : '' }))
@@ -98,4 +87,3 @@ class Alert extends React.Component {
     }
 }
 
-export default connect(null, { updateResetPeriod, resetTimeout })(Alert)

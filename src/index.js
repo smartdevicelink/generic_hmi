@@ -51,8 +51,7 @@ import {
     updateAppStoreConnectionStatus, 
     updateInstalledAppStoreApps, 
     setDDState,
-    resetTimeout,
-    updateResetPeriod
+    resetTimeout
 } from './js/actions';
 
 class HMIApp extends React.Component {
@@ -73,7 +72,6 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
-        store.dispatch(resetTimeout(props.resetPeriodValue));
     }
     handleClick() {
         var theme = !this.state.dark
@@ -127,13 +125,10 @@ class HMIApp extends React.Component {
     }
 
     changeResetPeriod(event) {
-        this.props.updateResetPeriod(event.target.value); 
-
         store.dispatch(resetTimeout({
-            resetPeriod: event.target.value,
-            appID: store.getState().activeApp
+            resetPeriod: event.target.value
         }));   
-    }
+    } 
 
     onTouchEvent(type, event) {
         if (!this.videoRect) {
@@ -198,20 +193,10 @@ class HMIApp extends React.Component {
         }
 
         var resetPeriodSelector = undefined;
-        if (this.props.activeAppState && this.props.activeAppState.videoStreamingCapability.length) {
             resetPeriodSelector = (<div className="reset-period-selector">
                 <label>Reset period, ms:</label><br/>
-                <input type="text" value={this.props.resetPeriodValue} onChange={this.changeResetPeriod} />
+                <input type="text" value={store.getState().resetTimeout.resetPeriod} onChange={this.changeResetPeriod} />
             </div>);
-            let state = store.getState();
-            if(parseInt(this.props.activeAppState.resetTimeout.resetTimeoutValue) 
-                !== parseInt(this.props.resetPeriodValue)) {
-                store.dispatch(resetTimeout({
-                    resetPeriod: this.props.resetPeriodValue,
-                    appID: store.getState().activeApp
-                })); 
-            }
-        }
 
         return(
             <div>
@@ -341,7 +326,6 @@ const mapStateToProps = (state) => {
     return {
         ptuWithModemEnabled: state.system.ptuWithModemEnabled,
         webEngineApps: state.appStore.installedApps.filter(app => app.runningAppId),
-        resetPeriodValue: state.appStore.resetPeriodValue,
         showWebView: state.appStore.webViewActive,
         activeAppId: state.activeApp,
         dd: state.ddState,
@@ -350,7 +334,7 @@ const mapStateToProps = (state) => {
         activeAppState: state.ui[state.activeApp]
     }
 }
-HMIApp = connect(mapStateToProps, { updateResetPeriod })(HMIApp)
+HMIApp = connect(mapStateToProps)(HMIApp)
 
 // render
 ReactDOM.render((
