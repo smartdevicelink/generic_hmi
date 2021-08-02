@@ -45,9 +45,6 @@ function newAppState () {
             speakType: "BOTH",
             ttsChunks: []
         },
-        resetTimeout: {
-            resetTimeoutValue: 10000
-        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -155,6 +152,15 @@ function ddState(state = false, action) {
     switch (action.type) {
         case Actions.SET_DD_STATE:
             return action.dd
+        default:
+            return state
+    }
+}
+
+function resetTimeout(state = { resetPeriod: 10000 }, action) {
+    switch (action.type) {
+        case Actions.RESET_TIMEOUT:
+            return action.payload.resetPeriod
         default:
             return state
     }
@@ -639,9 +645,6 @@ function ui(state = {}, action) {
                 app.nightColorScheme = action.nightColorScheme
             }          
             return newState
-        case Actions.RESET_TIMEOUT:
-            app.resetTimeout.resetTimeoutValue = action.payload.resetPeriod;
-            return newState
         case Actions.REGISTER_APPLICATION:
             app.displayLayout = action.displayLayout;
             return newState
@@ -857,8 +860,7 @@ function appStore(state = {
     webViewActive: false,
     availableApps: [],
     installedApps: [],
-    appsPendingSetAppProperties: [],
-    resetPeriodValue: 10000,
+    appsPendingSetAppProperties: []
 }, action) {
     var newState = { ...state };
     switch (action.type) {
@@ -919,9 +921,6 @@ function appStore(state = {
         case Actions.WEB_VIEW_ACTIVE:
             newState.webViewActive = action.active;
             return newState;
-        case Actions.RESET_PERIOD_VALUE:
-            newState.resetPeriodValue = action.payload
-            return newState
         default:
             return state;
     }
@@ -937,5 +936,6 @@ export const hmi = combineReducers({
     ui,
     system,
     systemCapability,
-    appStore
+    appStore,
+    resetTimeout
 })

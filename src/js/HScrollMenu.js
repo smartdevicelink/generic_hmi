@@ -4,11 +4,10 @@ import MenuFooter from './MenuFooter';
 import store from './store.js'
 import UIController from './Controllers/UIController';
 import { connect } from 'react-redux'
-import { updateResetPeriod, resetTimeout } from './actions';
-import { DEFAULT_RESET_TIMEOUT } from "./Alert"
+import { resetTimeout } from './actions';
 
 const OUT_OF_BOUND_RESET_PERIOD = 1000;
-class HScrollMenu extends React.Component {
+export default class HScrollMenu extends React.Component {
     constructor(props) {
         super(props);
         this.hiddenNames = [];
@@ -27,17 +26,12 @@ class HScrollMenu extends React.Component {
     }
 
     pressResetTimeoutButton(event) { 
-        const count = store.getState().ui[store.getState().activeApp].resetTimeout.resetTimeoutValue/1000;
-        if(count > OUT_OF_BOUND_RESET_PERIOD) {
-            this.props.updateResetPeriod(DEFAULT_RESET_TIMEOUT)
-            this.props.resetTimeout({
-                resetPeriod: DEFAULT_RESET_TIMEOUT,
-                appID: store.getState().activeApp
-            }); 
+        const count = store.getState().resetTimeout.resetPeriod/1000;
+        if(count > OUT_OF_BOUND_RESET_PERIOD/1000) {
+            this.setState({performInteractionCounter: count});
+            UIController.resetPerformInteractionTimeout('UI');  
             return;
-        }
-        this.setState({performInteractionCounter: count});
-        UIController.resetPerformInteractionTimeout('UI');      
+        }    
     }
 
     changeCounter() {
@@ -105,5 +99,3 @@ class HScrollMenu extends React.Component {
         )
     }
 }
-
-export default connect(null, { updateResetPeriod, resetTimeout })(HScrollMenu)
