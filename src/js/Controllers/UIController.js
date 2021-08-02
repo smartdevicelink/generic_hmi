@@ -365,7 +365,6 @@ class UIController {
                 const context = state.activeApp
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                if(!('softButtons' in rpc.params))
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
                 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
