@@ -77,7 +77,7 @@ class ExternalPoliciesController {
             return;
         }
 
-        if(jsonData.requestType == 'PROPRIETARY'){
+        if(jsonData.requestType === 'PROPRIETARY'){
             sdlController.onReceivedPolicyUpdate(jsonData.data)
         }
     }
