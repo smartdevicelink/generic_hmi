@@ -697,6 +697,12 @@ function ui(state = {}, action) {
             app.alert.icon = action.icon
             app.alert.cancelID = action.cancelID
             return newState
+        case Actions.SPEAK:
+            app.speak.msgID = action.msgID
+            app.speak.playTone = action.playTone
+            app.speak.ttsChunks = action.ttsChunks
+            app.speak.speakType = action.speakType
+            return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {
                 showAlert: false,

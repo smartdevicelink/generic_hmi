@@ -27,6 +27,7 @@ export const Actions = {
     PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
     CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
+    SPEAK: "SPEAK",
     RESET_TIMEOUT: "RESET_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
@@ -316,6 +317,17 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         icon: icon,
         cancelID: cancelID,
         isSubtle: isSubtle
+    }
+}
+
+export const speak = (appID,msgID,playTone,speakType,ttsChunks) => {
+    return {
+        type: Actions.SPEAK,
+        appID,
+        playTone,
+        speakType,
+        ttsChunks,
+        msgID
     }
 }
 

@@ -1,13 +1,11 @@
 import RpcFactory from './RpcFactory';
 import store from '../store';
+import { speak } from '../actions';
 
-const RESPONSE_CORRELATION_MS = 1000;
-const ALERT_CORRELATION_MS = 100;
 class TTSController {
     constructor() {
         this.addListener = this.addListener.bind(this);
         this.onResetTimeout = this.onResetTimeout.bind(this);
-        this.onSpeakTimeout = this.onSpeakTimeout.bind(this);
         this.audioPlayer = new Audio();
         this.filePlaylist = [];
         this.playNext = this.playNext.bind(this);
@@ -20,7 +18,7 @@ class TTSController {
     }
 
     onResetTimeout(messageId) {
-        let activeApp = store.getState().activeApp;
+        if(store.getState().ui[store.getState().activeApp].speak.speakType.includes('ALERT')) return;
         let resPeriod = store.getState().resetTimeout.resetPeriod;
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
@@ -39,7 +37,7 @@ class TTSController {
         var path = this.filePlaylist[0].text;
         this.filePlaylist.shift();
 
-        this.audioPlayer.onerror = (event) => {
+        this.audioPlayer.onerror = () => {
             if (this.filePlaylist[0]) {
                 if (this.filePlaylist[0].type === "FILE") {
                     this.playAudio();
@@ -88,7 +86,7 @@ class TTSController {
             this.playNext(rpc);
         }
 
-        speechPlayer.onerror = (event) => {
+        speechPlayer.onerror = () => {
             console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
             if (this.filePlaylist[0]) {
                 if (this.filePlaylist[0].type === "FILE") {
@@ -111,6 +109,7 @@ class TTSController {
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
+        window.speechSynthesis.cancel();
         window.speechSynthesis.speak(speechPlayer);
 
         // Workaround for chrome issue where long utterances time out
@@ -188,10 +187,8 @@ class TTSController {
         }
     }
 
-    onSpeakTimeout(msgID) {
-        delete this.timers[msgID]
-
-        this.listener.send(RpcFactory.TTSSpeakResponse({ id: msgID, method: 'TTS.Speak' }))
+    isSpeakFinished() {
+        return !this.currentlyPlaying;
     }
 
     handleRPC(rpc) {
@@ -217,6 +214,13 @@ class TTSController {
                         rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
                     };
                 }
+                store.dispatch(speak(
+                    rpc.params.appID,
+                    rpc.id,
+                    rpc.params.playTone,
+                    rpc.params.speakType,
+                    rpc.params.ttsChunks
+                ));
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
                 for (var i = 0; i < ttsChunks.length; i++) {
