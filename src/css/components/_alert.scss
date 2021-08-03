@@ -168,26 +168,3 @@
     @include align-items(center);
     @include justify-content(center);
 }
-    
-.alert-reset-box {
-    border-style: solid;
-    width: 90%;
-    height: 50px;
-    margin-left: 35px;
-    .timeout-box {
-        color: #ccc; 
-        font-weight: bold;
-    }
-    .reset-button {
-        width: 120px;
-        height: 30px;
-        border-radius: 8px;
-    }
-    .checkItems {
-        color: #ccc; 
-        font-weight: bold;
-    }
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(space-around);
-}
