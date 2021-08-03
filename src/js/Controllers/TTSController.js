@@ -2,8 +2,6 @@ import RpcFactory from './RpcFactory';
 import store from '../store';
 import { speak } from '../actions';
 
-const RESPONSE_CORRELATION_MS = 1000;
-const ALERT_CORRELATION_MS = 100;
 class TTSController {
     constructor() {
         this.addListener = this.addListener.bind(this);

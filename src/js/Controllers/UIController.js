@@ -44,7 +44,6 @@ const getNextSystemContext = () => {
     return "MAIN"
 }
 
-const RESPONSE_CORRELATION_MS = 1000;
 class UIController {
     constructor () {
         this.addListener = this.addListener.bind(this)
@@ -292,7 +291,7 @@ class UIController {
 
                 var scrollableTimeout = rpc.params.timeout ?? 10000;
                 this.endTimes[rpc.id] = Date.now() + scrollableTimeout;
-                this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID, context);
+                this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
                 this.onSystemContext("HMI_OBSCURED", context)
@@ -366,7 +365,7 @@ class UIController {
                 const context = state.activeApp
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
                 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
@@ -457,7 +456,7 @@ class UIController {
 
                 let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
                 this.endTimes[rpc.id] = Date.now() + sliderTimeout;
-                this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout - RESPONSE_CORRELATION_MS, rpc.id, rpc.params.appID, 
+                this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, 
                                             context ? context : rpc.params.appID, "TIMEOUT")
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
@@ -700,7 +699,7 @@ class UIController {
         delete this.timers[msgID]
         let isAlertSpeakType = store.getState().ui[appID].speak.speakType.includes('ALERT');
         if (isAlertSpeakType && !ttsController.isSpeakFinished()) {
-            const RESET_ALERT_TIMEOUT_MS = 2000;
+            const RESET_ALERT_TIMEOUT_MS = 1000;
             this.resetAlertTimeout(RESET_ALERT_TIMEOUT_MS);
             return;
         }
@@ -800,7 +799,7 @@ class UIController {
         const state = store.getState()
         const context = state.activeApp
         
-        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout - RESPONSE_CORRELATION_MS, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
         this.onResetTimeout(alert.msgID, isSubtle ? "UI.SubtleAlert" : "UI.Alert", timeout);
     }
     onSliderKeepContext(msgID, appID, duration) {
@@ -810,7 +809,7 @@ class UIController {
         const state = store.getState();
         const context = state.activeApp
 
-        this.timers[msgID] = setTimeout(this.onSliderClose, timeout - RESPONSE_CORRELATION_MS, msgID, appID, context, "TIMEOUT");
+        this.timers[msgID] = setTimeout(this.onSliderClose, timeout, msgID, appID, context, "TIMEOUT");
         this.onResetTimeout(msgID, "UI.Slider", timeout);
     }
     onScrollableMessageKeepContext(msgID, appID, duration) {
@@ -819,7 +818,7 @@ class UIController {
         const state = store.getState();
         const context = state.activeApp;
         
-        this.timers[msgID] = setTimeout(this.onCloseScrollableMessage, timeout - RESPONSE_CORRELATION_MS, msgID, appID, context);
+        this.timers[msgID] = setTimeout(this.onCloseScrollableMessage, timeout, msgID, appID, context);
         this.onResetTimeout(msgID, "UI.ScrollableMessage", timeout);
     }
     onDefaultAction(alert, context, isSubtle) {
@@ -988,7 +987,7 @@ class UIController {
         let messageId = store.getState().ui[activeApp].alert.msgID;
 
         clearTimeout(this.timers[messageId]);
-        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod - RESPONSE_CORRELATION_MS, messageId, activeApp, activeApp, false)
+        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod, messageId, activeApp, activeApp, false)
 
         this.appsWithTimers[messageId] = activeApp;
         this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
