@@ -39,7 +39,7 @@ class TTSController {
         var path = this.filePlaylist[0].text;
         this.filePlaylist.shift();
 
-        this.audioPlayer.onerror = (event) => {
+        this.audioPlayer.onerror = () => {
             if (this.filePlaylist[0]) {
                 if (this.filePlaylist[0].type === "FILE") {
                     this.playAudio();
@@ -88,7 +88,7 @@ class TTSController {
             this.playNext(rpc);
         }
 
-        speechPlayer.onerror = (event) => {
+        speechPlayer.onerror = () => {
             console.log("Text to speech error. Make sure your browser supports SpeechSynthesisUtterance");
             if (this.filePlaylist[0]) {
                 if (this.filePlaylist[0].type === "FILE") {
@@ -111,6 +111,7 @@ class TTSController {
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
+        window.speechSynthesis.cancel();
         window.speechSynthesis.speak(speechPlayer);
 
         // Workaround for chrome issue where long utterances time out
