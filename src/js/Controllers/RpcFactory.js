@@ -259,16 +259,6 @@ class RpcFactory {
             }
         })
     }
-    static TTSSpeakResponse(rpc) {
-        return ({
-            "jsonrpc": "2.0",
-            "id": rpc.id,
-            "result": {
-                "method": rpc.method,
-                "code": 0
-            }
-        })
-    }
     static VRGetCapabilitiesResponse(rpc) {
         return ({
             "jsonrpc": "2.0",

@@ -697,10 +697,10 @@ class UIController {
     }
     onAlertTimeout(msgID, appID, context, isSubtle) {
         delete this.timers[msgID]
-        let isAlertSpeakType = store.getState().ui[appID].speak.speakType.includes('ALERT');
-        if (isAlertSpeakType && !ttsController.isSpeakFinished()) {
-            const RESET_ALERT_TIMEOUT_MS = 1000;
-            this.resetAlertTimeout(RESET_ALERT_TIMEOUT_MS);
+        if (ttsController.isAlertSpeakInProgress()) {
+            clearTimeout(this.timers[msgID]);
+            this.timers[msgID] = setTimeout(this.onAlertTimeout, 1000, msgID, appID, context, isSubtle);
+            this.listener.send(RpcFactory.OnResetTimeout(msgID,'UI.Alert',1000));
             return;
         }
 
@@ -981,17 +981,6 @@ class UIController {
         }
     }
 
-    resetAlertTimeout(timeout) {
-        let activeApp = store.getState().activeApp;
-        let resPeriod = timeout || store.getState().system.resetPeriod;
-        let messageId = store.getState().ui[activeApp].alert.msgID;
-
-        clearTimeout(this.timers[messageId]);
-        this.timers[messageId] = setTimeout(this.onAlertTimeout, resPeriod, messageId, activeApp, activeApp, false)
-
-        this.appsWithTimers[messageId] = activeApp;
-        this.listener.send(RpcFactory.OnResetTimeout(messageId,'UI.Alert',resPeriod));
-    }
 }
 
 let controller = new UIController ()
