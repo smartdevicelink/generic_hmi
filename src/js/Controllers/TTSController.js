@@ -19,12 +19,7 @@ class TTSController {
     }
 
     onResetTimeout(messageId) {
-<<<<<<< HEAD
-        if(store.getState().ui[store.getState().activeApp].speak.speakType.includes('ALERT')) return;
-        let resPeriod = store.getState().system.resetPeriod;
-=======
         let resPeriod = store.getState().resetTimeout.resetPeriod;
->>>>>>> SDL-0189 Answer for review comment related to TTS.Speak
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
     }
