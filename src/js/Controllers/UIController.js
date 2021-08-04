@@ -795,7 +795,7 @@ class UIController {
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
-        const timeout = store.getState().resetTimeout.resetPeriod;
+        const timeout = store.getState().system.resetPeriod;
         const state = store.getState()
         const context = state.activeApp
         
@@ -805,7 +805,7 @@ class UIController {
     onSliderKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID])
         
-        const timeout = store.getState().resetTimeout.resetPeriod;
+        const timeout = store.getState().system.resetPeriod;
         const state = store.getState();
         const context = state.activeApp
 
@@ -814,7 +814,7 @@ class UIController {
     }
     onScrollableMessageKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID]);
-        const timeout = store.getState().resetTimeout.resetPeriod;
+        const timeout = store.getState().system.resetPeriod;
         const state = store.getState();
         const context = state.activeApp;
         
@@ -983,7 +983,7 @@ class UIController {
 
     resetAlertTimeout(timeout) {
         let activeApp = store.getState().activeApp;
-        let resPeriod = timeout || store.getState().resetTimeout.resetPeriod;
+        let resPeriod = timeout || store.getState().system.resetPeriod;
         let messageId = store.getState().ui[activeApp].alert.msgID;
 
         clearTimeout(this.timers[messageId]);

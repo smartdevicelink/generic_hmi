@@ -334,9 +334,7 @@ export const speak = (appID,msgID,playTone,speakType,ttsChunks) => {
 export const resetTimeout = (resetPeriod) => {
     return {
         type: Actions.RESET_TIMEOUT,
-        payload: {
-            resetPeriod
-        }
+        resetPeriod: resetPeriod
     }
 }
 

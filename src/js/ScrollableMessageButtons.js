@@ -14,7 +14,7 @@ export default class ScrollableMessageButtons extends React.Component {
         if(softButton.systemAction === "STEAL_FOCUS") {
             uiController.onScrollableMessageStealFocus(softButton.msgID, softButton.appID);
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
-            const timeout = store.getState().resetTimeout.resetPeriod;
+            const timeout = store.getState().system.resetPeriod;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
                 uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
                 return;

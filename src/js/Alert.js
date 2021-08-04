@@ -22,7 +22,7 @@ export default class Alert extends React.Component {
     }
 
     pressResetTimeoutButton(event) {
-        let count = store.getState().resetTimeout.resetPeriod / 1000;
+        let count = store.getState().system.resetPeriod / 1000;
         if (count > OUT_OF_BOUND_RESET_PERIOD/1000) {
             this.setState({ alertCounter: count });
             UIController.resetAlertTimeout();
