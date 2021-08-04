@@ -188,8 +188,6 @@ class TTSController {
                 this.speakEnded();
                 this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
             }
-        } else {
-            this.speakEnded();
         }
     }
 
