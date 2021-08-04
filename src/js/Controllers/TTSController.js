@@ -12,14 +12,19 @@ class TTSController {
         this.currentlyPlaying = null;
         this.timers = {};
         this.speechSynthesisInterval = null;
+        this.speakType = "";
     }
     addListener(listener) {
         this.listener = listener
     }
 
     onResetTimeout(messageId) {
+<<<<<<< HEAD
         if(store.getState().ui[store.getState().activeApp].speak.speakType.includes('ALERT')) return;
         let resPeriod = store.getState().system.resetPeriod;
+=======
+        let resPeriod = store.getState().resetTimeout.resetPeriod;
+>>>>>>> SDL-0189 Answer for review comment related to TTS.Speak
 
         this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
     }
@@ -147,6 +152,7 @@ class TTSController {
         window.speechSynthesis.cancel();
         this.filePlaylist = [];
         this.currentlyPlaying = null;
+        this.speakType = "";
     }
 
     speakEnded() {
@@ -187,8 +193,8 @@ class TTSController {
         }
     }
 
-    isSpeakFinished() {
-        return !this.currentlyPlaying;
+    isAlertSpeakInProgress() {
+        return this.speakType.includes('ALERT');
     }
 
     handleRPC(rpc) {
@@ -214,13 +220,7 @@ class TTSController {
                         rpc: RpcFactory.ErrorResponse(rpc, 4, "Speak request already in progress")
                     };
                 }
-                store.dispatch(speak(
-                    rpc.params.appID,
-                    rpc.id,
-                    rpc.params.playTone,
-                    rpc.params.speakType,
-                    rpc.params.ttsChunks
-                ));
+                this.speakType = rpc.params.speakType
                 var ttsChunks = rpc.params.ttsChunks
                 this.filePlaylist = []
                 for (var i = 0; i < ttsChunks.length; i++) {
@@ -239,7 +239,8 @@ class TTSController {
                         this.speak(rpc);
                     }
                 }
-                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.id);
+                if(!this.speakType.includes('ALERT'))
+                    this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.id);
                 return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {

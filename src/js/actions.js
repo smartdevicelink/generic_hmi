@@ -320,17 +320,6 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
     }
 }
 
-export const speak = (appID,msgID,playTone,speakType,ttsChunks) => {
-    return {
-        type: Actions.SPEAK,
-        appID,
-        playTone,
-        speakType,
-        ttsChunks,
-        msgID
-    }
-}
-
 export const resetTimeout = (resetPeriod) => {
     return {
         type: Actions.RESET_TIMEOUT,
