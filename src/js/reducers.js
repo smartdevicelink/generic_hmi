@@ -157,15 +157,6 @@ function ddState(state = false, action) {
     }
 }
 
-function resetTimeout(state = { resetPeriod: 10000 }, action) {
-    switch (action.type) {
-        case Actions.RESET_TIMEOUT:
-            return action.payload.resetPeriod
-        default:
-            return state
-    }
-}
-
 function appList(state = [], action) {
     switch (action.type) {
         case Actions.UPDATE_APP_LIST:
@@ -804,7 +795,7 @@ function ui(state = {}, action) {
     }
 }
 
-function system(state = {}, action) {
+function system(state = { resetPeriod: 10000 }, action) {
     var newState = { ...state }
     switch(action.type) {
         case Actions.POLICY_UPDATE:            
@@ -855,6 +846,9 @@ function system(state = {}, action) {
             return newState;
         case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
             newState.permissionsAppAwaitingActivation = false;
+            return newState;
+        case Actions.RESET_TIMEOUT:
+            newState.resetPeriod = action.resetPeriod;
             return newState;
         default:
             return state
@@ -942,6 +936,5 @@ export const hmi = combineReducers({
     ui,
     system,
     systemCapability,
-    appStore,
-    resetTimeout
+    appStore
 })

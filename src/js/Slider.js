@@ -37,7 +37,7 @@ export default class Slider extends React.Component {
         this.setState({cursor: "grabbing"})
         if (value < 1 || value > this.props.sliderData.numTicks) { return; }
         this.setState({ value: value }, () => {
-            const timeout = store.getState().resetTimeout.resetPeriod;
+            const timeout = store.getState().system.resetPeriod;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
                 uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, timeout);
                 store.dispatch(updateSliderPosition(this.props.sliderAppId, value));

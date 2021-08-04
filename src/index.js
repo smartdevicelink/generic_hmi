@@ -125,9 +125,7 @@ class HMIApp extends React.Component {
     }
 
     changeResetPeriod(event) {
-        store.dispatch(resetTimeout({
-            resetPeriod: event.target.value
-        }));   
+        store.dispatch(resetTimeout(event.target.value));   
     } 
 
     onTouchEvent(type, event) {
@@ -195,7 +193,7 @@ class HMIApp extends React.Component {
         var resetPeriodSelector = undefined;
             resetPeriodSelector = (<div className="reset-period-selector">
                 <label>Reset period, ms:</label><br/>
-                <input type="text" value={store.getState().resetTimeout.resetPeriod} onChange={this.changeResetPeriod} />
+                <input type="text" value={store.getState().system.resetPeriod} onChange={this.changeResetPeriod} />
             </div>);
 
         return(
