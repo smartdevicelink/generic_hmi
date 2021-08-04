@@ -54,6 +54,7 @@ import {
     resetTimeout
 } from './js/actions';
 
+const OUT_OF_BOUND_RESET_PERIOD = 1000;
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -125,7 +126,9 @@ class HMIApp extends React.Component {
     }
 
     changeResetPeriod(event) {
-        store.dispatch(resetTimeout(event.target.value));   
+        if (event.target.value > OUT_OF_BOUND_RESET_PERIOD) {
+            store.dispatch(resetTimeout(event.target.value));  
+        } 
     } 
 
     onTouchEvent(type, event) {
