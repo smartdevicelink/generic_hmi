@@ -39,12 +39,6 @@ function newAppState () {
         backSeekIndicator: {type: "TRACK", seekTime: null},
         isDisconnected: false,
         displayLayout:  null,
-        speak: {
-            msgID: null,
-            playTone: false,
-            speakType: "BOTH",
-            ttsChunks: []
-        },
         alert: {
             showAlert: false,
             isSubtle: false,
@@ -687,12 +681,6 @@ function ui(state = {}, action) {
             app.alert.msgID = action.msgID
             app.alert.icon = action.icon
             app.alert.cancelID = action.cancelID
-            return newState
-        case Actions.SPEAK:
-            app.speak.msgID = action.msgID
-            app.speak.playTone = action.playTone
-            app.speak.ttsChunks = action.ttsChunks
-            app.speak.speakType = action.speakType
             return newState
         case Actions.CLOSE_ALERT:
             app.alert =  {
