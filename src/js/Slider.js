@@ -41,7 +41,6 @@ export default class Slider extends React.Component {
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
                 uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, timeout);
                 store.dispatch(updateSliderPosition(this.props.sliderAppId, value));
-                return;
             }
         })
     }
