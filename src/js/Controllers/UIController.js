@@ -214,7 +214,7 @@ class UIController {
                 const defaultTimeout = 15000;
                 const timeout = rpc.params.timeout === 0 ? defaultTimeout : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
-                this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID) 
+                this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
                 this.onSystemContext("HMI_OBSCURED", rpc.params.appID)
 
@@ -366,7 +366,7 @@ class UIController {
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
-                
+
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 this.onSystemContext("ALERT", rpc.params.appID)
