@@ -15,14 +15,14 @@ const mapStateToProps = (state) => {
     var app = {}
     var graphicPresent
     if (activeApp) {
-        subscribedButtons = state.ui[activeApp].subscribedButtons;
+        subscribedButtons = state.ui[activeApp].subscribedButtons
         softButtons = state.ui[activeApp].softButtons
         app = state.ui[activeApp]
         graphicPresent = state.ui[activeApp].graphic ? true : false
     }
 
     var buttons = []
-    if (softButtons.length > 0 && subscribedButtons.CUSTOM_BUTTON === true) {
+    if (softButtons.length > 0) {
         buttons.push({
             class: "tertiary",
             name: "CUSTOM_BUTTON",
@@ -138,7 +138,7 @@ const mapStateToProps = (state) => {
             iconProps: iconProps
         })
     }
-    if (softButtons.length > 1 && subscribedButtons.CUSTOM_BUTTON === true) {
+    if (softButtons.length > 1) {
         buttons.push({
             class: "tertiary",
             name: "CUSTOM_BUTTON",
