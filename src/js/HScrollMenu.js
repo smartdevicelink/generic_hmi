@@ -1,6 +1,6 @@
 import React from 'react';
 import HScrollMenuItem from './HScrollMenuItem'
-import MenuFooter from './MenuFooter';
+import MenuFooter from './MenuFooter'
 
 export default class HScrollMenu extends React.Component {
     constructor(props) {
@@ -16,17 +16,14 @@ export default class HScrollMenu extends React.Component {
         this.hiddenNames.push(name)
     }
 
-    render() {     
+    render() {
         this.clearHiddenNames();
         let menuItems = this.props.data.map((menuItem) => {
             if (menuItem.hidden) {
                 this.pushHiddenName(menuItem.name)
                 return null;
             }
-
-            return (
-    
-            <div className="hscrollmenu-block"
+            return (<div className="hscrollmenu-block"
                 key={menuItem.cmdID + menuItem.name}>
                     <HScrollMenuItem
                         menuItem={menuItem}
@@ -34,23 +31,19 @@ export default class HScrollMenu extends React.Component {
                         interactionId={this.props.interactionId ? this.props.interactionId : 0}
                         theme={this.props.theme}
                         onSelection={this.props.onSelection}/>
-
-            </div>
-            )
+                </div>)
         });
 
         var hiddenCommands = null;
         if (this.hiddenNames.length) {
             hiddenCommands = <MenuFooter textAlign="center"/>
-        }                       
+        }
 
         return (
-            <>  
-                <div className="hscrollmenu">
-                    { menuItems }
-                    { hiddenCommands }
-                </div>
-            </>
+            <div className="hscrollmenu">
+                { menuItems }
+                { hiddenCommands }
+            </div>
         )
     }
 }

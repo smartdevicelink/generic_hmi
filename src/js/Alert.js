@@ -8,7 +8,6 @@ import store from './store.js'
 import UIController from './Controllers/UIController'
 
 
-const OUT_OF_BOUND_RESET_PERIOD = 1000;
 export default class Alert extends React.Component {
     constructor(props) {
         super(props);
@@ -23,11 +22,8 @@ export default class Alert extends React.Component {
 
     pressResetTimeoutButton(event) {
         let count = store.getState().system.resetPeriod / 1000;
-        if (count > OUT_OF_BOUND_RESET_PERIOD/1000) {
-            this.setState({ alertCounter: count });
-            UIController.resetAlertTimeout();
-            return;
-        }
+        this.setState({ alertCounter: count });
+        UIController.resetAlertTimeout();
     }
     changeCounter() {
         this.setState(prevState => ({ alertCounter: prevState.alertCounter > 0 ? prevState.alertCounter - 1 : '' }))
