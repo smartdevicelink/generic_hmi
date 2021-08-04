@@ -7,6 +7,39 @@ import StaticIcon from './Templates/Shared/StaticIcon'
 
 
 export default class Alert extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alertCounter: 5,
+            ifSpeak: true,
+            speakCounter: 5,
+            ttsStoped: false
+        }
+        this.pressResetTimeoutButton = this.pressResetTimeoutButton.bind(this);
+    }
+
+    pressResetTimeoutButton(event) {
+        let count = store.getState().system.resetPeriod / 1000;
+        this.setState({ alertCounter: count });
+        UIController.resetAlertTimeout();
+    }
+    changeCounter() {
+        this.setState(prevState => ({ alertCounter: prevState.alertCounter > 0 ? prevState.alertCounter - 1 : '' }))
+        this.setState(prevState => ({ speakCounter: prevState.speakCounter > 0 ? prevState.speakCounter - 1 : '' }))
+    }
+    componentDidMount() {
+        const { activeApp, ui } = store.getState()
+
+        if (activeApp) {
+            this.setState({alertCounter: ui[activeApp].alert.duration/1000});
+        }
+        this.interval = setInterval(() => this.changeCounter(), 1000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval)
+    }
+
+
     render() {
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
         var icon = this.props.icon ? this.props.icon : { imageType: "STATIC", value: "0xFE" }
