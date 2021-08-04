@@ -323,7 +323,7 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
 export const resetTimeout = (resetPeriod) => {
     return {
         type: Actions.RESET_TIMEOUT,
-        resetPeriod: resetPeriod
+        resetPeriod: parseInt(resetPeriod)
     }
 }
 
