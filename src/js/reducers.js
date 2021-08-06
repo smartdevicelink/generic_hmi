@@ -789,6 +789,7 @@ function system(state = {}, action) {
     switch(action.type) {
         case Actions.ON_STATUS_UPDATE:
             newState.policyStatus = action.status
+            newState.policyStatusMsg = action.statusMsg
             return newState
         case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file

@@ -589,9 +589,10 @@ export const clearAppAwaitingPermissions = () => ({
     type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
 });
 
-export const onStatusUpdate = (status) => {
+export const onStatusUpdate = (status, msg) => {
     return {
         type: Actions.ON_STATUS_UPDATE,
-        status: status
+        status: status,
+        statusMsg: msg
     }
 }

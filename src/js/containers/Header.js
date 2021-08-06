@@ -38,6 +38,7 @@ const mapStateToProps = (state) => {
     var sliderAppName = ""
     var sliderData = {}
     var statusUpdate = ""
+    var statusUpdateMsg = ""
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -137,6 +138,7 @@ const mapStateToProps = (state) => {
 
     if (state.system.policyStatus) {
         statusUpdate = state.system.policyStatus;
+        statusUpdateMsg = state.system.policyStatusMsg;
     }
 
     return {
@@ -173,7 +175,8 @@ const mapStateToProps = (state) => {
         aptAppID: aptAppID,
         aptMsgID: aptMsgID,
         aptAppName: aptAppName,
-        statusUpdate: statusUpdate
+        statusUpdate: statusUpdate,
+        statusUpdateMsg: statusUpdateMsg
     }
 }
 

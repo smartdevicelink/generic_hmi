@@ -18,7 +18,7 @@ import ScrollableMessage from './ScrollableMessage';
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
 import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
-import {ReactComponent as UpdateNeeded} from '../img/icons/update_needed.svg'
+import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
 
@@ -61,10 +61,11 @@ class AppStoreMenuIcon extends React.Component {
 
 class UpdateNeededIcon extends React.Component {
     render() {
+        var msg = this.props.msg ? this.props.msg : "Policy Update Needed";
         return (<div>
                     <span className="svg-wrap status-icon">
                         <UpdateNeeded/>
-                        <span class="tooltiptext">Policy Update Needed</span>
+                        <span class="tooltiptext">{msg}</span>
                     </span>
             </div>);
     }
@@ -72,10 +73,11 @@ class UpdateNeededIcon extends React.Component {
 
 class UpdatingIcon extends React.Component {
     render() {
+        var msg = this.props.msg ? this.props.msg : "Policy Update In Progress";
         return (<div>
                     <span className="svg-wrap status-icon">
                         <Updating/>
-                        <span class="tooltiptext">Policy Update In Progress</span>
+                        <span class="tooltiptext">{msg}</span>
                     </span>
             </div>);
     }
@@ -83,10 +85,11 @@ class UpdatingIcon extends React.Component {
 
 class UptoDateIcon extends React.Component {
     render() {
+        var msg = this.props.msg ? this.props.msg : "Policy Table Updated";
         return (<div>
                     <span className="svg-wrap status-icon">
                         <UpToDate/>
-                        <span class="tooltiptext">Policy Table Updated</span>
+                        <span class="tooltiptext">{msg}</span>
                     </span>
             </div>);
     }
@@ -182,11 +185,11 @@ class AppHeader extends React.Component {
         var statusUpdate = <div></div>;
         if (this.props.location.pathname === '/') {
             if (this.props.statusUpdate === "UPDATE_NEEDED") {
-                statusUpdate = <UpdateNeededIcon/>;
+                statusUpdate = <UpdateNeededIcon msg={this.props.statusUpdateMsg}/>;
             } else if (this.props.statusUpdate === "UPDATING") {
-                statusUpdate = <UpdatingIcon/>;
+                statusUpdate = <UpdatingIcon msg={this.props.statusUpdateMsg}/>;
             } else if (this.props.statusUpdate === "UP_TO_DATE") {
-                statusUpdate = <UptoDateIcon/>;
+                statusUpdate = <UptoDateIcon msg={this.props.statusUpdateMsg}/>;
             }
         }
 
