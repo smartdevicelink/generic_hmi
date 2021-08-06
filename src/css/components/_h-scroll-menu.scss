@@ -42,6 +42,5 @@ $calc-width-1: (($box-width-1) - (($margin-size-1) / 1));
     }
 }
 .hscrollmenu .hscrollmenu-block {
-    @include h-scroll-item-per-line();    
+    @include h-scroll-item-per-line();
 }
-
