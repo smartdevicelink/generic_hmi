@@ -7,7 +7,6 @@ import sdlController from './SDLController';
 import appServicesController from './AppServicesController';
 import externalPolicyManager from './ExternalPoliciesController';
 import navController from './NavController'
-import store from '../store';
 
 let file_access_base_url = "";
 
