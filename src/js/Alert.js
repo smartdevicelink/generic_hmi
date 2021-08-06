@@ -5,7 +5,6 @@ import {AlertButtons} from './containers/Buttons';
 import Image from './Templates/Shared/Image'
 import StaticIcon from './Templates/Shared/StaticIcon'
 
-
 export default class Alert extends React.Component {
     render() {
         var fill = this.props.theme ? "#FFFFFF" : "#000000";
