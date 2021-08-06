@@ -5,9 +5,6 @@ import store from './store'
 import { updateSliderPosition } from './actions'
 import uiController from './Controllers/UIController'
 
-
-const OUT_OF_BOUND_RESET_PERIOD = 1000000;
-
 export default class Slider extends React.Component {
     constructor(props){
         super(props)
@@ -37,11 +34,8 @@ export default class Slider extends React.Component {
         this.setState({cursor: "grabbing"})
         if (value < 1 || value > this.props.sliderData.numTicks) { return; }
         this.setState({ value: value }, () => {
-            const timeout = store.getState().system.resetPeriod;
-            if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
-                uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, this.props.sliderData.timeout);
-                store.dispatch(updateSliderPosition(this.props.sliderAppId, value));
-            }
+        uiController.onSliderKeepContext(this.props.sliderData.msgID, this.props.sliderAppId, this.props.sliderData.timeout);
+        store.dispatch(updateSliderPosition(this.props.sliderAppId, value));
         })
     }
 
@@ -59,7 +53,7 @@ export default class Slider extends React.Component {
             activeDot: this.props.theme ? "#000000" : "#FFFFFF"
         }
         let tickWidth = 25;
-        
+
         return (
             <div className="slider">
                 <div className="slider-header">
@@ -125,7 +119,7 @@ export default class Slider extends React.Component {
                         {this.getSliderFooter()}
                     </p>
                 </div>
-                
+
                 <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
                         onClick={() => this.props.submitCallback()}>
                     <p>Submit</p>

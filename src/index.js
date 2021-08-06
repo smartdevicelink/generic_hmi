@@ -46,15 +46,14 @@ import uiController from './js/Controllers/UIController'
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
 import {
-    setTheme, 
-    setPTUWithModem, 
-    updateAppStoreConnectionStatus, 
-    updateInstalledAppStoreApps, 
+    setTheme,
+    setPTUWithModem,
+    updateAppStoreConnectionStatus,
+    updateInstalledAppStoreApps,
     setDDState,
     resetTimeout
 } from './js/actions';
 
-const OUT_OF_BOUND_RESET_PERIOD = 1000;
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -101,7 +100,7 @@ class HMIApp extends React.Component {
             var preferredResolution = capability.preferredResolution;
             if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
                 preferredResolution.resolutionHeight == parseInt(match[2]) &&
-                capability.scale == parseInt(match[3]) 
+                capability.scale == parseInt(match[3])
                 ) {
                 allResolutions.splice(i, 1)
                 break
@@ -126,10 +125,14 @@ class HMIApp extends React.Component {
     }
 
     changeResetPeriod(event) {
-        if (event.target.value > OUT_OF_BOUND_RESET_PERIOD) {
-            store.dispatch(resetTimeout(event.target.value));  
-        } 
-    } 
+        const resPeriod = parseInt(event.target.value, 10);
+        const OUT_OF_BOUND_RESET_PERIOD = 1000000;
+        if (resPeriod > OUT_OF_BOUND_RESET_PERIOD) {
+            store.dispatch(resetTimeout(10000));
+        } else {
+            store.dispatch(resetTimeout(event.target.value));
+        }
+    }
 
     onTouchEvent(type, event) {
         if (!this.videoRect) {
@@ -187,7 +190,7 @@ class HMIApp extends React.Component {
             resolutionSelector = (<div className="resolution-selector">
                 <label>Video Resolution</label><br/>
                 <select value={this.state.resolution} onChange={this.pickResolution}>
-                    { this.props.activeAppState.videoStreamingCapability.map(vsc => 
+                    { this.props.activeAppState.videoStreamingCapability.map(vsc =>
                     <option>{`${vsc.preferredResolution.resolutionWidth}x${vsc.preferredResolution.resolutionHeight} Scale ${vsc.scale}`}</option>) }
                 </select>
             </div>);
@@ -203,7 +206,7 @@ class HMIApp extends React.Component {
             <div>
                 <div className={themeClass}>
                     <div className="app-body">
-                        <Toaster position='top-center' 
+                        <Toaster position='top-center'
                         containerStyle={{
                             maxHeight: config.masterHeight,
                             overflowY: 'scroll',
@@ -211,7 +214,7 @@ class HMIApp extends React.Component {
                             marginTop: 10,
                             marginLeft: 10,
                             paddingTop: 10
-                        }} 
+                        }}
                         toastOptions={{ style: {
                             left: 0,
                             position: 'relative',
@@ -301,7 +304,7 @@ class HMIApp extends React.Component {
                 });
             });
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-        
+
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
             if (sdlSocket.readyState === sdlSocket.OPEN) {
@@ -350,7 +353,7 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
-            <Route path="/tiles-only" component={TilesOnly} />            
+            <Route path="/tiles-only" component={TilesOnly} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>
@@ -371,6 +374,6 @@ ReactDOM.render((
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: 
+// Learn more about service workers:
 // https://create-react-app.dev/docs/making-a-progressive-web-app/
 serviceWorker.unregister();
