@@ -366,7 +366,7 @@ class UIController {
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
-                
+
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 this.onSystemContext("ALERT", rpc.params.appID)

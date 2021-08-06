@@ -17,7 +17,6 @@ export default class ScrollableMessageButtons extends React.Component {
             const timeout = store.getState().system.resetPeriod;
             if (timeout > OUT_OF_BOUND_RESET_PERIOD) {
                 uiController.onScrollableMessageKeepContext(softButton.msgID, softButton.appID, timeout);
-                return;
             }
         } else {
             uiController.onCloseScrollableMessage(softButton.msgID, softButton.appID, this.props.appID);
