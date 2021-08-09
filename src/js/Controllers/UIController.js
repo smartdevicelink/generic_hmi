@@ -1,4 +1,5 @@
 import RpcFactory from './RpcFactory'
+import { resultCode } from './RpcFactory'
 import {
     show,
     setAppIcon, 
@@ -69,7 +70,6 @@ class UIController {
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
         var appUIState = rpc.params && rpc.params.appID ? store.getState()['ui'][rpc.params.appID] : null;
-        const GENERIC_ERROR = 22;
         switch (methodName) {
             case "IsReady":
                 return {"rpc": RpcFactory.IsReadyResponse(rpc, true)}
@@ -203,6 +203,10 @@ class UIController {
                     rpc.params.buttonName,
                     isSubscribed
                 ));
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    this.listener.send(RpcFactory.ErrorResponse(rpc, resultCode.GENERIC_ERROR,`No button provide to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`));
+                    return;
+                };
                 this.listener.send(RpcFactory.SuccessResponse(rpc));
                 return 
             case "PerformInteraction":
