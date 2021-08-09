@@ -93,18 +93,18 @@ class HMIApp extends React.Component {
         delete allResolutions[0].additionalVideoStreamingCapabilities;
         allResolutions = allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
         for (var i=0; i<allResolutions.length; i++) {
-            var capability = allResolutions[i];
+            let capability = allResolutions[i];
             var preferredResolution = capability.preferredResolution;
-            if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
-                preferredResolution.resolutionHeight == parseInt(match[2]) &&
-                capability.scale == parseInt(match[3]) 
+            if (preferredResolution.resolutionWidth === parseInt(match[1]) &&
+                preferredResolution.resolutionHeight === parseInt(match[2]) &&
+                capability.scale === parseInt(match[3]) 
                 ) {
                 allResolutions.splice(i, 1)
                 break
             }
         }
 
-        var capability = {
+        let capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
                 scale: parseFloat(match[3]),
