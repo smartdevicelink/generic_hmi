@@ -199,7 +199,7 @@ class HMIApp extends React.Component {
         var resetPeriodSelector = undefined;
             resetPeriodSelector = (<div className="reset-period-selector">
                 <label>Reset period, ms:</label><br/>
-                <input type="text" value={store.getState().system.resetPeriod} onChange={this.changeResetPeriod} />
+                <input type="number" value={store.getState().system.resetPeriod} onChange={this.changeResetPeriod} />
             </div>);
 
         return(
