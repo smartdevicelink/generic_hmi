@@ -194,6 +194,10 @@ class UIController {
             case "SubscribeButton":
             case "UnsubscribeButton":
                 const isSubscribed = methodName === 'SubscribeButton';
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    this.listener.send(RpcFactory.ErrorResponse(rpc, GENERIC_ERROR, `No button provide to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`));
+                    return;
+                };
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
                     rpc.params.buttonName,
