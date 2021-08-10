@@ -59,6 +59,43 @@ function imageField(name, width, height) {
 	}
 }
 
+const commonButtonCapabilities = [{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "CUSTOM_BUTTON"
+}]
+const mediaButtonCapabilities = [{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "OK"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PLAY_PAUSE"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "SEEKLEFT"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "SEEKRIGHT"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "CUSTOM_BUTTON"
+}]
+
 // Store capabilities of mirrored templates
 let textWithGraphicCapabilities = {
 	"displayCapabilities": {
@@ -109,7 +146,8 @@ let textWithGraphicCapabilities = {
 		"screenParams": screenParams,
 		"imageCapabilities": ["DYNAMIC", "STATIC"],
 		"menuLayoutsAvailable": ["LIST", "TILES"]
-	}
+	},
+	"buttonCapabilities": commonButtonCapabilities
 }
 
 let textbuttonsWithGraphicCapabilities = {
@@ -171,45 +209,16 @@ let textbuttonsWithGraphicCapabilities = {
 		softButtonCapability,
 		softButtonCapability,
 		softButtonCapability
-	]
+	],
+	"buttonCapabilities": commonButtonCapabilities
 }
 
-const buttonCapabilities = [{
-	"shortPressAvailable": true,
-	"longPressAvailable": true,
-	"upDownAvailable": true,
-	"name": "OK"
-},
-{
-	"shortPressAvailable": true,
-	"longPressAvailable": true,
-	"upDownAvailable": true,
-	"name": "PLAY_PAUSE"
-},
-{
-	"shortPressAvailable": true,
-	"longPressAvailable": true,
-	"upDownAvailable": true,
-	"name": "SEEKLEFT"
-},
-{
-	"shortPressAvailable": true,
-	"longPressAvailable": true,
-	"upDownAvailable": true,
-	"name": "SEEKRIGHT"
-},
-{
-	"shortPressAvailable": true,
-	"longPressAvailable": true,
-	"upDownAvailable": true,
-	"name": "CUSTOM_BUTTON"
-}]
 
 let capabilities = {
-	"TEXT_WITH_GRAPHIC": { ...textWithGraphicCapabilities, buttonCapabilities },
-	"GRAPHIC_WITH_TEXT": { ...textWithGraphicCapabilities, buttonCapabilities },
-	"TEXTBUTTONS_WITH_GRAPHIC": { ...textbuttonsWithGraphicCapabilities, buttonCapabilities },
-	"GRAPHIC_WITH_TEXTBUTTONS": { ...textbuttonsWithGraphicCapabilities, buttonCapabilities },
+	"TEXT_WITH_GRAPHIC": textWithGraphicCapabilities,
+	"GRAPHIC_WITH_TEXT": textWithGraphicCapabilities,
+	"TEXTBUTTONS_WITH_GRAPHIC": textbuttonsWithGraphicCapabilities,
+	"GRAPHIC_WITH_TEXTBUTTONS": textbuttonsWithGraphicCapabilities,
 	"MEDIA": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -268,7 +277,7 @@ let capabilities = {
 			imageOnlySoftButtonCapability,
 			imageOnlySoftButtonCapability
 		],
-		buttonCapabilities,
+		"buttonCapabilities": mediaButtonCapabilities
 	},
 	"NON-MEDIA": {
 		"displayCapabilities": {
@@ -334,7 +343,7 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		],
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"WEB_VIEW": {
 		"displayCapabilities": {
@@ -362,7 +371,7 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
@@ -424,7 +433,7 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		],
-		buttonCapabilities
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
@@ -489,7 +498,7 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		],
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"LARGE_GRAPHIC_ONLY": {
 		"displayCapabilities": {
@@ -537,7 +546,7 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"TEXTBUTTONS_ONLY": {
 		"displayCapabilities": {
@@ -598,7 +607,7 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		],
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
@@ -659,7 +668,7 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability
 		],
-		buttonCapabilities,
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"NAV_FULLSCREEN_MAP": {
 		"displayCapabilities": {
@@ -704,8 +713,8 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
 		"softButtonCapabilities": [],
-		buttonCapabilities,
-	},
+		"buttonCapabilities": commonButtonCapabilities
+ 		},
 	"COMMON": {
 		"audioPassThruCapabilities": {
 			"samplingRate": "44KHZ",
