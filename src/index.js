@@ -132,7 +132,6 @@ class HMIApp extends React.Component {
         } else {
             store.dispatch(resetTimeout(resPeriod));
         }
-        console.log(store.getState())
     }
 
     onTouchEvent(type, event) {
