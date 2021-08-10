@@ -60,7 +60,7 @@ class HMIApp extends React.Component {
         this.state = {
             dark: true,
             resolution: "960x600 Scale 1",
-            scale: 1,
+            scale: 1
         }
         this.sdl = new Controller();
         this.handleClick = this.handleClick.bind(this);
@@ -96,18 +96,18 @@ class HMIApp extends React.Component {
         delete allResolutions[0].additionalVideoStreamingCapabilities;
         allResolutions = allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
         for (var i=0; i<allResolutions.length; i++) {
-            var capability = allResolutions[i];
+            let capability = allResolutions[i];
             var preferredResolution = capability.preferredResolution;
-            if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
-                preferredResolution.resolutionHeight == parseInt(match[2]) &&
-                capability.scale == parseInt(match[3])
+            if (preferredResolution.resolutionWidth === parseInt(match[1]) &&
+                preferredResolution.resolutionHeight === parseInt(match[2]) &&
+                capability.scale === parseInt(match[3]) 
                 ) {
                 allResolutions.splice(i, 1)
                 break
             }
         }
 
-        var capability = {
+        let capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
                 scale: parseFloat(match[3]),
@@ -190,7 +190,7 @@ class HMIApp extends React.Component {
             resolutionSelector = (<div className="resolution-selector">
                 <label>Video Resolution</label><br/>
                 <select value={this.state.resolution} onChange={this.pickResolution}>
-                    { this.props.activeAppState.videoStreamingCapability.map(vsc =>
+                    { this.props.activeAppState.videoStreamingCapability.map(vsc => 
                     <option>{`${vsc.preferredResolution.resolutionWidth}x${vsc.preferredResolution.resolutionHeight} Scale ${vsc.scale}`}</option>) }
                 </select>
             </div>);
@@ -206,7 +206,7 @@ class HMIApp extends React.Component {
             <div>
                 <div className={themeClass}>
                     <div className="app-body">
-                        <Toaster position='top-center'
+                        <Toaster position='top-center' 
                         containerStyle={{
                             maxHeight: config.masterHeight,
                             overflowY: 'scroll',
@@ -214,7 +214,7 @@ class HMIApp extends React.Component {
                             marginTop: 10,
                             marginLeft: 10,
                             paddingTop: 10
-                        }}
+                        }} 
                         toastOptions={{ style: {
                             left: 0,
                             position: 'relative',
@@ -374,6 +374,6 @@ ReactDOM.render((
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers:
+// Learn more about service workers: 
 // https://create-react-app.dev/docs/making-a-progressive-web-app/
 serviceWorker.unregister();

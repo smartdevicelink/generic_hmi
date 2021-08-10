@@ -531,7 +531,6 @@ class UIController {
                                     (app.isPerformingInteraction) ? "UI.PerformInteraction":
                                     (app.slider.showSlider) ? "UI.Slider":
                                     (app.scrollableMessage.active) ? "UI.ScrollableMessage":
-                                    //TODO: Add condition for UI PerformAudioPassThru interaction
                                     null
                     if (!methodName) {
                         continue;
@@ -598,10 +597,8 @@ class UIController {
                             this.onSystemContext(context, appID);
                             return true;
                         }
-                        // TODO: Implement case for UI PerformAudioPassThru Interaction
-                        // case "UI.PerformAudioPassThru": {
-                        //     return true;
-                        // }
+                        default: // do nothing
+                            break;
                     }
                 }
                 return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };;
