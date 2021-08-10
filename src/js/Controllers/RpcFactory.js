@@ -30,6 +30,7 @@ export const resultCode = {
     'SAVED': 25,
     'READ_ONLY': 26
 };
+
 class RpcFactory {
     static SetAppProperties(properties) {
         return {
