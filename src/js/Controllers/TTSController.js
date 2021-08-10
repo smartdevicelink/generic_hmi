@@ -131,9 +131,8 @@ class TTSController {
                 // in case more things will be added to the filePlaylist,
                 // so that TTS Speak will be replied to before speaking next message
                 clearInterval(this.timers[file.id]);
-                this.speakEnded();
                 this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
-                return;
+                return this.playNext();
             }
         } else {
             this.speakEnded();

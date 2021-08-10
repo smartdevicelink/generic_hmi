@@ -130,7 +130,7 @@ class HMIApp extends React.Component {
         if (resPeriod > OUT_OF_BOUND_RESET_PERIOD) {
             store.dispatch(resetTimeout(10000));
         } else {
-            store.dispatch(resetTimeout(event.target.value));
+            store.dispatch(resetTimeout(resPeriod));
         }
     }
 
