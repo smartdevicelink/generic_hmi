@@ -65,6 +65,7 @@ const commonButtonCapabilities = [{
 	"upDownAvailable": true,
 	"name": "CUSTOM_BUTTON"
 }]
+
 const mediaButtonCapabilities = [{
 	"shortPressAvailable": true,
 	"longPressAvailable": true,
@@ -95,7 +96,6 @@ const mediaButtonCapabilities = [{
 	"upDownAvailable": true,
 	"name": "CUSTOM_BUTTON"
 }]
-
 
 // Store capabilities of mirrored templates
 let textWithGraphicCapabilities = {
