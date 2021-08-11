@@ -20,7 +20,7 @@ let imageOnlySoftButtonCapability = {
 }
 
 let templatesAvailable = [
-	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
+	"DEFAULT", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
 	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
 	"NAV_FULLSCREEN_MAP", "TILES_ONLY"
@@ -821,7 +821,7 @@ const keyboardCapabilities = {
 	]
 }
 
-const getWindowCapability = (template) => {
+const getWindowCapability = (template, includeMedia) => {
 	if (!template || !capabilities[template]) {
 		return null;
 	}
@@ -838,10 +838,11 @@ const getWindowCapability = (template) => {
 		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
 		keyboardCapabilities: keyboardCapabilities
 	}
+	if (includeMedia) { capability.templatesAvailable.push('MEDIA'); }
 	return capability;
 }
 
-const getDisplayCapability = (template) => {
+const getDisplayCapability = (template, includeMedia=false) => {
 	var templateCapability = capabilities[template];
 	if (!templateCapability) {
 		console.log("Error: Trying to access capability for unsupported template")
@@ -850,7 +851,7 @@ const getDisplayCapability = (template) => {
 	var capability = {
 		displayName: templateCapability.displayCapabilities.displayName,
 		windowTypeSupported: [mainWindowTypeCapability],
-		windowCapabilities: [getWindowCapability(template)],
+		windowCapabilities: [getWindowCapability(template, includeMedia)],
 		screenParams: screenParams
 	}
 	return capability;

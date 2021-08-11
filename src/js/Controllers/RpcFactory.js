@@ -230,13 +230,15 @@ class RpcFactory {
         return msg
     }
     static UIGetCapabilitiesResponse(rpc) {
+        var displayCapabilities = capabilities["MEDIA"].displayCapabilities;
+        displayCapabilities.templatesAvailable.push('MEDIA');
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "displayCapabilities": displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
@@ -284,8 +286,9 @@ class RpcFactory {
             }
         })
     }
-    static UIShowResponse(rpc) {
+    static UIShowResponse(rpc, isMediaApp) {
         var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+        if (isMediaApp) { supportedTemplates.push('MEDIA'); }
         const templateConfiguration = rpc.params.templateConfiguration;
         const templateParamExists = templateConfiguration && templateConfiguration.template;
 
@@ -311,7 +314,9 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": (templateConfiguration.template === 'MEDIA'
+                        ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI"),
                     "data": {
                         "method": rpc.method
                     }
@@ -841,10 +846,10 @@ class RpcFactory {
         })
     }
 
-    static OnSystemCapabilityDisplay(template, appID) {
+    static OnSystemCapabilityDisplay(template, appID, appIsMedia) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
-            displayCapabilities: [getDisplayCapability(template)]
+            displayCapabilities: [getDisplayCapability(template, appIsMedia)]
         }
         return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
