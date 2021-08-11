@@ -57,7 +57,7 @@ class AppStoreIcon extends React.Component {
                             </div>
                         </div>
                     </Link>
-                    <Link to="/appstore" style={{ marginRight: 0 }}>
+                    <Link to="/appstore" className="mr-10">
                         <div className="app-icon">
                             <div className="static-icon">
                                 <div className="svg-wrap">
@@ -96,7 +96,7 @@ class UpdateNeededIcon extends React.Component {
     render() {
         var msg = this.props.msg ? this.props.msg : "Policy Update Needed";
         return (<div>
-                    <span className="svg-wrap status-icon">
+                    <span className="svg-wrap status-icon mr-10">
                         <UpdateNeeded/>
                         <span class="tooltiptext">{msg}</span>
                     </span>
@@ -108,7 +108,7 @@ class UpdatingIcon extends React.Component {
     render() {
         var msg = this.props.msg ? this.props.msg : "Policy Update In Progress";
         return (<div>
-                    <span className="svg-wrap status-icon">
+                    <span className="svg-wrap status-icon mr-10">
                         <Updating/>
                         <span class="tooltiptext">{msg}</span>
                     </span>
@@ -120,7 +120,7 @@ class UptoDateIcon extends React.Component {
     render() {
         var msg = this.props.msg ? this.props.msg : "Policy Table Updated";
         return (<div>
-                    <span className="svg-wrap status-icon">
+                    <span className="svg-wrap status-icon mr-10">
                         <UpToDate/>
                         <span class="tooltiptext">{msg}</span>
                     </span>
