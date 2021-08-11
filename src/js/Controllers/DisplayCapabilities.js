@@ -65,6 +65,7 @@ const commonButtonCapabilities = [{
 	"upDownAvailable": true,
 	"name": "CUSTOM_BUTTON"
 }]
+
 const mediaButtonCapabilities = [{
 	"shortPressAvailable": true,
 	"longPressAvailable": true,
@@ -712,7 +713,7 @@ let capabilities = {
 		},
 		"softButtonCapabilities": [],
 		"buttonCapabilities": commonButtonCapabilities
- 		},
+	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
 			"samplingRate": "44KHZ",

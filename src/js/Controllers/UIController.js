@@ -195,16 +195,14 @@ class UIController {
             case "UnsubscribeButton":
                 const isSubscribed = methodName === 'SubscribeButton';
                 if(!rpc.params.buttonName || !rpc.params.appID) {
-                    this.listener.send(RpcFactory.ErrorResponse(rpc, resultCode.GENERIC_ERROR,`No button provide to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`));
-                    return;
+                    return { "rpc": RpcFactory.ErrorResponse(rpc, resultCode.GENERIC_ERROR, `No button provided to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`) };
                 };
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
                     rpc.params.buttonName,
                     isSubscribed
                 ));
-                this.listener.send(RpcFactory.SuccessResponse(rpc));
-                return 
+                return {"rpc": RpcFactory.SuccessResponse(rpc)};
             case "PerformInteraction":
                 if (!rpc.params.choiceSet) {
                     return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
