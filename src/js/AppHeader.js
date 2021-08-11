@@ -23,7 +23,7 @@ import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
 import {ReactComponent as TitleSeparator} from '../img/static/0xFF.svg'
 
-class AppStoreIcon extends React.Component {
+class MenuReveal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,17 +33,33 @@ class AppStoreIcon extends React.Component {
     render() {
         var infoClassName = "info-open";
         var revealClassName = "reveal-open";
+        var statusUpdate = <div></div>;
+        var appStoreIcon = null;
         if (this.state.collapseInfo) {
             infoClassName = "info-closed";
             revealClassName = "reveal-closed";
         }
-        var statusUpdate = <div></div>;
+
         if (this.props.statusUpdate === "UPDATE_NEEDED") {
             statusUpdate = <UpdateNeededIcon msg={this.props.statusUpdateMsg}/>;
         } else if (this.props.statusUpdate === "UPDATING") {
             statusUpdate = <UpdatingIcon msg={this.props.statusUpdateMsg}/>;
         } else if (this.props.statusUpdate === "UP_TO_DATE") {
             statusUpdate = <UptoDateIcon msg={this.props.statusUpdateMsg}/>;
+        }
+
+
+        if (this.props.isAppStoreConnected) {
+            appStoreIcon = (
+            <Link to="/appstore" className="mr-10">
+                <div className="app-icon">
+                    <div className="static-icon">
+                        <div className="svg-wrap">
+                            <IconCart/>
+                        </div>
+                    </div>
+                </div>
+            </Link>)
         }
         return (<div className="flex-row-center">
                 <div className={"flex-row-center " + infoClassName}>
@@ -57,15 +73,7 @@ class AppStoreIcon extends React.Component {
                             </div>
                         </div>
                     </Link>
-                    <Link to="/appstore" className="mr-10">
-                        <div className="app-icon">
-                            <div className="static-icon">
-                                <div className="svg-wrap">
-                                    <IconCart/>
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
+                    { appStoreIcon }
                 </div>
                 <span 
                     className={"svg-wrap-secondary flex-jc-center " + revealClassName}
@@ -190,17 +198,13 @@ class AppHeader extends React.Component {
                 activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
-            if (this.props.isAppStoreConnected) {
-                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
-                    <AppStoreIcon 
-                        statusUpdate={this.props.statusUpdate} 
-                        statusUpdateMsg={this.props.statusUpdateMsg}
-                    />
-                );
-            }
-            else{
-                icon = (<div />)
-            }
+            icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
+                <MenuReveal 
+                    statusUpdate={this.props.statusUpdate} 
+                    statusUpdateMsg={this.props.statusUpdateMsg}
+                    isAppStoreConnected={this.props.isAppStoreConnected}
+                />
+            );
         } else if (this.props.icon === 'custom') {
             icon = this.props.jsxIcon;
         }
