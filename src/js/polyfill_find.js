@@ -1,4 +1,5 @@
 if (!Array.prototype.find) {
+  // eslint-disable-next-line
   Array.prototype.find = function(predicate) {
     if (this == null) {
       throw new TypeError('Array.prototype.find called on null or undefined');

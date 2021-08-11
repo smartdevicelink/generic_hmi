@@ -80,7 +80,7 @@ const mapStateToProps = (state) => {
             scrollableMessageAppId = parseInt(prop);
 
             var scrollableMessageApp = state.appList.find((key) => {
-                return key.appID === scrollableMessageAppId;
+                return key.appID === parseInt(prop);
             })
 
             if (scrollableMessageApp.appName) {
