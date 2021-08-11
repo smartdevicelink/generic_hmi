@@ -1,5 +1,4 @@
 import RpcFactory from './RpcFactory';
-import store from '../store';
 class TTSController {
     constructor () {
         this.addListener = this.addListener.bind(this);
@@ -16,9 +15,7 @@ class TTSController {
     }
 
     onResetTimeout(messageId) {
-        let resPeriod = store.getState().system.resetPeriod;
-
-        this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', resPeriod));
+        this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', 10000));
     }
 
     playAudio(path) {
@@ -37,10 +34,6 @@ class TTSController {
     }
 
     speak(text) {
-        // Dont allow empty strings
-        if(!text) {
-            this.playNext();
-        }
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
