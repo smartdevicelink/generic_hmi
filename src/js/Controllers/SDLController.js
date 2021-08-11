@@ -39,7 +39,6 @@ class SDLController {
             StatusUpToDate: 'UP_TO_DATE'
         }
         this.statusMessages = {};
-        this.statusTimeout = null;
         this.toastStatus = this.toastStatus.bind(this);
     }
     addListener(listener) {
@@ -65,13 +64,6 @@ class SDLController {
             if (this.statusMessages[status].ttsString) { ttsController.queueTTS(this.statusMessages[status].ttsString); }
             if (window.flags.StatusUpdateIcon) {
                 store.dispatch(onStatusUpdate(status, this.statusMessages[status].line1));
-                if (this.statusTimeout) {
-                    clearTimeout(this.statusTimeout);
-                    this.statusTimeout = null;
-                }
-                this.statusTimeout = setTimeout(()=> {
-                    store.dispatch(onStatusUpdate("", ""));
-                }, 5000);
             } else {
                 toast((_toast) => (<PermissionsPopup _toast={_toast} header={this.statusMessages[status].line1}/>), { duration: 2000 });
             }
