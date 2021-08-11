@@ -96,6 +96,7 @@ const mediaButtonCapabilities = [{
 	"name": "CUSTOM_BUTTON"
 }]
 
+
 // Store capabilities of mirrored templates
 let textWithGraphicCapabilities = {
 	"displayCapabilities": {
@@ -714,7 +715,7 @@ let capabilities = {
 		},
 		"softButtonCapabilities": [],
 		"buttonCapabilities": commonButtonCapabilities
- 		},
+	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
 			"samplingRate": "44KHZ",
