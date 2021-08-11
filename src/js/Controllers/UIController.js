@@ -43,6 +43,7 @@ const getNextSystemContext = () => {
     }
     return "MAIN"
 }
+const DEFAULT_TIMEOUT_VALUE = 10000;
 
 class UIController {
     constructor () {
@@ -289,7 +290,7 @@ class UIController {
                 const state = store.getState();
                 const context = state.activeApp
 
-                var scrollableTimeout = rpc.params.timeout ?? 10000;
+                var scrollableTimeout = rpc.params.timeout ?? DEFAULT_TIMEOUT_VALUE;
                 this.endTimes[rpc.id] = Date.now() + scrollableTimeout;
                 this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
@@ -360,7 +361,7 @@ class UIController {
                     rpc.params.cancelID,
                     false
                 ))
-                var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
+                var alertTimeout = rpc.params.duration ? rpc.params.duration : DEFAULT_TIMEOUT_VALUE;
                 const state = store.getState()
                 const context = state.activeApp
 
@@ -426,7 +427,7 @@ class UIController {
                     this.onSystemContext("HMI_OBSCURED", context2)
                 }
 
-                var subtleAlertTimeout = rpc.params.duration ? rpc.params.duration : 10000;
+                var subtleAlertTimeout = rpc.params.duration ? rpc.params.duration : DEFAULT_TIMEOUT_VALUE;
                 this.endTimes[rpc.id] = Date.now() + subtleAlertTimeout;
                 this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
@@ -454,7 +455,7 @@ class UIController {
                 const state = store.getState()
                 const context = state.activeApp
 
-                let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
+                let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : DEFAULT_TIMEOUT_VALUE;
                 this.endTimes[rpc.id] = Date.now() + sliderTimeout;
                 this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, 
                                             context ? context : rpc.params.appID, "TIMEOUT")
@@ -792,7 +793,7 @@ class UIController {
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
-        const timeout = alert.duration ? alert.duration : 10000;
+        const timeout = alert.duration ? alert.duration : DEFAULT_TIMEOUT_VALUE;
         const state = store.getState()
         const context = state.activeApp
         
@@ -801,7 +802,7 @@ class UIController {
     }
     onSliderKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID])
-        const timeout = duration ?? 10000;
+        const timeout = duration ?? DEFAULT_TIMEOUT_VALUE;
         const state = store.getState();
         const context = state.activeApp
 
@@ -810,7 +811,7 @@ class UIController {
     }
     onScrollableMessageKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID]);
-        const timeout = duration ?? 10000;
+        const timeout = duration ?? DEFAULT_TIMEOUT_VALUE;
         const state = store.getState();
         const context = state.activeApp;
         
