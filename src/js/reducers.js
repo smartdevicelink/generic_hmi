@@ -782,7 +782,7 @@ function ui(state = {}, action) {
     }
 }
 
-function system(state = { resetPeriod: 10000 }, action) {
+function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
         case Actions.POLICY_UPDATE:            
@@ -833,9 +833,6 @@ function system(state = { resetPeriod: 10000 }, action) {
             return newState;
         case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
             newState.permissionsAppAwaitingActivation = false;
-            return newState;
-        case Actions.RESET_TIMEOUT:
-            newState.resetPeriod = action.resetPeriod;
             return newState;
         default:
             return state

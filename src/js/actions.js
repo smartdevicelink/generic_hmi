@@ -27,7 +27,6 @@ export const Actions = {
     PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
     CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
-    RESET_TIMEOUT: "RESET_TIMEOUT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
     UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
@@ -316,13 +315,6 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
         icon: icon,
         cancelID: cancelID,
         isSubtle: isSubtle
-    }
-}
-
-export const resetTimeout = (resetPeriod) => {
-    return {
-        type: Actions.RESET_TIMEOUT,
-        resetPeriod: resetPeriod
     }
 }
 

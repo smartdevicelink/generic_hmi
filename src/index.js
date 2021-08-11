@@ -50,8 +50,7 @@ import {
     setPTUWithModem,
     updateAppStoreConnectionStatus,
     updateInstalledAppStoreApps,
-    setDDState,
-    resetTimeout
+    setDDState
 } from './js/actions';
 
 class HMIApp extends React.Component {
@@ -67,7 +66,6 @@ class HMIApp extends React.Component {
         this.togglePTUWithModem = this.togglePTUWithModem.bind(this);
         this.handleDDToggle = this.handleDDToggle.bind(this);
         this.pickResolution = this.pickResolution.bind(this);
-        this.changeResetPeriod = this.changeResetPeriod.bind(this);
         this.onTouchBegin = this.onTouchBegin.bind(this);
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
@@ -122,16 +120,6 @@ class HMIApp extends React.Component {
         this.setState({ resolution: event.target.value, scale: match[3] });
 
         bcController.onSystemCapabilityUpdated(capability, this.props.activeAppId);
-    }
-
-    changeResetPeriod(event) {
-        const resPeriod = parseInt(event.target.value, 10);
-        const OUT_OF_BOUND_RESET_PERIOD = 1000000;
-        if (resPeriod > OUT_OF_BOUND_RESET_PERIOD) {
-            store.dispatch(resetTimeout(10000));
-        } else {
-            store.dispatch(resetTimeout(resPeriod));
-        }
     }
 
     onTouchEvent(type, event) {
@@ -196,12 +184,6 @@ class HMIApp extends React.Component {
             </div>);
         }
 
-        var resetPeriodSelector = undefined;
-            resetPeriodSelector = (<div className="reset-period-selector">
-                <label>Reset period, ms:</label><br/>
-                <input type="number" value={store.getState().system.resetPeriod} onChange={this.changeResetPeriod} />
-            </div>);
-
         return(
             <div>
                 <div className={themeClass}>
@@ -242,7 +224,6 @@ class HMIApp extends React.Component {
                         <label>Driver Distraction</label>
                     </div>
                     { resolutionSelector }
-                    { resetPeriodSelector }
                 </div>
                 <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl}
                     onTouchStart={this.onTouchBegin} onMouseDown={this.onTouchBegin}
