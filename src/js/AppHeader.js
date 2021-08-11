@@ -21,28 +21,61 @@ import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
 import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
+import {ReactComponent as TitleSeparator} from '../img/static/0xFF.svg'
 
 class AppStoreIcon extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapseInfo: true
+        }
+    }
     render() {
-        return (<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , flex: 0.5}}>
-                <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <div className="svg-wrap">
-                                <PermissionsIcon/>
+        var infoClassName = "info-open";
+        var revealClassName = "reveal-open";
+        if (this.state.collapseInfo) {
+            infoClassName = "info-closed";
+            revealClassName = "reveal-closed";
+        }
+        var statusUpdate = <div></div>;
+        if (this.props.statusUpdate === "UPDATE_NEEDED") {
+            statusUpdate = <UpdateNeededIcon msg={this.props.statusUpdateMsg}/>;
+        } else if (this.props.statusUpdate === "UPDATING") {
+            statusUpdate = <UpdatingIcon msg={this.props.statusUpdateMsg}/>;
+        } else if (this.props.statusUpdate === "UP_TO_DATE") {
+            statusUpdate = <UptoDateIcon msg={this.props.statusUpdateMsg}/>;
+        }
+        return (<div className="flex-row-center">
+                <div className={"flex-row-center " + infoClassName}>
+                    { statusUpdate }
+                    <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
+                        <div className="app-icon">
+                            <div className="static-icon">
+                                <div className="svg-wrap">
+                                    <PermissionsIcon/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Link>
-                <Link to="/appstore" style={{ marginRight: 0 }}>
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <div className="svg-wrap">
-                                <IconCart/>
+                    </Link>
+                    <Link to="/appstore" style={{ marginRight: 0 }}>
+                        <div className="app-icon">
+                            <div className="static-icon">
+                                <div className="svg-wrap">
+                                    <IconCart/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Link>
+                    </Link>
+                </div>
+                <span 
+                    className={"svg-wrap-secondary flex-jc-center " + revealClassName}
+                    onClick={() => {
+                        this.setState({
+                            collapseInfo: !this.state.collapseInfo
+                        })
+                    }}>
+                    <TitleSeparator/>
+                </span>
             </div>);
     }
 }
@@ -158,7 +191,12 @@ class AppHeader extends React.Component {
 
         if (this.props.icon === 'store') {
             if (this.props.isAppStoreConnected) {
-                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
+                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
+                    <AppStoreIcon 
+                        statusUpdate={this.props.statusUpdate} 
+                        statusUpdateMsg={this.props.statusUpdateMsg}
+                    />
+                );
             }
             else{
                 icon = (<div />)
@@ -182,27 +220,12 @@ class AppHeader extends React.Component {
             backLink = this.props.activeLayout;
         }
 
-        var statusUpdate = <div></div>;
-        if (this.props.location.pathname === '/') {
-            if (this.props.statusUpdate === "UPDATE_NEEDED") {
-                statusUpdate = <UpdateNeededIcon msg={this.props.statusUpdateMsg}/>;
-            } else if (this.props.statusUpdate === "UPDATING") {
-                statusUpdate = <UpdatingIcon msg={this.props.statusUpdateMsg}/>;
-            } else if (this.props.statusUpdate === "UP_TO_DATE") {
-                statusUpdate = <UptoDateIcon msg={this.props.statusUpdateMsg}/>;
-            }
-        }
-
 
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
                 <Name />
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'right' }}>
-                    { statusUpdate }
-                    { icon }
-                </div>
-
+                { icon }
                 <Modal
                 isOpen={this.props.showAlert}
                 className={`app-body ${this.props.alertIsSubtle ? 'subtleAlertModal' : 'alertModal'}`}

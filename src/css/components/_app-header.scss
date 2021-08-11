@@ -70,4 +70,34 @@
     .flex-pt-5 {
         flex: 0.5 !important;
     }
+
+    .flex-row-center {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .flex-jc-center {
+        display: flex;
+        justify-content: center;
+    }
+
+    .info-open {
+        transition: opacity 1s;
+        opacity: 1;
+    }
+
+    .info-closed {
+        transition: opacity 1s;
+        opacity: 0;
+    }
+
+    .reveal-open {
+        transition: transform 1s;
+        transform: rotate(-180deg);
+    }
+
+    .reveal-closed {
+        transition: transform 1s;
+    }
 }
