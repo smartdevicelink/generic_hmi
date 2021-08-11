@@ -3,7 +3,6 @@ import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
-
 function newAppState () {
     return {
         showStrings: {},

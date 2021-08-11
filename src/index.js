@@ -46,12 +46,13 @@ import uiController from './js/Controllers/UIController'
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
 import {
-    setTheme, 
-    setPTUWithModem, 
-    updateAppStoreConnectionStatus, 
-    updateInstalledAppStoreApps, 
+    setTheme,
+    setPTUWithModem,
+    updateAppStoreConnectionStatus,
+    updateInstalledAppStoreApps,
     setDDState
-} from './js/actions'
+} from './js/actions';
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -284,7 +285,7 @@ class HMIApp extends React.Component {
                 });
             });
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-        
+
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
             if (sdlSocket.readyState === sdlSocket.OPEN) {
@@ -333,7 +334,7 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
-            <Route path="/tiles-only" component={TilesOnly} />            
+            <Route path="/tiles-only" component={TilesOnly} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>

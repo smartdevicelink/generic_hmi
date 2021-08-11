@@ -38,6 +38,6 @@ export default class ScrollableMessageButtons extends React.Component {
                             </div>)
                 })}
             </div>
-        )        
+        )
     }
 }
