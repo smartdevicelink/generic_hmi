@@ -711,7 +711,6 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": [],
 		"buttonCapabilities": commonButtonCapabilities
 	},
 	"COMMON": {
