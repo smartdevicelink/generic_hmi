@@ -1,4 +1,5 @@
 import RpcFactory from './RpcFactory'
+import { resultCode } from './RpcFactory'
 import {
     show,
     setAppIcon, 
@@ -192,13 +193,18 @@ class UIController {
                 ))
                 this.onSystemContext("MENU", rpc.params.appID)
                 return true
-            case "OnButtonSubscription":
+            case "SubscribeButton":
+            case "UnsubscribeButton":
+                const isSubscribed = methodName === 'SubscribeButton';
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    return { "rpc": RpcFactory.ErrorResponse(rpc, resultCode.GENERIC_ERROR, `No button provided to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`) };
+                };
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
-                    rpc.params.name,
-                    rpc.params.isSubscribed
-                ))
-                return null
+                    rpc.params.buttonName,
+                    isSubscribed
+                ));
+                return {"rpc": RpcFactory.SuccessResponse(rpc)};
             case "PerformInteraction":
                 if (!rpc.params.choiceSet) {
                     return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
