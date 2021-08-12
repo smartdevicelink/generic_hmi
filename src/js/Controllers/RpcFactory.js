@@ -230,8 +230,8 @@ class RpcFactory {
         return msg
     }
     static UIGetCapabilitiesResponse(rpc) {
-        var displayCapabilities = capabilities["MEDIA"].displayCapabilities;
-        displayCapabilities.templatesAvailable.push('MEDIA');
+        let displayCapabilities = { ...capabilities["MEDIA"].displayCapabilities };
+        displayCapabilities.templatesAvailable = [...displayCapabilities.templatesAvailable, 'MEDIA'];
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
@@ -287,8 +287,8 @@ class RpcFactory {
         })
     }
     static UIShowResponse(rpc, isMediaApp) {
-        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
-        if (isMediaApp) { supportedTemplates.push('MEDIA'); }
+        var supportedTemplates = isMediaApp ? [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA' ]
+            : capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
         const templateParamExists = templateConfiguration && templateConfiguration.template;
 
@@ -779,12 +779,12 @@ class RpcFactory {
         }
         return msg  
     }
-    static SetDisplayLayoutResponse(rpc) {
+    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
         var layout = rpc.params.displayLayout;
         var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
         "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
         "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
-        if (supportedTemplates.includes(layout)) {
+        if (!disallowedLayout && supportedTemplates.includes(layout)) {
             if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
@@ -812,7 +812,8 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }

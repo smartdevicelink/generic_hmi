@@ -831,14 +831,13 @@ const getWindowCapability = (template, includeMedia) => {
 		textFields: templateDisplayCapability.textFields,
 		imageFields: templateDisplayCapability.imageFields,
 		imageTypeSupported: ["STATIC", "DYNAMIC"],
-		templatesAvailable: templateDisplayCapability.templatesAvailable,
+		templatesAvailable: includeMedia ? [...templateDisplayCapability.templatesAvailable,  'MEDIA'] : templateDisplayCapability.templatesAvailable,
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
 		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
 		keyboardCapabilities: keyboardCapabilities
 	}
-	if (includeMedia) { capability.templatesAvailable.push('MEDIA'); }
 	return capability;
 }
 

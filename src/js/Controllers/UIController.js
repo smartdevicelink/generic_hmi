@@ -95,7 +95,6 @@ class UIController {
                 var showApp = store.getState().appList.find((app) => {
                     return app.appID === rpc.params.appID;
                 });
-                var showAppIsMedia = showApp.appType.includes('MEDIA');
                 store.dispatch(show(
                     rpc.params.appID,
                     rpc.params.showStrings,
@@ -104,7 +103,7 @@ class UIController {
                     rpc.params.secondaryGraphic
                 ));
                 const templateConfiguration = rpc.params.templateConfiguration;
-                if (templateConfiguration && (showAppIsMedia
+                if (templateConfiguration && (showApp.isMediaApplication
                     || capabilities["MEDIA"].displayCapabilities.templatesAvailable.includes(templateConfiguration.template))) {
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
                     store.dispatch(setTemplateConfiguration(
@@ -115,7 +114,7 @@ class UIController {
                     ));
                     
                     if (prevDisplayLayout !== templateConfiguration.template) {
-                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showAppIsMedia));
+                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showApp.isMediaApplication));
                     }                    
                 }
 
@@ -126,7 +125,7 @@ class UIController {
                     });
                 }
 
-                const showResponse = RpcFactory.UIShowResponse(rpc, showAppIsMedia);
+                const showResponse = RpcFactory.UIShowResponse(rpc, showApp.isMediaApplication);
                 ValidateImages(showImages).then(
                     () => {this.listener.send(showResponse)},
                     () => {
@@ -249,13 +248,21 @@ class UIController {
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
                 const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
+                var setDisplayLayoutApp = store.getState().appList.find((app) => {
+                    return app.appID === rpc.params.appID;
+                });
+
+                var disallowedLayout = rpc.params.displayLayout === 'MEDIA' && !setDisplayLayoutApp.isMediaApplication;
+                if (disallowedLayout) {
+                    rpc.params.displayLayout = prevDisplayLayout;
+                }
 
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-                
+
                 if (prevDisplayLayout !== rpc.params.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 }
-                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
+                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,
