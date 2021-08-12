@@ -365,8 +365,10 @@ class UIController {
                 const state = store.getState()
                 const context = state.activeApp
 
+                const hasSoftButtons = rpc.params.softButtons && rpc.params.softButtons.length > 0;
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID,
+                    context ? context : rpc.params.appID, false, hasSoftButtons);
 
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
@@ -428,8 +430,10 @@ class UIController {
                 }
 
                 var subtleAlertTimeout = rpc.params.duration ? rpc.params.duration : DEFAULT_TIMEOUT_VALUE;
+                const subtleHasSoftButtons = rpc.params.softButtons && rpc.params.softButtons.length > 0;
                 this.endTimes[rpc.id] = Date.now() + subtleAlertTimeout;
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID,
+                    context2 ? context2 : rpc.params.appID, true, subtleHasSoftButtons);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
                 let subtleAlertImages = [rpc.params.alertIcon];
@@ -693,11 +697,11 @@ class UIController {
         }
         this.onSystemContext(systemContext, context)
     }
-    onAlertTimeout(msgID, appID, context, isSubtle) {
+    onAlertTimeout(msgID, appID, context, isSubtle, hadSoftbuttons) {
         delete this.timers[msgID]
         if (ttsController.isAlertSpeakInProgress()) {
             clearTimeout(this.timers[msgID]);
-            this.timers[msgID] = setTimeout(this.onAlertTimeout, 1000, msgID, appID, context, isSubtle);
+            this.timers[msgID] = setTimeout(this.onAlertTimeout, 1000, msgID, appID, context, isSubtle, hadSoftbuttons);
             this.listener.send(RpcFactory.OnResetTimeout(msgID,'UI.Alert',1000));
             return;
         }
@@ -711,6 +715,11 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(msgID)
             : RpcFactory.AlertResponse(msgID, appID);
+
+        if (hadSoftbuttons) {
+            rpc.result.code = 5; // ABORTED
+        }
+
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }))
 
         const systemContext = getNextSystemContext();
@@ -797,7 +806,7 @@ class UIController {
         const state = store.getState()
         const context = state.activeApp
         
-        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle, true);
         this.onResetTimeout(alert.msgID, isSubtle ? "UI.SubtleAlert" : "UI.Alert", timeout);
     }
     onSliderKeepContext(msgID, appID, duration) {
