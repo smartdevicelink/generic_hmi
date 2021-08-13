@@ -91,6 +91,9 @@
     height: calc((#{$master-height} - 75px) / 2);
     width: 50%;
     text-align: center;
+    p {
+        overflow: hidden;
+    }
 }
 
 .alert-buttons{
@@ -115,7 +118,11 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
     //align-self: flex-start;
+    p {
+        height: 100%;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -130,6 +137,9 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    p {
+        height: 100%;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -145,6 +155,10 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
+    p {
+        height: 100%;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -159,9 +173,13 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
     .soft-button-image, .soft-button-image-static {
         max-height: 50px;
         min-width: 50px;
+    }
+    p {
+        height: 100%;
     }
 
     @include display(flex);
