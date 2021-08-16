@@ -37,6 +37,9 @@
 }
 
 .alert-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     text-align: center;
 
     p {
@@ -44,6 +47,15 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+}
+
+.alert-progressIndicator {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../img/icons/progressIndicator.gif');
+    background-repeat: no-repeat;
+    background-size: 40px;
+    margin-left: 10px;
 }
 
 .alert-top {
