@@ -704,7 +704,7 @@ class UIController {
         if (ttsController.isAlertSpeakInProgress()) {
             clearTimeout(this.timers[msgID]);
             this.timers[msgID] = setTimeout(this.onAlertTimeout, 1000, msgID, appID, context, isSubtle);
-            this.listener.send(RpcFactory.OnResetTimeout(msgID,'UI.Alert',1000));
+            this.listener.send(RpcFactory.OnResetTimeout(msgID, isSubtle ? "UI.SubtleAlert" : "UI.Alert",1000));
             return;
         }
 
