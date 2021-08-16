@@ -597,12 +597,18 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
-                    break                    
+                    break
                 case "TEXTBUTTONS_WITH_GRAPHIC":
                     app.displayLayout = "text-buttons-with-graphic"
                     break
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
+                    break
+                case "GRAPHIC_WITH_TILES":
+                    app.displayLayout = "graphic-with-tiles"
+                    break
+                case "TILES_WITH_GRAPHIC":
+                    app.displayLayout = "tiles-with-graphic"
                     break
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"

@@ -23,7 +23,7 @@ let templatesAvailable = [
 	"DEFAULT", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
 	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
-	"NAV_FULLSCREEN_MAP", "TILES_ONLY"
+	"NAV_FULLSCREEN_MAP", "GRAPHIC_WITH_TILES", "TILES_WITH_GRAPHIC", "TILES_ONLY"
 ]
 
 let screenParams = {
@@ -214,12 +214,77 @@ let textbuttonsWithGraphicCapabilities = {
 	"buttonCapabilities": commonButtonCapabilities
 }
 
+let tilesWithGraphicCapabilities = {
+	"displayCapabilities": {
+		"displayType": "SDL_GENERIC",
+		"displayName": "GENERIC_DISPLAY",
+		"textFields": [
+			textField("scrollableMessageBody", 44, 8),
+			textField("alertText1"),
+			textField("alertText2"),
+			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
+			textField("templateTitle", 50),
+			textField("initialInteractionText", 50),
+			textField("sliderHeader", 70),
+			textField("sliderFooter", 70),
+			textField("menuName"),
+			textField("secondaryText"),
+			textField("tertiaryText", 20),
+			textField("menuCommandSecondaryText"),
+			textField("menuCommandTertiaryText", 20),
+			textField("menuSubMenuSecondaryText"),
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
+		],
+		"imageFields": [
+			imageField("choiceImage", 40),
+			imageField("choiceSecondaryImage", 40),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("menuIcon", 40),
+			imageField("cmdIcon", 150),
+			imageField("secondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 40),
+			imageField("menuSubMenuSecondaryImage", 40),
+			imageField("appIcon", 50),
+			imageField("graphic", 410),
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
+		],
+		"mediaClockFormats": [],
+		"graphicSupported": true,
+		"templatesAvailable": templatesAvailable,
+		"screenParams": screenParams,
+		"imageCapabilities": ["DYNAMIC", "STATIC"],
+		"menuLayoutsAvailable": ["LIST", "TILES"]
+	},
+	"softButtonCapabilities": [
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability
+	],
+	"buttonCapabilities": commonButtonCapabilities
+}
+
 
 let capabilities = {
 	"TEXT_WITH_GRAPHIC": textWithGraphicCapabilities,
 	"GRAPHIC_WITH_TEXT": textWithGraphicCapabilities,
 	"TEXTBUTTONS_WITH_GRAPHIC": textbuttonsWithGraphicCapabilities,
 	"GRAPHIC_WITH_TEXTBUTTONS": textbuttonsWithGraphicCapabilities,
+	"TILES_WITH_GRAPHIC": tilesWithGraphicCapabilities,
+	"GRAPHIC_WITH_TILES": tilesWithGraphicCapabilities,
 	"MEDIA": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
