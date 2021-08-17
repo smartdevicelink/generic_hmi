@@ -433,7 +433,7 @@ class UIController {
                     this.onSystemContext("MAIN", rpc.params.appID)
                     return true
                 } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
-                        && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
                     clearTimeout(this.timers[app.alert.msgID])
                     delete this.timers[app.alert.msgID]
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
