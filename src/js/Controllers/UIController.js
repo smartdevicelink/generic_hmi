@@ -575,7 +575,10 @@ class UIController {
                             this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                             store.dispatch(closeAlert(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            if (appID !== state.activeApp) {
+                                this.onSystemContext("MAIN", appID)
+                            }
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.SubtleAlert": {
@@ -588,7 +591,10 @@ class UIController {
                                 5, 'subtle alert was cancelled'))
                             store.dispatch(closeAlert(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            if (appID !== state.activeApp) {
+                                this.onSystemContext("MAIN", appID)
+                            }
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.PerformInteraction": {
@@ -611,7 +617,7 @@ class UIController {
                             this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
                             store.dispatch(closeSlider(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.ScrollableMessage": {
@@ -623,7 +629,7 @@ class UIController {
                             this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
                             store.dispatch(closeScrollableMessage(app.alert.msgID, appID));
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID);
+                            this.onSystemContext(context, state.activeApp);
                             return true;
                         }
                         default: // do nothing
