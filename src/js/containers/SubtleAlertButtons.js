@@ -25,8 +25,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onStealFocus:(alert, context) =>{
-            uiController.onStealFocus(alert, context, true);
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, true);
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, true);

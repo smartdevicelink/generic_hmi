@@ -798,7 +798,7 @@ class UIController {
         this.onSystemContext("MAIN", appID)
         sdlController.onAppActivated(appID)
     }
-    onStealFocus(alert, context, isSubtle) {        
+    onStealFocus(alert, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
@@ -817,10 +817,9 @@ class UIController {
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
+        const context = store.getState().activeApp;
         if(context){
             this.onSystemContext("MAIN", context)
-        } else {
-            this.onSystemContext("MENU")//Viewing App List
         }
 
         this.onSystemContext("MAIN", alert.appID)
