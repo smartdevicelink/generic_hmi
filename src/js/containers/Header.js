@@ -2,6 +2,13 @@ import { connect } from 'react-redux'
 import AppHeader from '../AppHeader'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
+const getAppByAppID = (list, appID) => {
+    var app = list.find(key => {
+        return key.appID === appID
+    });
+    return app;
+}
+
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp
     var app = state.ui[activeApp] ? state.ui[activeApp] : {
@@ -12,6 +19,11 @@ const mapStateToProps = (state) => {
 
     var showAlert = false
     var showScrollableMessage = false;
+    var showPerformAudioPassThru = false;
+    var aptTextFields = [];
+    var aptAppID = null;
+    var aptMsgID = null;
+    var aptAppName = "Microphone Listening";
     var scrollableMessageBody = "";
     var scrollableMessageAppName = "Scrollable Message";
     var scrollableMessageMsgId = null;
@@ -68,11 +80,25 @@ const mapStateToProps = (state) => {
             scrollableMessageAppId = parseInt(prop);
 
             var scrollableMessageApp = state.appList.find((key) => {
-                return key.appID === scrollableMessageAppId;
+                return key.appID === parseInt(prop);
             })
 
             if (scrollableMessageApp.appName) {
                 scrollableMessageAppName = scrollableMessageApp.appName;
+            }
+
+            break;
+        }
+        if (state.ui[prop].audioPassThru.active) {
+            showPerformAudioPassThru = true;
+            aptTextFields = state.ui[prop].audioPassThru.textFields;
+            aptAppID = parseInt(prop);
+            aptMsgID = state.ui[prop].audioPassThru.msgID
+
+            var aptApp = getAppByAppID(state.appList, aptAppID);
+
+            if (aptApp.appName) {
+                aptAppName = aptApp.appName;
             }
 
             break;
@@ -135,7 +161,13 @@ const mapStateToProps = (state) => {
         activeMenuDepth: app.activeMenuDepth,
         parentID: parentID,
         activeLayout: app.displayLayout,
-        interactionLayout: app.interactionLayout
+        interactionLayout: app.interactionLayout,
+        openPermissionsView: state.system.openPermissionsView,
+        showPerformAudioPassThru: showPerformAudioPassThru,
+        aptTextFields: aptTextFields,
+        aptAppID: aptAppID,
+        aptMsgID: aptMsgID,
+        aptAppName: aptAppName
     }
 }
 

@@ -31,7 +31,11 @@ class BCController {
                 return true
             case "ActivateApp":
                 store.dispatch(setAppIsConnected(rpc.params.appID))
-                store.dispatch(activateApp(rpc.params.appID))
+                if (!rpc.params.level || rpc.params.level === 'FULL') {
+                    store.dispatch(activateApp(rpc.params.appID));
+                } else {
+                    store.dispatch(deactivateApp(rpc.params.appID));
+                }
                 return true
             case "CloseApplication":
                 store.dispatch(deactivateApp(rpc.params.appID, "APP_CLOSED"))
@@ -46,15 +50,18 @@ class BCController {
                 }
                 if (rpc.params.application.appType.includes("WEB_VIEW")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay("WEB_VIEW", rpc.params.application.appID));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(
+                        "WEB_VIEW", rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 } else if (rpc.params.application.appType.includes("NAVIGATION")
                     || rpc.params.application.appType.includes("PROJECTION")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "nav-fullscreen-map"));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay("NAV_FULLSCREEN_MAP", rpc.params.application.appID));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(
+                        "NAV_FULLSCREEN_MAP", rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 } else {
                     var templates = rpc.params.application.isMediaApplication ? ["media","MEDIA"] : ["nonmedia","NON-MEDIA"];
                     store.dispatch(registerApplication(rpc.params.application.appID, templates[0]));
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templates[1], rpc.params.application.appID));
+                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(
+                        templates[1], rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 }
                 return null
             case "OnAppUnregistered":
@@ -106,12 +113,32 @@ class BCController {
                 if (rpc.params.appCapability.appCapabilityType === 'VIDEO_STREAMING'
                     && rpc.params.appCapability.videoStreamingCapability) {
                     var vsc = rpc.params.appCapability.videoStreamingCapability;
-                    if (!vsc.additionalVideoStreamingCapabilities) {
-                        vsc.additionalVideoStreamingCapabilities = [];
+                    var vsCapabilities = []
+                    if (vsc.additionalVideoStreamingCapabilities) {
+                        vsCapabilities = vsc.additionalVideoStreamingCapabilities.filter((cap) => {
+                            var pR = cap.preferredResolution;
+                            return cap.scale && pR && pR.resolutionWidth && pR.resolutionHeight;
+                        });
                     }
-                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsc.additionalVideoStreamingCapabilities));
+                    store.dispatch(setVideoStreamingCapability(rpc.params.appID, vsCapabilities));
                 }
                 return null;
+            
+            case "DecryptCertificate": {
+                const request = rpc
+                FileSystemController.subscribeToEvent('DecryptCertificate', (success, params) => {
+                    let response = (success) ? RpcFactory.SuccessResponse(request) :
+                        RpcFactory.ErrorResponse(request, 5, "Unable to decrypt certificate")
+                    this.listener.send(response)
+                });
+                FileSystemController.sendJSONMessage({
+                    method: 'DecryptCertificate',
+                    params: {
+                        fileName: request.params.fileName
+                    }
+                });
+                return null;
+            }
             default:
                 return false;
         }

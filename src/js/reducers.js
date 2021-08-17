@@ -3,7 +3,6 @@ import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
-
 function newAppState () {
     return {
         showStrings: {},
@@ -66,6 +65,12 @@ function newAppState () {
             softButtons: [],
             duration: 0,
             cancelID: null
+        },
+        audioPassThru: {
+            active: false,
+            textFields: [],
+            duration: 0,
+            msgID: null
         },
         dayColorScheme: null,
         nightColorScheme: null,
@@ -651,6 +656,20 @@ function ui(state = {}, action) {
                 cancelID: null
             };
             return newState;
+        case Actions.PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru.active = true;
+            app.audioPassThru.textFields = action.aptTextFields;
+            app.audioPassThru.duration = action.duration;
+            app.audioPassThru.msgID = action.msgID
+            return newState;
+        case Actions.CLOSE_PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru = {
+                active: false,
+                textFields: [],
+                duration: 0,
+                msgID: null
+            }
+            return newState;
         case Actions.ALERT:
             app.alert.showAlert = true
             app.alert.isSubtle = action.isSubtle
@@ -735,8 +754,7 @@ function ui(state = {}, action) {
                     language: app.keyboardProperties.language,
                     maskInputCharacters: app.keyboardProperties.maskInputCharacters,
                     keypressMode: "RESEND_CURRENT_ENTRY",
-                    limitedCharacterList: "",
-                    autoCompleteList: app.keyboardProperties.autoCompleteList
+                    limitedCharacterList: ""
                 }, action.keyboardProperties);
 
                 if (action.keyboardProperties.autoCompleteText && 
@@ -790,9 +808,34 @@ function system(state = {}, action) {
         case Actions.NAVIGATION_VIEW_ACTIVE:
             newState.navigationActive = action.active
             return newState
+        case Actions.OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = true;
+            newState.editingPermissionsAppId = action.appID;
+            newState.allowedFunctions = action.allowedFunctions;
+            if (action.permissionsAppAwaitingActivation) {
+                newState.permissionsAppAwaitingActivation = action.permissionsAppAwaitingActivation;
+            }
+            return newState;
+        case Actions.RESET_OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            return newState
+        case Actions.CLOSE_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            newState.editingPermissionsAppId = undefined;
+            newState.allowedFunctions = [];
+            return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            if (action.appID === state.editingPermissionsAppId) {
+                newState.openPermissionsView = false;
+                newState.editingPermissionsAppId = undefined;
+                newState.allowedFunctions = [];
+            }
+            return newState;
+        case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
+            newState.permissionsAppAwaitingActivation = false;
+            return newState;
         default:
             return state
-
     }
 }
 

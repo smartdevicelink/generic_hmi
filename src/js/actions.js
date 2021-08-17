@@ -24,6 +24,8 @@ export const Actions = {
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
     SCROLLABLE_MESSAGE: "SCROLLABLE_MESSAGE",
     CLOSE_SCROLLABLE_MESSAGE: "CLOSE_SCROLLABLE_MESSAGE",
+    PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
+    CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
     SLIDER: "SLIDER",
@@ -54,7 +56,11 @@ export const Actions = {
     SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
     NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
     SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY",
-    SET_HAPTIC_DATA: "SET_HAPTIC_DATA"
+    SET_HAPTIC_DATA: "SET_HAPTIC_DATA",
+    OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
+    RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
+    CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
+    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS"
 }
 
 export const updateAppList = (applications) => {
@@ -273,6 +279,24 @@ export const scrollableMessage = (appID, msgID, messageBody, softButtons, durati
 export const closeScrollableMessage = (msgID, appID) => {
     return {
         type: Actions.CLOSE_SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID
+    }
+}
+
+export const performAudioPassThru = (appID, textFields, duration, msgID) => {
+    return {
+        type: Actions.PERFORM_AUDIO_PASSTHRU,
+        appID: appID,
+        aptTextFields: textFields,
+        duration: duration,
+        msgID: msgID
+    }
+}
+
+export const closePerformAudioPassThru = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_PERFORM_AUDIO_PASSTHRU,
         appID: appID,
         msgID: msgID
     }
@@ -543,4 +567,23 @@ export const setHapticData = (appID, hapticRects) => ({
     type: Actions.SET_HAPTIC_DATA,
     appID: appID,
     hapticRects: hapticRects
+});
+
+export const openPermissionsView = (appID, allowedFunctions, permissionsAppAwaitingActivation=false) => ({
+    type: Actions.OPEN_PERMISSIONS_VIEW,
+    appID: appID,
+    allowedFunctions: allowedFunctions,
+    permissionsAppAwaitingActivation: permissionsAppAwaitingActivation ? appID : false
+});
+
+export const resetOpenPermissionsView = () => ({
+    type: Actions.RESET_OPEN_PERMISSIONS_VIEW
+});
+
+export const closePermissionsView = () => ({
+    type: Actions.CLOSE_PERMISSIONS_VIEW
+});
+
+export const clearAppAwaitingPermissions = () => ({
+    type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
 });
