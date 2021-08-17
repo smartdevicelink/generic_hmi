@@ -31,8 +31,8 @@ const mapDispatchToProps = (dispatch) => {
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, true);
         },
-        onDefaultAction:(alert, context) =>{
-            uiController.onDefaultAction(alert, context, true);
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, true);
         }
     }
 }

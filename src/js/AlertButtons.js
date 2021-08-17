@@ -20,7 +20,7 @@ export default class AlertButtons extends React.Component {
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
             action = this.props.onKeepContext(alert)
         } else {
-            action = this.props.onDefaultAction(alert, this.props.appID)
+            action = this.props.onDefaultAction(alert);
         }
 
         return action

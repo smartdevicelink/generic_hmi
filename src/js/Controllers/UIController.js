@@ -484,7 +484,7 @@ class UIController {
                                             context ? context : rpc.params.appID, "TIMEOUT")
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
-                if ((context !== rpc.params.appID) && context) {
+                if (context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
 
@@ -790,9 +790,6 @@ class UIController {
         this.listener.send(response)
 
         const systemContext = getNextSystemContext();
-        if (appID !== context) {
-            this.onSystemContext('MAIN', appID)
-        }
         this.onSystemContext(systemContext, context)
     }
     onScrollableMessageStealFocus(msgID, appID) {
@@ -857,7 +854,7 @@ class UIController {
         this.timers[msgID] = setTimeout(this.onCloseScrollableMessage, timeout, msgID, appID, context);
         this.onResetTimeout(msgID, "UI.ScrollableMessage", timeout);
     }
-    onDefaultAction(alert, context, isSubtle) {
+    onDefaultAction(alert, isSubtle) {
         store.dispatch(closeAlert(alert.msgID, alert.appID));
 
         if (!alert.msgID) {
@@ -880,11 +877,12 @@ class UIController {
 
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
-        if(context){
-            this.onSystemContext("MAIN", context)
-        } else {
-            this.onSystemContext("MENU")//Viewing App List
+        const context = store.getState().activeApp;
+        const systemContext = getNextSystemContext();
+        if(context && context !== alert.appID){
+            this.onSystemContext('MAIN', alert.appID);
         }
+        this.onSystemContext(systemContext, context);
     }
     onChoiceSelection(choiceID, appID, msgID, manualTextEntry) {
         clearTimeout(this.timers[msgID])
