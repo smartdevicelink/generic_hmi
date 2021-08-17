@@ -680,7 +680,7 @@ class UIController {
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
@@ -723,7 +723,7 @@ class UIController {
         }
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
@@ -754,7 +754,7 @@ class UIController {
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
@@ -791,7 +791,7 @@ class UIController {
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
