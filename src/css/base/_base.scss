@@ -87,4 +87,8 @@ body {
     }
 }
 
+.bg-highlighted {
+    background-color: color($secondary-accent-color);
+}
+
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);
