@@ -32,6 +32,7 @@ const mapStateToProps = (state) => {
     var alertMsgId = null
     var alertAppId = null
     var alertAppName = ""
+    var alertShowProgressIndicator = false;
     var alertIcon = null
     var showSlider = false
     var sliderAppId = null
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => {
             alertIsSubtle = state.ui[prop].alert.isSubtle
             alertMsgId = state.ui[prop].alert.msgID
             alertAppId = parseInt(prop)
+            alertShowProgressIndicator = state.ui[prop].alert.showProgressIndicator;
 
             var alertApp = state.appList.find((key) => {
                 return key.appID === parseInt(prop)
@@ -148,6 +150,7 @@ const mapStateToProps = (state) => {
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,
         alertName: alertAppName,
+        alertShowProgressIndicator: alertShowProgressIndicator,
         showSlider: showSlider,
         sliderAppId: sliderAppId,
         sliderName: sliderAppName,

@@ -133,7 +133,7 @@ class AppHeader extends React.Component {
 
         var alertHtml = this.props.alertIsSubtle
                             ? (<SubtleAlert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>)
-                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>);
+                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme} showProgressIndicator={this.props.alertShowProgressIndicator}/>);
 
         // Determine backLink for special case when showing submenu
         var backLink = this.props.backLink;
