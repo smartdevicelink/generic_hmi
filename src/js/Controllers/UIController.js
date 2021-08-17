@@ -510,7 +510,10 @@ class UIController {
                     this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     const context = getNextSystemContext();
-                    this.onSystemContext(context, rpc.params.appID)
+                    if (rpc.params.appID !== state.activeApp) {
+                        this.onSystemContext("MAIN", rpc.params.appID)
+                    }
+                    this.onSystemContext(context, state.activeApp)
                     return true
                 } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
@@ -519,7 +522,10 @@ class UIController {
                     this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
                     store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
                     const context = getNextSystemContext();
-                    this.onSystemContext(context, rpc.params.appID)
+                    if (rpc.params.appID !== state.activeApp) {
+                        this.onSystemContext("MAIN", rpc.params.appID)
+                    }
+                    this.onSystemContext(context, state.activeApp)
                     return true
                 } else if (rpc.params.functionID === 26 && app.slider.showSlider
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.slider.cancelID)) {
@@ -528,7 +534,7 @@ class UIController {
                     this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
                     store.dispatch(closeSlider(app.alert.msgID, rpc.params.appID))
                     const context = getNextSystemContext();
-                    this.onSystemContext(context, rpc.params.appID)
+                    this.onSystemContext(context, state.activeApp)
                     return true
                 } else if (rpc.params.functionID === 25 && app.scrollableMessage.active
                     && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.scrollableMessage.cancelID)) {
