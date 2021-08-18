@@ -125,7 +125,6 @@ class AppHeader extends React.Component {
             backLink = this.props.activeLayout;
         }
 
-
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
