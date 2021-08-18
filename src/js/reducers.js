@@ -3,7 +3,6 @@ import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
-
 function newAppState () {
     return {
         showStrings: {},
@@ -755,8 +754,7 @@ function ui(state = {}, action) {
                     language: app.keyboardProperties.language,
                     maskInputCharacters: app.keyboardProperties.maskInputCharacters,
                     keypressMode: "RESEND_CURRENT_ENTRY",
-                    limitedCharacterList: "",
-                    autoCompleteList: app.keyboardProperties.autoCompleteList
+                    limitedCharacterList: ""
                 }, action.keyboardProperties);
 
                 if (action.keyboardProperties.autoCompleteText && 

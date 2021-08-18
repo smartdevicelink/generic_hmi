@@ -20,7 +20,7 @@ let imageOnlySoftButtonCapability = {
 }
 
 let templatesAvailable = [
-	"DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
+	"DEFAULT", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
 	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
 	"NAV_FULLSCREEN_MAP", "TILES_ONLY"
@@ -59,6 +59,44 @@ function imageField(name, width, height) {
 	}
 }
 
+const commonButtonCapabilities = [{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "CUSTOM_BUTTON"
+}]
+
+const mediaButtonCapabilities = [{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "OK"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PLAY_PAUSE"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "SEEKLEFT"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "SEEKRIGHT"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "CUSTOM_BUTTON"
+}]
+
 // Store capabilities of mirrored templates
 let textWithGraphicCapabilities = {
 	"displayCapabilities": {
@@ -70,7 +108,7 @@ let textWithGraphicCapabilities = {
 			textField("mainField3"),
 			textField("mainField4"),
 			textField("templateTitle", 50),
-			textField("scrollableMessageBody", 44, 15),
+			textField("scrollableMessageBody", 44, 8),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
@@ -109,7 +147,8 @@ let textWithGraphicCapabilities = {
 		"screenParams": screenParams,
 		"imageCapabilities": ["DYNAMIC", "STATIC"],
 		"menuLayoutsAvailable": ["LIST", "TILES"]
-	}
+	},
+	"buttonCapabilities": commonButtonCapabilities
 }
 
 let textbuttonsWithGraphicCapabilities = {
@@ -117,7 +156,7 @@ let textbuttonsWithGraphicCapabilities = {
 		"displayType": "SDL_GENERIC",
 		"displayName": "GENERIC_DISPLAY",
 		"textFields": [
-			textField("scrollableMessageBody", 44, 15),
+			textField("scrollableMessageBody", 44, 8),
 			textField("alertText1"),
 			textField("alertText2"),
 			textField("alertText3"),
@@ -171,8 +210,10 @@ let textbuttonsWithGraphicCapabilities = {
 		softButtonCapability,
 		softButtonCapability,
 		softButtonCapability
-	]
+	],
+	"buttonCapabilities": commonButtonCapabilities
 }
+
 
 let capabilities = {
 	"TEXT_WITH_GRAPHIC": textWithGraphicCapabilities,
@@ -191,7 +232,7 @@ let capabilities = {
 				textField("mediaClock"),
 				textField("mediaTrack"),
 				textField("templateTitle", 50),
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -232,36 +273,12 @@ let capabilities = {
 			"screenParams": screenParams,
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		}, 
+		},
 		"softButtonCapabilities": [
 			imageOnlySoftButtonCapability,
 			imageOnlySoftButtonCapability
 		],
-		"buttonCapabilities": [{
-				"shortPressAvailable": true,
-				"longPressAvailable": true,
-				"upDownAvailable": true,
-				"name": "OK"
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": true,
-				"upDownAvailable": true,
-				"name": "PLAY_PAUSE"
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": true,
-				"upDownAvailable": true,
-				"name": "SEEKLEFT"
-			},
-			{
-				"shortPressAvailable": true,
-				"longPressAvailable": true,
-				"upDownAvailable": true,
-				"name": "SEEKRIGHT"
-			}
-		]
+		"buttonCapabilities": mediaButtonCapabilities
 	},
 	"NON-MEDIA": {
 		"displayCapabilities": {
@@ -273,7 +290,7 @@ let capabilities = {
 				textField("mainField3"),
 				textField("mainField4"),
 				textField("templateTitle", 50),
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -326,7 +343,8 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability,
 			softButtonCapability
-		]
+		],
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"WEB_VIEW": {
 		"displayCapabilities": {
@@ -334,7 +352,7 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -353,14 +371,15 @@ let capabilities = {
 			"screenParams": screenParams,
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		}
+		},
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"LARGE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -414,14 +433,15 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability,
 			softButtonCapability
-		]
+		],
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -460,9 +480,7 @@ let capabilities = {
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
 				imageField("alertIcon", 225),
-				imageField("subtleAlertIcon", 225),
-				textField("audioPassThruDisplayText1", 50),
-				textField("audioPassThruDisplayText2", 50)
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"graphicSupported": true,
@@ -478,14 +496,15 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability,
 			softButtonCapability
-		]
+		],
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"LARGE_GRAPHIC_ONLY": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -525,14 +544,15 @@ let capabilities = {
 			"screenParams": screenParams,
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
-		}
+		},
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"TEXTBUTTONS_ONLY": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -585,14 +605,15 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability,
 			softButtonCapability
-		]
+		],
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -645,7 +666,8 @@ let capabilities = {
 			softButtonCapability,
 			softButtonCapability,
 			softButtonCapability
-		]
+		],
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"NAV_FULLSCREEN_MAP": {
 		"displayCapabilities": {
@@ -653,7 +675,7 @@ let capabilities = {
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
 				textField("templateTitle", 50),
-				textField("scrollableMessageBody", 44, 15),
+				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
@@ -689,7 +711,7 @@ let capabilities = {
 			"imageCapabilities": ["DYNAMIC", "STATIC"],
 			"menuLayoutsAvailable": ["LIST", "TILES"]
 		},
-		"softButtonCapabilities": []
+		"buttonCapabilities": commonButtonCapabilities
 	},
 	"COMMON": {
 		"audioPassThruCapabilities": {
@@ -824,7 +846,7 @@ const keyboardCapabilities = {
 	]
 }
 
-const getWindowCapability = (template) => {
+const getWindowCapability = (template, includeMedia) => {
 	if (!template || !capabilities[template]) {
 		return null;
 	}
@@ -834,7 +856,7 @@ const getWindowCapability = (template) => {
 		textFields: templateDisplayCapability.textFields,
 		imageFields: templateDisplayCapability.imageFields,
 		imageTypeSupported: ["STATIC", "DYNAMIC"],
-		templatesAvailable: templateDisplayCapability.templatesAvailable,
+		templatesAvailable: includeMedia ? [...templateDisplayCapability.templatesAvailable,  'MEDIA'] : templateDisplayCapability.templatesAvailable,
 		buttonCapabilities: templateCapability.buttonCapabilities,
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
@@ -844,7 +866,7 @@ const getWindowCapability = (template) => {
 	return capability;
 }
 
-const getDisplayCapability = (template) => {
+const getDisplayCapability = (template, includeMedia=false) => {
 	var templateCapability = capabilities[template];
 	if (!templateCapability) {
 		console.log("Error: Trying to access capability for unsupported template")
@@ -853,7 +875,7 @@ const getDisplayCapability = (template) => {
 	var capability = {
 		displayName: templateCapability.displayCapabilities.displayName,
 		windowTypeSupported: [mainWindowTypeCapability],
-		windowCapabilities: [getWindowCapability(template)],
+		windowCapabilities: [getWindowCapability(template, includeMedia)],
 		screenParams: screenParams
 	}
 	return capability;

@@ -12,7 +12,7 @@ export default class InAppMenu extends React.Component {
         var layout = "LIST"
         if (app) {
             if (app.isPerformingInteraction) {
-                layout = (app?.interactionLayout == "ICON_ONLY" || app?.interactionLayout == "ICON_WITH_SEARCH") 
+                layout = (app?.interactionLayout === "ICON_ONLY" || app?.interactionLayout === "ICON_WITH_SEARCH") 
                     ? "TILES" : "LIST";
             } else {
                 if (app.activeSubMenu) {

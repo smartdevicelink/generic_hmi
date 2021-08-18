@@ -47,12 +47,13 @@ import uiController from './js/Controllers/UIController'
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
 import {
-    setTheme, 
-    setPTUWithModem, 
-    updateAppStoreConnectionStatus, 
-    updateInstalledAppStoreApps, 
+    setTheme,
+    setPTUWithModem,
+    updateAppStoreConnectionStatus,
+    updateInstalledAppStoreApps,
     setDDState
-} from './js/actions'
+} from './js/actions';
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -94,18 +95,18 @@ class HMIApp extends React.Component {
         delete allResolutions[0].additionalVideoStreamingCapabilities;
         allResolutions = allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
         for (var i=0; i<allResolutions.length; i++) {
-            var capability = allResolutions[i];
+            let capability = allResolutions[i];
             var preferredResolution = capability.preferredResolution;
-            if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
-                preferredResolution.resolutionHeight == parseInt(match[2]) &&
-                capability.scale == parseInt(match[3]) 
+            if (preferredResolution.resolutionWidth === parseInt(match[1]) &&
+                preferredResolution.resolutionHeight === parseInt(match[2]) &&
+                capability.scale === parseInt(match[3]) 
                 ) {
                 allResolutions.splice(i, 1)
                 break
             }
         }
 
-        var capability = {
+        let capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
                 scale: parseFloat(match[3]),
@@ -285,7 +286,7 @@ class HMIApp extends React.Component {
                 });
             });
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-        
+
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
             if (sdlSocket.readyState === sdlSocket.OPEN) {
@@ -334,7 +335,7 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
-            <Route path="/tiles-only" component={TilesOnly} />            
+            <Route path="/tiles-only" component={TilesOnly} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>

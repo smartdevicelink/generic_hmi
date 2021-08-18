@@ -1,4 +1,4 @@
-import RpcFactory from './RpcFactory'
+import RpcFactory from './RpcFactory';
 class TTSController {
     constructor () {
         this.addListener = this.addListener.bind(this);
@@ -14,8 +14,8 @@ class TTSController {
         this.listener = listener
     }
 
-    onResetTimeout(appID, methodName) {
-        this.listener.send(RpcFactory.OnResetTimeout(appID, "TTS", methodName))
+    onResetTimeout(messageId) {
+        this.listener.send(RpcFactory.OnResetTimeout(messageId, 'TTS.Speak', 10000));
     }
 
     playAudio(path) {
@@ -33,7 +33,7 @@ class TTSController {
         this.audioPlayer.play();
     }
 
-    speak(text) {;
+    speak(text) {
         var speechPlayer = new SpeechSynthesisUtterance();
 
         speechPlayer.onend = () => {
@@ -55,6 +55,7 @@ class TTSController {
         speechPlayer.volume = 1;
         speechPlayer.rate = 1;
         speechPlayer.pitch = 0;
+        window.speechSynthesis.cancel();
         window.speechSynthesis.speak(speechPlayer);
 
         // Workaround for chrome issue where long utterances time out
@@ -130,6 +131,13 @@ class TTSController {
             this.speakEnded();
         }
     }
+
+    isAlertSpeakInProgress() {
+        for(const file of this.filePlaylist) {
+            if(file.type === 'REPLY' && file.speakType.includes('ALERT')) return true;
+        }
+        return false;
+    }
     
     handleRPC(rpc) {
         let methodName = rpc.method.split(".")[1]
@@ -156,16 +164,18 @@ class TTSController {
                 }
                 var ttsChunks = rpc.params.ttsChunks
                 for (var i=0; i<ttsChunks.length; i++) {
+                    if (ttsChunks[i].type.includes('FILE') || ttsChunks[i].type.includes('TEXT'))
                         this.filePlaylist.push(ttsChunks[i])
                 }
                 // REPLY is not an HMI_API type, it is internal used
                 // in case more things will be added to the filePlaylist,
                 // so that TTS Speak will be replied to before speaking next message
-                this.filePlaylist.push({ type: 'REPLY', id: rpc.id });
+                this.filePlaylist.push({ type: 'REPLY', id: rpc.id, speakType: rpc.params.speakType });
 
                 this.listener.send(RpcFactory.TTSStartedNotification());
                 this.playNext();
-                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
+                if(!rpc.params.speakType.includes('ALERT'))
+                    this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.params.appID, "TTS.Speak");
                 return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {
