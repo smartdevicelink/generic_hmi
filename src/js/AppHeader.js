@@ -9,84 +9,13 @@ import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-import {closePerformAudioPassThru, resetOpenPermissionsView, resetShowAppMenu} from './actions'
+import {resetOpenPermissionsView, resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
 import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
-import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
-import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
-import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
-import {ReactComponent as Updating} from '../img/icons/updating.svg'
-import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
-import {ReactComponent as TitleSeparator} from '../img/static/0xFF.svg'
-
-class MenuReveal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            collapseInfo: true
-        }
-    }
-    render() {
-        var infoClassName = "info-open";
-        var revealClassName = "reveal-open";
-        var statusUpdate = <div></div>;
-        var appStoreIcon = null;
-        if (this.state.collapseInfo) {
-            infoClassName = "info-closed";
-            revealClassName = "reveal-closed";
-        }
-
-        if (this.props.statusUpdate === "UPDATE_NEEDED") {
-            statusUpdate = <UpdateNeededIcon msg={this.props.statusUpdateMsg}/>;
-        } else if (this.props.statusUpdate === "UPDATING") {
-            statusUpdate = <UpdatingIcon msg={this.props.statusUpdateMsg}/>;
-        } else if (this.props.statusUpdate === "UP_TO_DATE") {
-            statusUpdate = <UptoDateIcon msg={this.props.statusUpdateMsg}/>;
-        }
-
-
-        if (this.props.isAppStoreConnected) {
-            appStoreIcon = (
-            <Link to="/appstore" className="mr-10">
-                <div className="app-icon">
-                    <div className="static-icon">
-                        <div className="svg-wrap">
-                            <IconCart/>
-                        </div>
-                    </div>
-                </div>
-            </Link>)
-        }
-        return (<div className="flex-row-center">
-                <div className={"flex-row-center " + infoClassName}>
-                    { statusUpdate }
-                    <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
-                        <div className="app-icon">
-                            <div className="static-icon">
-                                <div className="svg-wrap">
-                                    <PermissionsIcon/>
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
-                    { appStoreIcon }
-                </div>
-                <span 
-                    className={"svg-wrap-secondary flex-jc-center " + revealClassName}
-                    onClick={() => {
-                        this.setState({
-                            collapseInfo: !this.state.collapseInfo
-                        })
-                    }}>
-                    <TitleSeparator/>
-                </span>
-            </div>);
-    }
-}
 
 class MainMenuSettings extends React.Component {
     render() {
@@ -108,42 +37,6 @@ class AppStoreMenuIcon extends React.Component {
                         <IconMenu/>
                     </span>
                 </Link>
-            </div>);
-    }
-}
-
-class UpdateNeededIcon extends React.Component {
-    render() {
-        var msg = this.props.msg ? this.props.msg : "Policy Update Needed";
-        return (<div>
-                    <span className="svg-wrap status-icon mr-10">
-                        <UpdateNeeded/>
-                        <span class="tooltiptext">{msg}</span>
-                    </span>
-            </div>);
-    }
-}
-
-class UpdatingIcon extends React.Component {
-    render() {
-        var msg = this.props.msg ? this.props.msg : "Policy Update In Progress";
-        return (<div>
-                    <span className="svg-wrap status-icon mr-10">
-                        <Updating/>
-                        <span class="tooltiptext">{msg}</span>
-                    </span>
-            </div>);
-    }
-}
-
-class UptoDateIcon extends React.Component {
-    render() {
-        var msg = this.props.msg ? this.props.msg : "Policy Table Updated";
-        return (<div>
-                    <span className="svg-wrap status-icon mr-10">
-                        <UpToDate/>
-                        <span class="tooltiptext">{msg}</span>
-                    </span>
             </div>);
     }
 }
