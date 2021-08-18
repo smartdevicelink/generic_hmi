@@ -27,6 +27,7 @@ import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer';
 import AppPermissions from './js/AppPermissions';
 import PermissionAppList from './js/PermissionAppList';
+import Settings from './js/Settings';
 import Keyboard from './js/Keyboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -346,6 +347,7 @@ ReactDOM.render((
             <Route path="/keyboard" component={Keyboard} />
             <Route path="/permissionapplist" component={PermissionAppList} />
             <Route path="/apppermissions" component={AppPermissions} />
+            <Route path="/settings" component={Settings} />
         </HashRouter>
     </HMIApp>
     </Provider>

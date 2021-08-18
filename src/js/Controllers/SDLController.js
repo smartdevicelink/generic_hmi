@@ -339,6 +339,9 @@ class SDLController {
         }
         this.listener.send(gufm);
     }
+    updateSDL() {
+        this.listener.send(RpcFactory.UpdateSDL());
+    }
 }
 
 let controller = new SDLController()

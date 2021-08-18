@@ -17,7 +17,7 @@ export default class AppIcon extends React.Component {
             (<Image class="app-icon" image={this.props.icon} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
             : (<span className="app-icon"></span>)
         return (
-            <div className="flex-pt-5">
+            <div>
                 <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path, this.props.activeSubMenu)}>
                     <div className="app-icon">
                         {icon}

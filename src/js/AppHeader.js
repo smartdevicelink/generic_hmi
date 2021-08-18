@@ -88,6 +88,18 @@ class MenuReveal extends React.Component {
     }
 }
 
+class MainMenuSettings extends React.Component {
+    render() {
+        return (<div>
+                <Link to="/settings">
+                    <span className="svg-wrap">
+                        <IconMenu/>
+                    </span>
+                </Link>
+            </div>);
+    }
+}
+
 class AppStoreMenuIcon extends React.Component {
     render() {
         return (<div>
@@ -199,11 +211,7 @@ class AppHeader extends React.Component {
 
         if (this.props.icon === 'store') {
             icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
-                <MenuReveal 
-                    statusUpdate={this.props.statusUpdate} 
-                    statusUpdateMsg={this.props.statusUpdateMsg}
-                    isAppStoreConnected={this.props.isAppStoreConnected}
-                />
+                <MainMenuSettings/>
             );
         } else if (this.props.icon === 'custom') {
             icon = this.props.jsxIcon;
