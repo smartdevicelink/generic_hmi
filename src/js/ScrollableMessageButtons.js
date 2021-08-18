@@ -26,7 +26,7 @@ export default class ScrollableMessageButtons extends React.Component {
         return (
             <div className={`scrollableMessage-buttons`}>
                 {softButtons.map((softButton, index) => {
-                    return (<div className={`scrollableMessage-button th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                    return (<div className={`scrollableMessage-button th-f-color t-small t-light th-soft-buttons ${softButton.isHighlighted ? 'bg-highlighted' : 'th-bg-color'}`}
                                 key={softButton.softButtonID}
                                 onClick={() => this.getAction(softButton)}>
                                     <SoftButtonImage image={softButton.image ? softButton.image.value : null}
