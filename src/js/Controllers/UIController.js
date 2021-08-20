@@ -314,7 +314,9 @@ class UIController {
                 this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
-                this.onSystemContext("HMI_OBSCURED", context)
+                if ((context !== rpc.params.appID) && context) {
+                    this.onSystemContext("HMI_OBSCURED", context)
+                }
                 
                 let scrollableButtonImages = [];
                 if (rpc.params.softButtons) {
@@ -484,7 +486,7 @@ class UIController {
                                             context ? context : rpc.params.appID, "TIMEOUT")
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
-                if (context) {
+                if ((context !== rpc.params.appID) && context) {
                     this.onSystemContext("HMI_OBSCURED", context)
                 }
 
