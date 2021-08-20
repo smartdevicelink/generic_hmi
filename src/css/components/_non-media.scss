@@ -13,10 +13,12 @@
     @include flex-direction(row);
     @include flex-wrap(wrap);
     width: 100%;
-    height: 98px;
+    height: 118px;
     margin-left: 50px;
-    margin-bottom: 42px;
+    margin-bottom: 22px;
     align-items: center;
+    overflow: hidden;
+    word-break: break-all;
 }
 
 .non-media-body {
@@ -30,9 +32,26 @@
     text-align: center;
     margin-right: 50px;
 }
+
+.non-media-oneline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 42px;
+}
+
+.non-media-twolines {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .non-media-text-4 { 
     width: 50%;
     text-align: left;
+    align-self: flex-start;
 }
 
 .non-media-graphic {
