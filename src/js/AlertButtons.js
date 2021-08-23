@@ -29,7 +29,19 @@ export default class AlertButtons extends React.Component {
         var softButtons = this.props.alertButtons
         var items;
         if(!softButtons){
-            return (null)
+            let okButton = {
+                appID: this.props.appID,
+                type: "BOTH",
+                text: "OK",
+                image: {
+                    value: "0xD5",
+                    imageType: "STATIC",
+                    isTemplate: false
+                },
+                isHighlighted: false,
+                systemAction: "DEFAULT_ACTION"
+            }
+            softButtons = [ okButton ]
         }
 
         if(softButtons.length === 1) {
