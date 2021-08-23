@@ -128,7 +128,7 @@ class AppHeader extends React.Component {
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
-                <Name />
+                <Name value={this.props.title}/>
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
