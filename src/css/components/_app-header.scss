@@ -33,6 +33,11 @@
         text-transform: uppercase;
     }
 
+    .settings-menu svg{
+        @include size(40px);
+        margin-left: 0px;
+    }
+
     .svg-wrap-secondary{
         width: 30px;
         svg{

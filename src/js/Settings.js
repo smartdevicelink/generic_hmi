@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import sdlController from './Controllers/SDLController';
 import AppHeader from './containers/Header';
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
-import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
+import {ReactComponent as PermissionsIcon} from '../img/static/0x22.svg'
 import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
