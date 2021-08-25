@@ -376,16 +376,12 @@ class UIController {
                 this.timers[rpc.id] = setTimeout(
                     () => {
                         if (this.endTimes[rpc.id] - Date.now() <= 0) {
-                            ttsController.onResetTimeout()
-                            this.onResetTimeoutId = setInterval(ttsController.onResetTimeout, 10000)
+                            ttsController.onResetTimeout(rpc.id)
+                            this.onResetTimeoutId = setInterval(ttsController.onResetTimeout, 10000, rpc.id)
                         }
-                        this.onAlertTimeout()
+                        this.onAlertTimeout(rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
                     }, 
                     alertTimeout, 
-                    rpc.id, 
-                    rpc.params.appID, 
-                    context ? context : rpc.params.appID, 
-                    false
                 )
                
                 this.appsWithTimers[rpc.id] = rpc.params.appID
