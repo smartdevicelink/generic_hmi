@@ -29,17 +29,16 @@ const mapStateToProps = (state, ownProps) => {
         interactionText = state.ui[activeApp].interactionText.fieldText;
     }
 
-    if(activeApp && app) {
+    if (ownProps.value) {
+        name = ownProps.value
+    } else if (activeApp && app) {
         name = app.appName ? app.appName : "Apps"
     } else if (state.system.editingPermissionsAppId) {
         var permissionsApp = state.appList.find((app) => {
             return app.appID === state.system.editingPermissionsAppId
         });
-
         name = permissionsApp ? permissionsApp.appName : 'App Permissions';
-    } else if (ownProps.value) {
-        name = ownProps.value
-    }  else { 
+    } else {
         name = "Apps"
     }
     return {name: name, templateTitle: templateTitle, subMenuName: subMenuName, interactionText: interactionText}
