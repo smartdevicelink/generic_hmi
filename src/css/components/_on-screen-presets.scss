@@ -1,0 +1,27 @@
+.on-screen-presets {
+    width: 100%;
+    height: calc(#{$master-height} - 75px);
+    padding: 25px;
+    display: flex;
+}
+
+.on-screen-presets-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.on-screen-presets .soft-buttons {
+    width: 100%;
+    height: 100%;
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(stretch);
+    padding-left: 15px;
+    padding-right: 15px;
+    flex-shrink: 0;
+}
+

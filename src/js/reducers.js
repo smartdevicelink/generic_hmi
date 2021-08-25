@@ -9,6 +9,7 @@ function newAppState () {
         graphic: null,
         secondaryGraphic: null,
         softButtons: [],
+        customPresets: [],
         icon: null,
         menu: [],
         triggerShowAppMenu: false,
@@ -411,6 +412,9 @@ function ui(state = {}, action) {
             if (action.softButtons) {
                 app.softButtons = action.softButtons
             }
+            if (action.customPresets) {
+                app.customPresets = action.customPresets
+            }
             return newState
         case Actions.SET_APP_ICON:
             app.icon = action.icon
@@ -618,6 +622,9 @@ function ui(state = {}, action) {
                     break
                 case "NAV_FULLSCREEN_MAP":
                     app.displayLayout = "nav-fullscreen-map"
+                    break
+                case "ONSCREEN_PRESETS":
+                    app.displayLayout = "onscreen-presets"
                     break
                 default:
                     break

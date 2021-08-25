@@ -14,6 +14,7 @@ import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbutt
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
+import OnScreenPresets from './js/Templates/OnScreenPresets/OnScreenPresets'
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
 import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
@@ -340,6 +341,7 @@ ReactDOM.render((
             <Route path="/graphic-with-text" component={GraphicWithText}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/nav-fullscreen-map" component={NavFullscreenMap}/>
+            <Route path="/onscreen-presets" component={OnScreenPresets}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/appstore" component={AppStore} />
