@@ -15,14 +15,15 @@ import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
 import ScrollableMessage from './ScrollableMessage';
 
-import {ReactComponent as IconMenu} from '../img/static/0x49.svg'
+import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
+import {ReactComponent as IconSettings} from '../img/static/0x49.svg'
 
 class MainMenuSettings extends React.Component {
     render() {
         return (<div>
                 <Link to="/settings">
-                    <span className="svg-wrap settings-menu">
-                        <IconMenu/>
+                    <span className="settings-menu">
+                        <IconSettings/>
                     </span>
                 </Link>
             </div>);
