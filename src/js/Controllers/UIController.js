@@ -820,7 +820,7 @@ class UIController {
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
         const context = store.getState().activeApp;
-        if(context){
+        if (context && context !== alert.appID) {
             this.onSystemContext("MAIN", context)
         }
 
