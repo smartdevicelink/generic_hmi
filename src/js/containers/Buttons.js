@@ -243,14 +243,14 @@ const mapDispatchToProps = (dispatch) => {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
-        onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, false)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, false)
         },
-        onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, false);
         }
     }
 }
