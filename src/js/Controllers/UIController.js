@@ -64,7 +64,6 @@ class UIController {
         this.timers = {}
         this.appsWithTimers = {}
         this.endTimes = {}
-        this.onResetTimeoutId = null
     }
     addListener(listener) {
         this.listener = listener
@@ -373,16 +372,8 @@ class UIController {
                 const context = state.activeApp
 
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                this.timers[rpc.id] = setTimeout(
-                    () => {
-                        if (this.endTimes[rpc.id] - Date.now() <= 0) {
-                            ttsController.onResetTimeout(rpc.id)
-                            this.onResetTimeoutId = setInterval(ttsController.onResetTimeout, 10000, rpc.id)
-                        }
-                        this.onAlertTimeout(rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
-                    }, 
-                    alertTimeout, 
-                )
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
+
                
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
@@ -717,7 +708,6 @@ class UIController {
             this.listener.send(RpcFactory.OnResetTimeout(msgID,'UI.Alert',1000));
             return;
         }
-        clearInterval(this.onResetTimeoutId)
         let imageValidationSuccess = RemoveImageValidationResult(msgID)
 
         store.dispatch(closeAlert(
