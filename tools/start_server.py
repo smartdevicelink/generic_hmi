@@ -154,8 +154,11 @@ class WSServer():
       print('\033[1;2mClient %s connected\033[0m' % str(_websocket.remote_address))
       rpc_service = self.service_class(_websocket, _path)
 
-      async for message in _websocket:
-        await rpc_service.on_receive(message)
+      try:
+        async for message in _websocket:
+          await rpc_service.on_receive(message)
+      except websockets.exceptions.ConnectionClosedError as err:
+        print('\033[31;1;2mClient %s unexpected disconnect: "%s"\033[0m' % (str(_websocket.remote_address), str(err)))
 
   class SampleRPCService():
     def __init__(self, _websocket, _path):
