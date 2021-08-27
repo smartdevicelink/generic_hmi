@@ -43,7 +43,7 @@ class GraphicWithTextAndSoftbuttons extends React.Component {
                     </div>
                     <div className="graphic-with-text-and-buttons-container">
                         <TextFields/>
-                        <SoftButtons class="graphic-with-text-and-softbuttons-bottom-container"/>
+                        <SoftButtons class="graphic-with-text-and-buttons-bottom-container"/>
                     </div>
                 </div>
             </div>
