@@ -597,7 +597,7 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
-                    break                    
+                    break
                 case "TEXTBUTTONS_WITH_GRAPHIC":
                     app.displayLayout = "text-buttons-with-graphic"
                     break
@@ -612,6 +612,12 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXT":
                     app.displayLayout = "graphic-with-text"
+                    break
+                case "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS":
+                    app.displayLayout = "graphic-with-text-and-softbuttons"
+                    break
+                case "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-and-softbuttons-with-graphic"
                     break
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"

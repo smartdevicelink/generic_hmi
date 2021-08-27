@@ -17,6 +17,8 @@ import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
 import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
+import GraphicWithTextAndSoftbuttons from './js/Templates/GraphicWithTextAndSoftbuttons/GraphicWithTextAndSoftbuttons';
+import TextAndSoftbuttonsWithGraphic from './js/Templates/TextAndSoftbuttonsWithGraphic/TextAndSoftbuttonsWithGraphic';
 import DoubleGraphicWithSoftbuttons from './js/Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
 import NavFullscreenMap from './js/Templates/NavFullscreenMap/NavFullscreenMap'
 import HMIMenu from './js/HMIMenu';
@@ -338,6 +340,8 @@ ReactDOM.render((
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>
+            <Route path="/graphic-with-text-and-softbuttons" component={GraphicWithTextAndSoftbuttons}/>
+            <Route path="/text-and-softbuttons-with-graphic" component={TextAndSoftbuttonsWithGraphic}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/nav-fullscreen-map" component={NavFullscreenMap}/>
             <Route path="/inappmenu" component={InAppMenu} />
