@@ -954,7 +954,7 @@ class UIController {
         const state = store.getState()
         var activeApp = state.activeApp
         var app = state.ui[activeApp]
-        var interactionId = app.interactionId
+        var interactionId = app?.interactionId
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]

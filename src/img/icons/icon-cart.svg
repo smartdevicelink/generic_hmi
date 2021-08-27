@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 75 75" style="enable-background:new 0 0 75 75; margin-left: 0px;" xml:space="preserve">
+	 viewBox="0 0 75 75" style="enable-background:new 0 0 75 75;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#FFFFFF;stroke-width:7.5;}
+	.st0{fill:none;stroke:#FFFFFF;stroke-width:4;}
 	.st1{fill:currentColor;}
-	.st2{fill:none;stroke:#FFFFFF;stroke-width:7.5;stroke-linecap:square;}
+	.st2{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:square;}
 </style>
 <g>
 	<g transform="translate(-914.000000, -26.000000)">
@@ -11,8 +13,8 @@
 			<g transform="translate(424.000000, 8.000000)">
 				<g transform="translate(466.000000, 5.000000)">
 					<polygon class="st0 svg-stroke" points="68.8,19 17.4,19 21.2,49 60.3,49"/>
-					<circle class="st1 svg-stroke" cx="19.5" cy="64" r="6.4"/>
-					<circle class="st1 svg-stroke" cx="53.8" cy="64" r="6.4"/>
+					<circle class="st1 svg-stroke" cx="21.5" cy="62" r="4.5"/>
+					<circle class="st1 svg-stroke" cx="56.8" cy="62" r="4.5"/>
 					<polyline class="st2 svg-stroke" points="17.4,19 15.6,6.6 4.2,6.6"/>
 				</g>
 			</g>
