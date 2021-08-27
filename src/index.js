@@ -14,6 +14,8 @@ import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbutt
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
+import GraphicWithTiles from './js/Templates/GraphicWithTiles/GraphicWithTiles'
+import TilesWithGraphic from './js/Templates/TilesWithGraphic/TilesWithGraphic'
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
 import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
@@ -29,6 +31,7 @@ import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer';
 import AppPermissions from './js/AppPermissions';
 import PermissionAppList from './js/PermissionAppList';
+import Settings from './js/Settings';
 import Keyboard from './js/Keyboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -336,6 +339,8 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
+            <Route path="/graphic-with-tiles" component={GraphicWithTiles} />
+            <Route path="/tiles-with-graphic" component={TilesWithGraphic} />
             <Route path="/tiles-only" component={TilesOnly} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
@@ -351,6 +356,7 @@ ReactDOM.render((
             <Route path="/keyboard" component={Keyboard} />
             <Route path="/permissionapplist" component={PermissionAppList} />
             <Route path="/apppermissions" component={AppPermissions} />
+            <Route path="/settings" component={Settings} />
         </HashRouter>
     </HMIApp>
     </Provider>

@@ -1054,6 +1054,13 @@ class RpcFactory {
             "method": "TTS.Stopped",
         })
     }
+    static UpdateSDL() {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.UpdateSDL"
+        })
+    }
 }
 
 export default RpcFactory

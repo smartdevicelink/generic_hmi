@@ -604,6 +604,12 @@ function ui(state = {}, action) {
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
                     break
+                case "GRAPHIC_WITH_TILES":
+                    app.displayLayout = "graphic-with-tiles"
+                    break
+                case "TILES_WITH_GRAPHIC":
+                    app.displayLayout = "tiles-with-graphic"
+                    break
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"
                     break
@@ -791,6 +797,10 @@ function ui(state = {}, action) {
 function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
+        case Actions.ON_STATUS_UPDATE:
+            newState.policyStatus = action.status
+            newState.policyStatusMsg = action.statusMsg
+            return newState
         case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry

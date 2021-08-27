@@ -16,29 +16,15 @@ import uiController from './Controllers/UIController'
 import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
-import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
-import {ReactComponent as PermissionsIcon} from '../img/static/0x49.svg'
+import {ReactComponent as IconSettings} from '../img/static/0x49.svg'
 
-class AppStoreIcon extends React.Component {
+class MainMenuSettings extends React.Component {
     render() {
-        return (<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <Link to="/permissionapplist" style={{ marginRight: 10, marginLeft: 'auto' }}>
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <div className="svg-wrap">
-                                <PermissionsIcon/>
-                            </div>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="/appstore" style={{ marginRight: 0 }}>
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <div className="svg-wrap">
-                                <IconCart/>
-                            </div>
-                        </div>
-                    </div>
+        return (<div>
+                <Link to="/settings">
+                    <span className="settings-menu">
+                        <IconSettings/>
+                    </span>
                 </Link>
             </div>);
     }
@@ -118,12 +104,9 @@ class AppHeader extends React.Component {
                 activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
-            if (this.props.isAppStoreConnected) {
-                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
-            }
-            else{
-                icon = (<div />)
-            }
+            icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
+                <MainMenuSettings/>
+            );
         } else if (this.props.icon === 'custom') {
             icon = this.props.jsxIcon;
         }
@@ -146,7 +129,7 @@ class AppHeader extends React.Component {
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
-                <Name />
+                <Name value={this.props.title}/>
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
