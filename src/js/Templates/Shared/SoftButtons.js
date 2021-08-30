@@ -37,7 +37,7 @@ class SoftButtonsBody extends React.Component {
 
     render() {
         var items;
-        var softButtons = this.props.softButtons.slice(0, 6)
+        var softButtons = this.props.softButtons.slice(0, this.props.maxButtons ?? 6)
 
         var secondaryStyle = this.getSecondaryColorScheme();
         var primaryStyle = this.getPrimaryColorScheme();
