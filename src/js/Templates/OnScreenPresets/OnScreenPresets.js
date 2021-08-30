@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppHeader from '../../containers/Header';
 import { PresetButtons } from '../../containers/PresetButtons';
+import { MediaMetadata } from '../../containers/Metadata';
+import { Buttons } from '../../containers/Buttons';
+import ProgressBar from '../../containers/ProgressBar_c';
 
 class OnScreenPresets extends React.Component {
     getColorScheme() {
@@ -34,11 +37,12 @@ class OnScreenPresets extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="on-screen-presets" style={this.getColorScheme()}>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <div className="on-screen-presets" style={this.getColorScheme()}>
-                    <PresetButtons class="on-screen-presets-container"/>
-                </div>
+                <MediaMetadata />
+                <PresetButtons class="on-screen-presets-container"/>
+                <ProgressBar />
+                <Buttons />
             </div>
         )
     }
