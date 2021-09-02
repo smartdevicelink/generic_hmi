@@ -55,6 +55,7 @@
     color: color(white);
     font-family: monospace;
     overflow-x: scroll;
+    flex-shrink: 0;
 }
 
 .dark-theme .keyboard .input-text input {
@@ -86,6 +87,8 @@
 .dark-theme .keyboard .mask-option-label{
     color: color(white);
     margin-left: 5px;
+    line-height: 1;
+    margin-bottom: 10px;
 }
 
 .light-theme .keyboard .input-text {
@@ -98,6 +101,8 @@
     box-sizing: border-box;
     font-family: monospace;
     overflow-x: scroll;
+    flex-shrink: 0;
+    background-color: color(white);
 }
 
 .light-theme .keyboard .input-text input {
@@ -108,6 +113,7 @@
     border: none;
     box-sizing: border-box;
     display: table;
+    background-color: color(white);
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
@@ -121,20 +127,26 @@
     align-items: center;
     margin-left: -27px;
     color: #777777;
+    background-color: color(white);
 }
 
 .light-theme .keyboard .mask-option-label {
     margin-left: 5px;
+    line-height: 1;
+    margin-bottom: 10px;
 }
 
 .keyboard .input-row {
     width: 100%;
     white-space: nowrap;
+    display: flex;
+    align-items: end;
 }
 
 .keyboard .mask-checkbox {
     position: relative;
     right: 100px;
+    margin-bottom: 10px;
 }
 
 .numeric .hg-button {
