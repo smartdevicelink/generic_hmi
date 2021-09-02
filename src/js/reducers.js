@@ -464,7 +464,7 @@ function ui(state = {}, action) {
                 cmdIcon: action.subMenuIcon,
                 secondaryImage: action.secondaryImage,
                 subMenu: [],
-                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
+                menuLayout: action.menuLayout
             };
 
             if (menuItem.parentID) {

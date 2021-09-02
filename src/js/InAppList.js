@@ -16,7 +16,7 @@ export default class InAppMenu extends React.Component {
                     ? "TILES" : "LIST";
             } else {
                 if (app.activeSubMenu) {
-                    layout = SubmenuDeepFind(app.menu, app.activeSubMenu, 0).subMenu.menuLayout;
+                    layout = SubmenuDeepFind(app.menu, app.activeSubMenu, 0).subMenu.menuLayout ?? app.menuLayout;
                 } else {
                     layout = app.menuLayout
                 }
