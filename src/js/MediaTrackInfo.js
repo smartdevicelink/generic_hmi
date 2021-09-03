@@ -68,7 +68,15 @@ export default class MediaTrackInfo extends React.Component {
             }
 
             if (this.props.paused) {
-                position = startPosition
+                // Clamp position to timer bounds
+                console.log('[!] Paused', Object.assign({}, this))
+                if(startDate < endDate){ //COUNTUP
+                    position = (endDate && startPosition > endDate) ? endDate : startPosition
+                }
+                else{
+                    position = (endDate && startPosition < endDate) ? endDate : startPosition
+
+                }
             }
 
             var startHours = position.getHours() < 10 ? "0" + position.getHours() : position.getHours()
