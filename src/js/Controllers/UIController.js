@@ -653,7 +653,7 @@ class UIController {
         var app = state.ui[activeApp]
         var interactionId = app ? app.interactionId : null
         var interactionLayout = app ? app.interactionLayout : null
-        if (msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
+        if (interactionId && msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
             this.onKeyboardInput("", "ENTRY_ABORTED")
         }
 
