@@ -45,8 +45,8 @@ export default class MediaTrackInfo extends React.Component {
             if (this.props.countDirection === "COUNTDOWN") {
                 var startPosition = new Date(startDate.getTime() - offset)
                 timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
-                var position = new Date(startPosition - timeSince)
-
+                // Start position is used if paused
+                var position = this.props.paused ? startPosition : new Date(startPosition - timeSince)
                 // Clamp position to timer bounds
                 position = endDate && position < endDate ? endDate : position
                 var endTime = ""
@@ -54,6 +54,8 @@ export default class MediaTrackInfo extends React.Component {
             else {
                 startPosition = new Date(startDate.getTime() + offset)
                 timeSince = new Date(startPosition.getTime() + ((now - this.props.updateTime) * this.props.countRate))
+                // Start position is used if paused
+                position = this.props.paused ? startPosition : new Date(startPosition + timeSince)
                 // Clamp position to timer bounds
                 position = endDate && timeSince > endDate ? endDate : timeSince
 
@@ -64,18 +66,6 @@ export default class MediaTrackInfo extends React.Component {
                 endTime = "/ " + endHours + ":" + endMins + ":" + endSecs
                 if(endHours === "00" && endMins === "00" && endSecs === "00") {
                     endTime = ""
-                }
-            }
-
-            if (this.props.paused) {
-                // Clamp position to timer bounds
-                console.log('[!] Paused', Object.assign({}, this))
-                if(startDate < endDate){ //COUNTUP
-                    position = (endDate && startPosition > endDate) ? endDate : startPosition
-                }
-                else{
-                    position = (endDate && startPosition < endDate) ? endDate : startPosition
-
                 }
             }
 
