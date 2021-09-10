@@ -63,7 +63,7 @@
     max-height: calc((#{$master-height} - 75px) * 0.6);
 
     h4 {
-        overflow: scroll;
+        overflow: auto;
     }
 
     img {
