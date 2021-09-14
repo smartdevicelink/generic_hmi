@@ -41,37 +41,31 @@ export default class MediaTrackInfo extends React.Component {
                 break;
         }
         if (startDate) {
-            var timeSince = null;
+            var timeSince = new Date((now - this.props.updateTime) * this.props.countRate);
             if (this.props.countDirection === "COUNTDOWN") {
                 var startPosition = new Date(startDate.getTime() - offset)
-                timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
                 // Start position is used if paused
-                var position = this.props.paused ? startPosition : new Date(startPosition - timeSince)
+                var position = this.props.paused ? startPosition : new Date(startPosition.getTime() - timeSince.getTime())
                 // Clamp position to timer bounds
-                position = endDate && position < endDate ? endDate : position
-                var endTime = ""
+                position = position < endDate ? endDate : position
             }
             else {
                 startPosition = new Date(startDate.getTime() + offset)
-                timeSince = new Date(startPosition.getTime() + ((now - this.props.updateTime) * this.props.countRate))
                 // Start position is used if paused
-                position = this.props.paused ? startPosition : new Date(startPosition + timeSince)
+                position = this.props.paused ? startPosition : new Date(startPosition.getTime() + timeSince.getTime())
                 // Clamp position to timer bounds
-                position = endDate && timeSince > endDate ? endDate : timeSince
+                let isZeroTime = (date) => date.getHours() === 0 && date.getMinutes() === 0 && date.getSeconds() === 0
+                position = !isZeroTime(endDate) && position > endDate ? endDate : position
 
-                // If the numbers are less than 10 put a 0 in front of them
-                var endHours = endDate.getHours() < 10 ? "0" + endDate.getHours() : endDate.getHours()
-                var endMins = endDate.getMinutes() < 10 ? "0" + endDate.getMinutes() : endDate.getMinutes()
-                var endSecs = endDate.getSeconds() < 10 ? "0" + endDate.getSeconds() : endDate.getSeconds()
-                endTime = "/ " + endHours + ":" + endMins + ":" + endSecs
-                if(endHours === "00" && endMins === "00" && endSecs === "00") {
-                    endTime = ""
-                }
+                var endHours = endDate.getHours().toString().padStart(2, '0')
+                var endMins = endDate.getMinutes().toString().padStart(2, '0')
+                var endSecs = endDate.getSeconds().toString().padStart(2, '0')
+                var endTime = !isZeroTime(endDate) ? ("/ " + endHours + ":" + endMins + ":" + endSecs) : ""
             }
 
-            var startHours = position.getHours() < 10 ? "0" + position.getHours() : position.getHours()
-            var startMins = position.getMinutes() < 10 ? "0" + position.getMinutes() : position.getMinutes()
-            var startSecs = position.getSeconds() < 10 ? "0" + position.getSeconds() : position.getSeconds()
+            var startHours = position.getHours().toString().padStart(2, '0')
+            var startMins = position.getMinutes().toString().padStart(2, '0')
+            var startSecs = position.getSeconds().toString().padStart(2, '0')
             var startTime = startHours + ":" + startMins + ":" + startSecs
         } else {
             startTime = null
