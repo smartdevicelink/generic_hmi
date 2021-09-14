@@ -18,14 +18,14 @@ export default class NonMediaBody extends React.Component {
         if(textFields.length > 2) {
             for(i=0; i<textFields.length; i++) {
                 if(i < 2) {
-                    textFields[i].className = "t-large t-light th-f-color non-media-text-4"; 
+                    textFields[i].className = "t-large t-light th-f-color non-media-text-4 non-media-oneline";
                 } else {
                     textFields[i].className = "t-small t-light th-f-color-secondary non-media-text-4"; 
                 }
             }
         } else {
             if(textFields[0]) {
-                textFields[0].className = "t-large t-light th-f-color non-media-text-2"; 
+                textFields[0].className = `t-large t-light th-f-color non-media-text-2 ${textFields[1] ? 'non-media-oneline' : 'non-media-twolines'}`;
             }
             if(textFields[1]) {
                 textFields[1].className = "t-small t-light th-f-color-secondary non-media-text-2";

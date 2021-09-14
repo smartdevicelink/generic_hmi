@@ -159,6 +159,23 @@ const mapStateToProps = (state) => {
                     alertButtons[i].appID = parseInt(key) 
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
+            }
+            else {
+                let okButton = {
+                    appID: parseInt(key),
+                    msgID: state.ui[key].alert.msgID,
+                    duration: state.ui[key].alert.duration,
+                    type: "BOTH",
+                    text: "OK",
+                    image: {
+                        value: "0xD5",
+                        imageType: "STATIC",
+                        isTemplate: false
+                    },
+                    isHighlighted: false,
+                    systemAction: "DEFAULT_ACTION"
+                }
+                alertButtons = [ okButton ]
             }   
         }
         if (state.ui[key].scrollableMessage.active) {
@@ -243,14 +260,14 @@ const mapDispatchToProps = (dispatch) => {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
-        onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, false)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, false)
         },
-        onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, false);
         }
     }
 }

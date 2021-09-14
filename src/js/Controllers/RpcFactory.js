@@ -261,13 +261,15 @@ class RpcFactory {
         return msg
     }
     static UIGetCapabilitiesResponse(rpc) {
+        let displayCapabilities = { ...capabilities["MEDIA"].displayCapabilities };
+        displayCapabilities.templatesAvailable = [...displayCapabilities.templatesAvailable, 'MEDIA'];
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "displayCapabilities": displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
@@ -315,8 +317,9 @@ class RpcFactory {
             }
         })
     }
-    static UIShowResponse(rpc) {
-        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+    static UIShowResponse(rpc, isMediaApp) {
+        var supportedTemplates = isMediaApp ? [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA' ]
+            : capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
         const templateParamExists = templateConfiguration && templateConfiguration.template;
 
@@ -342,7 +345,9 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": (templateConfiguration.template === 'MEDIA'
+                        ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI"),
                     "data": {
                         "method": rpc.method
                     }
@@ -805,12 +810,13 @@ class RpcFactory {
         }
         return msg  
     }
-    static SetDisplayLayoutResponse(rpc) {
+    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
         var layout = rpc.params.displayLayout;
-        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
-        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
-        if (supportedTemplates.includes(layout)) {
+        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY",
+        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC",
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS",
+        "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS" ];
+        if (!disallowedLayout && supportedTemplates.includes(layout)) {
             if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
@@ -838,7 +844,8 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }
@@ -872,10 +879,10 @@ class RpcFactory {
         })
     }
 
-    static OnSystemCapabilityDisplay(template, appID) {
+    static OnSystemCapabilityDisplay(template, appID, appIsMedia) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
-            displayCapabilities: [getDisplayCapability(template)]
+            displayCapabilities: [getDisplayCapability(template, appIsMedia)]
         }
         return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
@@ -1045,6 +1052,13 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "method": "TTS.Stopped",
+        })
+    }
+    static UpdateSDL() {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.UpdateSDL"
         })
     }
 }

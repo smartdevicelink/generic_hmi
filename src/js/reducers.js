@@ -464,7 +464,7 @@ function ui(state = {}, action) {
                 cmdIcon: action.subMenuIcon,
                 secondaryImage: action.secondaryImage,
                 subMenu: [],
-                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
+                menuLayout: action.menuLayout
             };
 
             if (menuItem.parentID) {
@@ -597,12 +597,18 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
-                    break                    
+                    break
                 case "TEXTBUTTONS_WITH_GRAPHIC":
                     app.displayLayout = "text-buttons-with-graphic"
                     break
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
+                    break
+                case "GRAPHIC_WITH_TILES":
+                    app.displayLayout = "graphic-with-tiles"
+                    break
+                case "TILES_WITH_GRAPHIC":
+                    app.displayLayout = "tiles-with-graphic"
                     break
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"
@@ -612,6 +618,12 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXT":
                     app.displayLayout = "graphic-with-text"
+                    break
+                case "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS":
+                    app.displayLayout = "graphic-with-text-and-softbuttons"
+                    break
+                case "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-and-softbuttons-with-graphic"
                     break
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
@@ -785,6 +797,10 @@ function ui(state = {}, action) {
 function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
+        case Actions.ON_STATUS_UPDATE:
+            newState.policyStatus = action.status
+            newState.policyStatusMsg = action.statusMsg
+            return newState
         case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry
