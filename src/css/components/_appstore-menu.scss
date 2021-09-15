@@ -1,7 +1,7 @@
 .appstore-menu {
     width: 100%;
     height: $master-height - 75px;
-    overflow-y: hidden;
+    overflow-y: scroll;
 
     @include display(flex);
     flex-direction: column;
