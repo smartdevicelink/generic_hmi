@@ -1,15 +1,12 @@
 .appstore-menu {
     width: 100%;
     height: $master-height - 75px;
-    overflow-y: scroll;
+    overflow-y: hidden;
 
     @include display(flex);
     flex-direction: column;
 }
 
-div::-webkit-scrollbar { 
-    display: none; 
-}
 
 .appstore-menu-item {
     @include display(flex);
