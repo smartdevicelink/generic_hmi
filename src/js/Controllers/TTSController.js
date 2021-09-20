@@ -174,7 +174,7 @@ class TTSController {
 
                 this.listener.send(RpcFactory.TTSStartedNotification());
                 this.playNext();
-                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.id, "TTS.Speak");
+                this.timers[rpc.id] = setInterval(this.onResetTimeout, 9000, rpc.id);
                 return null;
             case "StopSpeaking":
                 if (this.currentlyPlaying) {
