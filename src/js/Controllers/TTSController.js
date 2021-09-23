@@ -9,6 +9,7 @@ class TTSController {
         this.currentlyPlaying = null;
         this.timers = {};
         this.speechSynthesisInterval = null;
+        this.speechPlayer = null;
     }
     addListener(listener) {
         this.listener = listener
@@ -34,13 +35,13 @@ class TTSController {
     }
 
     speak(text) {
-        var speechPlayer = new SpeechSynthesisUtterance();
+        this.speechPlayer = new SpeechSynthesisUtterance();
 
-        speechPlayer.onend = () => {
+        this.speechPlayer.onend = (e) => {
             this.playNext();
         }
 
-        speechPlayer.onerror = (event) => {
+        this.speechPlayer.onerror = (event) => {
             console.warn("TTS error. Make sure your browser supports SpeechSynthesisUtterance");
             this.playNext();
         }
@@ -51,12 +52,12 @@ class TTSController {
         }
 
         this.currentlyPlaying = "TEXT";
-        speechPlayer.text = text;
-        speechPlayer.volume = 1;
-        speechPlayer.rate = 1;
-        speechPlayer.pitch = 0;
+        this.speechPlayer.text = text;
+        this.speechPlayer.volume = 1;
+        this.speechPlayer.rate = 1;
+        this.speechPlayer.pitch = 0;
         window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(speechPlayer);
+        window.speechSynthesis.speak(this.speechPlayer);
 
         // Workaround for chrome issue where long utterances time out
         this.speechSynthesisInterval = setInterval(() => {
@@ -89,6 +90,8 @@ class TTSController {
         this.audioPlayer.onended = null;
         this.audioPlayer.pause();
         this.audioPlayer.src = "";
+        this.speechPlayer.onend = null;
+        this.speechPlayer.onerror = null;
         window.speechSynthesis.pause();
         window.speechSynthesis.cancel();
         this.filePlaylist = [];
