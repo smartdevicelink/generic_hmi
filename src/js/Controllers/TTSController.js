@@ -127,7 +127,7 @@ class TTSController {
                 this.listener.send(RpcFactory.TTSSpeakSuccess(file.id));
                 return this.playNext();
             }
-        } else {
+        } else if (this.currentlyPlaying) {
             this.speakEnded();
         }
     }
