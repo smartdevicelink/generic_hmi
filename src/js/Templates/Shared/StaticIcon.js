@@ -13,7 +13,7 @@ export default class StaticIcon extends React.Component {
             var image = hex + value;
             path = "./" + image + ".svg"
             return (
-                <div className={this.props.class} >
+                <div className={this.props.class} style={{backgroundColor: this.props.fillColor}} >
                     {iconCache[path]}
                 </div>
             )
