@@ -53,7 +53,7 @@ export default class ControlBar extends React.Component {
                     onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
                     onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
                 >
-                    <StaticIcon class="static-icon" image={this.props.image} />
+                    <StaticIcon class="static-icon" fillColor={this.props.highlightColor} image={this.props.image} />
                 </div>
             )            
         } else {

@@ -29,7 +29,8 @@ const mapStateToProps = (state) => {
             image: softButtons[0].image ? softButtons[0].image.value : undefined,
             imageType: softButtons[0].image ? softButtons[0].image.imageType : undefined,
             id: softButtons[0].softButtonID,
-            isTemplate: softButtons[0].image ? softButtons[0].image.isTemplate : null
+            isTemplate: softButtons[0].image ? softButtons[0].image.isTemplate : null,
+            isHighlighted: softButtons[0].isHighlighted
         })
     }
     if (subscribedButtons.SEEKLEFT === true) {
