@@ -68,7 +68,7 @@ export default class HScrollMenuItem extends React.Component {
 
         return (
             <Link
-                to={menuItem.link}
+                to={menuItem.link || '/'}
                 onClick={(e) => (menuItem.enabled === false) ? 
                     e.preventDefault() : clickHandler()}
                 >
