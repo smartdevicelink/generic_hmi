@@ -59,6 +59,7 @@ After running the build command, you can launch the Generic HMI in a web browser
 ```
 chromium-browser generic_hmi/build/index.html
 ```
+**NOTE** Chromium is the only supported and tested browser. Browsers built on top of Chromium (Google Chrome) should work but are not officially supported.
 
 ### HMI Backend
 
