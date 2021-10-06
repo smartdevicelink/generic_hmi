@@ -31,6 +31,7 @@
 TARGET_SCRIPT="start_server.py"
 TARGET_DIR="./python_websocket/src"
 SOURCE_DIR="./tools"
+ARGS=""
 
 InitSubmodules() {
     git submodule init
@@ -39,9 +40,21 @@ InitSubmodules() {
 
 StartServer() {
     cp ${SOURCE_DIR}/${TARGET_SCRIPT} ${TARGET_DIR}
-    python3 ${TARGET_DIR}/${TARGET_SCRIPT} --host 127.0.0.1 --ws-port 8081
+    python3 ${TARGET_DIR}/${TARGET_SCRIPT} ${ARGS}
     rm ${TARGET_DIR}/${TARGET_SCRIPT}
 }
+
+if ! [ $# -eq 0 ]
+    then
+    while [ $# -gt 0 ]; do
+        if [ "$1" == "--h" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "-help" ]  ; then
+            ARGS="-h"
+            break
+        fi
+        ARGS="${ARGS} $1"
+        shift
+    done
+fi
 
 if ! find $TARGET_DIR -mindepth 1 | read; then
     echo "Fetching HMI dependencies..."
