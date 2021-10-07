@@ -8,6 +8,7 @@ window.flags = {
     CorePort: 8087,
     CoreWebEngineAppPort: 2020,
     AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json',
+    StatusUpdateIcon: true,
     VRPlugin: {
         Url: 'http://127.0.0.1:3000', //URL path to plugin application, for web applications
         Name: 'Voice', //Title to display alongside the plugin UI

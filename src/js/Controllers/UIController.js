@@ -1,4 +1,5 @@
 import RpcFactory from './RpcFactory'
+import { resultCode } from './RpcFactory'
 import {
     show,
     setAppIcon, 
@@ -27,6 +28,8 @@ import {
 import store from '../store'
 import sdlController from './SDLController'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
+import ttsController from './TTSController';
+import {capabilities} from './DisplayCapabilities.js'
 import { ValidateImages, AddImageValidationRequest, RemoveImageValidationResult } from '../Utils/ValidateImages'
 
 const getNextSystemContext = () => {
@@ -42,6 +45,7 @@ const getNextSystemContext = () => {
     }
     return "MAIN"
 }
+const DEFAULT_TIMEOUT_VALUE = 10000;
 
 class UIController {
     constructor () {
@@ -89,6 +93,9 @@ class UIController {
                     // Generic HMI only supports main window for now.
                     return false;
                 }
+                var showApp = store.getState().appList.find((app) => {
+                    return app.appID === rpc.params.appID;
+                });
                 store.dispatch(show(
                     rpc.params.appID,
                     rpc.params.showStrings,
@@ -96,9 +103,10 @@ class UIController {
                     rpc.params.softButtons,
                     rpc.params.secondaryGraphic
                 ));
-                if (rpc.params.templateConfiguration) {
+                const templateConfiguration = rpc.params.templateConfiguration;
+                if (templateConfiguration && (showApp.isMediaApplication
+                    || capabilities["MEDIA"].displayCapabilities.templatesAvailable.includes(templateConfiguration.template))) {
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
-                    const templateConfiguration = rpc.params.templateConfiguration;
                     store.dispatch(setTemplateConfiguration(
                         templateConfiguration.template, 
                         rpc.params.appID, 
@@ -107,7 +115,7 @@ class UIController {
                     ));
                     
                     if (prevDisplayLayout !== templateConfiguration.template) {
-                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID));
+                        this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showApp.isMediaApplication));
                     }                    
                 }
 
@@ -118,7 +126,7 @@ class UIController {
                     });
                 }
 
-                const showResponse = RpcFactory.UIShowResponse(rpc)
+                const showResponse = RpcFactory.UIShowResponse(rpc, showApp.isMediaApplication);
                 ValidateImages(showImages).then(
                     () => {this.listener.send(showResponse)},
                     () => {
@@ -190,13 +198,18 @@ class UIController {
                 ))
                 this.onSystemContext("MENU", rpc.params.appID)
                 return true
-            case "OnButtonSubscription":
+            case "SubscribeButton":
+            case "UnsubscribeButton":
+                const isSubscribed = methodName === 'SubscribeButton';
+                if(!rpc.params.buttonName || !rpc.params.appID) {
+                    return { "rpc": RpcFactory.ErrorResponse(rpc, resultCode.GENERIC_ERROR, `No button provided to ${isSubscribed} ? 'subscribe' : 'unsubscribe'`) };
+                };
                 store.dispatch(subscribeButton(
                     rpc.params.appID,
-                    rpc.params.name,
-                    rpc.params.isSubscribed
-                ))
-                return null
+                    rpc.params.buttonName,
+                    isSubscribed
+                ));
+                return {"rpc": RpcFactory.SuccessResponse(rpc)};
             case "PerformInteraction":
                 if (!rpc.params.choiceSet) {
                     return {"rpc": RpcFactory.ErrorResponse(rpc, 11, "No UI choices provided, VR choices are not supported")};
@@ -210,7 +223,8 @@ class UIController {
                     rpc.params.cancelID,
                     rpc.params.timeout
                 ))
-                var timeout = rpc.params.timeout === 0 ? 15000 : rpc.params.timeout
+                const defaultTimeout = 15000;
+                const timeout = rpc.params.timeout === 0 ? defaultTimeout : rpc.params.timeout
                 this.endTimes[rpc.id] = Date.now() + timeout;
                 this.timers[rpc.id] = setTimeout(this.onPerformInteractionTimeout, timeout, rpc.id, rpc.params.appID)
                 this.appsWithTimers[rpc.id] = rpc.params.appID
@@ -240,13 +254,21 @@ class UIController {
             case "SetDisplayLayout":
                 console.log("Warning: RPC SetDisplayLayout is deprecated");
                 const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
+                var setDisplayLayoutApp = store.getState().appList.find((app) => {
+                    return app.appID === rpc.params.appID;
+                });
+
+                var disallowedLayout = rpc.params.displayLayout === 'MEDIA' && !setDisplayLayoutApp.isMediaApplication;
+                if (disallowedLayout) {
+                    rpc.params.displayLayout = prevDisplayLayout;
+                }
 
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-                
+
                 if (prevDisplayLayout !== rpc.params.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 }
-                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc)};
+                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,
@@ -287,12 +309,14 @@ class UIController {
                 const state = store.getState();
                 const context = state.activeApp
 
-                var scrollableTimeout = rpc.params.timeout ?? 10000;
+                var scrollableTimeout = rpc.params.timeout ?? DEFAULT_TIMEOUT_VALUE;
                 this.endTimes[rpc.id] = Date.now() + scrollableTimeout;
                 this.timers[rpc.id] = setTimeout(this.onCloseScrollableMessage, scrollableTimeout, rpc.id, rpc.params.appID, context);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
-                this.onSystemContext("HMI_OBSCURED", context)
+                if ((context !== rpc.params.appID) && context) {
+                    this.onSystemContext("HMI_OBSCURED", context)
+                }
                 
                 let scrollableButtonImages = [];
                 if (rpc.params.softButtons) {
@@ -358,12 +382,15 @@ class UIController {
                     rpc.params.cancelID,
                     false
                 ))
-                var alertTimeout = rpc.params.duration ? rpc.params.duration : 10000
+                var alertTimeout = rpc.params.duration ? rpc.params.duration : DEFAULT_TIMEOUT_VALUE;
                 const state = store.getState()
                 const context = state.activeApp
 
+                const hasSoftButtons = rpc.params.softButtons && rpc.params.softButtons.length > 0;
                 this.endTimes[rpc.id] = Date.now() + alertTimeout;
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID, context ? context : rpc.params.appID, false)
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, alertTimeout, rpc.id, rpc.params.appID,
+                    context ? context : rpc.params.appID, false, hasSoftButtons);
+
                 this.appsWithTimers[rpc.id] = rpc.params.appID
 
                 this.onSystemContext("ALERT", rpc.params.appID)
@@ -423,9 +450,11 @@ class UIController {
                     this.onSystemContext("HMI_OBSCURED", context2)
                 }
 
-                var subtleAlertTimeout = rpc.params.duration ? rpc.params.duration : 10000;
+                var subtleAlertTimeout = rpc.params.duration ? rpc.params.duration : DEFAULT_TIMEOUT_VALUE;
+                const subtleHasSoftButtons = rpc.params.softButtons && rpc.params.softButtons.length > 0;
                 this.endTimes[rpc.id] = Date.now() + subtleAlertTimeout;
-                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID, context2 ? context2 : rpc.params.appID, true);
+                this.timers[rpc.id] = setTimeout(this.onAlertTimeout, subtleAlertTimeout, rpc.id, rpc.params.appID,
+                    context2 ? context2 : rpc.params.appID, true, subtleHasSoftButtons);
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
                 let subtleAlertImages = [rpc.params.alertIcon];
@@ -451,7 +480,7 @@ class UIController {
                 const state = store.getState()
                 const context = state.activeApp
 
-                let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : 10000
+                let sliderTimeout = rpc.params.timeout ? rpc.params.timeout : DEFAULT_TIMEOUT_VALUE;
                 this.endTimes[rpc.id] = Date.now() + sliderTimeout;
                 this.timers[rpc.id] = setTimeout(this.onSliderClose, sliderTimeout, rpc.id, rpc.params.appID, 
                                             context ? context : rpc.params.appID, "TIMEOUT")
@@ -463,60 +492,65 @@ class UIController {
 
                 return null
             }
-            case "CancelInteraction":
+            case "CancelInteraction": {
 
-                const state2 = store.getState()
-                for(const appID in state2.ui) {
-                    const app = state2.ui[appID];
+                const state = store.getState();
+                const app = state.ui[rpc.params.appID];
 
-                    if (rpc.params.functionID === 10 && app.isPerformingInteraction
-                         && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
-                        clearTimeout(this.timers[app.interactionId])
-                        delete this.timers[app.interactionId]
-                        this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
-                        store.dispatch(deactivateInteraction(rpc.params.appID))
+                if (rpc.params.functionID === 10 && app.isPerformingInteraction
+                        && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.interactionCancelId)) {
+                    clearTimeout(this.timers[app.interactionId])
+                    delete this.timers[app.interactionId]
+                    this.listener.send(RpcFactory.UIPerformInteractionCancelledResponse(app.interactionId))
+                    store.dispatch(deactivateInteraction(rpc.params.appID))
+                    this.onSystemContext("MAIN", rpc.params.appID)
+                    return true
+                } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    clearTimeout(this.timers[app.alert.msgID])
+                    delete this.timers[app.alert.msgID]
+                    this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
+                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    const context = getNextSystemContext();
+                    if (rpc.params.appID !== state.activeApp) {
                         this.onSystemContext("MAIN", rpc.params.appID)
-                        return true
-                    } else if (rpc.params.functionID === 12 && app.alert.showAlert && !app.alert.isSubtle
-                         && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
-                        clearTimeout(this.timers[app.alert.msgID])
-                        delete this.timers[app.alert.msgID]
-                        this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
-                        store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
-                        const context = getNextSystemContext();
-                        this.onSystemContext(context, rpc.params.appID)
-                        return true
-                    } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
-                        && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
-                       clearTimeout(this.timers[app.alert.msgID])
-                       delete this.timers[app.alert.msgID]
-                       this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
-                       store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
-                       const context = getNextSystemContext();
-                       this.onSystemContext(context, rpc.params.appID)
-                       return true
-                    } else if (rpc.params.functionID === 26 && app.slider.showSlider
-                        && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.slider.cancelID)) {
-                       clearTimeout(this.timers[app.slider.msgID])
-                       delete this.timers[app.slider.msgID]
-                       this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
-                       store.dispatch(closeSlider(app.alert.msgID, rpc.params.appID))
-                       const context = getNextSystemContext();
-                       this.onSystemContext(context, rpc.params.appID)
-                       return true
-                    } else if (rpc.params.functionID === 25 && app.scrollableMessage.active
-                        && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.scrollableMessage.cancelID)) {
-                      clearTimeout(this.timers[app.scrollableMessage.msgID]);
-                      delete this.timers[app.scrollableMessage.msgID];
-                      this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
-                      store.dispatch(closeScrollableMessage(app.alert.msgID, rpc.params.appID));
-                      const context = getNextSystemContext();
-                      this.onSystemContext(context, state2.activeApp);
-                      return true;
                     }
+                    this.onSystemContext(context, state.activeApp)
+                    return true
+                } else if (rpc.params.functionID === 64 && app.alert.showAlert && app.alert.isSubtle
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.alert.cancelID)) {
+                    clearTimeout(this.timers[app.alert.msgID])
+                    delete this.timers[app.alert.msgID]
+                    this.listener.send(RpcFactory.SubtleAlertErrorResponse(app.alert.msgID, 5, 'subtle alert was cancelled'))
+                    store.dispatch(closeAlert(app.alert.msgID, rpc.params.appID))
+                    const context = getNextSystemContext();
+                    if (rpc.params.appID !== state.activeApp) {
+                        this.onSystemContext("MAIN", rpc.params.appID)
+                    }
+                    this.onSystemContext(context, state.activeApp)
+                    return true
+                } else if (rpc.params.functionID === 26 && app.slider.showSlider
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.slider.cancelID)) {
+                    clearTimeout(this.timers[app.slider.msgID])
+                    delete this.timers[app.slider.msgID]
+                    this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
+                    store.dispatch(closeSlider(app.alert.msgID, rpc.params.appID))
+                    const context = getNextSystemContext();
+                    this.onSystemContext(context, state.activeApp)
+                    return true
+                } else if (rpc.params.functionID === 25 && app.scrollableMessage.active
+                    && (rpc.params.cancelID === undefined || rpc.params.cancelID === app.scrollableMessage.cancelID)) {
+                    clearTimeout(this.timers[app.scrollableMessage.msgID]);
+                    delete this.timers[app.scrollableMessage.msgID];
+                    this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
+                    store.dispatch(closeScrollableMessage(app.alert.msgID, rpc.params.appID));
+                    const context = getNextSystemContext();
+                    this.onSystemContext(context, state.activeApp);
+                    return true;
                 }
                 
                 return { rpc: RpcFactory.UICancelInteractionIgnoredResponse(rpc) }
+            }
             case "ClosePopUp": {
                 const state = store.getState()
                 for(const appID in state.ui) {
@@ -528,7 +562,6 @@ class UIController {
                                     (app.isPerformingInteraction) ? "UI.PerformInteraction":
                                     (app.slider.showSlider) ? "UI.Slider":
                                     (app.scrollableMessage.active) ? "UI.ScrollableMessage":
-                                    //TODO: Add condition for UI PerformAudioPassThru interaction
                                     null
                     if (!methodName) {
                         continue;
@@ -544,7 +577,10 @@ class UIController {
                             this.listener.send(RpcFactory.AlertAbortedResponse(app.alert.msgID))
                             store.dispatch(closeAlert(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            if (appID !== state.activeApp) {
+                                this.onSystemContext("MAIN", appID)
+                            }
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.SubtleAlert": {
@@ -557,7 +593,10 @@ class UIController {
                                 5, 'subtle alert was cancelled'))
                             store.dispatch(closeAlert(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            if (appID !== state.activeApp) {
+                                this.onSystemContext("MAIN", appID)
+                            }
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.PerformInteraction": {
@@ -580,7 +619,7 @@ class UIController {
                             this.listener.send(RpcFactory.SliderAbortedResponse(app.slider.msgID))
                             store.dispatch(closeSlider(app.alert.msgID, appID))
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID)
+                            this.onSystemContext(context, state.activeApp)
                             return true;
                         }
                         case "UI.ScrollableMessage": {
@@ -592,16 +631,14 @@ class UIController {
                             this.listener.send(RpcFactory.ScrollableMessageAbortedResponse(app.scrollableMessage.msgID));
                             store.dispatch(closeScrollableMessage(app.alert.msgID, appID));
                             const context = getNextSystemContext();
-                            this.onSystemContext(context, appID);
+                            this.onSystemContext(context, state.activeApp);
                             return true;
                         }
-                        // TODO: Implement case for UI PerformAudioPassThru Interaction
-                        // case "UI.PerformAudioPassThru": {
-                        //     return true;
-                        // }
+                        default: // do nothing
+                            break;
                     }
                 }
-                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };;
+                return { rpc: RpcFactory.ErrorResponse(rpc, 4, "No active interaction to close") };
             }
             case 'SendHapticData':
                 store.dispatch(setHapticData(rpc.params.appID, rpc.params.hapticRectData));
@@ -616,7 +653,7 @@ class UIController {
         var app = state.ui[activeApp]
         var interactionId = app ? app.interactionId : null
         var interactionLayout = app ? app.interactionLayout : null
-        if (msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
+        if (interactionId && msgID === interactionId.toString() && interactionLayout === "KEYBOARD") {
             this.onKeyboardInput("", "ENTRY_ABORTED")
         }
 
@@ -645,7 +682,7 @@ class UIController {
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
@@ -688,12 +725,18 @@ class UIController {
         }
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
-    onAlertTimeout(msgID, appID, context, isSubtle) {
+    onAlertTimeout(msgID, appID, context, isSubtle, hadSoftbuttons) {
         delete this.timers[msgID]
+        if (ttsController.isAlertSpeakInProgress()) {
+            clearTimeout(this.timers[msgID]);
+            this.timers[msgID] = setTimeout(this.onAlertTimeout, 1000, msgID, appID, context, isSubtle);
+            this.listener.send(RpcFactory.OnResetTimeout(msgID, isSubtle ? "UI.SubtleAlert" : "UI.Alert",1000));
+            return;
+        }
 
         let imageValidationSuccess = RemoveImageValidationResult(msgID)
 
@@ -704,11 +747,16 @@ class UIController {
         const rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(msgID)
             : RpcFactory.AlertResponse(msgID, appID);
+
+        if (hadSoftbuttons) {
+            rpc.result.code = 5; // ABORTED
+        }
+
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }))
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
+            this.onSystemContext('MAIN', appID)
         }
         this.onSystemContext(systemContext, context)
     }
@@ -744,9 +792,6 @@ class UIController {
         this.listener.send(response)
 
         const systemContext = getNextSystemContext();
-        if (appID !== context) {
-            this.onSystemContext(systemContext, appID)
-        }
         this.onSystemContext(systemContext, context)
     }
     onScrollableMessageStealFocus(msgID, appID) {
@@ -755,7 +800,7 @@ class UIController {
         this.onSystemContext("MAIN", appID)
         sdlController.onAppActivated(appID)
     }
-    onStealFocus(alert, context, isSubtle) {        
+    onStealFocus(alert, isSubtle) {        
         clearTimeout(this.timers[alert.msgID])
         delete this.timers[alert.msgID]
 
@@ -774,10 +819,9 @@ class UIController {
             : RpcFactory.AlertResponse(alert.msgID, alert.appID);
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
-        if(context){
+        const context = store.getState().activeApp;
+        if (context && context !== alert.appID) {
             this.onSystemContext("MAIN", context)
-        } else {
-            this.onSystemContext("MENU")//Viewing App List
         }
 
         this.onSystemContext("MAIN", alert.appID)
@@ -786,33 +830,32 @@ class UIController {
     onKeepContext(alert, isSubtle) {
         clearTimeout(this.timers[alert.msgID])
         this.onButtonPress(alert.appID, alert.buttonID, alert.buttonName)
-        var timeout = alert.duration ? alert.duration : 10000
+        const timeout = alert.duration ? alert.duration : DEFAULT_TIMEOUT_VALUE;
         const state = store.getState()
         const context = state.activeApp
         
-        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle);
-        this.onResetTimeout(alert.appID, isSubtle ? "UI.SubtleAlert" : "UI.Alert");
+        this.timers[alert.msgID] = setTimeout(this.onAlertTimeout, timeout, alert.msgID, alert.appID, context ? context : alert.appID, isSubtle, true);
+        this.onResetTimeout(alert.msgID, isSubtle ? "UI.SubtleAlert" : "UI.Alert", timeout);
     }
     onSliderKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID])
-        
-        let timeout = duration ? duration : 10000
+        const timeout = duration ?? DEFAULT_TIMEOUT_VALUE;
         const state = store.getState();
         const context = state.activeApp
 
         this.timers[msgID] = setTimeout(this.onSliderClose, timeout, msgID, appID, context, "TIMEOUT");
-        this.onResetTimeout(appID, "UI.Slider")
+        this.onResetTimeout(msgID, "UI.Slider", timeout);
     }
     onScrollableMessageKeepContext(msgID, appID, duration) {
         clearTimeout(this.timers[msgID]);
-        var timeout = duration ?? 10000;
+        const timeout = duration ?? DEFAULT_TIMEOUT_VALUE;
         const state = store.getState();
         const context = state.activeApp;
         
         this.timers[msgID] = setTimeout(this.onCloseScrollableMessage, timeout, msgID, appID, context);
-        this.onResetTimeout(appID, "UI.ScrollableMessage");
+        this.onResetTimeout(msgID, "UI.ScrollableMessage", timeout);
     }
-    onDefaultAction(alert, context, isSubtle) {
+    onDefaultAction(alert, isSubtle) {
         store.dispatch(closeAlert(alert.msgID, alert.appID));
 
         if (!alert.msgID) {
@@ -835,11 +878,12 @@ class UIController {
 
         this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }));
 
-        if(context){
-            this.onSystemContext("MAIN", context)
-        } else {
-            this.onSystemContext("MENU")//Viewing App List
+        const context = store.getState().activeApp;
+        const systemContext = getNextSystemContext();
+        if(context && context !== alert.appID){
+            this.onSystemContext('MAIN', alert.appID);
         }
+        this.onSystemContext(systemContext, context);
     }
     onChoiceSelection(choiceID, appID, msgID, manualTextEntry) {
         clearTimeout(this.timers[msgID])
@@ -910,7 +954,7 @@ class UIController {
         const state = store.getState()
         var activeApp = state.activeApp
         var app = state.ui[activeApp]
-        var interactionId = app.interactionId
+        var interactionId = app?.interactionId
         for (var msgID in this.timers) {
             clearTimeout(this.timers[msgID])
             delete this.timers[msgID]
@@ -930,15 +974,15 @@ class UIController {
         clearTimeout(this.timers[msgID])
         const state = store.getState()
         const app = state.ui[appID]
-        var timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
+        const timeout = app ? (app.interactionTimeout === 0 ? 15000 : app.interactionTimeout) : 15000;
         this.endTimes[msgID] = Date.now() + timeout;
         this.timers[msgID] = setTimeout(this.onPerformInteractionTimeout, timeout, msgID, appID)
         this.appsWithTimers[msgID] = appID
-        this.onResetTimeout(appID, "UI.OnPerformInteraction")
+        this.onResetTimeout(msgID, "UI.PerformInteraction", timeout)
     }
 
-    onResetTimeout(appID, methodName) {
-        this.listener.send(RpcFactory.OnResetTimeout(appID, "UI", methodName))
+    onResetTimeout(msgID, methodName, resetPeriod) {
+        this.listener.send(RpcFactory.OnResetTimeout(msgID, methodName, resetPeriod))
     }
 
     onUpdateFile(appID, fileName) {
@@ -971,6 +1015,7 @@ class UIController {
             }]);
         }
     }
+
 }
 
 let controller = new UIController ()

@@ -5,10 +5,6 @@ import '../polyfill_find'
 import SubmenuDeepFind from '../Utils/SubMenuDeepFind'
 
 const mapStateToProps = (state, ownProps) => {
-    if (ownProps.value && ownProps.value.length) {
-        return {name: ownProps.value, templateTitle: "", subMenuName: "", interactionText: ""}
-    }
-
     var activeApp = state.activeApp
     var app = state.appList.find((app) => {
         return app.appID === activeApp
@@ -33,15 +29,16 @@ const mapStateToProps = (state, ownProps) => {
         interactionText = state.ui[activeApp].interactionText.fieldText;
     }
 
-    if(activeApp && app) {
+    if (ownProps.value) {
+        name = ownProps.value
+    } else if (activeApp && app) {
         name = app.appName ? app.appName : "Apps"
     } else if (state.system.editingPermissionsAppId) {
         var permissionsApp = state.appList.find((app) => {
             return app.appID === state.system.editingPermissionsAppId
         });
-
-        name = permissionsApp ? permissionsApp.appName : 'App' + ' Permissions';
-    } else { 
+        name = permissionsApp ? permissionsApp.appName : 'App Permissions';
+    } else {
         name = "Apps"
     }
     return {name: name, templateTitle: templateTitle, subMenuName: subMenuName, interactionText: interactionText}

@@ -153,18 +153,35 @@ const mapStateToProps = (state) => {
         if(state.ui[key].alert.showAlert) {
             alertButtons = state.ui[key].alert.softButtons
             if(alertButtons) {
-                for (var i in alertButtons) {
+                for (let i in alertButtons) {
                     alertButtons[i].msgID = state.ui[key].alert.msgID
                     //Set appID for app calling alert, not for the active 
                     alertButtons[i].appID = parseInt(key) 
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
+            }
+            else {
+                let okButton = {
+                    appID: parseInt(key),
+                    msgID: state.ui[key].alert.msgID,
+                    duration: state.ui[key].alert.duration,
+                    type: "BOTH",
+                    text: "OK",
+                    image: {
+                        value: "0xD5",
+                        imageType: "STATIC",
+                        isTemplate: false
+                    },
+                    isHighlighted: false,
+                    systemAction: "DEFAULT_ACTION"
+                }
+                alertButtons = [ okButton ]
             }   
         }
         if (state.ui[key].scrollableMessage.active) {
             scrollableMessageButtons = state.ui[key].scrollableMessage.softButtons;
             if (scrollableMessageButtons) {
-                for (var i in scrollableMessageButtons) {
+                for (let i in scrollableMessageButtons) {
                     scrollableMessageButtons[i].appID = parseInt(key);
                     scrollableMessageButtons[i].msgID = state.ui[key].scrollableMessage.msgID;
                     scrollableMessageButtons[i].duration = state.ui[key].scrollableMessage.duration;
@@ -243,14 +260,14 @@ const mapDispatchToProps = (dispatch) => {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
-        onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, false)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, false)
         },
-        onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, false);
         }
     }
 }

@@ -15,7 +15,7 @@ body {
 
 .toggle-button {
     margin-top: 20px;
-    width: 140px;
+    width: 120px;
     border: 1px solid color(black);
     border-radius: 2px;
     text-align: center;
@@ -32,7 +32,7 @@ body {
 .shutdown-button {
     margin-top: 20px;
     margin-left: 20px;
-    width: 140px;
+    width: 120px;
     border: 1px solid color(black);
     border-radius: 2px;
     text-align: center;
@@ -61,7 +61,7 @@ body {
 .driver-distraction-button {
     margin-top: 22px;
     margin-left: 20px;
-    width: 150px;
+    width: 135px;
     border-radius: 2px;
     padding: 10px 0;
     float: left;
@@ -85,6 +85,10 @@ body {
         top: 75px;
         left: 0px;
     }
+}
+
+.bg-highlighted {
+    background-color: color($secondary-accent-color);
 }
 
 $base-box-shadow: 0 20px 40px 0 rgba(color(black), 0.75);

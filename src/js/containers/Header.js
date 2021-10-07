@@ -32,17 +32,21 @@ const mapStateToProps = (state) => {
     var alertMsgId = null
     var alertAppId = null
     var alertAppName = ""
+    var alertShowProgressIndicator = false;
     var alertIcon = null
     var showSlider = false
     var sliderAppId = null
     var sliderAppName = ""
     var sliderData = {}
+    var statusUpdate = ""
+    var statusUpdateMsg = ""
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
             alertIsSubtle = state.ui[prop].alert.isSubtle
             alertMsgId = state.ui[prop].alert.msgID
             alertAppId = parseInt(prop)
+            alertShowProgressIndicator = state.ui[prop].alert.showProgressIndicator;
 
             var alertApp = state.appList.find((key) => {
                 return key.appID === parseInt(prop)
@@ -80,7 +84,7 @@ const mapStateToProps = (state) => {
             scrollableMessageAppId = parseInt(prop);
 
             var scrollableMessageApp = state.appList.find((key) => {
-                return key.appID === scrollableMessageAppId;
+                return key.appID === parseInt(prop);
             })
 
             if (scrollableMessageApp.appName) {
@@ -134,6 +138,11 @@ const mapStateToProps = (state) => {
         parentID = subMenu.subMenu.parentID;
     }
 
+    if (state.system.policyStatus) {
+        statusUpdate = state.system.policyStatus;
+        statusUpdateMsg = state.system.policyStatusMsg;
+    }
+
     return {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
@@ -148,6 +157,7 @@ const mapStateToProps = (state) => {
         alertMsgId: alertMsgId,
         alertAppId: alertAppId,
         alertName: alertAppName,
+        alertShowProgressIndicator: alertShowProgressIndicator,
         showSlider: showSlider,
         sliderAppId: sliderAppId,
         sliderName: sliderAppName,
@@ -167,7 +177,9 @@ const mapStateToProps = (state) => {
         aptTextFields: aptTextFields,
         aptAppID: aptAppID,
         aptMsgID: aptMsgID,
-        aptAppName: aptAppName
+        aptAppName: aptAppName,
+        statusUpdate: statusUpdate,
+        statusUpdateMsg: statusUpdateMsg
     }
 }
 

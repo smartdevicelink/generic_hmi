@@ -1,5 +1,36 @@
 import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
+
+export const resultCode = {
+    'SUCCESS': 0,
+    'UNSUPPORTED_REQUEST': 1,
+    'UNSUPPORTED_RESOURCE': 2,
+    'DISALLOWED': 3,
+    'REJECTED': 4,
+    'ABORTED': 5,
+    'IGNORED': 6,
+    'RETRY': 7,
+    'IN_USE': 8,
+    'DATA_NOT_AVAILABLE': 9,
+    'TIMED_OUT': 10,
+    'INVALID_DATA': 11,
+    'CHAR_LIMIT_EXCEEDED': 12,
+    'INVALID_ID': 13,
+    'DUPLICATE_NAME': 14,
+    'APPLICATION_NOT_REGISTERED': 15,
+    'WRONG_LANGUAGE': 16,
+    'OUT_OF_MEMORY': 17,
+    'TOO_MANY_PENDING_REQUESTS': 18,
+    'NO_APPS_REGISTERED': 19,
+    'NO_DEVICES_CONNECTED': 20,
+    'WARNINGS': 21,
+    'GENERIC_ERROR': 22,
+    'USER_DISALLOWED': 23,
+    'TRUNCATED_DATA': 24,
+    'SAVED': 25,
+    'READ_ONLY': 26
+};
+
 class RpcFactory {
     static SetAppProperties(properties) {
         return {
@@ -230,13 +261,15 @@ class RpcFactory {
         return msg
     }
     static UIGetCapabilitiesResponse(rpc) {
+        let displayCapabilities = { ...capabilities["MEDIA"].displayCapabilities };
+        displayCapabilities.templatesAvailable = [...displayCapabilities.templatesAvailable, 'MEDIA'];
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "displayCapabilities": displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
@@ -284,8 +317,9 @@ class RpcFactory {
             }
         })
     }
-    static UIShowResponse(rpc) {
-        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+    static UIShowResponse(rpc, isMediaApp) {
+        var supportedTemplates = isMediaApp ? [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA' ]
+            : capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
         const templateParamExists = templateConfiguration && templateConfiguration.template;
 
@@ -311,7 +345,9 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": (templateConfiguration.template === 'MEDIA'
+                        ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI"),
                     "data": {
                         "method": rpc.method
                     }
@@ -660,13 +696,14 @@ class RpcFactory {
             }
         })
     }
-    static OnResetTimeout(appID, interfaceName, methodName) {
+    static OnResetTimeout(requestID, methodName, resetPeriod) {
         return ({
             'jsonrpc': '2.0',
-            'method': `${interfaceName}.OnResetTimeout`,
+            'method': 'BasicCommunication.OnResetTimeout',
             'params': {
-                'appID': appID,
-                'methodName': methodName
+                'requestID': requestID,
+                'methodName': methodName,
+                'resetPeriod': resetPeriod
             }           
         })
     }
@@ -773,12 +810,13 @@ class RpcFactory {
         }
         return msg  
     }
-    static SetDisplayLayoutResponse(rpc) {
+    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
         var layout = rpc.params.displayLayout;
-        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
-        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
-        if (supportedTemplates.includes(layout)) {
+        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY",
+        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC",
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS",
+        "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS" ];
+        if (!disallowedLayout && supportedTemplates.includes(layout)) {
             if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
@@ -806,7 +844,8 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }
@@ -840,10 +879,10 @@ class RpcFactory {
         })
     }
 
-    static OnSystemCapabilityDisplay(template, appID) {
+    static OnSystemCapabilityDisplay(template, appID, appIsMedia) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
-            displayCapabilities: [getDisplayCapability(template)]
+            displayCapabilities: [getDisplayCapability(template, appIsMedia)]
         }
         return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
@@ -1013,6 +1052,13 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "method": "TTS.Stopped",
+        })
+    }
+    static UpdateSDL() {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.UpdateSDL"
         })
     }
     static PluginVRStartedMessage() {

@@ -8,7 +8,7 @@
     width: $master-width;
     height: $master-height;
     margin: 25px;
-    z-index:1001;
+    z-index: 1001;
 }
 
 .alertModal {
@@ -26,8 +26,7 @@
     outline: none;
     padding: 20px;
     width: 85%;
-
-  }
+}
 
 
 .alert{
@@ -37,6 +36,9 @@
 }
 
 .alert-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     text-align: center;
 
     p {
@@ -46,13 +48,22 @@
     }
 }
 
+.alert-progressIndicator {
+    width: 40px;
+    height: 40px;
+    background-image: url('../../img/icons/progressIndicator.gif');
+    background-repeat: no-repeat;
+    background-size: 40px;
+    margin-left: 10px;
+}
+
 .alert-top {
     display: flex;
     padding: 30px;
     max-height: calc((#{$master-height} - 75px) * 0.6);
 
     h4 {
-        overflow: scroll;
+        overflow: auto;
     }
 
     img {
@@ -91,6 +102,10 @@
     height: calc((#{$master-height} - 75px) / 2);
     width: 50%;
     text-align: center;
+    p {
+        overflow: hidden;
+        max-width: 100%;
+    }
 }
 
 .alert-buttons{
@@ -115,7 +130,13 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
     //align-self: flex-start;
+    p {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -130,6 +151,11 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    p {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -145,6 +171,12 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
+    p {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
 
     @include display(flex);
     @include align-items(center);
@@ -159,9 +191,15 @@
     border-width: 0.154px;
     border-style: solid;
     margin: 15px;
+    overflow: hidden;
     .soft-button-image, .soft-button-image-static {
         max-height: 50px;
         min-width: 50px;
+    }
+    p {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     @include display(flex);

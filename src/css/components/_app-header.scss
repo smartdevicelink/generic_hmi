@@ -12,10 +12,6 @@
 
     div {
         @include flex(1);
-        &:nth-of-type(2) {
-            text-align: center;
-        }
-
         &:nth-of-type(3) {
             text-align: right;
         }
@@ -35,6 +31,11 @@
     a {
         text-decoration: none;
         text-transform: uppercase;
+    }
+
+    .settings-menu svg{
+        @include size(40px);
+        margin-left: 0px;
     }
 
     .svg-wrap-secondary{

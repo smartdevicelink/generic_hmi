@@ -61,7 +61,8 @@ export const Actions = {
     OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
     RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
     CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
-    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS"
+    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS",
+    ON_STATUS_UPDATE: "ON_STATUS_UPDATE"
 }
 
 export const updateAppList = (applications) => {
@@ -594,3 +595,11 @@ export const closePermissionsView = () => ({
 export const clearAppAwaitingPermissions = () => ({
     type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
 });
+
+export const onStatusUpdate = (status, msg) => {
+    return {
+        type: Actions.ON_STATUS_UPDATE,
+        status: status,
+        statusMsg: msg
+    }
+}
