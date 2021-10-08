@@ -14,7 +14,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
 import ScrollableMessage from './ScrollableMessage';
-import ScreenMenu from './ScreenMenu';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconSettings} from '../img/static/0x49.svg'

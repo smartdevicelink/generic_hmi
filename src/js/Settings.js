@@ -6,6 +6,7 @@ import sdlController from './Controllers/SDLController';
 import AppHeader from './containers/Header';
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
 import {ReactComponent as PermissionsIcon} from '../img/static/0x22.svg'
+import {ReactComponent as IconVR} from '../img/static/0xE8.svg'
 import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
@@ -103,6 +104,30 @@ class Settings extends React.Component {
                 </div>
             </div>
         )
+
+        if (window.flags.VRPlugin.MenuEnabled) {
+            settingsButtons.push(
+                <div className="hscrollmenu-block">
+                    <Link to="/vr">
+                        <div
+                            className="hscrollmenu-item th-b-color th-tile-background-color">
+                            <div className="hscrollmenu-item__image">
+                                <IconVR/>
+                            </div>
+                            <div className="hscrollmenu-item__name">
+                                <p className="t-small t-light th-f-color">
+                                    {window.flags.VRPlugin.MenuName ? window.flags.VRPlugin.MenuName : "Voice Recognition"}
+                                </p>
+                            </div>
+                            <span className="hscrollmenu-item__arrow svg-wrap" > 
+                                <IconArrowRight/>
+                            </span>
+                        </div>
+                    </Link>
+                </div>
+            )
+        }
+
         
 
         return (

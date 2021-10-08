@@ -11,7 +11,7 @@ export default class VRPlugin extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader icon="store" backLink="" appName="Menu" title={window.flags.VRPlugin.MenuName ? window.flags.VRPlugin.MenuName : "Voice Recognition"} />
+                <AppHeader icon="store" backLink="/settings" menuName="Back" title={window.flags.VRPlugin.MenuName ? window.flags.VRPlugin.MenuName : "Voice Recognition"} />
                 {
                     //Add your Voice Recognition controls here
                 }
