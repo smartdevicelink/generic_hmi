@@ -69,6 +69,7 @@ export default class ControlBar extends React.Component {
                     /*onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}*/
                     onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
                     onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
+                    style={{backgroundColor: this.props.highlightColor}}
                 >
                         {image}
                 </div>
