@@ -58,7 +58,7 @@ export default class ControlBar extends React.Component {
                 </div>
             )            
         } else {
-            var fillColor = this.props.highlightColor ? this.props.highlightColor : this.fillColor()
+            var fillColor = this.fillColor()
             var image = this.props.icon ?
                 <span key="icon" className="svg-wrap">{this.getIcon(this.props.icon, this.props.iconProps)}</span> :
                 (<Image key="image" image={this.props.image} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
