@@ -52,12 +52,13 @@ export default class ControlBar extends React.Component {
                     /*onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}*/
                     onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
                     onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
+                    style={{backgroundColor: this.props.highlightColor}}
                 >
                     <StaticIcon class="static-icon" image={this.props.image} />
                 </div>
             )            
         } else {
-            var fillColor = this.props.highlightColor ? this.props.highlightColor : this.fillColor()
+            var fillColor = this.fillColor()
             var image = this.props.icon ?
                 <span key="icon" className="svg-wrap">{this.getIcon(this.props.icon, this.props.iconProps)}</span> :
                 (<Image key="image" image={this.props.image} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
@@ -68,6 +69,7 @@ export default class ControlBar extends React.Component {
                     /*onClick={() => this.props.onButtonPress(this.props.appID, this.props.id, this.props.name)}*/
                     onMouseDown={() => this.props.onButtonDown(this.props.appID, this.props.id, this.props.name)}
                     onMouseUp={() => this.props.onButtonUp(this.props.appID, this.props.id, this.props.name)}
+                    style={{backgroundColor: this.props.highlightColor}}
                 >
                         {image}
                 </div>
