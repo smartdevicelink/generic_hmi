@@ -50,8 +50,6 @@ import OpenSSL.crypto as crypto
 
 class Flags():
   """Used to define global properties"""
-  HOST = '127.0.0.1'
-  WS_PORT = 8081
   FILE_SERVER_HOST = '127.0.0.1'
   FILE_SERVER_PORT = 4000
   FILE_SERVER_URI = 'http://127.0.0.1:4000'
@@ -502,8 +500,8 @@ class WebEngineManager():
 
 def main():
   parser =  argparse.ArgumentParser(description="Handle backend operations for the hmi")
-  parser.add_argument('--host', type=str, default=Flags.HOST, help="Backend server hostname")
-  parser.add_argument('--ws-port', type=int, default=Flags.WS_PORT, help="Backend server port number")
+  parser.add_argument('--host', type=str, default='127.0.0.1', help="Backend server hostname")
+  parser.add_argument('--ws-port', type=int, default=8081, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
   parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
   parser.add_argument('--cert-passphrase', type=str, default='defaultPassPhrase', help="A secret password used to decrypt the certificate from the PT")
