@@ -2,7 +2,7 @@
 
 ## Get an instance of SDL Core running
 
-Note: This requires you to use Ubuntu 16.04 or 18.04.
+Note: This requires you to use Ubuntu 18.04 or 20.04.
 
 Clone the [SDL Core repository](https://github.com/smartdevicelink/sdl_core) and follow the setup instructions for the project. After the project is built, run an instance of SDL Core in your terminal.
 
@@ -59,6 +59,7 @@ After running the build command, you can launch the Generic HMI in a web browser
 ```
 chromium-browser generic_hmi/build/index.html
 ```
+**NOTE** Chromium is the only supported and tested browser. Browsers built on top of Chromium (Google Chrome) should work but are not officially supported.
 
 ### HMI Backend
 

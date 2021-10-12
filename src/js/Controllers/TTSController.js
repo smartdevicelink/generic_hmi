@@ -4,6 +4,7 @@ class TTSController {
         this.addListener = this.addListener.bind(this);
         this.onResetTimeout = this.onResetTimeout.bind(this);
         this.audioPlayer = new Audio();
+        this.audioPlayer.preload = 'none';
         this.filePlaylist = [];
         this.playNext = this.playNext.bind(this);
         this.currentlyPlaying = null;
@@ -57,6 +58,7 @@ class TTSController {
         speechPlayer.pitch = 0;
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(speechPlayer);
+        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
 
         // Workaround for chrome issue where long utterances time out
         this.speechSynthesisInterval = setInterval(() => {
