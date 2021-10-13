@@ -59,21 +59,18 @@
 }
 
 .dark-theme .keyboard .input-text input {
-    height: 200px;
-    padding: 20px;
-    padding-right: 0px;
+    height: 100%;
     font-size: 36px;
     border: none;
     box-sizing: border-box;
     background-color: color($secondary-color);
     color: color(white);
     display: table;
+    -moz-margin-end: 27px;
 }
 
 .dark-theme .keyboard .input-text .input-autocomplete {
-    height: 200px;
-    padding: 20px;
-    padding-left: 0px;
+    height: 100%;
     font-size: 36px;
     border: none;
     box-sizing: border-box;
@@ -106,20 +103,17 @@
 }
 
 .light-theme .keyboard .input-text input {
-    height: 200px;
-    padding: 20px;
-    padding-right: 0px;
+    height: 100%;
     font-size: 36px;
     border: none;
     box-sizing: border-box;
     display: table;
     background-color: color(white);
+    -moz-margin-end: 27px;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
-    height: 200px;
-    padding: 20px;
-    padding-left: 0px;
+    height: 100%;
     font-size: 36px;
     border: none;
     box-sizing: border-box;
