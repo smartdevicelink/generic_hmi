@@ -49,3 +49,19 @@
     }
 }
 
+.on-screen-presets .media-track {
+    padding-top: 10px;
+    width: 60%;
+    position: relative;
+
+    text-align: center;
+
+    @include display(flex);
+    @include flex-direction(column);
+
+    &__time {
+        position: absolute;
+        bottom: 30px;
+        width: 100%
+    }
+}
