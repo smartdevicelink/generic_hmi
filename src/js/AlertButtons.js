@@ -16,11 +16,11 @@ export default class AlertButtons extends React.Component {
             duration: softButton.duration
         }
         if(softButton.systemAction === "STEAL_FOCUS") {
-            action = this.props.onStealFocus(alert, this.props.appID)
+            action = this.props.onStealFocus(alert);
         } else if (softButton.systemAction === "KEEP_CONTEXT") {
             action = this.props.onKeepContext(alert)
         } else {
-            action = this.props.onDefaultAction(alert, this.props.appID)
+            action = this.props.onDefaultAction(alert);
         }
 
         return action
@@ -34,7 +34,7 @@ export default class AlertButtons extends React.Component {
 
         if(softButtons.length === 1) {
             items = softButtons.map((softButton, index) => {               
-                return (<div className={`${this.props.classPrefix}-button-1 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-1 th-f-color t-small t-light th-soft-buttons ${softButton.isHighlighted ? 'bg-highlighted' : 'th-bg-color'}`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>
@@ -47,7 +47,7 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 2) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-2 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-2 th-f-color t-small t-light th-soft-buttons ${softButton.isHighlighted ? 'bg-highlighted' : 'th-bg-color'}`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>
@@ -60,7 +60,7 @@ export default class AlertButtons extends React.Component {
             })
         } else if (softButtons.length === 3) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-3 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-3 th-f-color t-small t-light th-soft-buttons ${softButton.isHighlighted ? 'bg-highlighted' : 'th-bg-color'}`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>
@@ -73,7 +73,7 @@ export default class AlertButtons extends React.Component {
             })            
         } else if (softButtons.length === 4) {
             items = softButtons.map((softButton, index) => {
-                return (<div className={`${this.props.classPrefix}-button-4 th-f-color t-small t-light th-bg-color th-soft-buttons`}
+                return (<div className={`${this.props.classPrefix}-button-4 th-f-color t-small t-light th-soft-buttons ${softButton.isHighlighted ? 'bg-highlighted' : 'th-bg-color'}`}
                             key={softButton.softButtonID}
                             onClick={() => this.getAction(softButton)}>
                                 <p>{softButton.text}</p>

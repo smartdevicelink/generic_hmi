@@ -68,7 +68,18 @@ class ExternalPoliciesController {
         this.policyUpdateRetry();
     }
     onUnpackMessage(evt) {
-        sdlController.onReceivedPolicyUpdate(evt.data)
+        let jsonData;
+        try {
+            jsonData = JSON.parse(evt.data)
+        }
+        catch {
+            console.log('ExternalPolicies: failed to parse JSON content from WSMessage');
+            return;
+        }
+
+        if(jsonData.requestType === 'PROPRIETARY'){
+            sdlController.onReceivedPolicyUpdate(jsonData.data)
+        }
     }
     pack(params) {
         this.sysReqParams = params

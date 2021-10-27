@@ -3,6 +3,11 @@
         background: color($primary-color);
     }
 
+    .app-bg-color {
+        background: color($primary-color);
+    }
+
+
     .app__header {
         background-image: -webkit-linear-gradient(color($secondary-color), color($primary-color));
         background-image: -o-linear-gradient(color($secondary-color), color($primary-color));
@@ -88,6 +93,10 @@
         background: color(glass);
     }
 
+    .app-bg-color {
+        background: color(glass);
+    }
+
     .app__header {
         background-image: -webkit-linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.0));
         background-image: -o-linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.0));
@@ -166,5 +175,5 @@
 
     .th-divider-color {
       background-color: #000000;
-  }
+}
 }

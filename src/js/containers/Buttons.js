@@ -3,6 +3,7 @@ import ControlBar from '../ControlBar'
 //import SoftButtons from '../SoftButtons'
 import SoftButtonsBody from '../Templates/Shared/SoftButtons'
 import AlertButtonsBody from '../AlertButtons'
+import ScrollableMessageButtons from '../ScrollableMessageButtons'
 import uiController from '../Controllers/UIController'
 
 const mapStateToProps = (state) => {
@@ -10,6 +11,7 @@ const mapStateToProps = (state) => {
     var subscribedButtons = {}
     var softButtons = []
     var alertButtons = []
+    var scrollableMessageButtons = [];
     var app = {}
     var graphicPresent
     if (activeApp) {
@@ -151,13 +153,40 @@ const mapStateToProps = (state) => {
         if(state.ui[key].alert.showAlert) {
             alertButtons = state.ui[key].alert.softButtons
             if(alertButtons) {
-                for (var i in alertButtons) {
+                for (let i in alertButtons) {
                     alertButtons[i].msgID = state.ui[key].alert.msgID
                     //Set appID for app calling alert, not for the active 
                     alertButtons[i].appID = parseInt(key) 
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
+            }
+            else {
+                let okButton = {
+                    appID: parseInt(key),
+                    msgID: state.ui[key].alert.msgID,
+                    duration: state.ui[key].alert.duration,
+                    type: "BOTH",
+                    text: "OK",
+                    image: {
+                        value: "0xD5",
+                        imageType: "STATIC",
+                        isTemplate: false
+                    },
+                    isHighlighted: false,
+                    systemAction: "DEFAULT_ACTION"
+                }
+                alertButtons = [ okButton ]
             }   
+        }
+        if (state.ui[key].scrollableMessage.active) {
+            scrollableMessageButtons = state.ui[key].scrollableMessage.softButtons;
+            if (scrollableMessageButtons) {
+                for (let i in scrollableMessageButtons) {
+                    scrollableMessageButtons[i].appID = parseInt(key);
+                    scrollableMessageButtons[i].msgID = state.ui[key].scrollableMessage.msgID;
+                    scrollableMessageButtons[i].duration = state.ui[key].scrollableMessage.duration;
+                }
+            }
         }
     }
 
@@ -186,7 +215,7 @@ const mapStateToProps = (state) => {
         }
     }
 
-    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, colorScheme: colorScheme, theme: state.theme}
+    return {buttons: buttons, softButtons: softButtons, appID: activeApp, graphicPresent: graphicPresent, alertButtons: alertButtons, scrollableMessageButtons: scrollableMessageButtons, colorScheme: colorScheme, theme: state.theme}
 }
 
 var buttonPressMap = {};
@@ -231,14 +260,14 @@ const mapDispatchToProps = (dispatch) => {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
-        onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, false)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, false)
         },
-        onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, false);
         }
     }
 }
@@ -247,6 +276,11 @@ export const Buttons = connect(
     mapStateToProps,
     mapDispatchToProps
 )(ControlBar)
+
+export const ScrollableButtons = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ScrollableMessageButtons)
 
 export const SoftButtons = connect(
     mapStateToProps,

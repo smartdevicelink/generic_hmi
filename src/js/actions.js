@@ -22,8 +22,15 @@ export const Actions = {
     REGISTER_APPLICATION: "REGISTER_APPLICATION",
     UNREGISTER_APPLICATION: "UNREGISTER_APPLICATION",
     SET_TEMPLATE_CONFIGURATION: "SET_TEMPLATE_CONFIGURATION",
+    SCROLLABLE_MESSAGE: "SCROLLABLE_MESSAGE",
+    CLOSE_SCROLLABLE_MESSAGE: "CLOSE_SCROLLABLE_MESSAGE",
+    PERFORM_AUDIO_PASSTHRU: "PERFORM_AUDIO_PASSTHRU",
+    CLOSE_PERFORM_AUDIO_PASSTHRU: "CLOSE_PERFORM_AUDIO_PASSTHRU",
     ALERT: "ALERT",
     CLOSE_ALERT: "CLOSE_ALERT",
+    SLIDER: "SLIDER",
+    UPDATE_SLIDER_POSITION: "UPDATE_SLIDER_POSITION",
+    CLOSE_SLIDER: "CLOSE_SLIDER",
     SET_THEME: "SET_THEME",
     POLICY_UPDATE: "POLICY_UPDATE",
     SET_URLS: "SET_URLS",
@@ -49,7 +56,12 @@ export const Actions = {
     SET_VIDEO_STREAM_APP: "SET_VIDEO_STREAM_APP",
     NAVIGATION_VIEW_ACTIVE: "NAVIGATION_VIEW_ACTIVE",
     SET_VIDEO_STREAM_CAPABILITY: "SET_VIDEO_STREAM_CAPABILITY",
-    SET_HAPTIC_DATA: "SET_HAPTIC_DATA"
+    SET_HAPTIC_DATA: "SET_HAPTIC_DATA",
+    OPEN_PERMISSIONS_VIEW: "OPEN_PERMISSIONS_VIEW",
+    RESET_OPEN_PERMISSIONS_VIEW: "RESET_OPEN_PERMISSIONS_VIEW",
+    CLOSE_PERMISSIONS_VIEW: "CLOSE_PERMISSIONS_VIEW",
+    CLEAR_APP_AWAITING_PERMISSIONS: "CLEAR_APP_AWAITING_PERMISSIONS",
+    ON_STATUS_UPDATE: "ON_STATUS_UPDATE"
 }
 
 export const updateAppList = (applications) => {
@@ -253,6 +265,44 @@ export const unregisterApplication = (appID, isUnexpected) => {
     }
 }
 
+export const scrollableMessage = (appID, msgID, messageBody, softButtons, duration, cancelID) => {
+    return {
+        type: Actions.SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID,
+        messageBody: messageBody,
+        softButtons: softButtons,
+        duration: duration,
+        cancelID: cancelID
+    }
+}
+
+export const closeScrollableMessage = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_SCROLLABLE_MESSAGE,
+        appID: appID,
+        msgID: msgID
+    }
+}
+
+export const performAudioPassThru = (appID, textFields, duration, msgID) => {
+    return {
+        type: Actions.PERFORM_AUDIO_PASSTHRU,
+        appID: appID,
+        aptTextFields: textFields,
+        duration: duration,
+        msgID: msgID
+    }
+}
+
+export const closePerformAudioPassThru = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_PERFORM_AUDIO_PASSTHRU,
+        appID: appID,
+        msgID: msgID
+    }
+}
+
 export const alert = (appID, alertStrings, duration, softButtons, alertType, progressIndicator, msgID, icon, cancelID, isSubtle=false) => {
     return {
         type: Actions.ALERT,
@@ -272,6 +322,36 @@ export const alert = (appID, alertStrings, duration, softButtons, alertType, pro
 export const closeAlert = (msgID, appID) => {
     return {
         type: Actions.CLOSE_ALERT,
+        msgID: msgID,
+        appID: appID
+    }
+}
+
+export const slider = (appID, numTicks, position, sliderHeader, sliderFooter, timeout, msgID, cancelID) => {
+    return {
+        type: Actions.SLIDER,
+        appID: appID,
+        numTicks: numTicks,
+        position: position,
+        sliderHeader: sliderHeader,
+        sliderFooter: sliderFooter,
+        timeout: timeout,
+        msgID: msgID,
+        cancelID: cancelID
+    }
+}
+
+export const updateSliderPosition = (appID, newPosition) =>{
+    return {
+        type: Actions.UPDATE_SLIDER_POSITION,
+        appID: appID,
+        newPosition: newPosition
+    }
+}
+
+export const closeSlider = (msgID, appID) => {
+    return {
+        type: Actions.CLOSE_SLIDER,
         msgID: msgID,
         appID: appID
     }
@@ -489,3 +569,30 @@ export const setHapticData = (appID, hapticRects) => ({
     appID: appID,
     hapticRects: hapticRects
 });
+
+export const openPermissionsView = (appID, allowedFunctions, permissionsAppAwaitingActivation=false) => ({
+    type: Actions.OPEN_PERMISSIONS_VIEW,
+    appID: appID,
+    allowedFunctions: allowedFunctions,
+    permissionsAppAwaitingActivation: permissionsAppAwaitingActivation ? appID : false
+});
+
+export const resetOpenPermissionsView = () => ({
+    type: Actions.RESET_OPEN_PERMISSIONS_VIEW
+});
+
+export const closePermissionsView = () => ({
+    type: Actions.CLOSE_PERMISSIONS_VIEW
+});
+
+export const clearAppAwaitingPermissions = () => ({
+    type: Actions.CLEAR_APP_AWAITING_PERMISSIONS
+});
+
+export const onStatusUpdate = (status, msg) => {
+    return {
+        type: Actions.ON_STATUS_UPDATE,
+        status: status,
+        statusMsg: msg
+    }
+}

@@ -7,9 +7,6 @@
     flex-direction: column;
 }
 
-::-webkit-scrollbar { 
-    display: none; 
-}
 
 .appstore-menu-item {
     @include display(flex);

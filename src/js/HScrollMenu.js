@@ -27,6 +27,8 @@ export default class HScrollMenu extends React.Component {
                 key={menuItem.cmdID + menuItem.name}>
                     <HScrollMenuItem
                         menuItem={menuItem}
+                        isPerformingInteraction={this.props.isPerformingInteraction}
+                        interactionId={this.props.interactionId ? this.props.interactionId : 0}
                         theme={this.props.theme}
                         onSelection={this.props.onSelection}/>
                 </div>)

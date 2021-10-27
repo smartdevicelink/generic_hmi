@@ -3,29 +3,28 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
+import Slider from './Slider';
+import PerformAudioPassThru from './PerformAudioPassThru';
 import MenuIcon from './containers/MenuIcon';
 import Name from './containers/Name';
 import MenuLink from './containers/AppsButton'
 import store from './store'
-import {resetShowAppMenu} from './actions'
+import {resetOpenPermissionsView, resetShowAppMenu} from './actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import uiController from './Controllers/UIController'
+import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
-import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
+import {ReactComponent as IconSettings} from '../img/static/0x49.svg'
 
-class AppStoreIcon extends React.Component {
+class MainMenuSettings extends React.Component {
     render() {
         return (<div>
-                <Link to="/appstore">
-                    <div className="app-icon">
-                        <div className="static-icon">
-                            <span className="svg-wrap">
-                                <IconCart/>
-                            </span>
-                        </div>
-                    </div>
+                <Link to="/settings">
+                    <span className="settings-menu">
+                        <IconSettings/>
+                    </span>
                 </Link>
             </div>);
     }
@@ -48,14 +47,35 @@ class AppHeader extends React.Component {
     constructor(props) {
         super(props);
         this.closeModal = this.closeModal.bind(this);
+        this.closeSlider = this.closeSlider.bind(this);
+        this.closeScrollable = this.closeScrollable.bind(this);
     }
 
     closeModal() {
         if (this.props.alertIsSubtle) {
             this.props.showAlert = false;
             this.forceUpdate();
-            uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, this.props.activeApp, true);
+            uiController.onDefaultAction({ msgID: this.props.alertMsgId, appID: this.props.alertAppId }, true);
         }
+    }
+
+    closeSlider(options) {
+        let closeReason = options?.closeReason ?? "ABORTED"
+        uiController.onSliderClose(this.props.sliderData.msgID, this.props.sliderAppId, this.props.activeApp, closeReason);
+    }
+
+    closeScrollable() {
+        uiController.onCloseScrollableMessage(this.props.scrollableMessageMsgId,
+            this.props.scrollableMessageAppId, this.props.activeApp);
+    }
+
+    closeAudioPassThru(result) {
+        uiController.onClosePerformAudioPassThru(
+            this.props.aptMsgID, 
+            this.props.aptAppID, 
+            this.props.activeApp,
+            result
+        );
     }
 
     getColorScheme() {
@@ -84,12 +104,11 @@ class AppHeader extends React.Component {
                 activeSubMenu={this.props.activeSubMenu ? true : false} /> ;
 
         if (this.props.icon === 'store') {
-            if (this.props.isAppStoreConnected) {
-                icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (<AppStoreIcon />);
-            }
-            else{
-                icon = (<div />)
-            }
+            icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
+                <MainMenuSettings/>
+            );
+        } else if (this.props.icon === 'custom') {
+            icon = this.props.jsxIcon;
         }
 
         var colorScheme = null;
@@ -97,7 +116,7 @@ class AppHeader extends React.Component {
 
         var alertHtml = this.props.alertIsSubtle
                             ? (<SubtleAlert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>)
-                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme}/>);
+                            : (<Alert alertName={this.props.alertName} icon={this.props.alertIcon} theme={this.props.theme} showProgressIndicator={this.props.alertShowProgressIndicator}/>);
 
         // Determine backLink for special case when showing submenu
         var backLink = this.props.backLink;
@@ -110,7 +129,7 @@ class AppHeader extends React.Component {
         return (
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
-                <Name />
+                <Name value={this.props.title}/>
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
@@ -120,6 +139,51 @@ class AppHeader extends React.Component {
                 onRequestClose={this.closeModal}
                 >
                     {alertHtml}
+                </Modal>
+                <Modal
+                isOpen={this.props.showSlider}
+                className={`app-body sliderModal`}
+                overlayClassName={`${themeClass} sliderOverlay`}
+                contentLabel="Slider Modal"
+                onRequestClose={this.closeSlider}
+                >
+                    <Slider 
+                        sliderName={this.props.sliderName} 
+                        sliderAppId={this.props.sliderAppId} 
+                        sliderData={this.props.sliderData}
+                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                        theme={this.props.theme}
+                    />
+                </Modal>
+                <Modal
+                isOpen={this.props.showScrollableMessage}
+                className={'app-body scrollableMessageModal'}
+                overlayClassName={`${themeClass} scrollableMessageOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={this.closeScrollable}
+                >
+                    <ScrollableMessage theme={this.props.theme}
+                        body={this.props.scrollableMessageBody}
+                        buttons={this.props.softButtons}
+                        appName={this.props.scrollableMessageAppName}/>
+                </Modal>
+                <Modal
+                isOpen={this.props.showPerformAudioPassThru}
+                className={'app-body alertModal'}
+                overlayClassName={`${themeClass} alertOverlay`}
+                contentLabel="Example Modal"
+                onRequestClose={() => {
+                    this.closeAudioPassThru("ABORTED")
+                }}
+                >
+                    <PerformAudioPassThru
+                        theme={this.props.theme}
+                        textFields={this.props.aptTextFields}
+                        appName={this.props.aptAppName}
+                        resultCallback={(result) => {
+                            this.closeAudioPassThru(result)
+                        }}
+                    />
                 </Modal>
             </div>
             
@@ -174,6 +238,9 @@ class AppHeader extends React.Component {
                 }    
             }
             store.dispatch(resetShowAppMenu(nextProps.activeApp))
+        } else if (nextProps.openPermissionsView) {
+            store.dispatch(resetOpenPermissionsView());
+            this.props.history.push('/apppermissions');
         }
 
     }

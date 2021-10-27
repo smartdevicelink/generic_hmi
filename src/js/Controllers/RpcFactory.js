@@ -1,5 +1,36 @@
 import {capabilities, getDisplayCapability} from './DisplayCapabilities.js'
 var rpcFactory_msgId = 5012
+
+export const resultCode = {
+    'SUCCESS': 0,
+    'UNSUPPORTED_REQUEST': 1,
+    'UNSUPPORTED_RESOURCE': 2,
+    'DISALLOWED': 3,
+    'REJECTED': 4,
+    'ABORTED': 5,
+    'IGNORED': 6,
+    'RETRY': 7,
+    'IN_USE': 8,
+    'DATA_NOT_AVAILABLE': 9,
+    'TIMED_OUT': 10,
+    'INVALID_DATA': 11,
+    'CHAR_LIMIT_EXCEEDED': 12,
+    'INVALID_ID': 13,
+    'DUPLICATE_NAME': 14,
+    'APPLICATION_NOT_REGISTERED': 15,
+    'WRONG_LANGUAGE': 16,
+    'OUT_OF_MEMORY': 17,
+    'TOO_MANY_PENDING_REQUESTS': 18,
+    'NO_APPS_REGISTERED': 19,
+    'NO_DEVICES_CONNECTED': 20,
+    'WARNINGS': 21,
+    'GENERIC_ERROR': 22,
+    'USER_DISALLOWED': 23,
+    'TRUNCATED_DATA': 24,
+    'SAVED': 25,
+    'READ_ONLY': 26
+};
+
 class RpcFactory {
     static SetAppProperties(properties) {
         return {
@@ -22,6 +53,16 @@ class RpcFactory {
             msg.params.policyAppID = policyAppID
         }
         return msg;
+    }
+    static SuccessResponse(rpc) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpc.id,
+            "result": {
+                "code": 0,
+                "method": rpc.method
+            }
+        })
     }
     static ErrorResponse(rpc, code, info) {
         return ({
@@ -79,6 +120,39 @@ class RpcFactory {
             }
         })
     }
+    static ScrollableMessageResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.ScrollableMessage'
+            }
+        });
+    }
+    static ScrollableMessageAbortedResponse(rpcID) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Scrollable Message was cancelled",
+                "data": {
+                    "method": "UI.ScrollableMessage"
+                }
+            }
+        })
+    }
+    static PerformAudioPassThruResponse(msgID) {
+        return ({
+            jsonrpc: '2.0',
+            id: msgID,
+            result: {
+                code: 0,
+                method: 'UI.PerformAudioPassThru'
+            }
+        });
+    }
     static SubtleAlertResponse(rpcID) {
         return ({
             "jsonrpc": "2.0",
@@ -134,14 +208,68 @@ class RpcFactory {
             }
         })
     }
+    static SliderResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "result": {
+                "code": 0,
+                "method": "UI.Slider"
+            }
+        }
+
+        if (sliderPosition){
+            msg.result.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
+    static SliderAbortedResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 5,
+                "message": "The Interaction was cancelled",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.error.data.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
+    static SliderTimeoutResponse(rpcID, sliderPosition) {
+        let msg = {
+            "jsonrpc": "2.0",
+            "id": rpcID,
+            "error": {
+                "code": 10,
+                "message": "The Interaction timed out",
+                "data": {
+                    "method": "UI.Slider"
+                }
+            }
+        }
+        if (sliderPosition){
+            msg.error.data.sliderPosition = sliderPosition
+        }
+
+        return msg
+    }
     static UIGetCapabilitiesResponse(rpc) {
+        let displayCapabilities = { ...capabilities["MEDIA"].displayCapabilities };
+        displayCapabilities.templatesAvailable = [...displayCapabilities.templatesAvailable, 'MEDIA'];
         return ({
             "jsonrpc": "2.0",
             "id": rpc.id,
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "displayCapabilities": capabilities["MEDIA"].displayCapabilities,
+                "displayCapabilities": displayCapabilities,
                 "audioPassThruCapabilities": capabilities["COMMON"].audioPassThruCapabilities,
                 "audioPassThruCapabilitiesList": capabilities["COMMON"].audioPassThruCapabilitiesList,
                 "pcmStreamCapabilities": capabilities["COMMON"].pcmStreamCapabilities,
@@ -189,8 +317,9 @@ class RpcFactory {
             }
         })
     }
-    static UIShowResponse(rpc) {
-        var supportedTemplates = capabilities["MEDIA"].displayCapabilities.templatesAvailable;
+    static UIShowResponse(rpc, isMediaApp) {
+        var supportedTemplates = isMediaApp ? [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA' ]
+            : capabilities["MEDIA"].displayCapabilities.templatesAvailable;
         const templateConfiguration = rpc.params.templateConfiguration;
         const templateParamExists = templateConfiguration && templateConfiguration.template;
 
@@ -216,7 +345,9 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": (templateConfiguration.template === 'MEDIA'
+                        ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI"),
                     "data": {
                         "method": rpc.method
                     }
@@ -242,7 +373,7 @@ class RpcFactory {
             "id": msgID,
             "error": {
                 "code": 5,
-                "message": "The Interaction was cancelled",
+                "message": "The UI Interaction was cancelled",
                 "data": {
                     "method": "UI.PerformInteraction"
                 }
@@ -258,7 +389,7 @@ class RpcFactory {
                 "code": 0
             }
         }
-        if (choiceID) { //Keyboard PI does not have a choice id response
+        if ('number' === typeof choiceID) { //Keyboard PI does not have a choice id response
             msg.result["choiceID"] = choiceID;
         }
         if (manualTextEntry) {
@@ -346,6 +477,29 @@ class RpcFactory {
                 "appID": appID
             }
         })
+    }
+    static SDLGetUserFriendlyMessage(codes) {
+        return {
+            jsonrpc: '2.0',
+            id: rpcFactory_msgId++,
+            method: 'SDL.GetUserFriendlyMessage',
+            params: {
+                language: "en-us",
+                messageCodes: codes
+            }
+        };
+    }
+    static SDLGetListOfPermissions(appID) {
+        var msg = {
+            jsonrpc: '2.0',
+            id: rpcFactory_msgId++,
+            method: 'SDL.GetListOfPermissions',
+            params: {}
+        };
+
+        if (appID) { msg.params.appID = appID; }
+
+        return msg;
     }
     static SDLActivateApp(appID) {
         return ({
@@ -542,13 +696,14 @@ class RpcFactory {
             }
         })
     }
-    static OnResetTimeout(appID, methodName) {
+    static OnResetTimeout(requestID, methodName, resetPeriod) {
         return ({
             'jsonrpc': '2.0',
             'method': 'BasicCommunication.OnResetTimeout',
             'params': {
-                'appID': appID,
-                'methodName': methodName
+                'requestID': requestID,
+                'methodName': methodName,
+                'resetPeriod': resetPeriod
             }           
         })
     }
@@ -655,12 +810,13 @@ class RpcFactory {
         }
         return msg  
     }
-    static SetDisplayLayoutResponse(rpc) {
+    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
         var layout = rpc.params.displayLayout;
-        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
-        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
-        if (supportedTemplates.includes(layout)) {
+        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY",
+        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC",
+        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS",
+        "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS" ];
+        if (!disallowedLayout && supportedTemplates.includes(layout)) {
             if (layout === "DEFAULT") {
                 layout = "MEDIA"
             }
@@ -688,7 +844,8 @@ class RpcFactory {
                 "id": rpc.id,
                 "error": {
                     "code": 1,
-                    "message": "The requested layout is not supported on this HMI",
+                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
+                        : "The requested layout is not supported on this HMI",
                     "data": {
                         "method": rpc.method
                     }
@@ -722,10 +879,10 @@ class RpcFactory {
         })
     }
 
-    static OnSystemCapabilityDisplay(template, appID) {
+    static OnSystemCapabilityDisplay(template, appID, appIsMedia) {
         var systemCapability = {
             systemCapabilityType: "DISPLAYS",
-            displayCapabilities: [getDisplayCapability(template)]
+            displayCapabilities: [getDisplayCapability(template, appIsMedia)]
         }
         return this.OnSystemCapabilityUpdated(systemCapability, appID);
     }
@@ -851,6 +1008,58 @@ class RpcFactory {
                 method: 'UI.SendHapticData'
             }
         });
+    }
+    static TTSSpeakSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.Speak'
+            }
+        });
+    }
+    static TTSStopSpeakingSuccess(id) {
+        return ({
+            jsonrpc: '2.0',
+            id: id,
+            result: {
+                code: 0,
+                method: 'TTS.StopSpeaking'
+            }
+        });
+    }
+    static TTSSpeakAborted(id) {
+        return ({
+            "jsonrpc": "2.0",
+            "id": id,
+            "error": {
+                "code": 5,
+                "message": "TTS Speak was stopped",
+                "data": {
+                    "method": "TTS.Speak"
+                }
+            }
+        })
+    }
+    static TTSStartedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Started"
+        })
+    }
+    static TTSStoppedNotification() {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "TTS.Stopped",
+        })
+    }
+    static UpdateSDL() {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.UpdateSDL"
+        })
     }
 }
 

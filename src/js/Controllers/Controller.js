@@ -127,13 +127,13 @@ export default class Controller {
         }
         this.send(ready);
         // register for all notifications
-        this.subscribeToNotification("Buttons.OnButtonSubscription")
         this.subscribeToNotification("BasicCommunication.OnAppRegistered")
         this.subscribeToNotification("BasicCommunication.OnAppUnregistered")
         this.subscribeToNotification("BasicCommunication.OnPutFile")
         this.subscribeToNotification("Navigation.OnVideoDataStreaming")
         this.subscribeToNotification("Navigation.OnAudioDataStreaming")
         this.subscribeToNotification("SDL.OnStatusUpdate")
+        this.subscribeToNotification("SDL.OnAppPermissionChanged")
         this.subscribeToNotification("BasicCommunication.OnSystemCapabilityUpdated")
         this.subscribeToNotification("AppService.OnAppServiceData")
         this.subscribeToNotification("BasicCommunication.OnAppCapabilityUpdated")

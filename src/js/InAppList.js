@@ -10,11 +10,16 @@ export default class InAppMenu extends React.Component {
         const state = store.getState()
         const app = state.ui[state.activeApp]
         var layout = "LIST"
-        if (app && !app.isPerformingInteraction) {
-            if (app.activeSubMenu) {
-                layout = SubmenuDeepFind(app.menu, app.activeSubMenu, 0).subMenu.menuLayout;
+        if (app) {
+            if (app.isPerformingInteraction) {
+                layout = (app?.interactionLayout === "ICON_ONLY" || app?.interactionLayout === "ICON_WITH_SEARCH") 
+                    ? "TILES" : "LIST";
             } else {
-                layout = app.menuLayout
+                if (app.activeSubMenu) {
+                    layout = SubmenuDeepFind(app.menu, app.activeSubMenu, 0).subMenu.menuLayout ?? app.menuLayout;
+                } else {
+                    layout = app.menuLayout
+                }
             }
         }
         var menu = (layout === "LIST") ? (<VSubMenu />) : (<HSubMenu />)

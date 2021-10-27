@@ -14,9 +14,13 @@ import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbutt
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
+import GraphicWithTiles from './js/Templates/GraphicWithTiles/GraphicWithTiles'
+import TilesWithGraphic from './js/Templates/TilesWithGraphic/TilesWithGraphic'
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
 import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
+import GraphicWithTextAndSoftbuttons from './js/Templates/GraphicWithTextAndSoftbuttons/GraphicWithTextAndSoftbuttons';
+import TextAndSoftbuttonsWithGraphic from './js/Templates/TextAndSoftbuttonsWithGraphic/TextAndSoftbuttonsWithGraphic';
 import DoubleGraphicWithSoftbuttons from './js/Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
 import NavFullscreenMap from './js/Templates/NavFullscreenMap/NavFullscreenMap'
 import HMIMenu from './js/HMIMenu';
@@ -25,6 +29,9 @@ import InAppList from './js/InAppList';
 import AppStore from './js/AppStore';
 import AppStoreMenu from './js/AppStoreMenu';
 import WebEngineAppContainer from './js/WebEngineAppContainer';
+import AppPermissions from './js/AppPermissions';
+import PermissionAppList from './js/PermissionAppList';
+import Settings from './js/Settings';
 import Keyboard from './js/Keyboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -34,6 +41,7 @@ import { Route, HashRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './js/store'
+import { Toaster } from 'react-hot-toast';
 
 import Controller from './js/Controllers/Controller'
 import FileSystemController from './js/Controllers/FileSystemController';
@@ -43,12 +51,13 @@ import uiController from './js/Controllers/UIController'
 import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 
 import {
-    setTheme, 
-    setPTUWithModem, 
-    updateAppStoreConnectionStatus, 
-    updateInstalledAppStoreApps, 
+    setTheme,
+    setPTUWithModem,
+    updateAppStoreConnectionStatus,
+    updateInstalledAppStoreApps,
     setDDState
-} from './js/actions'
+} from './js/actions';
+
 class HMIApp extends React.Component {
     constructor(props) {
         super(props);
@@ -90,18 +99,18 @@ class HMIApp extends React.Component {
         delete allResolutions[0].additionalVideoStreamingCapabilities;
         allResolutions = allResolutions.concat(capabilities.COMMON.systemCapabilities.videoStreamingCapability.additionalVideoStreamingCapabilities);
         for (var i=0; i<allResolutions.length; i++) {
-            var capability = allResolutions[i];
+            let capability = allResolutions[i];
             var preferredResolution = capability.preferredResolution;
-            if (preferredResolution.resolutionWidth == parseInt(match[1]) &&
-                preferredResolution.resolutionHeight == parseInt(match[2]) &&
-                capability.scale == parseInt(match[3]) 
+            if (preferredResolution.resolutionWidth === parseInt(match[1]) &&
+                preferredResolution.resolutionHeight === parseInt(match[2]) &&
+                capability.scale === parseInt(match[3]) 
                 ) {
                 allResolutions.splice(i, 1)
                 break
             }
         }
 
-        var capability = {
+        let capability = {
             systemCapabilityType: 'VIDEO_STREAMING',
             videoStreamingCapability: {
                 scale: parseFloat(match[3]),
@@ -184,10 +193,31 @@ class HMIApp extends React.Component {
             <div>
                 <div className={themeClass}>
                     <div className="app-body">
+                        <Toaster position='top-center' 
+                        containerStyle={{
+                            maxHeight: config.masterHeight,
+                            overflowY: 'scroll',
+                            overflowX: 'hidden',
+                            marginTop: 10,
+                            marginLeft: 10,
+                            paddingTop: 10
+                        }} 
+                        toastOptions={{ style: {
+                            left: 0,
+                            position: 'relative',
+                            top: 0,
+                            width: config.masterWidth,
+                            backgroundColor: '#11111100',
+                            maxWidth: '100%',
+                            boxShadow: 'none',
+                            marginRight: 'auto',
+                            marginTop: 10,
+                            padding: 0
+                        } }}/>
                         {this.props.children}
                     </div>
                 </div>
-                <div> 
+                <div>
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
                     <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
                     <div className="toggle-ptu-with-modem-button" >
@@ -260,7 +290,7 @@ class HMIApp extends React.Component {
                 });
             });
         }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-        
+
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
             if (sdlSocket.readyState === sdlSocket.OPEN) {
@@ -309,10 +339,14 @@ ReactDOM.render((
             <Route path="/large-graphic-with-softbuttons" component={LargeGraphicWithSoftbuttons} />
             <Route path="/graphic-with-text-buttons" component={GraphicWithTextButtons} />
             <Route path="/text-buttons-with-graphic" component={TextButtonsWithGraphic} />
-            <Route path="/tiles-only" component={TilesOnly} />            
+            <Route path="/graphic-with-tiles" component={GraphicWithTiles} />
+            <Route path="/tiles-with-graphic" component={TilesWithGraphic} />
+            <Route path="/tiles-only" component={TilesOnly} />
             <Route path="/text-buttons-only" component={TextButtonsOnly} />
             <Route path="/text-with-graphic" component={TextWithGraphic}/>
             <Route path="/graphic-with-text" component={GraphicWithText}/>
+            <Route path="/graphic-with-text-and-softbuttons" component={GraphicWithTextAndSoftbuttons}/>
+            <Route path="/text-and-softbuttons-with-graphic" component={TextAndSoftbuttonsWithGraphic}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/nav-fullscreen-map" component={NavFullscreenMap}/>
             <Route path="/inappmenu" component={InAppMenu} />
@@ -320,6 +354,9 @@ ReactDOM.render((
             <Route path="/appstore" component={AppStore} />
             <Route path="/appstoremenu" component={AppStoreMenu} />
             <Route path="/keyboard" component={Keyboard} />
+            <Route path="/permissionapplist" component={PermissionAppList} />
+            <Route path="/apppermissions" component={AppPermissions} />
+            <Route path="/settings" component={Settings} />
         </HashRouter>
     </HMIApp>
     </Provider>
