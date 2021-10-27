@@ -338,6 +338,8 @@ class RPCService(WSServer.SampleRPCService):
     private_key = None
     try:
       file_contents = open(crt_file_path, 'rb').read()
+      if b"BEGIN CERTIFICATE" in file_contents:
+        return { 'success': True }
       p12 = crypto.load_pkcs12(base64.b64decode(file_contents),
         Flags.CERT_PASS_PHRASE.encode('utf-8'))
       certificate = p12.get_certificate()
