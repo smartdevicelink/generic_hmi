@@ -280,11 +280,12 @@ class UIController {
                 if (disallowedLayout) {
                     rpc.params.displayLayout = prevDisplayLayout;
                 }
-                let newTemplate = (rpc.params.displayLayout === 'DEFAULT') ? 
-                    getDefaultLayout(rpc.params.appID, setDisplayLayoutApp) : rpc.params.displayLayout;
-                store.dispatch(setTemplateConfiguration(newTemplate, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
+                if (rpc.params.displayLayout === 'DEFAULT') {
+                    rpc.params.displayLayout = getDefaultLayout(rpc.params.appID, setDisplayLayoutApp)
+                }
+                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
 
-                if (prevDisplayLayout !== newTemplate) {
+                if (prevDisplayLayout !== rpc.params.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
