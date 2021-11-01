@@ -45,12 +45,7 @@ const getNextSystemContext = () => {
     }
     return "MAIN"
 }
-const getDefaultLayout = (appID, app=null) => {
-    if(!app){
-        app = store.getState().appList.find((app_) => {
-            return app_.appID === appID;
-        });
-    }
+const getDefaultLayout = (app) => {
     if(app.appType.includes('WEB_VIEW')) {
         return 'WEB_VIEW';
     } else if(app.appType.includes('NAVIGATION') || app.appType.includes('PROJECTION')) {
@@ -124,7 +119,7 @@ class UIController {
                     || capabilities["MEDIA"].displayCapabilities.templatesAvailable.includes(templateConfiguration.template))) {
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
                     let newTemplate = (templateConfiguration.template === 'DEFAULT') ? 
-                        getDefaultLayout(rpc.params.appID, showApp) : templateConfiguration.template;
+                        getDefaultLayout(showApp) : templateConfiguration.template;
                     store.dispatch(setTemplateConfiguration(
                         newTemplate, 
                         rpc.params.appID, 
@@ -281,7 +276,7 @@ class UIController {
                     rpc.params.displayLayout = prevDisplayLayout;
                 }
                 if (rpc.params.displayLayout === 'DEFAULT') {
-                    rpc.params.displayLayout = getDefaultLayout(rpc.params.appID, setDisplayLayoutApp)
+                    rpc.params.displayLayout = getDefaultLayout(setDisplayLayoutApp)
                 }
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
 
