@@ -114,20 +114,20 @@ class UIController {
                     rpc.params.softButtons,
                     rpc.params.secondaryGraphic
                 ));
-                const templateConfiguration = rpc.params.templateConfiguration;
+                let templateConfiguration = rpc.params.templateConfiguration;
                 if (templateConfiguration && (showApp.isMediaApplication
                     || capabilities["MEDIA"].displayCapabilities.templatesAvailable.includes(templateConfiguration.template))) {
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
-                    let newTemplate = (templateConfiguration.template === 'DEFAULT') ? 
+                    templateConfiguration.template = (templateConfiguration.template === 'DEFAULT') ? 
                         getDefaultLayout(showApp) : templateConfiguration.template;
                     store.dispatch(setTemplateConfiguration(
-                        newTemplate, 
+                        templateConfiguration.template, 
                         rpc.params.appID, 
                         templateConfiguration.dayColorScheme, 
                         templateConfiguration.nightColorScheme
                     ));
                     
-                    if (prevDisplayLayout !== newTemplate) {
+                    if (prevDisplayLayout !== templateConfiguration.template) {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showApp.isMediaApplication));
                     }                    
                 }

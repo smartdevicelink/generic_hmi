@@ -629,6 +629,7 @@ function ui(state = {}, action) {
                     app.displayLayout = "nav-fullscreen-map"
                     break
                 default:
+                    console.error("Unrecognized template name:", action.displayLayout)
                     break
             }
             if (action.dayColorScheme) {
