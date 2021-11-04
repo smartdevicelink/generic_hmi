@@ -127,7 +127,7 @@ class UIController {
                         templateConfiguration.nightColorScheme
                     ));
                     
-                    if (prevDisplayLayout !== templateConfiguration.template) {
+                    if (prevDisplayLayout !== appUIState.displayLayout) {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showApp.isMediaApplication));
                     }                    
                 }
@@ -280,7 +280,7 @@ class UIController {
                 }
                 store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
 
-                if (prevDisplayLayout !== rpc.params.displayLayout) {
+                if (prevDisplayLayout !== appUIState.displayLayout) {
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
                 }
                 return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
