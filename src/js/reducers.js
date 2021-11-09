@@ -4,7 +4,6 @@ import { Actions } from './actions';
 import './polyfill_find'
 import SubmenuDeepFind from './Utils/SubMenuDeepFind'
 
-
 function newAppState () {
     return {
         showStrings: {},
@@ -49,6 +48,29 @@ function newAppState () {
             softButtons: [],
             alertType: null,
             showProgressIndicator: null,
+            msgID: null
+        },
+        slider: {
+            showSlider: false,
+            numTicks: null,
+            position: null,
+            header: "",
+            footer: [],
+            timeout: null,
+            msgID: null
+        },
+        scrollableMessage: {
+            active: false,
+            msgID: null,
+            body: '',
+            softButtons: [],
+            duration: 0,
+            cancelID: null
+        },
+        audioPassThru: {
+            active: false,
+            textFields: [],
+            duration: 0,
             msgID: null
         },
         dayColorScheme: null,
@@ -443,7 +465,7 @@ function ui(state = {}, action) {
                 cmdIcon: action.subMenuIcon,
                 secondaryImage: action.secondaryImage,
                 subMenu: [],
-                menuLayout: action.menuLayout ? action.menuLayout : app.menuLayout
+                menuLayout: action.menuLayout
             };
 
             if (menuItem.parentID) {
@@ -547,9 +569,8 @@ function ui(state = {}, action) {
                 app.timerOffset = 0
             }
             app.updateMode = action.updateMode
-            if (action.audioStreamingIndicator) {
-                app.audioStreamingIndicator = action.audioStreamingIndicator
-            }
+            app.audioStreamingIndicator = (action.audioStreamingIndicator) ? action.audioStreamingIndicator : "PLAY_PAUSE";
+
             app.countRate = action.countRate ? action.countRate : 1.0
             app.paused = (action.updateMode === "PAUSE")
             app.forwardSeekIndicator = (action.forwardSeekIndicator) ? action.forwardSeekIndicator : {type: "TRACK", seekTime: null};
@@ -577,12 +598,18 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXTBUTTONS":
                     app.displayLayout = "graphic-with-text-buttons"
-                    break                    
+                    break
                 case "TEXTBUTTONS_WITH_GRAPHIC":
                     app.displayLayout = "text-buttons-with-graphic"
                     break
                 case "TEXTBUTTONS_ONLY":
                     app.displayLayout = "text-buttons-only"
+                    break
+                case "GRAPHIC_WITH_TILES":
+                    app.displayLayout = "graphic-with-tiles"
+                    break
+                case "TILES_WITH_GRAPHIC":
+                    app.displayLayout = "tiles-with-graphic"
                     break
                 case "TILES_ONLY":
                     app.displayLayout = "tiles-only"
@@ -592,6 +619,12 @@ function ui(state = {}, action) {
                     break
                 case "GRAPHIC_WITH_TEXT":
                     app.displayLayout = "graphic-with-text"
+                    break
+                case "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS":
+                    app.displayLayout = "graphic-with-text-and-softbuttons"
+                    break
+                case "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC":
+                    app.displayLayout = "text-and-softbuttons-with-graphic"
                     break
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
@@ -618,6 +651,38 @@ function ui(state = {}, action) {
                 delete newState[action.appID]
             }
             return newState
+        case Actions.SCROLLABLE_MESSAGE:
+            app.scrollableMessage.active = true;
+            app.scrollableMessage.msgID = action.msgID;
+            app.scrollableMessage.body = action.messageBody;
+            app.scrollableMessage.softButtons = action.softButtons;
+            app.scrollableMessage.duration = action.duration;
+            app.scrollableMessage.cancelID = action.cancelID;
+            return newState;
+        case Actions.CLOSE_SCROLLABLE_MESSAGE:
+            app.scrollableMessage = {
+                active: false,
+                msgID: null,
+                body: '',
+                softButtons: [],
+                duration: 0,
+                cancelID: null
+            };
+            return newState;
+        case Actions.PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru.active = true;
+            app.audioPassThru.textFields = action.aptTextFields;
+            app.audioPassThru.duration = action.duration;
+            app.audioPassThru.msgID = action.msgID
+            return newState;
+        case Actions.CLOSE_PERFORM_AUDIO_PASSTHRU:
+            app.audioPassThru = {
+                active: false,
+                textFields: [],
+                duration: 0,
+                msgID: null
+            }
+            return newState;
         case Actions.ALERT:
             app.alert.showAlert = true
             app.alert.isSubtle = action.isSubtle
@@ -639,6 +704,32 @@ function ui(state = {}, action) {
                 softButtons: [],
                 alertType: null,
                 showProgressIndicator: null,
+                msgID: null
+            }
+            return newState
+        case Actions.SLIDER:
+            app.slider.showSlider = true
+            app.slider.numTicks = action.numTicks
+            app.slider.position = action.position
+            app.slider.header = action.sliderHeader
+            app.slider.footer = action.sliderFooter
+            app.slider.timeout = action.timeout
+            app.slider.msgID = action.msgID
+            app.slider.cancelID = action.cancelID
+            return newState
+        case Actions.UPDATE_SLIDER_POSITION:
+            if (action.newPosition) {
+                app.slider.position = action.newPosition
+            }
+            return newState
+        case Actions.CLOSE_SLIDER:
+            app.slider = {
+                showSlider: false,
+                numTicks: null,
+                position: null,
+                header: "",
+                footer: [],
+                timeout: null,
                 msgID: null
             }
             return newState
@@ -670,23 +761,20 @@ function ui(state = {}, action) {
             }
             if (action.keyboardProperties) {
                 // Merge keyboard properties
-                var keyboardProperties = Object.assign({}, action.keyboardProperties);
-                if (!keyboardProperties.autoCompleteList) {
-                    keyboardProperties.autoCompleteList = app.keyboardProperties.autoCompleteList;
+                app.keyboardProperties = Object.assign({
+                    autoCompleteList: app.keyboardProperties.autoCompleteList,
+                    keyboardLayout: app.keyboardProperties.keyboardLayout,
+                    language: app.keyboardProperties.language,
+                    maskInputCharacters: app.keyboardProperties.maskInputCharacters,
+                    keypressMode: "RESEND_CURRENT_ENTRY",
+                    limitedCharacterList: ""
+                }, action.keyboardProperties);
+
+                if (action.keyboardProperties.autoCompleteText && 
+                    (!action.keyboardProperties.autoCompleteList || 
+                    action.keyboardProperties.autoCompleteList.length === 0)) {
+                    app.keyboardProperties.autoCompleteList = [action.keyboardProperties.autoCompleteText];
                 }
-                if (!keyboardProperties.keyboardLayout) {
-                    keyboardProperties.keyboardLayout = app.keyboardProperties.keyboardLayout;
-                }
-                if (!keyboardProperties.language) {
-                    keyboardProperties.language = app.keyboardProperties.language;
-                }
-                if (!keyboardProperties.maskInputCharacters) {
-                    keyboardProperties.maskInputCharacters = app.keyboardProperties.maskInputCharacters;
-                }
-                if (!keyboardProperties.keypressMode) {
-                    keyboardProperties.keypressMode = "RESEND_CURRENT_ENTRY";
-                }
-                app.keyboardProperties = keyboardProperties
             }
             return newState
         case Actions.SET_VIDEO_STREAM_CAPABILITY:
@@ -694,8 +782,9 @@ function ui(state = {}, action) {
             return newState
         case Actions.DEACTIVATE_APP:
             if (action.reason === "APP_CLOSED" || action.reason === "APP_UNREGISTERED"){
+                app.audioStreamingIndicator = "PLAY_PAUSE"
                 app.backSeekIndicator = {type: "TRACK", seekTime: null}
-                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}    
+                app.forwardSeekIndicator = {type: "TRACK", seekTime: null}
             }
             return newState
         case Actions.SET_HAPTIC_DATA:
@@ -709,6 +798,10 @@ function ui(state = {}, action) {
 function system(state = {}, action) {
     var newState = { ...state }
     switch(action.type) {
+        case Actions.ON_STATUS_UPDATE:
+            newState.policyStatus = action.status
+            newState.policyStatusMsg = action.statusMsg
+            return newState
         case Actions.POLICY_UPDATE:            
             newState.policyFile = action.file
             newState.policyRetry = action.retry
@@ -732,9 +825,34 @@ function system(state = {}, action) {
         case Actions.NAVIGATION_VIEW_ACTIVE:
             newState.navigationActive = action.active
             return newState
+        case Actions.OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = true;
+            newState.editingPermissionsAppId = action.appID;
+            newState.allowedFunctions = action.allowedFunctions;
+            if (action.permissionsAppAwaitingActivation) {
+                newState.permissionsAppAwaitingActivation = action.permissionsAppAwaitingActivation;
+            }
+            return newState;
+        case Actions.RESET_OPEN_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            return newState
+        case Actions.CLOSE_PERMISSIONS_VIEW:
+            newState.openPermissionsView = false;
+            newState.editingPermissionsAppId = undefined;
+            newState.allowedFunctions = [];
+            return newState;
+        case Actions.UNREGISTER_APPLICATION:
+            if (action.appID === state.editingPermissionsAppId) {
+                newState.openPermissionsView = false;
+                newState.editingPermissionsAppId = undefined;
+                newState.allowedFunctions = [];
+            }
+            return newState;
+        case Actions.CLEAR_APP_AWAITING_PERMISSIONS:
+            newState.permissionsAppAwaitingActivation = false;
+            return newState;
         default:
             return state
-
     }
 }
 

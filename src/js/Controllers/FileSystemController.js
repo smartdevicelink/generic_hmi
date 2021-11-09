@@ -116,9 +116,7 @@ class FileSystemController extends SimpleRPCClient {
     requestPTUFromEndpoint(pts_file_name, url){
       var that = this;
       return new Promise((resolve, reject) => {
-        let ptu_failed_callback = function(){
-          that.disconnect()
-          
+        let ptu_failed_callback = function(){          
           //Return to regular PT flow
           reject()
         };

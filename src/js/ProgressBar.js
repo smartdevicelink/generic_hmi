@@ -53,23 +53,23 @@ export default class ProgressBar extends React.Component {
             default:
                 break
         }
+        var timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
 
         if (this.props.countDirection === "COUNTDOWN") {
             var startPosition = new Date(startDate.getTime() - offset)
-            var timeSince = new Date((now - this.props.updateTime) * this.props.countRate)
-            var position = new Date(startPosition  - timeSince)
+            // Start position is used if paused
+            var position = this.props.paused ? startPosition : new Date(startPosition.getTime() - timeSince.getTime())
+            // Clamp position to timer bounds
             position = position < endDate ? endDate : position
             var endPosition = startDate
         }
         else {
             startPosition = new Date(startDate.getTime() + offset)
-            timeSince = new Date(startPosition.getTime() + ((now - this.props.updateTime) * this.props.countRate))
-            position = timeSince > endDate ? endDate : timeSince
+            // Start position is used if paused
+            position = this.props.paused ? startPosition : new Date(startPosition.getTime() + timeSince.getTime())
+            // Clamp position to timer bounds
+            position = position > endDate ? endDate : position
             endPosition = endDate
-        }
-
-        if (this.props.paused) {
-            position = startPosition
         }
 
         let progressStyle = {

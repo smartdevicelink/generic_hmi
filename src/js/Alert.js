@@ -14,12 +14,16 @@ export default class Alert extends React.Component {
                  ? (<StaticIcon class="alert-icon" image={icon.value} />)
                  : (<div className="alert-icon"><Image class="icon" image={icon.value} isTemplate={icon.isTemplate} fillColor={fill} /></div>);
 
+        var progressIndicator = this.props.showProgressIndicator ? 
+            (<div className="alert-progressIndicator"></div>) : null;
+
         return (
             <div className="alert">
                 <div className="alert-title">
                     <p className="t-small t-light th-f-color">
                         {this.props.alertName}
                     </p>
+                    { progressIndicator }
                 </div>
                 <div className="alert-top">
                     <AlertStrings/>

@@ -8,5 +8,6 @@ window.flags = {
     CorePort: 8087,
     CoreProtocol: 'ws',
     CoreWebEngineAppPort: 2020,
-    AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json'
+    AppStoreDirectoryUrl: 'https://sdl-webengine-app-store-example.s3.amazonaws.com/app-directory.json',
+    StatusUpdateIcon: true
 };

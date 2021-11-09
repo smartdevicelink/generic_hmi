@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import bcController from '../Controllers/BCController'
 import uiController from '../Controllers/UIController'
 import AppMenuLink from '../AppMenuLink'
+import CheckForSubmenuNeedUpdate from '../Utils/CheckForSubmenuNeedUpdate';
 
 import { activateSubMenu, deactivateSubMenu} from '../actions'
 
@@ -17,11 +18,16 @@ const mapDispatchToProps = (dispatch) => {
             if (backLink === "/appstore") {
                 // Navigating back from app store menu
                 return;
+            } else if (backLink === "/permissionapplist") {
+                // Navigating back from app permissions menu
+                return;
             } else if (backLink === "/inapplist" && parentID) { // submenu -> submenu
                 dispatch(activateSubMenu(appID, parentID, -1));
+                CheckForSubmenuNeedUpdate(appID, parentID);
             } else if (backLink === "/inappmenu") { // submenu -> menu
                 dispatch(deactivateSubMenu(appID))
                 uiController.onSystemContext("MENU", appID)
+                CheckForSubmenuNeedUpdate(appID, 0);
             } else if (backLink === "/") { // app view -> app list
                 if (appID) {
                     uiController.onSystemContext("MAIN", appID)
