@@ -41,6 +41,9 @@ const mapStateToProps = (state) => {
     var statusUpdate = ""
     var statusUpdateMsg = ""
     for(const prop in state.ui){
+        console.log("testing");
+        console.log(state.ui[prop]);
+
         if(state.ui[prop].alert.showAlert){
             showAlert = true
             alertIsSubtle = state.ui[prop].alert.isSubtle
@@ -62,7 +65,7 @@ const mapStateToProps = (state) => {
 
             break
         }
-        if (state.ui[prop].slider && state.ui[prop].slider.showSlider) {
+        if (state.ui[prop].slider.showSlider) {
             showSlider = true
 
             sliderAppId = parseInt(prop)
