@@ -41,9 +41,6 @@ const mapStateToProps = (state) => {
     var statusUpdate = ""
     var statusUpdateMsg = ""
     for(const prop in state.ui){
-        console.log("testing");
-        console.log(state.ui[prop]);
-
         if(state.ui[prop].alert.showAlert){
             showAlert = true
             alertIsSubtle = state.ui[prop].alert.isSubtle
