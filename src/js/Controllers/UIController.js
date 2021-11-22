@@ -32,6 +32,72 @@ import ttsController from './TTSController';
 import {capabilities} from './DisplayCapabilities.js'
 import { ValidateImages, AddImageValidationRequest, RemoveImageValidationResult } from '../Utils/ValidateImages'
 
+function BatchTimer() {
+    this.commandBatchTimer = null;
+    this.data = [];
+    this.delay = 0; // default delay
+    this.funcApply = () => {};
+}
+
+BatchTimer.prototype.add = (element) => {
+    this.data.push(element);
+    clearTimeout(this.commandBatchTimer);
+    this.commandBatchTimer = setTimeout(() => {
+        this.funcApply(this.data); // send the batched data to the function passed in
+        this.data = [];
+        delete this.commandBatchTimer;
+    }, this.delay);
+};
+
+BatchTimer.prototype.setDelay = (num) => {
+    this.delay = num;
+    return this;
+};
+
+BatchTimer.prototype.setFunction = (f) => {
+    this.funcApply = f;
+    return this;
+};
+
+const dispatchTimer = new BatchTimer()
+    .setDelay(100)
+    .setFunction((data) => {
+        const addCommands = data.filter(e => e[0] === 'addCommand').map(e => e[1]);
+        const deleteCommands = data.filter(e => e[0] === 'deleteCommand').map(e => e[1]);
+        const addSubMenus = data.filter(e => e[0] === 'addSubMenu').map(e => e[1]);
+        const deleteSubMenus = data.filter(e => e[0] === 'deleteSubMenu').map(e => e[1]);
+        addCommands.map(add => {
+            store.dispatch(addCommand(
+                add.appID,
+                add.cmdID,
+                add.menuParams,
+                add.cmdIcon,
+                add.secondaryImage,
+            ));
+        });
+        addSubMenus.map(add => {
+            store.dispatch(addSubMenu(
+                add.appID,
+                add.cmdID,
+                add.menuParams,
+                add.cmdIcon,
+                add.secondaryImage,
+            ));
+        });
+        deleteCommands.map(deleteCmd => {
+            store.dispatch(deleteCommand(
+                deleteCmd.appID,
+                deleteCmd.cmdID,
+            ));
+        });
+        deleteSubMenus.map(deleteCmd => {
+            store.dispatch(deleteSubMenu(
+                deleteCmd.appID,
+                deleteCmd.menuID,
+            ));
+        });
+    });
+
 const getNextSystemContext = () => {
     const state = store.getState();
     const activeApp = state.activeApp;
@@ -145,13 +211,14 @@ class UIController {
             case "ChangeRegistration":
                 return true
             case "AddCommand":
-                store.dispatch(addCommand(
+                dispatchTimer.add(['addCommand', rpc.params]);
+                /*store.dispatch(addCommand(
                     rpc.params.appID,
                     rpc.params.cmdID,
                     rpc.params.menuParams,
                     rpc.params.cmdIcon,
                     rpc.params.secondaryImage
-                ))
+                ))*/
                 
                 ValidateImages([rpc.params.cmdIcon]).then(
                     () => {this.listener.respondSuccess(rpc.method, rpc.id)},
@@ -169,14 +236,15 @@ class UIController {
                         }
                     }
                 }
-                store.dispatch(addSubMenu(
+                dispatchTimer.add(['addSubMenu', rpc.params]);
+                /* store.dispatch(addSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID,
                     rpc.params.menuParams,
                     rpc.params.menuIcon,
                     rpc.params.menuLayout,
                     rpc.params.secondaryImage
-                ))
+                ))*/
 
                 ValidateImages([rpc.params.menuIcon]).then(
                     () => {this.listener.respondSuccess(rpc.method, rpc.id)},
@@ -184,16 +252,18 @@ class UIController {
                 );
                 break;
             case "DeleteCommand":
-                store.dispatch(deleteCommand(
+                dispatchTimer.add(['deleteCommand', rpc.params]);
+                /*store.dispatch(deleteCommand(
                     rpc.params.appID,
                     rpc.params.cmdID
-                ))
+                ))*/
                 return true
             case "DeleteSubMenu":
-                store.dispatch(deleteSubMenu(
+                dispatchTimer.add(['deleteSubMenu', rpc.params]);
+                /*store.dispatch(deleteSubMenu(
                     rpc.params.appID,
                     rpc.params.menuID
-                ))
+                ))*/
                 return true
             case "ShowAppMenu":
                 store.dispatch(showAppMenu(
