@@ -629,9 +629,6 @@ function ui(state = {}, action) {
                 case "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS":
                     app.displayLayout = "double-graphic-with-softbuttons"
                     break
-                case "NAV_FULLSCREEN_MAP":
-                    app.displayLayout = "nav-fullscreen-map"
-                    break
                 default:
                     break
             }
