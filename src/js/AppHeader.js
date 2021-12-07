@@ -24,7 +24,6 @@ import {ReactComponent as IconFSCDisconnected} from '../img/static/0x31.svg'
 class MainMenuSettings extends React.Component {
     render() {
         return (<div className="settings-menu">
-                <BackendConnectionStatus/>
                 <Link to="/settings">
                     <span className="settings-menu-icon">
                         <IconSettings/>
@@ -45,7 +44,7 @@ class BackendConnectionStatus extends React.Component {
                 FileSystemController.updateAppStoreConnection(true);
             }, () => { FileSystemController.updateAppStoreConnection(false); });
         }
-        return (
+        return (<div>
                 <Link to="#" onClick={() => {
                     let url = prompt("Enter new FileSystemAPI URL", window.flags.FileSystemApiUrl);
                     if(url){
@@ -57,7 +56,7 @@ class BackendConnectionStatus extends React.Component {
                         {statusIcon}
                     </span>
                 </Link>
-            );
+            </div>);
     }
 }
 
@@ -129,6 +128,7 @@ class AppHeader extends React.Component {
         var modalClass = themeClass + " " + (this.props.alertIsSubtle ? "subtleAlertOverlay" : "alertOverlay");
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
         var isShowingSubMenu = this.props.location.pathname === '/inapplist';
+        var isShowingSettings = this.props.location.pathname === '/settings'
         var icon = this.props.icon === 'false' ? (<div />) 
             : <MenuIcon 
                 isShowingMenu={isShowingMenu || isShowingSubMenu}
@@ -138,6 +138,8 @@ class AppHeader extends React.Component {
             icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
                 <MainMenuSettings/>
             );
+        } else if (isShowingSettings) {
+            icon = (<BackendConnectionStatus/>)
         } else if (this.props.icon === 'custom') {
             icon = this.props.jsxIcon;
         }
