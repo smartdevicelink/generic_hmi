@@ -46,17 +46,17 @@ class BackendConnectionStatus extends React.Component {
             }, () => { FileSystemController.updateAppStoreConnection(false); });
         }
         return (
-                <a onClick={() => {
+                <Link to="#" onClick={() => {
                     let url = prompt("Enter new FileSystemAPI URL", window.flags.FileSystemApiUrl);
                     if(url){
-                        console.log('[!] Attempting reconnection');
+                        console.log('Attempting reconnection');
                         attemptReconnection(url);
                     }
                 }}>
                     <span className="connection-status-icon">
                         {statusIcon}
                     </span>
-                </a>
+                </Link>
             );
     }
 }

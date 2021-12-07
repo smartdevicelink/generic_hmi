@@ -53,8 +53,6 @@ import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 import {
     setTheme,
     setPTUWithModem,
-    updateAppStoreConnectionStatus,
-    updateInstalledAppStoreApps,
     setDDState
 } from './js/actions';
 
