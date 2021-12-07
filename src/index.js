@@ -267,29 +267,8 @@ class HMIApp extends React.Component {
 
         FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
-            store.dispatch(updateAppStoreConnectionStatus(true));
-            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-
-            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                if (!success || !params.apps) {
-                    console.error('error encountered when retrieving installed apps');
-                    return;
-                }
-
-                params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
-                        let appEntry = Object.assign(app, {
-                            entrypoint: manifest.entrypoint,
-                            version: manifest.appVersion
-                        });
-                        store.dispatch(updateInstalledAppStoreApps(appEntry));
-                        bcController.getAppProperties(app.policyAppID);
-                        return true;
-                    });
-                    return true;
-                });
-            });
-        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+            FileSystemController.updateAppStoreConnection(true);
+        }, () => { FileSystemController.updateAppStoreConnection(false); });
 
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
