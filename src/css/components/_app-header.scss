@@ -33,12 +33,6 @@
         text-transform: uppercase;
     }
 
-    // .settings-menu{
-    //     display: flex;
-    //     flex-direction: row;
-    //     justify-content: flex-end;
-    // }
-
     .settings-menu-icon svg{
         @include size(40px);
         margin-left: 0px;
@@ -47,7 +41,6 @@
     .connection-status-icon svg{
         @include size(40px);
         margin-left: 0px;
-        // padding-right: 5px;
     }
 
     .svg-wrap-secondary{
