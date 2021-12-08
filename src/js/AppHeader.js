@@ -39,6 +39,7 @@ class BackendConnectionStatus extends React.Component {
             : <IconFSCDisconnected/>;
         let attemptReconnection = (url) => {
             window.flags.FileSystemApiUrl = url;
+            window.flags.AppStoreDirectoryUrl = `http://${url.substring(url.indexOf('://') + 3, url.indexOf(':', 4))}:8080/app-directory.json`;
             FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
                 console.log('Connected to FileSystemController');
                 FileSystemController.updateAppStoreConnection(true);
