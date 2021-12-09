@@ -78,6 +78,7 @@ class FileSystemController extends SimpleRPCClient {
           
           if(!success){
             console.error('PTU: PTU save was not successful')
+            console.error(params);
             reject();
             return;
           }
