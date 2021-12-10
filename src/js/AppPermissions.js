@@ -75,11 +75,11 @@ class Permissions extends React.Component {
                 <div className="vscrollmenu-item th-b-color th-bb-color-secondary" key={f.id}
                     onClick={(e) => this.toggleFunction(f.name)} style={{ height: 'auto' }}>
                     <div className={"vscrollmenu-item__primary th-f-color"}>
-                        <div class="form-check form-switch permissionsToggle">
-                            <input class="form-check-input" type="checkbox" checked={f.allowed} style={{ width: '5em' }} />
+                        <div className="form-check form-switch permissionsToggle">
+                            <input className="form-check-input" type="checkbox" checked={f.allowed} style={{ width: '5em' }} />
                         </div>
                         <div className={"vscrollmenu-item__name th-f-color"} style={{ marginRight: '2%' }}>
-                            <p class="t-large t-light th-f-color">{f.title || f.name}</p>
+                            <p className="t-large t-light th-f-color">{f.title || f.name}</p>
                             <p className="t-small t-light th-f-color-secondary">{f.body}</p>
                         </div>
                     </div>

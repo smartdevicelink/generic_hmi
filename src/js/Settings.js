@@ -108,7 +108,7 @@ class Settings extends React.Component {
         return (
             <div>
                 <AppHeader backLink="/" menuName="Apps" icon="false" title="Settings"/>
-                <div class="hscrollmenu">
+                <div className="hscrollmenu">
                     {settingsButtons}
                 </div>
             </div>
