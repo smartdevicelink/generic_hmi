@@ -583,6 +583,9 @@ function ui(state = {}, action) {
                 case "NON-MEDIA":
                     app.displayLayout = "nonmedia"
                     break
+                case "MESSAGING":
+                    app.displayLayout = "messaging"
+                    break
                 case "WEB_VIEW":
                     app.displayLayout = "web-view"
                     break

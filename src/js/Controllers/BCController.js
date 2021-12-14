@@ -49,9 +49,9 @@ class BCController {
                     ));
                 }
                 if (rpc.params.application.appType.includes("WEB_VIEW")) {
-                    store.dispatch(registerApplication(rpc.params.application.appID, "web-view"));
+                    store.dispatch(registerApplication(rpc.params.application.appID, "messaging"));
                     this.listener.send(RpcFactory.OnSystemCapabilityDisplay(
-                        "WEB_VIEW", rpc.params.application.appID, rpc.params.application.isMediaApplication));
+                        "MESSAGING", rpc.params.application.appID, rpc.params.application.isMediaApplication));
                 } else if (rpc.params.application.appType.includes("NAVIGATION")
                     || rpc.params.application.appType.includes("PROJECTION")) {
                     store.dispatch(registerApplication(rpc.params.application.appID, "nav-fullscreen-map"));
