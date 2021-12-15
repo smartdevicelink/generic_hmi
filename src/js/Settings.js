@@ -4,12 +4,19 @@ import { Link } from 'react-router-dom';
 
 import sdlController from './Controllers/SDLController';
 import AppHeader from './containers/Header';
+import StaticIcon from './Templates/Shared/StaticIcon'
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
-import {ReactComponent as PermissionsIcon} from '../img/static/0x22.svg'
-import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
+// import {ReactComponent as PermissionsIcon} from '../img/static/0x22.svg'
+// import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
 import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.svg'
+
+const staticIconId = {
+    permissions: "0x22",
+    updateNeeded: "0xE5",
+    cart: "0x32"
+};
 
 const mapStateToProps = (state) => { 
     return { 
@@ -28,7 +35,7 @@ class Settings extends React.Component {
                     <div
                         className="hscrollmenu-item th-b-color th-tile-background-color">
                         <div className="hscrollmenu-item__image">
-                            <PermissionsIcon/>
+                            <StaticIcon class="static-icon" image={staticIconId.permissions} />
                         </div>
                         <div className="hscrollmenu-item__name">
                             <p className="t-small t-light th-f-color">App Permissions</p>
@@ -49,7 +56,7 @@ class Settings extends React.Component {
                         <div
                             className="hscrollmenu-item th-b-color th-tile-background-color">
                             <div className="hscrollmenu-item__image">
-                                <IconCart/>
+                            <StaticIcon class="static-icon" image={staticIconId.cart} />
                             </div>
                             <div className="hscrollmenu-item__name">
                                 <p className="t-small t-light th-f-color">App Store</p>
@@ -66,7 +73,7 @@ class Settings extends React.Component {
         if (this.props.policyStatus === "UPDATE_NEEDED") {
             statusInfo = {
                 text: this.props.policyStatusMsg ? this.props.policyStatusMsg : "Update Needed",
-                image: <UpdateNeeded/>
+                image: <StaticIcon class="static-icon" image={staticIconId.updateNeeded} />
             };
         } else if (this.props.policyStatus === "UPDATING") {
             statusInfo = {
@@ -81,7 +88,7 @@ class Settings extends React.Component {
         } else {
             statusInfo = {
                 text: "Update SDL",
-                image: <UpdateNeeded/>
+                image: <StaticIcon class="static-icon" image={staticIconId.updateNeeded} />
             };
         }
 
