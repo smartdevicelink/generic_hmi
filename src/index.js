@@ -23,6 +23,7 @@ import GraphicWithTextAndSoftbuttons from './js/Templates/GraphicWithTextAndSoft
 import TextAndSoftbuttonsWithGraphic from './js/Templates/TextAndSoftbuttonsWithGraphic/TextAndSoftbuttonsWithGraphic';
 import DoubleGraphicWithSoftbuttons from './js/Templates/DoubleGraphicWithSoftbuttons/DoubleGraphicWithSoftbuttons'
 import NavFullscreenMap from './js/Templates/NavFullscreenMap/NavFullscreenMap'
+import Messaging from './js/Templates/Messaging/Messaging'
 import HMIMenu from './js/HMIMenu';
 import InAppMenu from './js/InAppMenu';
 import InAppList from './js/InAppList';
@@ -215,19 +216,6 @@ class HMIApp extends React.Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div>
-                    <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
-                    <div className="shutdown-button" onClick={this.handleShutdown}>Shutdown</div>
-                    <div className="toggle-ptu-with-modem-button" >
-                        <input type="checkbox" onClick={this.togglePTUWithModem} checked={this.props.ptuWithModemEnabled}/>
-                        <label>PTU using in-vehicle modem</label>
-                    </div>
-                    <div className="driver-distraction-button" >
-                        <input type="checkbox" onClick={this.handleDDToggle} checked={this.props.dd}/>
-                        <label>Driver Distraction</label>
-                    </div>
-                    { resolutionSelector }
-                </div>
                 <video id="navi_stream" style={videoStyle} src={this.props.videoStreamUrl}
                     onTouchStart={this.onTouchBegin} onMouseDown={this.onTouchBegin}
                     onTouchMove={this.onTouchMove} onMouseMove={this.onTouchMove}
@@ -326,6 +314,7 @@ ReactDOM.render((
             <Route path="/text-and-softbuttons-with-graphic" component={TextAndSoftbuttonsWithGraphic}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/nav-fullscreen-map" component={NavFullscreenMap}/>
+            <Route path="/messaging" component={Messaging}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/appstore" component={AppStore} />

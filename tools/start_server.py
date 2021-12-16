@@ -265,8 +265,8 @@ class RPCService(WSServer.SampleRPCService):
         return False
       return True
 
-    if not isFileNameValid(file_name):
-      return self.gen_error_msg('Invalid file name: %s. Cannot save PTU' % file_name)
+    #if not isFileNameValid(file_name):
+      #return self.gen_error_msg('Invalid file name: %s. Cannot save PTU' % file_name)
 
     try:
       json_file = open(file_name, 'w')

@@ -105,7 +105,8 @@ class FileSystemController extends SimpleRPCClient {
     }
 
     generatePTUFilePath(){
-      let path = document.location.pathname;
+      //let path = document.location.pathname;
+      let path = '/tmp/ptus/'
       let index = path.lastIndexOf('/');
       if (index >= 0) {
         path = path.slice(0, index);

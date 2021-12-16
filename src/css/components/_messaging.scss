@@ -1,0 +1,79 @@
+.messagingContainer {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: $master-height - 100px;
+    padding-left: 25px;
+}
+
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+.message-received {
+    background-color: color(asphalt);
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    margin: 10px;
+    margin-left:0px;
+}
+
+.message-sent {
+    background-color: color(bright-blue);
+    color: white;
+    align-self: end;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    margin: 10px;
+    margin-right: 25px;
+    max-width: 50%;
+}
+
+.message-grouping {
+    display: flex;
+    width: 50%;
+}
+
+.message-avatar {
+    background-color: #626262;
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 50%;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    width: 65px;
+    align-self: center;
+    flex-shrink: 0;
+}
+
+.messaging-body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: $master-height - 100px;
+}
+
+.messaging-soft-buttons {
+    display: flex;
+    flex-direction: column;
+    height: $master-height - 75px;
+    width: 25%;
+}
+
+.messaging-soft-buttons .soft-buttons {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding-left: 15px;
+}
+
+.messaging-soft-buttons .soft-button {
+    width: 100%;
+}
