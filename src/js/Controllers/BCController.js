@@ -82,7 +82,8 @@ class BCController {
             case "PolicyUpdate":
                 store.dispatch(policyUpdate(rpc.params.file, rpc.params.retry, rpc.params.timeout))
                 var state = store.getState()
-                if(window.flags.ExternalPolicies || state.system.ptuWithModemEnabled) {
+                // always do PTU with vehicle modem for CES
+                if(window.flags.ExternalPolicies || state.system.ptuWithModemEnabled || true) {
                     sdlController.getPolicyConfiguration("module_config", "endpoints");
                 }
                 else {

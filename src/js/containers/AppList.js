@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch) => {
             
             var attempts = 0;
             var activateAppOnceRegistered = setInterval(() => {
-                if (attempts > 20) {
+                if (attempts > 120) {
                     store.dispatch(clearPendingAppLaunch());
                     store.dispatch(webEngineAppLaunchFailed(appID));
                     store.dispatch(alert(appID,
