@@ -74,6 +74,15 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
+
+        var FileSystemApiUrl = localStorage.getItem("FileSystemApiUrl")
+        var AppStoreDirectoryUrl = localStorage.getItem("AppStoreDirectoryUrl")
+        var ptuUrlOverride = localStorage.getItem("ptuUrlOverride")
+        if (FileSystemApiUrl && AppStoreDirectoryUrl && ptuUrlOverride) {
+            window.flags.FileSystemApiUrl = FileSystemApiUrl;
+            window.flags.AppStoreDirectoryUrl = AppStoreDirectoryUrl;
+            window.flags.ptuUrlOverride = ptuUrlOverride;
+        }
     }
     handleClick() {
         var theme = !this.state.dark

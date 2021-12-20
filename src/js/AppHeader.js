@@ -42,6 +42,9 @@ class BackendConnectionStatus extends React.Component {
             const ip = url.substring(url.indexOf('://') + 3, url.indexOf(':', 5));
             window.flags.AppStoreDirectoryUrl = `http://${ip}:8080/app-directory.json`;
             window.flags.ptuUrlOverride = `http://${ip}:3001/api/v1/staging/policy`;
+            localStorage.setItem("FileSystemApiUrl", window.flags.FileSystemApiUrl);
+            localStorage.setItem("AppStoreDirectoryUrl", window.flags.AppStoreDirectoryUrl);
+            localStorage.setItem("ptuUrlOverride", window.flags.ptuUrlOverride);
             FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
                 console.log('Connected to FileSystemController');
                 FileSystemController.updateAppStoreConnection(true);
