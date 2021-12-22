@@ -42,6 +42,9 @@ class BackendConnectionStatus extends React.Component {
             FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
                 console.log('Connected to FileSystemController');
                 FileSystemController.updateAppStoreConnection(true);
+                FileSystemController.sendJSONMessage({
+                    method: 'GetInstalledApps', params: {}
+                });
             }, () => { FileSystemController.updateAppStoreConnection(false); });
         }
         return (<div>
