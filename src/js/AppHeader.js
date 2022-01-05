@@ -39,6 +39,7 @@ class BackendConnectionStatus extends React.Component {
             : <IconFSCDisconnected/>;
         let attemptReconnection = (url) => {
             window.flags.FileSystemApiUrl = url;
+            localStorage.setItem("FileSystemApiUrl", window.flags.FileSystemApiUrl)
             FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
                 console.log('Connected to FileSystemController');
                 FileSystemController.updateAppStoreConnection(true);
@@ -166,7 +167,6 @@ class AppHeader extends React.Component {
             <div className="app__header" style={colorScheme}>
                 <MenuLink menuName={this.props.menuName} backLink={backLink} parentID={this.props.parentID}/>
                 <Name value={this.props.title}/>
-                {/* { <BackendConnectionStatus/> } */}
                 { icon }
                 <Modal
                 isOpen={this.props.showAlert}
