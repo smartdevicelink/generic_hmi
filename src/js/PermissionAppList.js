@@ -27,7 +27,7 @@ class Permissions extends React.Component {
                     theme={this.props.theme}
                 />
                 <div className="vscrollmenu-item__primary th-f-color" style={{ marginLeft: '2%' }}>
-                    <p class="t-large t-light th-f-color">{app.appName} Permissions</p>
+                    <p className="t-large t-light th-f-color">{app.appName} Permissions</p>
                 </div>
             </div>;
         });

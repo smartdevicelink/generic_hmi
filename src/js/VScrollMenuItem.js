@@ -41,7 +41,7 @@ export default class VScrollMenuItem extends React.Component {
                         <p className="t-large t-light th-f-color">{this.props.menuItem.name}</p>
                         <p className="t-small t-light th-f-color-secondary">{secondaryText}</p>
                     </div>
-                    <div class="vscrollmenu-item__image mw-100px">
+                    <div className="vscrollmenu-item__image mw-100px">
                         <SoftButtonImage 
                             image={this.props.menuItem.secondaryImage ? this.props.menuItem.secondaryImage.value : null} 
                             imageType={this.props.menuItem.secondaryImage ? this.props.menuItem.secondaryImage.imageType : null}
