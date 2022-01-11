@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <style type="text/css">
+      .a {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 40px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="a svg-stroke" d="M398,418.67h42.39A107,107,0,1,0,397.1,213.72a116.1,116.1,0,0,0-230.32,20.75c0,1.12,0,2.25.05,3.36A91.68,91.68,0,1,0,145.5,418.67h59.17"/>
+    <line class="a svg-stroke" x1="373.19" y1="491.23" x2="228.06" y2="346.1"/>
+    <line class="a svg-stroke" x1="228.06" y1="491.23" x2="373.19" y2="346.1"/>
+  </g>
+</svg>

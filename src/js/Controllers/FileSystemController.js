@@ -1,4 +1,10 @@
 import SimpleRPCClient from '../SimpleRPCClient'
+import store from '../store'
+import {
+  updateAppStoreConnectionStatus,
+  updateInstalledAppStoreApps,
+} from '../actions';
+import bcController from './BCController'
 
 class FileSystemController extends SimpleRPCClient {
     connect(url) {
@@ -154,6 +160,36 @@ class FileSystemController extends SimpleRPCClient {
         });
       
       });
+    }
+
+    updateAppStoreConnection(connected) {
+      if(connected){
+        store.dispatch(updateAppStoreConnectionStatus(true));
+        this.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+    
+        this.subscribeToEvent('GetInstalledApps', (success, params) => {
+            if (!success || !params.apps) {
+                console.error('error encountered when retrieving installed apps');
+                return;
+            }
+            params.apps.map((app) => {
+              this.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
+                    let appEntry = Object.assign(app, {
+                        entrypoint: manifest.entrypoint,
+                        version: manifest.appVersion
+                    });
+                    store.dispatch(updateInstalledAppStoreApps(appEntry));
+                    bcController.getAppProperties(app.policyAppID);
+                    return true;
+                });
+                return true;
+            });
+        });
+
+      }
+      else {
+        store.dispatch(updateAppStoreConnectionStatus(false));
+      }
     }
 }
 

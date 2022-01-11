@@ -53,8 +53,6 @@ import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 import {
     setTheme,
     setPTUWithModem,
-    updateAppStoreConnectionStatus,
-    updateInstalledAppStoreApps,
     setDDState
 } from './js/actions';
 
@@ -75,6 +73,11 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
+
+        let FileSystemApiUrl = localStorage.getItem("FileSystemApiUrl");
+        if (FileSystemApiUrl) { window.flags.FileSystemApiUrl = FileSystemApiUrl; }
+        let AppStoreDirectoryUrl = localStorage.getItem("AppStoreDirectoryUrl");
+        if (AppStoreDirectoryUrl) { window.flags.AppStoreDirectoryUrl = AppStoreDirectoryUrl; }
     }
     handleClick() {
         var theme = !this.state.dark
@@ -267,29 +270,8 @@ class HMIApp extends React.Component {
 
         FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
-            store.dispatch(updateAppStoreConnectionStatus(true));
-            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-
-            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                if (!success || !params.apps) {
-                    console.error('error encountered when retrieving installed apps');
-                    return;
-                }
-
-                params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
-                        let appEntry = Object.assign(app, {
-                            entrypoint: manifest.entrypoint,
-                            version: manifest.appVersion
-                        });
-                        store.dispatch(updateInstalledAppStoreApps(appEntry));
-                        bcController.getAppProperties(app.policyAppID);
-                        return true;
-                    });
-                    return true;
-                });
-            });
-        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+            FileSystemController.updateAppStoreConnection(true);
+        }, () => { FileSystemController.updateAppStoreConnection(false); });
 
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
