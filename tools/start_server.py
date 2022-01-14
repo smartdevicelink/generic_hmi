@@ -192,7 +192,7 @@ class RPCService(WSServer.SampleRPCService):
     }
 
   async def send(self, _msg):
-    print('\033[1;2m***Sending message: %s\033[0m' % _msg)
+    print('\033[1;2m***Sending message: %s\033[0m' % _msg.encode('utf-8'))
     await self.websocket.send(_msg)
 
   async def send_error(self, _error_msg):
@@ -201,7 +201,7 @@ class RPCService(WSServer.SampleRPCService):
     await self.send(json.dumps(err))
 
   async def on_receive(self, _msg):
-    print('\033[1;2m***Message received: %s\033[0m' % _msg)
+    print('\033[1;2m***Message received: %s\033[0m' % _msg.encode('utf-8'))
     request_message = None
 
     try:
