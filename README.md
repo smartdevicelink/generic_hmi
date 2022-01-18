@@ -70,11 +70,17 @@ The generic_hmi includes an additional backend component that is required for so
 
 #### Connection status icon
 
-The backend connection status is indicated by an icon in the hmi settings page (top-right). Check mark meaning the backend is connected and cross meaning the backend is disconnected.
+The backend connection status is indicated by an icon in the hmi settings page (top-right). 
 
-Clicking on the icon will display a prompt allowing the user to set the url for the backend. Once a URL is set, the HMI will attempt to re-connect to the backend.
+<img src= "./src/img/static/0x30.svg" width=50/>
+ 
+The icon will contain a check mark if the backend server is connected/cross if the backend server is disconnected.
+
+Clicking on the icon will display a prompt allowing the user to set the url for the backend. Once the URL is set, the HMI will attempt to re-connect to the backend server.
 
 #### Features
+
+The following features can be used in the hmi if the backend server is connected.
 
 ##### HMI PTU
 
@@ -82,7 +88,13 @@ Select the `PTU using in-vehicle modem` checkbox to enable the feature
 
 ##### Video streaming
 
+Start a video service from the SDL app. The video stream should start in the browser.
+
 Video streaming also requires you to have all the [aforementioned dependencies](#dependencies) installed.
+
+##### Webengine app store
+
+The app store can be accessed from the hmi settings page. Clicking on any of the listed webengine apps will allow you to download the webengine app.
 
 ## Developing/Modifying the HMI
 
