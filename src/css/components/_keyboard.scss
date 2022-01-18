@@ -28,11 +28,11 @@
     background-color: color($secondary-color);
     color: color(white);
     border-bottom-color: color(asphalt);
-    height: 100%;
+    height: auto;
 }
 
 .light-theme .simple-keyboard.hg-theme-default.custom-keyboard .hg-button{
-    height: 100%;
+    height: auto;
 }
 
 .dark-theme .simple-keyboard.hg-theme-default.custom-keyboard .hg-button:active{
@@ -58,15 +58,11 @@
     flex-shrink: 0;
 }
 
-.dark-theme .keyboard .input-text input {
-    height: 100%;
-    font-size: 36px;
-    border: none;
-    box-sizing: border-box;
-    background-color: color($secondary-color);
-    color: color(white);
-    display: table;
-    -moz-margin-end: 27px;
+.dark-theme .keyboard .input-text .div-input {
+    display: flex;
+    align-items: center;
+    white-space: pre;
+    overflow-x: scroll;
 }
 
 .dark-theme .keyboard .input-text .input-autocomplete {
@@ -78,7 +74,6 @@
     color: #777777;
     display: flex;
     align-items: center;
-    margin-left: -27px;
 }
 
 .dark-theme .keyboard .mask-option-label{
@@ -102,14 +97,11 @@
     background-color: color(white);
 }
 
-.light-theme .keyboard .input-text input {
-    height: 100%;
-    font-size: 36px;
-    border: none;
-    box-sizing: border-box;
-    display: table;
-    background-color: color(white);
-    -moz-margin-end: 27px;
+.light-theme .keyboard .input-text .div-input {
+    display: flex;
+    align-items: center;
+    white-space: pre;
+    overflow-x: scroll;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
@@ -119,7 +111,6 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    margin-left: -27px;
     color: #777777;
     background-color: color(white);
 }
@@ -150,4 +141,8 @@
 .hg-button-disabled {
     pointer-events: none;
     opacity: 0.25;
+}
+
+.text-security {
+    -webkit-text-security: disc;
 }
