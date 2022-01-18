@@ -63,11 +63,24 @@ chromium-browser generic_hmi/build/index.html
 
 ### HMI Backend
 
-The generic_hmi includes an additional backend component that is required for some features, such as in-browser video streaming and policy table updates using the vehicle modem.
+The generic_hmi includes an additional backend component that is required for some features, such as in-browser video streaming, policy table updates using the vehicle modem and accessing the webengine app store.
 
 1. Run `deploy_server.sh` in the root folder
-2. Run the HMI normally
-3. Select the `PTU using in-vehicle modem` checkbox to enable the feature
+2. Start and run the HMI normally
+
+#### Connection status icon
+
+The backend connection status is indicated by an icon in the hmi settings page (top-right). Check mark meaning the backend is connected and cross meaning the backend is disconnected.
+
+Clicking on the icon will display a prompt allowing the user to set the url for the backend. Once a URL is set, the HMI will attempt to re-connect to the backend.
+
+#### Features
+
+##### HMI PTU
+
+Select the `PTU using in-vehicle modem` checkbox to enable the feature
+
+##### Video streaming
 
 Video streaming also requires you to have all the [aforementioned dependencies](#dependencies) installed.
 
@@ -91,7 +104,7 @@ Implementing an RPC is the main activity when developing this HMI as it related 
 
   1. An RPC comes in from SDL Core which changes some information displayed to the user in a view (Implementing Requests)
   2. The user takes action on an element in the React Application which generates a message to SDL Core (Sending messages to SDL Core)
-  3. An RPC comes in from SDL Core which forces the current view in the React Applicaton to change (Changing the router history)
+  3. An RPC comes in from SDL Core which forces the current view in the React Application to change (Changing the router history)
 
 #### Implementing Requests
 
