@@ -14,12 +14,9 @@ import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbutt
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
-<<<<<<< HEAD
 import OnScreenPresets from './js/Templates/OnScreenPresets/OnScreenPresets'
-=======
 import GraphicWithTiles from './js/Templates/GraphicWithTiles/GraphicWithTiles'
 import TilesWithGraphic from './js/Templates/TilesWithGraphic/TilesWithGraphic'
->>>>>>> origin/develop
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
 import TextWithGraphic from './js/Templates/TextWithGraphic/TextWithGraphic'
 import GraphicWithText from './js/Templates/GraphicWithText/GraphicWithText'
