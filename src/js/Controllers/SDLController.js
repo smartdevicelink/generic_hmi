@@ -1,7 +1,7 @@
 import React from 'react';
 import RpcFactory from './RpcFactory'
 import store from '../store'
-import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, openPermissionsView } from '../actions'
+import { activateApp, setURLS, setPTUWithModem, clearPendingAppLaunch, openPermissionsView, onStatusUpdate } from '../actions'
 import bcController from './BCController'
 import externalPolicies from './ExternalPoliciesController'
 import FileSystemController from './FileSystemController'
@@ -62,7 +62,11 @@ class SDLController {
             });
         } else {
             if (this.statusMessages[status].ttsString) { ttsController.queueTTS(this.statusMessages[status].ttsString); }
-            toast((_toast) => (<PermissionsPopup _toast={_toast} header={this.statusMessages[status].line1}/>), { duration: 2000 });
+            if (window.flags.StatusUpdateIcon) {
+                store.dispatch(onStatusUpdate(status, this.statusMessages[status].line1));
+            } else {
+                toast((_toast) => (<PermissionsPopup _toast={_toast} header={this.statusMessages[status].line1}/>), { duration: 2000 });
+            }
         }
     }
     handleRPC(rpc) {
@@ -334,6 +338,9 @@ class SDLController {
             callback(response);
         }
         this.listener.send(gufm);
+    }
+    updateSDL() {
+        this.listener.send(RpcFactory.UpdateSDL());
     }
 }
 

@@ -814,9 +814,7 @@ class RpcFactory {
     }
     static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
         var layout = rpc.params.displayLayout;
-        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY", 
-        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", 
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"];
+        var supportedTemplates = [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA'];
         if (!disallowedLayout && supportedTemplates.includes(layout)) {
             if (layout === "DEFAULT") {
                 layout = "MEDIA"
@@ -1053,6 +1051,13 @@ class RpcFactory {
         return ({
             "jsonrpc": "2.0",
             "method": "TTS.Stopped",
+        })
+    }
+    static UpdateSDL() {
+        return ({
+            "jsonrpc": "2.0",
+            "id": rpcFactory_msgId++,
+            "method": "SDL.UpdateSDL"
         })
     }
 }

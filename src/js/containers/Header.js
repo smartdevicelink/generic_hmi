@@ -38,6 +38,8 @@ const mapStateToProps = (state) => {
     var sliderAppId = null
     var sliderAppName = ""
     var sliderData = {}
+    var statusUpdate = ""
+    var statusUpdateMsg = ""
     for(const prop in state.ui){
         if(state.ui[prop].alert.showAlert){
             showAlert = true
@@ -136,6 +138,11 @@ const mapStateToProps = (state) => {
         parentID = subMenu.subMenu.parentID;
     }
 
+    if (state.system.policyStatus) {
+        statusUpdate = state.system.policyStatus;
+        statusUpdateMsg = state.system.policyStatusMsg;
+    }
+
     return {
         isPerformingInteraction: app.isPerformingInteraction,
         isDisconnected: app.isDisconnected,
@@ -170,7 +177,9 @@ const mapStateToProps = (state) => {
         aptTextFields: aptTextFields,
         aptAppID: aptAppID,
         aptMsgID: aptMsgID,
-        aptAppName: aptAppName
+        aptAppName: aptAppName,
+        statusUpdate: statusUpdate,
+        statusUpdateMsg: statusUpdateMsg
     }
 }
 

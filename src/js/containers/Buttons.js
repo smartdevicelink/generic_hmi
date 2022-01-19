@@ -29,7 +29,8 @@ const mapStateToProps = (state) => {
             image: softButtons[0].image ? softButtons[0].image.value : undefined,
             imageType: softButtons[0].image ? softButtons[0].image.imageType : undefined,
             id: softButtons[0].softButtonID,
-            isTemplate: softButtons[0].image ? softButtons[0].image.isTemplate : null
+            isTemplate: softButtons[0].image ? softButtons[0].image.isTemplate : null,
+            isHighlighted: softButtons[0].isHighlighted
         })
     }
     if (subscribedButtons.SEEKLEFT === true) {
@@ -145,7 +146,8 @@ const mapStateToProps = (state) => {
             image: softButtons[1].image ? softButtons[1].image.value : undefined,
             imageType: softButtons[1].image ? softButtons[1].image.imageType : undefined,
             id: softButtons[1].softButtonID,
-            isTemplate: softButtons[1].image ? softButtons[1].image.isTemplate : null
+            isTemplate: softButtons[1].image ? softButtons[1].image.isTemplate : null,
+            isHighlighted: softButtons[1].isHighlighted
         })
     }
 
@@ -159,6 +161,23 @@ const mapStateToProps = (state) => {
                     alertButtons[i].appID = parseInt(key) 
                     alertButtons[i].duration = state.ui[key].alert.duration
                 }
+            }
+            else {
+                let okButton = {
+                    appID: parseInt(key),
+                    msgID: state.ui[key].alert.msgID,
+                    duration: state.ui[key].alert.duration,
+                    type: "BOTH",
+                    text: "OK",
+                    image: {
+                        value: "0xD5",
+                        imageType: "STATIC",
+                        isTemplate: false
+                    },
+                    isHighlighted: false,
+                    systemAction: "DEFAULT_ACTION"
+                }
+                alertButtons = [ okButton ]
             }   
         }
         if (state.ui[key].scrollableMessage.active) {
@@ -243,14 +262,14 @@ const mapDispatchToProps = (dispatch) => {
         onButtonPress: (appID, buttonID, buttonName) => {
             uiController.onButtonPress(appID, buttonID, buttonName)
         },
-        onStealFocus:(alert, activeApp) =>{
-            uiController.onStealFocus(alert, activeApp ? activeApp : null, false)
+        onStealFocus:(alert) =>{
+            uiController.onStealFocus(alert, false)
         },
         onKeepContext:(alert) =>{
             uiController.onKeepContext(alert, false)
         },
-        onDefaultAction:(alert, activeApp) =>{
-            uiController.onDefaultAction(alert, activeApp ? activeApp : null, false)
+        onDefaultAction:(alert) =>{
+            uiController.onDefaultAction(alert, false);
         }
     }
 }

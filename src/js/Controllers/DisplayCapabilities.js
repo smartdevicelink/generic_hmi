@@ -23,7 +23,12 @@ let templatesAvailable = [
 	"DEFAULT", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
 	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
+<<<<<<< HEAD
 	"NAV_FULLSCREEN_MAP", "TILES_ONLY", "ONSCREEN_PRESETS"
+=======
+	"NAV_FULLSCREEN_MAP", "TILES_ONLY", "GRAPHIC_WITH_TILES", "TILES_WITH_GRAPHIC",
+	"GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS", "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC"
+>>>>>>> origin/develop
 ]
 
 let screenParams = {
@@ -166,13 +171,14 @@ let textWithGraphicCapabilities = {
 			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
-			imageField("choiceImage", 40),
-			imageField("choiceSecondaryImage", 40),
+			imageField("choiceImage", 85),
+			imageField("choiceSecondaryImage", 80),
 			imageField("menuIcon", 40),
-			imageField("cmdIcon", 150),
+			imageField("cmdIcon", 85),
+			imageField("subMenuIcon", 85),
 			imageField("secondaryImage", 40),
-			imageField("menuCommandSecondaryImage", 40),
-			imageField("menuSubMenuSecondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 80),
+			imageField("menuSubMenuSecondaryImage", 80),
 			imageField("appIcon", 50),
 			imageField("graphic", 410),
 			imageField("alertIcon", 225),
@@ -215,16 +221,81 @@ let textbuttonsWithGraphicCapabilities = {
 			textField("audioPassThruDisplayText2", 50)
 		],
 		"imageFields": [
+			imageField("choiceImage", 85),
+			imageField("choiceSecondaryImage", 80),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("menuIcon", 40),
+			imageField("cmdIcon", 85),
+			imageField("subMenuIcon", 85),
+			imageField("secondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 80),
+			imageField("menuSubMenuSecondaryImage", 80),
+			imageField("appIcon", 50),
+			imageField("graphic", 410),
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
+		],
+		"mediaClockFormats": [],
+		"graphicSupported": true,
+		"templatesAvailable": templatesAvailable,
+		"screenParams": screenParams,
+		"imageCapabilities": ["DYNAMIC", "STATIC"],
+		"menuLayoutsAvailable": ["LIST", "TILES"]
+	},
+	"softButtonCapabilities": [
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability
+	],
+	"buttonCapabilities": commonButtonCapabilities
+}
+
+let tilesWithGraphicCapabilities = {
+	"displayCapabilities": {
+		"displayType": "SDL_GENERIC",
+		"displayName": "GENERIC_DISPLAY",
+		"textFields": [
+			textField("scrollableMessageBody", 44, 8),
+			textField("alertText1"),
+			textField("alertText2"),
+			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
+			textField("templateTitle", 50),
+			textField("initialInteractionText", 50),
+			textField("sliderHeader", 70),
+			textField("sliderFooter", 70),
+			textField("menuName"),
+			textField("secondaryText"),
+			textField("tertiaryText", 20),
+			textField("menuCommandSecondaryText"),
+			textField("menuCommandTertiaryText", 20),
+			textField("menuSubMenuSecondaryText"),
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
+		],
+		"imageFields": [
 			imageField("choiceImage", 40),
 			imageField("choiceSecondaryImage", 40),
-			imageField("softButtonImage", 50),
-			imageField("softButtonImage", 50),
-			imageField("softButtonImage", 50),
-			imageField("softButtonImage", 50),
-			imageField("softButtonImage", 50),
-			imageField("softButtonImage", 50),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
 			imageField("menuIcon", 40),
 			imageField("cmdIcon", 150),
+			imageField("subMenuIcon", 150),
 			imageField("secondaryImage", 40),
 			imageField("menuCommandSecondaryImage", 40),
 			imageField("menuSubMenuSecondaryImage", 40),
@@ -251,12 +322,77 @@ let textbuttonsWithGraphicCapabilities = {
 	"buttonCapabilities": commonButtonCapabilities
 }
 
+let graphicWithTextAndSoftbuttonsCapabilities = {
+	"displayCapabilities": {
+		"displayType": "SDL_GENERIC",
+		"displayName": "GENERIC_DISPLAY",
+		"textFields": [
+			textField("mainField1", 25),
+			textField("mainField2", 25),
+			textField("mainField3", 25),
+			textField("mainField4", 25),
+			textField("scrollableMessageBody", 44, 8),
+			textField("alertText1"),
+			textField("alertText2"),
+			textField("alertText3"),
+			textField("subtleAlertText1"),
+			textField("subtleAlertText2"),
+			textField("subtleAlertSoftButtonText"),
+			textField("templateTitle", 50),
+			textField("initialInteractionText", 50),
+			textField("sliderHeader", 70),
+			textField("sliderFooter", 70),
+			textField("menuName"),
+			textField("secondaryText"),
+			textField("tertiaryText", 20),
+			textField("menuCommandSecondaryText"),
+			textField("menuCommandTertiaryText", 20),
+			textField("menuSubMenuSecondaryText"),
+			textField("menuSubMenuTertiaryText", 20),
+			textField("audioPassThruDisplayText1", 50),
+			textField("audioPassThruDisplayText2", 50)
+		],
+		"imageFields": [
+			imageField("choiceImage", 85),
+			imageField("choiceSecondaryImage", 80),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("softButtonImage", 75),
+			imageField("menuIcon", 40),
+			imageField("cmdIcon", 85),
+			imageField("subMenuIcon", 85),
+			imageField("secondaryImage", 40),
+			imageField("menuCommandSecondaryImage", 80),
+			imageField("menuSubMenuSecondaryImage", 80),
+			imageField("appIcon", 50),
+			imageField("graphic", 410),
+			imageField("alertIcon", 225),
+			imageField("subtleAlertIcon", 225)
+		],
+		"mediaClockFormats": [],
+		"graphicSupported": true,
+		"templatesAvailable": templatesAvailable,
+		"screenParams": screenParams,
+		"imageCapabilities": ["DYNAMIC", "STATIC"],
+		"menuLayoutsAvailable": ["LIST", "TILES"]
+	},
+	"softButtonCapabilities": [
+		softButtonCapability,
+		softButtonCapability,
+		softButtonCapability
+	],
+	"buttonCapabilities": commonButtonCapabilities
+}
 
 let capabilities = {
 	"TEXT_WITH_GRAPHIC": textWithGraphicCapabilities,
 	"GRAPHIC_WITH_TEXT": textWithGraphicCapabilities,
+	"GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS": graphicWithTextAndSoftbuttonsCapabilities,
+	"TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC": graphicWithTextAndSoftbuttonsCapabilities,
 	"TEXTBUTTONS_WITH_GRAPHIC": textbuttonsWithGraphicCapabilities,
 	"GRAPHIC_WITH_TEXTBUTTONS": textbuttonsWithGraphicCapabilities,
+	"TILES_WITH_GRAPHIC": tilesWithGraphicCapabilities,
+	"GRAPHIC_WITH_TILES": tilesWithGraphicCapabilities,
 	"MEDIA": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -290,15 +426,16 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("graphic", 360),
 				imageField("alertIcon", 225),
@@ -348,8 +485,8 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -357,10 +494,11 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("graphic", 410),
 				imageField("alertIcon", 225),
@@ -401,7 +539,14 @@ let capabilities = {
 			],
 			"imageFields": [
 				imageField("appIcon", 50),
-				imageField("alertIcon", 225)
+				imageField("alertIcon", 225),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
+				imageField("subtleAlertIcon", 225)
 			],
 			"mediaClockFormats": [],
 			"templatesAvailable": templatesAvailable,
@@ -438,8 +583,8 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -447,10 +592,10 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
-				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("cmdIcon", 85),
+				imageField("secondaryImage", 85),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -500,8 +645,8 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -509,10 +654,11 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("graphic", 480),
 				imageField("secondaryGraphic", 480),
@@ -563,13 +709,14 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("graphic", 915, 490),
 				imageField("alertIcon", 225),
@@ -611,8 +758,8 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -620,10 +767,11 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -720,8 +868,8 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
@@ -729,10 +877,11 @@ let capabilities = {
 				imageField("softButtonImage", 50),
 				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
@@ -781,10 +930,13 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
