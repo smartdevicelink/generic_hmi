@@ -1108,7 +1108,8 @@ const getWindowCapability = (template, includeMedia) => {
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
 		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
-		keyboardCapabilities: keyboardCapabilities
+		keyboardCapabilities: keyboardCapabilities,
+		numCustomPresetsAvailable: templateDisplayCapability.numCustomPresetsAvailable
 	}
 	return capability;
 }
