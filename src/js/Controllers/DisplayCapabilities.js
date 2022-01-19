@@ -794,17 +794,23 @@ let capabilities = {
 			"displayType": "SDL_GENERIC",
 			"displayName": "GENERIC_DISPLAY",
 			"textFields": [
+				textField("mainField1"),
+				textField("mainField2"),
+				textField("mainField3"),
+				textField("statusBar"),
+				textField("mediaClock"),
+				textField("mediaTrack"),
+				textField("templateTitle", 50),
 				textField("scrollableMessageBody", 44, 8),
 				textField("alertText1"),
 				textField("alertText2"),
 				textField("alertText3"),
-				textField("subtleAlertText1"),
-				textField("subtleAlertText2"),
-				textField("subtleAlertSoftButtonText"),
-				textField("templateTitle", 50),
 				textField("initialInteractionText", 50),
 				textField("sliderHeader", 70),
 				textField("sliderFooter", 70),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
 				textField("menuName"),
 				textField("secondaryText"),
 				textField("tertiaryText", 20),
@@ -816,18 +822,22 @@ let capabilities = {
 				textField("audioPassThruDisplayText2", 50)
 			],
 			"imageFields": [
-				imageField("choiceImage", 40),
-				imageField("choiceSecondaryImage", 40),
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
+				imageField("softButtonImage", 50),
+				imageField("softButtonImage", 50),
 				imageField("menuIcon", 40),
-				imageField("cmdIcon", 150),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
 				imageField("secondaryImage", 40),
-				imageField("menuCommandSecondaryImage", 40),
-				imageField("menuSubMenuSecondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
 				imageField("appIcon", 50),
+				imageField("graphic", 360),
 				imageField("alertIcon", 225),
 				imageField("subtleAlertIcon", 225)
 			],
-			"mediaClockFormats": [],
+			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
 			"graphicSupported": true,
 			"templatesAvailable": templatesAvailable,
 			"screenParams": screenParams,
@@ -835,7 +845,11 @@ let capabilities = {
 			"menuLayoutsAvailable": ["LIST", "TILES"],
 			"numCustomPresetsAvailable": 6
 		},
-		"buttonCapabilities": presetButtonCapabilities
+		"softButtonCapabilities": [
+			imageOnlySoftButtonCapability,
+			imageOnlySoftButtonCapability
+		],
+		"buttonCapabilities": mediaButtonCapabilities.concat(presetButtonCapabilities)
 	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
