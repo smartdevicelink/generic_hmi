@@ -222,6 +222,9 @@ class BCController {
     onSystemCapabilityUpdated(capability, appID) {
         this.listener.send(RpcFactory.OnSystemCapabilityUpdated(capability, appID));
     }
+    onStartDeviceDiscovery(){
+        this.listener.send(RpcFactory.OnStartDeviceDiscovery())
+    }
 }
 
 let controller = new BCController()
