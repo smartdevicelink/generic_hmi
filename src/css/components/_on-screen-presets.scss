@@ -25,15 +25,14 @@
     @include flex-direction(row);
     @include flex-wrap(nowrap);
     @include align-items(stretch);
-    padding-left: 15px;
-    padding-right: 15px;
     flex-shrink: 0;
     height: 100px;
 }
 
 .on-screen-presets .soft-button {
-    margin-left: 15px;
-    margin-right: 15px;
+    width: 100%;
+    border-radius: 0px;
+    margin-bottom: 0px;
 }
 
 .on-screen-presets .progress-bar {
