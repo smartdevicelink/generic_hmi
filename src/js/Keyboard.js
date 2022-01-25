@@ -7,6 +7,8 @@ import store from './store';
 import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
+import { VSubMenu, HSubMenu } from './containers/SubMenu';
+
 class Keyboard extends Component {
 
   constructor(props) {
@@ -234,12 +236,25 @@ class Keyboard extends Component {
       inputClassName += " text-security"
     }
 
+    // Displaying choice sets
+    var choiceSetList = null;
+    if (app?.interactionLayout === "ICON_WITH_SEARCH") {
+      choiceSetList = (<HSubMenu filterText={parsedInput}/>);
+    } else if (app?.interactionLayout === "LIST_WITH_SEARCH") {
+      choiceSetList = (<VSubMenu filterText={parsedInput}/>);
+    }
+
+    var withSearch = ""
+    if (choiceSetList) {
+      withSearch = " with-search"
+    }    
+
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
                 <div className="input-row">
-                    <div className="input-text" ref={r => (this.groupInputRef = r)}>
+                    <div className={"input-text"+withSearch} ref={r => (this.groupInputRef = r)}>
                       <div
                           className={inputClassName}
                           ref={r => (this.inputRef = r)}
@@ -270,6 +285,7 @@ class Keyboard extends Component {
                         Mask Input
                     </label>
                 </div>
+                { choiceSetList }
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}

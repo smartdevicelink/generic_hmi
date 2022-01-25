@@ -237,11 +237,13 @@ class AppHeader extends React.Component {
             this.props.history.push("/")
         }
         else if (nextProps.location.pathname !== "/keyboard"
-            && nextProps.isPerformingInteraction && nextProps.interactionLayout === "KEYBOARD") {
+            && nextProps.isPerformingInteraction 
+            && ["KEYBOARD", "LIST_WITH_SEARCH", "ICON_WITH_SEARCH"].indexOf(nextProps.interactionLayout) >= 0) {
                 this.props.history.push("/keyboard")
         }
-        else if (nextProps.location.pathname !== "/inapplist" && nextProps.interactionLayout !== "KEYBOARD"
-            && nextProps.isPerformingInteraction) {
+        else if (nextProps.location.pathname !== "/inapplist"
+            && nextProps.isPerformingInteraction
+            && ["KEYBOARD", "LIST_WITH_SEARCH", "ICON_WITH_SEARCH"].indexOf(nextProps.interactionLayout) < 0) {
                 this.props.history.push("/inapplist")
         }
         // We are in the app list and previously performing interaction but not anymore. This means time to switch out

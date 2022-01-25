@@ -19,11 +19,20 @@ export default class VScrollMenu extends React.Component {
 
     render() {
         this.clearHiddenNames();
+        var filterText = this.props.filterText
         let menuItems = this.props.data.map((menuItem) => {
             if (menuItem.hidden) {
                 this.pushHiddenName(menuItem.name)
                 return null;
             }
+
+            if (filterText) {
+                var regex = new RegExp( filterText, "i");
+                if (!regex.test(menuItem.name)) {
+                    return null;
+                }
+            }
+
             return (<div key={menuItem.cmdID + menuItem.name}>
                         <VScrollMenuItem
                             appID={menuItem.appID}
