@@ -28,6 +28,15 @@
     height: 70px !important;
 }
 
+.keyboard .auto-complete-list {
+    display: flex;
+    padding-top: 5px;
+    min-height: 61px;
+    max-width: 100%;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+}
+
 .dark-theme .simple-keyboard.hg-theme-default.custom-keyboard {
     background: color($primary-color);
     display: flex;
@@ -86,6 +95,17 @@
     overflow-x: scroll;
 }
 
+.dark-theme .keyboard .auto-complete-list-item {
+    display: flex;
+    color: #fff;
+    font-size: 24px;
+    padding: 10px;
+    background-color: black;
+    margin-right: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .dark-theme .keyboard .input-text .input-autocomplete {
     height: 100%;
     font-size: 36px;
@@ -123,6 +143,17 @@
     align-items: center;
     white-space: pre;
     overflow-x: scroll;
+}
+
+.light-theme .keyboard .auto-complete-list-item {
+    display: flex;
+    color: #000;
+    font-size: 24px;
+    padding: 10px;
+    background-color: #fff;
+    margin-right: 5px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {

@@ -209,13 +209,24 @@ class Keyboard extends Component {
     }
 
     var autoCompleteWord = "";
+    var autoCompleteWordObj = {};
+    var autoCompleteList = [];
     if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
       const currentWord = this.state.input.split(" ").pop();
       for (const word of this.props.autoCompleteList) {
-        if (currentWord.length > 0 && word.startsWith(currentWord)) {
+        if (currentWord.length > 0 && word.startsWith(currentWord) && currentWord.length !== word.length) {
           // Matched a potential autocomplete
           autoCompleteWord = word.substr(currentWord.length)
-          break;
+          // Prevents the loop from overwriting the value passed to the click handler
+          autoCompleteWordObj[word] = autoCompleteWord; 
+          autoCompleteList.push(
+            <div 
+              className="auto-complete-list-item" key={"auto-complete-" + word}
+              onClick={() => {this.handleAutoComplete(autoCompleteWordObj[word])}}
+            >
+              { word }
+            </div>
+          );
         }
       }
     }
@@ -262,12 +273,6 @@ class Keyboard extends Component {
                       >
                         {parsedInput.length ? parsedInput : interactionText}
                       </div>
-                      <div 
-                        className="input-autocomplete"
-                        onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
-                      >
-                        {autoCompleteWord}
-                      </div>
                     </div>
 
                     <input 
@@ -286,6 +291,9 @@ class Keyboard extends Component {
                     </label>
                 </div>
                 { choiceSetList }
+                <div className="auto-complete-list">
+                  { autoCompleteList }
+                </div>
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}
                     layoutName={this.state.layoutName}
