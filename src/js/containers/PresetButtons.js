@@ -78,14 +78,14 @@ const mapStateToProps = (state) => {
     }
 }
 
-var presetsMap = {};
+var presetsTimeoutMap = {};
 
 const onLongButtonPress = (appID, presetName) => {
     // int cast to string to index json object
     var appIDStr = appID.toString();
-    if (presetsMap[appIDStr].hasOwnProperty(presetName) 
-        && presetsMap[appIDStr][presetName]) {
-            presetsMap[appIDStr][presetName] = null;
+    if (presetsTimeoutMap[appIDStr].hasOwnProperty(presetName) 
+        && presetsTimeoutMap[appIDStr][presetName]) {
+            presetsTimeoutMap[appIDStr][presetName] = null;
         uiController.onLongButtonPress(appID, undefined, presetName);
     }    
 }
@@ -95,22 +95,22 @@ const mapDispatchToProps = (dispatch) => {
         onButtonDown: (appID, presetName) => {
             // int cast to string to index json object
             var appIDStr = appID.toString();
-            presetsMap[appIDStr] = presetsMap[appIDStr] ? presetsMap[appIDStr] : {};
+            presetsTimeoutMap[appIDStr] = presetsTimeoutMap[appIDStr] ? presetsTimeoutMap[appIDStr] : {};
             // Save timeout to clear later
-            presetsMap[appIDStr][presetName] = setTimeout(onLongButtonPress, 3000, appID, presetName);
+            presetsTimeoutMap[appIDStr][presetName] = setTimeout(onLongButtonPress, 3000, appID, presetName);
             uiController.onButtonEventDown(appID, undefined, presetName);
         },
         onButtonUp: (appID, presetName) => {
             // int cast to string to index json object
             var appIDStr = appID.toString();
-            if (presetsMap[appIDStr][presetName]) {
+            if (presetsTimeoutMap[appIDStr][presetName]) {
                 // Short press, clear long press timeout
-                clearTimeout(presetsMap[appIDStr][presetName]);
-                presetsMap[appIDStr][presetName] = null;
+                clearTimeout(presetsTimeoutMap[appIDStr][presetName]);
+                presetsTimeoutMap[appIDStr][presetName] = null;
                 uiController.onShortButtonPress(appID, undefined, presetName)
             }
             uiController.onButtonEventUp(appID, undefined, presetName);
-            delete presetsMap[appIDStr][presetName];
+            delete presetsTimeoutMap[appIDStr][presetName];
             
         },
         onButtonPress: (appID, presetName) => {
