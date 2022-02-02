@@ -40,9 +40,9 @@ class OnScreenPresets extends React.Component {
             <div className="on-screen-presets" style={this.getColorScheme()}>
                 <AppHeader backLink="/" menuName="Apps"/>
                 <MediaMetadata />
-                <PresetButtons class="on-screen-presets-container"/>
                 <ProgressBar />
                 <Buttons />
+                <PresetButtons class="on-screen-presets-container"/>
             </div>
         )
     }

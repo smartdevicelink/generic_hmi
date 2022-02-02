@@ -2,20 +2,46 @@ import { connect } from 'react-redux'
 import OnScreenPresetButtonsBody from '../Templates/Shared/PresetButtonsBody'
 import uiController from '../Controllers/UIController'
 
+const staticPresetNames = [
+    "PRESET_0",
+    "PRESET_1",
+    "PRESET_2",
+    "PRESET_3",
+    "PRESET_4",
+    "PRESET_5",
+    "PRESET_6",
+    "PRESET_7",
+    "PRESET_8",
+    "PRESET_9"
+];
+
 const mapStateToProps = (state) => {
     var activeApp = state.activeApp;
     var appUI = {};
+    var subscribedButtons = [];
     var presetStrings = [];
     var presets = [];
     if (activeApp) {
         appUI = state.ui[activeApp];
+        subscribedButtons = appUI.subscribedButtons;
         presetStrings = appUI.customPresets;
     }
 
-    for (var i=0; i<presetStrings.length; i++) {
+    for (var i=0; i<staticPresetNames.length; i++) {
+        var name = staticPresetNames[i];
+        if (!subscribedButtons[name]) {
+            // Preset button is not subscribed to, skip
+            continue;
+        }
+        var label = "";
+        if (presetStrings[i]) {
+            label = presetStrings[i];
+        } else {
+            label = "Preset " + i.toString();
+        }
         presets.push({
-            label: presetStrings[i],
-            name: "PRESET_" + i.toString(),
+            label: label,
+            name: name
         })
     }
 
