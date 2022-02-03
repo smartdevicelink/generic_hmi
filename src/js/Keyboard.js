@@ -29,12 +29,17 @@ class Keyboard extends Component {
   }
 
   handleAutoComplete = append => {
-    var completedWord = this.state.input + append;
+    var completedInput = ""
+    if (this.state.input[this.state.input.length-1] === " ") {
+      completedInput = this.state.input + append;
+    } else {
+      completedInput = this.state.input + " " + append;
+    }
     this.setState({
-      input: completedWord
+      input: completedInput
     });
-    this.keyboard.setInput(completedWord);
-    this.handleInput(completedWord);
+    this.keyboard.setInput(completedInput);
+    this.handleInput(completedInput);
     if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
       uiController.onKeyboardInput(append, 'KEYPRESS');
     }
@@ -208,26 +213,18 @@ class Keyboard extends Component {
         limitedCharacterList = limitedCharacterList.replaceAll("  ", " ");
     }
 
-    var autoCompleteWord = "";
-    var autoCompleteWordObj = {};
     var autoCompleteList = [];
     if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
-      const currentWord = this.state.input.split(" ").pop();
       for (const word of this.props.autoCompleteList) {
-        if (currentWord.length > 0 && word.startsWith(currentWord) && currentWord.length !== word.length) {
-          // Matched a potential autocomplete
-          autoCompleteWord = word.substr(currentWord.length)
-          // Prevents the loop from overwriting the value passed to the click handler
-          autoCompleteWordObj[word] = autoCompleteWord; 
-          autoCompleteList.push(
-            <div 
-              className="auto-complete-list-item" key={"auto-complete-" + word}
-              onClick={() => {this.handleAutoComplete(autoCompleteWordObj[word])}}
-            >
-              { word }
-            </div>
-          );
-        }
+        let autoCompleteWord = word;
+        autoCompleteList.push(
+          <div 
+            className="auto-complete-list-item" key={"auto-complete-" + autoCompleteWord}
+            onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
+          >
+            { word }
+          </div>
+        );
       }
     }
     
