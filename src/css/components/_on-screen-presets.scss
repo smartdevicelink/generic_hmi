@@ -5,11 +5,27 @@
 }
 
 .on-screen-presets .album-art {
-    width: 50%;
-    height: auto;
+    width: 35%;
+    height: 100% !important;
+    max-height: 100%;
     display: flex;
     justify-content: center;
     transform: translateY(0%);
+    padding: 10px;
+    align-items: center;
+    margin: auto;
+
+    img {
+        width: 100%;
+    }
+}
+
+.on-screen-presets .album-art-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .on-screen-presets-container {
