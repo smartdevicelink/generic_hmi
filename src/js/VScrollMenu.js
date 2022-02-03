@@ -27,7 +27,7 @@ export default class VScrollMenu extends React.Component {
             }
 
             if (filterText) {
-                var regex = new RegExp( filterText, "i");
+                var regex = new RegExp(filterText, "i");
                 if (!regex.test(menuItem.name)) {
                     return null;
                 }
