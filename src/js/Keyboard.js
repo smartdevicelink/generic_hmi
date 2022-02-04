@@ -28,20 +28,14 @@ class Keyboard extends Component {
     };
   }
 
-  handleAutoComplete = append => {
-    var completedInput = ""
-    if (this.state.input[this.state.input.length-1] === " ") {
-      completedInput = this.state.input + append;
-    } else {
-      completedInput = this.state.input + " " + append;
-    }
+  handleAutoComplete = newInput => {
     this.setState({
-      input: completedInput
+      input: newInput
     });
-    this.keyboard.setInput(completedInput);
-    this.handleInput(completedInput);
+    this.keyboard.setInput(newInput);
+    this.handleInput(newInput);
     if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
-      uiController.onKeyboardInput(append, 'KEYPRESS');
+      uiController.onKeyboardInput(newInput, 'KEYPRESS');
     }
   }
 
