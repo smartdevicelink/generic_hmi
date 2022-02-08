@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {errorPath: null, refreshed: false};
+        this.onImgLoad = this.onImgLoad.bind(this);
+        this.state = {errorPath: null, refreshed: false, height: undefined, width: undefined};
         this.initialCanvasDimensions = {
             height: null,
             width: null
@@ -104,6 +105,10 @@ class Image extends React.Component {
         if (nextState.errorPath) {
             return true;
         }
+
+        if (this.state.height !== nextState.height || this.state.width !== nextState.width) {
+            return true;
+        }
         
         // No updates required
         return false;
@@ -137,6 +142,13 @@ class Image extends React.Component {
         return newState;
     }
 
+    onImgLoad ({target:img}) {
+        if (this.state.height === img.naturalHeight || this.state.width === img.naturalWidth) {
+            return;
+        }
+        this.setState({height: img.naturalHeight, width: img.naturalWidth});
+    }
+
     render() {
         if(this.props.image && !this.state.errorPath) {
             if (this.props.isTemplate) {
@@ -161,8 +173,25 @@ class Image extends React.Component {
                     </div>
                 )
             } else {
+                var size = {};
+                if (this.state.height && this.state.width) {
+                    if (this.state.height > this.state.width) {
+                        size = {
+                            height: "100%",
+                            width: "auto"
+                        }
+                    } else {
+                        size = {
+                            height: "auto",
+                            width: "100%"
+                        }
+                    }
+                } else {
+                    size = {display:'none'};
+                }
+                
                 return (
-                    <img className={this.props.class} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
+                    <img onLoad={this.onImgLoad} className={this.props.class} style={size} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
                 )
             }
 
