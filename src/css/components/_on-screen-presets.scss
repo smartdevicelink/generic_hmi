@@ -25,6 +25,12 @@
     width: 100%;
     border-radius: 0px;
     margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    line-height: 100px;
+    padding: 0px 10px;
 }
 
 .on-screen-presets .progress-bar {
