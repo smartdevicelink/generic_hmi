@@ -1,7 +1,6 @@
 .progress-bar {
     position: relative;
     height: calc((#{$master-height} - 75px) / 6) ;
-    color: inherit;
 
     border-bottom: 2px solid;
 
@@ -10,4 +9,8 @@
         @include calc('height', '100% + 2px');
         background: color($secondary-accent-color);
     }
+}
+
+.dark-theme .progress-bar {
+    color: inherit;
 }
