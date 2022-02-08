@@ -42,7 +42,7 @@ class OnScreenPresets extends React.Component {
                 <MediaMetadata />
                 <ProgressBar />
                 <Buttons />
-                <PresetButtons class="on-screen-presets-container"/>
+                <PresetButtons class="on-screen-presets-container th-bg-color"/>
             </div>
         )
     }
