@@ -17,6 +17,10 @@
     height: 40%;
     display: flex;
     justify-content: space-between;
+   .hscrollmenu-item__name {
+        overflow: hidden;
+        bottom: 5px;
+    }
 }
 
 .keyboard .hscrollmenu-block {
