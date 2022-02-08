@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal'
+import FileSystemController from './Controllers/FileSystemController';
 import Alert from './Alert';
 import SubtleAlert from './SubtleAlert';
 import Slider from './Slider';
@@ -17,13 +18,46 @@ import ScrollableMessage from './ScrollableMessage';
 
 import {ReactComponent as IconMenu} from '../img/icons/icon-menu.svg'
 import {ReactComponent as IconSettings} from '../img/static/0x49.svg'
+import {ReactComponent as IconFSCConnected} from '../img/static/0x30.svg'
+import {ReactComponent as IconFSCDisconnected} from '../img/static/0x31.svg'
 
 class MainMenuSettings extends React.Component {
     render() {
-        return (<div>
+        return (<div className="settings-menu">
                 <Link to="/settings">
-                    <span className="settings-menu">
+                    <span className="settings-menu-icon">
                         <IconSettings/>
+                    </span>
+                </Link>
+            </div>);
+    }
+}
+
+class BackendConnectionStatus extends React.Component {
+    render() {
+        let statusIcon = FileSystemController.isConnected() ? <IconFSCConnected/>
+            : <IconFSCDisconnected/>;
+        let attemptReconnection = (url) => {
+            window.flags.FileSystemApiUrl = url;
+            FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
+                console.log('Connected to FileSystemController');
+                localStorage.setItem("FileSystemApiUrl", window.flags.FileSystemApiUrl)
+                FileSystemController.updateAppStoreConnection(true);
+                FileSystemController.sendJSONMessage({
+                    method: 'GetInstalledApps', params: {}
+                });
+            }, () => { FileSystemController.updateAppStoreConnection(false); });
+        }
+        return (<div>
+                <Link to="#" onClick={() => {
+                    let url = prompt("Enter new FileSystemAPI URL", window.flags.FileSystemApiUrl);
+                    if(url){
+                        console.log('Attempting reconnection');
+                        attemptReconnection(url);
+                    }
+                }}>
+                    <span className="connection-status-icon">
+                        {statusIcon}
                     </span>
                 </Link>
             </div>);
@@ -98,6 +132,7 @@ class AppHeader extends React.Component {
         var modalClass = themeClass + " " + (this.props.alertIsSubtle ? "subtleAlertOverlay" : "alertOverlay");
         var isShowingMenu = this.props.location.pathname === '/inappmenu';
         var isShowingSubMenu = this.props.location.pathname === '/inapplist';
+        var isShowingSettings = this.props.location.pathname === '/settings'
         var icon = this.props.icon === 'false' ? (<div />) 
             : <MenuIcon 
                 isShowingMenu={isShowingMenu || isShowingSubMenu}
@@ -107,6 +142,8 @@ class AppHeader extends React.Component {
             icon = this.props.location.pathname === '/appstore' ? (<AppStoreMenuIcon />) : (
                 <MainMenuSettings/>
             );
+        } else if (isShowingSettings) {
+            icon = (<BackendConnectionStatus/>)
         } else if (this.props.icon === 'custom') {
             icon = this.props.jsxIcon;
         }

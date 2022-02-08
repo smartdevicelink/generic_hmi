@@ -40,20 +40,11 @@ class Keyboard extends Component {
 
   onChange = input => {
     // Changes from button presses
-    let position = this.keyboard.caretPosition;
     var tabPattern = /\t/g;
-    var tabCount = ((input || '').match(tabPattern) || []).length * 8;
+    var tabCount = ((input || '').match(tabPattern) || []).length * 7;
     this.setState({ input, tabCount }, () => {
-      if (position === null) {
-        position = input.length;
-      }
-      if (this.inputRef.setSelectionRange) {
-        this.inputRef.focus();
-        this.inputRef.setSelectionRange(position, position);
-        if (position === this.inputRef.value.length) {
-          this.inputRef.scrollLeft = this.inputRef.scrollWidth + this.state.tabCount;
-        }
-      }
+      this.inputRef.scrollLeft = this.inputRef.scrollWidth + this.state.tabCount;
+      this.groupInputRef.scrollLeft = this.groupInputRef.scrollWidth;
     });
     this.handleInput(input);
   };
@@ -234,20 +225,28 @@ class Keyboard extends Component {
 
     var interactionText = app && app.interactionText && app.interactionText.fieldText ? 
       app.interactionText.fieldText : "Tap on the virtual keyboard to start";
+
+    var parsedInput = this.state.input.replaceAll("\t", "        ");
+    var calculatedInputSize = parsedInput ? parsedInput.length : interactionText.length;
+
+    var inputClassName = "div-input"
+    if (parsedInput.length && (this.maskedInput || this.state.userMaskedInput)) {
+      inputClassName += " text-security"
+    }
+
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
                 <div className="input-row">
-                    <div className="input-text">
-                      <input
+                    <div className="input-text" ref={r => (this.groupInputRef = r)}>
+                      <div
+                          className={inputClassName}
                           ref={r => (this.inputRef = r)}
-                          value={this.state.input}
-                          type={this.maskedInput || this.state.userMaskedInput ? "password" : "text"}
-                          placeholder={interactionText}
-                          onChange={this.onChangeInput}
-                          size={this.state.input ? this.state.input.length + this.state.tabCount : interactionText.length}
-                      />
+                          style={{width: (calculatedInputSize+0.1) + "ch"}}
+                      >
+                        {parsedInput.length ? parsedInput : interactionText}
+                      </div>
                       <div 
                         className="input-autocomplete"
                         onClick={() => {this.handleAutoComplete(autoCompleteWord)}}

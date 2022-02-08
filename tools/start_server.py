@@ -192,7 +192,7 @@ class RPCService(WSServer.SampleRPCService):
     }
 
   async def send(self, _msg):
-    print('\033[1;2m***Sending message: %s\033[0m' % _msg)
+    print('\033[1;2m***Sending message: %s\033[0m' % _msg.encode('utf-8'))
     await self.websocket.send(_msg)
 
   async def send_error(self, _error_msg):
@@ -201,7 +201,7 @@ class RPCService(WSServer.SampleRPCService):
     await self.send(json.dumps(err))
 
   async def on_receive(self, _msg):
-    print('\033[1;2m***Message received: %s\033[0m' % _msg)
+    print('\033[1;2m***Message received: %s\033[0m' % _msg.encode('utf-8'))
     request_message = None
 
     try:
@@ -338,6 +338,8 @@ class RPCService(WSServer.SampleRPCService):
     private_key = None
     try:
       file_contents = open(crt_file_path, 'rb').read()
+      if b"BEGIN CERTIFICATE" in file_contents:
+        return { 'success': True }
       p12 = crypto.load_pkcs12(base64.b64decode(file_contents),
         Flags.CERT_PASS_PHRASE.encode('utf-8'))
       certificate = p12.get_certificate()
@@ -500,8 +502,8 @@ class WebEngineManager():
 
 def main():
   parser =  argparse.ArgumentParser(description="Handle backend operations for the hmi")
-  parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
-  parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
+  parser.add_argument('--host', type=str, default='127.0.0.1', help="Backend server hostname")
+  parser.add_argument('--ws-port', type=int, default=8081, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
   parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
   parser.add_argument('--cert-passphrase', type=str, default='defaultPassPhrase', help="A secret password used to decrypt the certificate from the PT")

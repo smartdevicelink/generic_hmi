@@ -143,7 +143,10 @@ class Image extends React.Component {
                 var hidden = {display:'none'};
                 var size = {
                     height: "100%",
-                    width: "100%"
+                    width: "100%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
                 }
                 return (
                     <div style={size} ref="canvasContainer">

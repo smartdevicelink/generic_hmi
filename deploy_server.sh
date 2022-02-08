@@ -39,7 +39,7 @@ InitSubmodules() {
 
 StartServer() {
     cp ${SOURCE_DIR}/${TARGET_SCRIPT} ${TARGET_DIR}
-    python3 ${TARGET_DIR}/${TARGET_SCRIPT} --host 127.0.0.1 --ws-port 8081
+    python3 ${TARGET_DIR}/${TARGET_SCRIPT} "$@"
     rm ${TARGET_DIR}/${TARGET_SCRIPT}
 }
 
@@ -49,6 +49,6 @@ if ! find $TARGET_DIR -mindepth 1 | read; then
 fi
 
 echo "Starting HMI Backend service..."
-StartServer
+StartServer "$@"
 echo "HMI Backend service was stopped"
 
