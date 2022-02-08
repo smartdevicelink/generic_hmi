@@ -173,25 +173,25 @@ class Image extends React.Component {
                     </div>
                 )
             } else {
-                var size = {};
+                var style = {};
                 if (this.state.height && this.state.width) {
                     if (this.state.height > this.state.width) {
-                        size = {
+                        style = {
                             height: "100%",
                             width: "auto"
                         }
                     } else {
-                        size = {
+                        style = {
                             height: "auto",
                             width: "100%"
                         }
                     }
                 } else {
-                    size = {display:'none'};
+                    style = {display:'none'};
                 }
                 
                 return (
-                    <img onLoad={this.onImgLoad} className={this.props.class} style={size} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
+                    <img onLoad={this.onImgLoad} className={this.props.class} style={style} src={this.props.image + "?m=" + new Date().getTime()} onError={e => this.onError(e)} alt="SDL_Image"/>
                 )
             }
 
