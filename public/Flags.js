@@ -11,11 +11,12 @@ window.flags = {
     StatusUpdateIcon: true,
     VRPlugin: {
         Url: 'http://127.0.0.1:3000', //URL path to plugin application, for web applications
-        Name: 'Voice', //Title to display alongside the plugin UI
         Enabled: true, //Plugin is disabled, HMI will ignore this entry
         SidebarEnabled: true, //Plugin has a UI component, and should be displayed beside the main HMI
-        MenuEnabled: true,
-        MenuName: 'Voice Commands',
-        MenuComponent: 'VRSettings'
+        TestViewTitle: 'Voice', //Title to display alongside the plugin UI
+        MenuNavEnabled: false,
+        MenuNavTitle: 'Voice Commands',
+        TestViewEnabled: true,
+        TestViewTitle: 'VR'
     }
 };

@@ -340,7 +340,7 @@ ReactDOM.render((
             <Route path="/permissionapplist" component={PermissionAppList} />
             <Route path="/apppermissions" component={AppPermissions} />
             <Route path="/settings" component={Settings} />
-            {window.flags.VRPlugin.MenuEnabled && <Route path="/vr" component={VRPlugin} />}
+            {window.flags.VRPlugin.MenuNavEnabled && <Route path="/vr" component={VRPlugin} />}
         </HashRouter>
     </HMIApp>
     </Provider>

@@ -105,7 +105,7 @@ class Settings extends React.Component {
             </div>
         )
 
-        if (window.flags.VRPlugin.MenuEnabled) {
+        if (window.flags.VRPlugin.MenuNavEnabled) {
             settingsButtons.push(
                 <div className="hscrollmenu-block">
                     <Link to="/vr">
@@ -116,7 +116,7 @@ class Settings extends React.Component {
                             </div>
                             <div className="hscrollmenu-item__name">
                                 <p className="t-small t-light th-f-color">
-                                    {window.flags.VRPlugin.MenuName ? window.flags.VRPlugin.MenuName : "Voice Recognition"}
+                                    {window.flags.VRPlugin.MenuNavTitle ? window.flags.VRPlugin.MenuNavTitle : "Voice Recognition"}
                                 </p>
                             </div>
                             <span className="hscrollmenu-item__arrow svg-wrap" > 
