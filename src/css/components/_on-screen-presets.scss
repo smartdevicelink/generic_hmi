@@ -34,16 +34,7 @@
 }
 
 .on-screen-presets .progress-bar {
-    position: relative;
     height: calc((#{$master-height} - 75px) / 12) ;
-
-    border-bottom: 2px solid;
-
-    &__progress {
-        position: absolute;
-        height: 100%;
-        background: color($secondary-accent-color);
-    }
 }
 
 .on-screen-presets .media-track {
