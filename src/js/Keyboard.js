@@ -24,7 +24,10 @@ class Keyboard extends Component {
       layoutName: "default",
       input: "",
       userMaskedInput: false,
-      tabCount: 0
+      tabCount: 0,
+      isScrolling: false,
+      clientX: 0,
+      scrollX: 0
     };
   }
 
@@ -143,6 +146,24 @@ class Keyboard extends Component {
     keyboardLayout.default = layout;
     return keyboardLayout;
   }
+
+  onMouseDown = e => {
+    this.setState({ ...this.state, isScrolling: true, 
+     clientX: e.clientX });
+  };
+
+  onMouseUp = () => {
+    this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0 });
+  };
+
+  onMouseMove = e => {
+    const { clientX, scrollX } = this.state;
+    if (this.state.isScrolling) {
+      var newScrollX = this.scrollRef.scrollLeft - e.clientX + clientX;
+      this.scrollRef.scrollLeft = newScrollX;
+      this.setState({ scrollX: newScrollX, clientX: e.clientX});
+    }
+  };
 
   render() {
     const state = store.getState()
@@ -282,7 +303,13 @@ class Keyboard extends Component {
                     </label>
                 </div>
                 { choiceSetList }
-                <div className="auto-complete-list">
+                <div 
+                  className="auto-complete-list" 
+                  ref={r => (this.scrollRef = r)}
+                  onMouseDown={this.onMouseDown}
+                  onMouseUp={this.onMouseUp}
+                  onMouseMove={this.onMouseMove}
+                >
                   { autoCompleteList }
                 </div>
                 <SimpleKeyboard

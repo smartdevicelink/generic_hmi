@@ -103,7 +103,12 @@
     background-color: black;
     margin-right: 5px;
     border-radius: 10px;
+    white-space: nowrap;
     cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .dark-theme .keyboard .input-text .input-autocomplete {
@@ -153,7 +158,12 @@
     background-color: #fff;
     margin-right: 5px;
     border-radius: 10px;
+    white-space: nowrap;
     cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
