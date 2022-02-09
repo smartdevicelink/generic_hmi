@@ -15,7 +15,7 @@ export default class AppIcon extends React.Component {
         var path = this.props.isShowingMenu ? this.props.backLink : "/inappmenu" 
         var icon = this.props.icon ?
             (<Image image={this.props.icon} isTemplate={this.props.isTemplate} fillColor={fillColor}/>)
-            : (<span className="app-icon"></span>)
+            : (<span></span>)
         return (
             <div>
                 <Link to={path} onClick={() => this.props.onSelection(this.props.appID, path, this.props.activeSubMenu)}>
