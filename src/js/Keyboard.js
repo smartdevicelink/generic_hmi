@@ -32,6 +32,9 @@ class Keyboard extends Component {
   }
 
   handleAutoComplete = newInput => {
+    if (this.state.isScrolling) {
+      return;
+    }
     this.setState({
       input: newInput
     });
@@ -153,15 +156,21 @@ class Keyboard extends Component {
   };
 
   onMouseUp = () => {
-    this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0 });
+    // Delay state change to prevent wrong autocomplete
+    setTimeout(() => {
+      this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0 });
+    }, 50)
   };
 
   onMouseMove = e => {
-    const { clientX, scrollX } = this.state;
+    const { clientX } = this.state;
     if (this.state.isScrolling) {
       var newScrollX = this.scrollRef.scrollLeft - e.clientX + clientX;
       this.scrollRef.scrollLeft = newScrollX;
-      this.setState({ scrollX: newScrollX, clientX: e.clientX});
+      this.setState({ 
+        scrollX: newScrollX, 
+        clientX: e.clientX
+      });
     }
   };
 
@@ -309,6 +318,7 @@ class Keyboard extends Component {
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
                   onMouseMove={this.onMouseMove}
+                  onMouseLeave={this.onMouseUp}
                 >
                   { autoCompleteList }
                 </div>
