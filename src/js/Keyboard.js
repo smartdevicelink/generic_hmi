@@ -27,7 +27,8 @@ class Keyboard extends Component {
       tabCount: 0,
       isScrolling: false,
       clientX: 0,
-      scrollX: 0
+      scrollX: 0,
+      maxScroll: 0
     };
   }
 
@@ -156,20 +157,26 @@ class Keyboard extends Component {
   };
 
   onMouseUp = () => {
-    // Delay state change to prevent wrong autocomplete
-    setTimeout(() => {
-      this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0 });
-    }, 50)
+    // Gives the user some wiggle room in case they move the mouse a bit while selecting
+    if (this.state.maxScroll < 3) {
+      this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0, maxScroll: 0 });
+    } else {
+      // Delay state change to prevent wrong autocomplete
+      setTimeout(() => {
+        this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0, maxScroll: 0 });
+      }, 50)
+    }
   };
 
   onMouseMove = e => {
-    const { clientX } = this.state;
+    const { clientX, maxScroll } = this.state;
     if (this.state.isScrolling) {
       var newScrollX = this.scrollRef.scrollLeft - e.clientX + clientX;
       this.scrollRef.scrollLeft = newScrollX;
       this.setState({ 
         scrollX: newScrollX, 
-        clientX: e.clientX
+        clientX: e.clientX,
+        maxScroll: newScrollX > maxScroll ? newScrollX : maxScroll
       });
     }
   };
