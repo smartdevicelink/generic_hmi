@@ -33,6 +33,29 @@
     opacity: 0.5;
 }
 
+.keyboard .auto-complete-list {
+    display: flex;
+    padding-top: 5px;
+    min-height: 61px;
+    max-width: 100%;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+}
+
+.keyboard .auto-complete-list-item {
+    display: flex;
+    font-size: 24px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
 .dark-theme .simple-keyboard.hg-theme-default.custom-keyboard {
     background: color($primary-color);
     display: flex;
@@ -91,6 +114,11 @@
     overflow-x: scroll;
 }
 
+.dark-theme .keyboard .auto-complete-list-item {
+    color: #fff;
+    background-color: black;
+}
+
 .dark-theme .keyboard .input-text .input-autocomplete {
     height: 100%;
     font-size: 36px;
@@ -128,6 +156,11 @@
     align-items: center;
     white-space: pre;
     overflow-x: scroll;
+}
+
+.light-theme .keyboard .auto-complete-list-item {
+    color: #000;
+    background-color: #fff;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
