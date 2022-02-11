@@ -42,6 +42,20 @@
     flex-wrap: nowrap;
 }
 
+.keyboard .auto-complete-list-item {
+    display: flex;
+    font-size: 24px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
 .dark-theme .simple-keyboard.hg-theme-default.custom-keyboard {
     background: color($primary-color);
     display: flex;
@@ -101,19 +115,8 @@
 }
 
 .dark-theme .keyboard .auto-complete-list-item {
-    display: flex;
     color: #fff;
-    font-size: 24px;
-    padding: 10px;
     background-color: black;
-    margin-right: 5px;
-    border-radius: 10px;
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
 }
 
 .dark-theme .keyboard .input-text .input-autocomplete {
@@ -156,19 +159,8 @@
 }
 
 .light-theme .keyboard .auto-complete-list-item {
-    display: flex;
     color: #000;
-    font-size: 24px;
-    padding: 10px;
     background-color: #fff;
-    margin-right: 5px;
-    border-radius: 10px;
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {
