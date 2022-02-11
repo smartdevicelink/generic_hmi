@@ -415,7 +415,9 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": capabilities["MEDIA"].buttonCapabilities,
+                "capabilities": capabilities["MEDIA"].buttonCapabilities.concat(
+                    capabilities["ONSCREEN_PRESETS"].buttonCapabilities
+                ),
                 "presetBankCapabilities": {
                     "onScreenPresetsAvailable": false
                 }
