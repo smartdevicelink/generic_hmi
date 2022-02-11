@@ -112,7 +112,8 @@ class UIController {
                     rpc.params.showStrings,
                     rpc.params.graphic,
                     rpc.params.softButtons,
-                    rpc.params.secondaryGraphic
+                    rpc.params.secondaryGraphic,
+                    rpc.params.customPresets
                 ));
                 let templateConfiguration = rpc.params.templateConfiguration;
                 if (templateConfiguration && (showApp.isMediaApplication
