@@ -480,6 +480,12 @@ class RpcFactory {
             }
         })
     }
+    static OnStartDeviceDiscovery(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnStartDeviceDiscovery"
+        })
+    }
     static SDLGetUserFriendlyMessage(codes) {
         return {
             jsonrpc: '2.0',
