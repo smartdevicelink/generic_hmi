@@ -7,8 +7,8 @@ body {
 }
 
 #app {
-    width: $master-width;
     .app-body {
+        width: $master-width;
         height: $master-height;
     }
 }
