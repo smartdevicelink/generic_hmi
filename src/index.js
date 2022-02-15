@@ -35,6 +35,8 @@ import PermissionAppList from './js/PermissionAppList';
 import Settings from './js/Settings';
 import Keyboard from './js/Keyboard';
 import VRPlugin from './js/VRPlugin';
+import VIPlugin from './js/VIPlugin';
+import PluginSidebar from './js/PluginSidebar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
@@ -196,31 +198,34 @@ class HMIApp extends React.Component {
 
         return(
             <div>
-                <div className={themeClass}>
-                    <div className="app-body" id="main-body">
-                        <Toaster position='top-center' 
-                        containerStyle={{
-                            maxHeight: config.masterHeight,
-                            overflowY: 'scroll',
-                            overflowX: 'hidden',
-                            marginTop: 10,
-                            marginLeft: 10,
-                            paddingTop: 10
-                        }} 
-                        toastOptions={{ style: {
-                            left: 0,
-                            position: 'relative',
-                            top: 0,
-                            width: config.masterWidth,
-                            backgroundColor: '#11111100',
-                            maxWidth: '100%',
-                            boxShadow: 'none',
-                            marginRight: 'auto',
-                            marginTop: 10,
-                            padding: 0
-                        } }}/>
-                        {this.props.children}
+                <div style={{ height: config.masterHeight, width: config.masterWidth + 300, display: 'flex' }}>
+                    <div className={themeClass}>
+                        <div className="app-body" id="main-body">
+                            <Toaster position='top-center' 
+                            containerStyle={{
+                                maxHeight: config.masterHeight,
+                                overflowY: 'scroll',
+                                overflowX: 'hidden',
+                                marginTop: 10,
+                                marginLeft: 10,
+                                paddingTop: 10
+                            }} 
+                            toastOptions={{ style: {
+                                left: 0,
+                                position: 'relative',
+                                top: 0,
+                                width: config.masterWidth,
+                                backgroundColor: '#11111100',
+                                maxWidth: '100%',
+                                boxShadow: 'none',
+                                marginRight: 'auto',
+                                marginTop: 10,
+                                padding: 0
+                            } }}/>
+                            {this.props.children}
+                        </div>
                     </div>
+                    <PluginSidebar />
                 </div>
                 <div>
                     <div className="toggle-button" onClick={this.handleClick}>Toggle theme</div>
@@ -342,7 +347,8 @@ ReactDOM.render((
             <Route path="/permissionapplist" component={PermissionAppList} />
             <Route path="/apppermissions" component={AppPermissions} />
             <Route path="/settings" component={Settings} />
-            {window.flags.VRPlugin.MenuNavEnabled && <Route path="/vr" component={VRPlugin} />}
+            {window.flags.VRPlugin && window.flags.VRPlugin.MenuNavEnabled && <Route path="/vr" component={VRPlugin} />}
+            {window.flags.VIPlugin && window.flags.VIPlugin.MenuNavEnabled && <Route path="/vehicle-info" component={VIPlugin} />}
         </HashRouter>
     </HMIApp>
     </Provider>
