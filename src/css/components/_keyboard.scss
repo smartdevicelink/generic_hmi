@@ -4,7 +4,56 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 20px;    
+    padding: 20px;
+    padding-top: 0px;
+}
+
+.keyboard .vscrollmenu {
+    height: 40%;
+}
+
+.keyboard .hscrollmenu {
+    padding-top: 10px;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+   .hscrollmenu-item__name {
+        overflow: hidden;
+        bottom: 5px;
+    }
+}
+
+.keyboard .hscrollmenu-block {
+    height: 98%;
+    margin-left: 0px;
+}
+
+.keyboard .with-search {
+    height: 70px !important;
+    opacity: 0.5;
+}
+
+.keyboard .auto-complete-list {
+    display: flex;
+    padding-top: 5px;
+    min-height: 61px;
+    max-width: 100%;
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+}
+
+.keyboard .auto-complete-list-item {
+    display: flex;
+    font-size: 24px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .dark-theme .simple-keyboard.hg-theme-default.custom-keyboard {
@@ -47,8 +96,8 @@
     display: flex;
     width: 100%;
     height: 200px;
-    padding: 20px;
-    font-size: 36px;
+    padding: 5px 20px;
+    font-size: 24px;
     border: none;
     box-sizing: border-box;
     background-color: color($secondary-color);
@@ -63,6 +112,11 @@
     align-items: center;
     white-space: pre;
     overflow-x: scroll;
+}
+
+.dark-theme .keyboard .auto-complete-list-item {
+    color: #fff;
+    background-color: black;
 }
 
 .dark-theme .keyboard .input-text .input-autocomplete {
@@ -87,8 +141,8 @@
     display: flex;
     width: 100%;
     height: 200px;
-    padding: 20px;
-    font-size: 36px;
+    padding: 5px 20px;
+    font-size: 24px;
     border: none;
     box-sizing: border-box;
     font-family: monospace;
@@ -102,6 +156,11 @@
     align-items: center;
     white-space: pre;
     overflow-x: scroll;
+}
+
+.light-theme .keyboard .auto-complete-list-item {
+    color: #000;
+    background-color: #fff;
 }
 
 .light-theme .keyboard .input-text .input-autocomplete {

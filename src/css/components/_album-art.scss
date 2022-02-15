@@ -4,11 +4,9 @@
     @if $calc-width <= $calc-height {
         $size: $calc-width + ($calc-width / 6.5);
         @include size($size);
-        @include transform(translateY(2%));
     } @else {
         $size: $calc-height + ($calc-height / 6.5);
         @include size($size);
-        @include transform(translateY(2%));
     }
 }
 
@@ -17,11 +15,22 @@
     @include align-items(center);
     margin: auto 0px;
     @include album-art-size();
+    height: 100% !important;
+    padding: 1%;
     border-radius: 4px;
 
     img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
     }
+}
+
+.album-art-background {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .static-icon {

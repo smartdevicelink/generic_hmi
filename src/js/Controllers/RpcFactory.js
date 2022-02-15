@@ -415,7 +415,9 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": capabilities["MEDIA"].buttonCapabilities,
+                "capabilities": capabilities["MEDIA"].buttonCapabilities.concat(
+                    capabilities["ONSCREEN_PRESETS"].buttonCapabilities
+                ),
                 "presetBankCapabilities": {
                     "onScreenPresetsAvailable": false
                 }
@@ -476,6 +478,12 @@ class RpcFactory {
             "params": {
                 "appID": appID
             }
+        })
+    }
+    static OnStartDeviceDiscovery(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnStartDeviceDiscovery"
         })
     }
     static SDLGetUserFriendlyMessage(codes) {

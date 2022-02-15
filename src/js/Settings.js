@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
 import sdlController from './Controllers/SDLController';
+import bcController from './Controllers/BCController';
 import AppHeader from './containers/Header';
 import {ReactComponent as IconCart} from '../img/icons/icon-cart.svg'
 import {ReactComponent as PermissionsIcon} from '../img/static/0x22.svg'
@@ -10,6 +11,7 @@ import {ReactComponent as IconVR} from '../img/static/0xE8.svg'
 import {ReactComponent as UpdateNeeded} from '../img/static/0xE5.svg'
 import {ReactComponent as Updating} from '../img/icons/updating.svg'
 import {ReactComponent as UpToDate} from '../img/icons/up_to_date.svg'
+import {ReactComponent as DeviceSearch} from '../img/static/0x05.svg'
 import {ReactComponent as IconArrowRight} from '../img/icons/icon-arrow-right.svg'
 
 const mapStateToProps = (state) => { 
@@ -128,7 +130,24 @@ class Settings extends React.Component {
             )
         }
 
-        
+        settingsButtons.push(
+            <div 
+                className="hscrollmenu-block"
+                onClick={() => {
+                    bcController.onStartDeviceDiscovery();
+                }}    
+            >
+                <div
+                    className="hscrollmenu-item th-b-color th-tile-background-color">
+                    <div className="hscrollmenu-item__image svg-wrap">
+                        <DeviceSearch/>
+                    </div>
+                    <div className="hscrollmenu-item__name">
+                        <p className="t-small t-light th-f-color">Search For Devices</p>
+                    </div>
+                </div>
+            </div>
+        )
 
         return (
             <div>

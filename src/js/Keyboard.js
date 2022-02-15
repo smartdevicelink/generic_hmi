@@ -7,6 +7,8 @@ import store from './store';
 import uiController from './Controllers/UIController'
 import { deactivateInteraction } from './actions'
 
+import { VSubMenu, HSubMenu } from './containers/SubMenu';
+
 class Keyboard extends Component {
 
   constructor(props) {
@@ -22,19 +24,25 @@ class Keyboard extends Component {
       layoutName: "default",
       input: "",
       userMaskedInput: false,
-      tabCount: 0
+      tabCount: 0,
+      isScrolling: false,
+      clientX: 0,
+      scrollX: 0,
+      maxScroll: 0
     };
   }
 
-  handleAutoComplete = append => {
-    var completedWord = this.state.input + append;
+  handleAutoComplete = newInput => {
+    if (this.state.isScrolling) {
+      return;
+    }
     this.setState({
-      input: completedWord
+      input: newInput
     });
-    this.keyboard.setInput(completedWord);
-    this.handleInput(completedWord);
+    this.keyboard.setInput(newInput);
+    this.handleInput(newInput);
     if (this.keyboardProperties.keypressMode === "SINGLE_KEYPRESS") {
-      uiController.onKeyboardInput(append, 'KEYPRESS');
+      uiController.onKeyboardInput(newInput, 'KEYPRESS');
     }
   }
 
@@ -143,6 +151,36 @@ class Keyboard extends Component {
     return keyboardLayout;
   }
 
+  onMouseDown = e => {
+    this.setState({ ...this.state, isScrolling: true, 
+     clientX: e.clientX });
+  };
+
+  onMouseUp = () => {
+    // Gives the user some wiggle room in case they move the mouse a bit while selecting
+    if (this.state.maxScroll < 3) {
+      this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0, maxScroll: 0 });
+    } else {
+      // Delay state change to prevent wrong autocomplete
+      setTimeout(() => {
+        this.setState({ ...this.state, isScrolling: false, clientX: 0, scrollX: 0, maxScroll: 0 });
+      }, 50)
+    }
+  };
+
+  onMouseMove = e => {
+    const { clientX, maxScroll } = this.state;
+    if (this.state.isScrolling) {
+      var newScrollX = this.scrollRef.scrollLeft - e.clientX + clientX;
+      this.scrollRef.scrollLeft = newScrollX;
+      this.setState({ 
+        scrollX: newScrollX, 
+        clientX: e.clientX,
+        maxScroll: newScrollX > maxScroll ? newScrollX : maxScroll
+      });
+    }
+  };
+
   render() {
     const state = store.getState()
     const app = state.ui[state.activeApp]
@@ -206,15 +244,18 @@ class Keyboard extends Component {
         limitedCharacterList = limitedCharacterList.replaceAll("  ", " ");
     }
 
-    var autoCompleteWord = "";
+    var autoCompleteList = [];
     if (this.props.autoCompleteList && this.props.autoCompleteList.length > 0) {
-      const currentWord = this.state.input.split(" ").pop();
       for (const word of this.props.autoCompleteList) {
-        if (currentWord.length > 0 && word.startsWith(currentWord)) {
-          // Matched a potential autocomplete
-          autoCompleteWord = word.substr(currentWord.length)
-          break;
-        }
+        let autoCompleteWord = word;
+        autoCompleteList.push(
+          <div 
+            className="auto-complete-list-item" key={"auto-complete-" + autoCompleteWord}
+            onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
+          >
+            { word }
+          </div>
+        );
       }
     }
     
@@ -234,24 +275,31 @@ class Keyboard extends Component {
       inputClassName += " text-security"
     }
 
+    // Displaying choice sets
+    var choiceSetList = null;
+    if (app?.interactionLayout === "ICON_WITH_SEARCH") {
+      choiceSetList = (<HSubMenu filterText={parsedInput}/>);
+    } else if (app?.interactionLayout === "LIST_WITH_SEARCH") {
+      choiceSetList = (<VSubMenu filterText={parsedInput}/>);
+    }
+
+    var withSearch = ""
+    if (choiceSetList) {
+      withSearch = " with-search"
+    }    
+
     return (
         <div>
             <AppHeader backLink={backLink} menuName="Back"/>
             <div className="keyboard">
                 <div className="input-row">
-                    <div className="input-text" ref={r => (this.groupInputRef = r)}>
+                    <div className={"input-text"+withSearch} ref={r => (this.groupInputRef = r)}>
                       <div
                           className={inputClassName}
                           ref={r => (this.inputRef = r)}
                           style={{width: (calculatedInputSize+0.1) + "ch"}}
                       >
                         {parsedInput.length ? parsedInput : interactionText}
-                      </div>
-                      <div 
-                        className="input-autocomplete"
-                        onClick={() => {this.handleAutoComplete(autoCompleteWord)}}
-                      >
-                        {autoCompleteWord}
                       </div>
                     </div>
 
@@ -269,6 +317,17 @@ class Keyboard extends Component {
                     >
                         Mask Input
                     </label>
+                </div>
+                { choiceSetList }
+                <div 
+                  className="auto-complete-list" 
+                  ref={r => (this.scrollRef = r)}
+                  onMouseDown={this.onMouseDown}
+                  onMouseUp={this.onMouseUp}
+                  onMouseMove={this.onMouseMove}
+                  onMouseLeave={this.onMouseUp}
+                >
+                  { autoCompleteList }
                 </div>
                 <SimpleKeyboard
                     keyboardRef={r => (this.keyboard = r)}

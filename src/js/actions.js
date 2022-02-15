@@ -87,14 +87,15 @@ export const deactivateApp = (appID, reason) => {
     }
 }
 
-export const show = (appID, showStrings, graphic, softButtons, secondaryGraphic) => {
+export const show = (appID, showStrings, graphic, softButtons, secondaryGraphic, customPresets) => {
     return {
         type: Actions.SHOW,
         appID: appID,
         showStrings: showStrings,
         graphic: graphic,
         softButtons: softButtons,
-        secondaryGraphic: secondaryGraphic
+        secondaryGraphic: secondaryGraphic,
+        customPresets: customPresets
     }
 }
 
