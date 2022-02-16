@@ -265,26 +265,6 @@ class UIController {
                     rpc.params.countRate
                 ))
                 return true
-            case "SetDisplayLayout":
-                console.log("Warning: RPC SetDisplayLayout is deprecated");
-                const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
-                var setDisplayLayoutApp = store.getState().appList.find((app) => {
-                    return app.appID === rpc.params.appID;
-                });
-
-                var disallowedLayout = rpc.params.displayLayout === 'MEDIA' && !setDisplayLayoutApp.isMediaApplication;
-                if (disallowedLayout) {
-                    rpc.params.displayLayout = prevDisplayLayout;
-                }
-                if (rpc.params.displayLayout === 'DEFAULT') {
-                    rpc.params.displayLayout = getDefaultLayout(setDisplayLayoutApp)
-                }
-                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-
-                if (prevDisplayLayout !== appUIState.displayLayout) {
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
-                }
-                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,

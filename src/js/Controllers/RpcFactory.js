@@ -818,47 +818,7 @@ class RpcFactory {
         }
         return msg  
     }
-    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
-        var layout = rpc.params.displayLayout;
-        var supportedTemplates = [ ...capabilities["MEDIA"].displayCapabilities.templatesAvailable, 'MEDIA'];
-        if (!disallowedLayout && supportedTemplates.includes(layout)) {
-            if (layout === "DEFAULT") {
-                layout = "MEDIA"
-            }
-            var response = {
-                "jsonrpc": "2.0",
-                "id": rpc.id,
-                "result": {
-                    "method": rpc.method,
-                    "code": 0
-                }
-            }
-            if (capabilities[layout].displayCapabilities) {
-                response.result["displayCapabilities"] = capabilities[layout].displayCapabilities
-            }
-            if (capabilities[layout].softButtonCapabilities) {
-                response.result["softButtonCapabilities"] = capabilities[layout].softButtonCapabilities
-            }
-            if (capabilities[layout].buttonCapabilities) {
-                response.result["buttonCapabilities"] = capabilities[layout].buttonCapabilities
-            }
-            return (response)        
-        } else {
-            return ({
-                "jsonrpc": "2.0",
-                "id": rpc.id,
-                "error": {
-                    "code": 1,
-                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
-                        : "The requested layout is not supported on this HMI",
-                    "data": {
-                        "method": rpc.method
-                    }
-                }
-            })            
-        }
 
-    }
     static UICancelInteractionIgnoredResponse(rpc) {
         return ({
             "jsonrpc": "2.0",
