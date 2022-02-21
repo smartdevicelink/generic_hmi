@@ -77,8 +77,6 @@ class HMIApp extends React.Component {
 
         let FileSystemApiUrl = localStorage.getItem("FileSystemApiUrl");
         if (FileSystemApiUrl) { window.flags.FileSystemApiUrl = FileSystemApiUrl; }
-        let AppStoreDirectoryUrl = localStorage.getItem("AppStoreDirectoryUrl");
-        if (AppStoreDirectoryUrl) { window.flags.AppStoreDirectoryUrl = AppStoreDirectoryUrl; }
     }
     handleClick() {
         var theme = !this.state.dark
