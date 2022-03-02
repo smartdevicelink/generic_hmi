@@ -260,7 +260,7 @@ class RPCService(WSServer.SampleRPCService):
 
     # Validate file path
     def isFileNameValid(_file_name):
-      path = os.path.abspath(os.path.normpath(_file_name))
+      path = os.path.realpath(os.path.normpath(_file_name))
       if os.path.commonpath([path, os.getcwd()]) != os.getcwd(): # Trying to save outside the working directory
         return False
       return True
