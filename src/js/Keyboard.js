@@ -322,6 +322,7 @@ class Keyboard extends Component {
                 <div 
                   className="auto-complete-list" 
                   ref={r => (this.scrollRef = r)}
+                  style={autoCompleteList.length === 0 ? {"display" : "none"} : {}}
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
                   onMouseMove={this.onMouseMove}

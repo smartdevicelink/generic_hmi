@@ -61,6 +61,7 @@
     display: flex;
     padding: 30px;
     max-height: calc((#{$master-height} - 75px) * 0.6);
+    justify-content: space-around;
 
     h4 {
         overflow: auto;
