@@ -16,7 +16,8 @@
     padding-top: 10px;
     height: 40%;
     display: flex;
-    justify-content: space-between;
+    transform: translateX(-20px);
+    width: 101%;
    .hscrollmenu-item__name {
         overflow: hidden;
         bottom: 5px;
@@ -25,7 +26,6 @@
 
 .keyboard .hscrollmenu-block {
     height: 98%;
-    margin-left: 0px;
 }
 
 .keyboard .with-search {
