@@ -37,6 +37,9 @@
     &__name {
         position: absolute;
         overflow: scroll;
+       p {
+            overflow: hidden;
+        }
         scrollbar-width: none;
         bottom: 0px;
         width: 100%;
