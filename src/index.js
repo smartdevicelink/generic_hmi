@@ -14,6 +14,7 @@ import LargeGraphicWithSoftbuttons from './js/Templates/LargeGraphicWithSoftbutt
 import GraphicWithTextButtons from './js/Templates/GraphicWithTextButtons/GraphicWithTextButtons'
 import TextButtonsWithGraphic from './js/Templates/TextButtonsWithGraphic/TextButtonsWithGraphic'
 import TextButtonsOnly from './js/Templates/TextButtonsOnly/TextButtonsOnly'
+import OnScreenPresets from './js/Templates/OnScreenPresets/OnScreenPresets'
 import GraphicWithTiles from './js/Templates/GraphicWithTiles/GraphicWithTiles'
 import TilesWithGraphic from './js/Templates/TilesWithGraphic/TilesWithGraphic'
 import TilesOnly from './js/Templates/TilesOnly/TilesOnly';
@@ -53,8 +54,6 @@ import { capabilities } from './js/Controllers/DisplayCapabilities.js'
 import {
     setTheme,
     setPTUWithModem,
-    updateAppStoreConnectionStatus,
-    updateInstalledAppStoreApps,
     setDDState
 } from './js/actions';
 
@@ -78,6 +77,9 @@ class HMIApp extends React.Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTouchEvent = this.onTouchEvent.bind(this);
+
+        let FileSystemApiUrl = localStorage.getItem("FileSystemApiUrl");
+        if (FileSystemApiUrl) { window.flags.FileSystemApiUrl = FileSystemApiUrl; }
     }
     handleClick(newState) {
         var theme = newState
@@ -257,29 +259,8 @@ class HMIApp extends React.Component {
 
         FileSystemController.connect(window.flags.FileSystemApiUrl).then(() => {
             console.log('Connected to FileSystemController');
-            store.dispatch(updateAppStoreConnectionStatus(true));
-            FileSystemController.onDisconnect(() => { store.dispatch(updateAppStoreConnectionStatus(false)); });
-
-            FileSystemController.subscribeToEvent('GetInstalledApps', (success, params) => {
-                if (!success || !params.apps) {
-                    console.error('error encountered when retrieving installed apps');
-                    return;
-                }
-
-                params.apps.map((app) => {
-                    FileSystemController.parseWebEngineAppManifest(app.appUrl).then((manifest) => {
-                        let appEntry = Object.assign(app, {
-                            entrypoint: manifest.entrypoint,
-                            version: manifest.appVersion
-                        });
-                        store.dispatch(updateInstalledAppStoreApps(appEntry));
-                        bcController.getAppProperties(app.policyAppID);
-                        return true;
-                    });
-                    return true;
-                });
-            });
-        }, () => { store.dispatch(updateAppStoreConnectionStatus(false)); });
+            FileSystemController.updateAppStoreConnection(true);
+        }, () => { FileSystemController.updateAppStoreConnection(false); });
 
         var waitCoreInterval = setInterval(() => {
             var sdlSocket = this.sdl.socket
@@ -341,6 +322,7 @@ ReactDOM.render((
             <Route path="/text-and-softbuttons-with-graphic" component={TextAndSoftbuttonsWithGraphic}/>
             <Route path="/double-graphic-with-softbuttons" component={DoubleGraphicWithSoftbuttons}/>
             <Route path="/nav-fullscreen-map" component={NavFullscreenMap}/>
+            <Route path="/onscreen-presets" component={OnScreenPresets}/>
             <Route path="/inappmenu" component={InAppMenu} />
             <Route path="/inapplist" component={InAppList} />
             <Route path="/appstore" component={AppStore} />

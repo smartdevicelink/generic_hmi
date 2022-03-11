@@ -20,16 +20,9 @@ export default class AlbumArt extends React.Component {
                     fillColor = "#000000"
                 }
 
-                var style = {
-                    height: "100%", 
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center"
-                }
-
                 return (
                     <div className="album-art">
-                        <div style={style}>
+                        <div className="album-art-background">
                             <Image
                                 image={this.props.image} 
                                 isTemplate={this.props.isTemplate}

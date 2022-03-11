@@ -57,6 +57,7 @@
 .non-media-graphic {
     @include display(flex);
     @include align-items(center);
+    @include justify-content(center);
     margin: auto 50px; 
     @include size(calc((#{$master-height} - 173px) / 1.22439 ));
     img {

@@ -415,7 +415,9 @@ class RpcFactory {
             "result": {
                 "method": rpc.method,
                 "code": 0,
-                "capabilities": capabilities["MEDIA"].buttonCapabilities,
+                "capabilities": capabilities["MEDIA"].buttonCapabilities.concat(
+                    capabilities["ONSCREEN_PRESETS"].buttonCapabilities
+                ),
                 "presetBankCapabilities": {
                     "onScreenPresetsAvailable": false
                 }
@@ -476,6 +478,12 @@ class RpcFactory {
             "params": {
                 "appID": appID
             }
+        })
+    }
+    static OnStartDeviceDiscovery(appID) {
+        return ({
+            "jsonrpc": "2.0",
+            "method": "BasicCommunication.OnStartDeviceDiscovery"
         })
     }
     static SDLGetUserFriendlyMessage(codes) {
@@ -809,50 +817,6 @@ class RpcFactory {
             }
         }
         return msg  
-    }
-    static SetDisplayLayoutResponse(rpc, disallowedLayout=false) {
-        var layout = rpc.params.displayLayout;
-        var supportedTemplates = ["DEFAULT", "MEDIA", "NON-MEDIA", "LARGE_GRAPHIC_ONLY",
-        "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC",
-        "TEXTBUTTONS_ONLY", "TILES_ONLY", "TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS",
-        "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS" ];
-        if (!disallowedLayout && supportedTemplates.includes(layout)) {
-            if (layout === "DEFAULT") {
-                layout = "MEDIA"
-            }
-            var response = {
-                "jsonrpc": "2.0",
-                "id": rpc.id,
-                "result": {
-                    "method": rpc.method,
-                    "code": 0
-                }
-            }
-            if (capabilities[layout].displayCapabilities) {
-                response.result["displayCapabilities"] = capabilities[layout].displayCapabilities
-            }
-            if (capabilities[layout].softButtonCapabilities) {
-                response.result["softButtonCapabilities"] = capabilities[layout].softButtonCapabilities
-            }
-            if (capabilities[layout].buttonCapabilities) {
-                response.result["buttonCapabilities"] = capabilities[layout].buttonCapabilities
-            }
-            return (response)        
-        } else {
-            return ({
-                "jsonrpc": "2.0",
-                "id": rpc.id,
-                "error": {
-                    "code": 1,
-                    "message": disallowedLayout ? 'Only MEDIA apps may use the MEDIA template'
-                        : "The requested layout is not supported on this HMI",
-                    "data": {
-                        "method": rpc.method
-                    }
-                }
-            })            
-        }
-
     }
 
     //NON-RPC MESSAGES

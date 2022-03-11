@@ -23,8 +23,8 @@ let templatesAvailable = [
 	"DEFAULT", "NON-MEDIA", "LARGE_GRAPHIC_WITH_SOFTBUTTONS", "LARGE_GRAPHIC_ONLY",
 	"GRAPHIC_WITH_TEXTBUTTONS", "TEXTBUTTONS_WITH_GRAPHIC", "TEXTBUTTONS_ONLY",
 	"TEXT_WITH_GRAPHIC", "GRAPHIC_WITH_TEXT", "DOUBLE_GRAPHIC_WITH_SOFTBUTTONS", "WEB_VIEW",
-	"TILES_ONLY", "GRAPHIC_WITH_TILES", "TILES_WITH_GRAPHIC",
-	"GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS", "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC"
+	"NAV_FULLSCREEN_MAP", "TILES_ONLY", "GRAPHIC_WITH_TILES", "TILES_WITH_GRAPHIC",
+	"GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS", "TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC", "ONSCREEN_PRESETS"
 ]
 
 let screenParams = {
@@ -65,6 +65,43 @@ const commonButtonCapabilities = [{
 	"longPressAvailable": true,
 	"upDownAvailable": true,
 	"name": "CUSTOM_BUTTON"
+}]
+
+const presetButtonCapabilities = [{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_0"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_1"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_2"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_3"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_4"
+},
+{
+	"shortPressAvailable": true,
+	"longPressAvailable": true,
+	"upDownAvailable": true,
+	"name": "PRESET_5"
 }]
 
 const mediaButtonCapabilities = [{
@@ -752,6 +789,68 @@ let capabilities = {
 		],
 		"buttonCapabilities": commonButtonCapabilities
 	},
+	"ONSCREEN_PRESETS": {
+		"displayCapabilities": {
+			"displayType": "SDL_GENERIC",
+			"displayName": "GENERIC_DISPLAY",
+			"textFields": [
+				textField("mainField1"),
+				textField("mainField2"),
+				textField("mainField3"),
+				textField("statusBar"),
+				textField("mediaClock"),
+				textField("mediaTrack"),
+				textField("templateTitle", 50),
+				textField("scrollableMessageBody", 44, 8),
+				textField("alertText1"),
+				textField("alertText2"),
+				textField("alertText3"),
+				textField("initialInteractionText", 50),
+				textField("sliderHeader", 70),
+				textField("sliderFooter", 70),
+				textField("subtleAlertText1"),
+				textField("subtleAlertText2"),
+				textField("subtleAlertSoftButtonText"),
+				textField("menuName"),
+				textField("secondaryText"),
+				textField("tertiaryText", 20),
+				textField("menuCommandSecondaryText"),
+				textField("menuCommandTertiaryText", 20),
+				textField("menuSubMenuSecondaryText"),
+				textField("menuSubMenuTertiaryText", 20),
+				textField("audioPassThruDisplayText1", 50),
+				textField("audioPassThruDisplayText2", 50)
+			],
+			"imageFields": [
+				imageField("choiceImage", 85),
+				imageField("choiceSecondaryImage", 80),
+				imageField("softButtonImage", 50),
+				imageField("softButtonImage", 50),
+				imageField("menuIcon", 40),
+				imageField("cmdIcon", 85),
+				imageField("subMenuIcon", 85),
+				imageField("secondaryImage", 40),
+				imageField("menuCommandSecondaryImage", 80),
+				imageField("menuSubMenuSecondaryImage", 80),
+				imageField("appIcon", 50),
+				imageField("graphic", 360),
+				imageField("alertIcon", 225),
+				imageField("subtleAlertIcon", 225)
+			],
+			"mediaClockFormats": ["CLOCK3", "CLOCKTEXT4"],
+			"graphicSupported": true,
+			"templatesAvailable": templatesAvailable,
+			"screenParams": screenParams,
+			"imageCapabilities": ["DYNAMIC", "STATIC"],
+			"menuLayoutsAvailable": ["LIST", "TILES"],
+			"numCustomPresetsAvailable": 6
+		},
+		"softButtonCapabilities": [
+			imageOnlySoftButtonCapability,
+			imageOnlySoftButtonCapability
+		],
+		"buttonCapabilities": mediaButtonCapabilities.concat(presetButtonCapabilities)
+	},
 	"TILES_ONLY": {
 		"displayCapabilities": {
 			"displayType": "SDL_GENERIC",
@@ -962,7 +1061,8 @@ const getWindowCapability = (template, includeMedia) => {
 		softButtonCapabilities: templateCapability.softButtonCapabilities,
 		menuLayoutsAvailable: templateDisplayCapability.menuLayoutsAvailable,
 		dynamicUpdateCapabilities: dynamicUpdateCapabilities,
-		keyboardCapabilities: keyboardCapabilities
+		keyboardCapabilities: keyboardCapabilities,
+		numCustomPresetsAvailable: templateDisplayCapability.numCustomPresetsAvailable
 	}
 	return capability;
 }

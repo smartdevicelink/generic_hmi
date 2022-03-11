@@ -202,7 +202,7 @@ class SDLController {
                         return app.appID === activatingApplication;
                     });
                     var revokedAppName = revokedApp ? revokedApp.appName : 'App';
-                    this.getUserFriendlyMessage([ "AppUnsupported" ], (response) => {
+                    this.getUserFriendlyMessage([ "AppUnauthorized" ], (response) => {
                         var heading = 'App is revoked';
                         var body = `${revokedAppName} does not have permission to run`;
                         if (response.result.messages && response.result.messages.length === 1) {
