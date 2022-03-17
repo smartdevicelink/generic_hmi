@@ -40,7 +40,9 @@ class TextWithGraphic extends React.Component {
                     <div className="text-with-graphic-container">
                         <TextFields/>
                     </div>
-                    <LargeGraphic class="text-with-graphic-container"/>
+                    <div className="min-width-50">
+                        <LargeGraphic class="text-with-graphic-container"/>
+                    </div>
                 </div>
             </div>
         )
