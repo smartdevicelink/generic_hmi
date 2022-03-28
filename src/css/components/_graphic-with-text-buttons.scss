@@ -7,7 +7,7 @@
 
 .graphic-with-text-buttons-container {
     height: 100%;
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
 }
@@ -19,6 +19,7 @@
     max-height:100%;
     object-fit: contain;
     margin-bottom: 20px;
+    max-width: 100%;
 }
 
  .graphic-with-text-buttons-template .soft-buttons {

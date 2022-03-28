@@ -39,7 +39,9 @@ class TextButtonswithGraphic extends React.Component {
                 <AppHeader backLink="/" menuName="Apps"/>
                 <div className="text-buttons-with-graphic-template" style={this.getColorScheme()}>
                     <SoftButtons class="text-buttons-with-graphic-container"/>
-                    <LargeGraphic class="text-buttons-with-graphic-container"/>
+                    <div className="min-width-50">
+                        <LargeGraphic class="text-buttons-with-graphic-container"/>
+                    </div>                    
                 </div>
             </div>
         )

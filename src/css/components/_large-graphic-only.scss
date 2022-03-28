@@ -7,6 +7,9 @@
     width: 100%;
     height: calc(#{$master-height} - 75px);
     padding: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .large-graphic-only .large-graphic {
