@@ -37,3 +37,10 @@
          url('../../fonts/LivioNorm-Bold-WebS.ttf') format('ttf');
     font-weight: 600;
 }
+
+@font-face {
+    font-family: 'LivioMask';
+    src: url('../../fonts/LivioMask.otf');
+    src: url('../../fonts/LivioMask.woff2') format('woff2');
+    font-weight: 400;
+}
