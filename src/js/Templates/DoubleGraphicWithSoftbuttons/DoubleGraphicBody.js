@@ -46,8 +46,12 @@ export default class DoubleGraphicBody extends React.Component {
     render() {
         return (
             <div className={this.props.class}>            
+                <div className="min-width-50">
                     {this.primaryGraphic()}
+                </div>
+                <div className="min-width-50">
                     {this.secondaryGraphic()}
+                </div>
             </div>
         )
     }
