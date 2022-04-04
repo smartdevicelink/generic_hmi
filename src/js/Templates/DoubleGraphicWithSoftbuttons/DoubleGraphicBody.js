@@ -15,14 +15,20 @@ export default class DoubleGraphicBody extends React.Component {
 
     primaryGraphic() {
         if(this.props.graphic) {
+            var image;
             if(this.props.graphic.imageType === "STATIC") {
-                return <StaticIcon class="double-graphic" image={this.props.graphic.value} />
+                image = <StaticIcon class="double-graphic" image={this.props.graphic.value} />
             } else {
-                return <Image class="double-graphic" 
+                image = <Image class="double-graphic" 
                     image={this.props.graphic.value} 
                     isTemplate={this.props.graphic.isTemplate}
                     fillColor={this.fillColor()}/>
             }
+            return (
+                <div className="min-width-50 width-50">
+                    { image }
+                </div>
+            );
         } else {
             return null
         }
@@ -45,13 +51,9 @@ export default class DoubleGraphicBody extends React.Component {
 
     render() {
         return (
-            <div className={this.props.class}>            
-                <div className="min-width-50">
-                    {this.primaryGraphic()}
-                </div>
-                <div className="min-width-50">
-                    {this.secondaryGraphic()}
-                </div>
+            <div className={this.props.class}>
+                {this.primaryGraphic()}
+                {this.secondaryGraphic()}
             </div>
         )
     }
