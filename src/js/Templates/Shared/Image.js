@@ -175,7 +175,7 @@ class Image extends React.Component {
             } else {
                 var style = {};
                 if (this.state.height && this.state.width) {
-                    if (this.state.height > this.state.width) {
+                    if (this.state.height >= this.state.width) {
                         style = {
                             height: "100%",
                             width: "auto"
