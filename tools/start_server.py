@@ -192,7 +192,7 @@ class RPCService(WSServer.SampleRPCService):
     }
 
   async def send(self, _msg):
-    print('\033[1;2m***Sending message: %s\033[0m' % _msg)
+    print('\033[1;2m***Sending message: %s\033[0m' % _msg.encode('utf-8'))
     await self.websocket.send(_msg)
 
   async def send_error(self, _error_msg):
@@ -201,7 +201,7 @@ class RPCService(WSServer.SampleRPCService):
     await self.send(json.dumps(err))
 
   async def on_receive(self, _msg):
-    print('\033[1;2m***Message received: %s\033[0m' % _msg)
+    print('\033[1;2m***Message received: %s\033[0m' % _msg.encode('utf-8'))
     request_message = None
 
     try:
@@ -260,7 +260,7 @@ class RPCService(WSServer.SampleRPCService):
 
     # Validate file path
     def isFileNameValid(_file_name):
-      path = os.path.abspath(os.path.normpath(_file_name))
+      path = os.path.realpath(os.path.normpath(_file_name))
       if os.path.commonpath([path, os.getcwd()]) != os.getcwd(): # Trying to save outside the working directory
         return False
       return True
@@ -502,8 +502,8 @@ class WebEngineManager():
 
 def main():
   parser =  argparse.ArgumentParser(description="Handle backend operations for the hmi")
-  parser.add_argument('--host', type=str, required=True, help="Backend server hostname")
-  parser.add_argument('--ws-port', type=int, required=True, help="Backend server port number")
+  parser.add_argument('--host', type=str, default='127.0.0.1', help="Backend server hostname")
+  parser.add_argument('--ws-port', type=int, default=8081, help="Backend server port number")
   parser.add_argument('--video-port', type=int, default=8085, help="Video streaming server port number")
   parser.add_argument('--audio-port', type=int, default=8086, help="Audio streaming server port number")
   parser.add_argument('--cert-passphrase', type=str, default='defaultPassPhrase', help="A secret password used to decrypt the certificate from the PT")

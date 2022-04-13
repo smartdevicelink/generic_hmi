@@ -33,7 +33,12 @@
         text-transform: uppercase;
     }
 
-    .settings-menu svg{
+    .settings-menu-icon svg{
+        @include size(40px);
+        margin-left: 0px;
+    }
+
+    .connection-status-icon svg{
         @include size(40px);
         margin-left: 0px;
     }

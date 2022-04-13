@@ -45,6 +45,17 @@ const getNextSystemContext = () => {
     }
     return "MAIN"
 }
+const getDefaultLayout = (app) => {
+    if(app.appType.includes('WEB_VIEW')) {
+        return 'WEB_VIEW';
+    } else if(app.appType.includes('NAVIGATION') || app.appType.includes('PROJECTION')) {
+        return 'NAV_FULLSCREEN_MAP';
+    } else if(app.isMediaApplication === true) {
+        return 'MEDIA';
+    } else {
+        return 'NON-MEDIA';
+    }
+}
 const DEFAULT_TIMEOUT_VALUE = 10000;
 
 class UIController {
@@ -101,12 +112,15 @@ class UIController {
                     rpc.params.showStrings,
                     rpc.params.graphic,
                     rpc.params.softButtons,
-                    rpc.params.secondaryGraphic
+                    rpc.params.secondaryGraphic,
+                    rpc.params.customPresets
                 ));
-                const templateConfiguration = rpc.params.templateConfiguration;
+                let templateConfiguration = rpc.params.templateConfiguration;
                 if (templateConfiguration && (showApp.isMediaApplication
                     || capabilities["MEDIA"].displayCapabilities.templatesAvailable.includes(templateConfiguration.template))) {
                     const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
+                    templateConfiguration.template = (templateConfiguration.template === 'DEFAULT') ? 
+                        getDefaultLayout(showApp) : templateConfiguration.template;
                     store.dispatch(setTemplateConfiguration(
                         templateConfiguration.template, 
                         rpc.params.appID, 
@@ -114,7 +128,7 @@ class UIController {
                         templateConfiguration.nightColorScheme
                     ));
                     
-                    if (prevDisplayLayout !== templateConfiguration.template) {
+                    if (prevDisplayLayout !== appUIState.displayLayout) {
                         this.listener.send(RpcFactory.OnSystemCapabilityDisplay(templateConfiguration.template, rpc.params.appID, showApp.isMediaApplication));
                     }                    
                 }
@@ -251,24 +265,6 @@ class UIController {
                     rpc.params.countRate
                 ))
                 return true
-            case "SetDisplayLayout":
-                console.log("Warning: RPC SetDisplayLayout is deprecated");
-                const prevDisplayLayout = appUIState ? appUIState.displayLayout : "";
-                var setDisplayLayoutApp = store.getState().appList.find((app) => {
-                    return app.appID === rpc.params.appID;
-                });
-
-                var disallowedLayout = rpc.params.displayLayout === 'MEDIA' && !setDisplayLayoutApp.isMediaApplication;
-                if (disallowedLayout) {
-                    rpc.params.displayLayout = prevDisplayLayout;
-                }
-
-                store.dispatch(setTemplateConfiguration(rpc.params.displayLayout, rpc.params.appID, rpc.params.dayColorScheme, rpc.params.nightColorScheme));
-
-                if (prevDisplayLayout !== rpc.params.displayLayout) {
-                    this.listener.send(RpcFactory.OnSystemCapabilityDisplay(rpc.params.displayLayout, rpc.params.appID));
-                }
-                return {"rpc": RpcFactory.SetDisplayLayoutResponse(rpc, disallowedLayout)};
             case "SetGlobalProperties":
                 store.dispatch(setGlobalProperties(
                     rpc.params.appID,

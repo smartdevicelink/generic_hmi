@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppHeader from '../../containers/Header';
-import { LargeGraphic } from '../../containers/Metadata';
-import { SoftButtons } from '../../containers/Buttons';
+import { PresetButtons } from '../../containers/PresetButtons';
+import { MediaMetadata } from '../../containers/Metadata';
+import { Buttons } from '../../containers/Buttons';
+import ProgressBar from '../../containers/ProgressBar_c';
 
-class TextButtonswithGraphic extends React.Component {
+class OnScreenPresets extends React.Component {
     getColorScheme() {
         var activeApp = this.props.activeApp
         var colorScheme = null;
@@ -35,14 +37,12 @@ class TextButtonswithGraphic extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="on-screen-presets" style={this.getColorScheme()}>
                 <AppHeader backLink="/" menuName="Apps"/>
-                <div className="text-buttons-with-graphic-template" style={this.getColorScheme()}>
-                    <SoftButtons class="text-buttons-with-graphic-container"/>
-                    <div className="min-width-50">
-                        <LargeGraphic class="text-buttons-with-graphic-container"/>
-                    </div>                    
-                </div>
+                <MediaMetadata />
+                <ProgressBar />
+                <Buttons />
+                <PresetButtons class="on-screen-presets-container th-bg-color"/>
             </div>
         )
     }
@@ -56,4 +56,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(TextButtonswithGraphic);
+export default connect(mapStateToProps)(OnScreenPresets);

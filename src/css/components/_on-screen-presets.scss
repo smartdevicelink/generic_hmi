@@ -1,0 +1,56 @@
+.on-screen-presets { 
+    height: 100%;
+    @include display(flex);
+    @include flex-direction(column);
+}
+
+.on-screen-presets-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.on-screen-presets .soft-buttons {
+    width: 100%;
+    @include display(flex);
+    @include justify-content(space-around);
+    @include flex-direction(row);
+    @include flex-wrap(nowrap);
+    @include align-items(stretch);
+    flex-shrink: 0;
+    height: 100px;
+}
+
+.on-screen-presets .soft-button {
+    width: 100%;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    line-height: 100px;
+    padding: 0px 10px;
+}
+
+.on-screen-presets .progress-bar {
+    height: calc((#{$master-height} - 75px) / 12) ;
+}
+
+.on-screen-presets .media-track {
+    padding-top: 10px;
+    width: 60%;
+    position: relative;
+
+    text-align: center;
+
+    @include display(flex);
+    @include flex-direction(column);
+
+    &__time {
+        position: absolute;
+        bottom: 30px;
+        width: 100%
+    }
+}

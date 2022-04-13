@@ -19,7 +19,7 @@
     }
 
     &__image {
-        padding: 1% 1%;
+        padding: 2%;
         flex: 0.75;
         align-self: flex-start;
         border-radius: 4px;
@@ -33,6 +33,8 @@
         img {
             margin:auto;
             max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         div {
@@ -41,6 +43,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 10px;
 
             canvas {
                 margin:auto;
