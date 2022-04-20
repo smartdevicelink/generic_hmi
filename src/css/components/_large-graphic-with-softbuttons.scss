@@ -11,6 +11,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .large-graphic-with-softbuttons-bottom-container{
@@ -27,6 +28,10 @@
     object-fit: contain;
     margin-bottom: 50px;
     height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    display:flex;
+    justify-content: center;
 }
 
 .large-graphic-with-softbuttons-template svg {
@@ -49,6 +54,7 @@
     margin-bottom: 0px !important;
     margin-right: 20px;
     min-width: 0;
+    height: 100%;
 }
 
 .large-graphic-with-softbuttons-template .soft-button p {
@@ -60,4 +66,13 @@
 
 .large-graphic-with-softbuttons-template .soft-button:last-child {
     margin-right: 0px !important;
+}
+
+.large-graphic-with-softbuttons-template .soft-button-image {
+    @include size(50px);
+}
+
+.large-graphic-with-softbuttons-template .soft-button-image-static {
+    max-height: 50px;
+    min-width: 50px;
 }

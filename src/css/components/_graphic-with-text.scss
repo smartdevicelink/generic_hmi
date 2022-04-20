@@ -10,14 +10,14 @@
     min-width: 50%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .graphic-with-text-template .large-graphic {
-    padding-right: 25px;
-    padding-left: 10px;
     max-height: 100%;
     width: 100%;
     object-fit: contain;
+    max-width: 100%;
 }
 
 .graphic-with-text-template .text-body {

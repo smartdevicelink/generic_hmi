@@ -7,17 +7,17 @@
 
 .text-with-graphic-container {
     height: 100%;
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .text-with-graphic-template .large-graphic {
-    padding-right: 25px;
-    padding-left: 10px;
     width: 100%;
     max-height:100%;
     object-fit: contain;
+    max-width: 100%;
 }
 
 .text-with-graphic-template .text-body {

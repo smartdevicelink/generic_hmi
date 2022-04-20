@@ -15,14 +15,20 @@ export default class DoubleGraphicBody extends React.Component {
 
     primaryGraphic() {
         if(this.props.graphic) {
+            var image;
             if(this.props.graphic.imageType === "STATIC") {
-                return <StaticIcon class="double-graphic" image={this.props.graphic.value} />
+                image = <StaticIcon class="double-graphic" image={this.props.graphic.value} />
             } else {
-                return <Image class="double-graphic" 
+                image = <Image class="double-graphic" 
                     image={this.props.graphic.value} 
                     isTemplate={this.props.graphic.isTemplate}
                     fillColor={this.fillColor()}/>
             }
+            return (
+                <div className="double-graphic-container">
+                    { image }
+                </div>
+            );
         } else {
             return null
         }
@@ -30,14 +36,20 @@ export default class DoubleGraphicBody extends React.Component {
 
     secondaryGraphic() {
         if(this.props.secondaryGraphic) {
+            var image;
             if(this.props.secondaryGraphic.imageType === "STATIC") {
-                return <StaticIcon class="double-graphic" image={this.props.secondaryGraphic.value} />
+                image = <StaticIcon class="double-graphic" image={this.props.secondaryGraphic.value} />
             } else {
-                return <Image class="double-graphic" 
+                image = <Image class="double-graphic" 
                     image={this.props.secondaryGraphic.value} 
                     isTemplate={this.props.secondaryGraphic.isTemplate}
                     fillColor={this.fillColor()}/>
             }
+            return (
+                <div className="double-graphic-container">
+                    { image }
+                </div>
+            );
         } else {
             return null
         }
@@ -45,9 +57,9 @@ export default class DoubleGraphicBody extends React.Component {
 
     render() {
         return (
-            <div className={this.props.class}>            
-                    {this.primaryGraphic()}
-                    {this.secondaryGraphic()}
+            <div className={this.props.class}>
+                {this.primaryGraphic()}
+                {this.secondaryGraphic()}
             </div>
         )
     }

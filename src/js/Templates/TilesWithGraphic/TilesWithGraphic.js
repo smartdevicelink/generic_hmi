@@ -39,7 +39,9 @@ class TilesWithGraphic extends React.Component {
                 <AppHeader backLink="/" menuName="Apps"/>
                 <div className="tiles-with-graphic-template" style={this.getColorScheme()}>
                     <SoftButtons class="tiles-with-graphic-container"/>
-                    <LargeGraphic class="tiles-with-graphic-container"/>
+                    <div className="min-width-50">
+                        <LargeGraphic class="tiles-with-graphic-container"/>
+                    </div>
                 </div>
             </div>
         )
