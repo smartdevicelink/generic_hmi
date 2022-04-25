@@ -95,4 +95,11 @@
     @include align-items(center);
     padding: 20px;
     cursor: pointer;
+    width: 45%;
+}
+
+.slider-button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
