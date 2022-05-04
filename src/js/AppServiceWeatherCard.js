@@ -11,7 +11,7 @@ export default class AppServiceWeatherCard extends React.Component {
         var currentLine = weatherData.currentTemperature ? (
             <div className="weather-line t-large">
                 <p className="t-medium">
-                    {weatherData.currentTemperature + "°"}
+                    {weatherData.currentTemperature.toFixed(0) + "°"}
                 </p>
             </div>
         ) : null;
@@ -19,10 +19,10 @@ export default class AppServiceWeatherCard extends React.Component {
         var highLowLine = weatherData.high && weatherData.low ? (
             <div className="weather-line t-large">
                 <p className="t-medium">
-                    {weatherData.high + "°"}
+                    {weatherData.high.toFixed(0) + "°"}
                 </p>
                 <p className="t-light space-left">
-                    {"/ " + weatherData.low + "°"}
+                    {"/ " + weatherData.low.toFixed(0) + "°"}
                 </p>
             </div>
         ) : null;
@@ -41,7 +41,7 @@ export default class AppServiceWeatherCard extends React.Component {
         var windMPHLine = weatherData.windMPH ? (
             <div className="weather-line baseline">
                 <p className="t-medium t-large">
-                    {weatherData.windMPH}
+                    {weatherData.windMPH.toFixed(0)}
                 </p>
                 <p className="t-small t-medium ">
                     mph
@@ -54,9 +54,7 @@ export default class AppServiceWeatherCard extends React.Component {
 
         return (
             <div className="app-service-weather-card app-service-medium-tab th-f-color">
-                <div className="weather-line">
-                    <WeatherServiceImage image={weatherData.weatherIcon}/> 
-                </div>
+                <WeatherServiceImage image={weatherData.weatherIcon}/> 
                 {currentLine}
                 {highLowLine}
                 {precipProbabilityLine}
