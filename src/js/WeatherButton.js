@@ -7,7 +7,7 @@ export default class WeatherButton extends React.Component {
             return (
                 <div className="th-nav-background-color nav-text-bubble"> 
                         <p className="t-small t-medium th-f-color">
-                            {this.props.temp + "°"}
+                            {this.props.temp.toFixed(0) + "°"}
                         </p>
                 </div>
             )

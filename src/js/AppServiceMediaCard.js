@@ -20,9 +20,9 @@ export default class AppServiceMediaCard extends React.Component {
                 {mediaData.artist}
             </p>) : null;
 
-        var albumLine = mediaData.title ? (
+        var albumLine = mediaData.album ? (
             <p className="t-light t-small th-f-color">
-                {mediaData.title}
+                {mediaData.album}
             </p>
         ) : null;
 
