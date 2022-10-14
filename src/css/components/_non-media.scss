@@ -160,6 +160,8 @@
 .soft-button-image {
     height: 75px;
     max-width: 100%;
+    display: flex;
+    align-items: center;
     img {
         max-width: 100%;
         max-height: 100%;
