@@ -26,6 +26,7 @@
     height:100%;
     max-height: 100%;
     max-width: 100%;
+    padding: 10px;
     object-fit: contain;
     display: flex;
 }
@@ -58,8 +59,10 @@
     padding: 5px;
 }
 
-.double-graphic-with-softbuttons-template .soft-button .soft-button-image-static {
-    padding: 5px;
+.double-graphic-with-softbuttons-template .soft-button .soft-button-image {
+    max-width: 75px;
+    display: flex;
+    align-items: center;
 }
 
 .double-graphic-with-softbuttons-template .soft-button:last-child {
