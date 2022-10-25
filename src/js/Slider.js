@@ -119,10 +119,15 @@ export default class Slider extends React.Component {
                         {this.getSliderFooter()}
                     </p>
                 </div>
-
-                <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
-                        onClick={() => this.props.submitCallback()}>
-                    <p>Submit</p>
+                <div className="slider-button-group">
+                    <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
+                            onClick={() => this.props.submitCallback(false)}>
+                        <p>Cancel</p>
+                    </div>
+                    <div className={`th-f-color t-small t-light th-bg-color th-soft-buttons slider-submit`}
+                            onClick={() => this.props.submitCallback(true)}>
+                        <p>Submit</p>
+                    </div>
                 </div>
             </div>
         )

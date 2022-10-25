@@ -76,6 +76,7 @@ class UIController {
         this.timers = {}
         this.appsWithTimers = {}
         this.endTimes = {}
+        this.audioPassThruData = {}
     }
     addListener(listener) {
         this.listener = listener
@@ -342,14 +343,16 @@ class UIController {
                 const context = state.activeApp
 
                 this.endTimes[rpc.id] = Date.now() + rpc.params.maxDuration;
+                this.audioPassThruData[rpc.params.appID] = rpc;
                 this.timers[rpc.id] = setTimeout(
                     this.onClosePerformAudioPassThru, 
                     rpc.params.maxDuration,
                     rpc.id,
                     rpc.params.appID,
                     context,
-                    "TIMED_OUT"
+                    "SUCCESS"
                 );
+
                 this.appsWithTimers[rpc.id] = rpc.params.appID;
 
                 this.onSystemContext("HMI_OBSCURED", context)
@@ -369,6 +372,24 @@ class UIController {
                 );
                 return true;
             }
+            case "OnRecordStart":
+                var passThruRPC = this.audioPassThruData[rpc.params.appID];
+                if (passThruRPC) {
+                    const state = store.getState();
+                    const context = state.activeApp
+                    clearTimeout(this.timers[passThruRPC.id]);
+                    this.timers[passThruRPC.id] = setTimeout(
+                        this.onClosePerformAudioPassThru, 
+                        passThruRPC.params.maxDuration,
+                        passThruRPC.id,
+                        passThruRPC.params.appID,
+                        context,
+                        "SUCCESS"
+                    );
+                    this.endTimes[passThruRPC.id] = Date.now() + passThruRPC.params.maxDuration;
+                    this.appsWithTimers[passThruRPC.id] = passThruRPC.params.appID;
+                }
+                return null;
             case "Alert":
                 store.dispatch(alert(
                     rpc.params.appID,
@@ -430,7 +451,6 @@ class UIController {
                     rpc2.error.data.tryAgainTime = tryAgainTime;
                     return { rpc: rpc2 };
                 }
-
                 store.dispatch(alert(
                     rpc.params.appID,
                     rpc.params.alertStrings,
@@ -690,7 +710,8 @@ class UIController {
         if (this.timers[msgID]) {
             clearTimeout(this.timers[msgID])
         }
-        delete this.timers[msgID]
+        delete this.timers[msgID];
+        delete this.audioPassThruData[appID];
         store.dispatch(closePerformAudioPassThru(
             msgID,
             appID

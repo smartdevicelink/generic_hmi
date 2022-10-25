@@ -188,7 +188,13 @@ class AppHeader extends React.Component {
                         sliderName={this.props.sliderName} 
                         sliderAppId={this.props.sliderAppId} 
                         sliderData={this.props.sliderData}
-                        submitCallback={ () => { this.closeSlider({closeReason: "SUBMIT"}) } }
+                        submitCallback={ (success) => { 
+                            if (success) {
+                                this.closeSlider({closeReason: "SUBMIT"})
+                            } else {
+                                this.closeSlider()
+                            }
+                        } }
                         theme={this.props.theme}
                     />
                 </Modal>

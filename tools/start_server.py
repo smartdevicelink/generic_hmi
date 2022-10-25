@@ -302,7 +302,7 @@ class RPCService(WSServer.SampleRPCService):
 
     else:
       server_endpoint = 'http://' + Flags.FILE_SERVER_HOST + ':' + str(Flags.VIDEO_SERVER_PORT)
-      ffmpeg_process = ffmpeg.input(_params['url']).output(server_endpoint, vcodec='vp8', format='webm', listen=1, multiple_requests=1).run_async(pipe_stderr=True)
+      ffmpeg_process = ffmpeg.input(_params['url'], framerate='30').output(server_endpoint, vcodec='vp8', format='webm', listen=1, multiple_requests=1).run_async(pipe_stderr=True)
       o = pexpect.fdpexpect.fdspawn(ffmpeg_process.stderr.fileno(), logfile=sys.stdout.buffer)
       index = o.expect(["Input", pexpect.EOF, pexpect.TIMEOUT])
 

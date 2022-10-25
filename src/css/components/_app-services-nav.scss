@@ -205,45 +205,51 @@
 .app-service-nav-card {
   border-bottom: 1px solid #49C7ED;
   .svg-size {
-    @include size(100px);
-    min-width: 100px;
+    @include size(70px);
+    min-width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
     svg {
-      @include size(75px);
+      padding: 10px;
     }    
   }
   
   .app-service-icon {
-    @include size(100px);
-    min-width: 100px;
+    @include size(70px);
+    min-width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
     img {
-      @include size(75px);
+      @include size(50px);
     }    
+  }
+
+  .nav-color {
+    background-color: #006600;
   }
 }
 
 .app-service-media-card {
   border-bottom: 1px solid #49C7ED;
   .svg-size {
-    @include size(100px);
-    min-width: 100px;
+    @include size(70px);
+    min-width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     svg {
-      @include size(65px);      
+      padding: 10px;
     }    
   }
 
   .app-service-icon {
-    @include size(100px);
-    min-width: 100px;
+    @include size(70px);
+    min-width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -274,7 +280,7 @@
     align-items: center;
     border-radius: 10px;
     svg {
-      @include size(50px);      
+      padding: 10px;
     }    
   }
 
