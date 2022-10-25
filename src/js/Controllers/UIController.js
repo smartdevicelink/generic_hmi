@@ -763,15 +763,17 @@ class UIController {
             msgID,
             appID
         ))
-        const rpc = isSubtle
+        let rpc = isSubtle
             ? RpcFactory.SubtleAlertResponse(msgID)
             : RpcFactory.AlertResponse(msgID, appID);
 
         if (hadSoftbuttons) {
             rpc.result.code = 5; // ABORTED
+        } else if (!imageValidationSuccess) {
+            rpc = RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method })
         }
 
-        this.listener.send((imageValidationSuccess) ? rpc : RpcFactory.InvalidImageResponse({ id: rpc.id, method: rpc.result.method }))
+        this.listener.send(rpc)
 
         const systemContext = getNextSystemContext();
         if (appID !== context) {
