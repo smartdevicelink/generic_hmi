@@ -119,11 +119,11 @@ class AppServicesNav extends React.Component {
                 var currentForecast = serviceData.currentForecast
                 
                 weatherData = {
-                    high: currentForecast.temperatureHigh ? currentForecast.temperatureHigh.value: 0,
-                    low: currentForecast.temperatureLow ? currentForecast.temperatureLow.value : 0,
-                    precipProbability: currentForecast.precipProbability *100,
-                    windMPH: currentForecast.windSpeed,
-                    currentTemperature: currentForecast.currentTemperature ? currentForecast.currentTemperature.value : 0,
+                    high: currentForecast.temperatureHigh ? parseFloat(currentForecast.temperatureHigh.value): 0,
+                    low: currentForecast.temperatureLow ? parseFloat(currentForecast.temperatureLow.value) : 0,
+                    precipProbability: currentForecast.precipProbability * 100,
+                    windMPH: parseFloat(currentForecast.windSpeed),
+                    currentTemperature: currentForecast.currentTemperature ? parseFloat(currentForecast.currentTemperature.value) : 0,
                     weatherIcon: currentForecast.weatherIcon ? currentForecast.weatherIcon : null
                 }
             }
